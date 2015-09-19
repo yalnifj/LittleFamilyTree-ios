@@ -53,6 +53,22 @@
 		A1F42C181BADD90A00D85D06 /* house_rooms_4_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C011BADD90A00D85D06 /* house_rooms_4_3.png */; };
 		A1F42C191BADD90A00D85D06 /* house_rooms_4_4.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C021BADD90A00D85D06 /* house_rooms_4_4.png */; };
 		A1F42C1B1BADE97900D85D06 /* house_familyroom_couch.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C1A1BADE97900D85D06 /* house_familyroom_couch.png */; };
+		A1F42C1E1BADF84000D85D06 /* house_familyroom_lamp1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C1C1BADF84000D85D06 /* house_familyroom_lamp1.png */; };
+		A1F42C1F1BADF84000D85D06 /* house_familyroom_table.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C1D1BADF84000D85D06 /* house_familyroom_table.png */; };
+		A1F42C211BADFA1900D85D06 /* house_familyroom_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C201BADFA1900D85D06 /* house_familyroom_frame.png */; };
+		A1F42C231BADFA2400D85D06 /* house_chilldroom_bed.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C221BADFA2400D85D06 /* house_chilldroom_bed.png */; };
+		A1F42C251BADFB2400D85D06 /* house_chilldroom_desk.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C241BADFB2400D85D06 /* house_chilldroom_desk.png */; };
+		A1F42C271BADFB2E00D85D06 /* house_chilldroom_paint.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C261BADFB2E00D85D06 /* house_chilldroom_paint.png */; };
+		A1F42C291BADFC2D00D85D06 /* house_chilldroom_teddy.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C281BADFC2D00D85D06 /* house_chilldroom_teddy.png */; };
+		A1F42C301BADFCCA00D85D06 /* house_kitchen_a.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2A1BADFCCA00D85D06 /* house_kitchen_a.png */; };
+		A1F42C311BADFCCA00D85D06 /* house_kitchen_b.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2B1BADFCCA00D85D06 /* house_kitchen_b.png */; };
+		A1F42C321BADFCCA00D85D06 /* house_kitchen_c.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2C1BADFCCA00D85D06 /* house_kitchen_c.png */; };
+		A1F42C331BADFCCA00D85D06 /* house_kitchen_d.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2D1BADFCCA00D85D06 /* house_kitchen_d.png */; };
+		A1F42C341BADFCCA00D85D06 /* house_kitchen_e.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2E1BADFCCA00D85D06 /* house_kitchen_e.png */; };
+		A1F42C351BADFCCA00D85D06 /* house_kitchen_freezer.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C2F1BADFCCA00D85D06 /* house_kitchen_freezer.png */; };
+		A1F42C371BADFCD500D85D06 /* house_kitchen_fridge.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C361BADFCD500D85D06 /* house_kitchen_fridge.png */; };
+		A1F42C391BADFCE100D85D06 /* house_kitchen_kettle.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C381BADFCE100D85D06 /* house_kitchen_kettle.png */; };
+		A1F42C3B1BADFCED00D85D06 /* house_toaster1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F42C3A1BADFCED00D85D06 /* house_toaster1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,7 +131,23 @@
 		A1F42C001BADD90A00D85D06 /* house_rooms_4_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_rooms_4_2.png; sourceTree = "<group>"; };
 		A1F42C011BADD90A00D85D06 /* house_rooms_4_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_rooms_4_3.png; sourceTree = "<group>"; };
 		A1F42C021BADD90A00D85D06 /* house_rooms_4_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_rooms_4_4.png; sourceTree = "<group>"; };
-		A1F42C1A1BADE97900D85D06 /* house_familyroom_couch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_familyroom_couch.png; sourceTree = "<group>"; };
+		A1F42C1A1BADE97900D85D06 /* house_familyroom_couch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_familyroom_couch.png; path = tiles/house_familyroom_couch.png; sourceTree = "<group>"; };
+		A1F42C1C1BADF84000D85D06 /* house_familyroom_lamp1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_familyroom_lamp1.png; path = tiles/house_familyroom_lamp1.png; sourceTree = "<group>"; };
+		A1F42C1D1BADF84000D85D06 /* house_familyroom_table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_familyroom_table.png; path = tiles/house_familyroom_table.png; sourceTree = "<group>"; };
+		A1F42C201BADFA1900D85D06 /* house_familyroom_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_familyroom_frame.png; path = tiles/house_familyroom_frame.png; sourceTree = "<group>"; };
+		A1F42C221BADFA2400D85D06 /* house_chilldroom_bed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_chilldroom_bed.png; path = tiles/house_chilldroom_bed.png; sourceTree = "<group>"; };
+		A1F42C241BADFB2400D85D06 /* house_chilldroom_desk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_chilldroom_desk.png; path = tiles/house_chilldroom_desk.png; sourceTree = "<group>"; };
+		A1F42C261BADFB2E00D85D06 /* house_chilldroom_paint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_chilldroom_paint.png; path = tiles/house_chilldroom_paint.png; sourceTree = "<group>"; };
+		A1F42C281BADFC2D00D85D06 /* house_chilldroom_teddy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_chilldroom_teddy.png; path = tiles/house_chilldroom_teddy.png; sourceTree = "<group>"; };
+		A1F42C2A1BADFCCA00D85D06 /* house_kitchen_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_a.png; path = tiles/house_kitchen_a.png; sourceTree = "<group>"; };
+		A1F42C2B1BADFCCA00D85D06 /* house_kitchen_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_b.png; path = tiles/house_kitchen_b.png; sourceTree = "<group>"; };
+		A1F42C2C1BADFCCA00D85D06 /* house_kitchen_c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_c.png; path = tiles/house_kitchen_c.png; sourceTree = "<group>"; };
+		A1F42C2D1BADFCCA00D85D06 /* house_kitchen_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_d.png; path = tiles/house_kitchen_d.png; sourceTree = "<group>"; };
+		A1F42C2E1BADFCCA00D85D06 /* house_kitchen_e.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_e.png; path = tiles/house_kitchen_e.png; sourceTree = "<group>"; };
+		A1F42C2F1BADFCCA00D85D06 /* house_kitchen_freezer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_freezer.png; path = tiles/house_kitchen_freezer.png; sourceTree = "<group>"; };
+		A1F42C361BADFCD500D85D06 /* house_kitchen_fridge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_fridge.png; path = tiles/house_kitchen_fridge.png; sourceTree = "<group>"; };
+		A1F42C381BADFCE100D85D06 /* house_kitchen_kettle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_kitchen_kettle.png; path = tiles/house_kitchen_kettle.png; sourceTree = "<group>"; };
+		A1F42C3A1BADFCED00D85D06 /* house_toaster1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house_toaster1.png; path = tiles/house_toaster1.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +253,23 @@
 				A1F42BE31BADD62400D85D06 /* house_flowers_a4.png */,
 				A1F42BE41BADD62400D85D06 /* house_flowers_a5.png */,
 				A1F42BDE1BADD3E500D85D06 /* house_tree1.png */,
+				A1F42C1A1BADE97900D85D06 /* house_familyroom_couch.png */,
+				A1F42C1C1BADF84000D85D06 /* house_familyroom_lamp1.png */,
+				A1F42C1D1BADF84000D85D06 /* house_familyroom_table.png */,
+				A1F42C201BADFA1900D85D06 /* house_familyroom_frame.png */,
+				A1F42C221BADFA2400D85D06 /* house_chilldroom_bed.png */,
+				A1F42C241BADFB2400D85D06 /* house_chilldroom_desk.png */,
+				A1F42C261BADFB2E00D85D06 /* house_chilldroom_paint.png */,
+				A1F42C281BADFC2D00D85D06 /* house_chilldroom_teddy.png */,
+				A1F42C2A1BADFCCA00D85D06 /* house_kitchen_a.png */,
+				A1F42C2B1BADFCCA00D85D06 /* house_kitchen_b.png */,
+				A1F42C2C1BADFCCA00D85D06 /* house_kitchen_c.png */,
+				A1F42C2D1BADFCCA00D85D06 /* house_kitchen_d.png */,
+				A1F42C2E1BADFCCA00D85D06 /* house_kitchen_e.png */,
+				A1F42C2F1BADFCCA00D85D06 /* house_kitchen_freezer.png */,
+				A1F42C361BADFCD500D85D06 /* house_kitchen_fridge.png */,
+				A1F42C381BADFCE100D85D06 /* house_kitchen_kettle.png */,
+				A1F42C3A1BADFCED00D85D06 /* house_toaster1.png */,
 			);
 			name = house;
 			sourceTree = "<group>";
@@ -251,7 +300,6 @@
 				A1F42C001BADD90A00D85D06 /* house_rooms_4_2.png */,
 				A1F42C011BADD90A00D85D06 /* house_rooms_4_3.png */,
 				A1F42C021BADD90A00D85D06 /* house_rooms_4_4.png */,
-				A1F42C1A1BADE97900D85D06 /* house_familyroom_couch.png */,
 			);
 			path = tiles;
 			sourceTree = "<group>";
@@ -337,12 +385,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1F42C091BADD90A00D85D06 /* house_rooms_1_2.png in Resources */,
+				A1F42C321BADFCCA00D85D06 /* house_kitchen_c.png in Resources */,
+				A1F42C301BADFCCA00D85D06 /* house_kitchen_a.png in Resources */,
 				A1576D191BACDE9B001517D7 /* house_cloud1.png in Resources */,
 				A1F42BE91BADD62400D85D06 /* house_flowers_a5.png in Resources */,
 				A1F42C111BADD90A00D85D06 /* house_rooms_3_0.png in Resources */,
 				A1F42C0E1BADD90A00D85D06 /* house_rooms_2_2.png in Resources */,
 				A1F42BE51BADD62400D85D06 /* house_flowers_a1.png in Resources */,
 				A1F42C031BADD90A00D85D06 /* house_rooms_0_1.png in Resources */,
+				A1F42C3B1BADFCED00D85D06 /* house_toaster1.png in Resources */,
+				A1F42C391BADFCE100D85D06 /* house_kitchen_kettle.png in Resources */,
+				A1F42C211BADFA1900D85D06 /* house_familyroom_frame.png in Resources */,
+				A1F42C271BADFB2E00D85D06 /* house_chilldroom_paint.png in Resources */,
 				A1F42C071BADD90A00D85D06 /* house_rooms_1_0.png in Resources */,
 				A1F42BD91BADD03300D85D06 /* house_cloud1b.png in Resources */,
 				A117C73D1BA4AD0000964D50 /* LaunchScreen.xib in Resources */,
@@ -359,6 +413,7 @@
 				A1F42C151BADD90A00D85D06 /* house_rooms_3_4.png in Resources */,
 				A1F42BE61BADD62400D85D06 /* house_flowers_a2.png in Resources */,
 				A1F42C0D1BADD90A00D85D06 /* house_rooms_2_1.png in Resources */,
+				A1F42C311BADFCCA00D85D06 /* house_kitchen_b.png in Resources */,
 				A1F42C181BADD90A00D85D06 /* house_rooms_4_3.png in Resources */,
 				A1F42C051BADD90A00D85D06 /* house_rooms_0_3.png in Resources */,
 				A1F42C141BADD90A00D85D06 /* house_rooms_3_3.png in Resources */,
@@ -366,18 +421,27 @@
 				A1F42C121BADD90A00D85D06 /* house_rooms_3_1.png in Resources */,
 				A1F42C1B1BADE97900D85D06 /* house_familyroom_couch.png in Resources */,
 				A1F42C081BADD90A00D85D06 /* house_rooms_1_1.png in Resources */,
+				A1F42C341BADFCCA00D85D06 /* house_kitchen_e.png in Resources */,
+				A1F42C371BADFCD500D85D06 /* house_kitchen_fridge.png in Resources */,
+				A1F42C291BADFC2D00D85D06 /* house_chilldroom_teddy.png in Resources */,
 				A1576D151BACDADC001517D7 /* house_background2.png in Resources */,
 				A1F42C0B1BADD90A00D85D06 /* house_rooms_1_4.png in Resources */,
 				A1F42BD81BADD03300D85D06 /* house_cloud1a.png in Resources */,
 				A117C7381BA4AD0000964D50 /* Main.storyboard in Resources */,
+				A1F42C351BADFCCA00D85D06 /* house_kitchen_freezer.png in Resources */,
+				A1F42C1F1BADF84000D85D06 /* house_familyroom_table.png in Resources */,
 				A1F42C161BADD90A00D85D06 /* house_rooms_4_1.png in Resources */,
 				A1F42C041BADD90A00D85D06 /* house_rooms_0_2.png in Resources */,
 				A1F42C0A1BADD90A00D85D06 /* house_rooms_1_3.png in Resources */,
+				A1F42C231BADFA2400D85D06 /* house_chilldroom_bed.png in Resources */,
 				A1F42C0C1BADD90A00D85D06 /* house_rooms_2_0.png in Resources */,
+				A1F42C1E1BADF84000D85D06 /* house_familyroom_lamp1.png in Resources */,
 				A1F42BE71BADD62400D85D06 /* house_flowers_a3.png in Resources */,
 				A1F42C101BADD90A00D85D06 /* house_rooms_2_4.png in Resources */,
 				A1F42C0F1BADD90A00D85D06 /* house_rooms_2_3.png in Resources */,
+				A1F42C251BADFB2400D85D06 /* house_chilldroom_desk.png in Resources */,
 				A1F42BE81BADD62400D85D06 /* house_flowers_a4.png in Resources */,
+				A1F42C331BADFCCA00D85D06 /* house_kitchen_d.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

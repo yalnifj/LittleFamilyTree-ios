@@ -194,6 +194,97 @@ class GameScene: SKScene {
         couch.anchorPoint = CGPoint.zeroPoint
         couch.position = CGPointMake(555, 140)
         spriteContainer.addChild(couch)
+        
+        let table1 = SKSpriteNode(imageNamed: "house_familyroom_table")
+        table1.anchorPoint = CGPoint.zeroPoint
+        table1.position = CGPointMake(491, 140)
+        spriteContainer.addChild(table1)
+        
+        let table2 = SKSpriteNode(imageNamed: "house_familyroom_table")
+        table2.anchorPoint = CGPoint.zeroPoint
+        table2.position = CGPointMake(735, 140)
+        spriteContainer.addChild(table2)
+        
+        let lamp1 = SKSpriteNode(imageNamed: "house_familyroom_lamp1")
+        lamp1.anchorPoint = CGPoint.zeroPoint
+        lamp1.position = CGPointMake(482, 170)
+        spriteContainer.addChild(lamp1)
+        
+        let lamp2 = SKSpriteNode(imageNamed: "house_familyroom_lamp1")
+        lamp2.anchorPoint = CGPoint.zeroPoint
+        lamp2.position = CGPointMake(725, 170)
+        spriteContainer.addChild(lamp2)
+        
+        let frame = SKSpriteNode(imageNamed: "house_familyroom_frame")
+        frame.anchorPoint = CGPoint.zeroPoint
+        frame.position = CGPointMake(612, 225)
+        spriteContainer.addChild(frame)
+        
+        let childBed = SKSpriteNode(imageNamed: "house_chilldroom_bed")
+        childBed.anchorPoint = CGPoint.zeroPoint
+        childBed.position = CGPointMake(827, 307)
+        spriteContainer.addChild(childBed)
+        
+        let childPaint = SKSpriteNode(imageNamed: "house_chilldroom_paint")
+        childPaint.anchorPoint = CGPoint.zeroPoint
+        childPaint.position = CGPointMake(1000, 312)
+        spriteContainer.addChild(childPaint)
+        
+        let childDesk = SKSpriteNode(imageNamed: "house_chilldroom_desk")
+        childDesk.anchorPoint = CGPoint.zeroPoint
+        childDesk.position = CGPointMake(1065, 312)
+        spriteContainer.addChild(childDesk)
+        
+        let teddy = SKSpriteNode(imageNamed: "house_chilldroom_teddy")
+        teddy.anchorPoint = CGPoint.zeroPoint
+        teddy.position = CGPointMake(925, 315)
+        spriteContainer.addChild(teddy)
+        
+        
+        let kitchenA = SKSpriteNode(imageNamed: "house_kitchen_a")
+        kitchenA.anchorPoint = CGPoint.zeroPoint
+        kitchenA.position = CGPointMake(840, 140)
+        spriteContainer.addChild(kitchenA)
+        
+        let kitchenB = SKSpriteNode(imageNamed: "house_kitchen_b")
+        kitchenB.anchorPoint = CGPoint.zeroPoint
+        kitchenB.position = CGPointMake(kitchenA.position.x+kitchenA.size.width, 140)
+        spriteContainer.addChild(kitchenB)
+        
+        let kitchenC = SKSpriteNode(imageNamed: "house_kitchen_c")
+        kitchenC.anchorPoint = CGPoint.zeroPoint
+        kitchenC.position = CGPointMake(kitchenB.position.x+kitchenB.size.width, 140)
+        spriteContainer.addChild(kitchenC)
+        
+        let kitchenD = SKSpriteNode(imageNamed: "house_kitchen_d")
+        kitchenD.anchorPoint = CGPoint.zeroPoint
+        kitchenD.position = CGPointMake(kitchenC.position.x+kitchenC.size.width, 265)
+        spriteContainer.addChild(kitchenD)
+        
+        let kitchenE = SKSpriteNode(imageNamed: "house_kitchen_e")
+        kitchenE.anchorPoint = CGPoint.zeroPoint
+        kitchenE.position = CGPointMake(kitchenD.position.x+kitchenD.size.width, 140)
+        spriteContainer.addChild(kitchenE)
+        
+        let toaster = SKSpriteNode(imageNamed: "house_toaster1")
+        toaster.anchorPoint = CGPoint.zeroPoint
+        toaster.position = CGPointMake(1085, 195)
+        spriteContainer.addChild(toaster)
+        
+        let kettle = SKSpriteNode(imageNamed: "house_kitchen_kettle")
+        kettle.anchorPoint = CGPoint.zeroPoint
+        kettle.position = CGPointMake(1120, 203)
+        spriteContainer.addChild(kettle)
+        
+        let freezer = SKSpriteNode(imageNamed: "house_kitchen_freezer")
+        freezer.anchorPoint = CGPoint.zeroPoint
+        freezer.position = CGPointMake(1043, 212)
+        spriteContainer.addChild(freezer)
+        
+        let fridge = SKSpriteNode(imageNamed: "house_kitchen_fridge")
+        fridge.anchorPoint = CGPoint.zeroPoint
+        fridge.position = CGPointMake(1043, 140)
+        spriteContainer.addChild(fridge)
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -201,20 +292,6 @@ class GameScene: SKScene {
         
         for touch in (touches as! Set<UITouch>) {
             lastPoint = touch.locationInNode(self)
-            
-            /*
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-            */
         }
         
     }
