@@ -285,6 +285,67 @@ class GameScene: SKScene {
         fridge.anchorPoint = CGPoint.zeroPoint
         fridge.position = CGPointMake(1043, 140)
         spriteContainer.addChild(fridge)
+        
+        let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
+        adultBed.anchorPoint = CGPoint.zeroPoint
+        adultBed.position = CGPointMake(487, 312)
+        spriteContainer.addChild(adultBed)
+        
+        let adultVanity = SKSpriteNode(imageNamed: "house_adult_vanity")
+        adultVanity.anchorPoint = CGPoint.zeroPoint
+        adultVanity.position = CGPointMake(675, 312)
+        spriteContainer.addChild(adultVanity)
+        
+        let wardrobe = SKSpriteNode(imageNamed: "house_adult_wardrobe")
+        wardrobe.anchorPoint = CGPoint.zeroPoint
+        wardrobe.position = CGPointMake(747, 312)
+        spriteContainer.addChild(wardrobe)
+        
+        let lightA = SKSpriteNode(imageNamed: "house_light_a1")
+        lightA.anchorPoint = CGPoint.zeroPoint
+        lightA.position = CGPointMake(670, 401)
+        spriteContainer.addChild(lightA)
+        
+        let lightB = SKSpriteNode(imageNamed: "house_light_b1")
+        lightB.anchorPoint = CGPoint.zeroPoint
+        lightB.position = CGPointMake(522, 418)
+        spriteContainer.addChild(lightB)
+        
+        let blocks = SKSpriteNode(imageNamed: "house_toys_blocks")
+        blocks.anchorPoint = CGPoint.zeroPoint
+        blocks.position = CGPointMake(1020, 490)
+        spriteContainer.addChild(blocks)
+        
+        let horse = SKSpriteNode(imageNamed: "house_toys_horse")
+        horse.anchorPoint = CGPoint.zeroPoint
+        horse.position = CGPointMake(925, 490)
+        spriteContainer.addChild(horse)
+        
+        let bat = SKSpriteNode(imageNamed: "house_toys_bat")
+        bat.anchorPoint = CGPoint.zeroPoint
+        bat.position = CGPointMake(802, 490)
+        spriteContainer.addChild(bat)
+        
+        let piano = SKSpriteNode(imageNamed: "house_music_piano")
+        piano.anchorPoint = CGPoint.zeroPoint
+        piano.position = CGPointMake(625, 490)
+        spriteContainer.addChild(piano)
+        
+        let trumpet = SKSpriteNode(imageNamed: "house_music_trumpet")
+        trumpet.anchorPoint = CGPoint.zeroPoint
+        trumpet.position = CGPointMake(660, 574)
+        spriteContainer.addChild(trumpet)
+        
+        let drums = SKSpriteNode(imageNamed: "house_music_drums")
+        drums.anchorPoint = CGPoint.zeroPoint
+        drums.position = CGPointMake(585, 490)
+        spriteContainer.addChild(drums)
+        
+        let guitar = SKSpriteNode(imageNamed: "house_music_guitar")
+        guitar.anchorPoint = CGPoint.zeroPoint
+        guitar.position = CGPointMake(700, 490)
+        spriteContainer.addChild(guitar)
+
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
