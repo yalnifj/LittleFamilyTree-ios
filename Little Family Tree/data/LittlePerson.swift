@@ -7,6 +7,7 @@ class LittlePerson {
 	var relationship : NSString = nil;
 	var familySearchId : NSString = nil;
 	var photoPath : NSString = nil;
+	var gender : GenderType!;
 	var birthDate : NSDate = nil;
 	var birthPlace : NSString = nil;
 	var age : Int = 0;

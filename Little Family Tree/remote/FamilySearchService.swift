@@ -15,6 +15,17 @@ class FamilySearchService: RemoteService {
 	
 	
 	func authenticate(username: NSString, password: NSString) {
+		var params = [String: String]()
+		params["grant_type"]= "password";
+        params["client_id"]= FS_APP_KEY;
+        params["username"]= username;
+        params["password"]= password;
+		
+		sessionId = nil;
+		
+		makeHTTPPostRequest(FS_OAUTH2_PATH, params, onCompletion: {json, err in
+			sessionId = json["access_token"]
+		})
 	}
 	
 	func getCurrentPerson() {
@@ -62,7 +73,7 @@ class FamilySearchService: RemoteService {
         task.resume()
     }
 	
-	func makeHTTPPostRequest(path: String, body: [String: AnyObject], onCompletion: ServiceResponse) {
+	func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], onCompletion: ServiceResponse) {
 		var err: NSError?
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
@@ -71,6 +82,29 @@ class FamilySearchService: RemoteService {
 	 
 		// Set the POST body for the request
 		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: nil, error: &err)
+		let session = NSURLSession.sharedSession()
+	 
+		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+			let json:JSON = JSON(data: data)
+			onCompletion(json, err)
+		})
+		task.resume()
+	}
+	
+	func makeHTTPPostRequest(path: String, body: [String: String], onCompletion: ServiceResponse) {
+		var err: NSError?
+		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+	 
+		// Set the method to POST
+		request.HTTPMethod = "POST"
+	 
+		// Set the POST body for the request
+		var postString = ""
+		for(param, value) in body {
+			postString += "\(param)=\(value)&";
+		}
+
+		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
 	 
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
