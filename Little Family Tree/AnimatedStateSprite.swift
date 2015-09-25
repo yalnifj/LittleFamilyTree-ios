@@ -43,6 +43,8 @@ class AnimatedStateSprite: SKSpriteNode {
         removeAllActions();
         if (stateActions[state] != nil) {
             runAction(stateActions[state]);
+        } else {
+            
         }
     }
     

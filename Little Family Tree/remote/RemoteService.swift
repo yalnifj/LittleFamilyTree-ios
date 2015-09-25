@@ -1,3 +1,5 @@
+import Foundation
+
 protocol RemoteService {
 	var sessionId: NSString { get set }
 	func authenticate(username: NSString, password: NSString)

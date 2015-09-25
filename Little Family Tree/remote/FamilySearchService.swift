@@ -1,3 +1,5 @@
+import Foundation
+
 typealias ServiceResponse = (JSON, NSError?) -> Void
 
 class FamilySearchService: RemoteService {
@@ -9,7 +11,7 @@ class FamilySearchService: RemoteService {
 	
 	private static let FS_APP_KEY = "a02j0000009AXffAAG";
 
-	var sessionId: NSString!
+	var sessionId: NSString?
 	
 	static let sharedInstance = FamilySearchService()
 	
