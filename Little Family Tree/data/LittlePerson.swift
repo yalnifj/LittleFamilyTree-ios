@@ -1,32 +1,31 @@
 import Foundation
 
 class LittlePerson {
-	var id : Int = 0;
-	var name : NSString = nil;
-	var givenName : NSString = nil;
-	var relationship : NSString = nil;
-	var familySearchId : NSString = nil;
-	var photoPath : NSString = nil;
-	var gender : GenderType!;
-	var birthDate : NSDate = nil;
-	var birthPlace : NSString = nil;
+	var id : Int?;
+	var name : NSString?;
+	var givenName : NSString?;
+	var relationship : NSString?;
+	var familySearchId : NSString?
+	var photoPath : NSString?
+	var birthDate : NSDate?;
+	var birthPlace : NSString?
 	var age : Int = 0;
-	var alive : Bool = nil;
-	var lastSync : NSDate = nil;
+	var alive : Bool?
+	var lastSync : NSDate?
 	var active : Bool = true;
-	var nationality : NSString = nil;
+	var nationality : NSString?
 	
-	var hasParents : Bool = nil;
-	var hasChildren : Bool = nil;
-	var hasSpouses : Bool = nil;
-	var hasMedia : Bool = nil;
-	var treeLevel : Int = nil;
+	var hasParents : Bool?
+	var hasChildren : Bool?
+	var hasSpouses : Bool?
+	var hasMedia : Bool?
+	var treeLevel : Int?
 	
 	func updateAge() {
 		if (birthDate != nil) {
 			let flags: NSCalendarUnit = .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit
 			let todayDate = NSDate()
-			let birthCal = NSCalendar.currentCalendar().components(flags, fromDate: birthDate)
+			let birthCal = NSCalendar.currentCalendar().components(flags, fromDate: birthDate!)
 			let today = NSCalendar.currentCalendar().components(flags, fromDate: todayDate)
 			age = today.year - birthCal.year;
             if (today.month < birthCal.month) {

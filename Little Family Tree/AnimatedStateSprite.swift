@@ -14,6 +14,7 @@ class AnimatedStateSprite: SKSpriteNode {
     var stateTextures = [Int : [SKTexture]]();
     var stateActions = [Int : SKAction]();
     var state:Int = 0;
+    var moved:Bool = false;
     
     func addTexture(st:Int, texture:SKTexture) {
         if (stateTextures[st] == nil) {
@@ -42,6 +43,21 @@ class AnimatedStateSprite: SKSpriteNode {
         removeAllActions();
         if (stateActions[state] != nil) {
             runAction(stateActions[state]);
+        } else {
+            
         }
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesMoved(touches, withEvent: event);
+        moved = true;
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+        if (!moved) {
+            
+        }
+        moved = false;
     }
 }
