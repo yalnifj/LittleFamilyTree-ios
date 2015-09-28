@@ -24,13 +24,22 @@ class FamilySearchService : RemoteService {
         params["password"] = password;
 		
 		sessionId = nil;
+		var headers = [String: String]()
 		
-		makeHTTPPostRequest(FS_OAUTH2_PATH, params, onCompletion: {json, err in
+		makeHTTPPostRequest(FS_OAUTH2_PATH, params, headers, onCompletion: {json, err in
 			sessionId = json["access_token"]
 		})
 	}
 	
 	func getCurrentPerson() {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + sessionId
+			headers["Accept"] = "application/x-gedcomx-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers, onCompletion: {json, err in
+				
+			})
+		}
 	}
 	
 	func getPerson(personId: NSString) {
@@ -63,10 +72,15 @@ class FamilySearchService : RemoteService {
 	func getPersonUrl(personId: NSString) {
 	}
 	
-	func makeHTTPGetRequest(path: String, onCompletion: ServiceResponse) {
+	func makeHTTPGetRequest(path: String, headers: [String, String], onCompletion: ServiceResponse) {
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
  
         let session = NSURLSession.sharedSession()
+		
+		// Set the headers
+		for(field, value) in body {
+			request.setValue(value, forHTTPHeaderField: field);
+		}
  
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             let json:JSON = JSON(data: data!)
@@ -75,12 +89,17 @@ class FamilySearchService : RemoteService {
         task.resume()
     }
 	
-	func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], onCompletion: ServiceResponse) {
+	func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], headers: [String, String], onCompletion: ServiceResponse) {
 		let err: NSError?
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
+		
+		// Set the headers
+		for(field, value) in body {
+			request.setValue(value, forHTTPHeaderField: field);
+		}
         
         do {
 	 
@@ -99,12 +118,17 @@ class FamilySearchService : RemoteService {
         }
 	}
 	
-	func makeHTTPPostRequest(path: String, body: [String: String], onCompletion: ServiceResponse) {
+	func makeHTTPPostRequest(path: String, body: [String: String], headers: [String, String], onCompletion: ServiceResponse) {
 		let err: NSError?
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
+		
+		// Set the headers
+		for(field, value) in body {
+			request.setValue(value, forHTTPHeaderField: field);
+		}
 	 
 		// Set the POST body for the request
 		var postString = ""

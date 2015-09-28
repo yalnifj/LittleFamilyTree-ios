@@ -23,18 +23,12 @@ class LittlePerson {
 	
 	func updateAge() {
 		if (birthDate != nil) {
-			let flags: NSCalendarUnit = .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit
 			let todayDate = NSDate()
-			let birthCal = NSCalendar.currentCalendar().components(flags, fromDate: birthDate!)
-			let today = NSCalendar.currentCalendar().components(flags, fromDate: todayDate)
-			age = today.year - birthCal.year;
-            if (today.month < birthCal.month) {
-				age--;
-            } else {
-				if (today.month == birthCal.month && today.day < birthCal.day) {
-					age--;
-				}
-			}
+			let ageComponents = NSCalendar.currentCalendar().components(.Year,
+				fromDate: birthDate,
+				toDate: todayDate,
+				options: [])
+			age = ageComponents.year
 		}
 	}
 }
