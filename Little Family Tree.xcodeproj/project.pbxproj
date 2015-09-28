@@ -17,14 +17,6 @@
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
 		A1576D151BACDADC001517D7 /* house_background2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1576D141BACDADC001517D7 /* house_background2.png */; };
 		A1576D191BACDE9B001517D7 /* house_cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1576D181BACDE9B001517D7 /* house_cloud1.png */; };
-		A1ACFA601BB562BE003E4D66 /* GenderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA5B1BB562BE003E4D66 /* GenderType.swift */; };
-		A1ACFA611BB562BE003E4D66 /* LittlePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA5C1BB562BE003E4D66 /* LittlePerson.swift */; };
-		A1ACFA621BB562BE003E4D66 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA5D1BB562BE003E4D66 /* Media.swift */; };
-		A1ACFA631BB562BE003E4D66 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA5E1BB562BE003E4D66 /* Relationship.swift */; };
-		A1ACFA641BB562BE003E4D66 /* RelationshipType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA5F1BB562BE003E4D66 /* RelationshipType.swift */; };
-		A1ACFA691BB56B90003E4D66 /* FamilySearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA661BB56B90003E4D66 /* FamilySearchService.swift */; };
-		A1ACFA6A1BB56B90003E4D66 /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA671BB56B90003E4D66 /* RemoteService.swift */; };
-		A1ACFA6B1BB56B90003E4D66 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ACFA681BB56B90003E4D66 /* SwiftyJSON.swift */; };
 		A1B5544F1BB231EF00DF709F /* house_adult_bed.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B5544C1BB231EF00DF709F /* house_adult_bed.png */; };
 		A1B554501BB231EF00DF709F /* house_adult_vanity.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B5544D1BB231EF00DF709F /* house_adult_vanity.png */; };
 		A1B554511BB231EF00DF709F /* house_adult_wardrobe.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B5544E1BB231EF00DF709F /* house_adult_wardrobe.png */; };
@@ -119,14 +111,6 @@
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
 		A1576D141BACDADC001517D7 /* house_background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_background2.png; sourceTree = "<group>"; };
 		A1576D181BACDE9B001517D7 /* house_cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_cloud1.png; sourceTree = "<group>"; };
-		A1ACFA5B1BB562BE003E4D66 /* GenderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderType.swift; sourceTree = "<group>"; };
-		A1ACFA5C1BB562BE003E4D66 /* LittlePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LittlePerson.swift; sourceTree = "<group>"; };
-		A1ACFA5D1BB562BE003E4D66 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
-		A1ACFA5E1BB562BE003E4D66 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
-		A1ACFA5F1BB562BE003E4D66 /* RelationshipType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipType.swift; sourceTree = "<group>"; };
-		A1ACFA661BB56B90003E4D66 /* FamilySearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilySearchService.swift; sourceTree = "<group>"; };
-		A1ACFA671BB56B90003E4D66 /* RemoteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
-		A1ACFA681BB56B90003E4D66 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		A1B5544C1BB231EF00DF709F /* house_adult_bed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_adult_bed.png; sourceTree = "<group>"; };
 		A1B5544D1BB231EF00DF709F /* house_adult_vanity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_adult_vanity.png; sourceTree = "<group>"; };
 		A1B5544E1BB231EF00DF709F /* house_adult_wardrobe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_adult_wardrobe.png; sourceTree = "<group>"; };
@@ -235,16 +219,14 @@
 		A117C72B1BA4AD0000964D50 /* Little Family Tree */ = {
 			isa = PBXGroup;
 			children = (
-				A117C72E1BA4AD0000964D50 /* AppDelegate.swift */,
 				A1576D161BACDE39001517D7 /* assets */,
-				A1ACFA5A1BB562BE003E4D66 /* data */,
+				A1B5546A1BB2416500DF709F /* sprites */,
+				A117C72E1BA4AD0000964D50 /* AppDelegate.swift */,
+				A1B5546B1BB242CD00DF709F /* scenes */,
 				A117C7341BA4AD0000964D50 /* GameViewController.swift */,
+				A117C7361BA4AD0000964D50 /* Main.storyboard */,
 				A117C7391BA4AD0000964D50 /* Images.xcassets */,
 				A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */,
-				A117C7361BA4AD0000964D50 /* Main.storyboard */,
-				A1ACFA651BB56B90003E4D66 /* remote */,
-				A1B5546B1BB242CD00DF709F /* scenes */,
-				A1B5546A1BB2416500DF709F /* sprites */,
 				A117C72C1BA4AD0000964D50 /* Supporting Files */,
 			);
 			path = "Little Family Tree";
@@ -334,28 +316,6 @@
 				A1B554641BB23BE400DF709F /* house_music_trumpet.png */,
 			);
 			name = house;
-			sourceTree = "<group>";
-		};
-		A1ACFA5A1BB562BE003E4D66 /* data */ = {
-			isa = PBXGroup;
-			children = (
-				A1ACFA5B1BB562BE003E4D66 /* GenderType.swift */,
-				A1ACFA5C1BB562BE003E4D66 /* LittlePerson.swift */,
-				A1ACFA5D1BB562BE003E4D66 /* Media.swift */,
-				A1ACFA5E1BB562BE003E4D66 /* Relationship.swift */,
-				A1ACFA5F1BB562BE003E4D66 /* RelationshipType.swift */,
-			);
-			path = data;
-			sourceTree = "<group>";
-		};
-		A1ACFA651BB56B90003E4D66 /* remote */ = {
-			isa = PBXGroup;
-			children = (
-				A1ACFA661BB56B90003E4D66 /* FamilySearchService.swift */,
-				A1ACFA671BB56B90003E4D66 /* RemoteService.swift */,
-				A1ACFA681BB56B90003E4D66 /* SwiftyJSON.swift */,
-			);
-			path = remote;
 			sourceTree = "<group>";
 		};
 		A1B5546A1BB2416500DF709F /* sprites */ = {
@@ -578,16 +538,8 @@
 			files = (
 				A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */,
 				A117C7351BA4AD0000964D50 /* GameViewController.swift in Sources */,
-				A1ACFA621BB562BE003E4D66 /* Media.swift in Sources */,
-				A1ACFA6B1BB56B90003E4D66 /* SwiftyJSON.swift in Sources */,
-				A1ACFA6A1BB56B90003E4D66 /* RemoteService.swift in Sources */,
-				A1ACFA691BB56B90003E4D66 /* FamilySearchService.swift in Sources */,
-				A1ACFA611BB562BE003E4D66 /* LittlePerson.swift in Sources */,
 				A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */,
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
-				A1ACFA641BB562BE003E4D66 /* RelationshipType.swift in Sources */,
-				A1ACFA601BB562BE003E4D66 /* GenderType.swift in Sources */,
-				A1ACFA631BB562BE003E4D66 /* Relationship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
