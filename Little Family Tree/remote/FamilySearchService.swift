@@ -2,26 +2,26 @@ import Foundation
 
 typealias ServiceResponse = (JSON, NSError?) -> Void
 
-class FamilySearchService: RemoteService {
-	static let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
+class FamilySearchService : RemoteService {
+	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
 	//static let FS_PLATFORM_PATH = "https://familysearch.org/platform/";
 	
-	static let FS_OAUTH2_PATH = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token";
+	let FS_OAUTH2_PATH = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token";
 	//static let FS_OAUTH2_PATH = "https://ident.familysearch.org/cis-web/oauth2/v3/token";
 	
-	private static let FS_APP_KEY = "a02j0000009AXffAAG";
+	private let FS_APP_KEY = "a02j0000009AXffAAG";
 
 	var sessionId: NSString?
 	
 	static let sharedInstance = FamilySearchService()
 	
 	
-	func authenticate(username: NSString, password: NSString) {
+	func authenticate(username: String, password: String) {
 		var params = [String: String]()
-		params["grant_type"]= "password";
-        params["client_id"]= FS_APP_KEY;
-        params["username"]= username;
-        params["password"]= password;
+		params["grant_type"] = "password";
+        params["client_id"] = FS_APP_KEY;
+        params["username"] = username;
+        params["password"] = password;
 		
 		sessionId = nil;
 		
@@ -69,32 +69,38 @@ class FamilySearchService: RemoteService {
         let session = NSURLSession.sharedSession()
  
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            let json:JSON = JSON(data: data)
+            let json:JSON = JSON(data: data!)
             onCompletion(json, error)
         })
         task.resume()
     }
 	
 	func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], onCompletion: ServiceResponse) {
-		var err: NSError?
+		let err: NSError?
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
+        
+        do {
 	 
-		// Set the POST body for the request
-		request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: nil, error: &err)
-		let session = NSURLSession.sharedSession()
+            // Set the POST body for the request
+            let options = NSJSONWritingOptions()
+            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: options)
+            let session = NSURLSession.sharedSession()
 	 
-		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-			let json:JSON = JSON(data: data)
-			onCompletion(json, err)
-		})
-		task.resume()
+            let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, err)
+            })
+            task.resume()
+        } catch() {
+            
+        }
 	}
 	
 	func makeHTTPPostRequest(path: String, body: [String: String], onCompletion: ServiceResponse) {
-		var err: NSError?
+		let err: NSError?
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
@@ -110,7 +116,7 @@ class FamilySearchService: RemoteService {
 		let session = NSURLSession.sharedSession()
 	 
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-			let json:JSON = JSON(data: data)
+			let json:JSON = JSON(data: data!)
 			onCompletion(json, err)
 		})
 		task.resume()
