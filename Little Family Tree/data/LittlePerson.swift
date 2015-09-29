@@ -25,7 +25,7 @@ class LittlePerson {
 		if (birthDate != nil) {
 			let todayDate = NSDate()
 			let ageComponents = NSCalendar.currentCalendar().components(.Year,
-				fromDate: birthDate,
+				fromDate: birthDate!,
 				toDate: todayDate,
 				options: [])
 			age = ageComponents.year

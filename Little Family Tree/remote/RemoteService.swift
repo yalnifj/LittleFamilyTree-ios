@@ -1,8 +1,8 @@
 import Foundation
 
 protocol RemoteService {
-	var sessionId: NSString { get set }
-	func authenticate(username: NSString, password: NSString)
+	//var sessionId: NSString { get set}
+	func authenticate(username: String, password: String)
 	func getCurrentPerson()
 	func getPerson(personId: NSString)
 	func getLastChangeForPerson(personId: NSString)
@@ -14,4 +14,5 @@ protocol RemoteService {
 	func getPersonMemories(personId: NSString)
 	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString)
 	func getPersonUrl(personId: NSString)
+
 }

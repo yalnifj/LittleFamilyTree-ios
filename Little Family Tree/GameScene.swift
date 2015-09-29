@@ -348,18 +348,15 @@ class GameScene: SKScene {
 
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
-        for touch in (touches as! Set<UITouch>) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
             lastPoint = touch.locationInNode(self)
         }
-        
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         var nextPoint = CGPointMake(0,0)
-        for touch in (touches as! Set<UITouch>) {
+        for touch in touches {
             nextPoint = touch.locationInNode(self)
         }
         

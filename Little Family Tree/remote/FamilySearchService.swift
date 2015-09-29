@@ -11,7 +11,7 @@ class FamilySearchService : RemoteService {
 	
 	private let FS_APP_KEY = "a02j0000009AXffAAG";
 
-	var sessionId: NSString?
+    var sessionId: NSString?
 	
 	static let sharedInstance = FamilySearchService()
 	
@@ -24,19 +24,19 @@ class FamilySearchService : RemoteService {
         params["password"] = password;
 		
 		sessionId = nil;
-		var headers = [String: String]()
+		let headers = [String: String]()
 		
-		makeHTTPPostRequest(FS_OAUTH2_PATH, params, headers, onCompletion: {json, err in
-			sessionId = json["access_token"]
+		makeHTTPPostRequest(FS_OAUTH2_PATH, body: params, headers: headers, onCompletion: {json, err in
+			self.sessionId = json["access_token"].description
 		})
 	}
 	
-	func getCurrentPerson() {
+    func getCurrentPerson() {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + sessionId
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers: headers, onCompletion: {json, err in
 				
 			})
 		}
@@ -72,13 +72,13 @@ class FamilySearchService : RemoteService {
 	func getPersonUrl(personId: NSString) {
 	}
 	
-	func makeHTTPGetRequest(path: String, headers: [String, String], onCompletion: ServiceResponse) {
+    func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
  
         let session = NSURLSession.sharedSession()
 		
 		// Set the headers
-		for(field, value) in body {
+		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
  
@@ -89,15 +89,14 @@ class FamilySearchService : RemoteService {
         task.resume()
     }
 	
-	func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], headers: [String, String], onCompletion: ServiceResponse) {
-		let err: NSError?
+    func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], headers: [String: String], onCompletion: ServiceResponse) {
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
 		
 		// Set the headers
-		for(field, value) in body {
+		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
         
@@ -110,23 +109,22 @@ class FamilySearchService : RemoteService {
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
                 let json:JSON = JSON(data: data!)
-                onCompletion(json, err)
+                onCompletion(json, error)
             })
             task.resume()
-        } catch() {
-            
+        } catch let aError as NSError {
+            print(aError)
         }
 	}
 	
-	func makeHTTPPostRequest(path: String, body: [String: String], headers: [String, String], onCompletion: ServiceResponse) {
-		let err: NSError?
+    func makeHTTPPostRequest(path: String, body: [String: String], headers: [String: String], onCompletion: ServiceResponse) {
 		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
 		
 		// Set the headers
-		for(field, value) in body {
+		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
 	 
@@ -141,7 +139,7 @@ class FamilySearchService : RemoteService {
 	 
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
 			let json:JSON = JSON(data: data!)
-			onCompletion(json, err)
+			onCompletion(json, error)
 		})
 		task.resume()
 	}
