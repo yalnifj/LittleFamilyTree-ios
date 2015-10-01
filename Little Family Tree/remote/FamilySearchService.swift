@@ -31,18 +31,20 @@ class FamilySearchService : RemoteService {
 		})
 	}
 	
-    func getCurrentPerson() {
+    func getCurrentPerson(onCompletion: ServiceResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers: headers, onCompletion: {json, err in
-				
+				onCompletion(json, err)
 			})
+		} else {
+			onCompletion(nil, NSError("FamilySearchService", 401, ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
 	
-	func getPerson(personId: NSString) {
+	func getPerson(personId: NSString, onCompletion: ServiceResponse) {
 	}
 	
 	func getLastChangeForPerson(personId: NSString) {
