@@ -24,9 +24,11 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        var z:CGFloat = 0
         background = SKSpriteNode(imageNamed: "house_background2")
         background.anchorPoint = CGPoint.zero
         background.position = CGPoint.zero
+        background.zPosition = z++
         maxHeight = self.size.height*1.1
         if maxHeight < oHeight {
             maxHeight = oHeight
@@ -42,308 +44,417 @@ class GameScene: SKScene {
         spriteContainer.anchorPoint = CGPoint.zero
         spriteContainer.position = CGPointMake(minX, minY)
         spriteContainer.setScale(lfScale)
+        spriteContainer.zPosition = z++
         self.addChild(spriteContainer)
         
-        let cloud1 = SKSpriteNode(imageNamed: "house_cloud1")
+        let cloud1 = AnimatedStateSprite(imageNamed: "house_cloud1")
         cloud1.anchorPoint = CGPoint.zero
         cloud1.position = CGPointMake(0, oHeight - cloud1.size.height - 25)
+        cloud1.zPosition = z++
+        cloud1.userInteractionEnabled = true
+        cloud1.addTexture(1, texture: SKTexture(imageNamed: "house_cloud1a"))
+        cloud1.addTexture(2, texture: SKTexture(imageNamed: "house_cloud1b"))
+        cloud1.addTexture(3, texture: SKTexture(imageNamed: "house_cloud1c"))
+        let cloudrain:[SKTexture] = [
+            SKTexture(imageNamed: "house_cloud1d"),
+            SKTexture(imageNamed: "house_cloud1e")
+        ]
+        let rainAction = SKAction.repeatAction(SKAction.animateWithTextures(cloudrain, timePerFrame: 0.06, resize: false, restore: false), count: 20)
+        cloud1.addAction(4, action: rainAction)
+        cloud1.addSound(4, soundFile: "rain")
         spriteContainer.addChild(cloud1)
         
         let cloud2 = SKSpriteNode(imageNamed: "house_cloud2")
         cloud2.anchorPoint = CGPoint.zero
         cloud2.position = CGPointMake(minY + oWidth*0.75, oHeight - cloud1.size.height - 15)
+        cloud2.zPosition = z++
         spriteContainer.addChild(cloud2)
         
         let tree = SKSpriteNode(imageNamed: "house_tree1")
         tree.anchorPoint = CGPoint.zero
         tree.position = CGPointMake(50, oHeight - tree.size.height - 250)
+        tree.zPosition = z++
         spriteContainer.addChild(tree)
         
-        let flowers1 = SKSpriteNode(imageNamed: "house_flowers_a1")
+        let flowers1 = AnimatedStateSprite(imageNamed: "house_flowers_a1")
         flowers1.anchorPoint = CGPoint.zero
         flowers1.position = CGPointMake(90+flowers1.size.width, 200-flowers1.size.height)
         flowers1.xScale = flowers1.xScale * -1
+        flowers1.zPosition = z++
+        flowers1.userInteractionEnabled = true
+        let flowersSpin:[SKTexture] = [
+            SKTexture(imageNamed: "house_flowers_a2"),
+            SKTexture(imageNamed: "house_flowers_a3"),
+            SKTexture(imageNamed: "house_flowers_a4"),
+            SKTexture(imageNamed: "house_flowers_a5")
+        ]
+        let spinAction = SKAction.repeatAction(SKAction.animateWithTextures(flowersSpin, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        flowers1.addAction(1, action: spinAction)
+        flowers1.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers1)
         
-        let flowers2 = SKSpriteNode(imageNamed: "house_flowers_a1")
+        let flowers2 = AnimatedStateSprite(imageNamed: "house_flowers_a1")
         flowers2.anchorPoint = CGPoint.zero
         flowers2.position = CGPointMake(265, 200-flowers2.size.height)
+        flowers2.zPosition = z++
+        flowers2.userInteractionEnabled = true
+        flowers2.addAction(1, action: spinAction)
+        flowers2.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers2)
         
         let tileY:CGFloat = 600
         let tile01 = SKSpriteNode(imageNamed: "house_rooms_0_1")
         tile01.anchorPoint = CGPoint.zero
         tile01.position = CGPointMake(450, tileY - tile01.size.height)
+        tile01.zPosition = z++
         spriteContainer.addChild(tile01)
         
         let tile02 = SKSpriteNode(imageNamed: "house_rooms_0_2")
         tile02.anchorPoint = CGPoint.zero
         tile02.position = CGPointMake(450, tileY - (tile01.size.height*2))
+        tile02.zPosition = z++
         spriteContainer.addChild(tile02)
         
         let tile03 = SKSpriteNode(imageNamed: "house_rooms_0_3")
         tile03.anchorPoint = CGPoint.zero
         tile03.position = CGPointMake(450, tileY - (tile01.size.height*3))
+        tile03.zPosition = z++
         spriteContainer.addChild(tile03)
         
         let tile04 = SKSpriteNode(imageNamed: "house_rooms_0_4")
         tile04.anchorPoint = CGPoint.zero
         tile04.position = CGPointMake(450, tileY - (tile01.size.height*4))
+        tile04.zPosition = z++
         spriteContainer.addChild(tile04)
         
         
         let tile10 = SKSpriteNode(imageNamed: "house_rooms_1_0")
         tile10.anchorPoint = CGPoint.zero
         tile10.position = CGPointMake(450 + tile10.size.width, tileY)
+        tile10.zPosition = z++
         spriteContainer.addChild(tile10)
         
         let tile11 = SKSpriteNode(imageNamed: "house_rooms_1_1")
         tile11.anchorPoint = CGPoint.zero
         tile11.position = CGPointMake(450 + tile10.size.width, tileY - tile11.size.height)
+        tile11.zPosition = z++
         spriteContainer.addChild(tile11)
         
         let tile12 = SKSpriteNode(imageNamed: "house_rooms_1_2")
         tile12.anchorPoint = CGPoint.zero
         tile12.position = CGPointMake(450 + tile10.size.width, tileY - (tile12.size.height*2))
+        tile12.zPosition = z++
         spriteContainer.addChild(tile12)
         
         let tile13 = SKSpriteNode(imageNamed: "house_rooms_1_3")
         tile13.anchorPoint = CGPoint.zero
         tile13.position = CGPointMake(450 + tile10.size.width, tileY - (tile13.size.height*3))
+        tile13.zPosition = z++
         spriteContainer.addChild(tile13)
         
         let tile14 = SKSpriteNode(imageNamed: "house_rooms_1_4")
         tile14.anchorPoint = CGPoint.zero
         tile14.position = CGPointMake(450 + tile10.size.width, tileY - (tile14.size.height*4))
+        tile14.zPosition = z++
         spriteContainer.addChild(tile14)
         
         
         let tile20 = SKSpriteNode(imageNamed: "house_rooms_2_0")
         tile20.anchorPoint = CGPoint.zero
         tile20.position = CGPointMake(450 + (tile20.size.width*2), tileY)
+        tile20.zPosition = z++
         spriteContainer.addChild(tile20)
         
         let tile21 = SKSpriteNode(imageNamed: "house_rooms_2_1")
         tile21.anchorPoint = CGPoint.zero
         tile21.position = CGPointMake(450 + (tile20.size.width*2), tileY - tile21.size.height)
+        tile21.zPosition = z++
         spriteContainer.addChild(tile21)
         
         let tile22 = SKSpriteNode(imageNamed: "house_rooms_2_2")
         tile22.anchorPoint = CGPoint.zero
         tile22.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile22.size.height*2))
+        tile22.zPosition = z++
         spriteContainer.addChild(tile22)
         
         let tile23 = SKSpriteNode(imageNamed: "house_rooms_2_3")
         tile23.anchorPoint = CGPoint.zero
         tile23.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile23.size.height*3))
+        tile23.zPosition = z++
         spriteContainer.addChild(tile23)
         
         let tile24 = SKSpriteNode(imageNamed: "house_rooms_2_4")
         tile24.anchorPoint = CGPoint.zero
         tile24.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile24.size.height*4))
+        tile24.zPosition = z++
         spriteContainer.addChild(tile24)
         
         let tile30 = SKSpriteNode(imageNamed: "house_rooms_3_0")
         tile30.anchorPoint = CGPoint.zero
         tile30.position = CGPointMake(450 + (tile30.size.width*3), tileY)
+        tile30.zPosition = z++
         spriteContainer.addChild(tile30)
         
         let tile31 = SKSpriteNode(imageNamed: "house_rooms_3_1")
         tile31.anchorPoint = CGPoint.zero
         tile31.position = CGPointMake(450 + (tile30.size.width*3), tileY - tile31.size.height)
+        tile31.zPosition = z++
         spriteContainer.addChild(tile31)
         
         let tile32 = SKSpriteNode(imageNamed: "house_rooms_3_2")
         tile32.anchorPoint = CGPoint.zero
         tile32.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile32.size.height*2))
+        tile32.zPosition = z++
         spriteContainer.addChild(tile32)
         
         let tile33 = SKSpriteNode(imageNamed: "house_rooms_3_3")
         tile33.anchorPoint = CGPoint.zero
         tile33.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile33.size.height*3))
+        tile33.zPosition = z++
         spriteContainer.addChild(tile33)
         
         let tile34 = SKSpriteNode(imageNamed: "house_rooms_3_4")
         tile34.anchorPoint = CGPoint.zero
         tile34.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile34.size.height*4))
+        tile34.zPosition = z++
         spriteContainer.addChild(tile34)
 
         
         let tile41 = SKSpriteNode(imageNamed: "house_rooms_4_1")
         tile41.anchorPoint = CGPoint.zero
         tile41.position = CGPointMake(450 + (tile41.size.width*4), tileY - tile41.size.height)
+        tile41.zPosition = z++
         spriteContainer.addChild(tile41)
         
         let tile42 = SKSpriteNode(imageNamed: "house_rooms_4_2")
         tile42.anchorPoint = CGPoint.zero
         tile42.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile42.size.height*2))
+        tile42.zPosition = z++
         spriteContainer.addChild(tile42)
         
         let tile43 = SKSpriteNode(imageNamed: "house_rooms_4_3")
         tile43.anchorPoint = CGPoint.zero
         tile43.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile43.size.height*3))
+        tile43.zPosition = z++
         spriteContainer.addChild(tile43)
         
         let tile44 = SKSpriteNode(imageNamed: "house_rooms_4_4")
         tile44.anchorPoint = CGPoint.zero
         tile44.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile44.size.height*4))
+        tile44.zPosition = z++
         spriteContainer.addChild(tile44)
 
 
         let couch = SKSpriteNode(imageNamed: "house_familyroom_couch")
         couch.anchorPoint = CGPoint.zero
         couch.position = CGPointMake(555, 140)
+        couch.zPosition = z++
         spriteContainer.addChild(couch)
         
         let table1 = SKSpriteNode(imageNamed: "house_familyroom_table")
         table1.anchorPoint = CGPoint.zero
         table1.position = CGPointMake(491, 140)
+        table1.zPosition = z++
         spriteContainer.addChild(table1)
         
         let table2 = SKSpriteNode(imageNamed: "house_familyroom_table")
         table2.anchorPoint = CGPoint.zero
         table2.position = CGPointMake(735, 140)
+        table2.zPosition = z++
         spriteContainer.addChild(table2)
         
-        let lamp1 = SKSpriteNode(imageNamed: "house_familyroom_lamp1")
+        let lamp1 = AnimatedStateSprite(imageNamed: "house_familyroom_lamp1")
         lamp1.anchorPoint = CGPoint.zero
         lamp1.position = CGPointMake(482, 170)
+        lamp1.zPosition = z++
+        lamp1.userInteractionEnabled = true
+        lamp1.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
+        lamp1.addSound(0, soundFile: "pullchainslowon")
+        lamp1.addSound(1, soundFile: "pullchainslowon")
         spriteContainer.addChild(lamp1)
         
-        let lamp2 = SKSpriteNode(imageNamed: "house_familyroom_lamp1")
+        let lamp2 = AnimatedStateSprite(imageNamed: "house_familyroom_lamp1")
         lamp2.anchorPoint = CGPoint.zero
         lamp2.position = CGPointMake(725, 170)
+        lamp2.zPosition = z++
+        lamp2.userInteractionEnabled = true
+        lamp2.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
+        lamp2.addSound(0, soundFile: "pullchainslowon")
+        lamp2.addSound(1, soundFile: "pullchainslowon")
         spriteContainer.addChild(lamp2)
         
         let frame = SKSpriteNode(imageNamed: "house_familyroom_frame")
         frame.anchorPoint = CGPoint.zero
         frame.position = CGPointMake(612, 225)
+        frame.zPosition = z++
         spriteContainer.addChild(frame)
         
         let childBed = SKSpriteNode(imageNamed: "house_chilldroom_bed")
         childBed.anchorPoint = CGPoint.zero
         childBed.position = CGPointMake(827, 307)
+        childBed.zPosition = z++
         spriteContainer.addChild(childBed)
         
         let childPaint = SKSpriteNode(imageNamed: "house_chilldroom_paint")
         childPaint.anchorPoint = CGPoint.zero
         childPaint.position = CGPointMake(1000, 312)
+        childPaint.zPosition = z++
         spriteContainer.addChild(childPaint)
         
         let childDesk = SKSpriteNode(imageNamed: "house_chilldroom_desk")
         childDesk.anchorPoint = CGPoint.zero
         childDesk.position = CGPointMake(1065, 312)
+        childDesk.zPosition = z++
         spriteContainer.addChild(childDesk)
         
-        let teddy = SKSpriteNode(imageNamed: "house_chilldroom_teddy")
+        let teddy = AnimatedStateSprite(imageNamed: "house_chilldroom_teddy")
         teddy.anchorPoint = CGPoint.zero
-        teddy.position = CGPointMake(925, 315)
+        teddy.position = CGPointMake(928, 310)
+        teddy.zPosition = z++
+        teddy.userInteractionEnabled = true
+        let teddyfalling:[SKTexture] = [
+            SKTexture(imageNamed: "house_chilldroom_teddy2"),
+            SKTexture(imageNamed: "house_chilldroom_teddy3"),
+            SKTexture(imageNamed: "house_chilldroom_teddy4"),
+            SKTexture(imageNamed: "house_chilldroom_teddy5"),
+            SKTexture(imageNamed: "house_chilldroom_teddy6")
+        ]
+        let fallaction = SKAction.repeatAction(SKAction.animateWithTextures(teddyfalling, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        teddy.addAction(1, action: fallaction)
+        teddy.addClick(1, val: false)
+        teddy.addSound(1, soundFile: "slide_whistle_down01")
+        let riseaction = SKAction.reversedAction(fallaction)()
+        teddy.addAction(3, action: riseaction)
+        teddy.addSound(3, soundFile: "slide_whistle_up04")
+        teddy.addClick(2, val: true)
+        teddy.addClick(3, val: false)
         spriteContainer.addChild(teddy)
         
         
         let kitchenA = SKSpriteNode(imageNamed: "house_kitchen_a")
         kitchenA.anchorPoint = CGPoint.zero
         kitchenA.position = CGPointMake(840, 140)
+        kitchenA.zPosition = z++
         spriteContainer.addChild(kitchenA)
         
         let kitchenB = SKSpriteNode(imageNamed: "house_kitchen_b")
         kitchenB.anchorPoint = CGPoint.zero
         kitchenB.position = CGPointMake(kitchenA.position.x+kitchenA.size.width, 140)
+        kitchenB.zPosition = z++
         spriteContainer.addChild(kitchenB)
         
         let kitchenC = SKSpriteNode(imageNamed: "house_kitchen_c")
         kitchenC.anchorPoint = CGPoint.zero
         kitchenC.position = CGPointMake(kitchenB.position.x+kitchenB.size.width, 140)
+        kitchenC.zPosition = z++
         spriteContainer.addChild(kitchenC)
         
         let kitchenD = SKSpriteNode(imageNamed: "house_kitchen_d")
         kitchenD.anchorPoint = CGPoint.zero
         kitchenD.position = CGPointMake(kitchenC.position.x+kitchenC.size.width, 265)
+        kitchenD.zPosition = z++
         spriteContainer.addChild(kitchenD)
         
         let kitchenE = SKSpriteNode(imageNamed: "house_kitchen_e")
         kitchenE.anchorPoint = CGPoint.zero
         kitchenE.position = CGPointMake(kitchenD.position.x+kitchenD.size.width, 140)
+        kitchenE.zPosition = z++
         spriteContainer.addChild(kitchenE)
         
         let toaster = SKSpriteNode(imageNamed: "house_toaster1")
         toaster.anchorPoint = CGPoint.zero
         toaster.position = CGPointMake(1085, 195)
+        toaster.zPosition = z++
         spriteContainer.addChild(toaster)
         
         let kettle = SKSpriteNode(imageNamed: "house_kitchen_kettle")
         kettle.anchorPoint = CGPoint.zero
         kettle.position = CGPointMake(1120, 203)
+        kettle.zPosition = z++
         spriteContainer.addChild(kettle)
         
         let freezer = SKSpriteNode(imageNamed: "house_kitchen_freezer")
         freezer.anchorPoint = CGPoint.zero
         freezer.position = CGPointMake(1043, 212)
+        freezer.zPosition = z++
         spriteContainer.addChild(freezer)
         
         let fridge = SKSpriteNode(imageNamed: "house_kitchen_fridge")
         fridge.anchorPoint = CGPoint.zero
         fridge.position = CGPointMake(1043, 140)
+        fridge.zPosition = z++
         spriteContainer.addChild(fridge)
         
         let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
         adultBed.anchorPoint = CGPoint.zero
         adultBed.position = CGPointMake(487, 312)
+        adultBed.zPosition = z++
         spriteContainer.addChild(adultBed)
         
         let adultVanity = SKSpriteNode(imageNamed: "house_adult_vanity")
         adultVanity.anchorPoint = CGPoint.zero
         adultVanity.position = CGPointMake(675, 312)
+        adultVanity.zPosition = z++
         spriteContainer.addChild(adultVanity)
         
         let wardrobe = SKSpriteNode(imageNamed: "house_adult_wardrobe")
         wardrobe.anchorPoint = CGPoint.zero
         wardrobe.position = CGPointMake(747, 312)
+        wardrobe.zPosition = z++
         spriteContainer.addChild(wardrobe)
         
         let lightA = SKSpriteNode(imageNamed: "house_light_a1")
         lightA.anchorPoint = CGPoint.zero
         lightA.position = CGPointMake(670, 401)
+        lightA.zPosition = z++
         spriteContainer.addChild(lightA)
         
         let lightB = SKSpriteNode(imageNamed: "house_light_b1")
         lightB.anchorPoint = CGPoint.zero
         lightB.position = CGPointMake(522, 418)
+        lightB.zPosition = z++
         spriteContainer.addChild(lightB)
         
         let blocks = SKSpriteNode(imageNamed: "house_toys_blocks")
         blocks.anchorPoint = CGPoint.zero
         blocks.position = CGPointMake(1020, 490)
+        blocks.zPosition = z++
         spriteContainer.addChild(blocks)
         
         let horse = SKSpriteNode(imageNamed: "house_toys_horse")
         horse.anchorPoint = CGPoint.zero
         horse.position = CGPointMake(925, 490)
+        horse.zPosition = z++
         spriteContainer.addChild(horse)
         
         let bat = SKSpriteNode(imageNamed: "house_toys_bat")
         bat.anchorPoint = CGPoint.zero
         bat.position = CGPointMake(802, 490)
+        bat.zPosition = z++
         spriteContainer.addChild(bat)
         
         let piano = SKSpriteNode(imageNamed: "house_music_piano")
         piano.anchorPoint = CGPoint.zero
         piano.position = CGPointMake(625, 490)
+        piano.zPosition = z++
         spriteContainer.addChild(piano)
         
         let trumpet = SKSpriteNode(imageNamed: "house_music_trumpet")
         trumpet.anchorPoint = CGPoint.zero
         trumpet.position = CGPointMake(660, 574)
+        trumpet.zPosition = z++
         spriteContainer.addChild(trumpet)
         
         let drums = SKSpriteNode(imageNamed: "house_music_drums")
         drums.anchorPoint = CGPoint.zero
         drums.position = CGPointMake(585, 490)
+        drums.zPosition = z++
         spriteContainer.addChild(drums)
         
         let guitar = SKSpriteNode(imageNamed: "house_music_guitar")
         guitar.anchorPoint = CGPoint.zero
         guitar.position = CGPointMake(700, 490)
+        guitar.zPosition = z++
         spriteContainer.addChild(guitar)
 
     }
