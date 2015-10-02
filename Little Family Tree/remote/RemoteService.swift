@@ -3,8 +3,8 @@ import Foundation
 protocol RemoteService {
 	//var sessionId: NSString { get set}
 	func authenticate(username: String, password: String)
-	func getCurrentPerson()
-	func getPerson(personId: NSString)
+	func getCurrentPerson(onCompletion: ServiceResponse)
+	func getPerson(personId: NSString, onCompletion: ServiceResponse)
 	func getLastChangeForPerson(personId: NSString)
 	func getPersonPortrait(personId: NSString)
 	func getCloseRelatives(personId: NSString)

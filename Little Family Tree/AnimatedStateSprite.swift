@@ -69,10 +69,10 @@ class AnimatedStateSprite: SKSpriteNode {
             runAction(stateSounds[state]!)
         }
 		if (moveAction != nil) {
-			runAction(moveAction)
+			runAction(moveAction!)
 		}
         if (stateActions[state] != nil) {
-			for action in stateActions[state]? {
+			for action in stateActions[state]! {
 				runAction(action, completion: {() -> Void in
 					self.nextState()
 					})
@@ -80,7 +80,7 @@ class AnimatedStateSprite: SKSpriteNode {
         } else {
             if stateTextures[nextState]?.count > 1 {
                 let action = SKAction.repeatActionForever(SKAction.animateWithTextures(stateTextures[nextState]!, timePerFrame: 0.06, resize: false, restore: true))
-                addAction(state, action)
+                addAction(state, action: action)
                 runAction(action)
             }
         }

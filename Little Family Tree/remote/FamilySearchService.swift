@@ -40,7 +40,7 @@ class FamilySearchService : RemoteService {
 				onCompletion(json, err)
 			})
 		} else {
-			onCompletion(nil, NSError("FamilySearchService", 401, ["message":"Not authenticated with FamilySearch"]))
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
 	

@@ -21,7 +21,7 @@ class GameScene: SKScene {
     var lastPoint : CGPoint!
     var background : SKSpriteNode!
     var spriteContainer : SKSpriteNode!
-	var updateSprites : [AnimatedStateSprite]()
+	var updateSprites = [AnimatedStateSprite]()
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -63,7 +63,7 @@ class GameScene: SKScene {
         let rainAction = SKAction.repeatAction(SKAction.animateWithTextures(cloudrain, timePerFrame: 0.06, resize: false, restore: false), count: 20)
         cloud1.addAction(4, action: rainAction)
         cloud1.addSound(4, soundFile: "rain")
-		cloud1.moveAction = SKAction.repeatActionForever(SKAction.moveByX(10, deltaY:0, duration: 1))
+		cloud1.moveAction = SKAction.repeatActionForever(SKAction.moveByX(10, y:0, duration: 1))
 		cloud1.maxX = oWidth
 		cloud1.maxY = oHeight
         spriteContainer.addChild(cloud1)
@@ -73,7 +73,7 @@ class GameScene: SKScene {
         cloud2.anchorPoint = CGPoint.zero
         cloud2.position = CGPointMake(minY + oWidth*0.75, oHeight - cloud1.size.height - 15)
         cloud2.zPosition = z++
-		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(50, deltaY:0, duration: 1))
+		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(50, y:0, duration: 1))
 		cloud2.maxX = oWidth
 		cloud2.maxY = oHeight
         spriteContainer.addChild(cloud2)
@@ -361,7 +361,7 @@ class GameScene: SKScene {
         childPaint.addClick(1, val: false)
         spriteContainer.addChild(childPaint)
         
-        let childDesk = SKSpriteNode(imageNamed: "house_chilldroom_desk")
+        let childDesk = AnimatedStateSprite(imageNamed: "house_chilldroom_desk")
         childDesk.anchorPoint = CGPoint.zero
         childDesk.position = CGPointMake(1065, 312)
         childDesk.zPosition = z++
@@ -743,7 +743,7 @@ class GameScene: SKScene {
             SKTexture(imageNamed: "house_music_drums8")
         ]
         let drumsAction = SKAction.repeatAction(SKAction.animateWithTextures(drumsAnim, timePerFrame: 0.06, resize: false, restore: false), count: 3)
-        drums.addAction(1, action: trumpetAction)
+        drums.addAction(1, action: drumsAction)
         drums.addClick(1, val: false)
 		drums.addSound(1, soundFile: "drums")
         spriteContainer.addChild(drums)
@@ -813,18 +813,16 @@ class GameScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-		var removing:[AnimatedStateSprite]()
+		var notRemoving = [AnimatedStateSprite]()
 		for sprite in updateSprites {
-			if sprite.removeMe? == true {
-				removing.append(sprite)
+			if sprite.removeMe == true {
+                sprite.removeFromParent()
 			} else {
 				sprite.update()
+                notRemoving.append(sprite)
 			}
 		}
 		
-		for sprite in removing {
-			updateSprites.remove(sprite)
-			sprite.removeFromParent()
-		}
+		self.updateSprites = notRemoving
     }
 }

@@ -12,40 +12,40 @@ class MovingAnimatedStateSprite: AnimatedStateSprite {
         super.update()
 		
 		if position.x > maxX {
-			if bounce? == true {
+			if bounce == true {
 				
-			} else if wrap? == true {
+			} else if wrap == true {
 				position = CGPointMake(0 - size.width*0.8, position.y)
 			}
 			else {
 				removeMe = true
 			}
 		}
-		if position.x + width < 0 {
-			if bounce? == true {
+		if position.x + size.width < 0 {
+			if bounce == true {
 			}
-			else if wrap? == true {
-				position = CGPointMake(maxX - size.width*0.8, position.y)
+			else if wrap == true {
+				position = CGPointMake(maxX! - size.width*0.8, position.y)
 			}
 			else {
 				removeMe = true
 			}
 		}
 		if position.y > maxY {
-			if bounce? == true {
+			if bounce == true {
 				
-			} else if wrap? == true {
+			} else if wrap == true {
 				position = CGPointMake(position.x, 0 - size.height*0.8)
 			}
 			else {
 				removeMe = true
 			}
 		}
-		if position.y + height < 0 {
-			if bounce? == true {
+		if position.y + size.height < 0 {
+			if bounce == true {
 			}
-			else if wrap? == true {
-				position = CGPointMake(position.x, maxY - size.height*0.8)
+			else if wrap == true {
+				position = CGPointMake(position.x, maxY! - size.height*0.8)
 			}
 			else {
 				removeMe = true
