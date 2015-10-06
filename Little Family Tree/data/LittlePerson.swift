@@ -1,15 +1,16 @@
 import Foundation
 
 class LittlePerson {
-	var id : Int?;
-	var name : NSString?;
-	var givenName : NSString?;
-	var relationship : NSString?;
+	var id : Int?
+	var name : NSString?
+	var givenName : NSString?
+	var gender : GenderType?
+	var relationship : NSString?
 	var familySearchId : NSString?
 	var photoPath : NSString?
 	var birthDate : NSDate?;
 	var birthPlace : NSString?
-	var age : Int = 0;
+	var age : Int = 0
 	var alive : Bool?
 	var lastSync : NSDate?
 	var active : Bool = true;

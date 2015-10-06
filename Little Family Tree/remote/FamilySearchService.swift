@@ -1,6 +1,7 @@
 import Foundation
 
 typealias ServiceResponse = (JSON, NSError?) -> Void
+typealias PersonResponse = (Person, NSError?) -> Void
 
 class FamilySearchService : RemoteService {
 	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
@@ -31,20 +32,42 @@ class FamilySearchService : RemoteService {
 		})
 	}
 	
-    func getCurrentPerson(onCompletion: ServiceResponse) {
+    func getCurrentPerson(onCompletion: PersonResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers: headers, onCompletion: {json, err in
-				onCompletion(json, err)
+				var persons = Person.convertJsonToPersons(json)
+				if persons != nil && persons.count > 0 {
+					var person = persons[0]
+					onCompletion(person, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find current person"]))
+				}
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
 	
-	func getPerson(personId: NSString, onCompletion: ServiceResponse) {
+	func getPerson(personId: NSString, onCompletion: PersonResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-gedcomx-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId, headers: headers, onCompletion: {json, err in
+				var persons = Person.convertJsonToPersons(json)
+				if persons != nil && persons.count > 0 {
+					var person = persons[0]
+					onCompletion(person, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
 	func getLastChangeForPerson(personId: NSString) {
