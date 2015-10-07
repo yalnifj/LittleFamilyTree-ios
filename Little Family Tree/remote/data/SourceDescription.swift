@@ -21,4 +21,22 @@ class SourceDescription : HypermediaEnabledData {
 	var repository:ResourceReference?
 	var descriptorRef:ResourceReference?
 	
+	static func convertJsonToSourceDescriptions(json:JSON) -> [SourceDescription] {
+		var sds = [SourceDescription]()
+		
+		for sson : json["sourceDescriptions"] {
+			var sd = SourceDescription()
+			sd.id = sson["id"]
+			sd.mediaType = sson["mediaType"]
+			sd.about = sson["about"]
+			sd.resourceType = sson["resourceType"]
+			sd.addLinksFromJson(sson)
+			
+			// -- TODO add other attributes for non-media sourceDescriptions
+			
+			sds.append(sd)
+		}
+		
+		return sds
+	}
 }

@@ -27,15 +27,7 @@ class Person : Subject {
 			person.id = pson["id"]
 			person.addLinksFromJson(pson)
 			person.addAttributionFromJson(pson)
-			
-			if pson["identifiers"] != nil {
-				for (type, ids) in pson["identifiers"] {
-					var typeIds = Identifiers.convertJsonToIdentifier(type: type, json: ids)
-					for id in typeIds {
-						person.identifiers.append(id)
-					}
-				}
-			}
+			person.addIdentifiersFromJson(pson)
 			
 			person.living = pson["living"]?
 			

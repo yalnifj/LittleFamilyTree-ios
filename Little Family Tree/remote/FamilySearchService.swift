@@ -1,8 +1,5 @@
 import Foundation
 
-typealias ServiceResponse = (JSON, NSError?) -> Void
-typealias PersonResponse = (Person, NSError?) -> Void
-
 class FamilySearchService : RemoteService {
 	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
 	//static let FS_PLATFORM_PATH = "https://familysearch.org/platform/";
@@ -73,28 +70,129 @@ class FamilySearchService : RemoteService {
 	func getLastChangeForPerson(personId: NSString) {
 	}
 	
-	func getPersonPortrait(personId: NSString) {
+	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-gedcomx-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/portraits", headers: headers, onCompletion: {json, err in
+				var sds = SourceDescriptions.convertJsonToSourceDescriptions(json)
+				if sds != nil && sds.count > 0 {
+					for sd in sds {
+						if sd.links != nil && sd.links.count > 0 {
+							for link in sd.links {
+								if (link.rel != nil && link.rel == "image-thumbnail" {
+									onCompletion(link, err)
+                                    return;
+                                }
+							}
+						}
+					}
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id "+ personId]))
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
-	func getCloseRelatives(personId: NSString) {
+	func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-fs-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons-with-relationships?person="+personId, headers: headers, onCompletion: {json, err in
+				var relationships = Relationship.convertJsonToRelationships(json)
+				if relationships != nil {
+					onCompletion(relationships, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
-	func getParents(personId: NSString) {
+	func getParents(personId: NSString, onCompletion: RelationshipsResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-fs-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/parent-relationships", headers: headers, onCompletion: {json, err in
+				var relationships = Relationship.convertJsonToRelationships(json)
+				if relationships != nil {
+					onCompletion(relationships, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
-	func getChildren(personId: NSString) {
+	func getChildren(personId: NSString, onCompletion: RelationshipsResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-fs-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/child-relationships", headers: headers, onCompletion: {json, err in
+				var relationships = Relationship.convertJsonToRelationships(json)
+				if relationships != nil {
+					onCompletion(relationships, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
-	func getSpouses(personId: NSString) {
+	func getSpouses(personId: NSString, onCompletion: RelationshipsResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-fs-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/spouse-relationships", headers: headers, onCompletion: {json, err in
+				var relationships = Relationship.convertJsonToRelationships(json)
+				if relationships != nil {
+					onCompletion(relationships, err)
+				} else {
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
-	func getPersonMemories(personId: NSString) {
+	func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-fs-v1+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/memories", headers: headers, onCompletion: {json, err in
+				var sds = SourceDescriptions.convertJsonToSourceDescriptions(json)
+				if sds != nil {
+					onCompletion(sds, err)
+                }
+				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find memories for person with id "+ personId]))
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
 	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString) {
+		
 	}
 	
-	func getPersonUrl(personId: NSString) {
+	func getPersonUrl(personId: NSString) -> NSString {
+		return "https://familysearch.org/tree/#view=ancestor&person="+personId;
 	}
 	
     func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
