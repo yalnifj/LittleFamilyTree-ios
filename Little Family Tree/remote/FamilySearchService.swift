@@ -187,8 +187,42 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString) {
+	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse) {
+		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+ 
+        let session = NSURLSession.sharedSession()
+		var headers = [String: String]()
+		headers["Authorization"] = "Bearer " + (sessionId?.description)!
+		headers["Accept"] = "application/x-fs-v1+json"
 		
+		// Set the headers
+		for(field, value) in headers {
+			request.setValue(value, forHTTPHeaderField: field);
+		}
+ 
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+			var fileManager = NSFileManager.defaultManager()
+            var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+			if let image = UIImage(data: data) as UIImage? {
+				var folderPath = paths.stringByAppendingPathComponent("\(folderName)" )
+				if !fileManager.fileExistsAtPath(folderPath) {
+					var error: NSError?
+					if !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil, error: nil) {
+						println("createDirectoryAtPath error: \(error)")
+						onCompletion(nil, error);
+						return;
+					}
+				}
+				
+				var imagePath = paths.stringByAppendingPathComponent("\(folderName)/\(fileName)" )
+				var error: NSError?
+				if (!data.writeToFile(imagePath, options: .AtomicWrite, error: &error)) {
+					println("writeToFile error: \(error)")
+				}
+				onCompletion(imagePath, error);
+			}
+        })
+        task.resume()
 	}
 	
 	func getPersonUrl(personId: NSString) -> NSString {
