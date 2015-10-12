@@ -3,7 +3,7 @@ import Foundation
 class FieldValue {
 	var type:NSString?
 	var text:NSString?
-	vat datatype:NSString?
+	var datatype:NSString?
 	var resource:NSString?
 	var labelId:NSString?
 	

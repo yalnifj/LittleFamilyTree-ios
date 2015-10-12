@@ -6,7 +6,7 @@ class Subject : Conclusion {
 	var media = [SourceReference]()
 	var evidence = [EvidenceReference]()
 	
-	func addIdentifiersFromJson(pson) {
+    func addIdentifiersFromJson(pson:JSON) {
 		if pson["identifiers"] != nil {
 			for (type, ids) in pson["identifiers"] {
 				var typeIds = Identifiers.convertJsonToIdentifier(type: type, json: ids)

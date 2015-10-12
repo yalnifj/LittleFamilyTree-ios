@@ -10,11 +10,11 @@ class Fact : Conclusion {
 	var primary:Bool?
 	
 	static func convertJsonToFact(json:JSON) -> Fact {
-		var fact = Fact()
-		fact.id = json["id"]?
+		let fact = Fact()
+		fact.id = json["id"].description
 		fact.addLinksFromJson(json)
 		fact.addAttributionFromJson(json)
-		fact.type = json["type"]
+		fact.type = json["type"].description
 		if json["date"] != nil {
 			fact.date = Date.convertJsonToDate(json["date"])
 		}
@@ -22,15 +22,16 @@ class Fact : Conclusion {
 			fact.place = PlaceReference.convertJsonToPlaceReference(json["place"])
 		}
 		if json["value"] != nil {
-			value = json["value"]
+			fact.value = json["value"].description
 		}
 		if json["fields"] != nil {
-			for field in json["fields"] {
+            let jf = json["fields"].arrayValue
+            for field:JSON in jf {
 				fact.fields.append(Field.convertJsonToField(field))
 			}
 		}
 		if json["primary"] != nil {
-			fact.primary = json["primary"]
+			fact.primary = json["primary"].bool
 		}
 		return fact
 	}

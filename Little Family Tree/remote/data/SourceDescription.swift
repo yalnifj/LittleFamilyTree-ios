@@ -24,7 +24,7 @@ class SourceDescription : HypermediaEnabledData {
 	static func convertJsonToSourceDescriptions(json:JSON) -> [SourceDescription] {
 		var sds = [SourceDescription]()
 		
-		for sson : json["sourceDescriptions"] {
+		for sson in json["sourceDescriptions"] {
 			var sd = SourceDescription()
 			sd.id = sson["id"]
 			sd.mediaType = sson["mediaType"]

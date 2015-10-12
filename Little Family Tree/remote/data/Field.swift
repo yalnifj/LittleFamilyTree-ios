@@ -7,8 +7,8 @@ class Field {
 	
 	static func convertJsonToField(json:JSON) -> Field {
 		var field = Field()
-		field.label = json["label"]
-		field.type = json["type"]
+		field.label = json["label"].description
+		field.type = json["type"].description
 		if json["values"] != nil {
 			for val in json["values"] {
 				field.values.append(FieldValue.convertJsonToFieldValue(val))

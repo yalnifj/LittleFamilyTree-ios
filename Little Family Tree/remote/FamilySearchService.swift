@@ -53,13 +53,13 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId, headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)", headers: headers, onCompletion: {json, err in
 				var persons = Person.convertJsonToPersons(json)
 				if persons != nil && persons.count > 0 {
 					var person = persons[0]
 					onCompletion(person, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId.description]))
 				}
 			})
 		} else {
@@ -75,22 +75,22 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/portraits", headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/" + personId + "/portraits", headers: headers, onCompletion: {json, err in
 				var sds = SourceDescriptions.convertJsonToSourceDescriptions(json)
 				if sds != nil && sds.count > 0 {
 					for sd in sds {
 						if sd.links != nil && sd.links.count > 0 {
 							for link in sd.links {
-								if (link.rel != nil && link.rel == "image-thumbnail" {
+								if link.rel != nil && link.rel == "image-thumbnail" {
 									onCompletion(link, err)
-                                    return;
+                                    return
                                 }
 							}
 						}
 					}
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id " + personId]))
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId]))
 				}
 			})
 		} else {
@@ -108,7 +108,7 @@ class FamilySearchService : RemoteService {
 				if relationships != nil {
 					onCompletion(relationships, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
 				}
 			})
 		} else {
@@ -126,7 +126,7 @@ class FamilySearchService : RemoteService {
 				if relationships != nil {
 					onCompletion(relationships, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
 				}
 			})
 		} else {
@@ -144,7 +144,7 @@ class FamilySearchService : RemoteService {
 				if relationships != nil {
 					onCompletion(relationships, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
 				}
 			})
 		} else {
@@ -162,7 +162,7 @@ class FamilySearchService : RemoteService {
 				if relationships != nil {
 					onCompletion(relationships, err)
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id "+ personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
 				}
 			})
 		} else {
@@ -180,7 +180,7 @@ class FamilySearchService : RemoteService {
 				if sds != nil {
 					onCompletion(sds, err)
                 }
-				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find memories for person with id "+ personId]))
+				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find memories for person with id " + personId]))
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))

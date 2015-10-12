@@ -11,9 +11,9 @@ class Person : Subject {
   
   func getFullName() {
     if (display != nil) {
-      return display.name
+      return display!.name
     }
-    if (names != nil && names.count > 0 && names[0].nameForms != nil && names[0].nameForms.count > 0) {
+    if (names.count > 0 && names[0].nameForms != nil && names[0].nameForms.count > 0) {
       return names[0].nameForms[0].fullText;
     }
     return nil;
@@ -22,7 +22,7 @@ class Person : Subject {
   static func convertJsonToPersons(json:JSON) -> [Person] {
 		var persons = [Person]()
 		
-		for pson : json["persons"] {
+		for pson in json["persons"] {
 			var person = Person()
 			person.id = pson["id"]
 			person.addLinksFromJson(pson)

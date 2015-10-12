@@ -1,4 +1,4 @@
-import Foundation 
+import Foundation
 
 class Relationship : Subject {
 	var type:NSString?
@@ -10,7 +10,7 @@ class Relationship : Subject {
 	static func convertJsonToRelationships(json:JSON) -> [Relationship] {
 		var relationships = [Relationship]()
 		
-		for rson : json["relationships"] {
+        for rson:JSON in json["relationships"] {
 			var rel = Relationship()
 			rel.id = rson["id"]
 			rel.addLinksFromJson(rson)
@@ -21,5 +21,6 @@ class Relationship : Subject {
 			relationships.append(rel)
 		}
 		
-		return relationships
+        return relationships;
+    }
 }
