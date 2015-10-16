@@ -5,9 +5,9 @@ class TextValue {
 	var value:NSString?
 	
 	static func convertJsonToTextValue(json:JSON) -> TextValue {
-		var textValue = TextValue()
-		textValue.lang = json["lang"]
-		textValue.value = json["value"]
+		let textValue = TextValue()
+		textValue.lang = json["lang"].description
+		textValue.value = json["value"].description
 		return textValue
 	}
 }

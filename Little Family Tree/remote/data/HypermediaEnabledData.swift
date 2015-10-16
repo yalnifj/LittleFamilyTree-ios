@@ -6,7 +6,7 @@ class HypermediaEnabledData : ExtensibleData {
 	func addLinksFromJson(json:JSON) {
 		if json["links"] != nil && json["links"].count > 0 {
 			for (rel, lson) in json["links"] {
-				var link = Link.convertJsonToLink(rel: rel, lson: lson);
+				let link = Link.convertJsonToLink(rel, lson: lson);
 				self.links.append(link)
 			}
 		}

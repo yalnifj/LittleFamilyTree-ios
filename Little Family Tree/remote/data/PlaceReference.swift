@@ -7,17 +7,17 @@ class PlaceReference {
 	var normalized = [TextValue]()
 	
 	static func convertJsonToPlaceReference(json:JSON) -> PlaceReference {
-		var place = PlaceReference()
-		place.original = json["original"]
-		place.descriptionRef = json["descriptionRef"]
+		let place = PlaceReference()
+		place.original = json["original"].description
+		place.descriptionRef = json["descriptionRef"].description
 		if json["fields"] != nil {
-			for field in json["fields"] {
-				place.fields.append(Field.convertJsonToNamePart(field))
+			for field in json["fields"].array! {
+				place.fields.append(Field.convertJsonToField(field))
 			}
 		}
 		if json["normalized"] != nil {
-			for tv in json["normalized"] {
-				normalized.append(TextValue.convertJsonToTextValue(nv))
+			for tv in json["normalized"].array! {
+				place.normalized.append(TextValue.convertJsonToTextValue(tv))
 			}
 		}
 		return place

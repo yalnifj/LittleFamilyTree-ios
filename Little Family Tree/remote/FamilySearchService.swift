@@ -35,9 +35,9 @@ class FamilySearchService : RemoteService {
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers: headers, onCompletion: {json, err in
-				var persons = Person.convertJsonToPersons(json)
-				if persons != nil && persons.count > 0 {
-					var person = persons[0]
+				let persons = Person.convertJsonToPersons(json)
+				if persons.count > 0 {
+                    let person = persons[0]
 					onCompletion(person, err)
 				} else {
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find current person"]))
@@ -55,8 +55,8 @@ class FamilySearchService : RemoteService {
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)", headers: headers, onCompletion: {json, err in
 				var persons = Person.convertJsonToPersons(json)
-				if persons != nil && persons.count > 0 {
-					var person = persons[0]
+				if persons.count > 0 {
+					let person = persons[0]
 					onCompletion(person, err)
 				} else {
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId.description]))
@@ -75,11 +75,11 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-gedcomx-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/" + personId + "/portraits", headers: headers, onCompletion: {json, err in
-				var sds = SourceDescriptions.convertJsonToSourceDescriptions(json)
-				if sds != nil && sds.count > 0 {
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/portraits", headers: headers, onCompletion: {json, err in
+				let sds = SourceDescription.convertJsonToSourceDescriptions(json)
+				if sds.count > 0 {
 					for sd in sds {
-						if sd.links != nil && sd.links.count > 0 {
+						if sd.links.count > 0 {
 							for link in sd.links {
 								if link.rel != nil && link.rel == "image-thumbnail" {
 									onCompletion(link, err)
@@ -88,9 +88,9 @@ class FamilySearchService : RemoteService {
 							}
 						}
 					}
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id " + personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
 				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId]))
+					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id \(personId)"]))
 				}
 			})
 		} else {
@@ -103,13 +103,9 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons-with-relationships?person="+personId, headers: headers, onCompletion: {json, err in
-				var relationships = Relationship.convertJsonToRelationships(json)
-				if relationships != nil {
-					onCompletion(relationships, err)
-				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
-				}
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons-with-relationships?person=\(personId)", headers: headers, onCompletion: {json, err in
+				let relationships = Relationship.convertJsonToRelationships(json)
+				onCompletion(relationships, err)
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
@@ -121,13 +117,9 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/parent-relationships", headers: headers, onCompletion: {json, err in
-				var relationships = Relationship.convertJsonToRelationships(json)
-				if relationships != nil {
-					onCompletion(relationships, err)
-				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
-				}
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/parent-relationships", headers: headers, onCompletion: {json, err in
+				let relationships = Relationship.convertJsonToRelationships(json)
+				onCompletion(relationships, err)
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
@@ -139,13 +131,9 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/child-relationships", headers: headers, onCompletion: {json, err in
-				var relationships = Relationship.convertJsonToRelationships(json)
-				if relationships != nil {
-					onCompletion(relationships, err)
-				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
-				}
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/child-relationships", headers: headers, onCompletion: {json, err in
+				let relationships = Relationship.convertJsonToRelationships(json)
+				onCompletion(relationships, err)
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
@@ -157,13 +145,9 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/spouse-relationships", headers: headers, onCompletion: {json, err in
-				var relationships = Relationship.convertJsonToRelationships(json)
-				if relationships != nil {
-					onCompletion(relationships, err)
-				} else {
-					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find relationships for id " + personId]))
-				}
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/spouse-relationships", headers: headers, onCompletion: {json, err in
+				let relationships = Relationship.convertJsonToRelationships(json)
+				onCompletion(relationships, err)
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
@@ -175,12 +159,9 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer " + (sessionId?.description)!
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/"+personId+"/memories", headers: headers, onCompletion: {json, err in
-				var sds = SourceDescriptions.convertJsonToSourceDescriptions(json)
-				if sds != nil {
-					onCompletion(sds, err)
-                }
-				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find memories for person with id " + personId]))
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/memories", headers: headers, onCompletion: {json, err in
+				let sds = SourceDescription.convertJsonToSourceDescriptions(json)
+				onCompletion(sds, err)
 			})
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
@@ -192,7 +173,7 @@ class FamilySearchService : RemoteService {
 	}
 	
 	func getPersonUrl(personId: NSString) -> NSString {
-		return "https://familysearch.org/tree/#view=ancestor&person="+personId;
+		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)";
 	}
 	
     func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {

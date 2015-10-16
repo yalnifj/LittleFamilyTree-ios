@@ -24,12 +24,12 @@ class SourceDescription : HypermediaEnabledData {
 	static func convertJsonToSourceDescriptions(json:JSON) -> [SourceDescription] {
 		var sds = [SourceDescription]()
 		
-		for sson in json["sourceDescriptions"] {
-			var sd = SourceDescription()
-			sd.id = sson["id"]
-			sd.mediaType = sson["mediaType"]
-			sd.about = sson["about"]
-			sd.resourceType = sson["resourceType"]
+		for sson in json["sourceDescriptions"].array! {
+			let sd = SourceDescription()
+			sd.id = sson["id"].description
+			sd.mediaType = sson["mediaType"].description
+			sd.about = sson["about"].description
+			sd.resourceType = sson["resourceType"].description
 			sd.addLinksFromJson(sson)
 			
 			// -- TODO add other attributes for non-media sourceDescriptions

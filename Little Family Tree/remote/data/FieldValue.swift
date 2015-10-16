@@ -8,12 +8,12 @@ class FieldValue {
 	var labelId:NSString?
 	
 	static func convertJsonToFieldValue(json:JSON) -> FieldValue {
-		var value = FieldValue()
-		value.type = json["type"]
-		value.text = json["text"]
-		value.datatype = json["datatype"]
-		value.resource = json["resource"]
-		value.labelId = json["labelId"]
+		let value = FieldValue()
+		value.type = json["type"].description
+		value.text = json["text"].description
+		value.datatype = json["datatype"].description
+		value.resource = json["resource"].description
+		value.labelId = json["labelId"].description
 		return value
 	}
 }

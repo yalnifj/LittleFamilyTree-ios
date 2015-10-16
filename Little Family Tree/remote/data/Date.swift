@@ -7,16 +7,16 @@ class Date {
   var fields = [Field]()
   
   static func convertJsonToDate(json:JSON) -> Date {
-	var date = Date()
-	date.original = json["original"]
-	date.formal = json["formal"]
+	let date = Date()
+	date.original = json["original"].description
+	date.formal = json["formal"].description
 	if json["normalized"] != nil {
-		for tv in json["normalized"] {
-			normalized.append(TextValue.convertJsonToTextValue(nv))
+		for tv in json["normalized"].array! {
+			date.normalized.append(TextValue.convertJsonToTextValue(tv))
 		}
 	}
 	if json["fields"] != nil {
-		for field in json["fields"] {
+		for field in json["fields"].array! {
 			date.fields.append(Field.convertJsonToField(field))
 		}
 	}

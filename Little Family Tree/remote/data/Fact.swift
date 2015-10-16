@@ -24,9 +24,9 @@ class Fact : Conclusion {
 		if json["value"] != nil {
 			fact.value = json["value"].description
 		}
+        
 		if json["fields"] != nil {
-            let jf = json["fields"].arrayValue
-            for field:JSON in jf {
+            for field in json["fields"].array! {
 				fact.fields.append(Field.convertJsonToField(field))
 			}
 		}

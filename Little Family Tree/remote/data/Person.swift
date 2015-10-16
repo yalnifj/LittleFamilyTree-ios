@@ -9,12 +9,12 @@ class Person : Subject {
   var facts = [Fact]()
   var display:DisplayProperties?
   
-  func getFullName() {
+  func getFullName() -> NSString? {
     if (display != nil) {
-      return display!.name
+      return display!.name!
     }
-    if (names.count > 0 && names[0].nameForms != nil && names[0].nameForms.count > 0) {
-      return names[0].nameForms[0].fullText;
+    if (names.count > 0 && names[0].nameForms.count > 0) {
+      return names[0].nameForms[0].fulltext!;
     }
     return nil;
   }
@@ -22,14 +22,14 @@ class Person : Subject {
   static func convertJsonToPersons(json:JSON) -> [Person] {
 		var persons = [Person]()
 		
-		for pson in json["persons"] {
-			var person = Person()
-			person.id = pson["id"]
+		for pson in json["persons"].array! {
+			let person = Person()
+			person.id = pson["id"].description
 			person.addLinksFromJson(pson)
 			person.addAttributionFromJson(pson)
 			person.addIdentifiersFromJson(pson)
 			
-			person.living = pson["living"]?
+			person.living = pson["living"].bool
 			
 			if pson["gender"] != nil {
 				if pson["gender"]["type"] == "http://gedcomx.org/Male" {
@@ -47,13 +47,13 @@ class Person : Subject {
 			}
 			
 			if pson["names"] != nil {
-				for name in pson["names"] {
+				for name in pson["names"].array! {
 					person.names.append(Name.convertJsonToName(name))
 				}
 			}
 			
 			if pson["facts"] != nil {
-				for fact in pson["facts"] {
+				for fact in pson["facts"].array! {
 					person.facts.append(Fact.convertJsonToFact(fact))
 				}
 			}

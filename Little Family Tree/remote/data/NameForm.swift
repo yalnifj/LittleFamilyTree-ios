@@ -6,16 +6,16 @@ class NameForm {
 	var parts = [NamePart]()
 	var fields = [Field]()
 	
-	static func converJsonToNameForm(json:JSON) -> NameForm {
-		var nameForm = NameForm()
-		nameForm.fullText = json["fullText"]
+	static func convertJsonToNameForm(json:JSON) -> NameForm {
+		let nameForm = NameForm()
+		nameForm.fulltext = json["fullText"].description
 		if json["parts"] != nil {
-			for part in json["parts"] {
+			for part in json["parts"].array! {
 				nameForm.parts.append(NamePart.convertJsonToNamePart(part))
 			}
 		}
 		if json["fields"] != nil {
-			for field in json["fields"] {
+			for field in json["fields"].array! {
 				nameForm.fields.append(Field.convertJsonToField(field))
 			}
 		}

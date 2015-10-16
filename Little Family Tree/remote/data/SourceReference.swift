@@ -12,12 +12,12 @@ class SourceReference : HypermediaEnabledData {
 	}
 	
 	static func convertJsonToSourceReference(json:JSON) -> SourceReference {
-		var source = SourceReference()
-		source.id = json["id"]
+		let source = SourceReference()
+		source.id = json["id"].description
 		source.addLinksFromJson(json)
 		source.addAttributionFromJson(json)
 		if json["qualifiers"] != nil {
-			for q in json["qualifiers"] {
+			for q in json["qualifiers"].array! {
 				source.qualifiers.append(Qualifier.convertJsonToQualifier(q))
 			}
 		}

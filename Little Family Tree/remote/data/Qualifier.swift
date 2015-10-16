@@ -5,9 +5,9 @@ class Qualifier {
 	var value:NSString?
 	
 	static func convertJsonToQualifier(json:JSON) -> Qualifier {
-		var qualifier = Qualifier()
-		qualifier.name = json["name"]
-		qualifier.value = json["value"]
+		let qualifier = Qualifier()
+		qualifier.name = json["name"].description
+		qualifier.value = json["value"].description
 		return qualifier
 	}
 }
