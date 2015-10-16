@@ -1,4 +1,5 @@
 import Foundation
+import SpriteKit
 
 class FamilySearchService : RemoteService {
 	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
@@ -169,7 +170,7 @@ class FamilySearchService : RemoteService {
 	}
 	
 	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse) {
-		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+		let request = NSMutableURLRequest(URL: NSURL(string: uri as String)!)
  
         let session = NSURLSession.sharedSession()
 		var headers = [String: String]()
@@ -184,21 +185,21 @@ class FamilySearchService : RemoteService {
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
 			var fileManager = NSFileManager.defaultManager()
             var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-			if let image = UIImage(data: data) as UIImage? {
-				var folderPath = paths.stringByAppendingPathComponent("\(folderName)" )
+			if let image = UIImage(data: data!) as UIImage? {
+				var folderPath = paths.stringByAppendingString("/\(folderName)" )
 				if !fileManager.fileExistsAtPath(folderPath) {
 					var error: NSError?
-					if !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil, error: nil) {
-						println("createDirectoryAtPath error: \(error)")
+					if !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil) {
+						print("createDirectoryAtPath error: \(error)")
 						onCompletion(nil, error);
 						return;
 					}
 				}
 				
-				var imagePath = paths.stringByAppendingPathComponent("\(folderName)/\(fileName)" )
+				var imagePath = paths.stringByAppendingString("/\(folderName)/\(fileName)" )
 				var error: NSError?
 				if (!data.writeToFile(imagePath, options: .AtomicWrite, error: &error)) {
-					println("writeToFile error: \(error)")
+					print("writeToFile error: \(error)")
 				}
 				onCompletion(imagePath, error);
 			}
