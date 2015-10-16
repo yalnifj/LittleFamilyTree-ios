@@ -5,6 +5,7 @@ typealias PersonResponse = (Person?, NSError?) -> Void
 typealias LinkResponse = (Link?, NSError?) -> Void
 typealias RelationshipsResponse = ([Relationship]?, NSError?) -> Void
 typealias SourceDescriptionsResponse = ([SourceDescription]?, NSError?) -> Void
+typealias StringResponse = (NSString, NSError?) -> Void
 
 protocol RemoteService {
 	//var sessionId: NSString { get set}
@@ -18,6 +19,6 @@ protocol RemoteService {
 	func getChildren(personId: NSString, onCompletion: RelationshipsResponse)
 	func getSpouses(personId: NSString, onCompletion: RelationshipsResponse)
 	func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse)
-	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString)
+	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse)
 	func getPersonUrl(personId: NSString) -> NSString
 }
