@@ -68,7 +68,25 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getLastChangeForPerson(personId: NSString) {
+	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse) {
+		if (sessionId != nil) {
+			var headers = [String: String]()
+			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Accept"] = "application/x-gedcomx-atom+json"
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/changes", headers: headers, onCompletion: {json, err in
+				if json["entries"] != nil {
+					let ae = json["entries"].array!
+					if ae.count > 0 {
+						let entry = ae[0]
+						let timestamp = entry["updated"].long
+						onCompletion(timestamp, err)
+					}
+				}
+				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
+			)
+		} else {
+			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+		}
 	}
 	
 	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {

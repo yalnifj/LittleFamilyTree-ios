@@ -6,13 +6,14 @@ typealias LinkResponse = (Link?, NSError?) -> Void
 typealias RelationshipsResponse = ([Relationship]?, NSError?) -> Void
 typealias SourceDescriptionsResponse = ([SourceDescription]?, NSError?) -> Void
 typealias StringResponse = (NSString?, NSError?) -> Void
+typealias LongResponse = (NSLong?, NSError?) -> Void
 
 protocol RemoteService {
 	//var sessionId: NSString { get set}
 	func authenticate(username: String, password: String)
 	func getCurrentPerson(onCompletion: PersonResponse)
 	func getPerson(personId: NSString, onCompletion: PersonResponse)
-	func getLastChangeForPerson(personId: NSString)
+	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse)
 	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse)
 	func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse)
 	func getParents(personId: NSString, onCompletion: RelationshipsResponse)
