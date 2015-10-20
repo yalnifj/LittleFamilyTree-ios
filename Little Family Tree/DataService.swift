@@ -3,12 +3,18 @@ import Foundation
 class DataService {
 	var remoteService:RemoteService?
 	var serviceType:NSString?
+	var dbHelper:DBHelper?
 
-	static let instance = DataService()
+	private static let instance:DataService?
 	
 	static func getInstance() -> DataService {
+		if instance == nil {
+			instance = DataService()
+		}
 		return instance
 	}
 	
-	
+	func init() {
+		dbHelper = DBHelper.getInstance()
+	}
 }
