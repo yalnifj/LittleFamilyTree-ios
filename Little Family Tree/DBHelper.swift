@@ -263,7 +263,32 @@ class DBHelper {
 	
 	func getRelativesForPerson(id:Int, followSpouse:Bool) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter(TABLE_RELATIONSHIP[COL_ID] == id)
+			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.select(TABLE_LITTLE_PERSON[*])
+		var persons = [LittlePerson]()
+		for c in query {
+			let person = personFromCursor(c)
+			persons.append(person)
+		}
+		
+		if followSpouse {
+			var spouses = getSpousesForPerson(id)
+			for spouse in spouses {
+				var speople = getRelativesForPerson(spouse.id, false)
+				for sp in speople {
+					if !persons.contains(sp) {
+						persons.append(sp)
+					}
+				}
+			}
+		}
+		
+		return persons
+	}
+	
+	func getParentsForPerson(id:Int) -> [LittlePerson]? {
+		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1])
+			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD && TABLE_LITTLE_PERSON[COL_ACTIVE])
 			.select(TABLE_LITTLE_PERSON[*])
 		var persons = [LittlePerson]()
 		for c in query {
@@ -271,5 +296,153 @@ class DBHelper {
 			persons.append(person)
 		}
 		return persons
+	}
+	
+	func getChildrenForPerson(id:Int) -> [LittlePerson]? {
+		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
+			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.select(TABLE_LITTLE_PERSON[*])
+		var persons = [LittlePerson]()
+		for c in query {
+			let person = personFromCursor(c)
+			persons.append(person)
+		}
+		return persons
+	}
+	
+	func getSpousesForPerson(id:Int) -> [LittlePerson]? {
+		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
+			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.select(TABLE_LITTLE_PERSON[*])
+		var persons = [LittlePerson]()
+		for c in query {
+			if (c[COL_ID]!=id) {
+				let person = personFromCursor(c)
+				persons.append(person)
+			}
+		}
+		return persons
+	}
+	
+	func persistRelationship(r:Relationship) -> Int64 {
+		var rowid:Int64 = 0
+		
+		if r.id == nil || r.id == 0 {
+			var old = getRelationship(r.id1, r.id2, r.type)
+			if old != nil {
+				if old.type != r.type || old.id1 != r.id1 || old.id2 != r.id2 {
+					deleteRelationship(old.id)
+				} else {
+					r.id = old.id;
+					return old.id;
+				}
+			}
+		}
+		
+		rowid = try db.run(TABLE_RELATIONSHIP.insert(
+			COL_ID1 <- r.id1
+			COL_ID2 <- r.id2
+			COL_type <- r.type
+		))
+		r.id = rowid
+		
+		return rowid
+	}
+	
+	func getRelationship(id1:Int, id2:Int, type:RelationshipType) -> Relationship? {
+		var rel:Relationship?
+		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id1 && COL_ID2==id2 && COL_TYPE=type)
+		for r in try lftdb.run(query) {
+			rel = relationshipFromCursor(r)
+		}
+		return rel
+	}
+	
+	func getRelationshipsForPerson(id:Int) -> [Relationship]? {
+		var rels = [Relationship]()
+		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id || COL_ID2==id)
+		for r in try lftdb.run(query) {
+			rel = relationshipFromCursor(r)
+			rels.append(rel)
+		}
+		return rels
+	}
+	
+	func relationshipFromCursor(c:[]) -> Relationship {
+		let r = Relationship()
+		r.id1 = c[COL_ID1]
+		r.id2 = c[COL_ID2]
+		r.type = c[COL_TYPE]
+		r.id = c[COL_ID]
+		return r
+	}
+	
+	func deleteRelationshipById(id:Int) {
+		let row = TABLE_RELATIONSHIP.filter(COL_ID==id)
+		try lftdb.run(row.delete())
+	}
+	
+	func persistMedia(media:Media) {
+		if media.id == nil || media.id == 0 {
+			var existing = getMediaByFamilySearchId(media.familySearchId)
+			if existing != nil {
+				media.id = existing.id
+			} else {
+				let rowid = try lftdb.run(TABLE_MEDIA.insert(
+					COL_FAMILY_SEARCH_ID <- media.familySearchId
+					COL_TYPE <- media.type
+					COL_LOCAL_PATH <- media.localPath
+				))
+				media.id = rowid
+			}
+		} else {
+			let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
+			try lftdb.run(mediaRow.update(
+				COL_FAMILY_SEARCH_ID <- media.familySearchId,
+				COL_TYPE <- media.type
+				COL_LOCAL_PATH <- media.localPath
+			))
+		}
+	}
+	
+	func getMediaByFamilySearchId(fsid:String) -> Media? {
+		var media:Media? = nil
+		let query = TABLE_MEDIA.filter(COL_FAMILY_SEARCH_ID == fsid)
+		for m in try lftdb.run(query) {
+			media = mediaFromCursor(m)
+		}
+		return media
+	}
+	
+	func getMediaForPerson(id:Int) -> [Media]? {
+		var media = [Media]()
+		let query = TABLE_MEDIA.join(TABLE_TAGS, on: TABLE_MEDIA[COL_ID] == TABLE_TAGS[COL_MEDIA_ID])
+			.filter(TABLE_TAGS[COL_PERSON_ID] == id)
+			.select(TABLE_MEDIA[*])
+		for m in try lftdb.run(query) {
+			let med = mediaFromCursor(m)
+			media.append(med)
+		}
+		return media
+	}
+	
+	func deleteMediaById(id:Int) {
+		let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
+		try lftdb.run(mediaRow.delete())
+	}
+	
+	func mediaFromCursor(m:[]) -> Media {
+		let media = Media()
+		media.id = m[COL_ID]
+		media.familySearchId = m[COL_FAMILY_SEARCH_ID]
+		media.type = m[COL_TYPE]
+		media.localPath = m[COL_LOCAL_PATH]
+		return media
+	}
+	
+	public getMediaCount() -> Int64 {
+		let countm = try lftdb.scalar(TABLE_MEDIA.count)
+		let countp = try lftdb.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
+		return countm + countp
 	}
 }
