@@ -10,7 +10,7 @@ typealias LongResponse = (NSLong?, NSError?) -> Void
 
 protocol RemoteService {
 	//var sessionId: NSString { get set}
-	func authenticate(username: String, password: String)
+	func authenticate(username: String, password: String, onCompletion: ServiceResponse)
 	func getCurrentPerson(onCompletion: PersonResponse)
 	func getPerson(personId: NSString, onCompletion: PersonResponse)
 	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse)

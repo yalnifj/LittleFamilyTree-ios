@@ -15,7 +15,7 @@ class FamilySearchService : RemoteService {
 	static let sharedInstance = FamilySearchService()
 	
 	
-	func authenticate(username: String, password: String) {
+	func authenticate(username: String, password: String, onCompletion: ServiceResponse) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
@@ -27,6 +27,7 @@ class FamilySearchService : RemoteService {
 		
 		makeHTTPPostRequest(FS_OAUTH2_PATH, body: params, headers: headers, onCompletion: {json, err in
 			self.sessionId = json["access_token"].description
+			onCompletion(json, err)
 		})
 	}
 	

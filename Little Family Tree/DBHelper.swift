@@ -394,15 +394,17 @@ class DBHelper {
 					COL_LOCAL_PATH <- media.localPath
 				))
 				media.id = rowid
+				return
 			}
-		} else {
-			let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
-			try lftdb.run(mediaRow.update(
-				COL_FAMILY_SEARCH_ID <- media.familySearchId,
-				COL_TYPE <- media.type
-				COL_LOCAL_PATH <- media.localPath
-			))
 		}
+		
+	
+		let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
+		try lftdb.run(mediaRow.update(
+			COL_FAMILY_SEARCH_ID <- media.familySearchId,
+			COL_TYPE <- media.type
+			COL_LOCAL_PATH <- media.localPath
+		))
 	}
 	
 	func getMediaByFamilySearchId(fsid:String) -> Media? {
@@ -444,5 +446,100 @@ class DBHelper {
 		let countm = try lftdb.scalar(TABLE_MEDIA.count)
 		let countp = try lftdb.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
 		return countm + countp
+	}
+	
+	func persistTag(tag:Tag) {
+		if tag.id == nil || tag.id == 0 {
+			var existing = getTagForPersonMedia(tag.personId, tag.mediaId)
+			if existing != nil {
+				tag.id = existing.id
+			} else {
+				let rowid = try lftdb.run(TABLE_TAG.insert(
+					COL_PERSON_ID <- tag.personId
+					COL_MEDIA_ID <- tag.mediaId
+					COL_LEFT <- tag.left
+					COL_RIGHT <- tag.right
+					COL_TOP <- tag.top
+					COL_BOTTOM <- tag.bottom
+				))
+				tag.id = rowid
+				return
+			}
+		}
+		
+		let tagRow = TABLE_TAG.filter(COL_ID=tag.id)
+		try lftdb.run(tagRow.update(
+			COL_PERSON_ID <- tag.personId,
+			COL_MEDIA_ID <- tag.mediaId,
+			COL_LEFT <- tag.left,
+			COL_RIGHT <- tag.right,
+			COL_TOP <- tag.top,
+			COL_BOTTOM <- tag.bottom
+		))
+		
+	}
+	
+	func getTagForPersonMedia(personId:Int, mediaId:Int) -> Tag {
+		var tag:Tag? = nil
+		let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaRow)
+		for t in try lftdb.run(query) {
+			tag = Tag()
+			tag.id = t[COL_ID]
+			tag.mediaId = t[COL_MEDIA_ID]
+			tag.personId = t[COL_PERSON_ID]
+			tag.left = t[COL_LEFT]
+			tag.right = t[COL_RIGHT]
+			tag.top = t[COL_TOP]
+			tag.bottom = t[COL_BOTTOM]
+		}
+		return tag
+	}
+	
+	func saveProperty(property:NSString, value:NSString) {
+		let existing = getProperty(property)
+		if existing != nil {
+			var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
+			try lftdb.run(query.update(
+				COL_VALUE <- value
+			))
+		} else {
+			try lftdb.run(TABLE_PROPERTIES.insert(
+				COL_PROPERTY <- property
+				COL_VALUE <- value
+			))
+		}
+	}
+	
+	func getProperty(property:NSString) -> NSString? {
+		var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
+		var value:NSString? = nil
+		for t in try lftdb.run(query) {
+			value = t[COL_VALUE]
+		}
+		return value
+	}
+	
+	func addToSyncQ(id:Int) {
+		var query = TABLE_SYNCQ.filter(COL_ID == id)
+		let count = try lftdb.scalar(query.count)
+		if count==0 {
+			try lftdb.run(TABLE_SYNCQ.insert(COL_ID <- id))
+		}
+	}
+	
+	func removeFromSyncQ(id:Int) {
+		var query = TABLE_SYNCQ.filter(COL_ID == id)
+		let count = try lftdb.scalar(query.count)
+		if count > 0 {
+			try lftdb.run(query.delete())
+		}
+	}
+	
+	func getSyncQ() -> [Int] {
+		var list = [Int]()
+		for i in try lftdb.prepare(TABLE_SYNCQ) {
+			list.append(i)
+		}
+		return list
 	}
 }
