@@ -79,12 +79,12 @@ class FamilySearchService : RemoteService {
 					let ae = json["entries"].array!
 					if ae.count > 0 {
 						let entry = ae[0]
-						let timestamp = entry["updated"].long
+						let timestamp = entry["updated"]
 						onCompletion(timestamp, err)
 					}
 				}
 				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
-			)
+            })
 		} else {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
@@ -208,7 +208,7 @@ class FamilySearchService : RemoteService {
 				var folderPath = paths.stringByAppendingString("/\(folderName)" )
 				if !fileManager.fileExistsAtPath(folderPath) {
 					var error: NSError?
-					if !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil) {
+					if try !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil) {
 						print("createDirectoryAtPath error: \(error)")
 						onCompletion(nil, error);
 						return;
