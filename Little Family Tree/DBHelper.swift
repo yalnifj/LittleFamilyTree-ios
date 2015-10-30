@@ -56,7 +56,7 @@ class DBHelper {
 	var lftdb:Connection?
 	var dbversion:Int32?
 	
-	func init() {
+	init() {
 		let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
 		lftdb = try Connection("\(path)/lftdb.sqlite3")
 		
@@ -211,6 +211,15 @@ class DBHelper {
 	func deletePersonById(id:Int) {
 		let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == id)
 		try lftdb.run(personRow.delete()) {
+	}
+	
+	func getFirstPerson() -> LittlePerson? {
+		var person:LittlePerson?
+		let stmt = try lftdb.prepare("select p.* from littleperson p where p.active='Y' order by id LIMIT 1")
+		for c in stmt {
+			person = personFromCursor(c)
+		}
+		return person
 	}
 	
 	func getRandomPersonWithMedia() -> LittlePerson? {
