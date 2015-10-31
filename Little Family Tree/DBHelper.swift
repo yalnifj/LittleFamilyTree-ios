@@ -213,6 +213,15 @@ class DBHelper {
 		try lftdb.run(personRow.delete()) {
 	}
 	
+	func getFirstPerson() -> LittlePerson? {
+		var person:LittlePerson?
+		let stmt = try lftdb.prepare("select p.* from littleperson p where p.active='Y' order by id LIMIT 1")
+		for c in stmt {
+			person = personFromCursor(c)
+		}
+		return person
+	}
+	
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?
 		let stmt = try lftdb.prepare("select p.* from littleperson p join tags t on t.person_id=p.id"+
