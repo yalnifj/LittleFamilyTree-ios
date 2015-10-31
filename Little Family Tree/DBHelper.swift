@@ -56,11 +56,11 @@ class DBHelper {
 	var lftdb:Connection?
 	var dbversion:Int32?
 	
-	func init() {
+	init() {
 		let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
 		lftdb = try Connection("\(path)/lftdb.sqlite3")
 		
-		dbversion = try? lftdb.scalar("PRAGMA user_version") as! Int32
+		dbversion = lftdb?.scalar("PRAGMA user_version") as! Int32
 		if dbversion==nil || dbversion < VERSION {
 			createTables()
 		}
