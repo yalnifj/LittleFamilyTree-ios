@@ -2,7 +2,7 @@ import Foundation
 import SQLite
 
 class DBHelper {
-	static let VERSION:Int = 3
+	static let VERSION:Int32? = 3
 	static let UUID_PROPERTY = "UUID"
 	
 	let TABLE_LITTLE_PERSON = Table("littleperson")
@@ -17,7 +17,7 @@ class DBHelper {
 	let COL_GIVEN_NAME = Expression<String?>("givenName")
 	let COL_FAMILY_SEARCH_ID = Expression<String>("familySearchId")
 	let COL_PHOTO_PATH = Expression<String?>("photopath")
-	let COL_BIRTH_DATE = Expression<Int64?>("birthDate")
+	let COL_BIRTH_DATE = Expression<NSDate?>("birthDate")
 	let COL_AGE = Expression<Int?>("age")
 	let COL_GENDER = Expression<String?>("gender")
     let COL_ALIVE = Expression<Bool?>("alive")
@@ -32,7 +32,7 @@ class DBHelper {
     let COL_RIGHT = Expression<Int?>("right")
     let COL_BOTTOM = Expression<Int?>("bottom")
     let COL_PERSON_ID = Expression<Int?>("person_id")
-    let COL_LAST_SYNC = Expression<Int?>("last_sync")
+    let COL_LAST_SYNC = Expression<NSDate?>("last_sync")
     let COL_ACTIVE = Expression<Bool?>("active")
     let COL_BIRTH_PLACE = Expression<String?>("birthPlace")
     let COL_NATIONALITY = Expression<String?>("nationality")
@@ -44,30 +44,31 @@ class DBHelper {
 	let COL_PROPERTY = Expression<String>("property")
 	let COL_VALUE = Expression<String>("value")
 	
-	private static let instance:DBHelper?
+    static var instance:DBHelper?
 	
-	static func getInstance()-> DBHelper {
+	static func getInstance() -> DBHelper? {
 		if instance == nil {
 			instance = DBHelper()
+            let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+            instance!.lftdb = try? Connection("\(path)/lftdb.sqlite3")
+            instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
+            if ((instance?.dbversion == nil) || (instance!.dbversion < DBHelper.VERSION)) {
+                do {
+                    try instance!.createTables()
+                } catch {
+                    print("Error creating tables")
+                }
+            }
 		}
 		return instance
 	}
 	
 	var lftdb:Connection?
 	var dbversion:Int32?
+
 	
-	init() {
-		let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-		lftdb = try Connection("\(path)/lftdb.sqlite3")
-		
-		dbversion = lftdb?.scalar("PRAGMA user_version") as! Int32
-		if dbversion==nil || dbversion < VERSION {
-			createTables()
-		}
-	}
-	
-	func createTables() {
-		try lftdb.run(TABLE_LITTLE_PERSON.create { t in
+	func createTables() throws {
+		try lftdb?.run(TABLE_LITTLE_PERSON.create { t in
 			t.column(COL_ID, primaryKey: true)
 			t.column(COL_GIVEN_NAME)
 			t.column(COL_NAME)
@@ -85,10 +86,10 @@ class DBHelper {
 			t.column(COL_HAS_MEDIA)
 			t.column(COL_ACTIVE)
 			t.column(COL_LAST_SYNC)
-			t.column((COL_TREE_LEVEL)
+			t.column(COL_TREE_LEVEL)
 		})
 		
-		try lftdb.run(TABLE_RELATIONSHIP.create { t in
+		try lftdb?.run(TABLE_RELATIONSHIP.create { t in
 			t.column(COL_ID, primaryKey: true)
 			t.column(COL_ID1)
 			t.column(COL_ID2)
@@ -97,14 +98,14 @@ class DBHelper {
 			t.foreignKey(COL_ID2, references: TABLE_LITTLE_PERSON, COL_ID)
 		})
 		
-		try lftdb.run(TABLE_MEDIA.create { t in 
+		try lftdb?.run(TABLE_MEDIA.create { t in
 			t.column(COL_ID, primaryKey: true)
 			t.column(COL_FAMILY_SEARCH_ID)
 			t.column(COL_MEDIA_TYPE)
 			t.column(COL_LOCAL_PATH)
 		})
 		
-		try lftdb.run(TABLE_TAGS.create { t in
+		try lftdb?.run(TABLE_TAGS.create { t in
 			t.column(COL_ID, primaryKey: true)
 			t.column(COL_MEDIA_ID)
 			t.column(COL_PERSON_ID)
@@ -116,26 +117,26 @@ class DBHelper {
 			t.foreignKey(COL_PERSON_ID, references: TABLE_LITTLE_PERSON, COL_ID)
 		})
 		
-		try lftdb.run(TABLE_PROPERTIES.create { t in 
+		try lftdb?.run(TABLE_PROPERTIES.create { t in
 			t.column(COL_PROPERTY, primaryKey: true)
 			t.column(COL_VALUE)
 			t.column(COL_LAST_SYNC)
 		})
 		
-		try lftdb.run(TABLE_PROPERTIES.insert(COL_PROPERTY <- UUID_PROPERTY, COL_VALUE <- NSUUID().UUIDString))
+		try lftdb?.run(TABLE_PROPERTIES.insert(COL_PROPERTY <- DBHelper.UUID_PROPERTY, COL_VALUE <- NSUUID().UUIDString))
 		
-		try lftdb.run(TABLE_SYNCQ.create { t in 
+		try lftdb?.run(TABLE_SYNCQ.create { t in
 			t.column(COL_ID)
 		})
 		
-		try lftdb.execute("PRAGMA user_version = \(VERSION);")
+		try lftdb?.execute("PRAGMA user_version = \(DBHelper.VERSION);")
 	}
 	
-	func persistLittlePerson(person:LittlePerson) {
+	func persistLittlePerson(person:LittlePerson) throws {
 		if person.id == nil || person.id == 0 {
-			let existing = getPersonByFamilySearchId(person.familySearchId)
+			let existing = self.getPersonByFamilySearchId(person.familySearchId as! String)
 			if existing != nil {
-				person.id = existing.id
+				person.id = existing!.id
 			}
 		}
 		
@@ -146,21 +147,21 @@ class DBHelper {
 			gender = "F"
 		}
 		
-		if person.id? > 0 {
-			let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == person.id)
-			try db.run(personRow.update(
-				COL_NAME <- person.name,
-				COL_GIVEN_NAME <- person.givenName,
+		if person.id > 0 {
+			let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == person.id!)
+			try lftdb?.run(personRow.update(
+				COL_NAME <- (person.name as! String),
+				COL_GIVEN_NAME <- (person.givenName as! String),
 				COL_GENDER <- gender,
-				COL_PHOTO_PATH <- person.photoPath,
+				COL_PHOTO_PATH <- (person.photoPath as! String),
 				COL_AGE <- person.age,
-				COL_BIRTH_DATE <- person.birthDate?.timeIntervalSince1970,
-				COL_FAMILY_SEARCH_ID <- person.familySearchId,
-				COL_LAST_SYNC <- person.lastSync?.timeIntervalSince1970,
+				COL_BIRTH_DATE <- person.birthDate,
+				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
+				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- person.birthPlace,
-				COL_NATIONALITY <- person.nationality,
+				COL_BIRTH_PLACE <- (person.birthPlace as! String),
+				COL_NATIONALITY <- (person.nationality as! String),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
@@ -169,32 +170,33 @@ class DBHelper {
 			))
 		}
 		else {
-			let rowid = try db.run(TABLE_LITTLE_PERSON.insert(
-				COL_NAME <- person.name,
-				COL_GIVEN_NAME <- person.givenName,
+			let rowid = try lftdb?.run(TABLE_LITTLE_PERSON.insert(
+				COL_NAME <- (person.name as! String),
+				COL_GIVEN_NAME <- (person.givenName as! String),
 				COL_GENDER <- gender,
-				COL_PHOTO_PATH <- person.photoPath,
+				COL_PHOTO_PATH <- (person.photoPath as! String),
 				COL_AGE <- person.age,
-				COL_BIRTH_DATE <- person.birthDate?.timeIntervalSince1970,
-				COL_FAMILY_SEARCH_ID <- person.familySearchId,
-				COL_LAST_SYNC <- person.lastSync?.timeIntervalSince1970,
+				COL_BIRTH_DATE <- person.birthDate,
+				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
+				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- person.birthPlace,
-				COL_NATIONALITY <- person.nationality,
+				COL_BIRTH_PLACE <- (person.birthPlace as! String),
+				COL_NATIONALITY <- (person.nationality as! String),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel
 			))
-			person.id = rowid
+			person.id = Int(rowid!)
 		}
 	}
 	
 	func getPersonById(id:Int) -> LittlePerson? {
 		var person:LittlePerson?
-		for c in try lftdb.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id)) {
+        let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id))
+		for c in stmt! {
 			person = personFromCursor(c)
 		}
 		return person
@@ -202,7 +204,8 @@ class DBHelper {
 	
 	func getPersonByFamilySearchId(fsid:String) -> LittlePerson? {
 		var person:LittlePerson?
-		for c in try lftdb.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid)) {
+        let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid))
+		for c in stmt! {
 			person = personFromCursor(c)
 		}
 		return person
@@ -210,13 +213,13 @@ class DBHelper {
 	
 	func deletePersonById(id:Int) {
 		let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == id)
-		try lftdb.run(personRow.delete()) {
+		try lftdb?.run(personRow.delete()) {
 	}
 	
 	func getFirstPerson() -> LittlePerson? {
 		var person:LittlePerson?
-		let stmt = try lftdb.prepare("select p.* from littleperson p where p.active='Y' order by id LIMIT 1")
-		for c in stmt {
+		let stmt = lftdb?.prepare("select p.* from littleperson p where p.active='Y' order by id LIMIT 1")
+		for c in stmt! {
 			person = personFromCursor(c)
 		}
 		return person
@@ -224,22 +227,22 @@ class DBHelper {
 	
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?
-		let stmt = try lftdb.prepare("select p.* from littleperson p join tags t on t.person_id=p.id"+
+		let stmt = lftdb?.prepare("select p.* from littleperson p join tags t on t.person_id=p.id" +
 			" where p.active='Y' order by RANDOM() LIMIT 1")
-		for c in stmt {
+		for c in stmt! {
 			person = personFromCursor(c)
 		}
 		return person
 	}
 	
-	func personFromCursor(c:[]) -> LittlePerson {
+	func personFromCursor(c:Row) -> LittlePerson {
 		var person = LittlePerson()
 		person.id = c[COL_ID]
 		if c[COL_BIRTH_DATE] != nil {
-			person.birthDate = NSDate(c[COL_BIRTH_DATE])
+			person.birthDate = c[COL_BIRTH_DATE]
 		}
-		person.birthPlace = c[COL_BIRTH_PLACE]?
-		person.nationality = c[COL_NATIONALITY]?
+		person.birthPlace = c[COL_BIRTH_PLACE]
+		person.nationality = c[COL_NATIONALITY]
 		person.familySearchId = c[COL_FAMILY_SEARCH_ID]
 		if c[COL_GENDER] != nil {
 			if c[COL_GENDER] == "M" {
@@ -252,20 +255,20 @@ class DBHelper {
 				person.gender = GenderType.UNKNOWN
 			}
 		}
-		person.age = c[COL_AGE]?
-		person.givenName = c[COL_GIVEN_NAME]?
-		person.name = c[COL_NAME]?
-		person.photoPath = c[COL_PHOTO_PATH]?
+		person.age = c[COL_AGE]!
+		person.givenName = c[COL_GIVEN_NAME]
+		person.name = c[COL_NAME]
+		person.photoPath = c[COL_PHOTO_PATH]
 		if c[COL_LAST_SYNC] != nil {
-			person.lastSync = NSDate(c[COL_LAST_SYNC])
+			person.lastSync = c[COL_LAST_SYNC]
 		}
 		person.alive = c[COL_ALIVE]
-		person.active = c[COL_ACTIVE]
-		person.hasParents = c[COL_HAS_PARENTS]?
-		person.hasChildren = c[COL_HAS_CHILDREN]?
-		person.hasSpouses = c[COL_HAS_SPOUSES]?
-		person.hasMedia = c[COL_HAS_MEDIA]?
-		person.treeLevel = c[COL_TREE_LEVEL]?
+		person.active = c[COL_ACTIVE]!
+		person.hasParents = c[COL_HAS_PARENTS]
+		person.hasChildren = c[COL_HAS_CHILDREN]
+		person.hasSpouses = c[COL_HAS_SPOUSES]
+		person.hasMedia = c[COL_HAS_MEDIA]
+		person.treeLevel = c[COL_TREE_LEVEL]
 		person.updateAge()
 		return person
 	}
@@ -282,7 +285,7 @@ class DBHelper {
 		
 		if followSpouse {
 			var spouses = getSpousesForPerson(id)
-			for spouse in spouses {
+			for spouse in spouses! {
 				var speople = getRelativesForPerson(spouse.id, false)
 				for sp in speople {
 					if !persons.contains(sp) {
@@ -377,7 +380,7 @@ class DBHelper {
 		return rels
 	}
 	
-	func relationshipFromCursor(c:[]) -> Relationship {
+	func relationshipFromCursor(c:Row) -> Relationship {
 		let r = Relationship()
 		r.id1 = c[COL_ID1]
 		r.id2 = c[COL_ID2]
@@ -388,7 +391,7 @@ class DBHelper {
 	
 	func deleteRelationshipById(id:Int) {
 		let row = TABLE_RELATIONSHIP.filter(COL_ID==id)
-		try lftdb.run(row.delete())
+		try lftdb?.run(row.delete())
 	}
 	
 	func persistMedia(media:Media) {
@@ -397,7 +400,7 @@ class DBHelper {
 			if existing != nil {
 				media.id = existing.id
 			} else {
-				let rowid = try lftdb.run(TABLE_MEDIA.insert(
+				let rowid = try lftdb?.run(TABLE_MEDIA.insert(
 					COL_FAMILY_SEARCH_ID <- media.familySearchId
 					COL_TYPE <- media.type
 					COL_LOCAL_PATH <- media.localPath
@@ -409,7 +412,7 @@ class DBHelper {
 		
 	
 		let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
-		try lftdb.run(mediaRow.update(
+		try lftdb?.run(mediaRow.update(
 			COL_FAMILY_SEARCH_ID <- media.familySearchId,
 			COL_TYPE <- media.type
 			COL_LOCAL_PATH <- media.localPath
@@ -419,7 +422,7 @@ class DBHelper {
 	func getMediaByFamilySearchId(fsid:String) -> Media? {
 		var media:Media? = nil
 		let query = TABLE_MEDIA.filter(COL_FAMILY_SEARCH_ID == fsid)
-		for m in try lftdb.run(query) {
+		for m in try lftdb?.run(query) {
 			media = mediaFromCursor(m)
 		}
 		return media
@@ -442,7 +445,7 @@ class DBHelper {
 		try lftdb.run(mediaRow.delete())
 	}
 	
-	func mediaFromCursor(m:[]) -> Media {
+	func mediaFromCursor(m:Row) -> Media {
 		let media = Media()
 		media.id = m[COL_ID]
 		media.familySearchId = m[COL_FAMILY_SEARCH_ID]
@@ -451,7 +454,7 @@ class DBHelper {
 		return media
 	}
 	
-	public getMediaCount() -> Int64 {
+	func getMediaCount() -> Int64 {
 		let countm = try lftdb.scalar(TABLE_MEDIA.count)
 		let countp = try lftdb.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
 		return countm + countp
@@ -464,11 +467,11 @@ class DBHelper {
 				tag.id = existing.id
 			} else {
 				let rowid = try lftdb.run(TABLE_TAG.insert(
-					COL_PERSON_ID <- tag.personId
-					COL_MEDIA_ID <- tag.mediaId
-					COL_LEFT <- tag.left
-					COL_RIGHT <- tag.right
-					COL_TOP <- tag.top
+					COL_PERSON_ID <- tag.personId,
+					COL_MEDIA_ID <- tag.mediaId,
+					COL_LEFT <- tag.left,
+					COL_RIGHT <- tag.right,
+					COL_TOP <- tag.top,
 					COL_BOTTOM <- tag.bottom
 				))
 				tag.id = rowid
@@ -490,8 +493,8 @@ class DBHelper {
 	
 	func getTagForPersonMedia(personId:Int, mediaId:Int) -> Tag {
 		var tag:Tag? = nil
-		let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaRow)
-		for t in try lftdb.run(query) {
+		let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaId)
+		for t in try lftdb?.run(query) {
 			tag = Tag()
 			tag.id = t[COL_ID]
 			tag.mediaId = t[COL_MEDIA_ID]
@@ -504,7 +507,7 @@ class DBHelper {
 		return tag
 	}
 	
-	func saveProperty(property:NSString, value:NSString) {
+	func saveProperty(property:String, value:String) {
 		let existing = getProperty(property)
 		if existing != nil {
 			var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
@@ -513,13 +516,13 @@ class DBHelper {
 			))
 		} else {
 			try lftdb.run(TABLE_PROPERTIES.insert(
-				COL_PROPERTY <- property
+				COL_PROPERTY <- property,
 				COL_VALUE <- value
 			))
 		}
 	}
 	
-	func getProperty(property:NSString) -> NSString? {
+	func getProperty(property:String) -> NSString? {
 		var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
 		var value:NSString? = nil
 		for t in try lftdb.run(query) {
@@ -530,23 +533,23 @@ class DBHelper {
 	
 	func addToSyncQ(id:Int) {
 		var query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = try lftdb.scalar(query.count)
+		let count = try lftdb?.scalar(query.count)
 		if count==0 {
-			try lftdb.run(TABLE_SYNCQ.insert(COL_ID <- id))
+			try lftdb?.run(TABLE_SYNCQ.insert(COL_ID <- id))
 		}
 	}
 	
 	func removeFromSyncQ(id:Int) {
 		var query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = try lftdb.scalar(query.count)
+		let count = try lftdb?.scalar(query.count)
 		if count > 0 {
-			try lftdb.run(query.delete())
+			try lftdb?.run(query.delete())
 		}
 	}
 	
 	func getSyncQ() -> [Int] {
 		var list = [Int]()
-		for i in try lftdb.prepare(TABLE_SYNCQ) {
+		for i in try lftdb?.prepare(TABLE_SYNCQ) {
 			list.append(i)
 		}
 		return list
