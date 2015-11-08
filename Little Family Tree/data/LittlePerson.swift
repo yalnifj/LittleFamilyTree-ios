@@ -1,7 +1,7 @@
 import Foundation
 
-class LittlePerson {
-	var id : Int?
+class LittlePerson:Equatable {
+	var id : Int64?
 	var name : NSString?
 	var givenName : NSString?
 	var gender : GenderType?
@@ -32,4 +32,7 @@ class LittlePerson {
 			age = ageComponents.year
 		}
 	}
+}
+func ==(lhs: LittlePerson, rhs: LittlePerson) -> Bool {
+    return lhs.id == rhs.id
 }

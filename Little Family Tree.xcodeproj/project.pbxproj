@@ -279,6 +279,8 @@
 		A1686D6C1BB97D4A00E58A09 /* FamilySearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D691BB97D4A00E58A09 /* FamilySearchService.swift */; settings = {ASSET_TAGS = (); }; };
 		A1686D6D1BB97D4A00E58A09 /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D6A1BB97D4A00E58A09 /* RemoteService.swift */; settings = {ASSET_TAGS = (); }; };
 		A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D6B1BB97D4A00E58A09 /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
+		A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CC1BE9B4DF0036D28A /* Tag.swift */; settings = {ASSET_TAGS = (); }; };
 		A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */; };
 		A1CABC081BBB7E6000A0DBC6 /* house_adult_bed.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CABBBE1BBB7E6000A0DBC6 /* house_adult_bed.png */; settings = {ASSET_TAGS = (); }; };
 		A1CABC091BBB7E6000A0DBC6 /* house_adult_vanity.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CABBBF1BBB7E6000A0DBC6 /* house_adult_vanity.png */; settings = {ASSET_TAGS = (); }; };
@@ -716,6 +718,8 @@
 		A1686D691BB97D4A00E58A09 /* FamilySearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilySearchService.swift; sourceTree = "<group>"; };
 		A1686D6A1BB97D4A00E58A09 /* RemoteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		A1686D6B1BB97D4A00E58A09 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceHelper.swift; sourceTree = "<group>"; };
+		A16C37CC1BE9B4DF0036D28A /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStateSprite.swift; sourceTree = "<group>"; };
 		A1CABBBE1BBB7E6000A0DBC6 /* house_adult_bed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_adult_bed.png; sourceTree = "<group>"; };
 		A1CABBBF1BBB7E6000A0DBC6 /* house_adult_vanity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house_adult_vanity.png; sourceTree = "<group>"; };
@@ -935,6 +939,8 @@
 				A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */,
 				A1686D601BB97D3400E58A09 /* Media.swift */,
 				A1686D611BB97D3400E58A09 /* LocalRelationship.swift */,
+				A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */,
+				A16C37CC1BE9B4DF0036D28A /* Tag.swift */,
 				A1686D621BB97D3400E58A09 /* RelationshipType.swift */,
 			);
 			path = data;
@@ -1809,6 +1815,7 @@
 				A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
+				A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */,
 				A1686D6D1BB97D4A00E58A09 /* RemoteService.swift in Sources */,
 				A10BF1371BC9D359005CAFDA /* SourceDescription.swift in Sources */,
 				A1686D6C1BB97D4A00E58A09 /* FamilySearchService.swift in Sources */,
@@ -1821,6 +1828,7 @@
 				A10BF1211BC9D359005CAFDA /* Conclusion.swift in Sources */,
 				A10BF1341BC9D359005CAFDA /* Relationship.swift in Sources */,
 				A10BF12C1BC9D359005CAFDA /* Link.swift in Sources */,
+				A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */,
 				A10BF12F1BC9D359005CAFDA /* NamePart.swift in Sources */,
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,

@@ -1,3 +1,3 @@
-enum RelationshipType {
+enum RelationshipType: Int {
 	case PARENTCHILD, SPOUSE
 }

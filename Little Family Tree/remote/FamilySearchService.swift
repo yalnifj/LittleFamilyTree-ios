@@ -15,12 +15,12 @@ class FamilySearchService : RemoteService {
 	static let sharedInstance = FamilySearchService()
 	
 	
-	func authenticate(username: String, password: String, onCompletion: ServiceResponse) {
+	func authenticate(username: NSString, password: NSString, onCompletion: ServiceResponse) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
-        params["username"] = username;
-        params["password"] = password;
+        params["username"] = username as String;
+        params["password"] = password as String;
 		
 		sessionId = nil;
 		let headers = [String: String]()
@@ -80,7 +80,7 @@ class FamilySearchService : RemoteService {
 					if ae.count > 0 {
 						let entry = ae[0]
 						let timestamp = entry["updated"]
-						onCompletion(timestamp, err)
+						onCompletion(timestamp.intValue, err)
 					}
 				}
 				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))

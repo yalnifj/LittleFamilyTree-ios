@@ -12,7 +12,7 @@ class DBHelper {
     let TABLE_PROPERTIES = Table("properties")
 	let TABLE_SYNCQ = Table("syncq")
 	
-	let COL_ID = Expression<Int>("id")
+	let COL_ID = Expression<Int64>("id")
 	let COL_NAME = Expression<String?>("name")
 	let COL_GIVEN_NAME = Expression<String?>("givenName")
 	let COL_FAMILY_SEARCH_ID = Expression<String>("familySearchId")
@@ -21,17 +21,17 @@ class DBHelper {
 	let COL_AGE = Expression<Int?>("age")
 	let COL_GENDER = Expression<String?>("gender")
     let COL_ALIVE = Expression<Bool?>("alive")
-	let COL_ID1 = Expression<Int?>("id1")
-	let COL_ID2 = Expression<Int?>("id2")
-	let COL_TYPE = Expression<Int?>("type")
+	let COL_ID1 = Expression<Int64>("id1")
+	let COL_ID2 = Expression<Int64>("id2")
+	let COL_TYPE = Expression<Int>("type")
 	let COL_MEDIA_TYPE = Expression<String?>("type")
 	let COL_LOCAL_PATH = Expression<String?>("localpath")
-    let COL_MEDIA_ID = Expression<Int?>("media_id")
+    let COL_MEDIA_ID = Expression<Int64?>("media_id")
     let COL_LEFT = Expression<Int?>("left")
     let COL_TOP = Expression<Int?>("top")
     let COL_RIGHT = Expression<Int?>("right")
     let COL_BOTTOM = Expression<Int?>("bottom")
-    let COL_PERSON_ID = Expression<Int?>("person_id")
+    let COL_PERSON_ID = Expression<Int64?>("person_id")
     let COL_LAST_SYNC = Expression<NSDate?>("last_sync")
     let COL_ACTIVE = Expression<Bool?>("active")
     let COL_BIRTH_PLACE = Expression<String?>("birthPlace")
@@ -46,7 +46,7 @@ class DBHelper {
 	
     static var instance:DBHelper?
 	
-	static func getInstance() -> DBHelper? {
+	static func getInstance() -> DBHelper {
 		if instance == nil {
 			instance = DBHelper()
             let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
@@ -60,7 +60,7 @@ class DBHelper {
                 }
             }
 		}
-		return instance
+		return instance!
 	}
 	
 	var lftdb:Connection?
@@ -189,38 +189,141 @@ class DBHelper {
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel
 			))
-			person.id = Int(rowid!)
+			person.id = rowid
 		}
 	}
 	
-	func getPersonById(id:Int) -> LittlePerson? {
-		var person:LittlePerson?
+	func getPersonById(id:Int64) -> LittlePerson? {
+		var person:LittlePerson
         let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id))
 		for c in stmt! {
-			person = personFromCursor(c)
+            person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 		}
 		return person
 	}
 	
 	func getPersonByFamilySearchId(fsid:String) -> LittlePerson? {
-		var person:LittlePerson?
+		var person:LittlePerson
         let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid))
 		for c in stmt! {
-			person = personFromCursor(c)
+            person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 		}
 		return person
 	}
 	
-	func deletePersonById(id:Int) {
+	func deletePersonById(id:Int64) throws {
 		let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == id)
-		try lftdb?.run(personRow.delete()) {
+		try lftdb?.run( personRow.delete() )
 	}
 	
 	func getFirstPerson() -> LittlePerson? {
-		var person:LittlePerson?
-		let stmt = lftdb?.prepare("select p.* from littleperson p where p.active='Y' order by id LIMIT 1")
+		var person:LittlePerson
+		let query = TABLE_LITTLE_PERSON.filter(COL_ACTIVE == true).order(COL_ID).limit(1)
+        let stmt = lftdb?.prepare(query)
 		for c in stmt! {
-			person = personFromCursor(c)
+            person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 		}
 		return person
 	}
@@ -230,64 +333,95 @@ class DBHelper {
 		let stmt = lftdb?.prepare("select p.* from littleperson p join tags t on t.person_id=p.id" +
 			" where p.active='Y' order by RANDOM() LIMIT 1")
 		for c in stmt! {
-			person = personFromCursor(c)
+            person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 		}
 		return person
 	}
-	
-	func personFromCursor(c:Row) -> LittlePerson {
-		var person = LittlePerson()
-		person.id = c[COL_ID]
-		if c[COL_BIRTH_DATE] != nil {
-			person.birthDate = c[COL_BIRTH_DATE]
-		}
-		person.birthPlace = c[COL_BIRTH_PLACE]
-		person.nationality = c[COL_NATIONALITY]
-		person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-		if c[COL_GENDER] != nil {
-			if c[COL_GENDER] == "M" {
-				person.gender = GenderType.MALE
-			}
-			else if c[COL_GENDER] == "F" {
-				person.gender = GenderType.FEMALE
-			}
-			else {
-				person.gender = GenderType.UNKNOWN
-			}
-		}
-		person.age = c[COL_AGE]!
-		person.givenName = c[COL_GIVEN_NAME]
-		person.name = c[COL_NAME]
-		person.photoPath = c[COL_PHOTO_PATH]
-		if c[COL_LAST_SYNC] != nil {
-			person.lastSync = c[COL_LAST_SYNC]
-		}
-		person.alive = c[COL_ALIVE]
-		person.active = c[COL_ACTIVE]!
-		person.hasParents = c[COL_HAS_PARENTS]
-		person.hasChildren = c[COL_HAS_CHILDREN]
-		person.hasSpouses = c[COL_HAS_SPOUSES]
-		person.hasMedia = c[COL_HAS_MEDIA]
-		person.treeLevel = c[COL_TREE_LEVEL]
-		person.updateAge()
-		return person
-	}
-	
-	func getRelativesForPerson(id:Int, followSpouse:Bool) -> [LittlePerson]? {
+
+	func getRelativesForPerson(id:Int64, followSpouse:Bool) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
 			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_LITTLE_PERSON[COL_ACTIVE])
-			.select(TABLE_LITTLE_PERSON[*])
+
 		var persons = [LittlePerson]()
-		for c in query {
-			let person = personFromCursor(c)
+        let stmt = lftdb?.prepare(query)
+        for c in stmt! {
+            let person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 			persons.append(person)
 		}
 		
 		if followSpouse {
-			var spouses = getSpousesForPerson(id)
+			let spouses = getSpousesForPerson(id)
 			for spouse in spouses! {
-				var speople = getRelativesForPerson(spouse.id, false)
-				for sp in speople {
+				let speople = getRelativesForPerson(spouse.id!, followSpouse: false)
+				for sp in speople! {
 					if !persons.contains(sp) {
 						persons.append(sp)
 					}
@@ -298,175 +432,298 @@ class DBHelper {
 		return persons
 	}
 	
-	func getParentsForPerson(id:Int) -> [LittlePerson]? {
+	func getParentsForPerson(id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1])
-			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD && TABLE_LITTLE_PERSON[COL_ACTIVE])
-			.select(TABLE_LITTLE_PERSON[*])
+			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+
 		var persons = [LittlePerson]()
-		for c in query {
-			let person = personFromCursor(c)
+        let stmt = lftdb?.prepare(query)
+		for c in stmt! {
+            let person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
 			persons.append(person)
 		}
 		return persons
 	}
 	
-	func getChildrenForPerson(id:Int) -> [LittlePerson]? {
+	func getChildrenForPerson(id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD && TABLE_LITTLE_PERSON[COL_ACTIVE])
-			.select(TABLE_LITTLE_PERSON[*])
+			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+
 		var persons = [LittlePerson]()
-		for c in query {
-			let person = personFromCursor(c)
+        let stmt = lftdb?.prepare(query)
+        for c in stmt! {
+            let person = LittlePerson()
+            person.id = c[COL_ID]
+            if c[COL_BIRTH_DATE] != nil {
+                person.birthDate = c[COL_BIRTH_DATE]
+            }
+            person.birthPlace = c[COL_BIRTH_PLACE]
+            person.nationality = c[COL_NATIONALITY]
+            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+            if c[COL_GENDER] != nil {
+                if c[COL_GENDER] == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if c[COL_GENDER] == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = c[COL_AGE]!
+            person.givenName = c[COL_GIVEN_NAME]
+            person.name = c[COL_NAME]
+            person.photoPath = c[COL_PHOTO_PATH]
+            if c[COL_LAST_SYNC] != nil {
+                person.lastSync = c[COL_LAST_SYNC]
+            }
+            person.alive = c[COL_ALIVE]
+            person.active = c[COL_ACTIVE]!
+            person.hasParents = c[COL_HAS_PARENTS]
+            person.hasChildren = c[COL_HAS_CHILDREN]
+            person.hasSpouses = c[COL_HAS_SPOUSES]
+            person.hasMedia = c[COL_HAS_MEDIA]
+            person.treeLevel = c[COL_TREE_LEVEL]
+            person.updateAge()
+
 			persons.append(person)
 		}
 		return persons
 	}
 	
-	func getSpousesForPerson(id:Int) -> [LittlePerson]? {
+	func getSpousesForPerson(id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE && TABLE_LITTLE_PERSON[COL_ACTIVE])
-			.select(TABLE_LITTLE_PERSON[*])
+			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE.rawValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+
 		var persons = [LittlePerson]()
-		for c in query {
-			if (c[COL_ID]!=id) {
-				let person = personFromCursor(c)
+        let stmt = lftdb?.prepare(query)
+        for c in stmt! {
+			if (c[COL_ID] != id) {
+                let person = LittlePerson()
+                person.id = c[COL_ID]
+                if c[COL_BIRTH_DATE] != nil {
+                    person.birthDate = c[COL_BIRTH_DATE]
+                }
+                person.birthPlace = c[COL_BIRTH_PLACE]
+                person.nationality = c[COL_NATIONALITY]
+                person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+                if c[COL_GENDER] != nil {
+                    if c[COL_GENDER] == "M" {
+                        person.gender = GenderType.MALE
+                    }
+                    else if c[COL_GENDER] == "F" {
+                        person.gender = GenderType.FEMALE
+                    }
+                    else {
+                        person.gender = GenderType.UNKNOWN
+                    }
+                }
+                person.age = c[COL_AGE]!
+                person.givenName = c[COL_GIVEN_NAME]
+                person.name = c[COL_NAME]
+                person.photoPath = c[COL_PHOTO_PATH]
+                if c[COL_LAST_SYNC] != nil {
+                    person.lastSync = c[COL_LAST_SYNC]
+                }
+                person.alive = c[COL_ALIVE]
+                person.active = c[COL_ACTIVE]!
+                person.hasParents = c[COL_HAS_PARENTS]
+                person.hasChildren = c[COL_HAS_CHILDREN]
+                person.hasSpouses = c[COL_HAS_SPOUSES]
+                person.hasMedia = c[COL_HAS_MEDIA]
+                person.treeLevel = c[COL_TREE_LEVEL]
+                person.updateAge()
+
 				persons.append(person)
 			}
 		}
 		return persons
 	}
 	
-	func persistRelationship(r:Relationship) -> Int64 {
-		var rowid:Int64 = 0
+	func persistRelationship(r:LocalRelationship) -> Int64 {
+		var rowid:Int64? = 0
 		
 		if r.id == nil || r.id == 0 {
-			var old = getRelationship(r.id1, r.id2, r.type)
+            let old = getRelationship(r.id1, id2:r.id2, type:r.type)
 			if old != nil {
-				if old.type != r.type || old.id1 != r.id1 || old.id2 != r.id2 {
-					deleteRelationship(old.id)
+				if old!.type != r.type || old!.id1 != r.id1 || old!.id2 != r.id2 {
+					deleteRelationshipById(old!.id)
 				} else {
-					r.id = old.id;
-					return old.id;
+					r.id = old!.id;
+					return old!.id;
 				}
 			}
 		}
 		
-		rowid = try db.run(TABLE_RELATIONSHIP.insert(
-			COL_ID1 <- r.id1
-			COL_ID2 <- r.id2
-			COL_type <- r.type
-		))
-		r.id = rowid
-		
-		return rowid
+        do {
+            rowid = try lftdb?.run(TABLE_RELATIONSHIP.insert(
+                COL_ID1 <- r.id1,
+                COL_ID2 <- r.id2,
+                COL_TYPE <- r.type.rawValue
+            ))
+            r.id = rowid
+        } catch {
+            print("Error peristing relationship")
+        }
+		return rowid!
 	}
 	
-	func getRelationship(id1:Int, id2:Int, type:RelationshipType) -> Relationship? {
-		var rel:Relationship?
-		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id1 && COL_ID2==id2 && COL_TYPE=type)
-		for r in try lftdb.run(query) {
-			rel = relationshipFromCursor(r)
+	func getRelationship(id1:Int64, id2:Int64, type:RelationshipType) -> LocalRelationship? {
+		var rel:LocalRelationship?
+		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id1 && COL_ID2==id2 && COL_TYPE==type.hashValue)
+        let stmt = lftdb?.prepare(query)
+		for r in stmt! {
+            rel = LocalRelationship()
+            rel?.id1 = r[COL_ID1]
+            rel?.id2 = r[COL_ID2]
+            rel?.type = RelationshipType(rawValue: r[COL_TYPE])
+            rel?.id = r[COL_ID]
 		}
 		return rel
 	}
 	
-	func getRelationshipsForPerson(id:Int) -> [Relationship]? {
-		var rels = [Relationship]()
+	func getRelationshipsForPerson(id:Int64) -> [LocalRelationship]? {
+		var rels = [LocalRelationship]()
 		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id || COL_ID2==id)
-		for r in try lftdb.run(query) {
-			rel = relationshipFromCursor(r)
+        let stmt = lftdb?.prepare(query)
+        for r in stmt! {
+            let rel = LocalRelationship()
+            rel.id1 = r[COL_ID1]
+            rel.id2 = r[COL_ID2]
+            rel.type = RelationshipType(rawValue: r[COL_TYPE])
+            rel.id = r[COL_ID]
 			rels.append(rel)
 		}
 		return rels
 	}
 	
-	func relationshipFromCursor(c:Row) -> Relationship {
-		let r = Relationship()
-		r.id1 = c[COL_ID1]
-		r.id2 = c[COL_ID2]
-		r.type = c[COL_TYPE]
-		r.id = c[COL_ID]
-		return r
-	}
-	
-	func deleteRelationshipById(id:Int) {
-		let row = TABLE_RELATIONSHIP.filter(COL_ID==id)
-		try lftdb?.run(row.delete())
+	func deleteRelationshipById(id:Int64) {
+		let row = TABLE_RELATIONSHIP.filter(COL_ID == id)
+        do {
+            try lftdb?.run(row.delete())
+        } catch {
+            print("Error deleting relationship by id \(id)")
+        }
 	}
 	
 	func persistMedia(media:Media) {
 		if media.id == nil || media.id == 0 {
-			var existing = getMediaByFamilySearchId(media.familySearchId)
+			let existing = getMediaByFamilySearchId(media.familySearchId as! String)
 			if existing != nil {
-				media.id = existing.id
+				media.id = existing!.id
 			} else {
-				let rowid = try lftdb?.run(TABLE_MEDIA.insert(
-					COL_FAMILY_SEARCH_ID <- media.familySearchId
-					COL_TYPE <- media.type
-					COL_LOCAL_PATH <- media.localPath
+                do {
+				let rowid = try lftdb?.run(self.TABLE_MEDIA.insert(
+					self.COL_FAMILY_SEARCH_ID <- (media.familySearchId as! String),
+					self.COL_MEDIA_TYPE <- (media.type as String?),
+					self.COL_LOCAL_PATH <- (media.localPath as String?)
 				))
 				media.id = rowid
-				return
+                } catch {
+                    print("Unable to insert media")
+                }
 			}
 		}
-		
-	
-		let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
-		try lftdb?.run(mediaRow.update(
-			COL_FAMILY_SEARCH_ID <- media.familySearchId,
-			COL_TYPE <- media.type
-			COL_LOCAL_PATH <- media.localPath
-		))
+        else {
+            let mediaRow = TABLE_MEDIA.filter(COL_ID == media.id)
+            do {
+            try lftdb?.run(mediaRow.update(
+                COL_FAMILY_SEARCH_ID <- (media.familySearchId as! String),
+                COL_MEDIA_TYPE <- (media.type as String?),
+                COL_LOCAL_PATH <- (media.localPath as String?)
+            ))
+            } catch {
+                print("Unable to update media with id \(media.id)")
+            }
+        }
 	}
 	
 	func getMediaByFamilySearchId(fsid:String) -> Media? {
 		var media:Media? = nil
 		let query = TABLE_MEDIA.filter(COL_FAMILY_SEARCH_ID == fsid)
-		for m in try lftdb?.run(query) {
-			media = mediaFromCursor(m)
-		}
+        let stmt = lftdb?.prepare(query)
+		for m in stmt! {
+            media = Media()
+            media?.id = m[COL_ID]
+            media?.familySearchId = m[COL_FAMILY_SEARCH_ID]
+            media?.type = m[COL_MEDIA_TYPE]
+            media?.localPath = m[COL_LOCAL_PATH]
+        }
 		return media
 	}
 	
-	func getMediaForPerson(id:Int) -> [Media]? {
+	func getMediaForPerson(id:Int64) -> [Media] {
 		var media = [Media]()
 		let query = TABLE_MEDIA.join(TABLE_TAGS, on: TABLE_MEDIA[COL_ID] == TABLE_TAGS[COL_MEDIA_ID])
 			.filter(TABLE_TAGS[COL_PERSON_ID] == id)
-			.select(TABLE_MEDIA[*])
-		for m in try lftdb.run(query) {
-			let med = mediaFromCursor(m)
+        let stmt = lftdb?.prepare(query)
+		for m in stmt! {
+            let med = Media()
+            med.id = m[COL_ID]
+            med.familySearchId = m[COL_FAMILY_SEARCH_ID]
+            med.type = m[COL_MEDIA_TYPE]
+            med.localPath = m[COL_LOCAL_PATH]
 			media.append(med)
 		}
 		return media
 	}
 	
-	func deleteMediaById(id:Int) {
-		let mediaRow = TABLE_MEDIA.filter(COL_ID=media.id)
-		try lftdb.run(mediaRow.delete())
-	}
-	
-	func mediaFromCursor(m:Row) -> Media {
-		let media = Media()
-		media.id = m[COL_ID]
-		media.familySearchId = m[COL_FAMILY_SEARCH_ID]
-		media.type = m[COL_TYPE]
-		media.localPath = m[COL_LOCAL_PATH]
-		return media
+	func deleteMediaById(id:Int64) {
+		let mediaRow = TABLE_MEDIA.filter(COL_ID == id)
+        do {
+            try lftdb?.run(mediaRow.delete())
+        } catch {
+            print("Error deleting media \(id)")
+        }
 	}
 	
 	func getMediaCount() -> Int64 {
-		let countm = try lftdb.scalar(TABLE_MEDIA.count)
-		let countp = try lftdb.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
-		return countm + countp
+		let countm = lftdb?.scalar(TABLE_MEDIA.count)
+		let countp = lftdb?.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
+		return Int64(countm! + countp!)
 	}
 	
-	func persistTag(tag:Tag) {
-		if tag.id == nil || tag.id == 0 {
-			var existing = getTagForPersonMedia(tag.personId, tag.mediaId)
+	func persistTag(tag:Tag) throws {
+		if tag.id == 0 {
+			let existing = getTagForPersonMedia(tag.personId, mediaId: tag.mediaId)
 			if existing != nil {
-				tag.id = existing.id
+				tag.id = existing!.id
 			} else {
-				let rowid = try lftdb.run(TABLE_TAG.insert(
+				let rowid = try lftdb?.run(TABLE_TAGS.insert(
 					COL_PERSON_ID <- tag.personId,
 					COL_MEDIA_ID <- tag.mediaId,
 					COL_LEFT <- tag.left,
@@ -474,13 +731,13 @@ class DBHelper {
 					COL_TOP <- tag.top,
 					COL_BOTTOM <- tag.bottom
 				))
-				tag.id = rowid
+				tag.id = rowid!
 				return
 			}
 		}
 		
-		let tagRow = TABLE_TAG.filter(COL_ID=tag.id)
-		try lftdb.run(tagRow.update(
+		let tagRow = TABLE_TAGS.filter(COL_ID == tag.id)
+		try lftdb?.run(tagRow.update(
 			COL_PERSON_ID <- tag.personId,
 			COL_MEDIA_ID <- tag.mediaId,
 			COL_LEFT <- tag.left,
@@ -491,66 +748,73 @@ class DBHelper {
 		
 	}
 	
-	func getTagForPersonMedia(personId:Int, mediaId:Int) -> Tag {
-		var tag:Tag? = nil
+	func getTagForPersonMedia(personId:Int64, mediaId:Int64) -> Tag? {
+		var tag:Tag?
 		let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaId)
-		for t in try lftdb?.run(query) {
+        let stmt = lftdb?.prepare(query)
+		for t in stmt! {
 			tag = Tag()
-			tag.id = t[COL_ID]
-			tag.mediaId = t[COL_MEDIA_ID]
-			tag.personId = t[COL_PERSON_ID]
-			tag.left = t[COL_LEFT]
-			tag.right = t[COL_RIGHT]
-			tag.top = t[COL_TOP]
-			tag.bottom = t[COL_BOTTOM]
+			tag!.id = t[COL_ID]
+			tag!.mediaId = t[COL_MEDIA_ID]!
+			tag!.personId = t[COL_PERSON_ID]!
+			tag!.left = t[COL_LEFT]
+			tag!.right = t[COL_RIGHT]
+			tag!.top = t[COL_TOP]
+			tag!.bottom = t[COL_BOTTOM]
 		}
 		return tag
 	}
 	
 	func saveProperty(property:String, value:String) {
+        do {
 		let existing = getProperty(property)
 		if existing != nil {
-			var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
-			try lftdb.run(query.update(
+			let query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
+			try lftdb?.run(query.update(
 				COL_VALUE <- value
 			))
 		} else {
-			try lftdb.run(TABLE_PROPERTIES.insert(
+			try lftdb?.run(TABLE_PROPERTIES.insert(
 				COL_PROPERTY <- property,
 				COL_VALUE <- value
 			))
 		}
+        } catch {
+            print("Unable to insert property \(property)")
+        }
 	}
 	
 	func getProperty(property:String) -> NSString? {
-		var query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
+		let query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
 		var value:NSString? = nil
-		for t in try lftdb.run(query) {
+        let stmt = lftdb?.prepare(query)
+		for t in stmt! {
 			value = t[COL_VALUE]
 		}
 		return value
 	}
 	
-	func addToSyncQ(id:Int) {
-		var query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = try lftdb?.scalar(query.count)
+	func addToSyncQ(id:Int64) throws {
+		let query = TABLE_SYNCQ.filter(COL_ID == id)
+		let count = lftdb?.scalar(query.count)
 		if count==0 {
 			try lftdb?.run(TABLE_SYNCQ.insert(COL_ID <- id))
 		}
 	}
 	
-	func removeFromSyncQ(id:Int) {
-		var query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = try lftdb?.scalar(query.count)
+	func removeFromSyncQ(id:Int64) throws {
+		let query = TABLE_SYNCQ.filter(COL_ID == id)
+		let count = lftdb?.scalar(query.count)
 		if count > 0 {
 			try lftdb?.run(query.delete())
 		}
 	}
 	
-	func getSyncQ() -> [Int] {
-		var list = [Int]()
-		for i in try lftdb?.prepare(TABLE_SYNCQ) {
-			list.append(i)
+	func getSyncQ() -> [Int64] {
+		var list = [Int64]()
+        let stmt = lftdb?.prepare(TABLE_SYNCQ)
+		for i in stmt! {
+			list.append(i[COL_ID])
 		}
 		return list
 	}
