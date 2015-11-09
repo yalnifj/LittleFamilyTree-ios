@@ -330,43 +330,47 @@ class DBHelper {
 	
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?
-		let stmt = lftdb?.prepare("select p.* from littleperson p join tags t on t.person_id=p.id" +
+		let stmt = lftdb?.prepare("select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, "
+            + " p.givenName, p.name, p.photopath, p.lastSync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, "
+            + " p.hasMedia, p.treeLevel "
+            + " from littleperson p join tags t on t.person_id=p.id" +
 			" where p.active='Y' order by RANDOM() LIMIT 1")
 		for c in stmt! {
             person = LittlePerson()
-            person.id = c[COL_ID]
-            if c[COL_BIRTH_DATE] != nil {
-                person.birthDate = c[COL_BIRTH_DATE]
+            person!.id = (c[0] as! Int64)
+            if c[1] != nil {
+                person!.birthDate = (c[1] as! NSDate)
             }
-            person.birthPlace = c[COL_BIRTH_PLACE]
-            person.nationality = c[COL_NATIONALITY]
-            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-            if c[COL_GENDER] != nil {
-                if c[COL_GENDER] == "M" {
-                    person.gender = GenderType.MALE
+            person!.birthPlace = (c[2] as! String)
+            person!.nationality = (c[3] as! String)
+            person!.familySearchId = (c[4] as! String)
+            let gender = (c[5] as! String?)
+            
+            if gender != nil {
+                if gender == "M" {
+                    person!.gender = GenderType.MALE
                 }
-                else if c[COL_GENDER] == "F" {
-                    person.gender = GenderType.FEMALE
+                else if gender == "F" {
+                    person!.gender = GenderType.FEMALE
                 }
                 else {
-                    person.gender = GenderType.UNKNOWN
+                    person!.gender = GenderType.UNKNOWN
                 }
             }
-            person.age = c[COL_AGE]!
-            person.givenName = c[COL_GIVEN_NAME]
-            person.name = c[COL_NAME]
-            person.photoPath = c[COL_PHOTO_PATH]
-            if c[COL_LAST_SYNC] != nil {
-                person.lastSync = c[COL_LAST_SYNC]
-            }
-            person.alive = c[COL_ALIVE]
-            person.active = c[COL_ACTIVE]!
-            person.hasParents = c[COL_HAS_PARENTS]
-            person.hasChildren = c[COL_HAS_CHILDREN]
-            person.hasSpouses = c[COL_HAS_SPOUSES]
-            person.hasMedia = c[COL_HAS_MEDIA]
-            person.treeLevel = c[COL_TREE_LEVEL]
-            person.updateAge()
+            person!.age = (c[6] as! Int)
+            person!.givenName = (c[7] as! String?)
+            person!.name = (c[8] as! String?)
+            person!.photoPath = (c[9] as! String?)
+            person!.lastSync = (c[10] as! NSDate?)
+            
+            person!.alive = (c[11] as! Bool?)
+            person!.active = (c[12] as! Bool)
+            person!.hasParents = (c[13] as! Bool?)
+            person!.hasChildren = (c[14] as! Bool?)
+            person!.hasSpouses = (c[15] as! Bool?)
+            person!.hasMedia = (c[16] as! Bool?)
+            person!.treeLevel = (c[17] as! Int?)
+            person!.updateAge()
 
 		}
 		return person
@@ -379,41 +383,7 @@ class DBHelper {
 		var persons = [LittlePerson]()
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
-            let person = LittlePerson()
-            person.id = c[COL_ID]
-            if c[COL_BIRTH_DATE] != nil {
-                person.birthDate = c[COL_BIRTH_DATE]
-            }
-            person.birthPlace = c[COL_BIRTH_PLACE]
-            person.nationality = c[COL_NATIONALITY]
-            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-            if c[COL_GENDER] != nil {
-                if c[COL_GENDER] == "M" {
-                    person.gender = GenderType.MALE
-                }
-                else if c[COL_GENDER] == "F" {
-                    person.gender = GenderType.FEMALE
-                }
-                else {
-                    person.gender = GenderType.UNKNOWN
-                }
-            }
-            person.age = c[COL_AGE]!
-            person.givenName = c[COL_GIVEN_NAME]
-            person.name = c[COL_NAME]
-            person.photoPath = c[COL_PHOTO_PATH]
-            if c[COL_LAST_SYNC] != nil {
-                person.lastSync = c[COL_LAST_SYNC]
-            }
-            person.alive = c[COL_ALIVE]
-            person.active = c[COL_ACTIVE]!
-            person.hasParents = c[COL_HAS_PARENTS]
-            person.hasChildren = c[COL_HAS_CHILDREN]
-            person.hasSpouses = c[COL_HAS_SPOUSES]
-            person.hasMedia = c[COL_HAS_MEDIA]
-            person.treeLevel = c[COL_TREE_LEVEL]
-            person.updateAge()
-
+            let person = buildLittlePerson(c)
 			persons.append(person)
 		}
 		
@@ -439,41 +409,8 @@ class DBHelper {
 		var persons = [LittlePerson]()
         let stmt = lftdb?.prepare(query)
 		for c in stmt! {
-            let person = LittlePerson()
-            person.id = c[COL_ID]
-            if c[COL_BIRTH_DATE] != nil {
-                person.birthDate = c[COL_BIRTH_DATE]
-            }
-            person.birthPlace = c[COL_BIRTH_PLACE]
-            person.nationality = c[COL_NATIONALITY]
-            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-            if c[COL_GENDER] != nil {
-                if c[COL_GENDER] == "M" {
-                    person.gender = GenderType.MALE
-                }
-                else if c[COL_GENDER] == "F" {
-                    person.gender = GenderType.FEMALE
-                }
-                else {
-                    person.gender = GenderType.UNKNOWN
-                }
-            }
-            person.age = c[COL_AGE]!
-            person.givenName = c[COL_GIVEN_NAME]
-            person.name = c[COL_NAME]
-            person.photoPath = c[COL_PHOTO_PATH]
-            if c[COL_LAST_SYNC] != nil {
-                person.lastSync = c[COL_LAST_SYNC]
-            }
-            person.alive = c[COL_ALIVE]
-            person.active = c[COL_ACTIVE]!
-            person.hasParents = c[COL_HAS_PARENTS]
-            person.hasChildren = c[COL_HAS_CHILDREN]
-            person.hasSpouses = c[COL_HAS_SPOUSES]
-            person.hasMedia = c[COL_HAS_MEDIA]
-            person.treeLevel = c[COL_TREE_LEVEL]
-            person.updateAge()
-			persons.append(person)
+            let person = buildLittlePerson(c)
+            persons.append(person)
 		}
 		return persons
 	}
@@ -485,41 +422,7 @@ class DBHelper {
 		var persons = [LittlePerson]()
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
-            let person = LittlePerson()
-            person.id = c[COL_ID]
-            if c[COL_BIRTH_DATE] != nil {
-                person.birthDate = c[COL_BIRTH_DATE]
-            }
-            person.birthPlace = c[COL_BIRTH_PLACE]
-            person.nationality = c[COL_NATIONALITY]
-            person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-            if c[COL_GENDER] != nil {
-                if c[COL_GENDER] == "M" {
-                    person.gender = GenderType.MALE
-                }
-                else if c[COL_GENDER] == "F" {
-                    person.gender = GenderType.FEMALE
-                }
-                else {
-                    person.gender = GenderType.UNKNOWN
-                }
-            }
-            person.age = c[COL_AGE]!
-            person.givenName = c[COL_GIVEN_NAME]
-            person.name = c[COL_NAME]
-            person.photoPath = c[COL_PHOTO_PATH]
-            if c[COL_LAST_SYNC] != nil {
-                person.lastSync = c[COL_LAST_SYNC]
-            }
-            person.alive = c[COL_ALIVE]
-            person.active = c[COL_ACTIVE]!
-            person.hasParents = c[COL_HAS_PARENTS]
-            person.hasChildren = c[COL_HAS_CHILDREN]
-            person.hasSpouses = c[COL_HAS_SPOUSES]
-            person.hasMedia = c[COL_HAS_MEDIA]
-            person.treeLevel = c[COL_TREE_LEVEL]
-            person.updateAge()
-
+            let person = buildLittlePerson(c)
 			persons.append(person)
 		}
 		return persons
@@ -533,46 +436,51 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
 			if (c[COL_ID] != id) {
-                let person = LittlePerson()
-                person.id = c[COL_ID]
-                if c[COL_BIRTH_DATE] != nil {
-                    person.birthDate = c[COL_BIRTH_DATE]
-                }
-                person.birthPlace = c[COL_BIRTH_PLACE]
-                person.nationality = c[COL_NATIONALITY]
-                person.familySearchId = c[COL_FAMILY_SEARCH_ID]
-                if c[COL_GENDER] != nil {
-                    if c[COL_GENDER] == "M" {
-                        person.gender = GenderType.MALE
-                    }
-                    else if c[COL_GENDER] == "F" {
-                        person.gender = GenderType.FEMALE
-                    }
-                    else {
-                        person.gender = GenderType.UNKNOWN
-                    }
-                }
-                person.age = c[COL_AGE]!
-                person.givenName = c[COL_GIVEN_NAME]
-                person.name = c[COL_NAME]
-                person.photoPath = c[COL_PHOTO_PATH]
-                if c[COL_LAST_SYNC] != nil {
-                    person.lastSync = c[COL_LAST_SYNC]
-                }
-                person.alive = c[COL_ALIVE]
-                person.active = c[COL_ACTIVE]!
-                person.hasParents = c[COL_HAS_PARENTS]
-                person.hasChildren = c[COL_HAS_CHILDREN]
-                person.hasSpouses = c[COL_HAS_SPOUSES]
-                person.hasMedia = c[COL_HAS_MEDIA]
-                person.treeLevel = c[COL_TREE_LEVEL]
-                person.updateAge()
-
+                let person = buildLittlePerson(c)
 				persons.append(person)
 			}
 		}
 		return persons
 	}
+    
+    func buildLittlePerson(c: Row) -> LittlePerson {
+        let person = LittlePerson()
+        person.id = c[COL_ID]
+        if c[COL_BIRTH_DATE] != nil {
+            person.birthDate = c[COL_BIRTH_DATE]
+        }
+        person.birthPlace = c[COL_BIRTH_PLACE]
+        person.nationality = c[COL_NATIONALITY]
+        person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+        if c[COL_GENDER] != nil {
+            if c[COL_GENDER] == "M" {
+                person.gender = GenderType.MALE
+            }
+            else if c[COL_GENDER] == "F" {
+                person.gender = GenderType.FEMALE
+            }
+            else {
+                person.gender = GenderType.UNKNOWN
+            }
+        }
+        person.age = c[COL_AGE]!
+        person.givenName = c[COL_GIVEN_NAME]
+        person.name = c[COL_NAME]
+        person.photoPath = c[COL_PHOTO_PATH]
+        if c[COL_LAST_SYNC] != nil {
+            person.lastSync = c[COL_LAST_SYNC]
+        }
+        person.alive = c[COL_ALIVE]
+        person.active = c[COL_ACTIVE]!
+        person.hasParents = c[COL_HAS_PARENTS]
+        person.hasChildren = c[COL_HAS_CHILDREN]
+        person.hasSpouses = c[COL_HAS_SPOUSES]
+        person.hasMedia = c[COL_HAS_MEDIA]
+        person.treeLevel = c[COL_TREE_LEVEL]
+        person.updateAge()
+
+        return person
+    }
 	
 	func persistRelationship(r:LocalRelationship) -> Int64 {
 		var rowid:Int64? = 0

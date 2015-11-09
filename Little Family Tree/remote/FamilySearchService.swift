@@ -201,7 +201,7 @@ class FamilySearchService : RemoteService {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
  
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = try session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
 			var fileManager = NSFileManager.defaultManager()
             var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
 			if let image = UIImage(data: data!) as UIImage? {
