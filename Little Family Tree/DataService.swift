@@ -85,7 +85,7 @@ class DataService {
 		if !ignoreLocal {
 			let idStr = dbHelper.getProperty(DataService.ROOT_PERSON_ID)
 			if idStr != nil {
-				let id = Int(idStr! as String)
+				let id = Int64(idStr! as String)
 				person = dbHelper.getPersonById(id!)
 			} else {
 				person = dbHelper.getFirstPerson()
@@ -107,7 +107,7 @@ class DataService {
 		onCompletion(person, nil)
 	}
 	
-	func getPersonById(id:Int) -> LittlePerson? {
+	func getPersonById(id:Int64) -> LittlePerson? {
 		let person = dbHelper.getPersonById(id)
 		if person != nil {
 			addToSyncQ(person!)
@@ -168,7 +168,7 @@ class DataService {
 	}
 	
 	func buildLittlePerson(fsPerson:Person, onCompletion: LittlePersonResponse ) {
-		var person = LittlePerson()
+		let person = LittlePerson()
 		person.name = fsPerson.getFullName()
 		person.familySearchId = fsPerson.id
 		person.gender = fsPerson.gender
@@ -221,7 +221,7 @@ class DataService {
 			if birth!.place != nil {
 				if birth!.place!.normalized.count > 0 {
 					person.birthPlace = birth!.place!.normalized[0].value
-					if (PlaceHelper.countPlaceLevels(person.birthPlace!) < PlaceHelper.countPlaceLevels(birth!.place!.original!)) {
+					if (PlaceHelper.countPlaceLevels(person.birthPlace! as String) < PlaceHelper.countPlaceLevels(birth!.place!.original! as String)) {
 						person.birthPlace = birth!.place!.original
 					}
 				} else {

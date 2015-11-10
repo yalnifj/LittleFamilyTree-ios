@@ -201,26 +201,22 @@ class FamilySearchService : RemoteService {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
  
-        let task = try session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
-			var fileManager = NSFileManager.defaultManager()
-            var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
+			let fileManager = NSFileManager.defaultManager()
+            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
 			if let image = UIImage(data: data!) as UIImage? {
-				var folderPath = paths.stringByAppendingString("/\(folderName)" )
-				if !fileManager.fileExistsAtPath(folderPath) {
-					var error: NSError?
-					if try !fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil) {
-						print("createDirectoryAtPath error: \(error)")
-						onCompletion(nil, error);
-						return;
-					}
-				}
+                do {
+                    let folderPath = paths.stringByAppendingString("/\(folderName)" )
+                    if !fileManager.fileExistsAtPath(folderPath) {
+                        try fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil)
+                    }
 				
-				var imagePath = paths.stringByAppendingString("/\(folderName)/\(fileName)" )
-				var error: NSError?
-				if (!data.writeToFile(imagePath, options: .AtomicWrite, error: &error)) {
-					print("writeToFile error: \(error)")
-				}
-				onCompletion(imagePath, error);
+                    let imagePath = paths.stringByAppendingString("/\(folderName)/\(fileName)" )
+                    try data!.writeToFile(imagePath, options: NSDataWritingOptions.AtomicWrite)
+                    onCompletion(imagePath, error);
+                } catch {
+                    onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Unable to download and save image"]))
+                }
 			}
         })
         task.resume()
