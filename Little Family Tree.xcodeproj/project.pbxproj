@@ -373,6 +373,7 @@
 		A1D61EA11BBCE39600212EFC /* trumpet_track.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1D61E801BBCE39600212EFC /* trumpet_track.mp3 */; settings = {ASSET_TAGS = (); }; };
 		A1D61EA21BBCE39600212EFC /* violin_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1D61E811BBCE39600212EFC /* violin_allinourfamilytree.mp3 */; settings = {ASSET_TAGS = (); }; };
 		A1D61EA31BBCE39600212EFC /* water.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A1D61E821BBCE39600212EFC /* water.m4a */; settings = {ASSET_TAGS = (); }; };
+		A1F0B9151BF39F5200886FC8 /* ic_launcher-web.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F0B9141BF39F5200886FC8 /* ic_launcher-web.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -812,6 +813,7 @@
 		A1D61E801BBCE39600212EFC /* trumpet_track.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = trumpet_track.mp3; sourceTree = "<group>"; };
 		A1D61E811BBCE39600212EFC /* violin_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = violin_allinourfamilytree.mp3; sourceTree = "<group>"; };
 		A1D61E821BBCE39600212EFC /* water.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = water.m4a; sourceTree = "<group>"; };
+		A1F0B9141BF39F5200886FC8 /* ic_launcher-web.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_launcher-web.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -980,6 +982,7 @@
 		A1CABBBC1BBB7E6000A0DBC6 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				A1F0B9141BF39F5200886FC8 /* ic_launcher-web.png */,
 				A1D61E611BBCE39600212EFC /* sounds */,
 				A1CABBBD1BBB7E6000A0DBC6 /* house */,
 			);
@@ -1704,6 +1707,7 @@
 				A133C8EC1BBE00C2005A3BFA /* house_toaster19.png in Resources */,
 				A1CABC141BBB7E6000A0DBC6 /* house_cloud1c.png in Resources */,
 				A133C84E1BBE00C2005A3BFA /* house_chilldroom_desk1.png in Resources */,
+				A1F0B9151BF39F5200886FC8 /* ic_launcher-web.png in Resources */,
 				A1D61E971BBCE39600212EFC /* pushbuttonoff.wav in Resources */,
 				A133C8BA1BBE00C2005A3BFA /* house_kitchen_kettle2.png in Resources */,
 				A133C8811BBE00C2005A3BFA /* house_familyroom_cat_a4.png in Resources */,
