@@ -41,10 +41,15 @@ import UIKit
     
     @IBAction func FSButtonClicked(sender: UIButton) {
         print("FSButton clicked")
+        let superview = self.view.superview
+        self.view.removeFromSuperview()
+        let subview = FamilySearchLogin(frame: (self.view?.bounds)!)
+        superview?.addSubview(subview)
     }
     
 
     @IBAction func PGVButtonClicked(sender: UIButton) {
         print("PGVButton clicked")
+        self.view.removeFromSuperview()
     }
 }

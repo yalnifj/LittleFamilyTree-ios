@@ -50,12 +50,12 @@ class DataService {
 	}
 	
 	func autoLogin() {
-		let username = dbHelper.getProperty("username")
+		let username = getEncryptedProperty(DataService.SERVICE_USERNAME)
 		let token = getEncryptedProperty(serviceType as! String + DataService.SERVICE_TOKEN)
 		if token != nil {
 			if remoteService?.sessionId == nil && !authenticating {
 				authenticating = true
-				remoteService?.authenticate(username!, password: token!, onCompletion: { json, err in
+				remoteService?.authenticate(username! as String, password: token! as String, onCompletion: { json, err in
 					self.authenticating = false
 					
 				})
@@ -103,8 +103,9 @@ class DataService {
                     })
                 }
 			})
-		}
-		onCompletion(person, nil)
+        } else {
+            onCompletion(person, nil)
+        }
 	}
 	
 	func getPersonById(id:Int64) -> LittlePerson? {

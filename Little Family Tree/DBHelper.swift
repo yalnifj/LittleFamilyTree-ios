@@ -55,11 +55,17 @@ class DBHelper {
             instance!.lftdb?.trace({ (string) in
                 print(string)
             })
-            instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
+            //instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
+            let dbstr = instance!.getProperty("VERSION")
+            if dbstr != nil {
+                instance!.dbversion = dbstr?.intValue
+            }
             print("DBVersion is \(instance!.dbversion)")
             if ((instance?.dbversion == nil) || (instance!.dbversion < DBHelper.VERSION)) {
                 do {
                     try instance!.createTables()
+                    instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
+                    instance!.saveProperty(DBHelper.UUID_PROPERTY, value: NSUUID().UUIDString)
                 } catch let error as NSError {
                     print("Error creating tables \(error.localizedDescription)")
                 }
@@ -143,15 +149,6 @@ class DBHelper {
         try lftdb?.run(TABLE_SYNCQ.create(ifNotExists: true) { t in
             t.column(COL_ID)
         })
-        
-        do {
-            let d = NSDate()
-            try lftdb?.run(TABLE_PROPERTIES.insert(COL_PROPERTY <- DBHelper.UUID_PROPERTY, COL_VALUE <- NSUUID().UUIDString, COL_LAST_SYNC <- d))
-            try lftdb?.execute("PRAGMA user_version = \(DBHelper.VERSION);")
-            print("Inserted uuid property \(rowid)")
-        } catch let error as NSError {
-            print("Error setting initial properties \(error)")
-        }
 	}
 	
 	func persistLittlePerson(person:LittlePerson) throws {
@@ -602,12 +599,14 @@ class DBHelper {
 		if existing != nil {
 			let query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
 			try lftdb?.run(query.update(
-				COL_VALUE <- value
+                COL_VALUE <- value,
+                COL_LAST_SYNC <- NSDate()
 			))
 		} else {
 			try lftdb?.run(TABLE_PROPERTIES.insert(
 				COL_PROPERTY <- property,
-				COL_VALUE <- value
+				COL_VALUE <- value,
+                COL_LAST_SYNC <- NSDate()
 			))
 		}
         } catch {

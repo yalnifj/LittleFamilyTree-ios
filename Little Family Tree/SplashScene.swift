@@ -44,7 +44,7 @@ class SplashScene: SKScene {
             startTime = currentTime
         }
         else {
-            if (!launched && (currentTime - startTime! > 25)) {
+            if (!launched && (currentTime - startTime! > 15)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
                     if dataService?.remoteService?.sessionId != nil {
                         let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)

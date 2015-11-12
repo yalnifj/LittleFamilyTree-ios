@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FamilySearchLogin" customModule="Little_Family_Tree" customModuleProvider="target">
             <connections>
+                <outlet property="btnBack" destination="UI8-0P-Xaj" id="23f-3o-eBh"/>
                 <outlet property="btnSignIn" destination="dL2-lk-jEN" id="LsX-Do-GCi"/>
+                <outlet property="btnSignIn2" destination="nLp-9V-Km9" id="JQc-cH-X9I"/>
                 <outlet property="txtPassword" destination="pLY-Yp-WBT" id="KOf-3x-bTy"/>
                 <outlet property="txtUsername" destination="a8l-aQ-rKn" id="JHH-pl-Yyf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="340" height="419"/>
+            <rect key="frame" x="0.0" y="0.0" width="340" height="456"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tree_logotype_1x.png" translatesAutoresizingMaskIntoConstraints="NO" id="iow-9h-qhn">
-                    <rect key="frame" x="8" y="0.0" width="324" height="65"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="I5V-Us-EdD">
-                    <rect key="frame" x="8" y="73" width="324" height="63"/>
+                    <rect key="frame" x="8" y="117" width="324" height="63"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="63" id="y53-dv-CAz"/>
                     </constraints>
@@ -32,16 +32,18 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Little Family Tree will use this information in accordance with their respective terms of service and privacy policies." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="h37-oz-pMd">
-                    <rect key="frame" x="8" y="144" width="324" height="34"/>
+                    <rect key="frame" x="8" y="182" width="324" height="34"/>
+                    <animations/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="34" id="TLo-eL-WUd"/>
+                        <constraint firstAttribute="height" constant="34" id="VEu-vx-opT"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Little Family Tree will not distribute or share any information outside of your device except with FamilySearch." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="XWv-zz-TWM">
-                    <rect key="frame" x="8" y="186" width="324" height="34"/>
+                    <rect key="frame" x="8" y="219" width="324" height="34"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="jxr-Lc-rEX"/>
                     </constraints>
@@ -50,7 +52,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a8l-aQ-rKn">
-                    <rect key="frame" x="8" y="228" width="324" height="30"/>
+                    <rect key="frame" x="100" y="264" width="232" height="30"/>
+                    <animations/>
                     <accessibility key="accessibilityConfiguration" hint="Username" label="Username"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="KM7-iC-nEV"/>
@@ -58,58 +61,101 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pLY-Yp-WBT">
-                    <rect key="frame" x="8" y="266" width="324" height="30"/>
-                    <accessibility key="accessibilityConfiguration" hint="Password" label="Password"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="jpw-ZW-8bE"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0dl-lo-Jol">
-                    <rect key="frame" x="0.0" y="375" width="340" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="F3Y-cG-Aer"/>
-                    </constraints>
+                    <rect key="frame" x="0.0" y="0.0" width="340" height="44"/>
+                    <animations/>
                     <items>
+                        <barButtonItem title="&lt; Back" id="UI8-0P-Xaj">
+                            <connections>
+                                <action selector="BackButtonClicked:" destination="-1" id="tpG-ah-9Lw"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ytm-oq-REP"/>
-                        <barButtonItem title="Sign In" id="dL2-lk-jEN">
+                        <barButtonItem title="Sign In &gt;" id="dL2-lk-jEN">
                             <connections>
                                 <action selector="SignInButtonClicked:" destination="-1" id="5fA-cN-r8B"/>
                             </connections>
                         </barButtonItem>
                     </items>
                 </toolbar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yey-Ly-VQO">
+                    <rect key="frame" x="8" y="266" width="84" height="21"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdX-Se-xZt">
+                    <rect key="frame" x="8" y="302" width="84" height="21"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pLY-Yp-WBT">
+                    <rect key="frame" x="100" y="300" width="232" height="30"/>
+                    <animations/>
+                    <accessibility key="accessibilityConfiguration" hint="Password" label="Password"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="jpw-ZW-8bE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLp-9V-Km9">
+                    <rect key="frame" x="272" y="338" width="60" height="30"/>
+                    <animations/>
+                    <state key="normal" title="Sign In &gt;"/>
+                    <connections>
+                        <action selector="SignInButton2Clicked:" destination="-1" eventType="touchUpInside" id="JZB-aR-U57"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tree_logotype_1x.png" translatesAutoresizingMaskIntoConstraints="NO" id="iow-9h-qhn">
+                    <rect key="frame" x="8" y="44" width="324" height="65"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="8oK-Ga-cjq"/>
+                    </constraints>
+                </imageView>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="I5V-Us-EdD" firstAttribute="leading" secondItem="h37-oz-pMd" secondAttribute="leading" id="1x3-v1-wuX"/>
-                <constraint firstItem="I5V-Us-EdD" firstAttribute="leading" secondItem="iow-9h-qhn" secondAttribute="leading" id="4BL-wl-5aI"/>
-                <constraint firstItem="I5V-Us-EdD" firstAttribute="top" secondItem="iow-9h-qhn" secondAttribute="bottom" constant="8" symbolic="YES" id="64k-5K-Pt7"/>
-                <constraint firstItem="0dl-lo-Jol" firstAttribute="top" secondItem="pLY-Yp-WBT" secondAttribute="bottom" constant="79" id="7Xh-ns-eXB"/>
-                <constraint firstItem="a8l-aQ-rKn" firstAttribute="leading" secondItem="XWv-zz-TWM" secondAttribute="leading" id="BOI-Pn-mJy"/>
-                <constraint firstItem="h37-oz-pMd" firstAttribute="top" secondItem="I5V-Us-EdD" secondAttribute="bottom" constant="8" symbolic="YES" id="BT3-gU-Ew4"/>
+                <constraint firstItem="iow-9h-qhn" firstAttribute="top" secondItem="0dl-lo-Jol" secondAttribute="bottom" id="0J6-de-4RF"/>
+                <constraint firstItem="iow-9h-qhn" firstAttribute="trailing" secondItem="I5V-Us-EdD" secondAttribute="trailing" id="4m3-mZ-UNC"/>
+                <constraint firstItem="Yey-Ly-VQO" firstAttribute="baseline" secondItem="a8l-aQ-rKn" secondAttribute="baseline" id="5x6-W6-wKb"/>
+                <constraint firstItem="iow-9h-qhn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="8z8-VT-i38"/>
+                <constraint firstItem="I5V-Us-EdD" firstAttribute="top" secondItem="iow-9h-qhn" secondAttribute="bottom" constant="8" symbolic="YES" id="9ua-wx-dB9"/>
+                <constraint firstItem="a8l-aQ-rKn" firstAttribute="leading" secondItem="XWv-zz-TWM" secondAttribute="leading" constant="92" id="BOI-Pn-mJy"/>
                 <constraint firstItem="XWv-zz-TWM" firstAttribute="trailing" secondItem="a8l-aQ-rKn" secondAttribute="trailing" id="DeT-UX-PD8"/>
-                <constraint firstItem="h37-oz-pMd" firstAttribute="trailing" secondItem="I5V-Us-EdD" secondAttribute="trailing" id="F6s-fL-wIu"/>
-                <constraint firstAttribute="bottom" secondItem="0dl-lo-Jol" secondAttribute="bottom" id="Gss-Tl-48y"/>
-                <constraint firstItem="pLY-Yp-WBT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="K9v-ED-RfM"/>
-                <constraint firstItem="iow-9h-qhn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Mxj-hX-GB4"/>
-                <constraint firstItem="a8l-aQ-rKn" firstAttribute="top" secondItem="XWv-zz-TWM" secondAttribute="bottom" constant="8" symbolic="YES" id="Y9U-78-cps"/>
-                <constraint firstItem="pLY-Yp-WBT" firstAttribute="centerX" secondItem="0dl-lo-Jol" secondAttribute="centerX" id="df3-9M-s1h"/>
+                <constraint firstItem="nLp-9V-Km9" firstAttribute="trailing" secondItem="I5V-Us-EdD" secondAttribute="trailing" id="F5h-fo-uYd"/>
+                <constraint firstItem="JdX-Se-xZt" firstAttribute="leading" secondItem="Yey-Ly-VQO" secondAttribute="leading" id="Gcx-10-fbg"/>
+                <constraint firstItem="pLY-Yp-WBT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" constant="92" id="K9v-ED-RfM"/>
+                <constraint firstItem="h37-oz-pMd" firstAttribute="leading" secondItem="I5V-Us-EdD" secondAttribute="leading" id="TSO-Ra-IDE"/>
+                <constraint firstItem="h37-oz-pMd" firstAttribute="leading" secondItem="XWv-zz-TWM" secondAttribute="leading" id="VS4-wY-Vwy"/>
+                <constraint firstItem="h37-oz-pMd" firstAttribute="top" secondItem="I5V-Us-EdD" secondAttribute="bottom" constant="2" id="Vtd-kS-Q35"/>
+                <constraint firstItem="JdX-Se-xZt" firstAttribute="top" secondItem="Yey-Ly-VQO" secondAttribute="bottom" constant="15" id="Wbw-mn-UlU"/>
+                <constraint firstItem="Yey-Ly-VQO" firstAttribute="top" secondItem="XWv-zz-TWM" secondAttribute="bottom" constant="13" id="XbN-I4-gGw"/>
+                <constraint firstItem="a8l-aQ-rKn" firstAttribute="top" secondItem="XWv-zz-TWM" secondAttribute="bottom" constant="11" id="Y9U-78-cps"/>
+                <constraint firstItem="nLp-9V-Km9" firstAttribute="top" secondItem="pLY-Yp-WBT" secondAttribute="bottom" constant="8" symbolic="YES" id="YSK-Yc-H1h"/>
+                <constraint firstItem="Yey-Ly-VQO" firstAttribute="leading" secondItem="XWv-zz-TWM" secondAttribute="leading" id="aUB-iM-ptY"/>
                 <constraint firstItem="a8l-aQ-rKn" firstAttribute="trailing" secondItem="pLY-Yp-WBT" secondAttribute="trailing" id="egj-Ge-0mq"/>
-                <constraint firstItem="I5V-Us-EdD" firstAttribute="trailing" secondItem="iow-9h-qhn" secondAttribute="trailing" id="fh4-9e-1Ua"/>
-                <constraint firstItem="pLY-Yp-WBT" firstAttribute="top" secondItem="a8l-aQ-rKn" secondAttribute="bottom" constant="8" symbolic="YES" id="fxu-Io-ynD"/>
-                <constraint firstItem="XWv-zz-TWM" firstAttribute="leading" secondItem="h37-oz-pMd" secondAttribute="leading" id="hRO-wv-owS"/>
-                <constraint firstItem="h37-oz-pMd" firstAttribute="trailing" secondItem="XWv-zz-TWM" secondAttribute="trailing" id="lTp-At-Sic"/>
-                <constraint firstItem="XWv-zz-TWM" firstAttribute="top" secondItem="h37-oz-pMd" secondAttribute="bottom" constant="8" symbolic="YES" id="rP9-CI-AKG"/>
-                <constraint firstAttribute="trailing" secondItem="0dl-lo-Jol" secondAttribute="trailing" id="vJD-mc-pwL"/>
-                <constraint firstItem="0dl-lo-Jol" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wPf-U9-2uL"/>
+                <constraint firstItem="pLY-Yp-WBT" firstAttribute="top" secondItem="a8l-aQ-rKn" secondAttribute="bottom" constant="6" id="fxu-Io-ynD"/>
+                <constraint firstItem="JdX-Se-xZt" firstAttribute="baseline" secondItem="pLY-Yp-WBT" secondAttribute="baseline" id="kSw-Tq-Ro7"/>
+                <constraint firstItem="pLY-Yp-WBT" firstAttribute="leading" secondItem="JdX-Se-xZt" secondAttribute="trailing" constant="8" symbolic="YES" id="lqB-Pe-nwt"/>
+                <constraint firstItem="a8l-aQ-rKn" firstAttribute="leading" secondItem="Yey-Ly-VQO" secondAttribute="trailing" constant="8" symbolic="YES" id="ltY-w7-8Ha"/>
+                <constraint firstAttribute="trailing" secondItem="0dl-lo-Jol" secondAttribute="trailing" id="mvz-zc-dsf"/>
+                <constraint firstItem="iow-9h-qhn" firstAttribute="centerX" secondItem="0dl-lo-Jol" secondAttribute="centerX" id="tR3-cU-qpq"/>
+                <constraint firstItem="0dl-lo-Jol" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ucl-r3-5uP"/>
+                <constraint firstItem="iow-9h-qhn" firstAttribute="leading" secondItem="I5V-Us-EdD" secondAttribute="leading" id="vEQ-os-drN"/>
                 <constraint firstItem="a8l-aQ-rKn" firstAttribute="leading" secondItem="pLY-Yp-WBT" secondAttribute="leading" id="wid-YW-UNK"/>
+                <constraint firstItem="nLp-9V-Km9" firstAttribute="trailing" secondItem="h37-oz-pMd" secondAttribute="trailing" id="y44-gJ-7bA"/>
+                <constraint firstItem="nLp-9V-Km9" firstAttribute="trailing" secondItem="pLY-Yp-WBT" secondAttribute="trailing" id="ypn-oC-dc6"/>
+                <constraint firstItem="XWv-zz-TWM" firstAttribute="top" secondItem="h37-oz-pMd" secondAttribute="bottom" constant="3" id="zr7-iJ-mMa"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="267" y="186.5"/>
+            <point key="canvasLocation" x="267" y="205"/>
         </view>
     </objects>
     <resources>

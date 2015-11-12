@@ -15,18 +15,21 @@ class FamilySearchService : RemoteService {
 	static let sharedInstance = FamilySearchService()
 	
 	
-	func authenticate(username: NSString, password: NSString, onCompletion: ServiceResponse) {
+	func authenticate(username: String, password: String, onCompletion: ServiceResponse) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
-        params["username"] = username as String;
-        params["password"] = password as String;
+        params["username"] = username;
+        params["password"] = password;
 		
 		sessionId = nil;
 		let headers = [String: String]()
 		
 		makeHTTPPostRequest(FS_OAUTH2_PATH, body: params, headers: headers, onCompletion: {json, err in
 			self.sessionId = json["access_token"].description
+            if self.sessionId!.length == 0 || self.sessionId! == "null" {
+                self.sessionId = nil
+            }
 			onCompletion(json, err)
 		})
 	}
@@ -236,7 +239,10 @@ class FamilySearchService : RemoteService {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
  
+        print("makeHTTPGetRequest: \(request)")
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print(response)
+            print(data)
             let json:JSON = JSON(data: data!)
             onCompletion(json, error)
         })
@@ -258,10 +264,13 @@ class FamilySearchService : RemoteService {
 	 
             // Set the POST body for the request
             let options = NSJSONWritingOptions()
+            print("makeHTTPPostJSONRequest: \(request)")
             try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: options)
             let session = NSURLSession.sharedSession()
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+                print(response)
+                print(data)
                 let json:JSON = JSON(data: data!)
                 onCompletion(json, error)
             })
@@ -291,7 +300,10 @@ class FamilySearchService : RemoteService {
 		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
 	 
+        print("makeHTTPPostRequest: \(request)")
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print(response)
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
 			let json:JSON = JSON(data: data!)
 			onCompletion(json, error)
 		})
