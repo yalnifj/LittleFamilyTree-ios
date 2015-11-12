@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,14 +12,26 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="ic_launcher-web.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxe-cC-MZw">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_launcher-web.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxe-cC-MZw">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="276"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="yft_logo" translatesAutoresizingMaskIntoConstraints="NO" id="guQ-9j-vJ8">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yft_logo" translatesAutoresizingMaskIntoConstraints="NO" id="guQ-9j-vJ8">
                     <rect key="frame" x="57" y="322" width="207" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="WFK-J5-M9b"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="guQ-9j-vJ8" firstAttribute="top" secondItem="jxe-cC-MZw" secondAttribute="bottom" constant="46" id="3xA-wg-uLV"/>
+                <constraint firstItem="jxe-cC-MZw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="77C-r3-gmD"/>
+                <constraint firstItem="guQ-9j-vJ8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="57" id="9NJ-2Y-k8z"/>
+                <constraint firstItem="guQ-9j-vJ8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HhD-qD-vQz"/>
+                <constraint firstItem="jxe-cC-MZw" firstAttribute="centerX" secondItem="guQ-9j-vJ8" secondAttribute="centerX" id="Oaj-gS-dGa"/>
+                <constraint firstItem="guQ-9j-vJ8" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottomMargin" id="lib-Ag-67N"/>
+                <constraint firstItem="jxe-cC-MZw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nJW-dh-oLX"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

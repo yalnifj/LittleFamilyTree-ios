@@ -11,16 +11,15 @@ import SpriteKit
 class SplashScene: SKScene {
     var dataService:DataService?
     var startTime:NSTimeInterval?
+    var launched = false
     
     override func didMoveToView(view: SKView) {
-        dataService = DataService.getInstance()
-        
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
-        logo.position = CGPointMake(0.5, 0.5)
+        logo.position = CGPointMake(self.size.width/2, self.size.height/2 - 20)
         self.addChild(logo)
         
         let tree = SKSpriteNode(imageNamed: "growing_plant1")
-        tree.position = CGPointMake(0.5, 0)
+        tree.position = CGPointMake(self.size.width/2, self.size.height - tree.size.height/2 - 20)
         let growing:[SKTexture] = [
             SKTexture(imageNamed: "growing_plant2"),
             SKTexture(imageNamed: "growing_plant3"),
@@ -30,11 +29,14 @@ class SplashScene: SKScene {
             SKTexture(imageNamed: "growing_plant7"),
             SKTexture(imageNamed: "growing_plant1")
         ]
-        let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.06, resize: false, restore: false))
+        self.addChild(tree)
+        let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
         tree.runAction(action)
         
         let introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
         runAction(introTune)
+        
+        dataService = DataService.getInstance()
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -42,17 +44,19 @@ class SplashScene: SKScene {
             startTime = currentTime
         }
         else {
-            if (currentTime - startTime! > 3) {
+            if (!launched && (currentTime - startTime! > 25)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
                     if dataService?.remoteService?.sessionId != nil {
-                        
-                    } else {
                         let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
                         
                         let nextScene = GameScene(size: scene!.size)
                         nextScene.scaleMode = .AspectFill
-                        
+                        launched = true
                         scene?.view?.presentScene(nextScene, transition: transition)
+                    } else {
+                        let subview = ChooseServiceView(frame: (self.view?.bounds)!)
+                        launched = true
+                        self.view?.addSubview(subview)
                     }
                 }
             }

@@ -51,12 +51,17 @@ class DBHelper {
 			instance = DBHelper()
             let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
             instance!.lftdb = try? Connection("\(path)/lftdb.sqlite3")
+            // public func trace(callback: (String -> Void)?) {
+            instance!.lftdb?.trace({ (string) in
+                print(string)
+            })
             instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
+            print("DBVersion is \(instance!.dbversion)")
             if ((instance?.dbversion == nil) || (instance!.dbversion < DBHelper.VERSION)) {
                 do {
                     try instance!.createTables()
-                } catch {
-                    print("Error creating tables")
+                } catch let error as NSError {
+                    print("Error creating tables \(error.localizedDescription)")
                 }
             }
 		}
@@ -68,44 +73,56 @@ class DBHelper {
 
 	
 	func createTables() throws {
-		try lftdb?.run(TABLE_LITTLE_PERSON.create { t in
-			t.column(COL_ID, primaryKey: true)
-			t.column(COL_GIVEN_NAME)
-			t.column(COL_NAME)
-			t.column(COL_FAMILY_SEARCH_ID, unique: true)
-			t.column(COL_PHOTO_PATH)
-			t.column(COL_BIRTH_DATE)
-			t.column(COL_BIRTH_PLACE)
-			t.column(COL_NATIONALITY)
-			t.column(COL_AGE)
-			t.column(COL_GENDER)
-			t.column(COL_ALIVE)
-			t.column(COL_HAS_PARENTS)
-			t.column(COL_HAS_CHILDREN)
-			t.column(COL_HAS_SPOUSES)
-			t.column(COL_HAS_MEDIA)
-			t.column(COL_ACTIVE)
-			t.column(COL_LAST_SYNC)
-			t.column(COL_TREE_LEVEL)
-		})
+        do {
+            try lftdb?.run(TABLE_LITTLE_PERSON.create(ifNotExists: true) { t in
+                t.column(COL_ID, primaryKey: true)
+                t.column(COL_GIVEN_NAME)
+                t.column(COL_NAME)
+                t.column(COL_FAMILY_SEARCH_ID, unique: true)
+                t.column(COL_PHOTO_PATH)
+                t.column(COL_BIRTH_DATE)
+                t.column(COL_BIRTH_PLACE)
+                t.column(COL_NATIONALITY)
+                t.column(COL_AGE)
+                t.column(COL_GENDER)
+                t.column(COL_ALIVE)
+                t.column(COL_HAS_PARENTS)
+                t.column(COL_HAS_CHILDREN)
+                t.column(COL_HAS_SPOUSES)
+                t.column(COL_HAS_MEDIA)
+                t.column(COL_ACTIVE)
+                t.column(COL_LAST_SYNC)
+                t.column(COL_TREE_LEVEL)
+                })
+        } catch let error as NSError {
+            print("Error creating table little person \(error)")
+        }
 		
-		try lftdb?.run(TABLE_RELATIONSHIP.create { t in
-			t.column(COL_ID, primaryKey: true)
-			t.column(COL_ID1)
-			t.column(COL_ID2)
-			t.column(COL_TYPE)
-			t.foreignKey(COL_ID1, references: TABLE_LITTLE_PERSON, COL_ID)
-			t.foreignKey(COL_ID2, references: TABLE_LITTLE_PERSON, COL_ID)
-		})
+        do {
+            try lftdb?.run(TABLE_RELATIONSHIP.create(ifNotExists: true) { t in
+                t.column(COL_ID, primaryKey: true)
+                t.column(COL_ID1)
+                t.column(COL_ID2)
+                t.column(COL_TYPE)
+                t.foreignKey(COL_ID1, references: TABLE_LITTLE_PERSON, COL_ID)
+                t.foreignKey(COL_ID2, references: TABLE_LITTLE_PERSON, COL_ID)
+            })
+        } catch let error as NSError {
+            print("Error creating table relationship \(error)")
+        }
 		
-		try lftdb?.run(TABLE_MEDIA.create { t in
-			t.column(COL_ID, primaryKey: true)
-			t.column(COL_FAMILY_SEARCH_ID)
-			t.column(COL_MEDIA_TYPE)
-			t.column(COL_LOCAL_PATH)
-		})
+        do {
+            try lftdb?.run(TABLE_MEDIA.create(ifNotExists: true) { t in
+                t.column(COL_ID, primaryKey: true)
+                t.column(COL_FAMILY_SEARCH_ID)
+                t.column(COL_MEDIA_TYPE)
+                t.column(COL_LOCAL_PATH)
+            })
+        } catch let error as NSError {
+            print("Error creating table media \(error)")
+        }
 		
-		try lftdb?.run(TABLE_TAGS.create { t in
+		try lftdb?.run(TABLE_TAGS.create(ifNotExists: true) { t in
 			t.column(COL_ID, primaryKey: true)
 			t.column(COL_MEDIA_ID)
 			t.column(COL_PERSON_ID)
@@ -117,19 +134,24 @@ class DBHelper {
 			t.foreignKey(COL_PERSON_ID, references: TABLE_LITTLE_PERSON, COL_ID)
 		})
 		
-		try lftdb?.run(TABLE_PROPERTIES.create { t in
+		try lftdb?.run(TABLE_PROPERTIES.create(ifNotExists: true) { t in
 			t.column(COL_PROPERTY, primaryKey: true)
 			t.column(COL_VALUE)
 			t.column(COL_LAST_SYNC)
 		})
-		
-		try lftdb?.run(TABLE_PROPERTIES.insert(COL_PROPERTY <- DBHelper.UUID_PROPERTY, COL_VALUE <- NSUUID().UUIDString))
-		
-		try lftdb?.run(TABLE_SYNCQ.create { t in
-			t.column(COL_ID)
-		})
-		
-		try lftdb?.execute("PRAGMA user_version = \(DBHelper.VERSION);")
+        
+        try lftdb?.run(TABLE_SYNCQ.create(ifNotExists: true) { t in
+            t.column(COL_ID)
+        })
+        
+        do {
+            let d = NSDate()
+            try lftdb?.run(TABLE_PROPERTIES.insert(COL_PROPERTY <- DBHelper.UUID_PROPERTY, COL_VALUE <- NSUUID().UUIDString, COL_LAST_SYNC <- d))
+            try lftdb?.execute("PRAGMA user_version = \(DBHelper.VERSION);")
+            print("Inserted uuid property \(rowid)")
+        } catch let error as NSError {
+            print("Error setting initial properties \(error)")
+        }
 	}
 	
 	func persistLittlePerson(person:LittlePerson) throws {

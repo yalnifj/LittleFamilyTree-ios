@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseServiceView" customModule="Little_Family_Tree" customModuleProvider="target">
+            <connections>
+                <outlet property="FSButton" destination="GQi-R1-Ai7" id="lAe-uX-7oW"/>
+                <outlet property="PGVButton" destination="II9-DR-pEt" id="2vA-Jz-Gkt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="397" height="426"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3h-8l-pW1">
+                    <rect key="frame" x="0.0" y="0.0" width="397" height="44"/>
+                    <items>
+                        <navigationItem title="Choose your online Family Tree Service:" id="cCy-ob-cs9"/>
+                    </items>
+                </navigationBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Yz-tQ-oBw">
+                    <rect key="frame" x="8" y="44" width="381" height="83"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="83" id="Uc3-Mp-hRW"/>
+                    </constraints>
+                    <string key="text">LittleFamily connects to an online FamilyTree service to get its data.  You will be asked to login to your online FamilyTree through one of the provided services.  LittleFamily will then allow you to play and interact with your FamilyTree in a new and unique way.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose from one of the supported online Family Tree services below:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vmA-72-eRl">
+                    <rect key="frame" x="8" y="130" width="381" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="aQM-dm-biS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQi-R1-Ai7">
+                    <rect key="frame" x="8" y="191" width="381" height="79"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="79" id="Dt8-8R-gq2"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="tree_logotype_1x.png"/>
+                    <connections>
+                        <action selector="FSButtonClicked:" destination="-1" eventType="touchUpInside" id="Lb9-t8-zp0"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="II9-DR-pEt">
+                    <rect key="frame" x="8" y="290" width="381" height="76"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="76" id="4oq-Je-qf0"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="pgv_logo.png"/>
+                    <connections>
+                        <action selector="PGVButtonClicked:" destination="-1" eventType="touchUpInside" id="SsK-wy-RaC"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="leading" secondItem="vmA-72-eRl" secondAttribute="leading" id="1JK-ZF-yR2"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="top" secondItem="S3h-8l-pW1" secondAttribute="bottom" id="4PR-Z1-seW"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="69E-bg-VV1"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="trailing" secondItem="1Yz-tQ-oBw" secondAttribute="trailing" id="6JK-KS-Qk0"/>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="top" secondItem="vmA-72-eRl" secondAttribute="bottom" constant="26" id="CLq-hv-AFU"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="top" secondItem="1Yz-tQ-oBw" secondAttribute="bottom" constant="3" id="LTd-qK-weN"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="leading" secondItem="1Yz-tQ-oBw" secondAttribute="leading" id="dwf-2l-1RF"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="centerX" secondItem="S3h-8l-pW1" secondAttribute="centerX" id="fmQ-Lw-I2n"/>
+                <constraint firstItem="S3h-8l-pW1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="h3B-xN-bEN"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="leading" secondItem="GQi-R1-Ai7" secondAttribute="leading" id="j6x-vy-UPy"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" id="miN-By-cdE"/>
+                <constraint firstAttribute="trailing" secondItem="S3h-8l-pW1" secondAttribute="trailing" id="mp4-5Q-EcI"/>
+                <constraint firstItem="S3h-8l-pW1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pWx-9l-DX0"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="top" secondItem="GQi-R1-Ai7" secondAttribute="bottom" constant="20" id="t7S-Ce-uQo"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="vmA-72-eRl" secondAttribute="trailing" id="tHQ-SX-rFp"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="209.5" y="190"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="pgv_logo.png" width="194" height="44"/>
+        <image name="tree_logotype_1x.png" width="164" height="44"/>
+    </resources>
+</document>

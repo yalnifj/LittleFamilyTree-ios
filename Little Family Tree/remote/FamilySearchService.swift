@@ -204,7 +204,7 @@ class FamilySearchService : RemoteService {
         let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
 			let fileManager = NSFileManager.defaultManager()
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-			if let image = UIImage(data: data!) as UIImage? {
+			if UIImage(data: data!) != nil {
                 do {
                     let folderPath = paths.stringByAppendingString("/\(folderName)" )
                     if !fileManager.fileExistsAtPath(folderPath) {
