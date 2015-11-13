@@ -21,6 +21,10 @@ class Person : Subject {
   
   static func convertJsonToPersons(json:JSON) -> [Person] {
 		var persons = [Person]()
+    
+    if json["persons"].array == nil {
+        return persons
+    }
 		
 		for pson in json["persons"].array! {
 			let person = Person()

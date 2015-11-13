@@ -8,10 +8,12 @@
 
 import UIKit
 
-class FamilySearchLogin: UIView {
+class FamilySearchLogin: UIView, StatusListener {
 
     @IBOutlet weak var txtUsername: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
+    @IBOutlet weak var txtError: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     @IBOutlet weak var btnBack: UIBarButtonItem!
     @IBOutlet weak var btnSignIn: UIBarButtonItem!
@@ -41,6 +43,8 @@ class FamilySearchLogin: UIView {
         if username != nil {
             txtUsername.text = username as String?
         }
+        txtError.hidden = true
+        
     }
     
     func loadViewFromNib() -> UIView {
@@ -80,6 +84,8 @@ class FamilySearchLogin: UIView {
             return
         }
         
+        showInfoMsg("Logging into FamilySearch")
+        
         let dataService = DataService.getInstance()
         let remoteService = FamilySearchService()
         
@@ -92,9 +98,15 @@ class FamilySearchLogin: UIView {
                 dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: username!);
                 dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_FAMILYSEARCH + DataService.SERVICE_TOKEN, value: password!);
                 
+                dataService.addStatusListener(self)
                 dataService.getDefaultPerson(true, onCompletion: { person, err in
                     if person != nil {
                         print("person \(person?.id) \(person?.name)")
+                        let task = InitialDataLoader(person: person!, listener: self)
+                        task.execute({people, err in
+                            print(people)
+                            dataService.removeStatusListener(self)
+                        })
                     } else {
                         self.showAlert("Unable to get default person")
                     }
@@ -106,13 +118,22 @@ class FamilySearchLogin: UIView {
         })
     }
     
+    func statusChanged(message: String) {
+        showInfoMsg(message)
+    }
+    
     func showAlert(message:String) {
-        let alert = UIAlertController(title: "Refresh", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
-            print("Alert OK pressed")
-        }))
-        
-        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        txtError.hidden = false
+        txtError.text = message
+        txtError.textColor = UIColor.redColor()
+        spinner.hidden = true
+    }
+    
+    func showInfoMsg(message:String) {
+        spinner.hidden = false
+        spinner.startAnimating()
+        txtError.hidden = false
+        txtError.text = message
+        txtError.textColor = UIColor.blackColor()
     }
 }

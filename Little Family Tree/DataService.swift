@@ -17,6 +17,7 @@ class DataService {
 	var serviceType:NSString?
 	var dbHelper:DBHelper
 	var authenticating:Bool = false
+    var listeners = [StatusListener]()
 
 	private static var instance:DataService?
 	
@@ -101,6 +102,8 @@ class DataService {
                     self.buildLittlePerson(fsperson!, onCompletion: { (person2, err2) -> Void in
                         onCompletion(person2, err2)
                     })
+                } else {
+                    onCompletion(nil, err)
                 }
 			})
         } else {
@@ -157,8 +160,238 @@ class DataService {
 	}
 	
 	func getFamilyMembersFromRemoteService(person:LittlePerson, loadSpouse:Bool, onCompletion: PeopleResponse) {
-		
-	}
+        let family = [LittlePerson]()
+        remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
+            if closeRelatives != nil {
+                self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err in
+                    for r in closeRelatives! {
+                        if r.type == "http://gedcomx.org/Couple" {
+                            person.hasSpouses = true
+                            if loadSpouse {
+                                var spouse:LittlePerson?
+                                if r.person1?.resourceId == person.familySearchId {
+                                    spouse = self.dbHelper.getPersonByFamilySearchId(r.person2?.resourceId as! String)
+                                } else {
+                                    spouse = self.dbHelper.getPersonByFamilySearchId(r.person1?.resourceId as! String)
+                                }
+                                if spouse != nil {
+                                    self.getParents(spouse!, onCompletion: { sp, err in
+                                        print(sp)
+                                    })
+                                }
+                            }
+                        }
+                        else {
+                            if r.person1?.resourceId == person.familySearchId {
+                                person.hasChildren = true
+                            } else {
+                                person.hasParents = true
+                            }
+                        }
+                    }
+                    do {
+                        try self.dbHelper.persistLittlePerson(person)
+                    } catch let e as NSError {
+                        print(e)
+                    }
+                    onCompletion(people, err)
+                })
+            } else {
+                onCompletion(family, err)
+            }
+        })
+    }
+    
+    func getParentsFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+        let family = [LittlePerson]()
+        remoteService?.getParents(person.familySearchId!, onCompletion: { closeRelatives, err in
+            if closeRelatives != nil {
+                self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
+                    onCompletion(people, err2)
+                })
+            } else {
+                onCompletion(family, err)
+            }
+        })
+    }
+    
+    func getChildrenFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+        let family = [LittlePerson]()
+        remoteService?.getChildren(person.familySearchId!, onCompletion: { closeRelatives, err in
+            if closeRelatives != nil {
+                self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
+                    onCompletion(people, err2)
+                })
+            } else {
+                onCompletion(family, err)
+            }
+        })
+    }
+    
+    func getSpousesFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+        let family = [LittlePerson]()
+        remoteService?.getSpouses(person.familySearchId!, onCompletion: { closeRelatives, err in
+            if closeRelatives != nil {
+                self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
+                    onCompletion(people, err2)
+                })
+            } else {
+                onCompletion(family, err)
+            }
+        })
+    }
+    
+    func getParents(person:LittlePerson, onCompletion: PeopleResponse) {
+        let parents = dbHelper.getParentsForPerson(person.id!)
+        if parents == nil || parents!.count == 0 {
+            getParentsFromRemoteService(person, onCompletion: { people, err in
+                if person.hasParents == nil || person.hasParents == false {
+                    person.hasParents = true
+                    do {
+                        try self.dbHelper.persistLittlePerson(person)
+                    } catch let e as NSError {
+                        print(e)
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if person.hasParents == nil || person.hasParents == false {
+                person.hasParents = true
+                do {
+                    try self.dbHelper.persistLittlePerson(person)
+                } catch let e as NSError {
+                    print(e)
+                }
+            }
+            for p in parents! {
+                addToSyncQ(p)
+            }
+            onCompletion(parents, nil)
+        }
+    }
+    
+    func getSpouses(person:LittlePerson, onCompletion: PeopleResponse) {
+        let spouses = dbHelper.getSpousesForPerson(person.id!)
+        if spouses == nil || spouses!.count == 0 {
+            getSpousesFromRemoteService(person, onCompletion: { people, err in
+                if person.hasSpouses == nil || person.hasSpouses == false {
+                    person.hasSpouses = true
+                    do {
+                        try self.dbHelper.persistLittlePerson(person)
+                    } catch let e as NSError {
+                        print(e)
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if person.hasSpouses == nil || person.hasSpouses == false {
+                person.hasSpouses = true
+                do {
+                    try self.dbHelper.persistLittlePerson(person)
+                } catch let e as NSError {
+                    print(e)
+                }
+            }
+            for p in spouses! {
+                addToSyncQ(p)
+            }
+            onCompletion(spouses, nil)
+        }
+    }
+    
+    func getChildren(person:LittlePerson, onCompletion: PeopleResponse) {
+        let children = dbHelper.getSpousesForPerson(person.id!)
+        if children == nil || children!.count == 0 {
+            getChildrenFromRemoteService(person, onCompletion: { people, err in
+                if person.hasChildren == nil || person.hasChildren == false {
+                    person.hasChildren = true
+                    do {
+                        try self.dbHelper.persistLittlePerson(person)
+                    } catch let e as NSError {
+                        print(e)
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if person.hasChildren == nil || person.hasChildren == false {
+                person.hasChildren = true
+                do {
+                    try self.dbHelper.persistLittlePerson(person)
+                } catch let e as NSError {
+                    print(e)
+                }
+            }
+            for p in children! {
+                addToSyncQ(p)
+            }
+            onCompletion(children, nil)
+        }
+    }
+    
+    func processRelatives(closeRelatives:[Relationship], person:LittlePerson, onCompletion:PeopleResponse) {
+        var family = [LittlePerson]()
+        for r in closeRelatives {
+            getPersonByRemoteId(r.person1!.resourceId!, onCompletion: {person1, err in
+                if person1 != nil {
+                    self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: {person2, err in
+                        if person2 != nil {
+                            let lr = LocalRelationship()
+                            lr.id1 = person1?.id
+                            lr.id2 = person2?.id
+                            if r.type == "http://gedcomx.org/Couple" {
+                                lr.type = RelationshipType.SPOUSE
+                                if person2?.treeLevel == nil && person1?.treeLevel != nil {
+                                    person2?.treeLevel = person1?.treeLevel
+                                }
+                                if person2?.age == nil && person1?.age != nil  {
+                                    person2?.age = (person1?.age)!
+                                }
+                                if person1?.treeLevel == nil && person2?.treeLevel != nil {
+                                    person1?.treeLevel = person2?.treeLevel
+                                }
+                                if person1?.age == nil && person2?.age != nil  {
+                                    person1?.age = (person2?.age)!
+                                }
+
+                            } else {
+                                lr.type = RelationshipType.PARENTCHILD
+                                if person2?.treeLevel == nil && person1?.treeLevel != nil {
+                                    person2?.treeLevel = (person1?.treeLevel)! - 1
+                                }
+                                if person2?.age == nil && person1?.age != nil  {
+                                    person2?.age = (person1?.age)! - 25
+                                }
+                                if person1?.treeLevel == nil && person2?.treeLevel != nil {
+                                    person1?.treeLevel = (person2?.treeLevel)! + 1
+                                }
+                                if person1?.age == nil && person2?.age != nil  {
+                                    person1?.age = (person2?.age)! + 25
+                                }
+                            }
+                            self.dbHelper.persistRelationship(lr)
+                            
+                            if person != person1 && !family.contains(person1!) {
+                                family.append(person1!)
+                            }
+                            if person != person2 && !family.contains(person2!) {
+                                family.append(person2!)
+                            }
+                            onCompletion(family, err)
+                            
+                        } else {
+                            onCompletion(family, err)
+                        }
+                    })
+                } else {
+                    onCompletion(family, err)
+                }
+            })
+        }
+    }
+    
 	
 	func getEncryptedProperty(property:NSString) -> NSString? {
 		return dbHelper.getProperty(property as String)
@@ -167,10 +400,46 @@ class DataService {
 	func saveEncryptedProperty(property:NSString, value:NSString) {
 		dbHelper.saveProperty(property as String, value: value as String)
 	}
+    
+    func addStatusListener(listener:StatusListener) {
+        var found = false
+        for l in listeners {
+            if (l as! AnyObject) === (listener as! AnyObject) {
+                found = true
+                break
+            }
+        }
+        if !found {
+            listeners.append(listener)
+        }
+    }
+    
+    func removeStatusListener(listener:StatusListener) {
+        var index = -1
+        var i = -1
+        for l in listeners {
+            i++
+            if (l as! AnyObject) === (listener as! AnyObject) {
+                index = i
+                break
+            }
+        }
+        
+        if index >= 0 {
+            listeners.removeAtIndex(index)
+        }
+    }
+    
+    func fireStatusUpdate(message:String) {
+        for l in listeners {
+            l.statusChanged(message)
+        }
+    }
 	
 	func buildLittlePerson(fsPerson:Person, onCompletion: LittlePersonResponse ) {
 		let person = LittlePerson()
 		person.name = fsPerson.getFullName()
+        fireStatusUpdate("Processing person \(person.name)")
 		person.familySearchId = fsPerson.id
 		person.gender = fsPerson.gender
 		var name:Name? = nil

@@ -2,13 +2,16 @@ import Foundation
 import SpriteKit
 
 class FamilySearchService : RemoteService {
-	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/";
-	//static let FS_PLATFORM_PATH = "https://familysearch.org/platform/";
+	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/"
+    //let FS_PLATFORM_PATH = "https://beta.familysearch.org/platform/"
+	//let FS_PLATFORM_PATH = "https://familysearch.org/platform/"
 	
-	let FS_OAUTH2_PATH = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token";
-	//static let FS_OAUTH2_PATH = "https://ident.familysearch.org/cis-web/oauth2/v3/token";
+	let FS_OAUTH2_PATH = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token"
+    //let FS_OAUTH2_PATH = "https://identbeta.familysearch.org/cis-web/oauth2/v3/token"
+	//let FS_OAUTH2_PATH = "https://ident.familysearch.org/cis-web/oauth2/v3/token"
 	
-	private let FS_APP_KEY = "a02j0000009AXffAAG";
+	private let FS_APP_KEY = "a02j0000009AXffAAG"
+    //private let FS_APP_KEY = "a0T3000000BM5hcEAD"
 
     var sessionId: NSString?
 	
@@ -242,7 +245,7 @@ class FamilySearchService : RemoteService {
         print("makeHTTPGetRequest: \(request)")
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             print(response)
-            print(data)
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
             let json:JSON = JSON(data: data!)
             onCompletion(json, error)
         })
@@ -270,7 +273,7 @@ class FamilySearchService : RemoteService {
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
                 print(response)
-                print(data)
+                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
                 let json:JSON = JSON(data: data!)
                 onCompletion(json, error)
             })
@@ -285,6 +288,9 @@ class FamilySearchService : RemoteService {
 	 
 		// Set the method to POST
 		request.HTTPMethod = "POST"
+        
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -293,10 +299,16 @@ class FamilySearchService : RemoteService {
 	 
 		// Set the POST body for the request
 		var postString = ""
+        var p = 0
 		for(param, value) in body {
-			postString += "\(param)=\(value)&";
+            if p > 0 {
+                postString += "&"
+            }
+			postString += "\(param)=\(value)";
+            p++
 		}
 
+        print(postString)
 		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
 	 
