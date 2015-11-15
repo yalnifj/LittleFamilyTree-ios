@@ -44,12 +44,12 @@ class SplashScene: SKScene {
             startTime = currentTime
         }
         else {
-            if (!launched && (currentTime - startTime! > 15)) {
+            if (!launched && (currentTime - startTime! > 10)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
-                    if dataService?.remoteService?.sessionId != nil {
+                    if dataService?.remoteService?.sessionId != nil && dataService?.dbHelper.getFirstPerson() != nil {
                         let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
                         
-                        let nextScene = GameScene(size: scene!.size)
+                        let nextScene = ChoosePlayerScene(size: scene!.size)
                         nextScene.scaleMode = .AspectFill
                         launched = true
                         scene?.view?.presentScene(nextScene, transition: transition)

@@ -44,7 +44,8 @@ class FamilySearchLogin: UIView, StatusListener {
             txtUsername.text = username as String?
         }
         txtError.hidden = true
-        
+        spinner.hidden = true
+        spinner.stopAnimating()
     }
     
     func loadViewFromNib() -> UIView {
@@ -123,17 +124,21 @@ class FamilySearchLogin: UIView, StatusListener {
     }
     
     func showAlert(message:String) {
-        txtError.hidden = false
-        txtError.text = message
-        txtError.textColor = UIColor.redColor()
-        spinner.hidden = true
+        dispatch_async(dispatch_get_main_queue()) {
+            self.txtError.hidden = false
+            self.txtError.text = message
+            self.txtError.textColor = UIColor.redColor()
+            self.spinner.hidden = true
+        }
     }
     
     func showInfoMsg(message:String) {
-        spinner.hidden = false
-        spinner.startAnimating()
-        txtError.hidden = false
-        txtError.text = message
-        txtError.textColor = UIColor.blackColor()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.spinner.hidden = false
+            self.spinner.startAnimating()
+            self.txtError.hidden = false
+            self.txtError.text = message
+            self.txtError.textColor = UIColor.blackColor()
+        }
     }
 }

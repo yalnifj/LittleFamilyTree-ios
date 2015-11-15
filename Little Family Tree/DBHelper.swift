@@ -56,11 +56,13 @@ class DBHelper {
                 print(string)
             })
             //instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
-            let dbstr = instance!.getProperty("VERSION")
-            if dbstr != nil {
-                instance!.dbversion = dbstr?.intValue
+            if instance!.tableExists("properties") == true {
+                let dbstr = instance!.getProperty("VERSION")
+                if dbstr != nil {
+                    instance!.dbversion = dbstr?.intValue
+                }
+                print("DBVersion is \(instance!.dbversion)")
             }
-            print("DBVersion is \(instance!.dbversion)")
             if ((instance?.dbversion == nil) || (instance!.dbversion < DBHelper.VERSION)) {
                 do {
                     try instance!.createTables()
@@ -648,4 +650,15 @@ class DBHelper {
 		}
 		return list
 	}
+    
+    func tableExists(tableName: String) -> Bool {
+        let val = lftdb?.scalar(
+            "SELECT EXISTS (SELECT * FROM sqlite_master WHERE type = 'table' AND name = ?)",
+            tableName
+            ) as! Int64
+        if val > 0 {
+            return true
+        }
+        return false
+    }
 }

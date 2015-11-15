@@ -40,7 +40,7 @@ class FamilySearchService : RemoteService {
     func getCurrentPerson(onCompletion: PersonResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/current-person", headers: headers, onCompletion: {json, err in
 				let persons = Person.convertJsonToPersons(json)
@@ -59,7 +59,7 @@ class FamilySearchService : RemoteService {
 	func getPerson(personId: NSString, onCompletion: PersonResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)", headers: headers, onCompletion: {json, err in
 				var persons = Person.convertJsonToPersons(json)
@@ -78,7 +78,7 @@ class FamilySearchService : RemoteService {
 	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-atom+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/changes", headers: headers, onCompletion: {json, err in
 				if json["entries"] != nil {
@@ -99,7 +99,7 @@ class FamilySearchService : RemoteService {
 	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/portraits", headers: headers, onCompletion: {json, err in
 				let sds = SourceDescription.convertJsonToSourceDescriptions(json)
@@ -127,7 +127,7 @@ class FamilySearchService : RemoteService {
 	func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons-with-relationships?person=\(personId)", headers: headers, onCompletion: {json, err in
 				let relationships = Relationship.convertJsonToRelationships(json)
@@ -141,7 +141,7 @@ class FamilySearchService : RemoteService {
 	func getParents(personId: NSString, onCompletion: RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/parent-relationships", headers: headers, onCompletion: {json, err in
 				let relationships = Relationship.convertJsonToRelationships(json)
@@ -155,7 +155,7 @@ class FamilySearchService : RemoteService {
 	func getChildren(personId: NSString, onCompletion: RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/child-relationships", headers: headers, onCompletion: {json, err in
 				let relationships = Relationship.convertJsonToRelationships(json)
@@ -169,7 +169,7 @@ class FamilySearchService : RemoteService {
 	func getSpouses(personId: NSString, onCompletion: RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/spouse-relationships", headers: headers, onCompletion: {json, err in
 				let relationships = Relationship.convertJsonToRelationships(json)
@@ -183,7 +183,7 @@ class FamilySearchService : RemoteService {
 	func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
-			headers["Authorization"] = "Bearer " + (sessionId?.description)!
+			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/memories", headers: headers, onCompletion: {json, err in
 				let sds = SourceDescription.convertJsonToSourceDescriptions(json)
@@ -199,7 +199,7 @@ class FamilySearchService : RemoteService {
  
         let session = NSURLSession.sharedSession()
 		var headers = [String: String]()
-		headers["Authorization"] = "Bearer " + (sessionId?.description)!
+		headers["Authorization"] = "Bearer \(sessionId!)"
 		headers["Accept"] = "application/x-fs-v1+json"
 		
 		// Set the headers

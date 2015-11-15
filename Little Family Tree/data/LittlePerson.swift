@@ -10,7 +10,7 @@ class LittlePerson:Equatable {
 	var photoPath : NSString?
 	var birthDate : NSDate?;
 	var birthPlace : NSString?
-	var age : Int = 0
+	var age : Int?
 	var alive : Bool?
 	var lastSync : NSDate?
 	var active : Bool = true;
