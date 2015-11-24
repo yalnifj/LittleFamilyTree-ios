@@ -102,6 +102,7 @@ class DataService {
                     self.buildLittlePerson(fsperson!, onCompletion: { (person2, err2) -> Void in
                         if person2 != nil {
                             do {
+                                person2?.treeLevel = 0
                                 try self.dbHelper.persistLittlePerson(person2!)
                                 onCompletion(person2, err2)
                             } catch {
@@ -132,7 +133,7 @@ class DataService {
 			addToSyncQ(person!)
 			onCompletion(person, nil)
 		} else {
-			remoteService?.getPerson(fsid, onCompletion: { fsPerson, err in
+			remoteService?.getPerson(fsid, ignoreCache: false, onCompletion: { fsPerson, err in
 				if fsPerson != nil {
 					self.buildLittlePerson(fsPerson!, onCompletion: { per, err2 in
 						if per != nil {
@@ -168,6 +169,7 @@ class DataService {
 	
 	func getFamilyMembersFromRemoteService(person:LittlePerson, loadSpouse:Bool, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
+        fireStatusUpdate("Loading close family members of \(person.name!)")
         remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err in
@@ -211,6 +213,7 @@ class DataService {
     
     func getParentsFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
+        fireStatusUpdate("Loading parents of \(person.name!)")
         remoteService?.getParents(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
@@ -224,6 +227,7 @@ class DataService {
     
     func getChildrenFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
+        fireStatusUpdate("Loading children of \(person.name!)")
         remoteService?.getChildren(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
@@ -237,6 +241,7 @@ class DataService {
     
     func getSpousesFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
+        fireStatusUpdate("Loading spouses of \(person.name!)")
         remoteService?.getSpouses(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
@@ -340,10 +345,13 @@ class DataService {
     
     func processRelatives(closeRelatives:[Relationship], person:LittlePerson, onCompletion:PeopleResponse) {
         var family = [LittlePerson]()
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let group = dispatch_group_create()
         for r in closeRelatives {
-            getPersonByRemoteId(r.person1!.resourceId!, onCompletion: {person1, err in
+            dispatch_group_enter(group)
+            getPersonByRemoteId(r.person1!.resourceId!, onCompletion: { person1, err in
                 if person1 != nil {
-                    self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: {person2, err in
+                    self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: { person2, err in
                         if person2 != nil {
                             let lr = LocalRelationship()
                             lr.id1 = person1?.id
@@ -386,16 +394,17 @@ class DataService {
                             if person != person2 && !family.contains(person2!) {
                                 family.append(person2!)
                             }
-                            onCompletion(family, err)
-                            
-                        } else {
-                            onCompletion(family, err)
                         }
+                        dispatch_group_leave(group)
                     })
                 } else {
-                    onCompletion(family, err)
+                    dispatch_group_leave(group)
                 }
             })
+        }
+        
+        dispatch_group_notify(group, queue) {
+            onCompletion(family, nil)
         }
     }
     
@@ -446,7 +455,6 @@ class DataService {
 	func buildLittlePerson(fsPerson:Person, onCompletion: LittlePersonResponse ) {
 		let person = LittlePerson()
 		person.name = fsPerson.getFullName()
-        fireStatusUpdate("Processing person \(person.name!)")
 		person.familySearchId = fsPerson.id
 		person.gender = fsPerson.gender
 		var name:Name? = nil

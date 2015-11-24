@@ -15,11 +15,16 @@ class PersonNameSprite: SKSpriteNode {
             let photo = TextureHelper.getPortraitTexture(self.person!)
             photoSprite = SKSpriteNode(texture: photo)
             photoSprite?.position = CGPointMake(self.size.width/2, self.size.height/2)
+            let ratio = (photo?.size().width)! / (photo?.size().height)!
+            photoSprite?.size.width = self.size.width * 0.6
+            photoSprite?.size.height = (self.size.width * 0.6) / ratio
+            
             self.addChild(photoSprite!)
             
             nameLabel = SKLabelNode(text: person?.givenName as String?)
-            nameLabel?.fontSize = 12
-            nameLabel?.position = CGPointMake(self.size.width/2, 24)
+            nameLabel?.fontSize = 24
+            nameLabel?.fontColor = UIColor.blackColor()
+            nameLabel?.position = CGPointMake(self.size.width/2, 12)
             self.addChild(nameLabel!)
         }
     }

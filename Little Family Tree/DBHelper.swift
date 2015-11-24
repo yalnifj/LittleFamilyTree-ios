@@ -52,9 +52,9 @@ class DBHelper {
             let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
             instance!.lftdb = try? Connection("\(path)/lftdb.sqlite3")
             // public func trace(callback: (String -> Void)?) {
-            instance!.lftdb?.trace({ (string) in
-                print(string)
-            })
+            //instance!.lftdb?.trace({ (string) in
+            //    print(string)
+            //})
             //instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
             if instance!.tableExists("properties") == true {
                 let dbstr = instance!.getProperty("VERSION")
@@ -379,9 +379,13 @@ class DBHelper {
         if c[COL_BIRTH_DATE] != nil {
             person.birthDate = c[COL_BIRTH_DATE]
         }
-        if c[COL_BIRTH_PLACE] != nil { person.birthPlace = c[COL_BIRTH_PLACE] }
-        if c[COL_NATIONALITY] != nil { person.nationality = c[COL_NATIONALITY] }
-        person.familySearchId = c[COL_FAMILY_SEARCH_ID]
+        if c[COL_BIRTH_PLACE] != nil {
+            person.birthPlace = NSString(UTF8String: c[COL_BIRTH_PLACE]!)
+        }
+        if c[COL_NATIONALITY] != nil {
+            person.nationality = NSString(UTF8String: c[COL_NATIONALITY]!)
+        }
+        person.familySearchId = NSString(UTF8String: c[COL_FAMILY_SEARCH_ID])
         if c[COL_GENDER] != nil {
             if c[COL_GENDER] == "M" {
                 person.gender = GenderType.MALE
@@ -394,14 +398,18 @@ class DBHelper {
             }
         }
         if c[COL_AGE] != nil { person.age = c[COL_AGE]! }
-        person.givenName = c[COL_GIVEN_NAME]
-        person.name = c[COL_NAME]
-        if c[COL_PHOTO_PATH] != nil { person.photoPath = c[COL_PHOTO_PATH] }
+        person.givenName = NSString(UTF8String: c[COL_GIVEN_NAME]!)
+        person.name = NSString(UTF8String: c[COL_NAME]!)
+        if c[COL_PHOTO_PATH] != nil {
+            person.photoPath = NSString(UTF8String: c[COL_PHOTO_PATH]!)
+        }
         if c[COL_LAST_SYNC] != nil {
             person.lastSync = c[COL_LAST_SYNC]
         }
         person.alive = c[COL_ALIVE]
-        if c[COL_ACTIVE] != nil { person.active = c[COL_ACTIVE]! }
+        if c[COL_ACTIVE] != nil {
+            person.active = c[COL_ACTIVE]!
+        }
         person.hasParents = c[COL_HAS_PARENTS]
         person.hasChildren = c[COL_HAS_CHILDREN]
         person.hasSpouses = c[COL_HAS_SPOUSES]

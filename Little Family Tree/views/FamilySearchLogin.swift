@@ -45,6 +45,8 @@ class FamilySearchLogin: UIView, StatusListener {
         if username != nil {
             txtUsername.text = username as String?
         }
+        txtUsername.text = "tum000205905"
+        txtPassword.text = "1234pass"
         txtError.hidden = true
         spinner.hidden = true
         spinner.stopAnimating()
@@ -107,12 +109,11 @@ class FamilySearchLogin: UIView, StatusListener {
                         print("person \(person?.id) \(person?.name)")
                         let task = InitialDataLoader(person: person!, listener: self)
                         task.execute({people, err in
-                            self.spinner.hidden = true
                             self.spinner.stopAnimating()
+                            self.spinner.hidden = true
                             self.txtError.hidden = true
-                            print(people)
+                            print(people?.count)
                             dataService.removeStatusListener(self)
-                            self.view.removeFromSuperview()
                             if self.loginListener != nil {
                                 self.loginListener?.LoginComplete()
                             }
@@ -138,6 +139,7 @@ class FamilySearchLogin: UIView, StatusListener {
             self.txtError.text = message
             self.txtError.textColor = UIColor.redColor()
             self.spinner.hidden = true
+            print(message)
         }
     }
     
@@ -153,6 +155,7 @@ class FamilySearchLogin: UIView, StatusListener {
                 self.txtError.hidden = false
                 self.txtError.text = message
                 self.txtError.textColor = UIColor.blackColor()
+                print(message)
             }
         }
     }

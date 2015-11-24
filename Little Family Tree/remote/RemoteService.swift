@@ -12,7 +12,7 @@ protocol RemoteService {
 	var sessionId: NSString? { get set }
 	func authenticate(username: String, password: String, onCompletion: ServiceResponse)
 	func getCurrentPerson(onCompletion: PersonResponse)
-	func getPerson(personId: NSString, onCompletion: PersonResponse)
+    func getPerson(personId: NSString, ignoreCache: Bool, onCompletion: PersonResponse)
 	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse)
 	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse)
 	func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse)

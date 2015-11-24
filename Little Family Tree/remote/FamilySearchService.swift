@@ -14,6 +14,7 @@ class FamilySearchService : RemoteService {
     //private let FS_APP_KEY = "a0T3000000BM5hcEAD"
 
     var sessionId: NSString?
+    var personCache = [String: Person]()
 	
 	static let sharedInstance = FamilySearchService()
 	
@@ -56,8 +57,16 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPerson(personId: NSString, onCompletion: PersonResponse) {
+	func getPerson(personId: NSString, ignoreCache: Bool, onCompletion: PersonResponse) {
 		if (sessionId != nil) {
+            
+            if !ignoreCache {
+                if personCache[personId as String] != nil {
+                    onCompletion(personCache[personId as String], nil)
+                    return
+                }
+            }
+            
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-v1+json"
@@ -65,6 +74,7 @@ class FamilySearchService : RemoteService {
 				var persons = Person.convertJsonToPersons(json)
 				if persons.count > 0 {
 					let person = persons[0]
+                    self.personCache[personId as String] = person
 					onCompletion(person, err)
 				} else {
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId.description]))
@@ -210,7 +220,7 @@ class FamilySearchService : RemoteService {
         let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
 			let fileManager = NSFileManager.defaultManager()
             let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-			if UIImage(data: data!) != nil {
+			if data != nil && UIImage(data: data!) != nil {
                 do {
                     let folderPath = paths.stringByAppendingString("/\(folderName)" )
                     if !fileManager.fileExistsAtPath(folderPath) {
@@ -241,15 +251,20 @@ class FamilySearchService : RemoteService {
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
-            print("Header \(field):\(value)")
+            //print("Header \(field):\(value)")
 		}
  
         print("makeHTTPGetRequest: \(request)")
         print(request.valueForHTTPHeaderField("Authorization"))
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            print(response)
+            let httpResponse = response as! NSHTTPURLResponse
+            if httpResponse.statusCode != 200 {
+                print(response)
+            }
             if data != nil {
-                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                if httpResponse.statusCode != 200 {
+                    print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                }
                 let json:JSON = JSON(data: data!)
                 onCompletion(json, error)
             }
@@ -269,7 +284,7 @@ class FamilySearchService : RemoteService {
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
-            print("Header \(field):\(value)")
+            //print("Header \(field):\(value)")
 		}
         
         do {
@@ -281,8 +296,8 @@ class FamilySearchService : RemoteService {
             let session = NSURLSession.sharedSession()
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-                print(response)
-                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                //print(response)
+                //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
                 let json:JSON = JSON(data: data!)
                 onCompletion(json, error)
             })
@@ -304,7 +319,7 @@ class FamilySearchService : RemoteService {
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
-            print("Header \(field):\(value)")
+            //print("Header \(field):\(value)")
 		}
 	 
 		// Set the POST body for the request
@@ -324,8 +339,8 @@ class FamilySearchService : RemoteService {
 	 
         print("makeHTTPPostRequest: \(request)")
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            print(response)
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+            //print(response)
+            //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
 			let json:JSON = JSON(data: data!)
 			onCompletion(json, error)
 		})
