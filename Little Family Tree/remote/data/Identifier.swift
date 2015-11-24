@@ -7,12 +7,15 @@ class Identifier {
 	
 	static func convertJsonToIdentifier(type:NSString, json:JSON) -> [Identifier] {
 		var ids = [Identifier]()
-		for val in json[type.description].array! {
-			let id = Identifier()
-			id.type = type
-			id.value = val.description
-			ids.append(id)
-		}
+        let stype = type as String
+        if json[stype] != nil {
+            for val in json[stype].array! {
+                let id = Identifier()
+                id.type = type
+                id.value = val.description
+                ids.append(id)
+            }
+        }
 		return ids
 	}
 }

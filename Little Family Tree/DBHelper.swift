@@ -171,18 +171,18 @@ class DBHelper {
 		if person.id > 0 {
 			let personRow = TABLE_LITTLE_PERSON.filter(COL_ID == person.id!)
 			try lftdb?.run(personRow.update(
-				COL_NAME <- (person.name as! String),
-				COL_GIVEN_NAME <- (person.givenName as! String),
+				COL_NAME <- (person.name as String?),
+				COL_GIVEN_NAME <- (person.givenName as String?),
 				COL_GENDER <- gender,
-				COL_PHOTO_PATH <- (person.photoPath as! String),
+				COL_PHOTO_PATH <- (person.photoPath as String?),
 				COL_AGE <- person.age,
 				COL_BIRTH_DATE <- person.birthDate,
 				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
 				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- (person.birthPlace as! String),
-				COL_NATIONALITY <- (person.nationality as! String),
+				COL_BIRTH_PLACE <- (person.birthPlace as String?),
+				COL_NATIONALITY <- (person.nationality as String?),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
@@ -193,17 +193,17 @@ class DBHelper {
 		else {
 			let rowid = try lftdb?.run(TABLE_LITTLE_PERSON.insert(
 				COL_NAME <- (person.name as! String),
-				COL_GIVEN_NAME <- (person.givenName as! String),
+				COL_GIVEN_NAME <- (person.givenName as String?),
 				COL_GENDER <- gender,
-				COL_PHOTO_PATH <- (person.photoPath as! String),
+				COL_PHOTO_PATH <- (person.photoPath as String?),
 				COL_AGE <- person.age,
 				COL_BIRTH_DATE <- person.birthDate,
 				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
 				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- (person.birthPlace as! String),
-				COL_NATIONALITY <- (person.nationality as! String),
+				COL_BIRTH_PLACE <- (person.birthPlace as String?),
+				COL_NATIONALITY <- (person.nationality as String?),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
@@ -219,6 +219,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id))
 		for c in stmt! {
             person = buildLittlePerson(c)
+            person.id = c[COL_ID]
             return person
 		}
 		return nil
@@ -229,6 +230,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid))
 		for c in stmt! {
             person = buildLittlePerson(c)
+            person.id = c[COL_ID]
             return person
 		}
 		return nil
@@ -245,6 +247,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
 		for c in stmt! {
             person = buildLittlePerson(c)
+            person.id = c[COL_ID]
             return person
 		}
 		return nil
@@ -261,18 +264,18 @@ class DBHelper {
             person = LittlePerson()
             person!.id = (c[0] as! Int64)
             if c[1] != nil {
-                person!.birthDate = (c[1] as! NSDate)
+                person!.birthDate = (c[1] as! NSDate?)
             }
-            person!.birthPlace = (c[2] as! String)
-            person!.nationality = (c[3] as! String)
-            person!.familySearchId = (c[4] as! String)
-            let gender = (c[5] as! String?)
+            if c[2] != nil { person!.birthPlace = (c[2] as! String) }
+            if c[3] != nil { person!.nationality = (c[3] as! String?) }
+            if c[4] != nil { person!.familySearchId = (c[4] as! String) }
+            let gender = (c[5] as? String?)
             
             if gender != nil {
-                if gender == "M" {
+                if gender! == "M" {
                     person!.gender = GenderType.MALE
                 }
-                else if gender == "F" {
+                else if gender! == "F" {
                     person!.gender = GenderType.FEMALE
                 }
                 else {
@@ -280,18 +283,18 @@ class DBHelper {
                 }
             }
             person!.age = (c[6] as! Int)
-            person!.givenName = (c[7] as! String?)
-            person!.name = (c[8] as! String?)
-            person!.photoPath = (c[9] as! String?)
+            if c[7] != nil { person!.givenName = (c[7] as! String?) }
+            if c[8] != nil { person!.name = (c[8] as! String?) }
+            if c[9] != nil { person!.photoPath = (c[9] as! String?) }
             person!.lastSync = (c[10] as! NSDate?)
             
-            person!.alive = (c[11] as! Bool?)
+            person!.alive = (c[11] as! Bool)
             person!.active = (c[12] as! Bool)
-            person!.hasParents = (c[13] as! Bool?)
-            person!.hasChildren = (c[14] as! Bool?)
-            person!.hasSpouses = (c[15] as! Bool?)
-            person!.hasMedia = (c[16] as! Bool?)
-            person!.treeLevel = (c[17] as! Int?)
+            if c[13] != nil { person!.hasParents = (c[13] as! Bool) }
+            if c[14] != nil { person!.hasChildren = (c[14] as! Bool) }
+            if c[15] != nil { person!.hasSpouses = (c[15] as! Bool) }
+            if c[16] != nil { person!.hasMedia = (c[16] as! Bool) }
+            if c[17] != nil { person!.treeLevel = (c[17] as! Int) }
             person!.updateAge()
 
 		}
@@ -306,6 +309,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
             let person = buildLittlePerson(c)
+            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
 			persons.append(person)
 		}
 		
@@ -332,6 +336,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
 		for c in stmt! {
             let person = buildLittlePerson(c)
+            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
             persons.append(person)
 		}
 		return persons
@@ -345,6 +350,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
             let person = buildLittlePerson(c)
+            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
 			persons.append(person)
 		}
 		return persons
@@ -357,8 +363,9 @@ class DBHelper {
 		var persons = [LittlePerson]()
         let stmt = lftdb?.prepare(query)
         for c in stmt! {
-			if (c[COL_ID] != id) {
+			if (c[TABLE_LITTLE_PERSON[COL_ID]] != id) {
                 let person = buildLittlePerson(c)
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
 				persons.append(person)
 			}
 		}
@@ -367,7 +374,6 @@ class DBHelper {
     
     func buildLittlePerson(c: Row) -> LittlePerson {
         let person = LittlePerson()
-        person.id = c[COL_ID]
         if c[COL_BIRTH_DATE] != nil {
             person.birthDate = c[COL_BIRTH_DATE]
         }

@@ -234,15 +234,18 @@ class FamilySearchService : RemoteService {
 	
     func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
- 
-        let session = NSURLSession.sharedSession()
+        let myDelegate = RedirectSessionDelegate(headers: headers)
+        //let session = NSURLSession.sharedSession()
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
 		
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
+            print("Header \(field):\(value)")
 		}
  
         print("makeHTTPGetRequest: \(request)")
+        print(request.valueForHTTPHeaderField("Authorization"))
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             print(response)
             print(NSString(data: data!, encoding: NSUTF8StringEncoding))
@@ -261,6 +264,7 @@ class FamilySearchService : RemoteService {
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
+            print("Header \(field):\(value)")
 		}
         
         do {
@@ -295,6 +299,7 @@ class FamilySearchService : RemoteService {
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
+            print("Header \(field):\(value)")
 		}
 	 
 		// Set the POST body for the request
@@ -321,4 +326,23 @@ class FamilySearchService : RemoteService {
 		})
 		task.resume()
 	}
+    
+    class RedirectSessionDelegate : NSObject, NSURLSessionDelegate {
+        var headers:[String: String]
+        
+        init(headers:[String: String]) {
+            self.headers = headers
+            super.init()
+        }
+        
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest!) -> Void)
+        {
+            let newRequest = NSMutableURLRequest(URL: request.URL!)
+            // Set the headers
+            for(field, value) in headers {
+                newRequest.setValue(value, forHTTPHeaderField: field)
+            }
+            completionHandler(newRequest)
+        }
+    }
 }

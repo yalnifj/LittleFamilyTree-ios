@@ -100,7 +100,14 @@ class DataService {
 			remoteService?.getCurrentPerson( { fsperson, err in
                 if fsperson != nil {
                     self.buildLittlePerson(fsperson!, onCompletion: { (person2, err2) -> Void in
-                        onCompletion(person2, err2)
+                        if person2 != nil {
+                            do {
+                                try self.dbHelper.persistLittlePerson(person2!)
+                                onCompletion(person2, err2)
+                            } catch {
+                                onCompletion(nil, NSError(domain: "LittleFamily", code: 404, userInfo: ["message":"Unable to persist little person"]))
+                            }
+                        }
                     })
                 } else {
                     onCompletion(nil, err)
@@ -439,7 +446,7 @@ class DataService {
 	func buildLittlePerson(fsPerson:Person, onCompletion: LittlePersonResponse ) {
 		let person = LittlePerson()
 		person.name = fsPerson.getFullName()
-        fireStatusUpdate("Processing person \(person.name)")
+        fireStatusUpdate("Processing person \(person.name!)")
 		person.familySearchId = fsPerson.id
 		person.gender = fsPerson.gender
 		var name:Name? = nil
@@ -500,7 +507,7 @@ class DataService {
 			}
 			if birth!.date != nil {
 				var birthDateStr = birth!.date!.formal
-				if birthDateStr == nil {
+				if birthDateStr == nil || birthDateStr == "null" {
 					birthDateStr = birth!.date!.original
 				}
 				if birthDateStr != nil {
@@ -519,6 +526,9 @@ class DataService {
 							let todayDate = NSDate()
 							let currYear = NSCalendar.currentCalendar().component(.Year, fromDate: todayDate)
 							person.age = currYear - year!
+                            let df3 = NSDateFormatter()
+                            df3.dateFormat = "yyyy"
+                            person.birthDate = df3.dateFromString(yearStr)
 						} else {
 							person.updateAge()
 						}

@@ -89,12 +89,12 @@ class FamilySearchLogin: UIView, StatusListener {
         
         let dataService = DataService.getInstance()
         let remoteService = FamilySearchService()
+        dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH
+        dataService.remoteService = remoteService
         
         remoteService.authenticate(username!, password: password!, onCompletion: { json, err in
             print("sessionid=\(remoteService.sessionId)")
             if remoteService.sessionId != nil {
-                dataService.remoteService = remoteService
-                dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH
                 dataService.dbHelper.saveProperty(DataService.SERVICE_TYPE, value: DataService.SERVICE_TYPE_FAMILYSEARCH)
                 dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: username!);
                 dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_FAMILYSEARCH + DataService.SERVICE_TOKEN, value: password!);
@@ -134,11 +134,17 @@ class FamilySearchLogin: UIView, StatusListener {
     
     func showInfoMsg(message:String) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.spinner.hidden = false
-            self.spinner.startAnimating()
-            self.txtError.hidden = false
-            self.txtError.text = message
-            self.txtError.textColor = UIColor.blackColor()
+            if message.isEmpty {
+                self.spinner.hidden = true
+                self.spinner.stopAnimating()
+                self.txtError.hidden = true
+            } else {
+                self.spinner.hidden = false
+                self.spinner.startAnimating()
+                self.txtError.hidden = false
+                self.txtError.text = message
+                self.txtError.textColor = UIColor.blackColor()
+            }
         }
     }
 }
