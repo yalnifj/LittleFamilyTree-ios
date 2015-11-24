@@ -248,9 +248,14 @@ class FamilySearchService : RemoteService {
         print(request.valueForHTTPHeaderField("Authorization"))
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             print(response)
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            let json:JSON = JSON(data: data!)
-            onCompletion(json, error)
+            if data != nil {
+                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error)
+            }
+            else {
+                onCompletion(nil, error)
+            }
         })
         task.resume()
     }

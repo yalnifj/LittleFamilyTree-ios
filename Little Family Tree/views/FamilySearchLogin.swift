@@ -22,6 +22,8 @@ class FamilySearchLogin: UIView, StatusListener {
     
     var view:UIView!
     
+    var loginListener:LoginCompleteListener?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -105,8 +107,15 @@ class FamilySearchLogin: UIView, StatusListener {
                         print("person \(person?.id) \(person?.name)")
                         let task = InitialDataLoader(person: person!, listener: self)
                         task.execute({people, err in
+                            self.spinner.hidden = true
+                            self.spinner.stopAnimating()
+                            self.txtError.hidden = true
                             print(people)
                             dataService.removeStatusListener(self)
+                            self.view.removeFromSuperview()
+                            if self.loginListener != nil {
+                                self.loginListener?.LoginComplete()
+                            }
                         })
                     } else {
                         self.showAlert("Unable to get default person")

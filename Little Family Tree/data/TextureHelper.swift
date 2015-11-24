@@ -14,16 +14,19 @@ class TextureHelper {
     
     static func getPortraitTexture(person:LittlePerson) -> SKTexture? {
         let fileManager = NSFileManager.defaultManager()
-        if person.photoPath != nil && person.photoPath!.length == 0 && !fileManager.fileExistsAtPath(person.photoPath as! String) {
+        if person.photoPath === nil || person.photoPath!.length == 0 || !fileManager.fileExistsAtPath(person.photoPath as! String) {
             return getDefaultPortrait(person)
         }
         
         let data = NSData(contentsOfFile: person.photoPath! as String)
-        let uiImage = UIImage(data: data!)
-        if uiImage != nil {
-            let texture = SKTexture(image: uiImage!)
-            return texture
+        if data != nil {
+            let uiImage = UIImage(data: data!)
+            if uiImage != nil {
+                let texture = SKTexture(image: uiImage!)
+                return texture
+            }
         }
+        print("Unable to load data for \(person.photoPath)")
         return getDefaultPortrait(person)
     }
     

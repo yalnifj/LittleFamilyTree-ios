@@ -56,6 +56,7 @@ class InitialDataLoader {
                                             }
                                         }
                                     }
+                                    dispatch_group_leave(downloadGroup)
                                 })
                             }
                         }
@@ -64,7 +65,7 @@ class InitialDataLoader {
                 })
                 
                 dispatch_group_enter(downloadGroup)
-                dataService.getChildren(p, onCompletion: {children, err in
+                dataService.getChildren(p, onCompletion: { children, err in
                     if children != nil {
                         for child in children! {
                             if (!familyMembers.contains(child) && !grandChildren.contains(child)) {

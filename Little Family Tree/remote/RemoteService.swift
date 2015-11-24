@@ -23,3 +23,7 @@ protocol RemoteService {
 	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse)
 	func getPersonUrl(personId: NSString) -> NSString
 }
+
+protocol LoginCompleteListener {
+    func LoginComplete()
+}

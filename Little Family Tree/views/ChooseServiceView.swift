@@ -14,6 +14,8 @@ import UIKit
 
     var view:UIView!
     
+    var loginListener:LoginCompleteListener?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -44,6 +46,7 @@ import UIKit
         let superview = self.view.superview
         self.view.removeFromSuperview()
         let subview = FamilySearchLogin(frame: (self.view?.bounds)!)
+        subview.loginListener = self.loginListener
         superview?.addSubview(subview)
     }
     

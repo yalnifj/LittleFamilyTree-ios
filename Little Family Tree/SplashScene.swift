@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class SplashScene: SKScene {
+class SplashScene: SKScene, LoginCompleteListener {
     var dataService:DataService?
     var startTime:NSTimeInterval?
     var launched = false
@@ -55,11 +55,16 @@ class SplashScene: SKScene {
                         scene?.view?.presentScene(nextScene, transition: transition)
                     } else {
                         let subview = ChooseServiceView(frame: (self.view?.bounds)!)
+                        subview.loginListener = self
                         launched = true
                         self.view?.addSubview(subview)
                     }
                 }
             }
         }
+    }
+    
+    func LoginComplete() {
+        launched = false
     }
 }

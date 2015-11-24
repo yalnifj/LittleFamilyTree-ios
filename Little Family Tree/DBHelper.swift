@@ -310,7 +310,9 @@ class DBHelper {
         for c in stmt! {
             let person = buildLittlePerson(c)
             person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
-			persons.append(person)
+            if !persons.contains(person) {
+                persons.append(person)
+            }
 		}
 		
 		if followSpouse {
@@ -377,8 +379,8 @@ class DBHelper {
         if c[COL_BIRTH_DATE] != nil {
             person.birthDate = c[COL_BIRTH_DATE]
         }
-        person.birthPlace = c[COL_BIRTH_PLACE]
-        person.nationality = c[COL_NATIONALITY]
+        if c[COL_BIRTH_PLACE] != nil { person.birthPlace = c[COL_BIRTH_PLACE] }
+        if c[COL_NATIONALITY] != nil { person.nationality = c[COL_NATIONALITY] }
         person.familySearchId = c[COL_FAMILY_SEARCH_ID]
         if c[COL_GENDER] != nil {
             if c[COL_GENDER] == "M" {
@@ -391,15 +393,15 @@ class DBHelper {
                 person.gender = GenderType.UNKNOWN
             }
         }
-        person.age = c[COL_AGE]!
+        if c[COL_AGE] != nil { person.age = c[COL_AGE]! }
         person.givenName = c[COL_GIVEN_NAME]
         person.name = c[COL_NAME]
-        person.photoPath = c[COL_PHOTO_PATH]
+        if c[COL_PHOTO_PATH] != nil { person.photoPath = c[COL_PHOTO_PATH] }
         if c[COL_LAST_SYNC] != nil {
             person.lastSync = c[COL_LAST_SYNC]
         }
         person.alive = c[COL_ALIVE]
-        person.active = c[COL_ACTIVE]!
+        if c[COL_ACTIVE] != nil { person.active = c[COL_ACTIVE]! }
         person.hasParents = c[COL_HAS_PARENTS]
         person.hasChildren = c[COL_HAS_CHILDREN]
         person.hasSpouses = c[COL_HAS_SPOUSES]

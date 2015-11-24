@@ -12,7 +12,7 @@ class ChoosePlayerScene: SKScene {
     var dataService:DataService?
     
     override func didMoveToView(view: SKView) {
-        
+        view.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         dataService = DataService.getInstance()
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
@@ -30,7 +30,7 @@ class ChoosePlayerScene: SKScene {
                     sprite.person = p
                     self.addChild(sprite)
                     x += width + 10
-                    if x > self.size.width {
+                    if x > self.size.width - width {
                         x = CGFloat(10)
                         y += width + 10
                     }
