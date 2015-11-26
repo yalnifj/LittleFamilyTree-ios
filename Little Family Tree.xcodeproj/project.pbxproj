@@ -48,6 +48,7 @@
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
 		A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */; };
+		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
 		A16241AC1C063374009205F1 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A51C063374009205F1 /* frame1.png */; };
@@ -494,6 +495,7 @@
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAnimatedStateSprite.swift; sourceTree = "<group>"; };
+		A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LittleFamilyScene.swift; path = scenes/LittleFamilyScene.swift; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
 		A16241A51C063374009205F1 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
@@ -1050,6 +1052,7 @@
 				A18F04A51BF7E27E00538F0B /* ChoosePlayerScene.swift */,
 				A18F04A31BF7E22600538F0B /* ChoosePlayerScene.sks */,
 				A16241B51C063E63009205F1 /* MatchGameScene.swift */,
+				A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -1888,6 +1891,7 @@
 				A10BF1251BC9D359005CAFDA /* EvidenceReference.swift in Sources */,
 				A16241C51C064507009205F1 /* PersonMatchSprite.swift in Sources */,
 				A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */,
+				A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
 				A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */,

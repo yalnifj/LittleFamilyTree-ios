@@ -781,19 +781,22 @@ class GameScene: SKScene, EventListener {
         personSprite.size.height = 40
         personSprite.person = selectedPerson
         personSprite.showLabel = false
-        //personSprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
+        personSprite.topic = LittleFamilyScene.TOPIC_START_CHOOSE
         self.addChild(personSprite)
         
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
         }
@@ -853,14 +856,19 @@ class GameScene: SKScene, EventListener {
     var index:Int?
     func onEvent(topic: String, data: NSObject?) {
         if topic == GameScene.TOPIC_START_MATCH {
-            
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
             let nextScene = MatchGameScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
             scene?.view?.presentScene(nextScene, transition: transition)
+        }
+        else if topic == LittleFamilyScene.TOPIC_START_CHOOSE {
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
+            let nextScene = ChoosePlayerScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            scene?.view?.presentScene(nextScene, transition: transition)
         }
     }
 

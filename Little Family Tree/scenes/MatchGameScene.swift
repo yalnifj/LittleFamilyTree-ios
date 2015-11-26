@@ -9,18 +9,18 @@
 import Foundation
 import SpriteKit
 
-class MatchGameScene: SKScene {
+class MatchGameScene: LittleFamilyScene {
     var dataService:DataService?
-    var selectedPerson:LittlePerson?
+    
     var game:MatchingGame?
     var people:[LittlePerson]?
     var matchSprites = [PersonMatchSprite]()
     var flipCount = 0
-    var topBar:TopBar?
     var flip1:PersonMatchSprite?
     var flip2:PersonMatchSprite?
     
     override func didMoveToView(view: SKView) {
+        super.didMoveToView(view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -32,13 +32,7 @@ class MatchGameScene: SKScene {
         background.zPosition = 0
         self.addChild(background)
         
-        let tsie = CGSizeMake(self.size.width, 40)
-        topBar = TopBar(color: UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.7), size: tsie)
-        topBar!.position = CGPointMake(self.size.width/2, self.size.height-(topBar!.size.height / 2))
-        topBar!.person = selectedPerson
-        topBar!.homeTexture = SKTexture(imageNamed: "home")
-        topBar!.zPosition = 100
-        self.addChild(topBar!)
+        setupTopBar()
         
         dataService = DataService.getInstance()
         if selectedPerson != nil {

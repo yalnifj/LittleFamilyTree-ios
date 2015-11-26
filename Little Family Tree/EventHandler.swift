@@ -36,6 +36,10 @@ class EventHandler {
         if (listeners != nil && listener.index != nil) {
             listeners!.removeAtIndex(listener.index!)
             subscribers[topic] = listeners
+            //-- reindex
+            for i in 0..<listeners!.count {
+                listeners![i].index = i
+            }
         }
     }
     

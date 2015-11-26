@@ -20,7 +20,7 @@ class TopBar: SKSpriteNode {
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.height = self.size.height - 5
             photoSprite?.size.width = (self.size.height - 5) * ratio
-            photoSprite?.position = CGPointMake(-self.size.width/2, 0)
+            photoSprite?.position = CGPointMake(((photoSprite?.size.width)! / 2) + 5 - self.size.width/2, 0)
             photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
         }
@@ -32,11 +32,25 @@ class TopBar: SKSpriteNode {
             let ratio = (homeTexture?.size().width)! / (homeTexture?.size().height)!
             homeSprite?.size.height = self.size.height - 5
             homeSprite?.size.width = (self.size.height - 5) * ratio
-            homeSprite?.position = CGPointMake(self.size.width/2 - (2 + self.size.height), 0)
+            homeSprite?.position = CGPointMake(self.size.width/2 - (5 + self.size.height/2), 0)
             homeSprite?.zPosition = 1
             self.addChild(homeSprite!)
 
         }
     }
     
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(location)
+            if touchedNode == homeSprite {
+                EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_HOME, data: person)
+            }
+            else if touchedNode == photoSprite {
+                EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_CHOOSE, data: person)
+            }
+        }
+    }
+
 }
