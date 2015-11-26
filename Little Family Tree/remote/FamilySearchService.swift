@@ -333,7 +333,7 @@ class FamilySearchService : RemoteService {
             p++
 		}
 
-        print(postString)
+        //print(postString)
 		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
 	 

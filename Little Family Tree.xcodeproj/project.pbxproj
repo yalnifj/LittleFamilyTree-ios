@@ -48,6 +48,27 @@
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
 		A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */; };
+		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
+		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
+		A16241AC1C063374009205F1 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A51C063374009205F1 /* frame1.png */; };
+		A16241AD1C063374009205F1 /* frame2.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A61C063374009205F1 /* frame2.png */; };
+		A16241AE1C063374009205F1 /* frame3.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A71C063374009205F1 /* frame3.png */; };
+		A16241AF1C063374009205F1 /* frame4.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A81C063374009205F1 /* frame4.png */; };
+		A16241B01C063374009205F1 /* frame5.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A91C063374009205F1 /* frame5.png */; };
+		A16241B11C063374009205F1 /* frame6.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241AA1C063374009205F1 /* frame6.png */; };
+		A16241B21C063374009205F1 /* frame7.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241AB1C063374009205F1 /* frame7.png */; };
+		A16241B41C0634A5009205F1 /* MatchPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241B31C0634A5009205F1 /* MatchPerson.swift */; };
+		A16241B61C063E63009205F1 /* MatchGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241B51C063E63009205F1 /* MatchGameScene.swift */; };
+		A16241BE1C063FDC009205F1 /* bubble_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241B81C063FDC009205F1 /* bubble_background.png */; };
+		A16241BF1C063FDC009205F1 /* dressup_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241B91C063FDC009205F1 /* dressup_background.png */; };
+		A16241C01C063FDC009205F1 /* match_back.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241BA1C063FDC009205F1 /* match_back.png */; };
+		A16241C11C063FDC009205F1 /* puzzle_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241BB1C063FDC009205F1 /* puzzle_background.png */; };
+		A16241C21C063FDC009205F1 /* scratch_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241BC1C063FDC009205F1 /* scratch_background.png */; };
+		A16241C31C063FDC009205F1 /* tree_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241BD1C063FDC009205F1 /* tree_background.png */; };
+		A16241C51C064507009205F1 /* PersonMatchSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241C41C064507009205F1 /* PersonMatchSprite.swift */; };
+		A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241C61C0676BB009205F1 /* SpeechHelper.swift */; };
+		A16241C91C067C20009205F1 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241C81C067C20009205F1 /* TopBar.swift */; };
+		A16241CB1C06801F009205F1 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241CA1C06801F009205F1 /* home.png */; };
 		A1686D631BB97D3400E58A09 /* GenderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D5E1BB97D3400E58A09 /* GenderType.swift */; };
 		A1686D641BB97D3400E58A09 /* LittlePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */; };
 		A1686D651BB97D3400E58A09 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D601BB97D3400E58A09 /* Media.swift */; };
@@ -473,6 +494,27 @@
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAnimatedStateSprite.swift; sourceTree = "<group>"; };
+		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
+		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
+		A16241A51C063374009205F1 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
+		A16241A61C063374009205F1 /* frame2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame2.png; sourceTree = "<group>"; };
+		A16241A71C063374009205F1 /* frame3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame3.png; sourceTree = "<group>"; };
+		A16241A81C063374009205F1 /* frame4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame4.png; sourceTree = "<group>"; };
+		A16241A91C063374009205F1 /* frame5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame5.png; sourceTree = "<group>"; };
+		A16241AA1C063374009205F1 /* frame6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame6.png; sourceTree = "<group>"; };
+		A16241AB1C063374009205F1 /* frame7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame7.png; sourceTree = "<group>"; };
+		A16241B31C0634A5009205F1 /* MatchPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchPerson.swift; path = gamelogic/MatchPerson.swift; sourceTree = "<group>"; };
+		A16241B51C063E63009205F1 /* MatchGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchGameScene.swift; path = scenes/MatchGameScene.swift; sourceTree = "<group>"; };
+		A16241B81C063FDC009205F1 /* bubble_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_background.png; sourceTree = "<group>"; };
+		A16241B91C063FDC009205F1 /* dressup_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dressup_background.png; sourceTree = "<group>"; };
+		A16241BA1C063FDC009205F1 /* match_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = match_back.png; sourceTree = "<group>"; };
+		A16241BB1C063FDC009205F1 /* puzzle_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puzzle_background.png; sourceTree = "<group>"; };
+		A16241BC1C063FDC009205F1 /* scratch_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scratch_background.png; sourceTree = "<group>"; };
+		A16241BD1C063FDC009205F1 /* tree_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_background.png; sourceTree = "<group>"; };
+		A16241C41C064507009205F1 /* PersonMatchSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonMatchSprite.swift; path = sprites/PersonMatchSprite.swift; sourceTree = "<group>"; };
+		A16241C61C0676BB009205F1 /* SpeechHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechHelper.swift; sourceTree = "<group>"; };
+		A16241C81C067C20009205F1 /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopBar.swift; path = sprites/TopBar.swift; sourceTree = "<group>"; };
+		A16241CA1C06801F009205F1 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		A1686D5E1BB97D3400E58A09 /* GenderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderType.swift; sourceTree = "<group>"; };
 		A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LittlePerson.swift; sourceTree = "<group>"; };
 		A1686D601BB97D3400E58A09 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -866,11 +908,14 @@
 				A1F81B551BF3AFDE00078870 /* assets */,
 				A12B90641BDC44030014ED16 /* DataService.swift */,
 				A12B90651BDC44030014ED16 /* DBHelper.swift */,
+				A16241971C05FCAB009205F1 /* EventHandler.swift */,
+				A16241C61C0676BB009205F1 /* SpeechHelper.swift */,
 				A1686D5D1BB97D3400E58A09 /* data */,
 				A117C7341BA4AD0000964D50 /* GameViewController.swift */,
 				A117C7391BA4AD0000964D50 /* Images.xcassets */,
 				A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */,
 				A117C7361BA4AD0000964D50 /* Main.storyboard */,
+				A16241A11C06320A009205F1 /* gamelogic */,
 				A1686D681BB97D4A00E58A09 /* remote */,
 				A1B5546B1BB242CD00DF709F /* scenes */,
 				A1B5546A1BB2416500DF709F /* sprites */,
@@ -903,6 +948,42 @@
 				A117C7471BA4AD0100964D50 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A16241A11C06320A009205F1 /* gamelogic */ = {
+			isa = PBXGroup;
+			children = (
+				A16241A21C06326F009205F1 /* MatchingGame.swift */,
+				A16241B31C0634A5009205F1 /* MatchPerson.swift */,
+			);
+			name = gamelogic;
+			sourceTree = "<group>";
+		};
+		A16241A41C063374009205F1 /* frames */ = {
+			isa = PBXGroup;
+			children = (
+				A16241A51C063374009205F1 /* frame1.png */,
+				A16241A61C063374009205F1 /* frame2.png */,
+				A16241A71C063374009205F1 /* frame3.png */,
+				A16241A81C063374009205F1 /* frame4.png */,
+				A16241A91C063374009205F1 /* frame5.png */,
+				A16241AA1C063374009205F1 /* frame6.png */,
+				A16241AB1C063374009205F1 /* frame7.png */,
+			);
+			path = frames;
+			sourceTree = "<group>";
+		};
+		A16241B71C063FDC009205F1 /* backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				A16241B81C063FDC009205F1 /* bubble_background.png */,
+				A16241B91C063FDC009205F1 /* dressup_background.png */,
+				A16241BA1C063FDC009205F1 /* match_back.png */,
+				A16241BB1C063FDC009205F1 /* puzzle_background.png */,
+				A16241BC1C063FDC009205F1 /* scratch_background.png */,
+				A16241BD1C063FDC009205F1 /* tree_background.png */,
+			);
+			path = backgrounds;
 			sourceTree = "<group>";
 		};
 		A1686D5D1BB97D3400E58A09 /* data */ = {
@@ -953,6 +1034,8 @@
 				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
 				A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */,
 				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
+				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
+				A16241C81C067C20009205F1 /* TopBar.swift */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -966,6 +1049,7 @@
 				A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */,
 				A18F04A51BF7E27E00538F0B /* ChoosePlayerScene.swift */,
 				A18F04A31BF7E22600538F0B /* ChoosePlayerScene.sks */,
+				A16241B51C063E63009205F1 /* MatchGameScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -988,9 +1072,12 @@
 		A1F81B551BF3AFDE00078870 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				A16241B71C063FDC009205F1 /* backgrounds */,
+				A16241A41C063374009205F1 /* frames */,
 				A18F04A91BF7F10C00538F0B /* people */,
 				A1F81B561BF3AFDE00078870 /* house */,
 				A1F81C4E1BF3AFDF00078870 /* ic_launcher-web.png */,
+				A16241CA1C06801F009205F1 /* home.png */,
 				A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */,
 				A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
@@ -1467,6 +1554,7 @@
 				A1F81D461BF3AFDF00078870 /* house_toys_horse6.png in Resources */,
 				A1F81D481BF3AFDF00078870 /* house_tree_bird.png in Resources */,
 				A1F81CB41BF3AFDF00078870 /* house_familyroom_couch.png in Resources */,
+				A16241BF1C063FDC009205F1 /* dressup_background.png in Resources */,
 				A1F81CD81BF3AFDF00078870 /* house_kitchen_b.png in Resources */,
 				A1F81CA21BF3AFDF00078870 /* house_chilldroom_teddy.png in Resources */,
 				A18F04B71BF7F19400538F0B /* mom.png in Resources */,
@@ -1474,6 +1562,7 @@
 				A1F81CFD1BF3AFDF00078870 /* house_music_drums4.png in Resources */,
 				A1F81D031BF3AFDF00078870 /* house_music_guitar1.png in Resources */,
 				A1F81D601BF3AFDF00078870 /* house_rooms_3_2.png in Resources */,
+				A16241AD1C063374009205F1 /* frame2.png in Resources */,
 				A1F81D741BF3AFDF00078870 /* kettle.mp3 in Resources */,
 				A1F81D3F1BF3AFDF00078870 /* house_toys_blocks8.png in Resources */,
 				A1F81C8F1BF3AFDF00078870 /* house_chilldroom_desk7.png in Resources */,
@@ -1485,6 +1574,7 @@
 				A1F81D0D1BF3AFDF00078870 /* house_toaster11.png in Resources */,
 				A1F81CD91BF3AFDF00078870 /* house_kitchen_c.png in Resources */,
 				A1F81C951BF3AFDF00078870 /* house_chilldroom_paint11.png in Resources */,
+				A16241CB1C06801F009205F1 /* home.png in Resources */,
 				A1F81CD21BF3AFDF00078870 /* house_flowers_a1.png in Resources */,
 				A1F81D9B1BF3E8BE00078870 /* pgv_logo.png in Resources */,
 				A1F81D3A1BF3AFDF00078870 /* house_toys_blocks3.png in Resources */,
@@ -1504,6 +1594,7 @@
 				A1F81D661BF3AFDF00078870 /* house_rooms_4_4.png in Resources */,
 				A1F81CBE1BF3AFDF00078870 /* house_familyroom_frame17.png in Resources */,
 				A1F81CB71BF3AFDF00078870 /* house_familyroom_frame10.png in Resources */,
+				A16241C11C063FDC009205F1 /* puzzle_background.png in Resources */,
 				A1F81D731BF3AFDF00078870 /* intro.wav in Resources */,
 				A1F81D351BF3AFDF00078870 /* house_toys_bat8.png in Resources */,
 				A1F81D3C1BF3AFDF00078870 /* house_toys_blocks5.png in Resources */,
@@ -1521,6 +1612,7 @@
 				A1F81D0E1BF3AFDF00078870 /* house_toaster12.png in Resources */,
 				A1F81D681BF3AFDF00078870 /* baseball_bat.wav in Resources */,
 				A1F81CA31BF3AFDF00078870 /* house_chilldroom_teddy2.png in Resources */,
+				A16241AF1C063374009205F1 /* frame4.png in Resources */,
 				A1F81D861BF3AFDF00078870 /* trumpet_track.mp3 in Resources */,
 				A1F81C7D1BF3AFDF00078870 /* house_chilldroom_bed.png in Resources */,
 				A1F81D871BF3AFDF00078870 /* violin_allinourfamilytree.mp3 in Resources */,
@@ -1546,6 +1638,8 @@
 				A1F81D701BF3AFDF00078870 /* glass_break.wav in Resources */,
 				A1F81D651BF3AFDF00078870 /* house_rooms_4_3.png in Resources */,
 				A1F81C9F1BF3AFDF00078870 /* house_chilldroom_paint7.png in Resources */,
+				A16241C21C063FDC009205F1 /* scratch_background.png in Resources */,
+				A16241B01C063374009205F1 /* frame5.png in Resources */,
 				A1F81C801BF3AFDF00078870 /* house_chilldroom_desk10.png in Resources */,
 				A1F81D991BF3E8AD00078870 /* tree_logotype_1x.png in Resources */,
 				A1F81C741BF3AFDF00078870 /* house_adult_wardrobe1.png in Resources */,
@@ -1691,6 +1785,7 @@
 				A1F81CC91BF3AFDF00078870 /* house_familyroom_frame4.png in Resources */,
 				A1F81CF41BF3AFDF00078870 /* house_kitchen_kettle9.png in Resources */,
 				A1F81CFF1BF3AFDF00078870 /* house_music_drums6.png in Resources */,
+				A16241AE1C063374009205F1 /* frame3.png in Resources */,
 				A1F81CA41BF3AFDF00078870 /* house_chilldroom_teddy3.png in Resources */,
 				A1F81CC81BF3AFDF00078870 /* house_familyroom_frame3.png in Resources */,
 				A1F81D151BF3AFDF00078870 /* house_toaster19.png in Resources */,
@@ -1700,6 +1795,7 @@
 				A1F81C981BF3AFDF00078870 /* house_chilldroom_paint14.png in Resources */,
 				A1F81CED1BF3AFDF00078870 /* house_kitchen_kettle2.png in Resources */,
 				A1F81C721BF3AFDF00078870 /* house_adult_vanity.png in Resources */,
+				A16241AC1C063374009205F1 /* frame1.png in Resources */,
 				A1F81CD51BF3AFDF00078870 /* house_flowers_a4.png in Resources */,
 				A1F81D311BF3AFDF00078870 /* house_toys_bat4.png in Resources */,
 				A1F81CA61BF3AFDF00078870 /* house_chilldroom_teddy5.png in Resources */,
@@ -1707,16 +1803,20 @@
 				A18F04AC1BF7F13000538F0B /* baby.png in Resources */,
 				A1F81C991BF3AFDF00078870 /* house_chilldroom_paint15.png in Resources */,
 				A1F81CAB1BF3AFDF00078870 /* house_cloud1c.png in Resources */,
+				A16241B21C063374009205F1 /* frame7.png in Resources */,
 				A1F81CC31BF3AFDF00078870 /* house_familyroom_frame21.png in Resources */,
+				A16241C01C063FDC009205F1 /* match_back.png in Resources */,
 				A1F81D2A1BF3AFDF00078870 /* house_toys_bat18.png in Resources */,
 				A1F81CEE1BF3AFDF00078870 /* house_kitchen_kettle3.png in Resources */,
 				A1F81D411BF3AFDF00078870 /* house_toys_horse1.png in Resources */,
 				A1F81C891BF3AFDF00078870 /* house_chilldroom_desk19.png in Resources */,
 				A1F81CDF1BF3AFDF00078870 /* house_kitchen_freezer3.png in Resources */,
 				A1F81CD61BF3AFDF00078870 /* house_flowers_a5.png in Resources */,
+				A16241C31C063FDC009205F1 /* tree_background.png in Resources */,
 				A1F81CFE1BF3AFDF00078870 /* house_music_drums5.png in Resources */,
 				A1F81D391BF3AFDF00078870 /* house_toys_blocks2.png in Resources */,
 				A1F81CBB1BF3AFDF00078870 /* house_familyroom_frame14.png in Resources */,
+				A16241B11C063374009205F1 /* frame6.png in Resources */,
 				A1F81CA81BF3AFDF00078870 /* house_cloud1.png in Resources */,
 				A1F81C9E1BF3AFDF00078870 /* house_chilldroom_paint6.png in Resources */,
 				A1F81C9D1BF3AFDF00078870 /* house_chilldroom_paint5.png in Resources */,
@@ -1739,6 +1839,7 @@
 				A1F81C971BF3AFDF00078870 /* house_chilldroom_paint13.png in Resources */,
 				A1F81D5D1BF3AFDF00078870 /* house_rooms_2_4.png in Resources */,
 				A1F81CAE1BF3AFDF00078870 /* house_cloud2.png in Resources */,
+				A16241BE1C063FDC009205F1 /* bubble_background.png in Resources */,
 				A1F81CB81BF3AFDF00078870 /* house_familyroom_frame11.png in Resources */,
 				A1F81C9C1BF3AFDF00078870 /* house_chilldroom_paint4.png in Resources */,
 				A1F81D4A1BF3AFDF00078870 /* house_tree_bird2.png in Resources */,
@@ -1775,17 +1876,21 @@
 				A10BF11F1BC9D359005CAFDA /* Attribution.swift in Sources */,
 				A10BF1281BC9D359005CAFDA /* Field.swift in Sources */,
 				A1F81D9D1BF4076100078870 /* FamilySearchLogin.swift in Sources */,
+				A16241B61C063E63009205F1 /* MatchGameScene.swift in Sources */,
 				A10BF1351BC9D359005CAFDA /* ResourceReference.swift in Sources */,
 				A10BF1331BC9D359005CAFDA /* Qualifier.swift in Sources */,
+				A16241C91C067C20009205F1 /* TopBar.swift in Sources */,
 				A10BF12D1BC9D359005CAFDA /* Name.swift in Sources */,
 				A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */,
 				A10BF1321BC9D359005CAFDA /* PlaceReference.swift in Sources */,
 				A117C7351BA4AD0000964D50 /* GameViewController.swift in Sources */,
 				A1686D651BB97D3400E58A09 /* Media.swift in Sources */,
 				A10BF1251BC9D359005CAFDA /* EvidenceReference.swift in Sources */,
+				A16241C51C064507009205F1 /* PersonMatchSprite.swift in Sources */,
 				A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
+				A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */,
 				A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */,
 				A1686D6D1BB97D4A00E58A09 /* RemoteService.swift in Sources */,
 				A1AE10EC1BF669D90043033A /* StatusListener.swift in Sources */,
@@ -1808,6 +1913,7 @@
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,
 				A10BF1241BC9D359005CAFDA /* DisplayProperties.swift in Sources */,
+				A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */,
 				A1686D631BB97D3400E58A09 /* GenderType.swift in Sources */,
 				A10BF1261BC9D359005CAFDA /* ExtensibleData.swift in Sources */,
 				A10BF12A1BC9D359005CAFDA /* HypermediaEnabledData.swift in Sources */,
@@ -1818,8 +1924,10 @@
 				A10BF1381BC9D359005CAFDA /* SourceReference.swift in Sources */,
 				A10BF1361BC9D359005CAFDA /* SourceCitation.swift in Sources */,
 				A10BF1201BC9D359005CAFDA /* CitationField.swift in Sources */,
+				A16241B41C0634A5009205F1 /* MatchPerson.swift in Sources */,
 				A10BF1301BC9D359005CAFDA /* Note.swift in Sources */,
 				A10BF1231BC9D359005CAFDA /* Date.swift in Sources */,
+				A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */,
 				A10BF1391BC9D359005CAFDA /* Subject.swift in Sources */,
 				A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */,
 				A10BF12E1BC9D359005CAFDA /* NameForm.swift in Sources */,

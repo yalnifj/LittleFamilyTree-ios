@@ -15,6 +15,7 @@ class AnimatedStateSprite: SKSpriteNode {
     var stateActions = [Int : [SKAction]]()
     var stateSounds = [Int : SKAction]()
     var clickStates = [Int : Bool]()
+    var stateEvents = [Int : String]()
 	var moveAction:SKAction?
     var state:Int = 0
     var moved:Bool = false
@@ -31,11 +32,11 @@ class AnimatedStateSprite: SKSpriteNode {
 		if (stateActions[st] == nil) {
             stateActions[st] = [SKAction]()
         }
-        stateActions[st]?.append(action);
+        stateActions[st]?.append(action)
     }
     
     func addSound(st:Int, action:SKAction) {
-        stateSounds[st] = action;
+        stateSounds[st] = action
     }
     
     func addSound(st:Int, soundFile:String) {
@@ -43,7 +44,11 @@ class AnimatedStateSprite: SKSpriteNode {
     }
     
     func addClick(st:Int, val:Bool) {
-        clickStates[st] = val;
+        clickStates[st] = val
+    }
+    
+    func addEvent(st:Int, topic:String) {
+        stateEvents[st] = topic
     }
     
     func update() {
@@ -53,7 +58,8 @@ class AnimatedStateSprite: SKSpriteNode {
     func nextState() {
         var nextState = state + 1;
         if ((stateTextures[nextState] == nil || stateTextures[nextState]?.count==0)
-            && stateActions[nextState]?.count==0 && clickStates[nextState] == nil) {
+                && (stateActions[nextState] == nil || stateActions[nextState]?.count==0)
+                && clickStates[nextState] == nil) {
             nextState = 0;
         }
         if (stateTextures[state] == nil && self.texture != nil ) {
@@ -83,6 +89,9 @@ class AnimatedStateSprite: SKSpriteNode {
                 addAction(state, action: action)
                 runAction(action)
             }
+        }
+        if stateEvents[state] != nil {
+            EventHandler.getInstance().publish(stateEvents[state]!, data: self)
         }
     }
     

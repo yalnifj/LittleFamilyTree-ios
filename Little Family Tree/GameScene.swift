@@ -8,11 +8,13 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, EventListener {
+    static var TOPIC_START_MATCH = "start_match"
+    
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
     var diffY : CGFloat!
-    var clipX : CGFloat = 0.0
+    var clipX : CGFloat = -200.0
     var clipY : CGFloat = 0.0
     var minX : CGFloat = 295.0
     var minY : CGFloat = 0
@@ -22,6 +24,8 @@ class GameScene: SKScene {
     var background : SKSpriteNode!
     var spriteContainer : SKSpriteNode!
 	var updateSprites = [AnimatedStateSprite]()
+    
+    var selectedPerson:LittlePerson?
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -37,13 +41,16 @@ class GameScene: SKScene {
         if (maxHeight > oHeight) {
             lfScale = maxHeight / oHeight;
         }
+        else if oHeight > self.size.height {
+            lfScale = self.size.height * 1.1 / oHeight
+        }
         diffY = maxHeight - self.size.height;
         background.size = CGSizeMake(self.size.width, maxHeight);
         self.addChild(background);
         
         spriteContainer = SKSpriteNode()
         spriteContainer.anchorPoint = CGPoint.zero
-        spriteContainer.position = CGPointMake(minX, minY)
+        spriteContainer.position = CGPointMake(clipX, minY)
         spriteContainer.setScale(lfScale)
         spriteContainer.zPosition = z++
         self.addChild(spriteContainer)
@@ -326,6 +333,7 @@ class GameScene: SKScene {
         let jumpAction = SKAction.repeatAction(SKAction.animateWithTextures(jumping, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         frame.addAction(1, action: jumpAction)
         frame.addClick(1, val: false)
+        frame.addEvent(0, topic: GameScene.TOPIC_START_MATCH)
         spriteContainer.addChild(frame)
         
         let childBed = SKSpriteNode(imageNamed: "house_chilldroom_bed")
@@ -764,7 +772,25 @@ class GameScene: SKScene {
         guitar.addClick(1, val: false)
 		guitar.addSound(1, soundFile: "guitar")
         spriteContainer.addChild(guitar)
-
+        
+        let personSprite = PersonNameSprite()
+        personSprite.userInteractionEnabled = true
+        personSprite.position = CGPointMake(self.size.width - 50, 10)
+        personSprite.zPosition = z++
+        personSprite.size.width = 40
+        personSprite.size.height = 40
+        personSprite.person = selectedPerson
+        personSprite.showLabel = false
+        //personSprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
+        self.addChild(personSprite)
+        
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
+        SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        super.willMoveFromView(view)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -807,9 +833,7 @@ class GameScene: SKScene {
         }
         
         lastPoint = nextPoint
-        
     }
-    
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -825,4 +849,19 @@ class GameScene: SKScene {
 		
 		self.updateSprites = notRemoving
     }
+    
+    var index:Int?
+    func onEvent(topic: String, data: NSObject?) {
+        if topic == GameScene.TOPIC_START_MATCH {
+            
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            
+            let nextScene = MatchGameScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            nextScene.selectedPerson = selectedPerson
+            scene?.view?.presentScene(nextScene, transition: transition)
+            
+        }
+    }
+
 }

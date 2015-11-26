@@ -1,6 +1,6 @@
 import Foundation
 
-class LittlePerson:Equatable {
+class LittlePerson : NSObject {
 	var id : Int64?
 	var name : NSString?
 	var givenName : NSString?
@@ -32,6 +32,13 @@ class LittlePerson:Equatable {
 			age = ageComponents.year
 		}
 	}
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        if let person = object as? LittlePerson {
+            return person.id == self.id
+        }
+        return false
+    }
 }
 func ==(lhs: LittlePerson, rhs: LittlePerson) -> Bool {
     return lhs.id == rhs.id

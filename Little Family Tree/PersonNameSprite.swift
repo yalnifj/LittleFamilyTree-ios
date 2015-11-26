@@ -18,17 +18,42 @@ class PersonNameSprite: SKSpriteNode {
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.width = self.size.width * 0.6
             photoSprite?.size.height = (self.size.width * 0.6) / ratio
-            
+            photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
             
-            nameLabel = SKLabelNode(text: person?.givenName as String?)
-            nameLabel?.fontSize = 24
-            nameLabel?.fontColor = UIColor.blackColor()
-            nameLabel?.position = CGPointMake(self.size.width/2, 12)
-            self.addChild(nameLabel!)
+            if showLabel {
+                addLabel()
+            }
         }
     }
     var photoSprite:SKSpriteNode?
     var nameLabel:SKLabelNode?
+    var showLabel = true {
+        didSet {
+            if !showLabel && nameLabel != nil {
+                nameLabel?.removeFromParent()
+            }
+            if showLabel {
+                addLabel()
+            }
+        }
+    }
+    var topic:String?
+    
+    func addLabel() {
+        nameLabel = SKLabelNode(text: person?.givenName as String?)
+        nameLabel?.fontSize = self.size.width / 10
+        nameLabel?.fontColor = UIColor.blackColor()
+        nameLabel?.position = CGPointMake(self.size.width/2, (nameLabel?.fontSize)! / 2)
+        nameLabel?.zPosition = 2
+        self.addChild(nameLabel!)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        if topic != nil {
+            EventHandler.getInstance().publish(topic!, data: person)
+        }
+    }
 
 }
