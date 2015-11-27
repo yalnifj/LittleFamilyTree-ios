@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 class PersonMatchSprite: SKSpriteNode {
+    var flipping = false
     var gameScene:MatchGameScene?
     var person:MatchPerson? {
         didSet {
@@ -45,27 +46,39 @@ class PersonMatchSprite: SKSpriteNode {
     }
     
     func flip() {
-        let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.3)
-        let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.3)
-        let firstHalfMove = SKAction.moveByX(self.size.width/2, y: 0, duration: 0.3)
-        let secondHalfMove = SKAction.moveByX(-self.size.width/2, y: 0, duration: 0.3)
-    
-        setScale(1.0)
+        if flipping == false {
+            flipping = true
+            removeAllActions();
+            let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.3)
+            let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.3)
+            let firstHalfMove = SKAction.moveByX(self.size.width/2, y: 0, duration: 0.3)
+            let secondHalfMove = SKAction.moveByX(-self.size.width/2, y: 0, duration: 0.3)
         
-        runAction(firstHalfMove)
-        runAction(firstHalfFlip) {
-            if self.person?.flipped == true {
-                self.person?.flipped = false
-                self.photoSprite?.hidden = true
-            } else {
-                self.person?.flipped = true
-                self.photoSprite?.hidden = false
-                SpeechHelper.getInstance().speak(self.person!.person.givenName as! String)
+            setScale(1.0)
+            
+            runAction(firstHalfMove)
+            runAction(firstHalfFlip) {
+                if self.person?.flipped == true {
+                    self.person?.flipped = false
+                    self.photoSprite?.hidden = true
+                } else {
+                    self.person?.flipped = true
+                    self.photoSprite?.hidden = false
+                    SpeechHelper.getInstance().speak(self.person!.person.givenName as! String)
+                }
+                self.runAction(secondHalfMove)
+                self.runAction(secondHalfFlip) {
+                    self.flipping = false
+                }
             }
-            self.runAction(secondHalfMove)
-            self.runAction(secondHalfFlip)
         }
-        
+    }
+    
+    func delayFlip() {
+        let delayAction = SKAction.waitForDuration(2.0)
+        runAction(delayAction) {
+            self.flip()
+        }
     }
     
 }

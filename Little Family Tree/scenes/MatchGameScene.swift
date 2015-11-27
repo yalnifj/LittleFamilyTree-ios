@@ -14,6 +14,7 @@ class MatchGameScene: LittleFamilyScene {
     
     var game:MatchingGame?
     var people:[LittlePerson]?
+    var loadIndex = 0
     var matchSprites = [PersonMatchSprite]()
     var flipCount = 0
     var flip1:PersonMatchSprite?
@@ -36,13 +37,40 @@ class MatchGameScene: LittleFamilyScene {
         
         dataService = DataService.getInstance()
         if selectedPerson != nil {
-            self.dataService?.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { family, err in
-                self.people = family
-                self.game = MatchingGame(startingLevel: 1, people: self.people!)
-                self.game!.setupLevel()
-                self.setupGame()
-            })
+            loadMorePeople()
         }
+    }
+    
+    func loadMorePeople() {
+        if loadIndex > 0 && loadIndex >= people!.count {
+            loadIndex = 0
+        }
+        if self.people == nil {
+            self.people = [LittlePerson]()
+            self.people!.append(selectedPerson!)
+        }
+        self.dataService?.getFamilyMembers(people![loadIndex], loadSpouse: true, onCompletion: { family, err in
+            self.loadIndex++
+            if family != nil {
+                for p in family! {
+                    if !self.people!.contains(p) {
+                        self.people!.append(p)
+                    }
+                }
+                if self.game == nil {
+                    self.game = MatchingGame(startingLevel: 1, people: self.people!)
+                    self.game!.setupLevel()
+                } else {
+                    self.game?.peoplePool = self.people!
+                    if self.people!.count < self.game!.level+1 {
+                        self.loadMorePeople()
+                        return;
+                    }
+                    self.game?.levelUp()
+                }
+                self.setupGame()
+            }
+        })
     }
     
     func setupGame() {
@@ -121,9 +149,16 @@ class MatchGameScene: LittleFamilyScene {
                         flip2?.person?.matched = true
                         
                         if game?.allMatched() == true {
-                            game?.levelUp()
-                            setupGame()
+                            let levelUpAction = SKAction.waitForDuration(2.0)
+                            runAction(levelUpAction) {
+                                let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
+                                self.runAction(soundAction)
+                                self.loadMorePeople()
+                            }
                         }
+                    } else {
+                        flip1?.delayFlip()
+                        flip2?.delayFlip()
                     }
                 }
             }
