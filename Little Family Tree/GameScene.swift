@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene, EventListener {
     static var TOPIC_START_MATCH = "start_match"
+    static var TOPIC_START_DRESSUP = "start_dressup"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -601,6 +602,7 @@ class GameScene: SKScene, EventListener {
         let openingAction3 = SKAction.repeatAction(SKAction.animateWithTextures(wardrobeOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         wardrobe.addAction(1, action: openingAction3)
         wardrobe.addClick(1, val: false)
+        wardrobe.addEvent(0, topic: GameScene.TOPIC_START_DRESSUP)
         spriteContainer.addChild(wardrobe)
         
         let lightA = AnimatedStateSprite(imageNamed: "house_light_a1")
@@ -786,6 +788,7 @@ class GameScene: SKScene, EventListener {
         
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
@@ -793,6 +796,7 @@ class GameScene: SKScene, EventListener {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -859,6 +863,14 @@ class GameScene: SKScene, EventListener {
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
             let nextScene = MatchGameScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            nextScene.selectedPerson = selectedPerson
+            scene?.view?.presentScene(nextScene, transition: transition)
+        }
+        else if topic == GameScene.TOPIC_START_DRESSUP {
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            
+            let nextScene = ChooseCultureScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
             scene?.view?.presentScene(nextScene, transition: transition)
