@@ -65,14 +65,7 @@ class DataService {
 	}
 	
 	func addToSyncQ(person:LittlePerson) {
-		let todayDate = NSDate()
-		let lastHour = NSDate(timeInterval: -60, sinceDate: todayDate)
-		if (person.hasParents == nil 
-			|| person.lastSync==nil || person.lastSync!.compare(lastHour) == NSComparisonResult.OrderedAscending
-			|| person.treeLevel==nil 
-			|| (person.treeLevel <= 1 && person.hasChildren == nil)) {
-			
-		}
+		SyncQ.getInstance().addToSyncQ(person)
 	}
 	
 	func addFamilyToSyncQ(people:[LittlePerson]) {
