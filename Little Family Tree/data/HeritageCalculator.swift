@@ -11,9 +11,17 @@ import Foundation
 class HeritageCalculator {
     static var MAX_PATHS=13
     var dataService:DataService
+    var paths:[HeritagePath]
+    var cultures:[String:HeritagePath]
+    var culturePeople:[String:[LittlePerson]]
+    var uniquePaths:[HeritagePath]
     
     init() {
         dataService = DataService.getInstance()
+        paths = [HeritagePath]()
+        cultures = [String:HeritagePath]()
+        culturePeople = [String:[LittlePerson]]()
+        uniquePaths = [HeritagePath]()
     }
     
     func canEndPath(path:HeritagePath, origin:String) -> Bool {
@@ -30,7 +38,7 @@ class HeritageCalculator {
         return true;
     }
     
-    func execute(person:LittlePerson, onCompletion: ([HeritagePath]) -> Void ) {
+    func execute(person:LittlePerson) {
         var returnPaths = [HeritagePath]()
         var paths = [HeritagePath]()
         var origin = PlaceHelper.getPlaceCountry(person.birthPlace as String?)
@@ -80,6 +88,31 @@ class HeritageCalculator {
             }
         }
 
-        onCompletion(returnPaths)
+        self.paths = returnPaths
+    }
+    
+    func mapPaths() {
+        for path in self.paths {
+            let place = path.place
+            if (cultures[place] == nil) {
+                cultures[place] = path
+                var pl = [LittlePerson]()
+                pl.append(path.treePath.last!)
+                culturePeople[place] = pl
+            } else {
+                let percent = cultures[place]!.percent + path.percent
+                if (cultures[place]!.treePath.count <= path.treePath.count) {
+                    cultures[place]!.percent = percent;
+                    culturePeople[place]?.append(path.treePath.last!)
+                } else {
+                    path.percent = percent
+                    cultures[place] = path
+                    culturePeople[place]?.insert(path.treePath.last!, atIndex: 0)
+                }
+            }
+        }
+        
+        uniquePaths.appendContentsOf(cultures.values)
+        
     }
 }

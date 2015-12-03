@@ -13,7 +13,7 @@ class ChooseCultureScene: LittleFamilyScene {
     var titleLabel:SKLabelNode?
     var outlineSprite:SKSpriteNode?
     var startTime:NSDate?
-    var paths: [HeritagePath]?
+    var calculator:HeritageCalculator?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -61,24 +61,25 @@ class ChooseCultureScene: LittleFamilyScene {
         self.startTime = NSDate()
         let operationQueue = NSOperationQueue()
         let operation1 : NSBlockOperation = NSBlockOperation (block: {
-            let task = HeritageCalculator()
-            task.execute(self.selectedPerson!, onCompletion: {paths in
-                var diff = Int64(3 + self.startTime!.timeIntervalSinceNow)
-                if diff < 0 {
-                    diff = 0
-                }
-                self.paths = paths
-                let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), diff * Int64(NSEC_PER_SEC))
-                dispatch_after(time, dispatch_get_main_queue()) {
-                    //self.outlineSprite?.shader = nil
-                    let test = SKLabelNode(text: "found \(self.paths?.count) paths")
-                    test.fontColor = UIColor.blackColor()
-                    test.fontSize = 14
-                    test.zPosition = 4
-                    test.position = CGPointMake(self.size.width/1.5, self.size.height/1.5)
-                    self.addChild(test)
-                }
-            })
+            self.calculator = HeritageCalculator()
+            self.calculator!.execute(self.selectedPerson!)
+            
+            var diff = Int64(3 + self.startTime!.timeIntervalSinceNow)
+            if diff < 0 {
+                diff = 0
+            }
+            let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), diff * Int64(NSEC_PER_SEC))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.calculator?.mapPaths()
+                //self.outlineSprite?.shader = nil
+                let test = SKLabelNode(text: "found \(self.calculator!.paths.count) paths")
+                test.fontColor = UIColor.blackColor()
+                test.fontSize = 14
+                test.zPosition = 4
+                test.position = CGPointMake(self.size.width/1.5, self.size.height/1.5)
+                self.addChild(test)
+            }
+        
         })
         operationQueue.addOperation(operation1)
         SpeechHelper.getInstance().speak("Calculating your heritage. Please wait...")
