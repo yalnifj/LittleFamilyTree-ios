@@ -27,13 +27,19 @@ class PlaceHelper {
 		return parts.count
 	}
     
-    static func getTopPlace(place:String) -> String? {
-        let parts = place.split("[,\\\\/]+")
+    static func getTopPlace(place:String?) -> String? {
+        if place == nil {
+            return nil
+        }
+        let parts = place!.split("[,\\\\/]+")
         return parts[parts.count-1].trim().replaceAll("[<>\\[\\]\\(\\)\\.\"]+", replace: "")
     }
     
-    static func getTopPlace(place:String, level:Int) -> String {
-        let parts = place.split("[,\\\\/]+");
+    static func getTopPlace(place:String?, level:Int) -> String? {
+        if place == nil {
+            return nil
+        }
+        let parts = place!.split("[,\\\\/]+");
         if (parts.count >= level) {
             return parts[parts.count - level].trim().replaceAll("[<>\\[\\]\\(\\)\\.\"]+", replace: "");
         }
@@ -64,7 +70,7 @@ class PlaceHelper {
         return false;
     }
 	
-    static func getPlaceCountry(p:String) -> String {
+    static func getPlaceCountry(p:String?) -> String {
         var place = PlaceHelper.getTopPlace(p);
         if (place == nil) {
             return UNKNOWN

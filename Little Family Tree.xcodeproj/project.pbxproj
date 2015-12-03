@@ -48,6 +48,7 @@
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
 		A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */; };
+		A149740B1C0E9A6F004E99D5 /* gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A149740A1C0E9A6E004E99D5 /* gradient.fsh */; };
 		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
@@ -656,6 +657,7 @@
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAnimatedStateSprite.swift; sourceTree = "<group>"; };
+		A149740A1C0E9A6E004E99D5 /* gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = gradient.fsh; path = sprites/gradient.fsh; sourceTree = "<group>"; };
 		A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LittleFamilyScene.swift; path = scenes/LittleFamilyScene.swift; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
@@ -1339,6 +1341,7 @@
 				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
+				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -2232,6 +2235,7 @@
 				A1F81D991BF3E8AD00078870 /* tree_logotype_1x.png in Resources */,
 				A1F81C741BF3AFDF00078870 /* house_adult_wardrobe1.png in Resources */,
 				A1F81D161BF3AFDF00078870 /* house_toaster2.png in Resources */,
+				A149740B1C0E9A6F004E99D5 /* gradient.fsh in Resources */,
 				A1EA5E471C093664006528A5 /* girl_hat.png in Resources */,
 				A1F81D7C1BF3AFDF00078870 /* pushbuttonoff.wav in Resources */,
 				A1EA5E2A1C093664006528A5 /* girl_top.png in Resources */,

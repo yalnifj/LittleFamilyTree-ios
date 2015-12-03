@@ -33,7 +33,7 @@ class HeritageCalculator {
     func execute(person:LittlePerson, onCompletion: ([HeritagePath]) -> Void ) {
         var returnPaths = [HeritagePath]()
         var paths = [HeritagePath]()
-        var origin = PlaceHelper.getPlaceCountry(person.birthPlace as! String)
+        var origin = PlaceHelper.getPlaceCountry(person.birthPlace as String?)
         
         let first = HeritagePath(place: origin)
         first.percent = 1.0
@@ -46,11 +46,11 @@ class HeritageCalculator {
                 returnPaths.append(path)
             }
             else {
-                let pathPerson = path.treePath.last!;
+                let pathPerson = path.treePath.last!
                 let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
                 if (parents != nil && parents!.count > 0) {
                     for parent in parents! {
-                        var place = PlaceHelper.getPlaceCountry(parent.birthPlace as! String);
+                        var place = PlaceHelper.getPlaceCountry(parent.birthPlace as String?);
                         //-- sometimes people use nationality as a note, try to ignore those
                         if (parent.nationality != nil && parent.nationality!.length < 80) {
                             place = parent.nationality! as String
