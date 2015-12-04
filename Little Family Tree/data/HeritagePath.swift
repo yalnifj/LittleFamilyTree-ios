@@ -21,14 +21,14 @@ func ==(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
     return lhs.place == rhs.place && lhs.treePath.count == rhs.treePath.count && lhs.percent == rhs.percent
 }
 func <(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
-    return lhs.percent < rhs.percent
-}
-func <=(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
-    return lhs.percent <= rhs.percent
-}
-func >(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
     return lhs.percent > rhs.percent
 }
-func >=(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
+func <=(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
     return lhs.percent >= rhs.percent
+}
+func >(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
+    return lhs.percent < rhs.percent
+}
+func >=(lhs: HeritagePath, rhs: HeritagePath) -> Bool {
+    return lhs.percent <= rhs.percent
 }

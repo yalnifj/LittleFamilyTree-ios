@@ -642,19 +642,27 @@ class DBHelper {
 		return value
 	}
 	
-	func addToSyncQ(id:Int64) throws {
+	func addToSyncQ(id:Int64) {
 		let query = TABLE_SYNCQ.filter(COL_ID == id)
 		let count = lftdb?.scalar(query.count)
 		if count==0 {
-			try lftdb?.run(TABLE_SYNCQ.insert(COL_ID <- id))
+            do {
+                try lftdb?.run(TABLE_SYNCQ.insert(COL_ID <- id))
+            } catch {
+                print("Unable to add to syncq table \(id)")
+            }
 		}
 	}
 	
-	func removeFromSyncQ(id:Int64) throws {
+	func removeFromSyncQ(id:Int64) {
 		let query = TABLE_SYNCQ.filter(COL_ID == id)
 		let count = lftdb?.scalar(query.count)
 		if count > 0 {
-			try lftdb?.run(query.delete())
+            do {
+                try lftdb?.run(query.delete())
+            } catch {
+                print("Unable to remove from syncq table \(id)")
+            }
 		}
 	}
 	

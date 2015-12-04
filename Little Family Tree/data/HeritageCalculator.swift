@@ -113,6 +113,14 @@ class HeritageCalculator {
         }
         
         uniquePaths.appendContentsOf(cultures.values)
-        
+        uniquePaths.sortInPlace()
+        if (uniquePaths.count > 13) {
+            uniquePaths.removeRange(14..<uniquePaths.count)
+        }
+        for path in uniquePaths {
+            let lastInPath = path.treePath.last
+            dataService.addToSyncQ(lastInPath!)
+        }
+
     }
 }
