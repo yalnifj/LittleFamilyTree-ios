@@ -14,12 +14,14 @@ class ChooseCultureScene: LittleFamilyScene {
     var outlineSprite:SKSpriteNode?
     var pathPerson:PersonNameSprite?
     var doll:AnimatedStateSprite?
+    var countryLabel:SKLabelNode?
     var startTime:NSDate?
     var calculator:HeritageCalculator?
     var colors = [UIColor.blueColor(), UIColor.redColor(), UIColor.purpleColor(), UIColor.orangeColor(),
         UIColor.greenColor(), UIColor.yellowColor(), UIColor.grayColor(), UIColor.cyanColor(), UIColor.magentaColor()]
     
     var selectedPath:HeritagePath?
+    var dolls = DressUpDolls()
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -53,7 +55,7 @@ class ChooseCultureScene: LittleFamilyScene {
         if selectedPerson?.gender == GenderType.FEMALE {
             outline = "girloutline"
         }
-        let outlineTexture = SKTexture(imageNamed: outline)
+        let outlineTexture = SKTexture(imageNamed: "dolls/\(outline)")
         let ratio = outlineTexture.size().width / outlineTexture.size().height
         outlineSprite = SKSpriteNode(texture: outlineTexture)
         outlineSprite?.size.width = height * ratio
@@ -67,18 +69,26 @@ class ChooseCultureScene: LittleFamilyScene {
         pathPerson = PersonNameSprite()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
-        pathPerson?.position = CGPointMake(self.size.width*0.25, (pathPerson?.size.height)!/2)
+        pathPerson?.position = CGPointMake(0, 15)
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
         self.addChild(pathPerson!)
         
         doll = AnimatedStateSprite()
-        doll?.size.width = self.size.width/2
-        doll?.size.height = (pathPerson?.size.height)!
-        doll?.position = CGPointMake(self.size.width*0.75, (doll?.size.height)!/2)
+        doll?.size.width = self.size.width/3
+        doll?.size.height = self.size.width/3
+        doll?.position = CGPointMake(self.size.width*0.75, (doll?.size.height)!)
         doll?.zPosition = 3
         doll?.hidden = true
         self.addChild(doll!)
+        
+        countryLabel = SKLabelNode(text: "country")
+        countryLabel?.fontColor = UIColor.blackColor()
+        countryLabel?.fontSize = 11
+        countryLabel?.zPosition = 4
+        countryLabel?.position = CGPointMake((doll?.position.x)!, 20)
+        countryLabel?.hidden = true
+        self.addChild(countryLabel!)
 
         self.startTime = NSDate()
         let operationQueue = NSOperationQueue()
@@ -141,12 +151,23 @@ class ChooseCultureScene: LittleFamilyScene {
     
     func setSelectedPath(path:HeritagePath) {
         self.selectedPath = path
+        
+        titleLabel?.text = "Choose a country"
 
         pathPerson?.person = self.calculator!.culturePeople[path.place]![0]
         pathPerson?.hidden = false
         
-        doll?.texture = SKTexture(imageNamed: "usa/girl_thumb")
+        let dollConfig = self.dolls.getDollConfig(path.place, person: (pathPerson?.person)!)
+
+        let texture = SKTexture(imageNamed: dollConfig.getThumbnail())
+        let ratio = texture.size().width / texture.size().height
+        doll?.size.width = (doll?.size.height)! * ratio
+        doll?.texture = texture
         doll?.hidden = false
+        
+        countryLabel?.text = path.place
+        countryLabel?.fontSize = (pathPerson?.nameLabel?.fontSize)!
+        countryLabel?.hidden = false
     }
 
     override func willMoveFromView(view: SKView) {
