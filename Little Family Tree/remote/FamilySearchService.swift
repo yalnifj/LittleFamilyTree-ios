@@ -96,7 +96,7 @@ class FamilySearchService : RemoteService {
 					if ae.count > 0 {
 						let entry = ae[0]
 						let timestamp = entry["updated"]
-						onCompletion(timestamp.intValue, err)
+						onCompletion(timestamp.int64Value, err)
 					}
 				}
 				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))

@@ -52,9 +52,9 @@ class DBHelper {
             let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
             instance!.lftdb = try? Connection("\(path)/lftdb.sqlite3")
             // public func trace(callback: (String -> Void)?) {
-            instance!.lftdb?.trace({ (string) in
-                print(string)
-            })
+            //instance!.lftdb?.trace({ (string) in
+            //    print(string)
+            //})
             //instance!.dbversion = instance!.lftdb?.scalar("PRAGMA user_version") as? Int32
             if instance!.tableExists("properties") == true {
                 let dbstr = instance!.getProperty("VERSION")
@@ -189,6 +189,7 @@ class DBHelper {
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel
 			))
+            print("Updated little person \(person.id!) \(person.name)")
 		}
 		else {
 			let rowid = try lftdb?.run(TABLE_LITTLE_PERSON.insert(
@@ -211,6 +212,7 @@ class DBHelper {
 				COL_TREE_LEVEL <- person.treeLevel
 			))
 			person.id = rowid
+            print("Inserted new little person \(person.id!) \(person.name)")
 		}
 	}
 	

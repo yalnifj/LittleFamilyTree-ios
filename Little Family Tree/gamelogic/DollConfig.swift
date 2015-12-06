@@ -22,7 +22,7 @@ class DollConfig {
     var girlclothing:[DollClothing]?
     
     func getThumbnail() -> String {
-        return "dolls/\(folderName)/\(boygirl)_thumb.png";
+        return "dolls/\(folderName!)/\(boygirl)_thumb.png";
     }
     
     func getDoll() -> String {
@@ -31,7 +31,7 @@ class DollConfig {
     
     func getClothing() -> [DollClothing]? {
         if (boyclothing == nil) {
-            guard let path = NSBundle.mainBundle().pathForResource("dolls/\(folderName)/clothing.dat", ofType: nil) else {
+            guard let path = NSBundle.mainBundle().pathForResource("dolls/\(folderName!)/clothing.dat", ofType: nil) else {
                 return nil
             }
             do {
@@ -44,7 +44,7 @@ class DollConfig {
                     let clothingname = parts[c++]
                     let left = Int(parts[c++])
                     let top = Int(parts[c++])
-                    let filename = "dolls/\(folderName)/\(clothingname).png"
+                    let filename = "dolls/\(folderName!)/\(clothingname).png"
                     let dc = DollClothing()
                     dc.filename = filename
                     dc.snapX = left!
@@ -57,7 +57,7 @@ class DollConfig {
                     let clothingname = parts[c++]
                     let left = Int(parts[c++])
                     let top = Int(parts[c++])
-                    let filename = "dolls/\(folderName)/\(clothingname).png"
+                    let filename = "dolls/\(folderName!)/\(clothingname).png"
                     let dc = DollClothing()
                     dc.filename = filename
                     dc.snapX = left!

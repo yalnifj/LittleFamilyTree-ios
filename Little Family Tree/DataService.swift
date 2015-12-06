@@ -108,6 +108,14 @@ class DataService {
                 }
 			})
         } else {
+            if person!.treeLevel == nil {
+                person!.treeLevel = 0
+                do {
+                    try self.dbHelper.persistLittlePerson(person!)
+                } catch {
+                    print("Error persisting little person")
+                }
+            }
             onCompletion(person, nil)
         }
 	}

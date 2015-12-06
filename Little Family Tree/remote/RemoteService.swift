@@ -6,7 +6,7 @@ typealias LinkResponse = (Link?, NSError?) -> Void
 typealias RelationshipsResponse = ([Relationship]?, NSError?) -> Void
 typealias SourceDescriptionsResponse = ([SourceDescription]?, NSError?) -> Void
 typealias StringResponse = (NSString?, NSError?) -> Void
-typealias LongResponse = (Int?, NSError?) -> Void
+typealias LongResponse = (Int64?, NSError?) -> Void
 
 protocol RemoteService {
 	var sessionId: NSString? { get set }

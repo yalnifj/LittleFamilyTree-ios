@@ -12,6 +12,9 @@ import SpriteKit
 class PersonNameSprite: SKSpriteNode {
     var person:LittlePerson? {
         didSet {
+            if photoSprite != nil {
+                photoSprite?.removeFromParent()
+            }
             let photo = TextureHelper.getPortraitTexture(self.person!)
             photoSprite = SKSpriteNode(texture: photo)
             photoSprite?.position = CGPointMake(self.size.width/2, self.size.height/2)
@@ -21,13 +24,14 @@ class PersonNameSprite: SKSpriteNode {
             photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
             
+            
             if showLabel {
                 addLabel()
             }
         }
     }
-    var photoSprite:SKSpriteNode?
-    var nameLabel:SKLabelNode?
+    var photoSprite:SKSpriteNode? = nil
+    var nameLabel:SKLabelNode? = nil
     var showLabel = true {
         didSet {
             if !showLabel && nameLabel != nil {
@@ -41,6 +45,9 @@ class PersonNameSprite: SKSpriteNode {
     var topic:String?
     
     func addLabel() {
+        if nameLabel != nil {
+            nameLabel?.removeFromParent()
+        }
         nameLabel = SKLabelNode(text: person?.givenName as String?)
         nameLabel?.fontSize = self.size.width / 10
         nameLabel?.fontColor = UIColor.blackColor()

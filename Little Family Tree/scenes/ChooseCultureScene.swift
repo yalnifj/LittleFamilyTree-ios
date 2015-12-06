@@ -22,6 +22,7 @@ class ChooseCultureScene: LittleFamilyScene {
     
     var selectedPath:HeritagePath?
     var dolls = DressUpDolls()
+    var dollConfig:DollConfig?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -157,9 +158,9 @@ class ChooseCultureScene: LittleFamilyScene {
         pathPerson?.person = self.calculator!.culturePeople[path.place]![0]
         pathPerson?.hidden = false
         
-        let dollConfig = self.dolls.getDollConfig(path.place, person: (pathPerson?.person)!)
+        dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
 
-        let texture = SKTexture(imageNamed: dollConfig.getThumbnail())
+        let texture = SKTexture(imageNamed: dollConfig!.getThumbnail())
         let ratio = texture.size().width / texture.size().height
         doll?.size.width = (doll?.size.height)! * ratio
         doll?.texture = texture
@@ -176,5 +177,43 @@ class ChooseCultureScene: LittleFamilyScene {
     
     override func update(currentTime: NSTimeInterval) {
         
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+
+            var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
+            for path in (self.calculator?.uniquePaths)! {
+                var height = (self.outlineSprite?.size.height)! * CGFloat(path.percent)
+                if height < 10 {
+                    height = CGFloat(10)
+                }
+                //print("y=\(y) height=\(height)")
+                
+                let ty = self.size.height - touch.locationInView(self.view).y
+                //print("ty=\(ty)")
+                if ty <= y && ty > y - height {
+                    setSelectedPath(path)
+                    break
+                }
+                
+                y -= height
+            }
+            
+            let location = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(location)
+            
+            if touchedNode == self.doll || touchedNode == self.countryLabel {
+                if dollConfig != nil {
+                    let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+                    
+                    let nextScene = DressUpScene(size: scene!.size)
+                    nextScene.scaleMode = .AspectFill
+                    nextScene.selectedPerson = selectedPerson
+                    nextScene.dollConfig = self.dollConfig
+                    scene?.view?.presentScene(nextScene, transition: transition)
+                }
+            }
+        }
     }
 }

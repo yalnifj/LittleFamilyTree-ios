@@ -98,6 +98,7 @@
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1C0A9971C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A2931BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		A1DC44CB1C13A38F00344531 /* DressUpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DC44CA1C13A38F00344531 /* DressUpScene.swift */; };
 		A1EA5D281C090E3C006528A5 /* ChooseCultureScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */; };
 		A1EA5D311C091280006528A5 /* HeritagePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EA5D301C091280006528A5 /* HeritagePath.swift */; };
 		A1EA5D331C091CBE006528A5 /* HeritageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */; };
@@ -575,6 +576,7 @@
 		A1AE10EB1BF669D90043033A /* StatusListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusListener.swift; sourceTree = "<group>"; };
 		A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStateSprite.swift; sourceTree = "<group>"; };
 		A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
+		A1DC44CA1C13A38F00344531 /* DressUpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DressUpScene.swift; path = scenes/DressUpScene.swift; sourceTree = "<group>"; };
 		A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseCultureScene.swift; path = scenes/ChooseCultureScene.swift; sourceTree = "<group>"; };
 		A1EA5D301C091280006528A5 /* HeritagePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeritagePath.swift; sourceTree = "<group>"; };
 		A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeritageCalculator.swift; sourceTree = "<group>"; };
@@ -1102,6 +1104,7 @@
 				A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */,
 				A16241B51C063E63009205F1 /* MatchGameScene.swift */,
 				A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */,
+				A1DC44CA1C13A38F00344531 /* DressUpScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -1956,6 +1959,7 @@
 				A1686D6D1BB97D4A00E58A09 /* RemoteService.swift in Sources */,
 				A1AE10EC1BF669D90043033A /* StatusListener.swift in Sources */,
 				A10BF1371BC9D359005CAFDA /* SourceDescription.swift in Sources */,
+				A1DC44CB1C13A38F00344531 /* DressUpScene.swift in Sources */,
 				A1F81D971BF3E4B100078870 /* ChooseServiceView.swift in Sources */,
 				A1686D6C1BB97D4A00E58A09 /* FamilySearchService.swift in Sources */,
 				A10BF12B1BC9D359005CAFDA /* Identifier.swift in Sources */,
