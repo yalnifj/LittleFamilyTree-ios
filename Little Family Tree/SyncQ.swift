@@ -105,32 +105,36 @@ class SyncOperation : NSOperation {
                 try! self.dataService.dbHelper.deletePersonById(person.id!)
                 onCompletion(nil, nil)
             } else {
-                self.dataService.buildLittlePerson(fsPerson!, onCompletion: { (updated, err2) -> Void in
-                    if updated != nil {
-                        do {
-                            updated!.id = person.id
-                            person.lastSync = updated!.lastSync
-                            person.photoPath = updated!.photoPath
-                            person.age = updated!.age
-                            person.birthDate = updated!.birthDate
-                            person.birthPlace = updated!.birthPlace
-                            person.alive = updated!.alive
-                            person.familySearchId = updated!.familySearchId
-                            person.gender = updated!.gender
-                            person.givenName = updated!.givenName
-                            person.name = updated!.name
-                            person.nationality = updated!.nationality
-                            person.updateAge()
-                            
-                            //-- sync close relatives
-                            //-- sync memories
-                            
-                            onCompletion(updated, err2)
-                        } catch {
-                            onCompletion(nil, NSError(domain: "LittleFamily", code: 404, userInfo: ["message":"Unable to persist little person"]))
+                if fsPerson != nil {
+                    self.dataService.buildLittlePerson(fsPerson!, onCompletion: { (updated, err2) -> Void in
+                        if updated != nil {
+                            do {
+                                updated!.id = person.id
+                                person.lastSync = updated!.lastSync
+                                person.photoPath = updated!.photoPath
+                                person.age = updated!.age
+                                person.birthDate = updated!.birthDate
+                                person.birthPlace = updated!.birthPlace
+                                person.alive = updated!.alive
+                                person.familySearchId = updated!.familySearchId
+                                person.gender = updated!.gender
+                                person.givenName = updated!.givenName
+                                person.name = updated!.name
+                                person.nationality = updated!.nationality
+                                person.updateAge()
+                                
+                                //-- sync close relatives
+                                //-- sync memories
+                                
+                                onCompletion(updated, err2)
+                            } catch {
+                                onCompletion(nil, NSError(domain: "LittleFamily", code: 404, userInfo: ["message":"Unable to persist little person"]))
+                            }
                         }
-                    }
-                })
+                    })
+                } else {
+                    onCompletion(nil, err)
+                }
             }
         })
     }

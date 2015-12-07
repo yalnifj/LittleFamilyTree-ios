@@ -14,6 +14,12 @@ class DressUpScene: LittleFamilyScene {
     var dollConfig:DollConfig?
     var clothing:[DollClothing]?
     var clotheSprites:[SKSpriteNode] = [SKSpriteNode]()
+    var lastPoint : CGPoint!
+    var clothingMap = [SKSpriteNode:DollClothing]()
+    var doll:SKSpriteNode?
+    var movingSprite : SKSpriteNode?
+    var scale : CGFloat!
+    var snapSprite : SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -35,13 +41,13 @@ class DressUpScene: LittleFamilyScene {
         }
         clothing = dollConfig?.getClothing()
 
-        var scale = CGFloat(1.0)
-        let doll = SKSpriteNode(imageNamed: "dolls/\(boygirl)doll")
-        doll.zPosition = 2
-        scale = (self.size.height * 0.6) / doll.size.height
-        doll.setScale(scale)
-        doll.position = CGPointMake(self.size.width/2, self.size.height - (10 + (topBar?.size.height)! + doll.size.height / 2))
-        self.addChild(doll)
+        scale = CGFloat(1.0)
+        doll = SKSpriteNode(imageNamed: "dolls/\(boygirl)doll")
+        doll?.zPosition = 2
+        scale = (self.size.height * 0.6) / (doll?.size.height)!
+        doll?.setScale(scale)
+        doll?.position = CGPointMake(self.size.width/2, self.size.height - (10 + (topBar?.size.height)! + (doll?.size.height)! / 2))
+        self.addChild(doll!)
         
         if clothing != nil {
             var x = CGFloat(0)
@@ -65,7 +71,79 @@ class DressUpScene: LittleFamilyScene {
                 self.addChild(clothSprite)
                 x = x + clothSprite.size.width + 20
                 clotheSprites.append(clothSprite)
+                clothingMap[clothSprite] = cloth
             }
+        }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        movingSprite = nil
+        for touch in touches {
+            lastPoint = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(lastPoint)
+            if touchedNode is SKSpriteNode {
+                let clothSprite = touchedNode as! SKSpriteNode
+                if clothingMap[clothSprite] != nil {
+                    movingSprite = clothSprite
+                    let clothing = clothingMap[clothSprite]
+                    var snapX = CGFloat((clothing?.snapX)!) * scale
+                    snapX = snapX + (doll?.position.x)!/2
+                    snapX = snapX + scale*(movingSprite?.size.width)!/2
+                    
+                    var snapY = self.size.height - ((topBar?.size.height)! + ((CGFloat((clothing?.snapY)!)) * scale))
+                    snapY = snapY + (doll?.position.y)!/2
+                    snapY = snapY + (movingSprite?.size.height)!/2
+                    
+                    snapSprite = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(20, 20))
+                    snapSprite!.position.x = snapX
+                    snapSprite!.position.y = snapY
+                    snapSprite!.zPosition = 10
+                    self.addChild(snapSprite!)
+                }
+            }
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if movingSprite != nil {
+            var nextPoint = CGPointMake(0,0)
+            for touch in touches {
+                nextPoint = touch.locationInNode(self)
+                let dx = lastPoint.x - nextPoint.x
+                let dy = lastPoint.y - nextPoint.y
+                movingSprite?.position.x -= dx
+                movingSprite?.position.y -= dy
+            }
+            
+            lastPoint = nextPoint
+        }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        if movingSprite != nil {
+            let clothing = clothingMap[movingSprite!]
+            var snapX = CGFloat((clothing?.snapX)!) * scale
+            snapX = snapX + (doll?.position.x)!/2
+            snapX = snapX + scale*(movingSprite?.size.width)!/2
+            
+            var snapY = self.size.height - ((topBar?.size.height)! + ((CGFloat((clothing?.snapY)!)) * scale))
+            snapY = snapY + (doll?.position.y)!/2
+            snapY = snapY + (movingSprite?.size.height)!/2
+            if movingSprite?.position.x >= snapX - 10 && movingSprite?.position.x <= snapX + 10
+                && movingSprite?.position.y >= snapY - 10 && movingSprite?.position.y <= snapY + 10 {
+                    movingSprite?.position.x = snapX
+                    movingSprite?.position.y = snapY
+                    clothing?.placed = true
+            } else {
+                clothing?.placed = false
+            }
+            movingSprite = nil
+        }
+        if snapSprite != nil {
+            snapSprite?.removeFromParent()
+            snapSprite = nil
         }
     }
 }
