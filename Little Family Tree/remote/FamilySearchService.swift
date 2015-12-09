@@ -257,6 +257,12 @@ class FamilySearchService : RemoteService {
         print("makeHTTPGetRequest: \(request)")
         print(request.valueForHTTPHeaderField("Authorization"))
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error!.description)
+            }
+            if response == nil {
+                onCompletion(nil, error)
+            }
             let httpResponse = response as! NSHTTPURLResponse
             if httpResponse.statusCode != 200 {
                 print(response)
@@ -296,10 +302,26 @@ class FamilySearchService : RemoteService {
             let session = NSURLSession.sharedSession()
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-                //print(response)
-                //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-                let json:JSON = JSON(data: data!)
-                onCompletion(json, error)
+                if error != nil {
+                    print(error!.description)
+                }
+                if response == nil {
+                    onCompletion(nil, error)
+                }
+                let httpResponse = response as! NSHTTPURLResponse
+                if httpResponse.statusCode != 200 {
+                    print(response)
+                }
+                if data != nil {
+                    if httpResponse.statusCode != 200 {
+                        print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                    }
+                    let json:JSON = JSON(data: data!)
+                    onCompletion(json, error)
+                }
+                else {
+                    onCompletion(nil, error)
+                }
             })
             task.resume()
         } catch let aError as NSError {
@@ -339,10 +361,26 @@ class FamilySearchService : RemoteService {
 	 
         print("makeHTTPPostRequest: \(request)")
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            //print(response)
-            //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-			let json:JSON = JSON(data: data!)
-			onCompletion(json, error)
+            if error != nil {
+                print(error!.description)
+            }
+            if response == nil {
+                onCompletion(nil, error)
+            }
+            let httpResponse = response as! NSHTTPURLResponse
+            if httpResponse.statusCode != 200 {
+                print(response)
+            }
+            if data != nil {
+                if httpResponse.statusCode != 200 {
+                    print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                }
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error)
+            }
+            else {
+                onCompletion(nil, error)
+            }
 		})
 		task.resume()
 	}

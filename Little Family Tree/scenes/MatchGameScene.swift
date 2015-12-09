@@ -149,12 +149,9 @@ class MatchGameScene: LittleFamilyScene {
                         flip2?.person?.matched = true
                         
                         if game?.allMatched() == true {
-                            let levelUpAction = SKAction.waitForDuration(2.0)
-                            runAction(levelUpAction) {
-                                let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
-                                self.runAction(soundAction)
+                            self.playSuccessSound(2.0, onCompletion: { () in
                                 self.loadMorePeople()
-                            }
+                            })
                         }
                     } else {
                         flip1?.delayFlip()

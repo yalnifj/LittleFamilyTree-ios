@@ -28,7 +28,7 @@ class LittleFamilyScene: SKScene, EventListener {
     }
     
     func setupTopBar() {
-        let tsie = CGSizeMake(self.size.width, 40)
+        let tsie = CGSizeMake(self.size.width, self.size.height*0.05)
         topBar = TopBar(color: UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.7), size: tsie)
         topBar!.position = CGPointMake(self.size.width/2, self.size.height-(topBar!.size.height / 2))
         topBar!.person = selectedPerson
@@ -63,5 +63,14 @@ class LittleFamilyScene: SKScene, EventListener {
         let nextScene = ChoosePlayerScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition)
+    }
+    
+    func playSuccessSound(wait:Double, onCompletion: () -> Void) {
+        let levelUpAction = SKAction.waitForDuration(wait)
+        runAction(levelUpAction) {
+            let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
+            self.runAction(soundAction)
+            onCompletion()
+        }
     }
 }
