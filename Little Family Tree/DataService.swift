@@ -2,6 +2,7 @@ import Foundation
 
 typealias LittlePersonResponse = (LittlePerson?, NSError?) -> Void
 typealias PeopleResponse = ([LittlePerson]?, NSError?) -> Void
+typealias LocalRelationshipResponse = ([LocalRelationship]?, NSError?) -> Void
 
 class DataService {
 	static let SERVICE_TYPE = "service_type"
