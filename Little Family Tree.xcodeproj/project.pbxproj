@@ -37,6 +37,7 @@
 		A10BF1381BC9D359005CAFDA /* SourceReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11C1BC9D359005CAFDA /* SourceReference.swift */; };
 		A10BF1391BC9D359005CAFDA /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11D1BC9D359005CAFDA /* Subject.swift */; };
 		A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11E1BC9D359005CAFDA /* TextValue.swift */; };
+		A10FC32B1C19116300DDBE30 /* alphaOutline.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */; };
 		A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C72E1BA4AD0000964D50 /* AppDelegate.swift */; };
 		A117C7311BA4AD0000964D50 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A117C7301BA4AD0000964D50 /* GameScene.sks */; };
 		A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7321BA4AD0000964D50 /* GameScene.swift */; };
@@ -513,6 +514,7 @@
 		A10BF11C1BC9D359005CAFDA /* SourceReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceReference.swift; sourceTree = "<group>"; };
 		A10BF11D1BC9D359005CAFDA /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		A10BF11E1BC9D359005CAFDA /* TextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValue.swift; sourceTree = "<group>"; };
+		A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = alphaOutline.fsh; path = sprites/alphaOutline.fsh; sourceTree = "<group>"; };
 		A117C7291BA4AD0000964D50 /* Little Family Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Little Family Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C72D1BA4AD0000964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C72E1BA4AD0000964D50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1088,6 +1090,7 @@
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
 				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
+				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -1612,6 +1615,7 @@
 				A1F81C921BF3AFDF00078870 /* house_chilldroom_paint.png in Resources */,
 				A1F81CEF1BF3AFDF00078870 /* house_kitchen_kettle4.png in Resources */,
 				A1F81D461BF3AFDF00078870 /* house_toys_horse6.png in Resources */,
+				A10FC32B1C19116300DDBE30 /* alphaOutline.fsh in Resources */,
 				A1F81D481BF3AFDF00078870 /* house_tree_bird.png in Resources */,
 				A1F81CB41BF3AFDF00078870 /* house_familyroom_couch.png in Resources */,
 				A16241BF1C063FDC009205F1 /* dressup_background.png in Resources */,

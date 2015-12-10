@@ -19,12 +19,14 @@ class DressUpScene: LittleFamilyScene {
     var doll:SKSpriteNode?
     var movingSprite : SKSpriteNode?
     var scale : CGFloat!
-    var snapSprite : SKSpriteNode?
+    //var snapSprite : SKSpriteNode?
     var dollHolder : SKSpriteNode?
     var countryLabel : SKLabelNode?
     var scrollingDolls = false
+    var scrolling = false
     var thumbSpriteMap = [SKNode : String]()
     var snapTolerance = CGFloat(10)
+    var outlines = [SKSpriteNode : SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -105,6 +107,10 @@ class DressUpScene: LittleFamilyScene {
             s.removeFromParent()
         }
         clotheSprites.removeAll()
+        for s in outlines.values {
+            s.removeFromParent()
+        }
+        outlines.removeAll()
         clothing = dollConfig?.getClothing()
         if clothing != nil {
             var x = CGFloat(0)
@@ -129,8 +135,28 @@ class DressUpScene: LittleFamilyScene {
                 x = x + clothSprite.size.width + 20
                 clotheSprites.append(clothSprite)
                 clothingMap[clothSprite] = cloth
+                
+                let outlineSprite = SKSpriteNode(imageNamed: cloth.filename)
+                outlineSprite.zPosition = (doll?.zPosition)! + 1
+                outlineSprite.setScale(scale)
+                outlineSprite.position = getSnap(cloth, sprite:clothSprite)
+                outlineSprite.shader = SKShader(fileNamed: "alphaOutline.fsh")
+                outlineSprite.hidden = true
+                self.addChild(outlineSprite)
+                outlines[clothSprite] = outlineSprite
             }
         }
+    }
+    
+    func getSnap(clothing:DollClothing, sprite:SKSpriteNode) -> CGPoint {
+        let offsetX = (self.size.width - (doll?.size.width)!) / 2
+        let snapX = offsetX + scale * CGFloat(clothing.snapX) + sprite.size.width / 2
+        let cgSnapY = scale * CGFloat(clothing.snapY)
+        let h2 = sprite.size.height / 2
+        let top = (doll?.position.y)! + (1 * (doll?.size.height)!/2)
+        let snapY = top - (cgSnapY + h2)
+        let snap = CGPointMake(snapX, snapY)
+        return snap
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -143,20 +169,19 @@ class DressUpScene: LittleFamilyScene {
                 let clothSprite = touchedNode as! SKSpriteNode
                 if clothingMap[clothSprite] != nil {
                     movingSprite = clothSprite
-                    let clothing = clothingMap[clothSprite]
-                    let offsetX = (self.size.width - (doll?.size.width)!) / 2
-                    let snapX = offsetX + scale * CGFloat((clothing?.snapX)!) + (movingSprite?.size.width)! / 2
-                    let cgSnapY = scale * CGFloat((clothing?.snapY)!)
-                    let h2 = scale * (movingSprite?.size.height)! / 2
-                    let offsetY = (self.size.height - (doll?.size.height)!) / 2
-                    let h3 = offsetY - (topBar?.size.height)!
-                    let snapY = self.size.height - (h3 + cgSnapY + h2)
+                    let outlineSprite = outlines[clothSprite]
+                    if outlineSprite != nil {
+                        outlineSprite?.hidden = false
+                    }
                     
+                    /*
+                    let clothing = clothingMap[clothSprite]
+                    let snapPoint = getSnap(clothing!, sprite:clothSprite)
                     snapSprite = SKSpriteNode(color: UIColor.blueColor(), size: CGSizeMake(snapTolerance*2, snapTolerance*2))
-                    snapSprite!.position.x = snapX
-                    snapSprite!.position.y = snapY
+                    snapSprite!.position = snapPoint
                     snapSprite!.zPosition = 10
                     self.addChild(snapSprite!)
+*/
                 }
                 else if touchedNode == dollHolder || touchedNode.parent == dollHolder {
                     scrollingDolls = true
@@ -184,6 +209,7 @@ class DressUpScene: LittleFamilyScene {
                 if dollHolder?.position.x > (dollHolder?.size.width)!/2 {
                     dollHolder?.position.x = (dollHolder?.size.width)!/2
                 }
+                scrolling = true
             }
         }
         lastPoint = nextPoint
@@ -193,21 +219,18 @@ class DressUpScene: LittleFamilyScene {
         super.touchesEnded(touches, withEvent: event)
         if movingSprite != nil {
             let clothing = clothingMap[movingSprite!]
-            let offsetX = (self.size.width - (doll?.size.width)!) / 2
-            let snapX = offsetX + scale * CGFloat((clothing?.snapX)!) + (movingSprite?.size.width)! / 2
-            let cgSnapY = scale * CGFloat((clothing?.snapY)!)
-            let h2 = scale * (movingSprite?.size.height)! / 2
-            let offsetY = (self.size.height - (doll?.size.height)!) / 2
-            let h3 = offsetY - (topBar?.size.height)!
-            let snapY = self.size.height - (h3 + cgSnapY + h2)
+            let snapPoint = getSnap(clothing!, sprite:movingSprite!)
             
-            if movingSprite?.position.x >= snapX - snapTolerance && movingSprite?.position.x <= snapX + snapTolerance
-                && movingSprite?.position.y >= snapY - snapTolerance && movingSprite?.position.y <= snapY + snapTolerance {
-                    movingSprite?.position.x = snapX
-                    movingSprite?.position.y = snapY
+            if movingSprite?.position.x >= snapPoint.x - snapTolerance && movingSprite?.position.x <= snapPoint.x + snapTolerance
+                && movingSprite?.position.y >= snapPoint.y - snapTolerance && movingSprite?.position.y <= snapPoint.y + snapTolerance {
+                    movingSprite?.position = snapPoint
                     clothing?.placed = true
             } else {
                 clothing?.placed = false
+            }
+            let outlineSprite = outlines[movingSprite!]
+            if outlineSprite != nil {
+                outlineSprite?.hidden = true
             }
             movingSprite = nil
             
@@ -226,11 +249,13 @@ class DressUpScene: LittleFamilyScene {
                 dollHolder?.hidden = true
             }
         }
+        /*
         if snapSprite != nil {
             snapSprite?.removeFromParent()
             snapSprite = nil
         }
-        if scrollingDolls == false {
+*/
+        if scrolling == false {
             for touch in touches {
                 lastPoint = touch.locationInNode(self)
                 let touchedNode = nodeAtPoint(lastPoint)
@@ -243,6 +268,7 @@ class DressUpScene: LittleFamilyScene {
             }
         }
         scrollingDolls = false
+        scrolling = false
     }
     
 }

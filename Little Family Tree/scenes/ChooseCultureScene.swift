@@ -61,7 +61,7 @@ class ChooseCultureScene: LittleFamilyScene {
         outlineSprite = SKSpriteNode(texture: outlineTexture)
         outlineSprite?.size.width = height * ratio
         outlineSprite?.size.height = height
-        outlineSprite?.position = CGPointMake(self.size.width/2 - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        outlineSprite?.position = CGPointMake(20 + self.size.width/2 - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         outlineSprite?.zPosition = 3
         let shader = SKShader(fileNamed: "gradient.fsh")
         outlineSprite?.shader = shader

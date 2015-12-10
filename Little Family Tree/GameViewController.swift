@@ -56,11 +56,7 @@ class GameViewController: UIViewController {
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
-        } else {
-            return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.All.rawValue)
-        }
+        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.Portrait.rawValue)
     }
 
     override func didReceiveMemoryWarning() {
