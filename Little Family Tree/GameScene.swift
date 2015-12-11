@@ -11,6 +11,7 @@ import SpriteKit
 class GameScene: SKScene, EventListener {
     static var TOPIC_START_MATCH = "start_match"
     static var TOPIC_START_DRESSUP = "start_dressup"
+    static var TOPIC_START_PUZZLE = "start_puzzle"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -643,6 +644,7 @@ class GameScene: SKScene, EventListener {
         let blocksAction = SKAction.repeatAction(SKAction.animateWithTextures(blocksAnim, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         blocks.addAction(1, action: blocksAction)
         blocks.addClick(1, val: false)
+        blocks.addEvent(0, topic: GameScene.TOPIC_START_PUZZLE)
         spriteContainer.addChild(blocks)
         
         let horse = AnimatedStateSprite(imageNamed: "house_toys_horse")
@@ -777,10 +779,10 @@ class GameScene: SKScene, EventListener {
         
         let personSprite = PersonNameSprite()
         personSprite.userInteractionEnabled = true
-        personSprite.position = CGPointMake(self.size.width - 50, 10)
+        personSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
         personSprite.zPosition = z++
-        personSprite.size.width = 40
-        personSprite.size.height = 40
+        personSprite.size.width = 40 * lfScale
+        personSprite.size.height = 40 * lfScale
         personSprite.person = selectedPerson
         personSprite.showLabel = false
         personSprite.topic = LittleFamilyScene.TOPIC_START_CHOOSE
@@ -789,6 +791,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
@@ -797,6 +800,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -871,6 +875,14 @@ class GameScene: SKScene, EventListener {
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
             
             let nextScene = ChooseCultureScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            nextScene.selectedPerson = selectedPerson
+            scene?.view?.presentScene(nextScene, transition: transition)
+        }
+        else if topic == GameScene.TOPIC_START_PUZZLE {
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            
+            let nextScene = PuzzleScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
             scene?.view?.presentScene(nextScene, transition: transition)

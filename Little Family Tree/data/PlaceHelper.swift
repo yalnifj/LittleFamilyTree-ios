@@ -101,26 +101,3 @@ class PlaceHelper {
         return place!
     }
 }
-
-extension String {
-    func split(splitter: String) -> Array<String> {
-        let regEx = try? NSRegularExpression(pattern: splitter, options: [])
-        let stop = "-=-=-"
-        let modifiedString = regEx!.stringByReplacingMatchesInString(self, options: NSMatchingOptions(),
-            range: NSMakeRange(0, self.characters.count),
-            withTemplate:stop)
-        return modifiedString.componentsSeparatedByString(stop)
-    }
-    
-    func replaceAll(regex:String, replace:String) -> String {
-        let regEx = try? NSRegularExpression(pattern: regex, options: [])
-        let modifiedString = regEx!.stringByReplacingMatchesInString(self, options: NSMatchingOptions(),
-            range: NSMakeRange(0, self.characters.count),
-            withTemplate:replace)
-        return modifiedString
-    }
-    
-    func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-    }
-}

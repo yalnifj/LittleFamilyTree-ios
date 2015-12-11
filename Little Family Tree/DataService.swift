@@ -3,6 +3,7 @@ import Foundation
 typealias LittlePersonResponse = (LittlePerson?, NSError?) -> Void
 typealias PeopleResponse = ([LittlePerson]?, NSError?) -> Void
 typealias LocalRelationshipResponse = ([LocalRelationship]?, NSError?) -> Void
+typealias MediaResponse = ([Media], NSError?) -> Void
 
 class DataService {
 	static let SERVICE_TYPE = "service_type"
@@ -407,6 +408,74 @@ class DataService {
         
         dispatch_group_notify(group, queue) {
             onCompletion(family, nil)
+        }
+    }
+    
+    func getMediaForPerson(person:LittlePerson, onCompletion:MediaResponse) {
+        var media = [Media]()
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let group = dispatch_group_create()
+        
+        if (person.hasMedia == nil) {
+            var mediaFound = false;
+            dispatch_group_enter(group)
+            self.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
+                if sds != nil {
+                    for sd in sds! {
+                        var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
+                        if med == nil {
+                            let links = sd.links
+                            if links.count > 0 {
+                                for link in links {
+                                    if (link.rel != nil && link.rel == "image") {
+                                        med = Media()
+                                        med?.type = "photo"
+                                        med?.familySearchId = sd.id
+                                        
+                                        dispatch_group_enter(group)
+                                        self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: self.lastPath(link.href! as String), onCompletion: { path, err2 in
+                                            med?.localPath = path
+                                            mediaFound = true
+                                            self.dbHelper.persistMedia(med!)
+                                            media.append(med!)
+                                            let tag = Tag()
+                                            tag.mediaId = med!.id
+                                            tag.personId = person.id!
+                                            do {
+                                                try self.dbHelper.persistTag(tag)
+                                            } catch {
+                                                print("Error saving tag")
+                                            }
+                                            dispatch_group_leave(group)
+                                        })
+                                    }
+                                }
+                            }
+                        } else {
+                            media.append(med!)
+                        }
+                    }
+                }
+                dispatch_group_leave(group)
+            })
+            
+            if (mediaFound) {
+                person.hasMedia = true
+            } else {
+                person.hasMedia = false
+            }
+            do {
+                try dbHelper.persistLittlePerson(person)
+            } catch {
+                print("Error saving person from media")
+            }
+
+        } else {
+            media = dbHelper.getMediaForPerson(person.id!)
+        }
+        
+        dispatch_group_notify(group, queue) {
+            onCompletion(media, nil)
         }
     }
     

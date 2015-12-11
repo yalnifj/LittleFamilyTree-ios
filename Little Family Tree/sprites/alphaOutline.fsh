@@ -1,28 +1,18 @@
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
 
-uniform sampler2D u_texture;
-
-// The inverse of the viewport dimensions along X and Y
-uniform vec2 u_viewportInverse = vec2(1.0 / 200.0, 1.0 / 200.0);
-
-// Color of the outline
-uniform vec3 u_color = vec3(1.0, 0.0, 0.0);
-
-// Thickness of the outline
-uniform float u_offset = 1.0;
-
-// Step to check for neighbors
-uniform float u_step = 1.0 / 200;
-
-varying vec4 v_color;
-varying vec2 v_texCoord;
-
-#define ALPHA_VALUE_BORDER 0.5
-
-void main() {
+void main(void)
+{
+    // The inverse of the viewport dimensions along X and Y
+    vec2 u_viewportInverse = vec2(1.0 / 200.0, 1.0 / 200.0);
+    
+    // Color of the outline
+    vec3 u_color = vec3(1.0, 0.0, 0.0);
+    
+    // Thickness of the outline
+    float u_offset = 1.0;
+    
+    // Step to check for neighbors
+    float u_step = 1.0 / 200;
+    
     vec2 T = v_texCoord.xy;
     
     float alpha = 0.0;
@@ -32,8 +22,8 @@ void main() {
         for( float iy = -u_offset; iy < u_offset; iy += u_step )
         {
             float newAlpha = texture2D(u_texture, T + vec2(ix, iy) * u_viewportInverse).a;
-            allin = allin && newAlpha > ALPHA_VALUE_BORDER;
-            if (newAlpha > ALPHA_VALUE_BORDER && newAlpha >= alpha)
+            allin = allin && newAlpha > 0.5;
+            if (newAlpha > 0.5 && newAlpha >= alpha)
             {
                 alpha = newAlpha;
             }

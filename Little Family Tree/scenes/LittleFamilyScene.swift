@@ -73,4 +73,8 @@ class LittleFamilyScene: SKScene, EventListener {
             onCompletion()
         }
     }
+    
+    func showStars(rect:CGRect) {
+        
+    }
 }

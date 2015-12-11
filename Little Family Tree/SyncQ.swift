@@ -59,76 +59,160 @@ class SyncQ : NSObject {
 	
 	func syncPerson(person:LittlePerson, onCompletion: LittlePersonResponse) {
         self.dataService.remoteService!.getPerson(person.familySearchId!, ignoreCache: true, onCompletion: { fsPerson, err in
-            if (fsPerson == nil && err == nil) { //|| fsPerson.transientProperty["deleted"] != nil {
+            if (fsPerson == nil && err == nil) { //TODO || fsPerson.transientProperty["deleted"] != nil {
                 try! self.dbHelper.deletePersonById(person.id!)
                 onCompletion(nil, nil)
             } else if fsPerson != nil {
                 self.dataService.buildLittlePerson(fsPerson!, onCompletion: { (updated, err2) -> Void in
                     if updated != nil {
-                            updated!.id = person.id
-                            person.lastSync = updated!.lastSync
-                            person.photoPath = updated!.photoPath
-                            person.age = updated!.age
-                            person.birthDate = updated!.birthDate
-                            person.birthPlace = updated!.birthPlace
-                            person.alive = updated!.alive
-                            person.familySearchId = updated!.familySearchId
-                            person.gender = updated!.gender
-                            person.givenName = updated!.givenName
-                            person.name = updated!.name
-                            person.nationality = updated!.nationality
-                            person.updateAge()
-                            
-                            //-- sync close relatives
-							self.dataService.remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in 
-								if (closeRelatives != nil) {
-									let oldRelations = self.dbHelper.getRelationshipsForPerson(person.id!)
-									var newRelations = [LocalRelationship]()
-									for r in closeRelatives! {
-										var type = RelationshipType.PARENTCHILD
-										if r.type == "http://gedcomx.org/Couple" {
-											type = RelationshipType.SPOUSE
-										}
-										self.syncRelationship(r.person1!.resourceId as! String, fsid2: r.person2!.resourceId as! String, type: type, onCompletion: { rels, err in
-											if (rels != nil && rels!.count > 0) {
-                                                for rel in rels! {
-                                                    newRelations.append(rel)
-                                                }
-											}
-										})
-									}
-									// TODO use a dispatch group
-									//for rel in oldRelations! {
-									//	if !newRelations.contains(rel) {
-									//		self.dataService.dbHelper.deleteRelationshipById(rel.id);
-									//	}
-									//}
-								} else {
-									//-- person no longer has relationships so deleted them all
-									let oldRelations = self.dataService.dbHelper.getRelationshipsForPerson(person.id!)
-									if (oldRelations != nil) {
-										for rel in oldRelations! {
-											self.dataService.dbHelper.deleteRelationshipById(rel.id)
-										}
-									}
-									person.hasChildren = false
-									person.hasSpouses = false
-									person.hasParents = false
-                                    do {
-                                        try self.dbHelper.persistLittlePerson(person)
-                                    } catch {
-                                        onCompletion(nil, NSError(domain: "LittleFamily", code: 404, userInfo: ["message":"Unable to persist little person"]))
-                                    }
-								}
-							})
-							
-                            //-- sync memories
-                            
-							// TODO use a dispatch group
-                            onCompletion(updated, err2)
+                        updated!.id = person.id
+                        person.lastSync = updated!.lastSync
+                        person.photoPath = updated!.photoPath
+                        person.age = updated!.age
+                        person.birthDate = updated!.birthDate
+                        person.birthPlace = updated!.birthPlace
+                        person.alive = updated!.alive
+                        person.familySearchId = updated!.familySearchId
+                        person.gender = updated!.gender
+                        person.givenName = updated!.givenName
+                        person.name = updated!.name
+                        person.nationality = updated!.nationality
+                        person.updateAge()
                         
+                        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                        let group = dispatch_group_create()
+                        
+                        dispatch_group_enter(group)
+                        //-- sync close relatives
+                        self.dataService.remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
+                            if (closeRelatives != nil && closeRelatives!.count > 0) {
+                                let group2 = dispatch_group_create()
+                                let oldRelations = self.dbHelper.getRelationshipsForPerson(person.id!)
+                                var newRelations = [LocalRelationship]()
+                                for r in closeRelatives! {
+                                    var type = RelationshipType.PARENTCHILD
+                                    if r.type == "http://gedcomx.org/Couple" {
+                                        type = RelationshipType.SPOUSE
+                                    }
+                                    dispatch_group_enter(group2)
+                                    self.syncRelationship(r.person1!.resourceId as! String, fsid2: r.person2!.resourceId as! String, type: type, onCompletion: { rels, err in
+                                        if (rels != nil && rels!.count > 0) {
+                                            for rel in rels! {
+                                                newRelations.append(rel)
+                                            }
+                                        }
+                                        dispatch_group_leave(group2)
+                                    })
+                                }
+                                
+                                dispatch_group_notify(group2, queue) {
+                                    for rel in oldRelations! {
+                                        if !newRelations.contains(rel) {
+                                            self.dataService.dbHelper.deleteRelationshipById(rel.id);
+                                        }
+                                    }
+                                }
+                            } else if err == nil {
+                                //-- person no longer has relationships so delete them all
+                                let oldRelations = self.dataService.dbHelper.getRelationshipsForPerson(person.id!)
+                                if (oldRelations != nil) {
+                                    for rel in oldRelations! {
+                                        self.dataService.dbHelper.deleteRelationshipById(rel.id)
+                                    }
+                                }
+                                person.hasChildren = false
+                                person.hasSpouses = false
+                                person.hasParents = false
+                                do {
+                                    try self.dbHelper.persistLittlePerson(person)
+                                } catch {
+                                    print("Error persisting little person")
+                                }
+                            }
+                            dispatch_group_leave(group)
+                        })
+                        
+                        //-- sync memories
+                        dispatch_group_enter(group)
+                        self.dataService.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
+                            var mediaFound = false
+                            if sds != nil {
+                                let oldMedia = self.dbHelper.getMediaForPerson(person.id!);
+                                var allMedia = [Media]()
+                                let group2 = dispatch_group_create()
+                                for sd in sds! {
+                                    var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
+                                    if med == nil {
+                                        let links = sd.links
+                                        if links.count > 0 {
+                                            for link in links {
+                                                if (link.rel != nil && link.rel == "image") {
+                                                    med = Media()
+                                                    med?.type = "photo"
+                                                    med?.familySearchId = sd.id
+                                                    
+                                                    dispatch_group_enter(group2)
+                                                    self.dataService.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: self.dataService.lastPath(link.href! as String), onCompletion: { path, err2 in
+                                                        med?.localPath = path
+                                                        mediaFound = true
+                                                        self.dbHelper.persistMedia(med!)
+                                                        let tag = Tag()
+                                                        tag.mediaId = med!.id
+                                                        tag.personId = person.id!
+                                                        do {
+                                                            try self.dbHelper.persistTag(tag)
+                                                        } catch {
+                                                            print("Error saving tag")
+                                                        }
+                                                        dispatch_group_leave(group2)
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        mediaFound = true;
+                                        allMedia.append(med!)
+                                    }
+                                }
+                                
+                                dispatch_group_notify(group2, queue) {
+                                    for m in oldMedia {
+                                        if !allMedia.contains(m) {
+                                            self.dbHelper.deleteMediaById(m.id)
+                                        }
+                                    }
+                                    
+                                    if mediaFound {
+                                        if (person.hasMedia == nil || person.hasMedia == false) {
+                                            person.hasMedia = true
+                                            do {
+                                                try self.dbHelper.persistLittlePerson(person)
+                                            } catch {
+                                                print("Error saving little person")
+                                            }
+                                        }
+                                    } else {
+                                        if (person.hasMedia == nil || person.hasMedia == true) {
+                                            person.hasMedia = false
+                                            do {
+                                                try self.dbHelper.persistLittlePerson(person)
+                                            } catch {
+                                                print("Error saving little person")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            dispatch_group_leave(group)
+                        })
+                        
+                        dispatch_group_notify(group, queue) {
+                            onCompletion(person, err2)
+                        }
                     }
                 })
+            } else {
+                onCompletion(nil, err)
             }
         })
     }
@@ -215,8 +299,8 @@ class SyncQ : NSObject {
 					}
                     
                     onCompletion([rel!], nil)
-					//return rel;
 				}
+                onCompletion([LocalRelationship](), nil)
 			})
 		})
 	}
