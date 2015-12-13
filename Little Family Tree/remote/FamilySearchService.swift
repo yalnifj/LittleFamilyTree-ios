@@ -97,6 +97,7 @@ class FamilySearchService : RemoteService {
 						let entry = ae[0]
 						let timestamp = entry["updated"]
 						onCompletion(timestamp.int64Value, err)
+                        return
 					}
 				}
 				onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find portraits for person with id \(personId)"]))
@@ -262,6 +263,7 @@ class FamilySearchService : RemoteService {
             }
             if response == nil {
                 onCompletion(nil, error)
+                return
             }
             let httpResponse = response as! NSHTTPURLResponse
             if httpResponse.statusCode != 200 {

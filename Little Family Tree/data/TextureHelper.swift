@@ -58,4 +58,22 @@ class TextureHelper {
             return SKTexture(imageNamed: "dad")
         }
     }
+    
+    static func getTextureForMedia(media:Media) -> SKTexture? {
+        let fileManager = NSFileManager.defaultManager()
+        if fileManager.fileExistsAtPath(media.localPath as! String) {
+            let data = NSData(contentsOfFile: media.localPath! as String)
+            if data != nil {
+                let uiImage = UIImage(data: data!)
+                if uiImage != nil {
+                    let texture = SKTexture(image: uiImage!)
+                    return texture
+                }
+            }
+            print("Unable to load texture for \(media.localPath!)")
+        } else {
+            print("File does not exist at \(media.localPath!)")
+        }
+        return nil
+    }
 }

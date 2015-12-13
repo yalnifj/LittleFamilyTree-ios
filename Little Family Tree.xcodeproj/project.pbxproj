@@ -96,6 +96,8 @@
 		A18F04B51BF7F16C00538F0B /* grandpa.png in Resources */ = {isa = PBXBuildFile; fileRef = A18F04B21BF7F16B00538F0B /* grandpa.png */; };
 		A18F04B71BF7F19400538F0B /* mom.png in Resources */ = {isa = PBXBuildFile; fileRef = A18F04B61BF7F19400538F0B /* mom.png */; };
 		A18F04B91BF7F3E500538F0B /* TextureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F04B81BF7F3E500538F0B /* TextureHelper.swift */; };
+		A1AC2B351C1D03D5000028A1 /* PuzzleGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */; };
+		A1AC2B3E1C1D04BE000028A1 /* PuzzleSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */; };
 		A1AE10E21BF663660043033A /* InitialDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AE10E11BF663660043033A /* InitialDataLoader.swift */; };
 		A1AE10EC1BF669D90043033A /* StatusListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AE10EB1BF669D90043033A /* StatusListener.swift */; };
 		A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */; };
@@ -580,6 +582,8 @@
 		A18F04B21BF7F16B00538F0B /* grandpa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa.png; sourceTree = "<group>"; };
 		A18F04B61BF7F19400538F0B /* mom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom.png; sourceTree = "<group>"; };
 		A18F04B81BF7F3E500538F0B /* TextureHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureHelper.swift; sourceTree = "<group>"; };
+		A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleGame.swift; path = gamelogic/PuzzleGame.swift; sourceTree = "<group>"; };
+		A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleSprite.swift; path = sprites/PuzzleSprite.swift; sourceTree = "<group>"; };
 		A1AE10E11BF663660043033A /* InitialDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialDataLoader.swift; sourceTree = "<group>"; };
 		A1AE10EB1BF669D90043033A /* StatusListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusListener.swift; sourceTree = "<group>"; };
 		A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStateSprite.swift; sourceTree = "<group>"; };
@@ -1012,6 +1016,7 @@
 				A1EC61481C1366B7006DF050 /* DressUpDolls.swift */,
 				A1EC614A1C1367A4006DF050 /* DollConfig.swift */,
 				A17C32591C1A676200F64737 /* RandomMediaChooser.swift */,
+				A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */,
 			);
 			name = gamelogic;
 			sourceTree = "<group>";
@@ -1095,6 +1100,7 @@
 				A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */,
 				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
+				A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
 				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
 				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
@@ -1960,6 +1966,7 @@
 				A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */,
 				A1EA5D281C090E3C006528A5 /* ChooseCultureScene.swift in Sources */,
 				A10BF1321BC9D359005CAFDA /* PlaceReference.swift in Sources */,
+				A1AC2B3E1C1D04BE000028A1 /* PuzzleSprite.swift in Sources */,
 				A117C7351BA4AD0000964D50 /* GameViewController.swift in Sources */,
 				A1686D651BB97D3400E58A09 /* Media.swift in Sources */,
 				A10BF1251BC9D359005CAFDA /* EvidenceReference.swift in Sources */,
@@ -1994,6 +2001,7 @@
 				A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */,
 				A10BF12F1BC9D359005CAFDA /* NamePart.swift in Sources */,
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
+				A1AC2B351C1D03D5000028A1 /* PuzzleGame.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,
 				A10BF1241BC9D359005CAFDA /* DisplayProperties.swift in Sources */,
 				A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */,

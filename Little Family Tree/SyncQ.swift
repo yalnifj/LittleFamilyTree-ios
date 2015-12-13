@@ -79,13 +79,14 @@ class SyncQ : NSObject {
                         person.nationality = updated!.nationality
                         person.updateAge()
                         
-                        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                        let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
                         let group = dispatch_group_create()
                         
                         dispatch_group_enter(group)
                         //-- sync close relatives
                         self.dataService.remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
                             if (closeRelatives != nil && closeRelatives!.count > 0) {
+                                let dqueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
                                 let group2 = dispatch_group_create()
                                 let oldRelations = self.dbHelper.getRelationshipsForPerson(person.id!)
                                 var newRelations = [LocalRelationship]()
@@ -105,7 +106,7 @@ class SyncQ : NSObject {
                                     })
                                 }
                                 
-                                dispatch_group_notify(group2, queue) {
+                                dispatch_group_notify(group2, dqueue2) {
                                     for rel in oldRelations! {
                                         if !newRelations.contains(rel) {
                                             self.dataService.dbHelper.deleteRelationshipById(rel.id);
@@ -139,6 +140,7 @@ class SyncQ : NSObject {
                             if sds != nil {
                                 let oldMedia = self.dbHelper.getMediaForPerson(person.id!);
                                 var allMedia = [Media]()
+                                let dqueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
                                 let group2 = dispatch_group_create()
                                 for sd in sds! {
                                     var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
@@ -175,7 +177,7 @@ class SyncQ : NSObject {
                                     }
                                 }
                                 
-                                dispatch_group_notify(group2, queue) {
+                                dispatch_group_notify(group2, dqueue2) {
                                     for m in oldMedia {
                                         if !allMedia.contains(m) {
                                             self.dbHelper.deleteMediaById(m.id)
@@ -206,7 +208,7 @@ class SyncQ : NSObject {
                             dispatch_group_leave(group)
                         })
                         
-                        dispatch_group_notify(group, queue) {
+                        dispatch_group_notify(group, dqueue) {
                             onCompletion(person, err2)
                         }
                     }
@@ -330,7 +332,7 @@ class SyncOperation : NSOperation {
         
         dataService.remoteService!.getLastChangeForPerson(person.familySearchId!, onCompletion: { timestamp, err in
             if timestamp != nil {
-                print("Local date=\(self.person.lastSync) remote date=\(timestamp)")
+                print("Local date=\(self.person.lastSync?.timeIntervalSince1970) remote date=\(timestamp)")
             }
             if timestamp == nil || self.person.lastSync == nil
                     || timestamp!/1000 > Int64((self.person.lastSync?.timeIntervalSince1970)!) {
@@ -345,6 +347,124 @@ class SyncOperation : NSOperation {
                         }
                     }
                 })
+            } else {
+                self.person.lastSync = NSDate()
+                do {
+                    try dbHelper.persistLittlePerson(self.person)
+                } catch {
+                    print("Unable to persist person \(self.person.id!)")
+                }
+
+                //-- force load of family members if we haven't previously loaded them
+                //--- allows building the tree in the background
+                if self.person.treeLevel < 13 {
+                    if (self.person.hasParents == nil) {
+                        let dbParents = self.dataService.dbHelper.getParentsForPerson(self.person.id!)
+                        if (dbParents == nil || dbParents!.count == 0) {
+                            print("SyncThread - Synchronizing parents for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            self.dataService.getParentsFromRemoteService(self.person, onCompletion: { parents, err in
+                                if parents != nil && parents!.count > 0 {
+                                    for p in parents! {
+                                        self.dataService.addToSyncQ(p);
+                                    }
+                                    self.person.hasParents = true
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                }
+                                else if err == nil {
+                                    self.person.hasParents = false
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                }
+                            })
+                        } else {
+                            self.person.hasParents = true
+                            do {
+                                try dbHelper.persistLittlePerson(self.person)
+                            } catch {
+                                print("Unable to persist person \(self.person.id!)")
+                            }
+                        }
+                    }
+                }
+                //-- force load descendants of lower levels, picks up aunts, uncles, cousins, grandchildren
+                if self.person.treeLevel < 2 {
+                    if (self.person.hasChildren == nil) {
+                        let dbChildren = self.dataService.dbHelper.getChildrenForPerson(self.person.id!);
+                        if (dbChildren == nil || dbChildren!.count == 0) {
+                            print("SyncThread - Synchronizing children for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            self.dataService.getChildrenFromRemoteService(self.person, onCompletion: { children, err in
+                                if children != nil && children!.count > 0 {
+                                    for p in children! {
+                                        self.dataService.addToSyncQ(p)
+                                    }
+                                    self.person.hasChildren = true
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                }
+                                else if err == nil {
+                                    self.person.hasChildren = false
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                }
+                            })
+                        } else {
+                            self.person.hasChildren = true
+                            do {
+                                try dbHelper.persistLittlePerson(self.person)
+                            } catch {
+                                print("Unable to persist person \(self.person.id!)")
+                            }
+                        }
+                    }
+                    
+                    if (self.person.hasSpouses == nil) {
+                        let dbSpouses = self.dataService.dbHelper.getSpousesForPerson(self.person.id!)
+                        if (dbSpouses == nil || dbSpouses!.count == 0) {
+                            print("SyncThread - Synchronizing spouses for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            self.dataService.getSpousesFromRemoteService(self.person, onCompletion: { spouses, err in
+                                if spouses != nil && spouses!.count > 0  {
+                                    for p in spouses! {
+                                        self.dataService.addToSyncQ(p)
+                                    }
+                                    self.person.hasSpouses = true
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                } else if err == nil {
+                                    self.person.hasSpouses = false
+                                    do {
+                                        try dbHelper.persistLittlePerson(self.person)
+                                    } catch {
+                                        print("Unable to persist person \(self.person.id!)")
+                                    }
+                                }
+                            })
+
+                        } else {
+                            self.person.hasSpouses = true
+                            do {
+                                try dbHelper.persistLittlePerson(self.person)
+                            } catch {
+                                print("Unable to persist person \(self.person.id!)")
+                            }
+                        }
+                    }
+                }
             }
         })
     }
