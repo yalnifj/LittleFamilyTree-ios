@@ -40,20 +40,23 @@ class PuzzleGame {
                 pieces.append(piece)
             }
         }
+        self.shuffle()
     }
     
     func shuffle() {
         var i = 1
         for p1 in pieces {
             let r = i + Int(arc4random_uniform(UInt32(pieces.count - i)))
+            if r < pieces.count {
             let p2 = pieces[r]
-            let col = p2.col
-            let row = p2.row
-            p2.col = p1.col
-            p2.row = p1.row
-            p1.col = col
-            p2.row = row
-            i++
+                let col = p2.col
+                let row = p2.row
+                p2.col = p1.col
+                p2.row = p1.row
+                p1.col = col
+                p2.row = row
+                i++
+            }
         }
     }
 }
