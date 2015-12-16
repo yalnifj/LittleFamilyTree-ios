@@ -36,6 +36,8 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         
         setupTopBar()
         
+        showLoadingDialog()
+        
         randomMediaChooser.listener = self
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
@@ -110,6 +112,8 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             hintButton?.zPosition = 10
             hintButton!.position = CGPointMake(10 + hintButton!.size.width/2, 10 + hintButton!.size.height/2)
             self.addChild(hintButton!)
+            
+            hideLoadingDialog()
             
         } else {
             randomMediaChooser.loadMoreFamilyMembers()

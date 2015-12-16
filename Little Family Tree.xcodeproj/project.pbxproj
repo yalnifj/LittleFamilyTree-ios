@@ -104,6 +104,8 @@
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1C0A9971C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A2931BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		A1D7F47F1C2106E000806723 /* RelationshipCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */; };
+		A1D7F4881C2121CE00806723 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = A1D7F4871C2121CE00806723 /* loading.png */; };
 		A1DC44CB1C13A38F00344531 /* DressUpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DC44CA1C13A38F00344531 /* DressUpScene.swift */; };
 		A1EA5D281C090E3C006528A5 /* ChooseCultureScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */; };
 		A1EA5D311C091280006528A5 /* HeritagePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EA5D301C091280006528A5 /* HeritagePath.swift */; };
@@ -588,6 +590,8 @@
 		A1AE10EB1BF669D90043033A /* StatusListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusListener.swift; sourceTree = "<group>"; };
 		A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStateSprite.swift; sourceTree = "<group>"; };
 		A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
+		A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipCalculator.swift; sourceTree = "<group>"; };
+		A1D7F4871C2121CE00806723 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		A1DC44CA1C13A38F00344531 /* DressUpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DressUpScene.swift; path = scenes/DressUpScene.swift; sourceTree = "<group>"; };
 		A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseCultureScene.swift; path = scenes/ChooseCultureScene.swift; sourceTree = "<group>"; };
 		A1EA5D301C091280006528A5 /* HeritagePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeritagePath.swift; sourceTree = "<group>"; };
@@ -1064,6 +1068,7 @@
 				A1EA5D301C091280006528A5 /* HeritagePath.swift */,
 				A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */,
 				A1EC614C1C1368BF006DF050 /* DollClothing.swift */,
+				A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -1152,6 +1157,7 @@
 				A1F81C4E1BF3AFDF00078870 /* ic_launcher-web.png */,
 				A16241CA1C06801F009205F1 /* home.png */,
 				A17C324E1C1A65A200F64737 /* star1.png */,
+				A1D7F4871C2121CE00806723 /* loading.png */,
 				A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */,
 				A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
@@ -1709,6 +1715,7 @@
 				A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */,
 				A1F81D281BF3AFDF00078870 /* house_toys_bat16.png in Resources */,
 				A1F81C7C1BF3AFDF00078870 /* house_background2.png in Resources */,
+				A1D7F4881C2121CE00806723 /* loading.png in Resources */,
 				A1F81D771BF3AFDF00078870 /* piano_allinourfamilytree.mp3 in Resources */,
 				A1F81D051BF3AFDF00078870 /* house_music_guitar3.png in Resources */,
 				A1F81CCC1BF3AFDF00078870 /* house_familyroom_frame7.png in Resources */,
@@ -2026,6 +2033,7 @@
 				A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */,
 				A10BF12E1BC9D359005CAFDA /* NameForm.swift in Sources */,
 				A10BF1011BC9CE52005CAFDA /* SplashScene.swift in Sources */,
+				A1D7F47F1C2106E000806723 /* RelationshipCalculator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

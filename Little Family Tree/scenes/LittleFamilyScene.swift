@@ -18,8 +18,9 @@ class LittleFamilyScene: SKScene, EventListener {
     var starRect:CGRect?
     var starCount = 0
     var starsInRect = false
-    var starDelayCount = 50
-    var starDelay = 50
+    var starDelayCount = 1
+    var starDelay = 1
+    var loadingDialog:SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -68,6 +69,7 @@ class LittleFamilyScene: SKScene, EventListener {
                     }
                     star.position.x = x
                     star.position.y = y
+                    star.zPosition = 100
                     star.setScale(0.1)
                     let growAction = SKAction.scaleTo(1.0, duration: 0.5)
                     let shrinkAction = SKAction.scaleTo(0.0, duration: 0.5)
@@ -133,5 +135,41 @@ class LittleFamilyScene: SKScene, EventListener {
         self.starRect = rect
         self.starsInRect = starsInRect
         self.starCount = count
+    }
+    
+    func showLoadingDialog() {
+        if loadingDialog == nil {
+            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(200, 300))
+            loadingDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
+            loadingDialog?.zPosition = 1000
+            
+            let tree = SKSpriteNode(imageNamed: "growing_plant1")
+            tree.position = CGPointMake(20, 100)
+            let growing:[SKTexture] = [
+                SKTexture(imageNamed: "growing_plant2"),
+                SKTexture(imageNamed: "growing_plant3"),
+                SKTexture(imageNamed: "growing_plant4"),
+                SKTexture(imageNamed: "growing_plant5"),
+                SKTexture(imageNamed: "growing_plant6"),
+                SKTexture(imageNamed: "growing_plant7"),
+                SKTexture(imageNamed: "growing_plant1")
+            ]
+            loadingDialog?.addChild(tree)
+            let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
+            tree.runAction(action)
+            
+            let logo = SKSpriteNode(imageNamed: "loading")
+            logo.position = CGPointMake(10, 10)
+            loadingDialog?.addChild(logo)
+            
+            self.addChild(loadingDialog!)
+        }
+    }
+    
+    func hideLoadingDialog() {
+        if loadingDialog != nil {
+            loadingDialog?.removeFromParent()
+            loadingDialog = nil
+        }
     }
 }

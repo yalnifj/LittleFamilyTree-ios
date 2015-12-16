@@ -150,6 +150,24 @@ class ChooseCultureScene: LittleFamilyScene {
         SpeechHelper.getInstance().speak("Calculating your heritage. Please wait...")
     }
     
+    func speakDetails(relative:LittlePerson) {
+        let relationship = RelationshipCalculator.getAncestralRelationship(selectedPath!.treePath.count, p: relative, me: selectedPerson!, isRoot: false, isChild: false, isInLaw: false);
+        
+        relative.relationship = relationship
+        let percString = String(format: "%.1f", selectedPath!.percent*100)
+        var text = "You are \(percString) percent from \(selectedPath!.place) from your \(relationship). "
+        if (relative.birthDate != nil) {
+            let df = NSDateFormatter()
+            df.dateStyle = .LongStyle
+            let dateText = df.stringFromDate(relative.birthDate!)
+            text += " \(relative.name!) was born in \(relative.birthPlace!) on \(dateText)"
+        } else {
+            text += " \(relative.name!)"
+        }
+        SpeechHelper.getInstance().speak(text);
+    }
+
+    
     func setSelectedPath(path:HeritagePath) {
         self.selectedPath = path
         

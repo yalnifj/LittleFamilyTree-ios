@@ -242,6 +242,7 @@ class DressUpScene: LittleFamilyScene {
                 }
             }
             if allPlaced == true {
+                self.showStars(CGRectMake((self.doll?.position.x)!, (self.doll?.position.y)!, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 10)
                 self.playSuccessSound(0.5, onCompletion: { () in
                     self.dollHolder?.hidden = false
                 })
