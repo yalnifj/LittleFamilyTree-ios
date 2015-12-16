@@ -166,43 +166,46 @@ class RelationshipCalculator {
             switch (depth) {
 				case 5:
                     great = "Third"
-                    break;
+                    break
 				case 6:
                     great = "Fourth"
-                    break;
+                    break
 				case 7:
                     great = "Fifth"
-                    break;
+                    break
 				case 8:
                     great = "Sixth"
-                    break;
+                    break
 				case 9:
                     great = "Seventh"
-                    break;
+                    break
 				case 10:
                     great = "Eighth"
-                    break;
+                    break
 				case 11:
                     great = "Nineth"
-                    break;
+                    break
 				case 12:
                     great = "Tenth"
-                    break;
+                    break
 				case 13:
                     great = "Eleventh"
-                    break;
+                    break
 				case 14:
                     great = "Twelvth"
-                    break;
+                    break
 				case 15:
                     great = "Thirteenth"
-                    break;
+                    break
 				case 16:
                     great = "Fourteenth"
-                    break;
+                    break
+                default:
+                    great = "Really Old"
+                    break
             }
             rel = great + " Great ";
-        } else {
+        } else if depth > 2 {
             for _ in 3..<depth+1 {
 				rel += "Great "
             }

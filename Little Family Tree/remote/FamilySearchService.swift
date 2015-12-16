@@ -229,7 +229,7 @@ class FamilySearchService : RemoteService {
                     }
 				
                     let imagePath = folderUrl.URLByAppendingPathComponent(fileName as String)
-                    try data!.writeToURL(imagePath, atomically: true)
+                    data!.writeToURL(imagePath, atomically: true)
                     onCompletion("\(folderName)/\(fileName)", error)
                 } catch {
                     onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Unable to download and save image"]))

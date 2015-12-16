@@ -139,12 +139,23 @@ class LittleFamilyScene: SKScene, EventListener {
     
     func showLoadingDialog() {
         if loadingDialog == nil {
-            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(200, 300))
+            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(220, 340))
             loadingDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
             loadingDialog?.zPosition = 1000
             
+            let logo = SKSpriteNode(imageNamed: "loading")
+            let ratio2 = logo.size.height / logo.size.width
+            logo.size.width = (loadingDialog?.size.width)! - 20
+            logo.size.height = ((loadingDialog?.size.width)! - 20) * ratio2
+            logo.position = CGPointMake(10, 0)
+            loadingDialog?.addChild(logo)
+        
             let tree = SKSpriteNode(imageNamed: "growing_plant1")
-            tree.position = CGPointMake(20, 100)
+            let ratio = tree.size.width / tree.size.height
+            tree.position = CGPointMake(0, tree.size.height)
+            tree.size.height = (loadingDialog?.size.height)! - logo.size.height
+            tree.size.width = tree.size.height * ratio
+            
             let growing:[SKTexture] = [
                 SKTexture(imageNamed: "growing_plant2"),
                 SKTexture(imageNamed: "growing_plant3"),
@@ -157,10 +168,6 @@ class LittleFamilyScene: SKScene, EventListener {
             loadingDialog?.addChild(tree)
             let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
             tree.runAction(action)
-            
-            let logo = SKSpriteNode(imageNamed: "loading")
-            logo.position = CGPointMake(10, 10)
-            loadingDialog?.addChild(logo)
             
             self.addChild(loadingDialog!)
         }

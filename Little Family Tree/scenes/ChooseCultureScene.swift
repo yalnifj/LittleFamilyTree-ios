@@ -187,6 +187,8 @@ class ChooseCultureScene: LittleFamilyScene {
         countryLabel?.text = path.place
         countryLabel?.fontSize = (pathPerson?.nameLabel?.fontSize)!
         countryLabel?.hidden = false
+        
+        speakDetails(pathPerson!.person!)
     }
 
     override func willMoveFromView(view: SKView) {
