@@ -69,7 +69,7 @@ class ChoosePlayerScene: SKScene, EventListener {
     }
     
     override func update(currentTime: NSTimeInterval) {
-
+        super.update(currentTime)
     }
     
     var index:Int?

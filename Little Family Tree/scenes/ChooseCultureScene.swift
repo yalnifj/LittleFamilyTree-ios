@@ -176,7 +176,7 @@ class ChooseCultureScene: LittleFamilyScene {
     }
     
     override func update(currentTime: NSTimeInterval) {
-        
+        super.update(currentTime)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {

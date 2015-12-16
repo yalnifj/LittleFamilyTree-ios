@@ -220,17 +220,17 @@ class FamilySearchService : RemoteService {
  
         let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
 			let fileManager = NSFileManager.defaultManager()
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+            let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
 			if data != nil && UIImage(data: data!) != nil {
                 do {
-                    let folderPath = paths.stringByAppendingString("/\(folderName)" )
-                    if !fileManager.fileExistsAtPath(folderPath) {
-                        try fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil)
+                    let folderUrl = url.URLByAppendingPathComponent(folderName as String)
+                    if !fileManager.fileExistsAtPath(folderUrl.path!) {
+                        try fileManager.createDirectoryAtURL(folderUrl, withIntermediateDirectories: true, attributes: nil)
                     }
 				
-                    let imagePath = paths.stringByAppendingString("/\(folderName)/\(fileName)" )
-                    try data!.writeToFile(imagePath, options: NSDataWritingOptions.AtomicWrite)
-                    onCompletion(imagePath, error);
+                    let imagePath = folderUrl.URLByAppendingPathComponent(fileName as String)
+                    try data!.writeToURL(imagePath, atomically: true)
+                    onCompletion("\(folderName)/\(fileName)", error)
                 } catch {
                     onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Unable to download and save image"]))
                 }

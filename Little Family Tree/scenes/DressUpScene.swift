@@ -271,4 +271,7 @@ class DressUpScene: LittleFamilyScene {
         scrolling = false
     }
     
+    override func update(currentTime: NSTimeInterval) {
+        super.update(currentTime)
+    }
 }

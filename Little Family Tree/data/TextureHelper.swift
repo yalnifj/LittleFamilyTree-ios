@@ -14,11 +14,19 @@ class TextureHelper {
     
     static func getPortraitTexture(person:LittlePerson) -> SKTexture? {
         let fileManager = NSFileManager.defaultManager()
-        if person.photoPath === nil || person.photoPath!.length == 0 || !fileManager.fileExistsAtPath(person.photoPath as! String) {
+        let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        
+        if person.photoPath === nil || person.photoPath!.length == 0 {
+            print("no portrait found for \(person.name!)")
+            return getDefaultPortrait(person)
+        }
+        let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
+        if !fileManager.fileExistsAtPath(photoUrl.path!) {
+            print("no portrait found for \(person.name!)")
             return getDefaultPortrait(person)
         }
         
-        let data = NSData(contentsOfFile: person.photoPath! as String)
+        let data = NSData(contentsOfURL: photoUrl)
         if data != nil {
             let uiImage = UIImage(data: data!)
             if uiImage != nil {
@@ -61,8 +69,10 @@ class TextureHelper {
     
     static func getTextureForMedia(media:Media) -> SKTexture? {
         let fileManager = NSFileManager.defaultManager()
-        if fileManager.fileExistsAtPath(media.localPath as! String) {
-            let data = NSData(contentsOfFile: media.localPath! as String)
+        let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        let photoUrl = url.URLByAppendingPathComponent(media.localPath as! String)
+        if fileManager.fileExistsAtPath(photoUrl.path!) {
+            let data = NSData(contentsOfURL: photoUrl)
             if data != nil {
                 let uiImage = UIImage(data: data!)
                 if uiImage != nil {

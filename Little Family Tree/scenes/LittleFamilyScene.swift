@@ -14,6 +14,12 @@ class LittleFamilyScene: SKScene, EventListener {
     static var TOPIC_START_CHOOSE = "start_choose"
     var selectedPerson:LittlePerson?
     var topBar:TopBar?
+    var addingStars = false
+    var starRect:CGRect?
+    var starCount = 0
+    var starsInRect = false
+    var starDelayCount = 50
+    var starDelay = 50
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -25,6 +31,55 @@ class LittleFamilyScene: SKScene, EventListener {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        if (starCount > 0) {
+            if (starDelayCount <= 0) {
+                starDelayCount = starDelay
+                starCount--;
+                if (starRect != nil) {
+                    let star = SKSpriteNode(imageNamed: "star1")
+                    var x = CGFloat(0)
+                    var y = CGFloat(0)
+                    if (starsInRect) {
+                        x = (starRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((starRect?.width)!)))
+                        y = (starRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((starRect?.height)!)))
+                    } else {
+                        let side = arc4random_uniform(4)
+                        switch (side) {
+                        case 0:
+                            x = (starRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((starRect?.width)!)))
+                            y = (starRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32(star.size.height)))
+                            break
+                        case 1:
+                            x = (starRect?.origin.x)! + (starRect?.width)! - CGFloat(arc4random_uniform(UInt32(star.size.width)))
+                            y = (starRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((starRect?.height)!)))
+                            break
+                        case 2:
+                            x = (starRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((starRect?.width)!)))
+                            y = (starRect?.origin.y)! + (starRect?.height)! - CGFloat(arc4random_uniform(UInt32(star.size.height)))
+                            break
+                        default:
+                            x = (starRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32(star.size.width)))
+                            y = (starRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((starRect?.height)!)))
+                            break
+                        }
+                    }
+                    star.position.x = x
+                    star.position.y = y
+                    star.setScale(0.1)
+                    let growAction = SKAction.scaleTo(1.0, duration: 0.5)
+                    let shrinkAction = SKAction.scaleTo(0.0, duration: 0.5)
+                    let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
+                    star.runAction(doubleAction)
+                    self.addChild(star)
+                }
+            } else {
+                starDelayCount--;
+            }
+        }
+
     }
     
     func setupTopBar() {
@@ -74,7 +129,9 @@ class LittleFamilyScene: SKScene, EventListener {
         }
     }
     
-    func showStars(rect:CGRect) {
-        
+    func showStars(rect:CGRect, starsInRect: Bool, count: Int) {
+        self.starRect = rect
+        self.starsInRect = starsInRect
+        self.starCount = count
     }
 }

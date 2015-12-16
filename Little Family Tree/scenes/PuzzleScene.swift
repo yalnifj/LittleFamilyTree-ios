@@ -46,7 +46,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     }
     
     override func update(currentTime: NSTimeInterval) {
-        
+        super.update(currentTime)
     }
     
     func onMediaLoaded(media:Media?) {

@@ -848,6 +848,7 @@ class GameScene: SKScene, EventListener {
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        super.update(currentTime)
 		var notRemoving = [AnimatedStateSprite]()
 		for sprite in updateSprites {
 			if sprite.removeMe == true {

@@ -119,7 +119,7 @@ class MatchGameScene: LittleFamilyScene {
     }
     
     override func update(currentTime: NSTimeInterval) {
-        
+        super.update(currentTime)
     }
 
     func frameTouched(sprite:PersonMatchSprite) {
@@ -149,6 +149,7 @@ class MatchGameScene: LittleFamilyScene {
                         flip2?.person?.matched = true
                         
                         if game?.allMatched() == true {
+                            self.showStars(CGRectMake(self.size.width * 0.1, self.size.height * 0.1, self.size.width * 0.8, self.size.height * 0.8), starsInRect: true, count: Int(self.size.width) / 50)
                             self.playSuccessSound(2.0, onCompletion: { () in
                                 self.loadMorePeople()
                             })
