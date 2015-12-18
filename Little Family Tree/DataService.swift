@@ -416,8 +416,8 @@ class DataService {
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         let group = dispatch_group_create()
         
+        var mediaFound = false;
         if (person.hasMedia == nil) {
-            var mediaFound = false;
             dispatch_group_enter(group)
             self.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
                 if sds != nil {
@@ -433,18 +433,23 @@ class DataService {
                                         med?.familySearchId = sd.id
                                         
                                         dispatch_group_enter(group)
-                                        self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: self.lastPath(link.href! as String), onCompletion: { path, err2 in
-                                            med?.localPath = path
-                                            mediaFound = true
-                                            self.dbHelper.persistMedia(med!)
-                                            media.append(med!)
-                                            let tag = Tag()
-                                            tag.mediaId = med!.id
-                                            tag.personId = person.id!
-                                            do {
-                                                try self.dbHelper.persistTag(tag)
-                                            } catch {
-                                                print("Error saving tag")
+                                        let oname = self.lastPath(link.href! as String)
+                                        let fileName = "\(sd.id!)-\(oname)"
+                                        self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: fileName, onCompletion: { localPath, err2 in
+                                            print("downloaded image to \(localPath)")
+                                            if localPath != nil {
+                                                med?.localPath = localPath
+                                                mediaFound = true
+                                                self.dbHelper.persistMedia(med!)
+                                                media.append(med!)
+                                                let tag = Tag()
+                                                tag.mediaId = med!.id
+                                                tag.personId = person.id!
+                                                do {
+                                                    try self.dbHelper.persistTag(tag)
+                                                } catch {
+                                                    print("Error saving tag")
+                                                }
                                             }
                                             dispatch_group_leave(group)
                                         })
@@ -458,23 +463,25 @@ class DataService {
                 }
                 dispatch_group_leave(group)
             })
-            
-            if (mediaFound) {
-                person.hasMedia = true
-            } else {
-                person.hasMedia = false
-            }
-            do {
-                try dbHelper.persistLittlePerson(person)
-            } catch {
-                print("Error saving person from media")
-            }
 
         } else {
             media = dbHelper.getMediaForPerson(person.id!)
         }
         
         dispatch_group_notify(group, queue) {
+            if person.hasMedia == nil {
+                if (mediaFound) {
+                    person.hasMedia = true
+                } else {
+                    person.hasMedia = false
+                }
+                do {
+                    try self.dbHelper.persistLittlePerson(person)
+                } catch {
+                    print("Error saving person from media")
+                }
+            }
+            
             onCompletion(media, nil)
         }
     }
@@ -654,7 +661,7 @@ class DataService {
 				if let idx = filePath.characters.indexOf("?") {
                     filePath = filePath.substringToIndex(idx);
                 }
-                return filePath;
+                return NSString(string: filePath);
             }
 			i--
         } while i >= 0

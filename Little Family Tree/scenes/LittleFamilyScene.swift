@@ -18,8 +18,8 @@ class LittleFamilyScene: SKScene, EventListener {
     var starRect:CGRect?
     var starCount = 0
     var starsInRect = false
-    var starDelayCount = 1
-    var starDelay = 1
+    var starDelayCount = 2
+    var starDelay = 2
     var loadingDialog:SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
@@ -71,8 +71,8 @@ class LittleFamilyScene: SKScene, EventListener {
                     star.position.y = y
                     star.zPosition = 100
                     star.setScale(0.1)
-                    let growAction = SKAction.scaleTo(1.0, duration: 0.5)
-                    let shrinkAction = SKAction.scaleTo(0.0, duration: 0.5)
+                    let growAction = SKAction.scaleTo(1.0, duration: 1.0)
+                    let shrinkAction = SKAction.scaleTo(0.0, duration: 1.0)
                     let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
                     star.runAction(doubleAction)
                     self.addChild(star)
@@ -139,7 +139,7 @@ class LittleFamilyScene: SKScene, EventListener {
     
     func showLoadingDialog() {
         if loadingDialog == nil {
-            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(220, 340))
+            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(270, 350))
             loadingDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
             loadingDialog?.zPosition = 1000
             
@@ -147,14 +147,14 @@ class LittleFamilyScene: SKScene, EventListener {
             let ratio2 = logo.size.height / logo.size.width
             logo.size.width = (loadingDialog?.size.width)! - 20
             logo.size.height = ((loadingDialog?.size.width)! - 20) * ratio2
-            logo.position = CGPointMake(10, 0)
+            logo.position = CGPointMake(10, ((loadingDialog?.size.height)! / -2) + logo.size.height)
             loadingDialog?.addChild(logo)
         
             let tree = SKSpriteNode(imageNamed: "growing_plant1")
             let ratio = tree.size.width / tree.size.height
-            tree.position = CGPointMake(0, tree.size.height)
-            tree.size.height = (loadingDialog?.size.height)! - logo.size.height
+            tree.size.height = (loadingDialog?.size.height)! / 1.8
             tree.size.width = tree.size.height * ratio
+            tree.position = CGPointMake(0, logo.position.y + logo.size.height + tree.size.height / 2)
             
             let growing:[SKTexture] = [
                 SKTexture(imageNamed: "growing_plant2"),
@@ -170,13 +170,14 @@ class LittleFamilyScene: SKScene, EventListener {
             tree.runAction(action)
             
             self.addChild(loadingDialog!)
+        } else {
+            loadingDialog?.hidden = false
         }
     }
     
     func hideLoadingDialog() {
         if loadingDialog != nil {
-            loadingDialog?.removeFromParent()
-            loadingDialog = nil
+            loadingDialog?.hidden = true
         }
     }
 }

@@ -541,7 +541,7 @@ class DBHelper {
         let stmt = lftdb?.prepare(query)
 		for m in stmt! {
             let med = Media()
-            med.id = m[COL_ID]
+            med.id = m[TABLE_MEDIA[COL_ID]]
             med.familySearchId = m[COL_FAMILY_SEARCH_ID]
             med.type = m[COL_MEDIA_TYPE]
             med.localPath = m[COL_LOCAL_PATH]

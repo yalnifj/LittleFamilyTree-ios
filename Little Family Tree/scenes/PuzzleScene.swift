@@ -20,6 +20,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var rows = 2
     var cols = 1
     var movingSprite:PuzzleSprite?
+    var texture:SKTexture?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -59,6 +60,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         
         let texture = TextureHelper.getTextureForMedia(media!)
         if texture != nil {
+            self.texture = texture
             for p in pieces {
                 p.removeFromParent()
             }
@@ -103,8 +105,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             hintSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
             hintSprite?.zPosition = 9
             hintSprite?.position = CGPointMake(self.size.width / 2, h / 2)
-            hintSprite?.size.width = w
-            hintSprite?.size.height = h
             hintSprite?.hidden = true
             self.addChild(hintSprite!)
             
@@ -125,7 +125,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(lastPoint)
-            if touchedNode == hintSprite {
+            if touchedNode == self.hintButton {
                 hintSprite?.hidden = false
             } else if touchedNode is PuzzleSprite {
                 let ps = touchedNode as! PuzzleSprite
@@ -153,12 +153,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
+        hintSprite?.hidden = true
         for touch in touches {
             lastPoint = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(lastPoint)
-            if touchedNode == hintSprite {
-                hintSprite?.hidden = true
-            }
             
             if movingSprite != nil {
                 let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2

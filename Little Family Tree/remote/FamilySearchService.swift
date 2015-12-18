@@ -229,12 +229,20 @@ class FamilySearchService : RemoteService {
                     }
 				
                     let imagePath = folderUrl.URLByAppendingPathComponent(fileName as String)
-                    data!.writeToURL(imagePath, atomically: true)
-                    onCompletion("\(folderName)/\(fileName)", error)
+                    if data!.writeToURL(imagePath, atomically: true) {
+                        let returnPath = "\(folderName)/\(fileName)"
+                        onCompletion(returnPath, error)
+                    } else {
+                        onCompletion(nil, error)
+                    }
+                    return;
                 } catch {
                     onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Unable to download and save image"]))
+                    return;
                 }
-			}
+            } else {
+                onCompletion(nil, NSError(domain: "FamilySearchService", code: 500, userInfo: ["message":"Unable to download and save image"]))
+            }
         })
         task.resume()
 	}

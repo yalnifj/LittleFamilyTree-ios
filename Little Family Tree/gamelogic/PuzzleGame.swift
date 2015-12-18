@@ -24,13 +24,15 @@ class PuzzleGame {
         
         pieceWidth = texture.size().width / CGFloat(self.cols)
         pieceHeight = texture.size().height / CGFloat(self.rows)
+        let pw = pieceWidth / texture.size().width
+        let ph = pieceHeight / texture.size().height
         
         // create pieces
         for r in  0..<self.rows {
-            let y = CGFloat(r) * pieceHeight
+            let y = CGFloat(r) * ph
             for c in 0..<self.cols {
-                let x = CGFloat(c) * pieceWidth
-                let rect = CGRectMake(x, y, pieceWidth, pieceHeight)
+                let x = CGFloat(c) * pw
+                let rect = CGRectMake(x, y, pw, ph)
                 let tp = SKTexture(rect: rect , inTexture: self.texture)
                 let piece = PuzzleSprite(texture: tp)
                 piece.correctCol = c

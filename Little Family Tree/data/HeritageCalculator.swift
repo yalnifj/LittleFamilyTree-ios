@@ -65,6 +65,7 @@ class HeritageCalculator {
                         }
                         let ppath = HeritagePath(place: place)
                         ppath.percent = path.percent / Double(parents!.count)
+                        ppath.treePath.appendContentsOf(path.treePath)
                         ppath.treePath.append(parent)
                         paths.append(ppath)
                         if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {

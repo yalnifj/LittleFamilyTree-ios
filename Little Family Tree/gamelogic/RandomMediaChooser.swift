@@ -66,37 +66,7 @@ class RandomMediaChooser {
                     if (self.backgroundLoadIndex < self.maxTries && self.counter < self.maxTries) {
                         self.loadMoreFamilyMembers();
                     } else {
-                        let mediaCount = self.dataService.dbHelper.getMediaCount();
-                        if (mediaCount > 0) {
-                            self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia();
-                            let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
-                            var index = Int(arc4random_uniform(UInt32(media.count)))
-                            let origIndex = index;
-                            self.photo = photos[index]
-                            while (self.usedPhotos.contains(self.photo!)) {
-                                index++;
-                                if (index >= photos.count) {
-                                    index = 0;
-                                }
-                                self.photo = photos[index]
-                                //-- stop if we've used all of these images
-                                if (index == origIndex) {
-                                    self.loadMoreFamilyMembers();
-                                    return;
-                                }
-                            }
-                            if (self.usedPhotos.count >= self.maxUsed) {
-                                self.usedPhotos.removeFirst()
-                            }
-                            self.usedPhotos.append(self.photo!)
-                            
-                            self.counter = 0;
-                            self.listener.onMediaLoaded(self.photo!)
-                            
-                        } else {
-                            self.counter = 0
-                            self.listener.onMediaLoaded(nil)
-                        }
+                        self.loadRandomDBImage()
                     }
                 } else {
                     var index = Int(arc4random_uniform(UInt32(photos.count)))
@@ -123,6 +93,8 @@ class RandomMediaChooser {
                 }
 
             })
+        } else {
+            loadMoreFamilyMembers()
         }
     }
     
@@ -162,7 +134,45 @@ class RandomMediaChooser {
                 })
             }
         } else {
-            loadRandomImage()
+            if (people.count > 0) {
+                loadRandomImage()
+            } else {
+                self.listener.onMediaLoaded(nil)
+            }
+        }
+    }
+    
+    func loadRandomDBImage() {
+        let mediaCount = self.dataService.dbHelper.getMediaCount();
+        if (mediaCount > 0) {
+            self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia();
+            let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
+            var index = Int(arc4random_uniform(UInt32(media.count)))
+            let origIndex = index;
+            self.photo = media[index]
+            while (self.usedPhotos.contains(self.photo!)) {
+                index++;
+                if (index >= media.count) {
+                    index = 0;
+                }
+                self.photo = media[index]
+                //-- stop if we've used all of these images
+                if (index == origIndex) {
+                    self.loadMoreFamilyMembers();
+                    return;
+                }
+            }
+            if (self.usedPhotos.count >= self.maxUsed) {
+                self.usedPhotos.removeFirst()
+            }
+            self.usedPhotos.append(self.photo!)
+            
+            self.counter = 0;
+            self.listener.onMediaLoaded(self.photo!)
+            
+        } else {
+            self.counter = 0
+            self.listener.onMediaLoaded(nil)
         }
     }
 }
