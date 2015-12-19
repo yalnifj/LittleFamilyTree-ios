@@ -14,7 +14,10 @@ class PuzzleSprite: SKSpriteNode {
     var col:Int!
     var correctRow:Int!
     var correctCol:Int!
-    
+    var oldX:CGFloat?
+    var oldY:CGFloat?
+    var animating = false
+
     func isPlaced() -> Bool {
         if row == correctRow && col == correctCol {
             return true

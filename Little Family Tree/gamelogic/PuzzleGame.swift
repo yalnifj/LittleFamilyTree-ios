@@ -46,19 +46,32 @@ class PuzzleGame {
     }
     
     func shuffle() {
-        var i = 1
-        for p1 in pieces {
-            let r = i + Int(arc4random_uniform(UInt32(pieces.count - i)))
-            if r < pieces.count {
-            let p2 = pieces[r]
+        for i in 0..<pieces.count {
+            let r = Int(arc4random_uniform(UInt32(pieces.count)))
+            if r != i {
+                let p1 = pieces[i]
+                let p2 = pieces[r]
                 let col = p2.col
                 let row = p2.row
                 p2.col = p1.col
                 p2.row = p1.row
                 p1.col = col
-                p2.row = row
-                i++
+                p1.row = row
             }
         }
+        if allPlaced() {
+            shuffle()
+        }
+    }
+    
+    func allPlaced() -> Bool {
+        var allPlaced = true
+        for p in self.pieces {
+            if p.isPlaced() == false {
+                allPlaced = false
+                break
+            }
+        }
+        return allPlaced
     }
 }

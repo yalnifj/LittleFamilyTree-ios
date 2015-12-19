@@ -23,7 +23,7 @@ class RandomMediaChooser {
     var familyLoaderQueue:[LittlePerson]
     var selectedPerson:LittlePerson?
     var photo:Media?
-    var usedPhotos:[Media]
+    var usedPhotos:[Int64 : Media]
     var noPhotos:[LittlePerson]
     var backgroundLoadIndex = 0
     var counter = 0
@@ -35,7 +35,7 @@ class RandomMediaChooser {
         self.dataService = DataService.getInstance()
         self.people = [LittlePerson]()
         self.familyLoaderQueue = [LittlePerson]()
-        self.usedPhotos = [Media]()
+        self.usedPhotos = [Int64 : Media]()
         self.noPhotos = [LittlePerson]()
     }
     
@@ -72,7 +72,7 @@ class RandomMediaChooser {
                     var index = Int(arc4random_uniform(UInt32(photos.count)))
                     let origIndex = index;
                     self.photo = photos[index]
-                    while (self.usedPhotos.contains(self.photo!)) {
+                    while (self.usedPhotos[self.photo!.id] != nil) {
                         index++;
                         if (index >= photos.count) {
                             index = 0;
@@ -85,9 +85,9 @@ class RandomMediaChooser {
                         }
                     }
                     if (self.usedPhotos.count >= self.maxUsed) {
-                        self.usedPhotos.removeFirst()
+                        self.usedPhotos.dropFirst()
                     }
-                    self.usedPhotos.append(self.photo!)
+                    self.usedPhotos[self.photo!.id] = self.photo!
 
                     self.listener.onMediaLoaded(self.photo!)
                 }
@@ -150,7 +150,7 @@ class RandomMediaChooser {
             var index = Int(arc4random_uniform(UInt32(media.count)))
             let origIndex = index;
             self.photo = media[index]
-            while (self.usedPhotos.contains(self.photo!)) {
+            while (self.usedPhotos[self.photo!.id] != nil) {
                 index++;
                 if (index >= media.count) {
                     index = 0;
@@ -163,9 +163,9 @@ class RandomMediaChooser {
                 }
             }
             if (self.usedPhotos.count >= self.maxUsed) {
-                self.usedPhotos.removeFirst()
+                self.usedPhotos.dropFirst()
             }
-            self.usedPhotos.append(self.photo!)
+            self.usedPhotos[self.photo!.id] = self.photo!
             
             self.counter = 0;
             self.listener.onMediaLoaded(self.photo!)

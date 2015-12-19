@@ -359,37 +359,62 @@ class DataService {
                             let lr = LocalRelationship()
                             lr.id1 = person1?.id
                             lr.id2 = person2?.id
+                            var person1changed = false
+                            var person2changed = false
                             if r.type == "http://gedcomx.org/Couple" {
                                 lr.type = RelationshipType.SPOUSE
                                 if person2?.treeLevel == nil && person1?.treeLevel != nil {
                                     person2?.treeLevel = person1?.treeLevel
+                                    person2changed = true
                                 }
                                 if person2?.age == nil && person1?.age != nil  {
                                     person2?.age = (person1?.age)!
+                                    person2changed = true
                                 }
                                 if person1?.treeLevel == nil && person2?.treeLevel != nil {
                                     person1?.treeLevel = person2?.treeLevel
+                                    person1changed = true
                                 }
                                 if person1?.age == nil && person2?.age != nil  {
                                     person1?.age = (person2?.age)!
+                                    person1changed = true
                                 }
 
                             } else {
                                 lr.type = RelationshipType.PARENTCHILD
                                 if person2?.treeLevel == nil && person1?.treeLevel != nil {
                                     person2?.treeLevel = (person1?.treeLevel)! - 1
+                                    person2changed = true
                                 }
                                 if person2?.age == nil && person1?.age != nil  {
                                     person2?.age = (person1?.age)! - 25
+                                    person2changed = true
                                 }
                                 if person1?.treeLevel == nil && person2?.treeLevel != nil {
                                     person1?.treeLevel = (person2?.treeLevel)! + 1
+                                    person1changed = true
                                 }
                                 if person1?.age == nil && person2?.age != nil  {
                                     person1?.age = (person2?.age)! + 25
+                                    person1changed = true
                                 }
                             }
                             self.dbHelper.persistRelationship(lr)
+                            
+                            if person1changed {
+                                do {
+                                    try self.dbHelper.persistLittlePerson(person1!)
+                                } catch let e as NSError {
+                                    print(e)
+                                }
+                            }
+                            if person2changed {
+                                do {
+                                    try self.dbHelper.persistLittlePerson(person2!)
+                                } catch let e as NSError {
+                                    print(e)
+                                }
+                            }
                             
                             if person != person1 && !family.contains(person1!) {
                                 family.append(person1!)

@@ -28,10 +28,17 @@ class GameScene: SKScene, EventListener {
     var background : SKSpriteNode!
     var spriteContainer : SKSpriteNode!
 	var updateSprites = [AnimatedStateSprite]()
+    var minScale : CGFloat = 0.5
+    var maxScale : CGFloat = 2.0
     
     var selectedPerson:LittlePerson?
     
+    var previousScale = CGFloat(1.0)
+    
     override func didMoveToView(view: SKView) {
+        let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
+        view.addGestureRecognizer(pinch)
+        
         /* Setup your scene here */
         var z:CGFloat = 0
         background = SKSpriteNode(imageNamed: "house_background2")
@@ -48,8 +55,10 @@ class GameScene: SKScene, EventListener {
         else if oHeight > self.size.height {
             lfScale = self.size.height * 1.1 / oHeight
         }
+        maxScale = lfScale * 2;
+        minScale = lfScale / 2;
         diffY = maxHeight - self.size.height;
-        background.size = CGSizeMake(self.size.width, maxHeight);
+        background.size = CGSizeMake(self.size.width * 3, maxHeight);
         self.addChild(background);
         
         spriteContainer = SKSpriteNode()
@@ -785,8 +794,8 @@ class GameScene: SKScene, EventListener {
         personSprite.userInteractionEnabled = true
         personSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
         personSprite.zPosition = z++
-        personSprite.size.width = 40 * lfScale
-        personSprite.size.height = 40 * lfScale
+        personSprite.size.width = 50 * lfScale
+        personSprite.size.height = 50 * lfScale
         personSprite.person = selectedPerson
         personSprite.showLabel = false
         personSprite.topic = LittleFamilyScene.TOPIC_START_CHOOSE
@@ -796,6 +805,8 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_COLORING, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
@@ -805,6 +816,24 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_COLORING, listener: self)
+    }
+    
+    func pinched(sender:UIPinchGestureRecognizer){
+        print("pinched \(sender.scale)")
+        if sender.scale != previousScale {
+            let diff = (previousScale - sender.scale) / 3
+            previousScale = sender.scale
+            if lfScale + diff >= minScale && lfScale <= maxScale {
+                lfScale += diff
+                let zoomIn = SKAction.scaleTo(lfScale, duration:0)
+                spriteContainer.runAction(zoomIn)
+                
+                let zoomIn2 = SKAction.scaleTo(lfScale, duration:0)
+                background.runAction(zoomIn2)
+            }
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -840,11 +869,11 @@ class GameScene: SKScene, EventListener {
         }
         
         spriteContainer.position.x += clipX
-        if spriteContainer.position.x < 0-(oWidth-minX*2) {
-            spriteContainer.position.x = 0-(oWidth-minX*2)
+        if spriteContainer.position.x < 0-(oWidth - minX*2)/lfScale {
+            spriteContainer.position.x = 0-(oWidth - minX*2)/lfScale
         }
-        if spriteContainer.position.x > minX {
-            spriteContainer.position.x = minX
+        if spriteContainer.position.x > minX*2 {
+            spriteContainer.position.x = minX*2
         }
         
         lastPoint = nextPoint

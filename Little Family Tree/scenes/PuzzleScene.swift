@@ -15,12 +15,15 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var pieces = [PuzzleSprite]()
     var hintSprite:SKSpriteNode?
     var hintButton:SKSpriteNode?
+    var nameLabel:SKLabelNode?
+    var relationshipLabel:SKLabelNode?
     var lastPoint : CGPoint!
     var game : PuzzleGame?
     var rows = 2
     var cols = 1
     var movingSprite:PuzzleSprite?
     var texture:SKTexture?
+    var complete = false
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -58,8 +61,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             return
         }
         
-        let texture = TextureHelper.getTextureForMedia(media!)
+        let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
         if texture != nil {
+            complete = false
             self.texture = texture
             for p in pieces {
                 p.removeFromParent()
@@ -72,6 +76,13 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             if hintSprite != nil {
                 hintSprite?.removeFromParent()
             }
+            if nameLabel != nil {
+                nameLabel?.removeFromParent()
+            }
+            if relationshipLabel != nil {
+                relationshipLabel?.removeFromParent()
+            }
+            
             
             if cols < rows {
                 cols++
@@ -79,40 +90,44 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             else {
                 rows++
             }
-            game = PuzzleGame(texture: texture!, rows: rows, cols: cols)
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
-            var h = self.size.height - (topBar?.size.height)!
-            if h < w {
+            var h = self.size.height - (topBar?.size.height)! * 3
+            if ratio < 1.0 {
                 w = h * ratio
             } else {
                 h = w / ratio
             }
-            
-            let pw = w / CGFloat(cols)
-            let ph = h / CGFloat(rows)
-            
-            pieces = (game?.pieces)!
-            for p in pieces {
-                p.position = CGPointMake((CGFloat(p.col) * w) + w/2, (CGFloat(p.row) * h) + h/2)
-                p.zPosition = 2
-                p.size.width = pw
-                p.size.height = ph
-                self.addChild(p)
-            }
-            
+
             hintSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
             hintSprite?.zPosition = 9
-            hintSprite?.position = CGPointMake(self.size.width / 2, h / 2)
+            hintSprite?.position = CGPointMake((self.size.width / 2), 20 + (self.size.height / 2) - (topBar?.size.height)!)
             hintSprite?.hidden = true
             self.addChild(hintSprite!)
             
-            hintButton = SKSpriteNode(texture: texture, size: CGSizeMake(topBar!.size.height, topBar!.size.height))
+            hintButton = SKSpriteNode(texture: texture, size: CGSizeMake(topBar!.size.height * ratio, topBar!.size.height))
             hintButton?.zPosition = 10
             hintButton!.position = CGPointMake(10 + hintButton!.size.width/2, 10 + hintButton!.size.height/2)
             self.addChild(hintButton!)
             
+            game = PuzzleGame(texture: texture!, rows: rows, cols: cols)
+            
+            let pw = w / CGFloat(cols)
+            let ph = h / CGFloat(rows)
+            
+            let oy = 10 + (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+            let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
+            
+            pieces = (game?.pieces)!
+            for p in pieces {
+                p.position = CGPointMake((CGFloat(p.col) * pw) + pw/2 + ox, (CGFloat(p.row) * ph) + ph/2 + oy)
+                p.zPosition = 2
+                p.size.width = pw - 1
+                p.size.height = ph - 1
+                self.addChild(p)
+            }
+
             hideLoadingDialog()
             
         } else {
@@ -129,9 +144,11 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 hintSprite?.hidden = false
             } else if touchedNode is PuzzleSprite {
                 let ps = touchedNode as! PuzzleSprite
-                if !ps.isPlaced() {
+                if !ps.isPlaced() && !ps.animating {
                     movingSprite = ps
                     ps.zPosition = 3
+                    ps.oldX = ps.position.x
+                    ps.oldY = ps.position.y
                 }
             }
         }
@@ -158,7 +175,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             lastPoint = touch.locationInNode(self)
             
             if movingSprite != nil {
-                let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+                let oy = 10 + (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
                 let row = Int(((movingSprite?.position.y)! - oy) / (movingSprite?.size.height)!)
                 let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
                 let col = Int(((movingSprite?.position.x)! - ox) / (movingSprite?.size.width)!)
@@ -170,15 +187,15 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                         break
                     }
                 }
-                if sprite == nil || sprite?.isPlaced()==true {
+                if sprite == nil || sprite == movingSprite || sprite?.isPlaced()==true || sprite?.animating==true {
                     //-- return to old position
-                    var oldX = CGFloat((movingSprite?.col)!) * (movingSprite?.size.width)!
-                    oldX = oldX + ox + (movingSprite?.size.width)! / 2
-                    var oldY = CGFloat((movingSprite?.row)!) * (movingSprite?.size.height)!
-                    oldY = oldY + oy + (movingSprite?.size.height)! / 2
-                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 1.0)
+                    let oldX = (movingSprite?.oldX)!
+                    let oldY = (movingSprite?.oldY)!
+                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
+                    movingSprite!.animating = true
                     movingSprite!.runAction(action, completion: {
                         self.movingSprite?.zPosition = 2
+                        self.movingSprite?.animating = false
                     })
                 } else {
                     let mc = sprite?.col
@@ -186,45 +203,63 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     let sc = movingSprite!.col
                     let sr = movingSprite!.row
                     sprite?.zPosition = 3
-                    var oldX = CGFloat((movingSprite?.col)!) * (movingSprite?.size.width)!
-                    oldX = oldX + ox + (movingSprite?.size.width)! / 2
-                    var oldY = CGFloat((movingSprite?.row)!) * (movingSprite?.size.height)!
-                    oldY = oldY + oy + (movingSprite?.size.height)! / 2
-                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 1.0)
+                    let oldX = (movingSprite?.oldX)!
+                    let oldY = (movingSprite?.oldY)!
+                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
                     
-                    var x = CGFloat((sprite?.col)!) * (sprite?.size.width)!
-                    x = x + ox + (sprite?.size.width)! / 2
-                    var y = CGFloat((sprite?.row)!) * (sprite?.size.height)!
-                    y = y + oy + (sprite?.size.height)! / 2
-                    let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.5)
+                    let x = (sprite?.position.x)!
+                    let y = (sprite?.position.y)!
+                    let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.6)
                     
+                    sprite!.animating = true
                     sprite!.runAction(action, completion: {
                         sprite?.zPosition = 2
-                        sprite?.col = mc
-                        sprite?.row = mr
-                        
-                        var allPlaced = true
-                        for p in self.pieces {
-                            if p.isPlaced() == false {
-                                allPlaced = false
-                                break
-                            }
-                        }
-                        
-                        if allPlaced {
-                            self.playSuccessSound(0.5, onCompletion: {
-                                self.randomMediaChooser.loadRandomImage()
-                            })
-                        }
+                        sprite?.col = sc
+                        sprite?.row = sr
+                        sprite?.animating = false
+                        self.checkComplete()
                     })
+                    movingSprite!.animating = true
                     movingSprite!.runAction(action2, completion: {
                         self.movingSprite?.zPosition = 2
-                        self.movingSprite?.col = sc
-                        self.movingSprite?.row = sr
+                        self.movingSprite?.col = mc
+                        self.movingSprite?.row = mr
+                        self.movingSprite?.animating = false
+                        self.checkComplete()
+                        self.movingSprite = nil
                     })
                 }
             }
         }
-        movingSprite = nil
+    }
+    
+    func checkComplete() {
+        if !complete && self.game!.allPlaced() {
+            complete = true
+            self.hintSprite?.hidden = false
+            self.hintButton?.hidden = true
+            self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(30)))
+            self.playSuccessSound(1.0, onCompletion: {
+                self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
+                self.nameLabel?.fontSize = self.size.height / 30
+                self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
+                self.nameLabel?.zPosition = 12
+                self.addChild(self.nameLabel!)
+                
+                let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
+                self.relationshipLabel = SKLabelNode(text: relationship)
+                self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
+                self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
+                self.relationshipLabel?.zPosition = 12
+                self.addChild(self.relationshipLabel!)
+                
+                SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
+                let waitAction = SKAction.waitForDuration(2.5)
+                self.runAction(waitAction) {
+                    self.showLoadingDialog()
+                    self.randomMediaChooser.loadRandomImage()
+                }
+            })
+        }
     }
 }

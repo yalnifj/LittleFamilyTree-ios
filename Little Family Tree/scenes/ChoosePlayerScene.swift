@@ -17,6 +17,13 @@ class ChoosePlayerScene: SKScene, EventListener {
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
+        let background = SKSpriteNode(imageNamed: "scratch_background")
+        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.size.width = self.size.width
+        background.size.height = self.size.height
+        background.zPosition = 0
+        self.addChild(background)
+        
         let titleSize = CGSizeMake(self.size.width, 30)
         let titleBar = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
         titleBar.position = CGPointMake(self.size.width/2, (self.size.height - titleBar.size.height/2))

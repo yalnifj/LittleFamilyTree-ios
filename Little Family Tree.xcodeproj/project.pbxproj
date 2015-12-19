@@ -39,6 +39,8 @@
 		A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11E1BC9D359005CAFDA /* TextValue.swift */; };
 		A10FC32B1C19116300DDBE30 /* alphaOutline.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */; };
 		A11108881C22729800053DCE /* AlphaOutlineFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108871C22729800053DCE /* AlphaOutlineFilter.swift */; };
+		A11108921C245A2100053DCE /* ColoringScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108901C245A2100053DCE /* ColoringScene.swift */; };
+		A11108931C245A2100053DCE /* ScratchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108911C245A2100053DCE /* ScratchScene.swift */; };
 		A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C72E1BA4AD0000964D50 /* AppDelegate.swift */; };
 		A117C7311BA4AD0000964D50 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A117C7301BA4AD0000964D50 /* GameScene.sks */; };
 		A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7321BA4AD0000964D50 /* GameScene.swift */; };
@@ -524,6 +526,8 @@
 		A10BF11E1BC9D359005CAFDA /* TextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValue.swift; sourceTree = "<group>"; };
 		A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = alphaOutline.fsh; path = sprites/alphaOutline.fsh; sourceTree = "<group>"; };
 		A11108871C22729800053DCE /* AlphaOutlineFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlphaOutlineFilter.swift; path = sprites/AlphaOutlineFilter.swift; sourceTree = "<group>"; };
+		A11108901C245A2100053DCE /* ColoringScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColoringScene.swift; path = scenes/ColoringScene.swift; sourceTree = "<group>"; };
+		A11108911C245A2100053DCE /* ScratchScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScratchScene.swift; path = scenes/ScratchScene.swift; sourceTree = "<group>"; };
 		A117C7291BA4AD0000964D50 /* Little Family Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Little Family Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C72D1BA4AD0000964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C72E1BA4AD0000964D50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1130,6 +1134,8 @@
 				A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */,
 				A1DC44CA1C13A38F00344531 /* DressUpScene.swift */,
 				A17C32571C1A667B00F64737 /* PuzzleScene.swift */,
+				A11108901C245A2100053DCE /* ColoringScene.swift */,
+				A11108911C245A2100053DCE /* ScratchScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -2020,6 +2026,7 @@
 				A1EC614B1C1367A4006DF050 /* DollConfig.swift in Sources */,
 				A10BF1261BC9D359005CAFDA /* ExtensibleData.swift in Sources */,
 				A10BF12A1BC9D359005CAFDA /* HypermediaEnabledData.swift in Sources */,
+				A11108921C245A2100053DCE /* ColoringScene.swift in Sources */,
 				A18F04A81BF7E44E00538F0B /* PersonNameSprite.swift in Sources */,
 				A1686D661BB97D3400E58A09 /* LocalRelationship.swift in Sources */,
 				A10BF1291BC9D359005CAFDA /* FieldValue.swift in Sources */,
@@ -2027,6 +2034,7 @@
 				A10BF1381BC9D359005CAFDA /* SourceReference.swift in Sources */,
 				A10BF1361BC9D359005CAFDA /* SourceCitation.swift in Sources */,
 				A10BF1201BC9D359005CAFDA /* CitationField.swift in Sources */,
+				A11108931C245A2100053DCE /* ScratchScene.swift in Sources */,
 				A16241B41C0634A5009205F1 /* MatchPerson.swift in Sources */,
 				A10BF1301BC9D359005CAFDA /* Note.swift in Sources */,
 				A1EC614D1C1368BF006DF050 /* DollClothing.swift in Sources */,

@@ -9,6 +9,7 @@
 import Foundation
 
 import SpriteKit
+import ImageIO
 
 class TextureHelper {
     
@@ -67,17 +68,31 @@ class TextureHelper {
         }
     }
     
-    static func getTextureForMedia(media:Media) -> SKTexture? {
+    static func getTextureForMedia(media:Media, size:CGSize) -> SKTexture? {
         let fileManager = NSFileManager.defaultManager()
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         let photoUrl = url.URLByAppendingPathComponent(media.localPath as! String)
         if fileManager.fileExistsAtPath(photoUrl.path!) {
+            print("reading file \(photoUrl)")
             let data = NSData(contentsOfURL: photoUrl)
             if data != nil {
                 let uiImage = UIImage(data: data!)
                 if uiImage != nil {
-                    let texture = SKTexture(image: uiImage!)
-                    return texture
+                    if (uiImage?.size.width > size.width || uiImage?.size.height > size.height) {
+                        let options: [NSString: NSObject] = [
+                            kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height),
+                            kCGImageSourceCreateThumbnailFromImageAlways: true
+                        ]
+                        
+                        let imageSource = CGImageSourceCreateWithURL(photoUrl, nil)
+                        let scaledImage = CGImageSourceCreateThumbnailAtIndex(imageSource!, 0, options)
+                        let texture = SKTexture(CGImage: scaledImage!)
+                        return texture
+                    }
+                    else {
+                        let texture = SKTexture(image: uiImage!)
+                        return texture
+                    }
                 }
             }
             print("Unable to load texture for \(media.localPath!)")

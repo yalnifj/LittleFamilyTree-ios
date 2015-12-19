@@ -39,6 +39,7 @@ class LittleFamilyScene: SKScene, EventListener {
             if (starDelayCount <= 0) {
                 starDelayCount = starDelay
                 starCount--;
+                for _ in 0..<5 {
                 if (starRect != nil) {
                     let star = SKSpriteNode(imageNamed: "star1")
                     var x = CGFloat(0)
@@ -76,6 +77,7 @@ class LittleFamilyScene: SKScene, EventListener {
                     let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
                     star.runAction(doubleAction)
                     self.addChild(star)
+                }
                 }
             } else {
                 starDelayCount--;

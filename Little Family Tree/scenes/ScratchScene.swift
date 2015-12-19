@@ -31,6 +31,8 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         
         setupTopBar()
         
+        showLoadingDialog()
+        
         randomMediaChooser.listener = self
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
@@ -50,7 +52,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             return
         }
         
-        let texture = TextureHelper.getTextureForMedia(media!)
+        let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
         if texture != nil {
             if photoSprite != nil {
                 photoSprite?.removeFromParent()
@@ -62,7 +64,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
             var h = self.size.height - (topBar?.size.height)!
-            if h < w {
+            if ratio < 1.0 {
                 w = h * ratio
             } else {
                 h = w / ratio
@@ -74,6 +76,8 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             photoSprite?.size.width = w
             photoSprite?.size.height = h
             self.addChild(photoSprite!)
+            
+            hideLoadingDialog()
             
         } else {
             randomMediaChooser.loadMoreFamilyMembers()
