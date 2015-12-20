@@ -14,7 +14,12 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     
 	var photoSprite:SKSpriteNode?
 	var coverSprite:SKSpriteNode?
+    var image:UIImage?
 	var lastPoint : CGPoint!
+    var scratching = false
+    
+    var nameLabel:SKLabelNode?
+    var relationshipLabel:SKLabelNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -60,22 +65,62 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             if coverSprite != nil {
                 coverSprite?.removeFromParent()
             }
+            if nameLabel != nil {
+                nameLabel?.removeFromParent()
+            }
+            if relationshipLabel != nil {
+                relationshipLabel?.removeFromParent()
+            }
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
-            var h = self.size.height - (topBar?.size.height)!
+            var h = self.size.height - (topBar?.size.height)! * 3
             if ratio < 1.0 {
                 w = h * ratio
             } else {
                 h = w / ratio
             }
             
+            let ypos = 30 + (self.size.height / 2) - (topBar?.size.height)!
+            
             photoSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
             photoSprite?.zPosition = 2
-            photoSprite?.position = CGPointMake(self.size.width / 2, h / 2)
+            photoSprite?.position = CGPointMake(self.size.width / 2, ypos)
             photoSprite?.size.width = w
             photoSprite?.size.height = h
             self.addChild(photoSprite!)
+            
+            /*
+            let coverTexture = SKMutableTexture(size: (photoSprite?.size)!)
+            coverTexture.modifyPixelDataWithBlock( { (data, length) -> Void in
+                // convert the void pointer into a pointer to your struct
+                let pixels = UnsafeMutablePointer<RGBA>(data)
+                let count = length / sizeof(RGBA)
+                for i in 0..<count {
+                    pixels[i].r = 0x55
+                    pixels[i].g = 0x55
+                    pixels[i].b = 0x55
+                    pixels[i].a = 0x77
+                }
+            })
+            */
+            
+            let rect = CGRectMake(0, 0, (photoSprite?.size.width)!, (photoSprite?.size.height)!)
+            UIGraphicsBeginImageContextWithOptions((photoSprite?.size)!, false, 0)
+            let color = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
+            color.setFill()
+            UIRectFill(rect)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            let coverTexture = SKTexture(image: image!)
+            coverSprite = SKSpriteNode(texture: coverTexture)
+            coverSprite?.zPosition = 3
+            coverSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            coverSprite?.size.width = w
+            coverSprite?.size.height = h
+            self.addChild(coverSprite!)
+
             
             hideLoadingDialog()
             
@@ -90,7 +135,10 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             lastPoint = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(lastPoint)
             if touchedNode == coverSprite {
-                
+                scratching = true
+                let sound = SKAction.playSoundFileNamed("erasing", waitForCompletion: true)
+                let repeatSound = SKAction.repeatActionForever(sound)
+                self.runAction(repeatSound)
             }
         }
     }
@@ -99,7 +147,21 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         var nextPoint = CGPointMake(0,0)
         for touch in touches {
             nextPoint = touch.locationInNode(self)
-            
+            if scratching {
+                drawLineFrom(lastPoint, toPoint: nextPoint)
+                
+                let r = CGFloat(1 + arc4random_uniform(3))
+                let bit = SKShapeNode(circleOfRadius: r)
+                bit.strokeColor = UIColor.grayColor()
+                bit.fillColor = UIColor.grayColor()
+                bit.position = nextPoint
+                bit.zPosition = 10
+                self.addChild(bit)
+                
+                let move = SKAction.moveByX((nextPoint.x - lastPoint.x) * 2, y: (nextPoint.y - lastPoint.y) * 2, duration: 1.0)
+                let actions = SKAction.sequence([move, SKAction.removeFromParent()])
+                bit.runAction(actions)
+            }
         }
         lastPoint = nextPoint
     }
@@ -108,6 +170,95 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
+
+        }
+        self.removeAllActions()
+        checkComplete()
+        scratching = false
+    }
+    
+    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+        UIGraphicsBeginImageContext((coverSprite?.size)!)
+        let context = UIGraphicsGetCurrentContext()
+        
+        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
+        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!))
+        
+        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        
+        CGContextSetLineCap(context, CGLineCap.Round)
+        CGContextSetLineWidth(context, self.size.width/10)
+        CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0)
+        CGContextSetBlendMode(context, CGBlendMode.Clear)
+        
+        CGContextStrokePath(context)
+        
+        image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        let coverTexture = SKTexture(image: image!)
+        coverSprite?.texture = coverTexture
+    }
+    
+    func checkComplete() {
+        var complete = false
+        
+        let provider = CGImageGetDataProvider(image!.CGImage)
+        let providerData = CGDataProviderCopyData(provider)
+        let data = CFDataGetBytePtr(providerData)
+        
+        let numberOfComponents = Int(4)
+        var count = 0;
+        var passed = 0;
+        var y = (coverSprite?.size.height)! / 20
+        repeat {
+            var x = (coverSprite?.size.width)! / 20
+            repeat {
+                let pixelData = Int(((coverSprite?.size.width)! * y) + x) * numberOfComponents
+
+                    let a = data[pixelData + 3]
+                    if (a < 30) {
+                        passed++
+                    }
+                    count++
+                
+                x += (coverSprite?.size.width)! / 20
+            } while(x < coverSprite?.size.width)
+            y += (coverSprite?.size.height)! / 20
+        } while(y < (coverSprite?.size.height)!)
+        
+        if passed / count > 0.95 {
+            complete = true
+        }
+        
+        if complete {
+            coverSprite?.hidden = true
+            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(30)))
+            self.playSuccessSound(1.0, onCompletion: {
+                self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
+                self.nameLabel?.fontSize = self.size.height / 30
+                self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
+                self.nameLabel?.zPosition = 12
+                self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                self.addChild(self.nameLabel!)
+                
+                let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
+                self.relationshipLabel = SKLabelNode(text: relationship)
+                self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
+                self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
+                self.relationshipLabel?.zPosition = 12
+                self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                self.addChild(self.relationshipLabel!)
+                
+                SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
+                let waitAction = SKAction.waitForDuration(2.5)
+                self.runAction(waitAction) {
+                    self.showLoadingDialog()
+                    self.randomMediaChooser.loadRandomImage()
+                }
+            })
 
         }
     }

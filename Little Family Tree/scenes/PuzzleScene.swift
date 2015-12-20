@@ -64,7 +64,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
         if texture != nil {
             complete = false
-            self.texture = texture
             for p in pieces {
                 p.removeFromParent()
             }
@@ -83,7 +82,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 relationshipLabel?.removeFromParent()
             }
             
-            
             if cols < rows {
                 cols++
             }
@@ -91,6 +89,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 rows++
             }
             
+            self.texture = texture
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
             var h = self.size.height - (topBar?.size.height)! * 3
@@ -102,7 +101,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
 
             hintSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
             hintSprite?.zPosition = 9
-            hintSprite?.position = CGPointMake((self.size.width / 2), 20 + (self.size.height / 2) - (topBar?.size.height)!)
+            hintSprite?.position = CGPointMake((self.size.width / 2), 30 + (self.size.height / 2) - (topBar?.size.height)!)
             hintSprite?.hidden = true
             self.addChild(hintSprite!)
             
@@ -116,7 +115,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             let pw = w / CGFloat(cols)
             let ph = h / CGFloat(rows)
             
-            let oy = 10 + (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+            let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
             let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
             
             pieces = (game?.pieces)!
@@ -175,7 +174,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             lastPoint = touch.locationInNode(self)
             
             if movingSprite != nil {
-                let oy = 10 + (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+                let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
                 let row = Int(((movingSprite?.position.y)! - oy) / (movingSprite?.size.height)!)
                 let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
                 let col = Int(((movingSprite?.position.x)! - ox) / (movingSprite?.size.width)!)
@@ -244,6 +243,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 self.nameLabel?.fontSize = self.size.height / 30
                 self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
                 self.nameLabel?.zPosition = 12
+                self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.addChild(self.nameLabel!)
                 
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
@@ -251,6 +251,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
                 self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
                 self.relationshipLabel?.zPosition = 12
+                self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.addChild(self.relationshipLabel!)
                 
                 SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)

@@ -60,6 +60,47 @@ extension SKNode {
     }
 }
 
+extension UIImage {
+    
+    subscript (x: Int, y: Int) -> UIColor? {
+        
+        if x < 0 || x > Int(size.width) || y < 0 || y > Int(size.height) {
+            return nil
+        }
+        
+        let provider = CGImageGetDataProvider(self.CGImage)
+        let providerData = CGDataProviderCopyData(provider)
+        let data = CFDataGetBytePtr(providerData)
+        
+        let numberOfComponents = 4
+        let pixelData = ((Int(size.width) * y) + x) * numberOfComponents
+        
+        let r = CGFloat(data[pixelData]) / 255.0
+        let g = CGFloat(data[pixelData + 1]) / 255.0
+        let b = CGFloat(data[pixelData + 2]) / 255.0
+        let a = CGFloat(data[pixelData + 3]) / 255.0
+        
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+    
+    func getAlphaAt(x: CGFloat, y:CGFloat) -> UInt8? {
+        if x < 0 || x > size.width || y < 0 || y > size.height {
+            return nil
+        }
+        
+        let provider = CGImageGetDataProvider(self.CGImage)
+        let providerData = CGDataProviderCopyData(provider)
+        let data = CFDataGetBytePtr(providerData)
+        
+        let numberOfComponents = Int(4)
+        let pixelData = Int((size.width * y) + x) * numberOfComponents
+
+        let a = data[pixelData + 3]
+        
+        return a
+    }
+}
+
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
