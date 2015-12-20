@@ -371,7 +371,6 @@
 		A1F81D6B1BF3AFDF00078870 /* drums.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C531BF3AFDF00078870 /* drums.mp3 */; };
 		A1F81D6C1BF3AFDF00078870 /* drums_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C541BF3AFDF00078870 /* drums_allinourfamilytree.mp3 */; };
 		A1F81D6D1BF3AFDF00078870 /* drums_track.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C551BF3AFDF00078870 /* drums_track.mp3 */; };
-		A1F81D6E1BF3AFDF00078870 /* erasing.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C561BF3AFDF00078870 /* erasing.m4a */; };
 		A1F81D6F1BF3AFDF00078870 /* flute_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C571BF3AFDF00078870 /* flute_allinourfamilytree.mp3 */; };
 		A1F81D701BF3AFDF00078870 /* glass_break.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C581BF3AFDF00078870 /* glass_break.wav */; };
 		A1F81D711BF3AFDF00078870 /* guitar.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F81C591BF3AFDF00078870 /* guitar.mp3 */; };
@@ -590,6 +589,7 @@
 		A18F04B21BF7F16B00538F0B /* grandpa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa.png; sourceTree = "<group>"; };
 		A18F04B61BF7F19400538F0B /* mom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom.png; sourceTree = "<group>"; };
 		A18F04B81BF7F3E500538F0B /* TextureHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureHelper.swift; sourceTree = "<group>"; };
+		A199BCBB1C268A4B00A73CEA /* erasing.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = erasing.aac; sourceTree = "<group>"; };
 		A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleGame.swift; path = gamelogic/PuzzleGame.swift; sourceTree = "<group>"; };
 		A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleSprite.swift; path = sprites/PuzzleSprite.swift; sourceTree = "<group>"; };
 		A1AE10E11BF663660043033A /* InitialDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialDataLoader.swift; sourceTree = "<group>"; };
@@ -860,7 +860,6 @@
 		A1F81C531BF3AFDF00078870 /* drums.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drums.mp3; sourceTree = "<group>"; };
 		A1F81C541BF3AFDF00078870 /* drums_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drums_allinourfamilytree.mp3; sourceTree = "<group>"; };
 		A1F81C551BF3AFDF00078870 /* drums_track.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drums_track.mp3; sourceTree = "<group>"; };
-		A1F81C561BF3AFDF00078870 /* erasing.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = erasing.m4a; sourceTree = "<group>"; };
 		A1F81C571BF3AFDF00078870 /* flute_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flute_allinourfamilytree.mp3; sourceTree = "<group>"; };
 		A1F81C581BF3AFDF00078870 /* glass_break.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = glass_break.wav; sourceTree = "<group>"; };
 		A1F81C591BF3AFDF00078870 /* guitar.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = guitar.mp3; sourceTree = "<group>"; };
@@ -1444,7 +1443,7 @@
 				A1F81C531BF3AFDF00078870 /* drums.mp3 */,
 				A1F81C541BF3AFDF00078870 /* drums_allinourfamilytree.mp3 */,
 				A1F81C551BF3AFDF00078870 /* drums_track.mp3 */,
-				A1F81C561BF3AFDF00078870 /* erasing.m4a */,
+				A199BCBB1C268A4B00A73CEA /* erasing.aac */,
 				A1F81C571BF3AFDF00078870 /* flute_allinourfamilytree.mp3 */,
 				A1F81C581BF3AFDF00078870 /* glass_break.wav */,
 				A1F81C591BF3AFDF00078870 /* guitar.mp3 */,
@@ -1888,7 +1887,6 @@
 				A1F81D151BF3AFDF00078870 /* house_toaster19.png in Resources */,
 				A1F81CBD1BF3AFDF00078870 /* house_familyroom_frame16.png in Resources */,
 				A1F81CBA1BF3AFDF00078870 /* house_familyroom_frame13.png in Resources */,
-				A1F81D6E1BF3AFDF00078870 /* erasing.m4a in Resources */,
 				A1F81C981BF3AFDF00078870 /* house_chilldroom_paint14.png in Resources */,
 				A1F81CED1BF3AFDF00078870 /* house_kitchen_kettle2.png in Resources */,
 				A1F81C721BF3AFDF00078870 /* house_adult_vanity.png in Resources */,
