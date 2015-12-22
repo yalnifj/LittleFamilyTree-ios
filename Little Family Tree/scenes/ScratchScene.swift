@@ -242,6 +242,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
                 self.nameLabel?.zPosition = 12
                 self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                self.nameLabel?.color = UIColor.blackColor()
                 self.addChild(self.nameLabel!)
                 
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
@@ -250,6 +251,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
                 self.relationshipLabel?.zPosition = 12
                 self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                self.relationshipLabel?.color = UIColor.blackColor()
                 self.addChild(self.relationshipLabel!)
                 
                 SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
