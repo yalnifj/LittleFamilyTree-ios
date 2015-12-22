@@ -29,12 +29,14 @@ class GameScene: SKScene, EventListener {
     var background : SKSpriteNode!
     var spriteContainer : SKSpriteNode!
 	var updateSprites = [AnimatedStateSprite]()
+    var touchableSprites = [SKNode]()
     var minScale : CGFloat = 0.5
     var maxScale : CGFloat = 2.0
+    var moved = false
     
     var selectedPerson:LittlePerson?
     
-    var previousScale = CGFloat(1.0)
+    var previousScale:CGFloat? = nil
     
     override func didMoveToView(view: SKView) {
         let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
@@ -56,9 +58,9 @@ class GameScene: SKScene, EventListener {
         else if oHeight > self.size.height {
             lfScale = self.size.height * 1.1 / oHeight
         }
-        maxScale = lfScale * 2;
-        minScale = lfScale / 2;
-        diffY = maxHeight - self.size.height;
+        maxScale = lfScale * 2.5
+        minScale = self.size.height / oHeight
+        diffY = maxHeight - self.size.height
         background.size = CGSizeMake(self.size.width * 3, maxHeight);
         self.addChild(background);
         
@@ -73,7 +75,7 @@ class GameScene: SKScene, EventListener {
         cloud1.anchorPoint = CGPoint.zero
         cloud1.position = CGPointMake(0, oHeight - cloud1.size.height - 25)
         cloud1.zPosition = z++
-        cloud1.userInteractionEnabled = true
+        touchableSprites.append(cloud1)
         cloud1.addTexture(1, texture: SKTexture(imageNamed: "house_cloud1a"))
         cloud1.addTexture(2, texture: SKTexture(imageNamed: "house_cloud1b"))
         cloud1.addTexture(3, texture: SKTexture(imageNamed: "house_cloud1c"))
@@ -111,7 +113,7 @@ class GameScene: SKScene, EventListener {
         flowers1.position = CGPointMake(90+flowers1.size.width, 200-flowers1.size.height)
         flowers1.xScale = flowers1.xScale * -1
         flowers1.zPosition = z++
-        flowers1.userInteractionEnabled = true
+        touchableSprites.append(flowers1)
         let flowersSpin:[SKTexture] = [
             SKTexture(imageNamed: "house_flowers_a2"),
             SKTexture(imageNamed: "house_flowers_a3"),
@@ -127,7 +129,7 @@ class GameScene: SKScene, EventListener {
         flowers2.anchorPoint = CGPoint.zero
         flowers2.position = CGPointMake(265, 200-flowers2.size.height)
         flowers2.zPosition = z++
-        flowers2.userInteractionEnabled = true
+        touchableSprites.append(flowers2)
         flowers2.addAction(1, action: spinAction)
         flowers2.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers2)
@@ -138,7 +140,7 @@ class GameScene: SKScene, EventListener {
 		personLeaves.size.height = 65
 		personLeaves.position = CGPointMake(245, 455-personLeaves.size.height)
 		personLeaves.zPosition = z++
-		personLeaves.userInteractionEnabled = true
+		touchableSprites.append(personLeaves)
 		spriteContainer.addChild(personLeaves)
 		
 		DataService.getInstance().getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
@@ -311,7 +313,7 @@ class GameScene: SKScene, EventListener {
         lamp1.anchorPoint = CGPoint.zero
         lamp1.position = CGPointMake(482, 170)
         lamp1.zPosition = z++
-        lamp1.userInteractionEnabled = true
+        touchableSprites.append(lamp1)
         lamp1.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
         lamp1.addSound(0, soundFile: "pullchainslowon")
         lamp1.addSound(1, soundFile: "pullchainslowon")
@@ -321,7 +323,7 @@ class GameScene: SKScene, EventListener {
         lamp2.anchorPoint = CGPoint.zero
         lamp2.position = CGPointMake(725, 170)
         lamp2.zPosition = z++
-        lamp2.userInteractionEnabled = true
+        touchableSprites.append(lamp2)
         lamp2.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
         lamp2.addSound(0, soundFile: "pullchainslowon")
         lamp2.addSound(1, soundFile: "pullchainslowon")
@@ -331,7 +333,7 @@ class GameScene: SKScene, EventListener {
         frame.anchorPoint = CGPoint.zero
         frame.position = CGPointMake(612, 225)
         frame.zPosition = z++
-		frame.userInteractionEnabled = true
+		touchableSprites.append(frame)
         let jumping:[SKTexture] = [
             SKTexture(imageNamed: "house_familyroom_frame1"),
             SKTexture(imageNamed: "house_familyroom_frame2"),
@@ -374,7 +376,7 @@ class GameScene: SKScene, EventListener {
         childPaint.anchorPoint = CGPoint.zero
         childPaint.position = CGPointMake(1000, 312)
         childPaint.zPosition = z++
-		childPaint.userInteractionEnabled = true
+		touchableSprites.append(childPaint)
         let painting:[SKTexture] = [
             SKTexture(imageNamed: "house_chilldroom_paint1"),
             SKTexture(imageNamed: "house_chilldroom_paint2"),
@@ -402,7 +404,7 @@ class GameScene: SKScene, EventListener {
         childDesk.anchorPoint = CGPoint.zero
         childDesk.position = CGPointMake(1065, 312)
         childDesk.zPosition = z++
-		childDesk.userInteractionEnabled = true
+		touchableSprites.append(childDesk)
         let erasing:[SKTexture] = [
             SKTexture(imageNamed: "house_chilldroom_desk1"),
             SKTexture(imageNamed: "house_chilldroom_desk2"),
@@ -434,7 +436,7 @@ class GameScene: SKScene, EventListener {
         teddy.anchorPoint = CGPoint.zero
         teddy.position = CGPointMake(928, 310)
         teddy.zPosition = z++
-        teddy.userInteractionEnabled = true
+        touchableSprites.append(teddy)
         let teddyfalling:[SKTexture] = [
             SKTexture(imageNamed: "house_chilldroom_teddy2"),
             SKTexture(imageNamed: "house_chilldroom_teddy3"),
@@ -488,7 +490,7 @@ class GameScene: SKScene, EventListener {
         toaster.anchorPoint = CGPoint.zero
         toaster.position = CGPointMake(1085, 195)
         toaster.zPosition = z++
-		toaster.userInteractionEnabled = true
+		touchableSprites.append(toaster)
         let toastDown:[SKTexture] = [
             SKTexture(imageNamed: "house_toaster2"),
             SKTexture(imageNamed: "house_toaster3")
@@ -533,7 +535,7 @@ class GameScene: SKScene, EventListener {
         kettle.anchorPoint = CGPoint.zero
         kettle.position = CGPointMake(1120, 203)
         kettle.zPosition = z++
-		kettle.userInteractionEnabled = true
+		touchableSprites.append(kettle)
         let warming:[SKTexture] = [
             SKTexture(imageNamed: "house_kitchen_kettle2"),
 			SKTexture(imageNamed: "house_kitchen_kettle3"),
@@ -561,7 +563,7 @@ class GameScene: SKScene, EventListener {
         freezer.anchorPoint = CGPoint.zero
         freezer.position = CGPointMake(1043, 212)
         freezer.zPosition = z++
-		freezer.userInteractionEnabled = true
+		touchableSprites.append(freezer)
         let freezerOpening:[SKTexture] = [
             SKTexture(imageNamed: "house_kitchen_freezer1"),
             SKTexture(imageNamed: "house_kitchen_freezer2"),
@@ -583,7 +585,7 @@ class GameScene: SKScene, EventListener {
         fridge.anchorPoint = CGPoint.zero
         fridge.position = CGPointMake(1043, 140)
         fridge.zPosition = z++
-		fridge.userInteractionEnabled = true
+		touchableSprites.append(fridge)
         let fridgeOpening:[SKTexture] = [
             SKTexture(imageNamed: "house_kitchen_fridge1"),
             SKTexture(imageNamed: "house_kitchen_fridge2"),
@@ -617,7 +619,7 @@ class GameScene: SKScene, EventListener {
         wardrobe.anchorPoint = CGPoint.zero
         wardrobe.position = CGPointMake(747, 312)
         wardrobe.zPosition = z++
-		wardrobe.userInteractionEnabled = true
+		touchableSprites.append(wardrobe)
         let wardrobeOpening:[SKTexture] = [
             SKTexture(imageNamed: "house_adult_wardrobe1"),
             SKTexture(imageNamed: "house_adult_wardrobe2"),
@@ -638,7 +640,7 @@ class GameScene: SKScene, EventListener {
         lightA.anchorPoint = CGPoint.zero
         lightA.position = CGPointMake(670, 401)
         lightA.zPosition = z++
-		lightA.userInteractionEnabled = true
+		touchableSprites.append(lightA)
         lightA.addTexture(1, texture: SKTexture(imageNamed: "house_light_a2"))
         lightA.addSound(0, soundFile: "pullchainslowon")
         lightA.addSound(1, soundFile: "pullchainslowon")
@@ -648,7 +650,7 @@ class GameScene: SKScene, EventListener {
         lightB.anchorPoint = CGPoint.zero
         lightB.position = CGPointMake(522, 418)
         lightB.zPosition = z++
-		lightB.userInteractionEnabled = true
+		touchableSprites.append(lightB)
         lightB.addTexture(1, texture: SKTexture(imageNamed: "house_light_b2"))
         lightB.addSound(0, soundFile: "pullchainslowon")
         lightB.addSound(1, soundFile: "pullchainslowon")
@@ -658,7 +660,7 @@ class GameScene: SKScene, EventListener {
         blocks.anchorPoint = CGPoint.zero
         blocks.position = CGPointMake(1020, 490)
         blocks.zPosition = z++
-		blocks.userInteractionEnabled = true
+		touchableSprites.append(blocks)
         let blocksAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_toys_blocks1"),
             SKTexture(imageNamed: "house_toys_blocks2"),
@@ -679,7 +681,7 @@ class GameScene: SKScene, EventListener {
         horse.anchorPoint = CGPoint.zero
         horse.position = CGPointMake(925, 490)
         horse.zPosition = z++
-		horse.userInteractionEnabled = true
+		touchableSprites.append(horse)
         let horseAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_toys_horse1"),
             SKTexture(imageNamed: "house_toys_horse2"),
@@ -702,7 +704,7 @@ class GameScene: SKScene, EventListener {
         bat.anchorPoint = CGPoint.zero
         bat.position = CGPointMake(802, 490)
         bat.zPosition = z++
-		bat.userInteractionEnabled = true
+		touchableSprites.append(bat)
         let batAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_toys_bat1"),
             SKTexture(imageNamed: "house_toys_bat2"),
@@ -754,7 +756,7 @@ class GameScene: SKScene, EventListener {
         trumpet.anchorPoint = CGPoint.zero
         trumpet.position = CGPointMake(660, 574)
         trumpet.zPosition = z++
-		trumpet.userInteractionEnabled = true
+		touchableSprites.append(trumpet)
         let trumpetAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_music_trumpet1"),
             SKTexture(imageNamed: "house_music_trumpet2"),
@@ -771,7 +773,7 @@ class GameScene: SKScene, EventListener {
         drums.anchorPoint = CGPoint.zero
         drums.position = CGPointMake(585, 490)
         drums.zPosition = z++
-		drums.userInteractionEnabled = true
+		touchableSprites.append(drums)
         let drumsAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_music_drums1"),
             SKTexture(imageNamed: "house_music_drums2"),
@@ -792,7 +794,7 @@ class GameScene: SKScene, EventListener {
         guitar.anchorPoint = CGPoint.zero
         guitar.position = CGPointMake(700, 490)
         guitar.zPosition = z++
-		guitar.userInteractionEnabled = true
+		touchableSprites.append(guitar)
         let guitarAnim:[SKTexture] = [
             SKTexture(imageNamed: "house_music_guitar1"),
             SKTexture(imageNamed: "house_music_guitar2"),
@@ -806,7 +808,7 @@ class GameScene: SKScene, EventListener {
         spriteContainer.addChild(guitar)
         
         let personSprite = PersonNameSprite()
-        personSprite.userInteractionEnabled = true
+        touchableSprites.append(personSprite)
         personSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
         personSprite.zPosition = z++
         personSprite.size.width = 50 * lfScale
@@ -838,12 +840,17 @@ class GameScene: SKScene, EventListener {
     }
     
     func pinched(sender:UIPinchGestureRecognizer){
-        print("pinched \(sender.scale)")
-        if sender.scale != previousScale {
-            let diff = (previousScale - sender.scale) / 3
-            previousScale = sender.scale
-            if lfScale + diff >= minScale && lfScale <= maxScale {
+        print("pinched \(lfScale)")
+        if previousScale != nil {
+            if sender.scale != previousScale! {
+                let diff = (sender.scale - previousScale!) / 4
                 lfScale += diff
+                if lfScale < minScale {
+                    lfScale = minScale
+                }
+                if lfScale > maxScale {
+                    lfScale = maxScale
+                }
                 let zoomIn = SKAction.scaleTo(lfScale, duration:0)
                 spriteContainer.runAction(zoomIn)
                 
@@ -851,12 +858,14 @@ class GameScene: SKScene, EventListener {
                 background.runAction(zoomIn2)
             }
         }
+        previousScale = sender.scale
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
+            
         }
     }
     
@@ -865,6 +874,7 @@ class GameScene: SKScene, EventListener {
         for touch in touches {
             nextPoint = touch.locationInNode(self)
         }
+        moved = true
         
         clipX = nextPoint.x - lastPoint.x;
         clipY = nextPoint.y - lastPoint.y;
@@ -878,22 +888,36 @@ class GameScene: SKScene, EventListener {
         }
         
         spriteContainer.position.y += clipY
-        if spriteContainer.position.y > minY {
-            spriteContainer.position.y = minY
+        if spriteContainer.position.y > minY*lfScale {
+            spriteContainer.position.y = minY*lfScale
         }
         if spriteContainer.position.y < 0 - diffY {
             spriteContainer.position.y = 0 - diffY
         }
         
         spriteContainer.position.x += clipX
-        if spriteContainer.position.x < 0-(oWidth - minX*2)/lfScale {
-            spriteContainer.position.x = 0-(oWidth - minX*2)/lfScale
+        if spriteContainer.position.x < 0-(oWidth*lfScale - minX*lfScale) {
+            spriteContainer.position.x = 0-(oWidth*lfScale - minX*lfScale)
         }
         if spriteContainer.position.x > minX*2 {
             spriteContainer.position.x = minX*2
         }
         
         lastPoint = nextPoint
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        previousScale = nil
+        if !moved {
+            for touch in touches {
+                lastPoint = touch.locationInNode(self)
+                let touchedNode = nodeAtPoint(lastPoint)
+                if self.touchableSprites.contains(touchedNode) {
+                    touchedNode.touchesEnded(touches, withEvent: event)
+                }
+            }
+        }
+        moved = false
     }
    
     override func update(currentTime: CFTimeInterval) {
