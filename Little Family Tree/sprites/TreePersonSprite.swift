@@ -11,7 +11,7 @@ import SpriteKit
 
 class TreePersonSprite: SKSpriteNode {
 	var person:LittlePerson? {
-		didSet: {
+		didSet {
 			var leafTexture:SKTexture?
 			if left {
 				leafTexture = SKTexture(imageNamed: "left_leaf")
@@ -26,7 +26,7 @@ class TreePersonSprite: SKSpriteNode {
 			self.addChild(leaf)
 			
 			if person != nil {
-				let photo = TextureHelper.getPortraitTexture(person)
+				let photo = TextureHelper.getPortraitTexture(person!)
 				let photoSprite = SKSpriteNode(texture: photo)
 				photoSprite.position = CGPointMake(self.size.width/2, self.size.height/2)
 				let ratio = (photo?.size().width)! / (photo?.size().height)!

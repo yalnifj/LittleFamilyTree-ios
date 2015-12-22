@@ -258,7 +258,7 @@ class DBHelper {
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?
 		let stmt = lftdb?.prepare("select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, "
-            + " p.givenName, p.name, p.photopath, p.lastSync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, "
+            + " p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, "
             + " p.hasMedia, p.treeLevel "
             + " from littleperson p join tags t on t.person_id=p.id" +
 			" where p.active='Y' order by RANDOM() LIMIT 1")

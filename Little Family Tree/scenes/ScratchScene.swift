@@ -210,11 +210,11 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         let data = CFDataGetBytePtr(providerData)
         
         let numberOfComponents = Int(4)
-        var count = 0;
-        var passed = 0;
-        var y = (coverSprite?.size.height)! / 20
+        var count:Float = 0
+        var passed:Float = 0
+        var y = (coverSprite?.size.height)! / 30
         repeat {
-            var x = (coverSprite?.size.width)! / 20
+            var x = (coverSprite?.size.width)! / 30
             repeat {
                 let pixelData = Int(((coverSprite?.size.width)! * y) + x) * numberOfComponents
 
@@ -224,12 +224,12 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                     }
                     count++
                 
-                x += (coverSprite?.size.width)! / 20
+                x += (coverSprite?.size.width)! / 30
             } while(x < coverSprite?.size.width)
-            y += (coverSprite?.size.height)! / 20
+            y += (coverSprite?.size.height)! / 30
         } while(y < (coverSprite?.size.height)!)
         
-        if passed / count > 0.95 {
+        if passed / count > 0.98 {
             complete = true
         }
         

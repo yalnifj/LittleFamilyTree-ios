@@ -11,18 +11,18 @@ import SpriteKit
 
 class PersonLeavesButton: SKSpriteNode {
 	var people:[LittlePerson]? {
-		didSet: {
+		didSet {
 			if leaves != nil {
 				leaves?.removeFromParent()
 			}
 			if leafTextures == nil {
 				leafTextures = [SKTexture]()
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay6"))
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay5"))
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay4"))
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay3"))
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay2"))
-				leafTextures.append(SKTexture(imageNamed: "leaves_overlay1"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay6"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay5"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay4"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay3"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay2"))
+				leafTextures?.append(SKTexture(imageNamed: "leaves_overlay1"))
 			}
 			
 			leaves = SKSpriteNode(imageNamed: "leaves_overlay6")
@@ -32,12 +32,12 @@ class PersonLeavesButton: SKSpriteNode {
 			self.addChild(leaves!)
 			
 			let waitAction = SKAction.waitForDuration(3.0)
-			let waitAction2 = SKAction.waitForDuration(2.0)
-			let animAction = SKAction.animateWithTextures(leafTextures!, timePerFrame: 0.1, resize: false, restore: true)
+			let waitAction2 = SKAction.waitForDuration(1.0)
+            let animAction = SKAction.animateWithTextures(leafTextures!, timePerFrame: 0.15, resize: false, restore: false)
 			let animAction2 = animAction.reversedAction()
 			let actions = SKAction.sequence([waitAction2, animAction, waitAction, animAction2])
-			let repeat = SKAction.repeatForever(actions)
-			leaves.runAction(repeat)
+			let repeated = SKAction.repeatActionForever(actions)
+			leaves?.runAction(repeated)
 			
 			index = 0
 			if photoSprite == nil {
@@ -50,7 +50,7 @@ class PersonLeavesButton: SKSpriteNode {
 				photoSprite?.zPosition = 1
 				self.addChild(photoSprite!)
 				
-				let waitAction3 = SKAction.waitForDuration(6.2)
+				let waitAction3 = SKAction.waitForDuration(7.3)
 				photoSprite?.runAction(waitAction3) {
 					self.nextPhoto()
 				}
@@ -71,16 +71,16 @@ class PersonLeavesButton: SKSpriteNode {
 	
 	func nextPhoto() {
 		self.index++
-		if self.index >= self.people.count {
+		if self.index >= self.people?.count {
 			self.index = 0
 		}
 		let nphoto = TextureHelper.getPortraitTexture(self.people![index])
-		self.photoSprite.texture = nphoto
+		self.photoSprite?.texture = nphoto
 		let ratio = (nphoto?.size().width)! / (nphoto?.size().height)!
 		photoSprite?.size.width = self.size.width * 0.8
 		photoSprite?.size.height = (self.size.width * 0.8) / ratio
 		
-		let waitAction3 = SKAction.waitForDuration(6.2)
+		let waitAction3 = SKAction.waitForDuration(5.3)
 		photoSprite?.runAction(waitAction3) {
 			self.nextPhoto()
 		}

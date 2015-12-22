@@ -10,6 +10,5 @@ import Foundation
 import CoreImage
 
 class AlphaOutlineFilter: CIFilter {
-    override var outputImage:CIImage!
 	
 }

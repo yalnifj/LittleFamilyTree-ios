@@ -85,6 +85,37 @@
 		A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D6B1BB97D4A00E58A09 /* SwiftyJSON.swift */; };
 		A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */; };
 		A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CC1BE9B4DF0036D28A /* Tag.swift */; };
+		A176B79B1C28E3FD00A2A49C /* wood_back.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B79A1C28E3FD00A2A49C /* wood_back.png */; };
+		A176B79D1C28E41800A2A49C /* TreeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176B79C1C28E41800A2A49C /* TreeScene.swift */; };
+		A176B79F1C28E43300A2A49C /* TreePersonSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */; };
+		A176B7A11C28E46300A2A49C /* PersonLeavesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */; };
+		A176B7A31C28E6CE00A2A49C /* colors.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7A21C28E6CE00A2A49C /* colors.png */; };
+		A176B7A51C28E6DF00A2A49C /* paintbrush.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7A41C28E6DF00A2A49C /* paintbrush.png */; };
+		A176B7BF1C28E98100A2A49C /* leaf_left.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7A81C28E98100A2A49C /* leaf_left.png */; };
+		A176B7C01C28E98100A2A49C /* leaf_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7A91C28E98100A2A49C /* leaf_right.png */; };
+		A176B7C11C28E98100A2A49C /* leaves_overlay1.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AA1C28E98100A2A49C /* leaves_overlay1.png */; };
+		A176B7C21C28E98100A2A49C /* leaves_overlay2.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AB1C28E98100A2A49C /* leaves_overlay2.png */; };
+		A176B7C31C28E98100A2A49C /* leaves_overlay3.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AC1C28E98100A2A49C /* leaves_overlay3.png */; };
+		A176B7C41C28E98100A2A49C /* leaves_overlay4.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AD1C28E98100A2A49C /* leaves_overlay4.png */; };
+		A176B7C51C28E98100A2A49C /* leaves_overlay5.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AE1C28E98100A2A49C /* leaves_overlay5.png */; };
+		A176B7C61C28E98100A2A49C /* leaves_overlay6.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7AF1C28E98100A2A49C /* leaves_overlay6.png */; };
+		A176B7C71C28E98100A2A49C /* tree_search.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B01C28E98100A2A49C /* tree_search.png */; };
+		A176B7C81C28E98100A2A49C /* tree_search1.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B11C28E98100A2A49C /* tree_search1.png */; };
+		A176B7C91C28E98100A2A49C /* tree_search2.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B21C28E98100A2A49C /* tree_search2.png */; };
+		A176B7CA1C28E98100A2A49C /* tree_search3.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B31C28E98100A2A49C /* tree_search3.png */; };
+		A176B7CB1C28E98100A2A49C /* tree_search4.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B41C28E98100A2A49C /* tree_search4.png */; };
+		A176B7CC1C28E98100A2A49C /* tree_search5.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B51C28E98100A2A49C /* tree_search5.png */; };
+		A176B7CD1C28E98100A2A49C /* tree_search6.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B61C28E98100A2A49C /* tree_search6.png */; };
+		A176B7CE1C28E98100A2A49C /* tree_search7.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B71C28E98100A2A49C /* tree_search7.png */; };
+		A176B7CF1C28E98100A2A49C /* tree_search8.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B81C28E98100A2A49C /* tree_search8.png */; };
+		A176B7D01C28E98100A2A49C /* vine.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7B91C28E98100A2A49C /* vine.png */; };
+		A176B7D11C28E98100A2A49C /* vine2.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BA1C28E98100A2A49C /* vine2.png */; };
+		A176B7D21C28E98100A2A49C /* vine3.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BB1C28E98100A2A49C /* vine3.png */; };
+		A176B7D31C28E98100A2A49C /* vine_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BC1C28E98100A2A49C /* vine_arrow.png */; };
+		A176B7D41C28E98100A2A49C /* vineh.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BD1C28E98100A2A49C /* vineh.png */; };
+		A176B7D51C28E98100A2A49C /* vineh2.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BE1C28E98100A2A49C /* vineh2.png */; };
+		A176B7D71C28F4C700A2A49C /* erasing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A176B7D61C28F4C700A2A49C /* erasing.mp3 */; };
+		A176B7D91C29031D00A2A49C /* MaskFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */; };
 		A17C324F1C1A65A200F64737 /* star1.png in Resources */ = {isa = PBXBuildFile; fileRef = A17C324E1C1A65A200F64737 /* star1.png */; };
 		A17C32581C1A667B00F64737 /* PuzzleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17C32571C1A667B00F64737 /* PuzzleScene.swift */; };
 		A17C325A1C1A676200F64737 /* RandomMediaChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17C32591C1A676200F64737 /* RandomMediaChooser.swift */; };
@@ -575,6 +606,37 @@
 		A1686D6B1BB97D4A00E58A09 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceHelper.swift; sourceTree = "<group>"; };
 		A16C37CC1BE9B4DF0036D28A /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A176B79A1C28E3FD00A2A49C /* wood_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_back.png; sourceTree = "<group>"; };
+		A176B79C1C28E41800A2A49C /* TreeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreeScene.swift; path = scenes/TreeScene.swift; sourceTree = "<group>"; };
+		A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreePersonSprite.swift; path = sprites/TreePersonSprite.swift; sourceTree = "<group>"; };
+		A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonLeavesButton.swift; path = sprites/PersonLeavesButton.swift; sourceTree = "<group>"; };
+		A176B7A21C28E6CE00A2A49C /* colors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colors.png; sourceTree = "<group>"; };
+		A176B7A41C28E6DF00A2A49C /* paintbrush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paintbrush.png; sourceTree = "<group>"; };
+		A176B7A81C28E98100A2A49C /* leaf_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf_left.png; sourceTree = "<group>"; };
+		A176B7A91C28E98100A2A49C /* leaf_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf_right.png; sourceTree = "<group>"; };
+		A176B7AA1C28E98100A2A49C /* leaves_overlay1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay1.png; sourceTree = "<group>"; };
+		A176B7AB1C28E98100A2A49C /* leaves_overlay2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay2.png; sourceTree = "<group>"; };
+		A176B7AC1C28E98100A2A49C /* leaves_overlay3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay3.png; sourceTree = "<group>"; };
+		A176B7AD1C28E98100A2A49C /* leaves_overlay4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay4.png; sourceTree = "<group>"; };
+		A176B7AE1C28E98100A2A49C /* leaves_overlay5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay5.png; sourceTree = "<group>"; };
+		A176B7AF1C28E98100A2A49C /* leaves_overlay6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaves_overlay6.png; sourceTree = "<group>"; };
+		A176B7B01C28E98100A2A49C /* tree_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search.png; sourceTree = "<group>"; };
+		A176B7B11C28E98100A2A49C /* tree_search1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search1.png; sourceTree = "<group>"; };
+		A176B7B21C28E98100A2A49C /* tree_search2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search2.png; sourceTree = "<group>"; };
+		A176B7B31C28E98100A2A49C /* tree_search3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search3.png; sourceTree = "<group>"; };
+		A176B7B41C28E98100A2A49C /* tree_search4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search4.png; sourceTree = "<group>"; };
+		A176B7B51C28E98100A2A49C /* tree_search5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search5.png; sourceTree = "<group>"; };
+		A176B7B61C28E98100A2A49C /* tree_search6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search6.png; sourceTree = "<group>"; };
+		A176B7B71C28E98100A2A49C /* tree_search7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search7.png; sourceTree = "<group>"; };
+		A176B7B81C28E98100A2A49C /* tree_search8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search8.png; sourceTree = "<group>"; };
+		A176B7B91C28E98100A2A49C /* vine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vine.png; sourceTree = "<group>"; };
+		A176B7BA1C28E98100A2A49C /* vine2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vine2.png; sourceTree = "<group>"; };
+		A176B7BB1C28E98100A2A49C /* vine3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vine3.png; sourceTree = "<group>"; };
+		A176B7BC1C28E98100A2A49C /* vine_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vine_arrow.png; sourceTree = "<group>"; };
+		A176B7BD1C28E98100A2A49C /* vineh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vineh.png; sourceTree = "<group>"; };
+		A176B7BE1C28E98100A2A49C /* vineh2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vineh2.png; sourceTree = "<group>"; };
+		A176B7D61C28F4C700A2A49C /* erasing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = erasing.mp3; sourceTree = "<group>"; };
+		A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MaskFilter.cikernel; path = sprites/MaskFilter.cikernel; sourceTree = "<group>"; };
 		A17C324E1C1A65A200F64737 /* star1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star1.png; sourceTree = "<group>"; };
 		A17C32571C1A667B00F64737 /* PuzzleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleScene.swift; path = scenes/PuzzleScene.swift; sourceTree = "<group>"; };
 		A17C32591C1A676200F64737 /* RandomMediaChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomMediaChooser.swift; path = gamelogic/RandomMediaChooser.swift; sourceTree = "<group>"; };
@@ -589,7 +651,6 @@
 		A18F04B21BF7F16B00538F0B /* grandpa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa.png; sourceTree = "<group>"; };
 		A18F04B61BF7F19400538F0B /* mom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom.png; sourceTree = "<group>"; };
 		A18F04B81BF7F3E500538F0B /* TextureHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextureHelper.swift; sourceTree = "<group>"; };
-		A199BCBB1C268A4B00A73CEA /* erasing.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = erasing.aac; sourceTree = "<group>"; };
 		A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleGame.swift; path = gamelogic/PuzzleGame.swift; sourceTree = "<group>"; };
 		A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleSprite.swift; path = sprites/PuzzleSprite.swift; sourceTree = "<group>"; };
 		A1AE10E11BF663660043033A /* InitialDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialDataLoader.swift; sourceTree = "<group>"; };
@@ -1053,6 +1114,7 @@
 				A16241BB1C063FDC009205F1 /* puzzle_background.png */,
 				A16241BC1C063FDC009205F1 /* scratch_background.png */,
 				A16241BD1C063FDC009205F1 /* tree_background.png */,
+				A176B79A1C28E3FD00A2A49C /* wood_back.png */,
 			);
 			path = backgrounds;
 			sourceTree = "<group>";
@@ -1089,6 +1151,36 @@
 			path = remote;
 			sourceTree = "<group>";
 		};
+		A176B7A71C28E98100A2A49C /* tree */ = {
+			isa = PBXGroup;
+			children = (
+				A176B7A81C28E98100A2A49C /* leaf_left.png */,
+				A176B7A91C28E98100A2A49C /* leaf_right.png */,
+				A176B7AA1C28E98100A2A49C /* leaves_overlay1.png */,
+				A176B7AB1C28E98100A2A49C /* leaves_overlay2.png */,
+				A176B7AC1C28E98100A2A49C /* leaves_overlay3.png */,
+				A176B7AD1C28E98100A2A49C /* leaves_overlay4.png */,
+				A176B7AE1C28E98100A2A49C /* leaves_overlay5.png */,
+				A176B7AF1C28E98100A2A49C /* leaves_overlay6.png */,
+				A176B7B01C28E98100A2A49C /* tree_search.png */,
+				A176B7B11C28E98100A2A49C /* tree_search1.png */,
+				A176B7B21C28E98100A2A49C /* tree_search2.png */,
+				A176B7B31C28E98100A2A49C /* tree_search3.png */,
+				A176B7B41C28E98100A2A49C /* tree_search4.png */,
+				A176B7B51C28E98100A2A49C /* tree_search5.png */,
+				A176B7B61C28E98100A2A49C /* tree_search6.png */,
+				A176B7B71C28E98100A2A49C /* tree_search7.png */,
+				A176B7B81C28E98100A2A49C /* tree_search8.png */,
+				A176B7B91C28E98100A2A49C /* vine.png */,
+				A176B7BA1C28E98100A2A49C /* vine2.png */,
+				A176B7BB1C28E98100A2A49C /* vine3.png */,
+				A176B7BC1C28E98100A2A49C /* vine_arrow.png */,
+				A176B7BD1C28E98100A2A49C /* vineh.png */,
+				A176B7BE1C28E98100A2A49C /* vineh2.png */,
+			);
+			path = tree;
+			sourceTree = "<group>";
+		};
 		A18F04A91BF7F10C00538F0B /* people */ = {
 			isa = PBXGroup;
 			children = (
@@ -1109,12 +1201,15 @@
 				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
 				A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */,
 				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
+				A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */,
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
 				A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
+				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
 				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
 				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
 				A11108871C22729800053DCE /* AlphaOutlineFilter.swift */,
+				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -1135,6 +1230,7 @@
 				A17C32571C1A667B00F64737 /* PuzzleScene.swift */,
 				A11108901C245A2100053DCE /* ColoringScene.swift */,
 				A11108911C245A2100053DCE /* ScratchScene.swift */,
+				A176B79C1C28E41800A2A49C /* TreeScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -1163,11 +1259,14 @@
 				A18F04A91BF7F10C00538F0B /* people */,
 				A1F81B561BF3AFDE00078870 /* house */,
 				A1F81C4E1BF3AFDF00078870 /* ic_launcher-web.png */,
+				A176B7A21C28E6CE00A2A49C /* colors.png */,
+				A176B7A41C28E6DF00A2A49C /* paintbrush.png */,
 				A16241CA1C06801F009205F1 /* home.png */,
 				A17C324E1C1A65A200F64737 /* star1.png */,
 				A1D7F4871C2121CE00806723 /* loading.png */,
 				A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */,
 				A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */,
+				A176B7A71C28E98100A2A49C /* tree */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
 			);
 			path = assets;
@@ -1443,7 +1542,7 @@
 				A1F81C531BF3AFDF00078870 /* drums.mp3 */,
 				A1F81C541BF3AFDF00078870 /* drums_allinourfamilytree.mp3 */,
 				A1F81C551BF3AFDF00078870 /* drums_track.mp3 */,
-				A199BCBB1C268A4B00A73CEA /* erasing.aac */,
+				A176B7D61C28F4C700A2A49C /* erasing.mp3 */,
 				A1F81C571BF3AFDF00078870 /* flute_allinourfamilytree.mp3 */,
 				A1F81C581BF3AFDF00078870 /* glass_break.wav */,
 				A1F81C591BF3AFDF00078870 /* guitar.mp3 */,
@@ -1655,6 +1754,7 @@
 				A1F81CFD1BF3AFDF00078870 /* house_music_drums4.png in Resources */,
 				A1F81D031BF3AFDF00078870 /* house_music_guitar1.png in Resources */,
 				A1F81D601BF3AFDF00078870 /* house_rooms_3_2.png in Resources */,
+				A176B7CB1C28E98100A2A49C /* tree_search4.png in Resources */,
 				A16241AD1C063374009205F1 /* frame2.png in Resources */,
 				A1F81D741BF3AFDF00078870 /* kettle.mp3 in Resources */,
 				A1F81D3F1BF3AFDF00078870 /* house_toys_blocks8.png in Resources */,
@@ -1698,6 +1798,7 @@
 				A1F81C751BF3AFDF00078870 /* house_adult_wardrobe2.png in Resources */,
 				A1F81D111BF3AFDF00078870 /* house_toaster15.png in Resources */,
 				A1F81CCB1BF3AFDF00078870 /* house_familyroom_frame6.png in Resources */,
+				A176B7C61C28E98100A2A49C /* leaves_overlay6.png in Resources */,
 				A1F81D041BF3AFDF00078870 /* house_music_guitar2.png in Resources */,
 				A1F81D101BF3AFDF00078870 /* house_toaster14.png in Resources */,
 				A1F81D1C1BF3AFDF00078870 /* house_toaster6.png in Resources */,
@@ -1708,6 +1809,7 @@
 				A1F81CA31BF3AFDF00078870 /* house_chilldroom_teddy2.png in Resources */,
 				A16241AF1C063374009205F1 /* frame4.png in Resources */,
 				A1F81D861BF3AFDF00078870 /* trumpet_track.mp3 in Resources */,
+				A176B7C51C28E98100A2A49C /* leaves_overlay5.png in Resources */,
 				A1F81C7D1BF3AFDF00078870 /* house_chilldroom_bed.png in Resources */,
 				A1F81D871BF3AFDF00078870 /* violin_allinourfamilytree.mp3 in Resources */,
 				A1F81CD31BF3AFDF00078870 /* house_flowers_a2.png in Resources */,
@@ -1715,9 +1817,11 @@
 				A1F81D541BF3AFDF00078870 /* house_rooms_1_0.png in Resources */,
 				A1F81D0C1BF3AFDF00078870 /* house_toaster10.png in Resources */,
 				A1F81D091BF3AFDF00078870 /* house_music_trumpet2.png in Resources */,
+				A176B7A51C28E6DF00A2A49C /* paintbrush.png in Resources */,
 				A1F81D831BF3AFDF00078870 /* toaster1.wav in Resources */,
 				A1F81D121BF3AFDF00078870 /* house_toaster16.png in Resources */,
 				A1F81D4E1BF3AFDF00078870 /* house_tree_bird6.png in Resources */,
+				A176B7BF1C28E98100A2A49C /* leaf_left.png in Resources */,
 				A1F81CE91BF3AFDF00078870 /* house_kitchen_fridge6.png in Resources */,
 				A1F81C8C1BF3AFDF00078870 /* house_chilldroom_desk4.png in Resources */,
 				A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */,
@@ -1727,6 +1831,7 @@
 				A1F81D771BF3AFDF00078870 /* piano_allinourfamilytree.mp3 in Resources */,
 				A1F81D051BF3AFDF00078870 /* house_music_guitar3.png in Resources */,
 				A1F81CCC1BF3AFDF00078870 /* house_familyroom_frame7.png in Resources */,
+				A176B7CE1C28E98100A2A49C /* tree_search7.png in Resources */,
 				A1F81CF61BF3AFDF00078870 /* house_light_a2.png in Resources */,
 				A1F81D491BF3AFDF00078870 /* house_tree_bird1.png in Resources */,
 				A1F81D131BF3AFDF00078870 /* house_toaster17.png in Resources */,
@@ -1736,6 +1841,7 @@
 				A16241C21C063FDC009205F1 /* scratch_background.png in Resources */,
 				A16241B01C063374009205F1 /* frame5.png in Resources */,
 				A1F81C801BF3AFDF00078870 /* house_chilldroom_desk10.png in Resources */,
+				A176B7C21C28E98100A2A49C /* leaves_overlay2.png in Resources */,
 				A1F81D991BF3E8AD00078870 /* tree_logotype_1x.png in Resources */,
 				A1F81C741BF3AFDF00078870 /* house_adult_wardrobe1.png in Resources */,
 				A1F81D161BF3AFDF00078870 /* house_toaster2.png in Resources */,
@@ -1753,6 +1859,7 @@
 				A1F81CEA1BF3AFDF00078870 /* house_kitchen_kettle.png in Resources */,
 				A1F81CD01BF3AFDF00078870 /* house_familyroom_lamp2.png in Resources */,
 				A1F81CE71BF3AFDF00078870 /* house_kitchen_fridge4.png in Resources */,
+				A176B7D51C28E98100A2A49C /* vineh2.png in Resources */,
 				A1F81D381BF3AFDF00078870 /* house_toys_blocks1.png in Resources */,
 				A1F81D851BF3AFDF00078870 /* trumpet.mp3 in Resources */,
 				A18F04A41BF7E22600538F0B /* ChoosePlayerScene.sks in Resources */,
@@ -1768,6 +1875,7 @@
 				A1F81C8E1BF3AFDF00078870 /* house_chilldroom_desk6.png in Resources */,
 				A1F81D0F1BF3AFDF00078870 /* house_toaster13.png in Resources */,
 				A117C7311BA4AD0000964D50 /* GameScene.sks in Resources */,
+				A176B7C91C28E98100A2A49C /* tree_search2.png in Resources */,
 				A1F81CA91BF3AFDF00078870 /* house_cloud1a.png in Resources */,
 				A1F81D821BF3AFDF00078870 /* switch_on.m4a in Resources */,
 				A1F81C7B1BF3AFDF00078870 /* house_adult_wardrobe8.png in Resources */,
@@ -1779,23 +1887,29 @@
 				A1F81C771BF3AFDF00078870 /* house_adult_wardrobe4.png in Resources */,
 				A1F81CE61BF3AFDF00078870 /* house_kitchen_fridge3.png in Resources */,
 				A1F81C811BF3AFDF00078870 /* house_chilldroom_desk11.png in Resources */,
+				A176B7D91C29031D00A2A49C /* MaskFilter.cikernel in Resources */,
 				A10BF1001BC9CE52005CAFDA /* SplashScene.sks in Resources */,
 				A1F81D301BF3AFDF00078870 /* house_toys_bat3.png in Resources */,
 				A1F81D2B1BF3AFDF00078870 /* house_toys_bat19.png in Resources */,
 				A1F81CC51BF3AFDF00078870 /* house_familyroom_frame23.png in Resources */,
+				A176B7C01C28E98100A2A49C /* leaf_right.png in Resources */,
 				A1F81D6B1BF3AFDF00078870 /* drums.mp3 in Resources */,
 				A1F81D401BF3AFDF00078870 /* house_toys_horse.png in Resources */,
 				A1F81D271BF3AFDF00078870 /* house_toys_bat15.png in Resources */,
 				A1F81D591BF3AFDF00078870 /* house_rooms_2_0.png in Resources */,
+				A176B7C11C28E98100A2A49C /* leaves_overlay1.png in Resources */,
+				A176B7A31C28E6CE00A2A49C /* colors.png in Resources */,
 				A1F81C9A1BF3AFDF00078870 /* house_chilldroom_paint2.png in Resources */,
 				A1F81CDD1BF3AFDF00078870 /* house_kitchen_freezer1.png in Resources */,
 				A1F81CC61BF3AFDF00078870 /* house_familyroom_frame24.png in Resources */,
 				A1F81D4B1BF3AFDF00078870 /* house_tree_bird3.png in Resources */,
 				A1F81CDC1BF3AFDF00078870 /* house_kitchen_freezer.png in Resources */,
 				A1F81D501BF3AFDF00078870 /* house_rooms_0_1.png in Resources */,
+				A176B7D21C28E98100A2A49C /* vine3.png in Resources */,
 				A1F81C861BF3AFDF00078870 /* house_chilldroom_desk16.png in Resources */,
 				A1F81C7F1BF3AFDF00078870 /* house_chilldroom_desk1.png in Resources */,
 				A1F81CA51BF3AFDF00078870 /* house_chilldroom_teddy4.png in Resources */,
+				A176B7C41C28E98100A2A49C /* leaves_overlay4.png in Resources */,
 				A1F81D371BF3AFDF00078870 /* house_toys_blocks.png in Resources */,
 				A1F81D9F1BF4078600078870 /* FamilySearchLogin.xib in Resources */,
 				A1F81D221BF3AFDF00078870 /* house_toys_bat10.png in Resources */,
@@ -1804,18 +1918,22 @@
 				A1F81D521BF3AFDF00078870 /* house_rooms_0_3.png in Resources */,
 				A1F81CEB1BF3AFDF00078870 /* house_kitchen_kettle10.png in Resources */,
 				A18F04AF1BF7F14F00538F0B /* dad.png in Resources */,
+				A176B7D41C28E98100A2A49C /* vineh.png in Resources */,
 				A1F81D5B1BF3AFDF00078870 /* house_rooms_2_2.png in Resources */,
 				A1F81C791BF3AFDF00078870 /* house_adult_wardrobe6.png in Resources */,
 				A1F81CA01BF3AFDF00078870 /* house_chilldroom_paint8.png in Resources */,
 				A1F81D2F1BF3AFDF00078870 /* house_toys_bat22.png in Resources */,
 				A1F81D691BF3AFDF00078870 /* beepboop.mp3 in Resources */,
 				A1F81D561BF3AFDF00078870 /* house_rooms_1_2.png in Resources */,
+				A176B7D31C28E98100A2A49C /* vine_arrow.png in Resources */,
 				A1F81D761BF3AFDF00078870 /* piano.mp3 in Resources */,
 				A1F81C821BF3AFDF00078870 /* house_chilldroom_desk12.png in Resources */,
 				A1F81CF31BF3AFDF00078870 /* house_kitchen_kettle8.png in Resources */,
 				A1F81CB01BF3AFDF00078870 /* house_familyroom_cat_a2.png in Resources */,
+				A176B7CA1C28E98100A2A49C /* tree_search3.png in Resources */,
 				A1F81C961BF3AFDF00078870 /* house_chilldroom_paint12.png in Resources */,
 				A1F81CCD1BF3AFDF00078870 /* house_familyroom_frame8.png in Resources */,
+				A176B7CC1C28E98100A2A49C /* tree_search5.png in Resources */,
 				A1F81D841BF3AFDF00078870 /* toaster2.wav in Resources */,
 				A1F81CDA1BF3AFDF00078870 /* house_kitchen_d.png in Resources */,
 				A1F81D2D1BF3AFDF00078870 /* house_toys_bat20.png in Resources */,
@@ -1830,6 +1948,7 @@
 				A1F81CF01BF3AFDF00078870 /* house_kitchen_kettle5.png in Resources */,
 				A1F81D511BF3AFDF00078870 /* house_rooms_0_2.png in Resources */,
 				A1F81D6C1BF3AFDF00078870 /* drums_allinourfamilytree.mp3 in Resources */,
+				A176B7CF1C28E98100A2A49C /* tree_search8.png in Resources */,
 				A1F81D641BF3AFDF00078870 /* house_rooms_4_2.png in Resources */,
 				A18F04AD1BF7F13000538F0B /* boy.png in Resources */,
 				A1F81D531BF3AFDF00078870 /* house_rooms_0_4.png in Resources */,
@@ -1868,6 +1987,7 @@
 				A1F81C781BF3AFDF00078870 /* house_adult_wardrobe5.png in Resources */,
 				A1F81CE11BF3AFDF00078870 /* house_kitchen_freezer5.png in Resources */,
 				A1F81CC01BF3AFDF00078870 /* house_familyroom_frame19.png in Resources */,
+				A176B7D11C28E98100A2A49C /* vine2.png in Resources */,
 				A1F81CC21BF3AFDF00078870 /* house_familyroom_frame20.png in Resources */,
 				A1F81CA11BF3AFDF00078870 /* house_chilldroom_paint9.png in Resources */,
 				A1F81C871BF3AFDF00078870 /* house_chilldroom_desk17.png in Resources */,
@@ -1886,7 +2006,10 @@
 				A1F81CC81BF3AFDF00078870 /* house_familyroom_frame3.png in Resources */,
 				A1F81D151BF3AFDF00078870 /* house_toaster19.png in Resources */,
 				A1F81CBD1BF3AFDF00078870 /* house_familyroom_frame16.png in Resources */,
+				A176B79B1C28E3FD00A2A49C /* wood_back.png in Resources */,
+				A176B7C31C28E98100A2A49C /* leaves_overlay3.png in Resources */,
 				A1F81CBA1BF3AFDF00078870 /* house_familyroom_frame13.png in Resources */,
+				A176B7D01C28E98100A2A49C /* vine.png in Resources */,
 				A1F81C981BF3AFDF00078870 /* house_chilldroom_paint14.png in Resources */,
 				A1F81CED1BF3AFDF00078870 /* house_kitchen_kettle2.png in Resources */,
 				A1F81C721BF3AFDF00078870 /* house_adult_vanity.png in Resources */,
@@ -1894,6 +2017,7 @@
 				A1F81CD51BF3AFDF00078870 /* house_flowers_a4.png in Resources */,
 				A1F81D311BF3AFDF00078870 /* house_toys_bat4.png in Resources */,
 				A1F81CA61BF3AFDF00078870 /* house_chilldroom_teddy5.png in Resources */,
+				A176B7C71C28E98100A2A49C /* tree_search.png in Resources */,
 				A1F81D4C1BF3AFDF00078870 /* house_tree_bird4.png in Resources */,
 				A18F04AC1BF7F13000538F0B /* baby.png in Resources */,
 				A1F81C991BF3AFDF00078870 /* house_chilldroom_paint15.png in Resources */,
@@ -1919,11 +2043,13 @@
 				A1F81C7A1BF3AFDF00078870 /* house_adult_wardrobe7.png in Resources */,
 				A1F81C931BF3AFDF00078870 /* house_chilldroom_paint1.png in Resources */,
 				A1F81D3B1BF3AFDF00078870 /* house_toys_blocks4.png in Resources */,
+				A176B7CD1C28E98100A2A49C /* tree_search6.png in Resources */,
 				A1F81D1B1BF3AFDF00078870 /* house_toaster5.png in Resources */,
 				A1F81D671BF3AFDF00078870 /* ic_launcher-web.png in Resources */,
 				A1F81D6D1BF3AFDF00078870 /* drums_track.mp3 in Resources */,
 				A1F81D7F1BF3AFDF00078870 /* slide_whistle_up04.wav in Resources */,
 				A1F81CD71BF3AFDF00078870 /* house_kitchen_a.png in Resources */,
+				A176B7D71C28F4C700A2A49C /* erasing.mp3 in Resources */,
 				A18F04B31BF7F16C00538F0B /* girl.png in Resources */,
 				A1F81D581BF3AFDF00078870 /* house_rooms_1_4.png in Resources */,
 				A1F81D1E1BF3AFDF00078870 /* house_toaster8.png in Resources */,
@@ -1944,6 +2070,7 @@
 				A1F81D571BF3AFDF00078870 /* house_rooms_1_3.png in Resources */,
 				A1F81CD41BF3AFDF00078870 /* house_flowers_a3.png in Resources */,
 				A1F81D2C1BF3AFDF00078870 /* house_toys_bat2.png in Resources */,
+				A176B7C81C28E98100A2A49C /* tree_search1.png in Resources */,
 				A1F81CAD1BF3AFDF00078870 /* house_cloud1e.png in Resources */,
 				A1F81C881BF3AFDF00078870 /* house_chilldroom_desk18.png in Resources */,
 				A117C7381BA4AD0000964D50 /* Main.storyboard in Resources */,
@@ -2009,6 +2136,8 @@
 				A10BF1311BC9D359005CAFDA /* Person.swift in Sources */,
 				A12B90661BDC44030014ED16 /* DataService.swift in Sources */,
 				A10BF1211BC9D359005CAFDA /* Conclusion.swift in Sources */,
+				A176B79D1C28E41800A2A49C /* TreeScene.swift in Sources */,
+				A176B79F1C28E43300A2A49C /* TreePersonSprite.swift in Sources */,
 				A17C325A1C1A676200F64737 /* RandomMediaChooser.swift in Sources */,
 				A10BF1341BC9D359005CAFDA /* Relationship.swift in Sources */,
 				A1EA5D331C091CBE006528A5 /* HeritageCalculator.swift in Sources */,
@@ -2035,6 +2164,7 @@
 				A11108931C245A2100053DCE /* ScratchScene.swift in Sources */,
 				A16241B41C0634A5009205F1 /* MatchPerson.swift in Sources */,
 				A10BF1301BC9D359005CAFDA /* Note.swift in Sources */,
+				A176B7A11C28E46300A2A49C /* PersonLeavesButton.swift in Sources */,
 				A1EC614D1C1368BF006DF050 /* DollClothing.swift in Sources */,
 				A1EC613E1C1134E8006DF050 /* SyncQ.swift in Sources */,
 				A10BF1231BC9D359005CAFDA /* Date.swift in Sources */,

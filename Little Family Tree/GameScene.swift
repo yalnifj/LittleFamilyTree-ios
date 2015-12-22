@@ -134,14 +134,14 @@ class GameScene: SKScene, EventListener {
 		
 		let personLeaves = PersonLeavesButton()
 		personLeaves.anchorPoint = CGPoint.zero
-		personLeaves.size.width = 80
-		personLeaves.size.height = 80
-		personLeaves.position = CGPointMake(245, 400-personLeaves.size.height)
+		personLeaves.size.width = 65
+		personLeaves.size.height = 65
+		personLeaves.position = CGPointMake(245, 455-personLeaves.size.height)
 		personLeaves.zPosition = z++
 		personLeaves.userInteractionEnabled = true
 		spriteContainer.addChild(personLeaves)
 		
-		DataService.getInstance().getFamilyMembers(selectedPerson, loadSpouse: true, onCompletion: { people, err in 
+		DataService.getInstance().getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
 			personLeaves.people = people
 		});
 		
@@ -822,6 +822,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_COLORING, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_TREE, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
@@ -833,6 +834,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_COLORING, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_TREE, listener: self)
     }
     
     func pinched(sender:UIPinchGestureRecognizer){
