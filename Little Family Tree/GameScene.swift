@@ -14,6 +14,7 @@ class GameScene: SKScene, EventListener {
     static var TOPIC_START_PUZZLE = "start_puzzle"
 	static var TOPIC_START_SCRATCH = "start_scratch"
 	static var TOPIC_START_COLORING = "start_coloring"
+	static var TOPIC_START_TREE = "start_tree"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -130,6 +131,20 @@ class GameScene: SKScene, EventListener {
         flowers2.addAction(1, action: spinAction)
         flowers2.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers2)
+		
+		let personLeaves = PersonLeavesButton()
+		personLeaves.anchorPoint = CGPoint.zero
+		personLeaves.size.width = 80
+		personLeaves.size.height = 80
+		personLeaves.position = CGPointMake(245, 400-personLeaves.size.height)
+		personLeaves.zPosition = z++
+		personLeaves.userInteractionEnabled = true
+		spriteContainer.addChild(personLeaves)
+		
+		DataService.getInstance().getFamilyMembers(selectedPerson, loadSpouse: true, onCompletion: { people, err in 
+			personLeaves.people = people
+		});
+		
         
         let tileY:CGFloat = 600
         let tile01 = SKSpriteNode(imageNamed: "house_rooms_0_1")
@@ -898,7 +913,7 @@ class GameScene: SKScene, EventListener {
     var index:Int?
     func onEvent(topic: String, data: NSObject?) {
         if topic == GameScene.TOPIC_START_MATCH {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = MatchGameScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
@@ -906,7 +921,7 @@ class GameScene: SKScene, EventListener {
             scene?.view?.presentScene(nextScene, transition: transition)
         }
         else if topic == GameScene.TOPIC_START_DRESSUP {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = ChooseCultureScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
@@ -914,7 +929,7 @@ class GameScene: SKScene, EventListener {
             scene?.view?.presentScene(nextScene, transition: transition)
         }
         else if topic == GameScene.TOPIC_START_PUZZLE {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = PuzzleScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
@@ -922,7 +937,7 @@ class GameScene: SKScene, EventListener {
             scene?.view?.presentScene(nextScene, transition: transition)
         }
 		else if topic == GameScene.TOPIC_START_SCRATCH {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = ScratchScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
@@ -930,15 +945,23 @@ class GameScene: SKScene, EventListener {
             scene?.view?.presentScene(nextScene, transition: transition)
         }
 		else if topic == GameScene.TOPIC_START_COLORING {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = ColoringScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
             scene?.view?.presentScene(nextScene, transition: transition)
         }
+		else if topic == GameScene.TOPIC_START_TREE {
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+            let nextScene = TreeScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            nextScene.selectedPerson = selectedPerson
+            scene?.view?.presentScene(nextScene, transition: transition)
+        }
         else if topic == LittleFamilyScene.TOPIC_START_CHOOSE {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = ChoosePlayerScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
