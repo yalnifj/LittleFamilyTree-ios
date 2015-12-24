@@ -60,44 +60,30 @@ extension SKNode {
     }
 }
 
-extension UIImage {
-    
-    subscript (x: Int, y: Int) -> UIColor? {
+extension UIColor {
+    public convenience init(hexString: String) {
+        let r, g, b, a: CGFloat
         
-        if x < 0 || x > Int(size.width) || y < 0 || y > Int(size.height) {
-            return nil
+        if hexString.hasPrefix("#") {
+            let start = hexString.startIndex.advancedBy(1)
+            let hexColor = hexString.substringFromIndex(start)
+            
+            if hexColor.characters.count == 8 {
+                let scanner = NSScanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+                
+                if scanner.scanHexLongLong(&hexNumber) {
+                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                    a = CGFloat(hexNumber & 0x000000ff) / 255
+                    
+                    self.init(red: r, green: g, blue: b, alpha: a)
+                    return
+                }
+            }
         }
-        
-        let provider = CGImageGetDataProvider(self.CGImage)
-        let providerData = CGDataProviderCopyData(provider)
-        let data = CFDataGetBytePtr(providerData)
-        
-        let numberOfComponents = 4
-        let pixelData = ((Int(size.width) * y) + x) * numberOfComponents
-        
-        let r = CGFloat(data[pixelData]) / 255.0
-        let g = CGFloat(data[pixelData + 1]) / 255.0
-        let b = CGFloat(data[pixelData + 2]) / 255.0
-        let a = CGFloat(data[pixelData + 3]) / 255.0
-        
-        return UIColor(red: r, green: g, blue: b, alpha: a)
-    }
-    
-    func getAlphaAt(x: CGFloat, y:CGFloat) -> UInt8? {
-        if x < 0 || x > size.width || y < 0 || y > size.height {
-            return nil
-        }
-        
-        let provider = CGImageGetDataProvider(self.CGImage)
-        let providerData = CGDataProviderCopyData(provider)
-        let data = CFDataGetBytePtr(providerData)
-        
-        let numberOfComponents = Int(4)
-        let pixelData = Int((size.width * y) + x) * numberOfComponents
-
-        let a = data[pixelData + 3]
-        
-        return a
+        self.init()
     }
 }
 

@@ -75,6 +75,9 @@
 		A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241C61C0676BB009205F1 /* SpeechHelper.swift */; };
 		A16241C91C067C20009205F1 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241C81C067C20009205F1 /* TopBar.swift */; };
 		A16241CB1C06801F009205F1 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241CA1C06801F009205F1 /* home.png */; };
+		A1653C781C2A35EB00D586E5 /* TreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1653C771C2A35EB00D586E5 /* TreeNode.swift */; };
+		A1653C811C2A38CB00D586E5 /* ColorPaletteSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */; };
+		A1653C831C2B5CDF00D586E5 /* BrushSizeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */; };
 		A1686D631BB97D3400E58A09 /* GenderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D5E1BB97D3400E58A09 /* GenderType.swift */; };
 		A1686D641BB97D3400E58A09 /* LittlePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */; };
 		A1686D651BB97D3400E58A09 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1686D601BB97D3400E58A09 /* Media.swift */; };
@@ -596,6 +599,9 @@
 		A16241C61C0676BB009205F1 /* SpeechHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechHelper.swift; sourceTree = "<group>"; };
 		A16241C81C067C20009205F1 /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopBar.swift; path = sprites/TopBar.swift; sourceTree = "<group>"; };
 		A16241CA1C06801F009205F1 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		A1653C771C2A35EB00D586E5 /* TreeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeNode.swift; sourceTree = "<group>"; };
+		A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPaletteSprite.swift; path = sprites/ColorPaletteSprite.swift; sourceTree = "<group>"; };
+		A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrushSizeSprite.swift; path = sprites/BrushSizeSprite.swift; sourceTree = "<group>"; };
 		A1686D5E1BB97D3400E58A09 /* GenderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderType.swift; sourceTree = "<group>"; };
 		A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LittlePerson.swift; sourceTree = "<group>"; };
 		A1686D601BB97D3400E58A09 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -1136,6 +1142,7 @@
 				A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */,
 				A1EC614C1C1368BF006DF050 /* DollClothing.swift */,
 				A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */,
+				A1653C771C2A35EB00D586E5 /* TreeNode.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -1210,6 +1217,8 @@
 				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
 				A11108871C22729800053DCE /* AlphaOutlineFilter.swift */,
 				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
+				A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */,
+				A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -2116,6 +2125,7 @@
 				A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
 				A11108881C22729800053DCE /* AlphaOutlineFilter.swift in Sources */,
+				A1653C831C2B5CDF00D586E5 /* BrushSizeSprite.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
 				A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */,
 				A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */,
@@ -2168,9 +2178,11 @@
 				A1EC614D1C1368BF006DF050 /* DollClothing.swift in Sources */,
 				A1EC613E1C1134E8006DF050 /* SyncQ.swift in Sources */,
 				A10BF1231BC9D359005CAFDA /* Date.swift in Sources */,
+				A1653C781C2A35EB00D586E5 /* TreeNode.swift in Sources */,
 				A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */,
 				A10BF1391BC9D359005CAFDA /* Subject.swift in Sources */,
 				A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */,
+				A1653C811C2A38CB00D586E5 /* ColorPaletteSprite.swift in Sources */,
 				A10BF12E1BC9D359005CAFDA /* NameForm.swift in Sources */,
 				A10BF1011BC9CE52005CAFDA /* SplashScene.swift in Sources */,
 				A1D7F47F1C2106E000806723 /* RelationshipCalculator.swift in Sources */,

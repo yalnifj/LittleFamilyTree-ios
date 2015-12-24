@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class ColoringScene: LittleFamilyScene, RandomMediaListener {
+class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListener, BrushSizeListener {
     var randomMediaChooser = RandomMediaChooser.getInstance()
     
 	var photoSprite:SKSpriteNode?
@@ -17,9 +17,14 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
 	var lastPoint : CGPoint!
     var outlineSprite:SKEffectNode?
     var photoCopySprite:SKSpriteNode?
-    var palette : SKSpriteNode?
+    var palette : ColorPaletteSprite?
+    var brushSizer : BrushSizeSprite?
+    var coloring = false
     
     var image:UIImage?
+    var color:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+    var clearColor:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+    var brushSize:CGFloat = 12
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -35,6 +40,33 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
         self.addChild(background)
         
         setupTopBar()
+        
+        palette = ColorPaletteSprite()
+        palette?.size.width = self.size.width * 0.60
+        palette?.size.height = self.size.height / 8
+        palette?.position = CGPointMake(0, 0)
+        palette?.zPosition = 10
+        palette?.userInteractionEnabled = true
+        palette?.listener = self
+        self.addChild(palette!)
+        
+        let colors = SKSpriteNode(imageNamed: "colors")
+        palette?.colorPalette = colors
+        
+        let paintBrush = SKSpriteNode(imageNamed: "paintbrush")
+        palette?.paintbrush = paintBrush
+        
+        brushSize = self.size.width/16
+        brushSizer = BrushSizeSprite()
+        brushSizer?.size = CGSizeMake((palette?.size.height)!, (palette?.size.height)!)
+        brushSizer?.position = CGPointMake((palette?.size.width)!, 0)
+        brushSizer?.zPosition = 10
+        brushSizer?.maxSize = brushSize*2
+        brushSizer?.minSize = brushSize/8
+        brushSizer?.brushSize = brushSize
+        brushSizer?.userInteractionEnabled = true
+        brushSizer?.listener = self
+        self.addChild(brushSizer!)
         
         showLoadingDialog()
         
@@ -65,14 +97,6 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
             if coverSprite != nil {
                 coverSprite?.removeFromParent()
             }
-            
-            palette = SKSpriteNode(imageNamed: "colors")
-            let cratio = (palette?.size.height)! / (palette?.size.width)!
-            palette?.size.width = self.size.width / 2
-            palette?.size.height = (palette?.size.width)! * cratio
-            palette?.position = CGPointMake((palette?.size.width)! / 2, (palette?.size.height)! / 2)
-            palette?.zPosition = 10
-            self.addChild(palette!)
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
@@ -145,8 +169,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(lastPoint)
-            if touchedNode == coverSprite {
-                
+            if touchedNode == outlineSprite! || touchedNode == photoCopySprite! {
+                coloring = true
             }
         }
     }
@@ -155,7 +179,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
         var nextPoint = CGPointMake(0,0)
         for touch in touches {
             nextPoint = touch.locationInNode(self)
-            
+            if coloring {
+                drawLineFrom(lastPoint, toPoint: nextPoint)
+            }
         }
         lastPoint = nextPoint
     }
@@ -164,8 +190,44 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener {
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
-
+            
         }
+        //self.removeAllActions()
+        //checkComplete()
+        coloring = false
+    }
+    
+    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+        UIGraphicsBeginImageContext((coverSprite?.size)!)
+        let context = UIGraphicsGetCurrentContext()
+        
+        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
+        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!))
+        
+        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        
+        CGContextSetLineCap(context, CGLineCap.Round)
+        CGContextSetLineWidth(context, brushSize)
+        CGContextSetStrokeColorWithColor(context, color.CGColor)
+        CGContextSetBlendMode(context, CGBlendMode.Copy)
+        CGContextStrokePath(context)
+        
+        image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        let coverTexture = SKTexture(image: image!)
+        coverSprite?.texture = coverTexture
+    }
+    
+    func onColorChange(color: UIColor) {
+        self.color = color
+        brushSizer?.brushColor = color
+    }
+    func onBrushSizeChange(size:CGFloat) {
+        self.brushSize = size
     }
 }
 
