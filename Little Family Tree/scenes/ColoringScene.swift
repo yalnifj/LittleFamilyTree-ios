@@ -76,6 +76,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         nextButton?.size.height = h
         nextButton?.size.width = h * r1
         nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        nextButton?.zPosition = 10
         self.addChild(nextButton!)
         
         shareButton = SKSpriteNode(imageNamed: "ff")
@@ -83,6 +84,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         shareButton?.size.height = h
         shareButton?.size.width = h * r2
         shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        shareButton?.zPosition = 10
         self.addChild(shareButton!)
         
         showLoadingDialog()
