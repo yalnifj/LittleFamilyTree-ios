@@ -49,7 +49,7 @@ class BrushSizeSprite : SKSpriteNode {
             if lastPoint != nil {
                 let dx = nextPoint.x - (lastPoint?.x)!
                 let dy = nextPoint.y - (lastPoint?.y)!
-                let distance = sqrt((dx*dx) + (dy*dy)) / 20
+                let distance = sqrt((dx*dx) + (dy*dy)) / 5
                 if dx < 0 || dy < 0 {
                     brushSize -= distance
                 } else {

@@ -17,6 +17,10 @@ class ColorPaletteSprite : SKSpriteNode {
             let ratio = (colorPalette?.size.height)! / (colorPalette?.size.width)!
             colorPalette?.size.width = self.size.width
             colorPalette?.size.height = self.size.width * ratio
+            if (colorPalette?.size.height)! < self.size.height {
+                colorPalette?.size.height = self.size.height
+                colorPalette?.size.width = self.size.width / ratio
+            }
             colorPalette?.zPosition = 1
             colorPalette?.position = CGPointMake(self.size.width / 2, self.size.height / 2)
             self.addChild(colorPalette!)
@@ -25,7 +29,6 @@ class ColorPaletteSprite : SKSpriteNode {
     var paintbrush:SKSpriteNode? {
         didSet {
             setupColors()
-            
             
             var i = 0
             for r in colorRects {
@@ -51,53 +54,54 @@ class ColorPaletteSprite : SKSpriteNode {
     var activeColor:UIColor?
     
     func setupColors() {
-        let r = (colorPalette?.size.width)! / (colorPalette?.texture!.size().width)!
+        let rw = (colorPalette?.size.width)! / (colorPalette?.texture!.size().width)!
+        let rh = (colorPalette?.size.height)! / (colorPalette?.texture!.size().height)!
         
-        let dr = CGRectMake(65*r, 133*r, 56*r, 57*r)
+        let dr = CGRectMake(65*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(dr)
         colors.append(UIColor(hexString: "#aa000044"))
         
-        let rr = CGRectMake(135*r, 133*r, 56*r, 57*r)
+        let rr = CGRectMake(135*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(rr);
         colors.append(UIColor(hexString: "#ff000044"))
         
-        let o = CGRectMake(210*r, 133*r, 56*r, 57*r)
+        let o = CGRectMake(210*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(o);
         colors.append(UIColor(hexString: "#ff660044"));
         
-        let g = CGRectMake(285*r, 133*r, 56*r, 57*r)
+        let g = CGRectMake(285*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(g);
         colors.append(UIColor(hexString: "#d4aa0044"));
         
-        let y = CGRectMake(355*r, 133*r, 56*r, 57*r)
+        let y = CGRectMake(355*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(y);
         colors.append(UIColor(hexString: "#ffff0044"));
         
-        let gr = CGRectMake(425*r, 133*r, 56*r, 57*r)
+        let gr = CGRectMake(425*rw, 133*rh, 56*rw, 57*rh)
         colorRects.append(gr);
         colors.append(UIColor(hexString: "#00b10044"));
         
-        let dg = CGRectMake(75*r, 71*r, 55*r, 57*r)
+        let dg = CGRectMake(75*rw, 71*rh, 55*rw, 57*rh)
         colorRects.append(dg);
         colors.append(UIColor(hexString: "#006c0044"));
         
-        let b = CGRectMake(145*r, 71*r, 55*r, 57*r)
+        let b = CGRectMake(145*rw, 71*rh, 55*rw, 57*rh)
         colorRects.append(b);
         colors.append(UIColor(hexString: "#0000cf44"));
         
-        let db = CGRectMake(218*r, 71*r, 55*r, 57*r)
+        let db = CGRectMake(218*rw, 71*rh, 55*rw, 57*rh)
         colorRects.append(db);
         colors.append(UIColor(hexString: "#00006f44"));
         
-        let p = CGRectMake(287*r, 70*r, 55*r, 57*r)
+        let p = CGRectMake(287*rw, 70*rh, 55*rw, 57*rh)
         colorRects.append(p);
         colors.append(UIColor(hexString: "#6400aa44"));
         
-        let br = CGRectMake(357*r, 70*r, 55*r, 57*r)
+        let br = CGRectMake(357*rw, 70*rh, 55*rw, 57*rh)
         colorRects.append(br);
         colors.append(UIColor(hexString: "#80330044"));
         
-        let wh = CGRectMake(430*r, 70*r, 55*r, 57*r)
+        let wh = CGRectMake(430*rw, 70*rh, 55*rw, 57*rh)
         colorRects.append(wh);
         colors.append(UIColor(hexString: "#00000000"));
         

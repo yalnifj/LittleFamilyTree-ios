@@ -20,6 +20,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     var palette : ColorPaletteSprite?
     var brushSizer : BrushSizeSprite?
     var coloring = false
+    var nextButton :SKSpriteNode?
+    var shareButton :SKSpriteNode?
     
     var image:UIImage?
     var color:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
@@ -68,6 +70,21 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         brushSizer?.listener = self
         self.addChild(brushSizer!)
         
+        nextButton = SKSpriteNode(imageNamed: "ff")
+        let r1 = (nextButton?.size.width)! / (nextButton?.size.height)!
+        let h = (palette?.size.height)! / 3
+        nextButton?.size.height = h
+        nextButton?.size.width = h * r1
+        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        self.addChild(nextButton!)
+        
+        shareButton = SKSpriteNode(imageNamed: "ff")
+        let r2 = (shareButton?.size.width)! / (shareButton?.size.height)!
+        shareButton?.size.height = h
+        shareButton?.size.width = h * r2
+        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        self.addChild(shareButton!)
+        
         showLoadingDialog()
         
         randomMediaChooser.listener = self
@@ -101,7 +118,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
             var h = self.size.height - ((palette?.size.height)! + (topBar?.size.height)! * 3)
-            if ratio < 1.0 {
+            if ratio < 1.0 || w > h {
                 w = h * ratio
             } else {
                 h = w / ratio
@@ -190,7 +207,17 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
-            
+            if coloring == false {
+                let touchedNode = nodeAtPoint(lastPoint)
+                if touchedNode == nextButton {
+                    showLoadingDialog()
+                    randomMediaChooser.loadRandomImage()
+                } else if touchedNode == shareButton {
+                    //-- 1 get image from node
+                    //-- launch sharing options
+                    print("Share me")
+                }
+            }
         }
         //self.removeAllActions()
         //checkComplete()
@@ -201,13 +228,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         UIGraphicsBeginImageContext((coverSprite?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
-        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        let oy = (coverSprite?.position.y)! - (coverSprite?.size.height)!/2
+        let ox = (coverSprite?.position.x)! - (coverSprite?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!))
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (coverSprite?.size.width)!, height: (coverSprite?.size.height)!))
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context, fromPoint.x - ox, (coverSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (coverSprite?.size.height)! - (toPoint.y - oy))
         
         CGContextSetLineCap(context, CGLineCap.Round)
         CGContextSetLineWidth(context, brushSize)

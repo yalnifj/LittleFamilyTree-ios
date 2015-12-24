@@ -75,7 +75,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
             var h = self.size.height - (topBar?.size.height)! * 3
-            if ratio < 1.0 {
+            if ratio < 1.0 || w > h{
                 w = h * ratio
             } else {
                 h = w / ratio
@@ -158,7 +158,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 bit.zPosition = 10
                 self.addChild(bit)
                 
-                let move = SKAction.moveByX((nextPoint.x - lastPoint.x) * 2, y: (nextPoint.y - lastPoint.y) * 2, duration: 1.0)
+                let move = SKAction.moveByX((nextPoint.x - lastPoint.x) * 2.5, y: (nextPoint.y - lastPoint.y) * 2.5, duration: 0.7)
                 let actions = SKAction.sequence([move, SKAction.removeFromParent()])
                 bit.runAction(actions)
             }
@@ -181,16 +181,16 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         UIGraphicsBeginImageContext((coverSprite?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
-        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        let oy = (coverSprite?.position.y)! - (coverSprite?.size.height)!/2
+        let ox = (coverSprite?.position.x)! - (coverSprite?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!))
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (coverSprite?.size.width)!, height: (coverSprite?.size.height)!))
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context, fromPoint.x - ox, (coverSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (coverSprite?.size.height)! - (toPoint.y - oy))
         
         CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextSetLineWidth(context, self.size.width/10)
+        CGContextSetLineWidth(context, self.size.width/9)
         CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0)
         CGContextSetBlendMode(context, CGBlendMode.Clear)
         
@@ -237,6 +237,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             coverSprite?.hidden = true
             self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(30)))
             self.playSuccessSound(1.0, onCompletion: {
+                if self.nameLabel != nil {
+                    self.nameLabel?.removeFromParent()
+                }
                 self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
                 self.nameLabel?.fontSize = self.size.height / 30
                 self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
@@ -245,6 +248,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.nameLabel?.color = UIColor.blackColor()
                 self.addChild(self.nameLabel!)
                 
+                if self.relationshipLabel != nil {
+                    self.relationshipLabel?.removeFromParent()
+                }
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
                 self.relationshipLabel = SKLabelNode(text: relationship)
                 self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!

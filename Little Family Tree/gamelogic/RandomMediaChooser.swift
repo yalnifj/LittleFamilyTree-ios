@@ -145,7 +145,7 @@ class RandomMediaChooser {
     func loadRandomDBImage() {
         let mediaCount = self.dataService.dbHelper.getMediaCount();
         if (mediaCount > 0) {
-            self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia();
+            self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia()
             let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
             var index = Int(arc4random_uniform(UInt32(media.count)))
             let origIndex = index;

@@ -24,6 +24,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var movingSprite:PuzzleSprite?
     var texture:SKTexture?
     var complete = false
+    var animCount = 0
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -93,7 +94,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
             var h = self.size.height - (topBar?.size.height)! * 3
-            if ratio < 1.0 {
+            if ratio < 1.0 || w > h  {
                 w = h * ratio
             } else {
                 h = w / ratio
@@ -143,7 +144,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 hintSprite?.hidden = false
             } else if touchedNode is PuzzleSprite {
                 let ps = touchedNode as! PuzzleSprite
-                if !ps.isPlaced() && !ps.animating {
+                if ps.isPlaced() == false && ps.animating == false && animCount == 0{
                     movingSprite = ps
                     ps.zPosition = 3
                     ps.oldX = ps.position.x
@@ -192,9 +193,11 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     let oldY = (movingSprite?.oldY)!
                     let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
                     movingSprite!.animating = true
+                    animCount++
                     movingSprite!.runAction(action, completion: {
                         self.movingSprite?.zPosition = 2
                         self.movingSprite?.animating = false
+                        self.animCount--
                     })
                 } else {
                     let mc = sprite?.col
@@ -211,19 +214,23 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.6)
                     
                     sprite!.animating = true
+                    animCount++
                     sprite!.runAction(action, completion: {
                         sprite?.zPosition = 2
                         sprite?.col = sc
                         sprite?.row = sr
                         sprite?.animating = false
+                        self.animCount--
                         self.checkComplete()
                     })
                     movingSprite!.animating = true
+                    animCount++
                     movingSprite!.runAction(action2, completion: {
                         self.movingSprite?.zPosition = 2
                         self.movingSprite?.col = mc
                         self.movingSprite?.row = mr
                         self.movingSprite?.animating = false
+                        self.animCount--
                         self.checkComplete()
                         self.movingSprite = nil
                     })
@@ -237,7 +244,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             complete = true
             self.hintSprite?.hidden = false
             self.hintButton?.hidden = true
-            self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(30)))
+            self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(20)))
             self.playSuccessSound(1.0, onCompletion: {
                 self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
                 self.nameLabel?.fontSize = self.size.height / 30
