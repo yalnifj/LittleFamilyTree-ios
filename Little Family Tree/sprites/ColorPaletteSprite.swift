@@ -17,12 +17,12 @@ class ColorPaletteSprite : SKSpriteNode {
             let ratio = (colorPalette?.size.height)! / (colorPalette?.size.width)!
             colorPalette?.size.width = self.size.width
             colorPalette?.size.height = self.size.width * ratio
-            if (colorPalette?.size.height)! < self.size.height {
+            if (colorPalette?.size.height)! > self.size.height {
                 colorPalette?.size.height = self.size.height
-                colorPalette?.size.width = self.size.width / ratio
+                colorPalette?.size.width = self.size.height / ratio
             }
             colorPalette?.zPosition = 1
-            colorPalette?.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+            colorPalette?.position = CGPointMake((colorPalette?.size.width)! / 2, (colorPalette?.size.height)! / 2)
             self.addChild(colorPalette!)
         }
     }

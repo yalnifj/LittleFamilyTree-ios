@@ -178,16 +178,16 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     }
     
     func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContext((coverSprite?.size)!)
+        UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = (coverSprite?.position.y)! - (coverSprite?.size.height)!/2
-        let ox = (coverSprite?.position.x)! - (coverSprite?.size.width)!/2
+        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
+        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (coverSprite?.size.width)!, height: (coverSprite?.size.height)!))
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (coverSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (coverSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
         
         CGContextSetLineCap(context, CGLineCap.Round)
         CGContextSetLineWidth(context, self.size.width/9)
@@ -235,7 +235,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         
         if complete {
             coverSprite?.hidden = true
-            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(40)))
+            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(35)))
             self.playSuccessSound(1.0, onCompletion: {
                 if self.nameLabel != nil {
                     self.nameLabel?.removeFromParent()

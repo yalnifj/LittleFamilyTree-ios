@@ -38,7 +38,7 @@
 		A10BF1391BC9D359005CAFDA /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11D1BC9D359005CAFDA /* Subject.swift */; };
 		A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11E1BC9D359005CAFDA /* TextValue.swift */; };
 		A10FC32B1C19116300DDBE30 /* alphaOutline.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */; };
-		A11108881C22729800053DCE /* AlphaOutlineFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108871C22729800053DCE /* AlphaOutlineFilter.swift */; };
+		A11108881C22729800053DCE /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108871C22729800053DCE /* Filters.swift */; };
 		A11108921C245A2100053DCE /* ColoringScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108901C245A2100053DCE /* ColoringScene.swift */; };
 		A11108931C245A2100053DCE /* ScratchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108911C245A2100053DCE /* ScratchScene.swift */; };
 		A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C72E1BA4AD0000964D50 /* AppDelegate.swift */; };
@@ -560,7 +560,7 @@
 		A10BF11D1BC9D359005CAFDA /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		A10BF11E1BC9D359005CAFDA /* TextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValue.swift; sourceTree = "<group>"; };
 		A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = alphaOutline.fsh; path = sprites/alphaOutline.fsh; sourceTree = "<group>"; };
-		A11108871C22729800053DCE /* AlphaOutlineFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlphaOutlineFilter.swift; path = sprites/AlphaOutlineFilter.swift; sourceTree = "<group>"; };
+		A11108871C22729800053DCE /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filters.swift; path = sprites/Filters.swift; sourceTree = "<group>"; };
 		A11108901C245A2100053DCE /* ColoringScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColoringScene.swift; path = scenes/ColoringScene.swift; sourceTree = "<group>"; };
 		A11108911C245A2100053DCE /* ScratchScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScratchScene.swift; path = scenes/ScratchScene.swift; sourceTree = "<group>"; };
 		A117C7291BA4AD0000964D50 /* Little Family Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Little Family Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1219,7 +1219,7 @@
 				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
 				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
 				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
-				A11108871C22729800053DCE /* AlphaOutlineFilter.swift */,
+				A11108871C22729800053DCE /* Filters.swift */,
 				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
 				A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */,
 				A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */,
@@ -2132,7 +2132,7 @@
 				A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */,
 				A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
-				A11108881C22729800053DCE /* AlphaOutlineFilter.swift in Sources */,
+				A11108881C22729800053DCE /* Filters.swift in Sources */,
 				A1653C831C2B5CDF00D586E5 /* BrushSizeSprite.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
 				A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */,

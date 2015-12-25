@@ -430,6 +430,7 @@ class GameScene: SKScene, EventListener {
         childDesk.addAction(1, action: eraseAction)
         childDesk.addClick(1, val: false)
 		childDesk.addEvent(0, topic: GameScene.TOPIC_START_SCRATCH)
+        childDesk.addSound(1, soundFile: "erasing")
         spriteContainer.addChild(childDesk)
         
         let teddy = AnimatedStateSprite(imageNamed: "house_chilldroom_teddy")

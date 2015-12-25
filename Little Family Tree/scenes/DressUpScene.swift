@@ -136,11 +136,12 @@ class DressUpScene: LittleFamilyScene {
                 clotheSprites.append(clothSprite)
                 clothingMap[clothSprite] = cloth
                 
-                let outlineSprite = SKSpriteNode(imageNamed: cloth.filename)
+                let outlineTexture = createOutlineImage(cloth.filename)
+                
+                let outlineSprite = SKSpriteNode(texture: outlineTexture)
                 outlineSprite.zPosition = (doll?.zPosition)! + 1
                 outlineSprite.setScale(scale)
                 outlineSprite.position = getSnap(cloth, sprite:clothSprite)
-                outlineSprite.shader = SKShader(fileNamed: "alphaOutline.fsh")
                 outlineSprite.hidden = true
                 self.addChild(outlineSprite)
                 outlines[clothSprite] = outlineSprite
@@ -274,5 +275,20 @@ class DressUpScene: LittleFamilyScene {
     
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
+    }
+    
+    func createOutlineImage(fileNamed: String) -> SKTexture {
+        let image = UIImage(contentsOfFile: fileNamed)
+        let beginImage = CIImage(image: image!)
+        
+        let filter1 = MaskFilter()
+        filter1.inputImage = beginImage
+        
+        let filter = CIFilter(name: "CIEdgeWork")!
+        filter.setValue(filter1.outputImage, forKey: kCIInputImageKey)
+        
+        let newImage = UIImage(CIImage: filter.outputImage!)
+        let texture = SKTexture(image: newImage)
+        return texture
     }
 }

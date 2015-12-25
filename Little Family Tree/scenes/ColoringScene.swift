@@ -75,15 +75,15 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let h = (palette?.size.height)! / 3
         nextButton?.size.height = h
         nextButton?.size.width = h * r1
-        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h)
         nextButton?.zPosition = 10
         self.addChild(nextButton!)
         
-        shareButton = SKSpriteNode(imageNamed: "ff")
+        shareButton = SKSpriteNode(imageNamed: "camera")
         let r2 = (shareButton?.size.width)! / (shareButton?.size.height)!
         shareButton?.size.height = h
         shareButton?.size.width = h * r2
-        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 15, (palette?.size.height)! - h)
+        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, h)
         shareButton?.zPosition = 10
         self.addChild(shareButton!)
         
@@ -115,6 +115,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             }
             if coverSprite != nil {
                 coverSprite?.removeFromParent()
+            }
+            if outlineSprite != nil {
+                outlineSprite?.removeFromParent()
             }
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
@@ -227,16 +230,16 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     }
     
     func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContext((coverSprite?.size)!)
+        UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = (coverSprite?.position.y)! - (coverSprite?.size.height)!/2
-        let ox = (coverSprite?.position.x)! - (coverSprite?.size.width)!/2
+        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
+        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (coverSprite?.size.width)!, height: (coverSprite?.size.height)!))
+        image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (coverSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (coverSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
         
         CGContextSetLineCap(context, CGLineCap.Round)
         CGContextSetLineWidth(context, brushSize)
@@ -257,66 +260,5 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     }
     func onBrushSizeChange(size:CGFloat) {
         self.brushSize = size
-    }
-}
-
-class EdgeMaskFilter: CIFilter {
-    var edgeFilter:CIFilter?
-    var maskFilter:MaskFilter?
-    var inputImage: CIImage?
-    
-    override init() {
-        super.init()
-        edgeFilter = CIFilter(name: "CIEdgeWork")!
-        maskFilter = MaskFilter()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        edgeFilter = CIFilter(name: "CIEdgeWork")!
-        maskFilter = MaskFilter()    }
-    
-    override var outputImage : CIImage! {
-        if let inputImage = inputImage {
-            edgeFilter?.setValue(inputImage, forKey: "inputImage")
-            maskFilter?.inputImage = edgeFilter?.outputImage
-            return maskFilter?.outputImage
-        }
-        return nil
-    }
-}
-
-class MaskFilter : CIFilter {
-    var kernel: CIColorKernel?
-    var inputImage: CIImage?
-    
-    override init() {
-        super.init()
-        kernel = createKernel()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        kernel = createKernel()
-    }
-    
-    override var outputImage : CIImage! {
-        if let inputImage = inputImage,
-            let kernel = kernel {
-                let dod = inputImage.extent
-                let args = [inputImage as AnyObject]
-                return kernel.applyWithExtent(dod, arguments: args)
-        }
-        return nil
-    }
-    
-    private func createKernel() -> CIColorKernel {
-        let kernelString =
-        "kernel vec4 maskFilterKernel(sampler src) {\n" +
-        "    vec4 t = sample(src, destCoord());\n" +
-        "    t.w = (t.x >= 0.90 ? (t.y >= 0.90 ? (t.z >= 0.90 ? 0.0 : 1.0) : 1.0) : 1.0);\n" +
-        "    return t;\n" +
-        "}"
-        return CIColorKernel(string: kernelString)!
     }
 }
