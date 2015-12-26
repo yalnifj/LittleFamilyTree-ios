@@ -62,11 +62,11 @@ class WhiteMaskFilter : CIFilter {
     
     private func createKernel() -> CIColorKernel {
         let kernelString =
-        "kernel vec4 maskFilterKernel(sampler src) {\n" +
+        "kernel vec4 maskFilterKernel(__sampler src) {\n" +
             "    vec4 t = sample(src, destCoord());\n" +
             "    t.w = (t.x >= 0.90 ? (t.y >= 0.90 ? (t.z >= 0.90 ? 0.0 : 1.0) : 1.0) : 1.0);\n" +
             "    return t;\n" +
-        "}"
+        "}\n"
         return CIColorKernel(string: kernelString)!
     }
 }
@@ -97,14 +97,9 @@ class MaskFilter : CIFilter {
     
     private func createKernel() -> CIColorKernel {
         let kernelString =
-        "kernel vec4 maskFilterKernel(sampler src) {\n" +
-            "    vec4 t = sample(src, destCoord());\n" +
-            "    t.w = (t.w < 25 ? 0.0 : 1.0);\n" +
-            "    t.x = 0.0;\n" +
-            "    t.y = 0.0;\n" +
-            "    t.z = 0.0;\n" +
-            "    return t;\n" +
-        "}"
+        "kernel vec4 alphaMaskKernel(__sampler s) {\n" +
+        "    return vec4 ( 0.0, 1.0, 0.0, 0.5 );\n" +
+        "}\n"
         return CIColorKernel(string: kernelString)!
     }
 }

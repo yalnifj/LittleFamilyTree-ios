@@ -38,6 +38,8 @@ class GameScene: SKScene, EventListener {
     
     var previousScale:CGFloat? = nil
     
+    var personLeaves : PersonLeavesButton?
+    
     override func didMoveToView(view: SKView) {
         let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
         view.addGestureRecognizer(pinch)
@@ -134,17 +136,17 @@ class GameScene: SKScene, EventListener {
         flowers2.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers2)
 		
-		let personLeaves = PersonLeavesButton()
-		personLeaves.anchorPoint = CGPoint.zero
-		personLeaves.size.width = 65
-		personLeaves.size.height = 65
-		personLeaves.position = CGPointMake(245, 455-personLeaves.size.height)
-		personLeaves.zPosition = z++
-		touchableSprites.append(personLeaves)
-		spriteContainer.addChild(personLeaves)
+		personLeaves = PersonLeavesButton()
+		personLeaves?.anchorPoint = CGPoint.zero
+		personLeaves?.size.width = 65
+		personLeaves?.size.height = 65
+		personLeaves?.position = CGPointMake(245, 455-(personLeaves?.size.height)!)
+		personLeaves?.zPosition = z++
+		touchableSprites.append(personLeaves!)
+		spriteContainer.addChild(personLeaves!)
 		
 		DataService.getInstance().getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
-			personLeaves.people = people
+			self.personLeaves?.people = people
 		});
 		
         
@@ -915,6 +917,9 @@ class GameScene: SKScene, EventListener {
                 let touchedNode = nodeAtPoint(lastPoint)
                 if self.touchableSprites.contains(touchedNode) {
                     touchedNode.touchesEnded(touches, withEvent: event)
+                }
+                else if personLeaves!.children.contains(touchedNode) == true {
+                    personLeaves!.touchesEnded(touches, withEvent: event)
                 }
             }
         }

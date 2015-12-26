@@ -243,7 +243,7 @@ class DressUpScene: LittleFamilyScene {
                 }
             }
             if allPlaced == true {
-                self.showStars(CGRectMake((self.doll?.position.x)!, (self.doll?.position.y)!, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 10)
+                self.showStars(CGRectMake((self.doll?.position.x)! / 2, (self.doll?.position.y)! / 2, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 25)
                 self.playSuccessSound(0.5, onCompletion: { () in
                     self.dollHolder?.hidden = false
                 })
@@ -278,7 +278,8 @@ class DressUpScene: LittleFamilyScene {
     }
     
     func createOutlineImage(fileNamed: String) -> SKTexture {
-        let image = UIImage(contentsOfFile: fileNamed)
+        
+        let image = UIImage(named: fileNamed)
         let beginImage = CIImage(image: image!)
         
         let filter1 = MaskFilter()

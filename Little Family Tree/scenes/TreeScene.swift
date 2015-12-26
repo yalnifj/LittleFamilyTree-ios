@@ -38,35 +38,37 @@ class TreeScene: LittleFamilyScene {
         
 		let dataService = DataService.getInstance()
 		dataService.getChildren(selectedPerson!, onCompletion: { children, err in 
-			if children == nil || children.count == 0 {
-				dataService.getParents(selectedPerson!, onCompletion: { parents, err in {
-					if parents != nil && parents.count > 0 {
-						root = TreeNode()
-						root.isRoot = true
-						buildTreeNode(root!, couple:parents, depth:0, maxDepth: 3, isInLaw:false)
+			if children == nil || children!.count == 0 {
+				dataService.getParents(self.selectedPerson!, onCompletion: { parents, err in
+					if parents != nil && parents!.count > 0 {
+						self.root = TreeNode()
+						self.root!.isRoot = true
+						self.buildTreeNode(self.root!, couple:parents!, depth:0, maxDepth: 3, isInLaw:false)
 						
-						dataService.getChildren(parents[0]!, onCompletion: { children2, err in 
-							self.addChildNodes(root, children: children2)
+						dataService.getChildren(parents![0], onCompletion: { children2, err in
+                            if children2 != nil {
+                                self.addChildNodes(self.root!, children: children2!)
+                            }
 						})
 						
 					} else {
-						root = TreeNode()
-						root.isRoot = true
-						buildTreeNode(root!, couple:[ selectedPerson! ], depth:0, maxDepth: 3, isInLaw:false)
+						self.root = TreeNode()
+						self.root!.isRoot = true
+						self.buildTreeNode(self.root!, couple:[ self.selectedPerson! ], depth:0, maxDepth: 3, isInLaw:false)
 					}
 				})
 			} else {
-				dataService.getSpouses(selectedPerson!, onCompletion: { spouses, err in {
-					let couple = [LittlePerson]()
+				dataService.getSpouses(self.selectedPerson!, onCompletion: { spouses, err in
+					var couple = [LittlePerson]()
 					couple.append(self.selectedPerson!)
-					if spouses != nil && spouses.count > 0 {
-						couple.append(spouses[0])
+					if spouses != nil && spouses!.count > 0 {
+						couple.append(spouses![0])
 					}
-					root = TreeNode()
-					root.isRoot = true
-					buildTreeNode(root!, couple:couple, depth:0, maxDepth: 3, isInLaw:false)
+					self.root = TreeNode()
+					self.root!.isRoot = true
+					self.buildTreeNode(self.root!, couple:couple, depth:0, maxDepth: 3, isInLaw:false)
 					
-					self.addChildNodes(root, children: children)
+					self.addChildNodes(self.root!, children: children!)
 				})
 			}
 		})
@@ -100,7 +102,7 @@ class TreeScene: LittleFamilyScene {
 		node.level = depth
 		node.isInLaw = isInLaw
 		
-		if couple.count > 1
+        if couple.count > 1 {
 			if node.leftPerson != nil {
 				node.rightPerson = couple[1]
 			} else {
@@ -110,7 +112,7 @@ class TreeScene: LittleFamilyScene {
 		
 		let dataService = DataService.getInstance()
 		if node.leftPerson != nil {
-			dataService.getParents(node.leftPerson, onCompletion: { parents, err in 
+			dataService.getParents(node.leftPerson!, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
 					if depth < maxDepth {
@@ -126,7 +128,7 @@ class TreeScene: LittleFamilyScene {
 			})
 		}
 		if node.rightPerson != nil {
-			dataService.getParents(node.rightPerson, onCompletion: { parents, err in 
+			dataService.getParents(node.rightPerson!, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
 					if depth < maxDepth {

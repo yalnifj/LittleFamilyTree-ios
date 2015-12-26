@@ -38,7 +38,7 @@ class TreePersonSprite: SKSpriteNode {
 				let nameLabel = SKLabelNode(text: person?.givenName as String?)
 				nameLabel.fontSize = self.size.width / 5
 				nameLabel.fontColor = UIColor.whiteColor()
-				nameLabel.position = CGPointMake(self.size.width/2, (nameLabel?.fontSize)! / 2)
+				nameLabel.position = CGPointMake(self.size.width/2, nameLabel.fontSize / 2)
 				nameLabel.zPosition = 3
 				self.addChild(nameLabel)
 			}
