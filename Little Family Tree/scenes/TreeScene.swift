@@ -17,6 +17,7 @@ class TreeScene: LittleFamilyScene {
 	
 	var lastPoint : CGPoint!
 	var treeContainer : SKSpriteNode?
+	var root : TreeNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -33,13 +34,118 @@ class TreeScene: LittleFamilyScene {
         
         setupTopBar()
         
-        //showLoadingDialog()
+        showLoadingDialog()
         
+		let dataService = DataService.getInstance()
+		dataService.getChildren(selectedPerson!, onCompletion: { children, err in 
+			if children == nil || children.count == 0 {
+				dataService.getParents(selectedPerson!, onCompletion: { parents, err in {
+					if parents != nil && parents.count > 0 {
+						root = TreeNode()
+						root.isRoot = true
+						buildTreeNode(root!, couple:parents, depth:0, maxDepth: 3, isInLaw:false)
+						
+						dataService.getChildren(parents[0]!, onCompletion: { children2, err in 
+							self.addChildNodes(root, children: children2)
+						})
+						
+					} else {
+						root = TreeNode()
+						root.isRoot = true
+						buildTreeNode(root!, couple:[ selectedPerson! ], depth:0, maxDepth: 3, isInLaw:false)
+					}
+				})
+			} else {
+				dataService.getSpouses(selectedPerson!, onCompletion: { spouses, err in {
+					let couple = [LittlePerson]()
+					couple.append(self.selectedPerson!)
+					if spouses != nil && spouses.count > 0 {
+						couple.append(spouses[0])
+					}
+					root = TreeNode()
+					root.isRoot = true
+					buildTreeNode(root!, couple:couple, depth:0, maxDepth: 3, isInLaw:false)
+					
+					self.addChildNodes(root, children: children)
+				})
+			}
+		})
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
     }
+	
+	func addChildNodes(node:TreeNode, children:[LittlePerson]) {
+		var childNodes = [TreeNode]()
+		for child in children {
+			let node = TreeNode()
+			node.level = node.level - 1
+			if child.gender == GenderType.FEMALE {
+				node.rightPerson = child
+			} else {
+				node.leftPerson = child
+			}
+			childNodes.append(node)
+		}
+		node.children = childNodes
+	}
+	
+	func buildTreeNode(node:TreeNode, couple:[LittlePerson], depth:Int, maxDepth:Int, isInLaw:Bool) {
+		if couple[0].gender == GenderType.FEMALE {
+			node.rightPerson = couple[0]
+		} else {
+			node.leftPerson = couple[0]
+		}
+		node.level = depth
+		node.isInLaw = isInLaw
+		
+		if couple.count > 1
+			if node.leftPerson != nil {
+				node.rightPerson = couple[1]
+			} else {
+				node.leftPerson = couple[1]
+			}
+		}
+		
+		let dataService = DataService.getInstance()
+		if node.leftPerson != nil {
+			dataService.getParents(node.leftPerson, onCompletion: { parents, err in 
+				if parents != nil && parents!.count > 0 {
+					node.hasParents = true
+					if depth < maxDepth {
+						let next = TreeNode()
+						var iil = isInLaw
+						if node.rightPerson != nil && node.rightPerson! == self.selectedPerson! && node.leftPerson! != self.selectedPerson! {
+							iil = true
+						}
+						self.buildTreeNode(next, couple: parents!, depth: depth+1, maxDepth: maxDepth, isInLaw: iil)
+						node.leftNode = next
+					}
+				}
+			})
+		}
+		if node.rightPerson != nil {
+			dataService.getParents(node.rightPerson, onCompletion: { parents, err in 
+				if parents != nil && parents!.count > 0 {
+					node.hasParents = true
+					if depth < maxDepth {
+						let next = TreeNode()
+						var iil = isInLaw
+						if node.leftPerson != nil && node.leftPerson! == self.selectedPerson! && node.rightPerson! != self.selectedPerson! {
+							iil = true
+						}
+						self.buildTreeNode(next, couple: parents!, depth: depth+1, maxDepth: maxDepth, isInLaw: iil)
+						node.rightNode = next
+					}
+				}
+			})
+		}
+	}
+	
+	func getTreeParents(node:TreeNode) {
+	
+	}
     
     override func update(currentTime: NSTimeInterval) {
         
