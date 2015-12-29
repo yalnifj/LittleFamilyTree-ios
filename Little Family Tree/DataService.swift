@@ -258,8 +258,31 @@ class DataService {
     
     func getParents(person:LittlePerson, onCompletion: PeopleResponse) {
         let parents = dbHelper.getParentsForPerson(person.id!)
-        if parents == nil || parents!.count == 0 {
+        if person.hasParents == nil && (parents == nil || parents!.count == 0) {
             getParentsFromRemoteService(person, onCompletion: { people, err in
+                if people != nil && people?.count > 0 {
+                    if person.hasParents == nil || person.hasParents == false {
+                        person.hasParents = true
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                } else if err == nil {
+                    if person.hasParents == nil || person.hasParents == true {
+                        person.hasParents = false
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if parents != nil && parents!.count > 0 {
                 if person.hasParents == nil || person.hasParents == false {
                     person.hasParents = true
                     do {
@@ -268,19 +291,9 @@ class DataService {
                         print(e)
                     }
                 }
-                onCompletion(people, err)
-            })
-        } else {
-            if person.hasParents == nil || person.hasParents == false {
-                person.hasParents = true
-                do {
-                    try self.dbHelper.persistLittlePerson(person)
-                } catch let e as NSError {
-                    print(e)
+                for p in parents! {
+                    addToSyncQ(p)
                 }
-            }
-            for p in parents! {
-                addToSyncQ(p)
             }
             onCompletion(parents, nil)
         }
@@ -288,8 +301,31 @@ class DataService {
     
     func getSpouses(person:LittlePerson, onCompletion: PeopleResponse) {
         let spouses = dbHelper.getSpousesForPerson(person.id!)
-        if spouses == nil || spouses!.count == 0 {
+        if person.hasSpouses == nil && (spouses == nil || spouses!.count == 0) {
             getSpousesFromRemoteService(person, onCompletion: { people, err in
+                if people != nil && people?.count > 0 {
+                    if person.hasSpouses == nil || person.hasSpouses == false {
+                        person.hasSpouses = true
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                } else if err == nil {
+                    if person.hasSpouses == nil || person.hasSpouses == true {
+                        person.hasSpouses = false
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if spouses != nil && spouses!.count > 0 {
                 if person.hasSpouses == nil || person.hasSpouses == false {
                     person.hasSpouses = true
                     do {
@@ -298,28 +334,41 @@ class DataService {
                         print(e)
                     }
                 }
-                onCompletion(people, err)
-            })
-        } else {
-            if person.hasSpouses == nil || person.hasSpouses == false {
-                person.hasSpouses = true
-                do {
-                    try self.dbHelper.persistLittlePerson(person)
-                } catch let e as NSError {
-                    print(e)
+                for p in spouses! {
+                    addToSyncQ(p)
                 }
-            }
-            for p in spouses! {
-                addToSyncQ(p)
             }
             onCompletion(spouses, nil)
         }
     }
     
     func getChildren(person:LittlePerson, onCompletion: PeopleResponse) {
-        let children = dbHelper.getSpousesForPerson(person.id!)
-        if children == nil || children!.count == 0 {
+        let children = dbHelper.getChildrenForPerson(person.id!)
+        if person.hasChildren == nil && (children == nil || children!.count == 0) {
             getChildrenFromRemoteService(person, onCompletion: { people, err in
+                if people != nil && people?.count > 0  {
+                    if person.hasChildren == nil || person.hasChildren == false {
+                        person.hasChildren = true
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                } else if err == nil {
+                    if person.hasChildren == nil || person.hasChildren == true {
+                        person.hasChildren = false
+                        do {
+                            try self.dbHelper.persistLittlePerson(person)
+                        } catch let e as NSError {
+                            print(e)
+                        }
+                    }
+                }
+                onCompletion(people, err)
+            })
+        } else {
+            if children != nil && children!.count > 0 {
                 if person.hasChildren == nil || person.hasChildren == false {
                     person.hasChildren = true
                     do {
@@ -328,19 +377,9 @@ class DataService {
                         print(e)
                     }
                 }
-                onCompletion(people, err)
-            })
-        } else {
-            if person.hasChildren == nil || person.hasChildren == false {
-                person.hasChildren = true
-                do {
-                    try self.dbHelper.persistLittlePerson(person)
-                } catch let e as NSError {
-                    print(e)
+                for p in children! {
+                    addToSyncQ(p)
                 }
-            }
-            for p in children! {
-                addToSyncQ(p)
             }
             onCompletion(children, nil)
         }

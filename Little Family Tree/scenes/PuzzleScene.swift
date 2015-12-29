@@ -149,6 +149,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     ps.zPosition = 3
                     ps.oldX = ps.position.x
                     ps.oldY = ps.position.y
+                    break;
                 }
             }
         }
@@ -164,6 +165,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 movingSprite?.position.x -= dx
                 movingSprite?.position.y -= dy
             }
+            break;
         }
         lastPoint = nextPoint
     }
@@ -236,6 +238,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     })
                 }
             }
+            break;
         }
     }
     

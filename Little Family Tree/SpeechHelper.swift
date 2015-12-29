@@ -23,6 +23,9 @@ class SpeechHelper {
     }
     
     func speak(message:String) {
+        if speechSynthesizer.speaking {
+            speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Word)
+        }
         let speechUtterance = AVSpeechUtterance(string: message)
         
         speechSynthesizer.speakUtterance(speechUtterance)
