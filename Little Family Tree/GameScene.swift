@@ -15,6 +15,7 @@ class GameScene: SKScene, EventListener {
 	static var TOPIC_START_SCRATCH = "start_scratch"
 	static var TOPIC_START_COLORING = "start_coloring"
 	static var TOPIC_START_TREE = "start_tree"
+	static var TOPIC_START_BUBBLES = "start_bubbles"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -605,6 +606,27 @@ class GameScene: SKScene, EventListener {
         fridge.addClick(2, val: true)
         fridge.addClick(3, val: false)
         spriteContainer.addChild(fridge)
+		
+		let bubbles = AnimatedStateSprite(imageNamed: "bubbles1")
+		bubbles.anchorPoint = CGPoint.zero
+		bubbles.position = CGPointMake(934, 205)
+		bubbles.zPosition = z++
+		touchableSprites.append(bubbles)
+		let bubbleTextures:[SKTexture] = {
+			SKTexture(imageNamed: "bubbles1"),
+            SKTexture(imageNamed: "bubbles2"),
+            SKTexture(imageNamed: "bubbles3"),
+            SKTexture(imageNamed: "bubbles4"),
+			SKTexture(imageNamed: "bubbles5"),
+			SKTexture(imageNamed: "bubbles6"),
+			SKTexture(imageNamed: "bubbles7"),
+            SKTexture(imageNamed: "bubbles8")
+		}
+		let bubbleAction = SKAction.repeatActionForever(SKAction.animateWithTextures(bubbleTextures, timePerFrame: 0.06, resize: false, restore: false))
+		bubbles.addAction(0, action: bubbleAction)
+		bubbles.addAction(1, action: bubbleAction)
+		bubbles.addEvent(1, topic: GameScene.TOPIC_START_BUBBLES)
+		spriteContainer.addChild(bubbles)
         
         let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
         adultBed.anchorPoint = CGPoint.zero
@@ -828,6 +850,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_COLORING, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_TREE, listener: self)
+		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
     }
     
@@ -840,6 +863,7 @@ class GameScene: SKScene, EventListener {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_COLORING, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_TREE, listener: self)
+		EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
     }
     
     func pinched(sender:UIPinchGestureRecognizer){
@@ -988,6 +1012,14 @@ class GameScene: SKScene, EventListener {
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
             let nextScene = TreeScene(size: scene!.size)
+            nextScene.scaleMode = .AspectFill
+            nextScene.selectedPerson = selectedPerson
+            scene?.view?.presentScene(nextScene, transition: transition)
+        }
+		else if topic == GameScene.TOPIC_START_BUBBLES {
+            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+            let nextScene = BubbleScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
             scene?.view?.presentScene(nextScene, transition: transition)
