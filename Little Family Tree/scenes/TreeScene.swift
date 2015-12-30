@@ -36,8 +36,8 @@ class TreeScene: LittleFamilyScene {
     var clipY = CGFloat(0)
     var minX = CGFloat(-100)
     var minY = CGFloat(-100)
-    var maxX = CGFloat(200)
-    var maxY = CGFloat(200)
+    var maxX = CGFloat(100)
+    var maxY = CGFloat(100)
     
     var previousScale:CGFloat? = nil
     var minScale : CGFloat = 0.2
@@ -167,7 +167,7 @@ class TreeScene: LittleFamilyScene {
         }
         
         self.treeContainer = SKSpriteNode()
-        self.treeContainer?.position = CGPointMake(0, 0)
+        self.treeContainer?.position = CGPointMake(50, 50)
         self.treeContainer?.zPosition = 1
         self.treeContainer?.setScale(self.tscale)
         self.addChild(self.treeContainer!)
@@ -277,15 +277,11 @@ class TreeScene: LittleFamilyScene {
         
         if self.x < self.minX {
             self.minX = self.x
-        }
-        if self.x > self.maxX {
-            self.maxX = self.x
+            self.maxX = self.size.width * 2 + self.x
         }
         if self.y < self.minY {
             self.minY = self.y
-        }
-        if self.y > self.maxY {
-            self.maxY = self.y
+            self.maxX = self.size.height * 2 + self.y
         }
         
         let offsetY = CGFloat(40)
@@ -436,6 +432,10 @@ class TreeScene: LittleFamilyScene {
             lastPoint = touch.locationInNode(self)
             if moved == false {
                 
+            } else {
+                print(treeContainer?.position)
+                print("minX=\(minX) maxX=\(maxX)")
+                print("minY=\(minY) maxY=\(maxY)")
             }
         }
         moved = false
