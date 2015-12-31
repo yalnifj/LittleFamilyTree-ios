@@ -1,4 +1,4 @@
-import foundation
+import Foundation
 
 class TreeSearchGame {
     var rootPerson:LittlePerson?
@@ -8,34 +8,45 @@ class TreeSearchGame {
     var complete = false
     var clues = [TreeClue]()
     var clueNumber:Int = 0
-	var recentPeople:[LittlePerson]()
+	var recentPeople = [LittlePerson]()
 	var retryCounter:Int = 0;
+    var me:LittlePerson
 
-    init() {
+    init(me:LittlePerson) {
         complete = true;
+        self.me = me
         clues.append(GenderTreeClue())
         clues.append(NameTreeClue())
         clues.append(FullNameTreeClue())
-        clues.append(RelationshipTreeClue())
+        clues.append(RelationshipTreeClue(me: me))
     }
    
     func findRandomPerson(root:TreeNode) {
         rootNode = root
         rootPerson = root.leftPerson
         targetPerson = nil
-		let counter = 0;
+		var counter = 0;
         let upDown = arc4random_uniform(UInt32(3))
         if (upDown == 0) {
-            if (root?.children != nil && root?.children?.count > 0) {
+            if (root.children != nil && root.children?.count > 0) {
                 targetNode = root
                 while (counter < 10 && (targetPerson == nil || recentPeople.contains(targetPerson!))) {
-					targetPerson = root?.children[Int(arc4random_uniform(UInt32(root?.children?.count)))]
+					let cnode = root.children?[Int(arc4random_uniform(UInt32((root.children?.count)!)))]
+                    targetPerson = cnode!.leftPerson
+                    if targetPerson == nil {
+                        targetPerson = cnode!.rightPerson
+                    }
 					counter++
 				}
-            } else if (root?.leftNode != nil && root?.leftNode?.children != nil && root?.leftNode?.children?.count > 0) {
-                targetNode = root?.leftNode
+            } else if (root.leftNode != nil && root.leftNode?.children != nil && root.leftNode?.children?.count > 0) {
+                targetNode = root.leftNode
 				while (counter<10 && (targetPerson == nil || recentPeople.contains(targetPerson!))) {
-                	targetPerson = targetNode?.children[Int(arc4random_uniform(UInt32(targetNode?.children?.count)))]
+                    let c = Int(arc4random_uniform(UInt32((targetNode?.children!.count)!)))
+                	let cnode = targetNode?.children![c]
+                    targetPerson = cnode!.leftPerson
+                    if targetPerson == nil {
+                        targetPerson = cnode!.rightPerson
+                    }
 					counter++
 				}
             }
@@ -53,7 +64,7 @@ class TreeSearchGame {
                 let n = arc4random_uniform(UInt32(4))
                 switch (n) {
                     case 0:
-                        if (targetNode.leftNode != nil) {
+                        if (targetNode?.leftNode != nil) {
 							targetNode = targetNode?.leftNode
 						}
                         else {
@@ -71,7 +82,7 @@ class TreeSearchGame {
                     case 2:
                         targetPerson = targetNode?.leftPerson
                         break
-                    case 3:
+                    default:
                         targetPerson = targetNode?.rightPerson
                         break
                 }
@@ -86,11 +97,11 @@ class TreeSearchGame {
         retryCounter = 0
 
         complete = false
-        clueNumber = arc4random_uniform(UInt32(clues.count))
+        clueNumber = Int(arc4random_uniform(UInt32(clues.count)))
     }
 
     func getClueText() -> String {
-        return clues[clueNumber].getClueText();
+        return clues[clueNumber].getClueText(targetPerson!);
     }
 
     func nextClue() {
@@ -102,14 +113,14 @@ class TreeSearchGame {
 
     func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
         let clue = clues[clueNumber]
-        let ret = clue.isMatch(node, isSpouse: isSpouse)
+        let ret = clue.isMatch(node, targetPerson: targetPerson!, isSpouse: isSpouse)
         if (ret) {
 			complete = true
 			if (isSpouse) {
-				recentPeople.append(node.rightPerson)
+				recentPeople.append(node.rightPerson!)
 			}
 			else {
-				recentPeople.append(node.leftPerson)
+				recentPeople.append(node.leftPerson!)
 			}
 			if (recentPeople.count > 5) {
 				recentPeople.removeFirst()
@@ -120,19 +131,17 @@ class TreeSearchGame {
 }
 
 protocol TreeClue {
-	func getClueText() -> String
-	func isMatch(node:TreeNode, isSpouse:Bool) -> Bool
+	func getClueText(targetPerson:LittlePerson) -> String
+	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool
 }
 
 class NameTreeClue : TreeClue {
-	@Override
-	func getClueText() -> String {
+    func getClueText(targetPerson:LittlePerson) -> String {
 		let clue = "I spy in your family tree, someone named, \(targetPerson.givenName)"
 		return clue
 	}
 
-	@Override
-	func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
+    func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
 		var person = node.leftPerson
 		if (isSpouse) {
 			person = node.rightPerson
@@ -141,7 +150,7 @@ class NameTreeClue : TreeClue {
 			if (person == targetPerson) {
 				return true
 			}
-			if person.givenName.lowerCaseStr == targetPerson.givenName.lowerCastStr {
+			if person!.givenName?.lowercaseString == targetPerson.givenName?.lowercaseString {
 				return true
 			}
 		}
@@ -150,14 +159,13 @@ class NameTreeClue : TreeClue {
 }
 
 class FullNameTreeClue : TreeClue {
-	@Override
-	func getClueText() -> String {
-		let clue = "I spy in your family tree, someone named, \(targetPerson.name?)"
+	
+	func getClueText(targetPerson:LittlePerson) -> String {
+		let clue = "I spy in your family tree, someone named, \(targetPerson.name)"
 		return clue
 	}
 
-	@Override
-	func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
+	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
 		var person = node.leftPerson
 		if (isSpouse) {
 			person = node.rightPerson
@@ -166,7 +174,7 @@ class FullNameTreeClue : TreeClue {
 			if (person == targetPerson) {
 				return true
 			}
-			if person.name.lowerCastStr == targetPerson.name.lowerCaseStr {
+			if person!.name?.lowercaseString == targetPerson.name?.lowercaseString {
 				return true
 			}
 		}
@@ -175,16 +183,18 @@ class FullNameTreeClue : TreeClue {
 }
 
 class RelationshipTreeClue : TreeClue {
-	@Override
-	func getClueText() -> String {
-		let relationship = RelationshipCalculator.getAncestralRelationship(targetNode.level, targetPerson, targetNode.leftPerson, 
-			targetNode.isRoot(), targetNode.isChild, targetNode.isInLaw)
+    var me:LittlePerson
+    init(me:LittlePerson) {
+        self.me = me
+    }
+
+	func getClueText(targetPerson:LittlePerson) -> String {
+        let relationship = RelationshipCalculator.getRelationship(me, p: targetPerson)
 		let clue = "I spy in your family tree, someone who is your, \(relationship)"
 		return clue
 	}
 
-	@Override
-	func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
+	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
 		var person = node.leftPerson
 		if (isSpouse) {
 			person = node.rightPerson
@@ -193,10 +203,8 @@ class RelationshipTreeClue : TreeClue {
 			if (person == targetPerson) {
 				return true
 			}
-			let relationship1 = RelationshipCalculator.getAncestralRelationship(targetNode.level, targetPerson, targetNode.leftPerson, 
-				targetNode.isRoot(), targetNode.isChild, targetNode.isInLaw)
-			let relationship2 = RelationshipCalculator.getAncestralRelationship(node.level, person, node.leftPerson, 
-				node.isRoot(), node.isChild, node.isInLaw)
+            let relationship1 = RelationshipCalculator.getRelationship(me, p: targetPerson)
+            let relationship2 = RelationshipCalculator.getRelationship(me, p: person)
 			if relationship1 == relationship2 {
 				return true
 			}
@@ -206,8 +214,8 @@ class RelationshipTreeClue : TreeClue {
 }
 
 class GenderTreeClue : TreeClue {
-	@Override
-	func getClueText() -> String {
+
+	func getClueText(targetPerson:LittlePerson) -> String {
 		var genderType = "boy"
 		if (targetPerson.gender == GenderType.FEMALE) {
 			genderType = "girl"
@@ -216,8 +224,7 @@ class GenderTreeClue : TreeClue {
 		return clue
 	}
 
-	@Override
-	func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
+	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
 		var person = node.leftPerson
 		if (isSpouse) {
 			person = node.rightPerson
@@ -227,7 +234,7 @@ class GenderTreeClue : TreeClue {
 				return true
 			}
 			let gender1 = targetPerson.gender
-			let gender2 = person.gender
+			let gender2 = person!.gender
 			if (gender1 == gender2) {
 				return true
 			}

@@ -609,10 +609,10 @@ class GameScene: SKScene, EventListener {
 		
 		let bubbles = AnimatedStateSprite(imageNamed: "bubbles1")
 		bubbles.anchorPoint = CGPoint.zero
-		bubbles.position = CGPointMake(934, 205)
+		bubbles.position = CGPointMake(918, 205)
 		bubbles.zPosition = z++
 		touchableSprites.append(bubbles)
-		let bubbleTextures:[SKTexture] = {
+		let bubbleTextures:[SKTexture] = [
 			SKTexture(imageNamed: "bubbles1"),
             SKTexture(imageNamed: "bubbles2"),
             SKTexture(imageNamed: "bubbles3"),
@@ -621,11 +621,12 @@ class GameScene: SKScene, EventListener {
 			SKTexture(imageNamed: "bubbles6"),
 			SKTexture(imageNamed: "bubbles7"),
             SKTexture(imageNamed: "bubbles8")
-		}
-		let bubbleAction = SKAction.repeatActionForever(SKAction.animateWithTextures(bubbleTextures, timePerFrame: 0.06, resize: false, restore: false))
+		]
+		let bubbleAction = SKAction.repeatActionForever(SKAction.animateWithTextures(bubbleTextures, timePerFrame: 0.08, resize: false, restore: false))
 		bubbles.addAction(0, action: bubbleAction)
 		bubbles.addAction(1, action: bubbleAction)
 		bubbles.addEvent(1, topic: GameScene.TOPIC_START_BUBBLES)
+        bubbles.runAction(bubbleAction)
 		spriteContainer.addChild(bubbles)
         
         let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
