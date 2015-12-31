@@ -44,6 +44,8 @@ class TreeScene: LittleFamilyScene {
     var maxScale : CGFloat = 3.0
     
 	var treeSearchButton : AnimatedStateSprite?
+	
+	var treeSearchGame : TreeSearchGame?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -69,6 +71,8 @@ class TreeScene: LittleFamilyScene {
         setupTopBar()
         
         showLoadingDialog()
+		
+		self.treeSearchGame = TreeSearchGame(selectedPerson!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -456,6 +460,13 @@ class TreeScene: LittleFamilyScene {
 				if touchedNode == treeSearchButton {
 					treeSearchButton?.state = 0
 					treeSearchButton?.nextState()
+					if self.treeSearchGame?.complete == true {
+						self.treeSearchGame?.findRandomPerson(self.root!)
+					} else {
+						self.treeSearchGame?.nextClue()
+					}
+					let text = self.treeSearchGame?.getClueText()
+					SpeechHelper.getInstance().speak(text)
 				}
             } else {
                 print(treeContainer?.position)
