@@ -901,10 +901,13 @@ class GameScene: SKScene, EventListener {
         for touch in touches {
             nextPoint = touch.locationInNode(self)
         }
-        moved = true
         
         clipX = nextPoint.x - lastPoint.x;
         clipY = nextPoint.y - lastPoint.y;
+		
+		if abs(clipX) > 8 || abs(clipY) > 8 {
+			moved = true
+		}
         
         background.position.y += clipY;
         if background.position.y > 0 {

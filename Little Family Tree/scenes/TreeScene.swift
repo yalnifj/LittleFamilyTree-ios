@@ -43,6 +43,7 @@ class TreeScene: LittleFamilyScene {
     var minScale : CGFloat = 0.2
     var maxScale : CGFloat = 3.0
     
+	var treeSearchButton : AnimatedStateSprite?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -171,6 +172,23 @@ class TreeScene: LittleFamilyScene {
         self.treeContainer?.zPosition = 1
         self.treeContainer?.setScale(self.tscale)
         self.addChild(self.treeContainer!)
+		
+		treeSearchButton = AnimatedStateSprite(imageNamed: "tree_search")
+		treeSearchButton?.zPosition = 5
+		treeSearchButton?.position = CGPointMake(self.size.width - (treeSearchButton?.size.width)!, (treeSearchButton?.size.height)!)
+		let searching:[SKTexture] = [
+            SKTexture(imageNamed: "tree_search1"),
+            SKTexture(imageNamed: "tree_search2"),
+            SKTexture(imageNamed: "tree_search3"),
+            SKTexture(imageNamed: "tree_search4"),
+			SKTexture(imageNamed: "tree_search5"),
+			SKTexture(imageNamed: "tree_search6"),
+			SKTexture(imageNamed: "tree_search7")
+        ]
+        let searchAction = SKAction.animateWithTextures(searching, timePerFrame: 0.07, resize: false, restore: false)
+        treeSearchButton?.addAction(1, action: searchAction)
+		treeSearchButton?.addTexture(2, SKTexture(imageNamed: "tree_search8"))
+		self.addChild(treeSearchButton!)
     }
     
     override func willMoveFromView(view: SKView) {
@@ -407,10 +425,13 @@ class TreeScene: LittleFamilyScene {
         for touch in touches {
             nextPoint = touch.locationInNode(self)
         }
-        moved = true
         
         clipX = nextPoint.x - lastPoint.x;
         clipY = nextPoint.y - lastPoint.y;
+		
+		if abs(clipX) > 8 || abs(clipY) > 8 {
+			moved = true
+		}
         
         treeContainer?.position.y += clipY
         if treeContainer?.position.y < minY {
@@ -435,7 +456,11 @@ class TreeScene: LittleFamilyScene {
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             if moved == false {
-                
+                let touchedNode = nodeAtPoint(lastPoint)
+				if touchedNode == treeSearchButton {
+					treeSearchButton?.state = 0
+					treeSearchButton?.nextState()
+				}
             }
         }
         moved = false
