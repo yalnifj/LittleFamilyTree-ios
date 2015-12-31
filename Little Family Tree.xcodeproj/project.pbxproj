@@ -41,6 +41,8 @@
 		A1064FC41C3372CA0016A9C6 /* soap7.png in Resources */ = {isa = PBXBuildFile; fileRef = A1064FA41C3372CA0016A9C6 /* soap7.png */; };
 		A1064FCD1C3372F20016A9C6 /* TreeSearchGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */; };
 		A1064FCF1C3373070016A9C6 /* BubbleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1064FCE1C3373070016A9C6 /* BubbleScene.swift */; };
+		A1064FD11C34C3490016A9C6 /* RecentPersonTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1064FD01C34C3490016A9C6 /* RecentPersonTracker.swift */; };
+		A1064FD31C34C8C80016A9C6 /* PersonBubbleSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */; };
 		A10BF1001BC9CE52005CAFDA /* SplashScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A10BF0FE1BC9CE52005CAFDA /* SplashScene.sks */; };
 		A10BF1011BC9CE52005CAFDA /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */; };
 		A10BF11F1BC9D359005CAFDA /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF1031BC9D359005CAFDA /* Attribution.swift */; };
@@ -597,6 +599,8 @@
 		A1064FA41C3372CA0016A9C6 /* soap7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = soap7.png; sourceTree = "<group>"; };
 		A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreeSearchGame.swift; path = gamelogic/TreeSearchGame.swift; sourceTree = "<group>"; };
 		A1064FCE1C3373070016A9C6 /* BubbleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleScene.swift; path = scenes/BubbleScene.swift; sourceTree = "<group>"; };
+		A1064FD01C34C3490016A9C6 /* RecentPersonTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentPersonTracker.swift; path = gamelogic/RecentPersonTracker.swift; sourceTree = "<group>"; };
+		A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonBubbleSprite.swift; sourceTree = "<group>"; };
 		A10BF0FE1BC9CE52005CAFDA /* SplashScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SplashScene.sks; sourceTree = "<group>"; };
 		A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScene.swift; sourceTree = "<group>"; };
 		A10BF1031BC9D359005CAFDA /* Attribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attribution.swift; sourceTree = "<group>"; };
@@ -1150,21 +1154,21 @@
 			children = (
 				A117C72E1BA4AD0000964D50 /* AppDelegate.swift */,
 				A1F81B551BF3AFDE00078870 /* assets */,
+				A1686D5D1BB97D3400E58A09 /* data */,
 				A12B90641BDC44030014ED16 /* DataService.swift */,
 				A12B90651BDC44030014ED16 /* DBHelper.swift */,
 				A16241971C05FCAB009205F1 /* EventHandler.swift */,
+				A16241A11C06320A009205F1 /* gamelogic */,
 				A117C7341BA4AD0000964D50 /* GameViewController.swift */,
-				A16241C61C0676BB009205F1 /* SpeechHelper.swift */,
-				A1EC613D1C1134E8006DF050 /* SyncQ.swift */,
-				A1686D5D1BB97D3400E58A09 /* data */,
 				A117C7391BA4AD0000964D50 /* Images.xcassets */,
 				A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */,
 				A117C7361BA4AD0000964D50 /* Main.storyboard */,
-				A16241A11C06320A009205F1 /* gamelogic */,
 				A1686D681BB97D4A00E58A09 /* remote */,
 				A1B5546B1BB242CD00DF709F /* scenes */,
+				A16241C61C0676BB009205F1 /* SpeechHelper.swift */,
 				A1B5546A1BB2416500DF709F /* sprites */,
 				A117C72C1BA4AD0000964D50 /* Supporting Files */,
+				A1EC613D1C1134E8006DF050 /* SyncQ.swift */,
 				A1F81D911BF3B32300078870 /* Views */,
 			);
 			path = "Little Family Tree";
@@ -1198,13 +1202,14 @@
 		A16241A11C06320A009205F1 /* gamelogic */ = {
 			isa = PBXGroup;
 			children = (
+				A1EC614A1C1367A4006DF050 /* DollConfig.swift */,
+				A1EC61481C1366B7006DF050 /* DressUpDolls.swift */,
 				A16241A21C06326F009205F1 /* MatchingGame.swift */,
 				A16241B31C0634A5009205F1 /* MatchPerson.swift */,
-				A1EC61481C1366B7006DF050 /* DressUpDolls.swift */,
-				A1EC614A1C1367A4006DF050 /* DollConfig.swift */,
-				A17C32591C1A676200F64737 /* RandomMediaChooser.swift */,
 				A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */,
+				A17C32591C1A676200F64737 /* RandomMediaChooser.swift */,
 				A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */,
+				A1064FD01C34C3490016A9C6 /* RecentPersonTracker.swift */,
 			);
 			name = gamelogic;
 			sourceTree = "<group>";
@@ -1240,20 +1245,20 @@
 		A1686D5D1BB97D3400E58A09 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				A1686D5E1BB97D3400E58A09 /* GenderType.swift */,
-				A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */,
-				A1686D601BB97D3400E58A09 /* Media.swift */,
-				A1686D611BB97D3400E58A09 /* LocalRelationship.swift */,
-				A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */,
-				A16C37CC1BE9B4DF0036D28A /* Tag.swift */,
-				A1686D621BB97D3400E58A09 /* RelationshipType.swift */,
-				A1AE10E11BF663660043033A /* InitialDataLoader.swift */,
-				A1AE10EB1BF669D90043033A /* StatusListener.swift */,
-				A18F04B81BF7F3E500538F0B /* TextureHelper.swift */,
-				A1EA5D301C091280006528A5 /* HeritagePath.swift */,
-				A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */,
 				A1EC614C1C1368BF006DF050 /* DollClothing.swift */,
+				A1686D5E1BB97D3400E58A09 /* GenderType.swift */,
+				A1EA5D321C091CBE006528A5 /* HeritageCalculator.swift */,
+				A1EA5D301C091280006528A5 /* HeritagePath.swift */,
+				A1AE10E11BF663660043033A /* InitialDataLoader.swift */,
+				A1686D5F1BB97D3400E58A09 /* LittlePerson.swift */,
+				A1686D611BB97D3400E58A09 /* LocalRelationship.swift */,
+				A1686D601BB97D3400E58A09 /* Media.swift */,
+				A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */,
 				A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */,
+				A1686D621BB97D3400E58A09 /* RelationshipType.swift */,
+				A1AE10EB1BF669D90043033A /* StatusListener.swift */,
+				A16C37CC1BE9B4DF0036D28A /* Tag.swift */,
+				A18F04B81BF7F3E500538F0B /* TextureHelper.swift */,
 				A1653C771C2A35EB00D586E5 /* TreeNode.swift */,
 			);
 			path = data;
@@ -1317,20 +1322,21 @@
 		A1B5546A1BB2416500DF709F /* sprites */ = {
 			isa = PBXGroup;
 			children = (
-				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
+				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
 				A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */,
-				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
+				A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */,
+				A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */,
+				A11108871C22729800053DCE /* Filters.swift */,
+				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
+				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
+				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
 				A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */,
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
+				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
 				A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
 				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
-				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
-				A10FC32A1C19116300DDBE30 /* alphaOutline.fsh */,
-				A11108871C22729800053DCE /* Filters.swift */,
-				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
-				A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */,
-				A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */,
+				A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -1339,19 +1345,19 @@
 			isa = PBXGroup;
 			children = (
 				A1064FCE1C3373070016A9C6 /* BubbleScene.swift */,
+				A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */,
+				A18F04A31BF7E22600538F0B /* ChoosePlayerScene.sks */,
+				A18F04A51BF7E27E00538F0B /* ChoosePlayerScene.swift */,
+				A11108901C245A2100053DCE /* ColoringScene.swift */,
+				A1DC44CA1C13A38F00344531 /* DressUpScene.swift */,
 				A117C7301BA4AD0000964D50 /* GameScene.sks */,
 				A117C7321BA4AD0000964D50 /* GameScene.swift */,
-				A10BF0FE1BC9CE52005CAFDA /* SplashScene.sks */,
-				A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */,
-				A18F04A51BF7E27E00538F0B /* ChoosePlayerScene.swift */,
-				A18F04A31BF7E22600538F0B /* ChoosePlayerScene.sks */,
 				A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */,
 				A16241B51C063E63009205F1 /* MatchGameScene.swift */,
-				A1EA5D271C090E3C006528A5 /* ChooseCultureScene.swift */,
-				A1DC44CA1C13A38F00344531 /* DressUpScene.swift */,
 				A17C32571C1A667B00F64737 /* PuzzleScene.swift */,
-				A11108901C245A2100053DCE /* ColoringScene.swift */,
 				A11108911C245A2100053DCE /* ScratchScene.swift */,
+				A10BF0FE1BC9CE52005CAFDA /* SplashScene.sks */,
+				A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */,
 				A176B79C1C28E41800A2A49C /* TreeScene.swift */,
 			);
 			name = scenes;
@@ -1375,24 +1381,24 @@
 		A1F81B551BF3AFDE00078870 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				A1064F841C3372C90016A9C6 /* bubbles */,
-				A1EC61461C132ED1006DF050 /* dolls */,
 				A16241B71C063FDC009205F1 /* backgrounds */,
+				A1064F841C3372C90016A9C6 /* bubbles */,
+				A1653C841C2BAD9900D586E5 /* camera.png */,
+				A176B7A21C28E6CE00A2A49C /* colors.png */,
+				A1EC61461C132ED1006DF050 /* dolls */,
+				A1653C861C2BADA600D586E5 /* ff.png */,
 				A16241A41C063374009205F1 /* frames */,
-				A18F04A91BF7F10C00538F0B /* people */,
+				A16241CA1C06801F009205F1 /* home.png */,
 				A1F81B561BF3AFDE00078870 /* house */,
 				A1F81C4E1BF3AFDF00078870 /* ic_launcher-web.png */,
-				A1653C841C2BAD9900D586E5 /* camera.png */,
-				A1653C861C2BADA600D586E5 /* ff.png */,
-				A176B7A21C28E6CE00A2A49C /* colors.png */,
-				A176B7A41C28E6DF00A2A49C /* paintbrush.png */,
-				A16241CA1C06801F009205F1 /* home.png */,
-				A17C324E1C1A65A200F64737 /* star1.png */,
 				A1D7F4871C2121CE00806723 /* loading.png */,
-				A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */,
+				A176B7A41C28E6DF00A2A49C /* paintbrush.png */,
+				A18F04A91BF7F10C00538F0B /* people */,
 				A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */,
-				A176B7A71C28E98100A2A49C /* tree */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
+				A17C324E1C1A65A200F64737 /* star1.png */,
+				A176B7A71C28E98100A2A49C /* tree */,
+				A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */,
 			);
 			path = assets;
 			sourceTree = "<group>";
@@ -2257,6 +2263,7 @@
 				A10BF11F1BC9D359005CAFDA /* Attribution.swift in Sources */,
 				A10BF1281BC9D359005CAFDA /* Field.swift in Sources */,
 				A1EC61491C1366B7006DF050 /* DressUpDolls.swift in Sources */,
+				A1064FD11C34C3490016A9C6 /* RecentPersonTracker.swift in Sources */,
 				A1F81D9D1BF4076100078870 /* FamilySearchLogin.swift in Sources */,
 				A16241B61C063E63009205F1 /* MatchGameScene.swift in Sources */,
 				A10BF1351BC9D359005CAFDA /* ResourceReference.swift in Sources */,
@@ -2310,6 +2317,7 @@
 				A1AC2B351C1D03D5000028A1 /* PuzzleGame.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,
 				A10BF1241BC9D359005CAFDA /* DisplayProperties.swift in Sources */,
+				A1064FD31C34C8C80016A9C6 /* PersonBubbleSprite.swift in Sources */,
 				A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */,
 				A1686D631BB97D3400E58A09 /* GenderType.swift in Sources */,
 				A1EC614B1C1367A4006DF050 /* DollConfig.swift in Sources */,
