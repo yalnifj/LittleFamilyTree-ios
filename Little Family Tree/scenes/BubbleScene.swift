@@ -43,7 +43,7 @@ class BubbleScene: LittleFamilyScene {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            let lastPoint = touch.locationInNode(self)
 			let touchedNode = nodeAtPoint(lastPoint)
         }
     }
