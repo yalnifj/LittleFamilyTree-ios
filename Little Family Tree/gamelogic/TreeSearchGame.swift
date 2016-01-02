@@ -137,7 +137,7 @@ protocol TreeClue {
 
 class NameTreeClue : TreeClue {
     func getClueText(targetPerson:LittlePerson) -> String {
-		let clue = "I spy in your family tree, someone named, \(targetPerson.givenName)"
+		let clue = "I spy in your family tree, someone named, \(targetPerson.givenName!)"
 		return clue
 	}
 
@@ -161,7 +161,7 @@ class NameTreeClue : TreeClue {
 class FullNameTreeClue : TreeClue {
 	
 	func getClueText(targetPerson:LittlePerson) -> String {
-		let clue = "I spy in your family tree, someone named, \(targetPerson.name)"
+		let clue = "I spy in your family tree, someone named, \(targetPerson.name!)"
 		return clue
 	}
 

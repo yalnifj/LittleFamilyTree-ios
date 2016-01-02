@@ -179,7 +179,9 @@ class TreeScene: LittleFamilyScene {
 		
 		treeSearchButton = AnimatedStateSprite(imageNamed: "tree_search")
 		treeSearchButton?.zPosition = 15
-		treeSearchButton?.position = CGPointMake(self.size.width - (treeSearchButton?.size.width)!, (treeSearchButton?.size.height)!)
+        let r = (treeSearchButton?.size.height)! / (treeSearchButton?.size.width)!
+        treeSearchButton?.size = CGSizeMake(md / 5, (md * r) / 5)
+		treeSearchButton?.position = CGPointMake(self.size.width - (treeSearchButton?.size.width)! / 2, (treeSearchButton?.size.height)! / 1.5)
 		let searching:[SKTexture] = [
             SKTexture(imageNamed: "tree_search1"),
             SKTexture(imageNamed: "tree_search2"),
@@ -187,11 +189,11 @@ class TreeScene: LittleFamilyScene {
             SKTexture(imageNamed: "tree_search4"),
 			SKTexture(imageNamed: "tree_search5"),
 			SKTexture(imageNamed: "tree_search6"),
-			SKTexture(imageNamed: "tree_search7")
+			SKTexture(imageNamed: "tree_search7"),
+            SKTexture(imageNamed: "tree_search8")
         ]
         let searchAction = SKAction.animateWithTextures(searching, timePerFrame: 0.07, resize: false, restore: false)
         treeSearchButton?.addAction(1, action: searchAction)
-		treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
     }
     

@@ -105,7 +105,7 @@ class BubbleScene: LittleFamilyScene {
             SKTexture(imageNamed: "soap4"),
             SKTexture(imageNamed: "soap5")
         ]
-        let squirtAction = SKAction.animateWithTextures(squirting, timePerFrame: 0.08, resize: false, restore: false)
+        let squirtAction = SKAction.animateWithTextures(squirting, timePerFrame: 0.10, resize: false, restore: false)
         soap?.addAction(1, action: squirtAction)
         let squirting2:[SKTexture] = [
             SKTexture(imageNamed: "soap6"),
@@ -117,7 +117,7 @@ class BubbleScene: LittleFamilyScene {
             SKTexture(imageNamed: "soap2"),
             SKTexture(imageNamed: "soap1")
         ]
-        let squirtAction2 = SKAction.animateWithTextures(squirting2, timePerFrame: 0.08, resize: false, restore: false)
+        let squirtAction2 = SKAction.animateWithTextures(squirting2, timePerFrame: 0.10, resize: false, restore: false)
         soap?.addAction(2, action: squirtAction2)
         soap?.addSound(2, soundFile: "squirt")
         self.addChild(soap!)
@@ -152,6 +152,11 @@ class BubbleScene: LittleFamilyScene {
         childSpot?.zPosition = 3
         self.addChild(childSpot!)
         
+        let bar = SKSpriteNode(color: UIColor(hexString: "#D12D2DFF"), size: CGSizeMake(width*2.3, width/10))
+        bar.position = CGPointMake(self.size.width/2, self.size.height/2 + (childSpot?.size.height)! / 3)
+        bar.zPosition = 2
+        self.addChild(bar)
+        
         addBubbles()
         loadPeople()
         
@@ -159,6 +164,15 @@ class BubbleScene: LittleFamilyScene {
     }
 
     func loadPeople() {
+        if mom != nil {
+            mom?.removeFromParent()
+        }
+        if dad != nil {
+            dad?.removeFromParent()
+        }
+        if child != nil {
+            child?.removeFromParent()
+        }
         if queue.count == 0 {
             queue.append(self.selectedPerson!)
         }
@@ -268,7 +282,7 @@ class BubbleScene: LittleFamilyScene {
             let x = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(width)))
             let y = (w / 2) + CGFloat(arc4random_uniform(UInt32(width)))
             bubble.position = CGPointMake(x, y)
-            bubble.zPosition = 5
+            bubble.zPosition = 6
             bubble.physicsBody = SKPhysicsBody(circleOfRadius: w/2)
             bubble.physicsBody?.categoryBitMask = 2
             bubble.physicsBody?.collisionBitMask = 1
@@ -292,11 +306,9 @@ class BubbleScene: LittleFamilyScene {
     
     func nextSpot() {
         if next != nil {
-            if next == child {
-                childSpot?.texture = SKTexture(imageNamed: "bubble_spot_down")
-            } else {
-                next?.texture = SKTexture(imageNamed: "bubble_spot")
-            }
+            childSpot?.texture = SKTexture(imageNamed: "bubble_spot_down")
+            dadSpot?.texture = SKTexture(imageNamed: "bubble_spot")
+            momSpot?.texture = SKTexture(imageNamed: "bubble_spot")
         }
         if child?.popped == true && dad?.popped == true && mom?.popped == true {
             self.playSuccessSound(1.5, onCompletion: { () in
@@ -312,6 +324,7 @@ class BubbleScene: LittleFamilyScene {
                     r = 1
                 } else {
                     childSpot?.texture = SKTexture(imageNamed: "bubble_spot_down_h")
+                    SpeechHelper.getInstance().speak("Find the child in this family?")
                 }
             }
             if r == 1 {
@@ -320,6 +333,11 @@ class BubbleScene: LittleFamilyScene {
                     r = 2
                 } else {
                     momSpot?.texture = SKTexture(imageNamed: "bubble_spot_h")
+                    var mother = "mother"
+                    if mom?.person?.gender == GenderType.MALE {
+                        mother = "father"
+                    }
+                    SpeechHelper.getInstance().speak("Find the \(mother) in this family?")
                 }
             }
             if r == 2 {
@@ -328,6 +346,11 @@ class BubbleScene: LittleFamilyScene {
                     r = 0
                 }else {
                     dadSpot?.texture = SKTexture(imageNamed: "bubble_spot_h")
+                    var father = "father"
+                    if dad?.person?.gender == GenderType.FEMALE {
+                        father = "mother"
+                    }
+                    SpeechHelper.getInstance().speak("Find the \(father) in this family?")
                 }
             }
         }
@@ -369,7 +392,9 @@ class BubbleScene: LittleFamilyScene {
                 } else if self.bubbles.contains(touchedNode as! SKSpriteNode) {
                     let aaction = SKAction.animateWithTextures(popping, timePerFrame: 0.06)
                     let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
-                    touchedNode.runAction(action)
+                    touchedNode.runAction(action) {
+                        self.bubbles.removeObject(touchedNode as! SKSpriteNode)
+                    }
                     
                     let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
                     self.runAction(popSound)
@@ -384,8 +409,18 @@ class BubbleScene: LittleFamilyScene {
                             let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
                             self.runAction(popSound)
                             
+                            child?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                            
                             let moveAction = SKAction.moveTo((childSpot?.position)!, duration: 1.5)
-                            child?.runAction(moveAction)
+                            child?.runAction(moveAction) {
+                                self.child?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                                self.child?.physicsBody = nil
+                                self.child?.zPosition = 4
+                            }
+                            
+                            self.runAction(SKAction.waitForDuration(2.0)) {
+                                self.nextSpot()
+                            }
                         }
                     
                         SpeechHelper.getInstance().speak((child?.person?.givenName)! as String)
@@ -404,8 +439,18 @@ class BubbleScene: LittleFamilyScene {
                             let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
                             self.runAction(popSound)
                             
+                            mom?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                            
                             let moveAction = SKAction.moveTo((momSpot?.position)!, duration: 1.5)
-                            mom?.runAction(moveAction)
+                            mom?.runAction(moveAction) {
+                                self.mom?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                                self.mom?.physicsBody = nil
+                                self.mom?.zPosition = 4
+                            }
+                            
+                            self.runAction(SKAction.waitForDuration(2.0)) {
+                                self.nextSpot()
+                            }
                         }
                         
                         SpeechHelper.getInstance().speak((mom?.person?.givenName)! as String)
@@ -424,8 +469,18 @@ class BubbleScene: LittleFamilyScene {
                             let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
                             self.runAction(popSound)
                             
+                            dad?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                            
                             let moveAction = SKAction.moveTo((dadSpot?.position)!, duration: 1.5)
-                            dad?.runAction(moveAction)
+                            dad?.runAction(moveAction) {
+                                self.dad?.physicsBody?.applyImpulse(CGVectorMake(0,0))
+                                self.dad?.physicsBody = nil
+                                self.dad?.zPosition = 4
+                            }
+                            
+                            self.runAction(SKAction.waitForDuration(2.0)) {
+                                self.nextSpot()
+                            }
                         }
                         
                         SpeechHelper.getInstance().speak((dad?.person?.givenName)! as String)
@@ -435,6 +490,7 @@ class BubbleScene: LittleFamilyScene {
                     }
                 }
             }
+            break
         }
     }
 }
