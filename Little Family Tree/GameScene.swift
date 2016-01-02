@@ -609,7 +609,7 @@ class GameScene: SKScene, EventListener {
 		
 		let bubbles = AnimatedStateSprite(imageNamed: "bubbles1")
 		bubbles.anchorPoint = CGPoint.zero
-		bubbles.position = CGPointMake(918, 205)
+		bubbles.position = CGPointMake(916, 205)
 		bubbles.zPosition = z++
 		touchableSprites.append(bubbles)
 		let bubbleTextures:[SKTexture] = [

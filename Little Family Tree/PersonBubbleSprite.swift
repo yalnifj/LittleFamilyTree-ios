@@ -14,7 +14,7 @@ class PersonBubbleSprite: SKSpriteNode {
         didSet {
             bubble = SKSpriteNode(imageNamed: "bubble")
             bubble?.size = self.size
-            bubble?.position = CGPointMake(self.size.width/2, self.size.height/2)
+            bubble?.position = CGPointMake(0, 0)
             bubble?.zPosition = 1
             self.addChild(bubble!)
             
@@ -24,6 +24,7 @@ class PersonBubbleSprite: SKSpriteNode {
             let r = (photo?.size().height)! / (photo?.size().width)!
             let h = w * r
             personSprite?.size = CGSizeMake(w, h)
+            personSprite?.position = CGPointMake(0, 0)
             personSprite?.zPosition = 2
             self.addChild(personSprite!)
         }
@@ -31,4 +32,5 @@ class PersonBubbleSprite: SKSpriteNode {
     
     var bubble:SKSpriteNode?
     var personSprite:SKSpriteNode?
+    var popped = false
 }

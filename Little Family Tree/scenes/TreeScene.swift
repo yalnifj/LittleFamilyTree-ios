@@ -72,7 +72,7 @@ class TreeScene: LittleFamilyScene {
         
         showLoadingDialog()
 		
-		self.treeSearchGame = TreeSearchGame(selectedPerson!)
+		self.treeSearchGame = TreeSearchGame(me: selectedPerson!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -178,7 +178,7 @@ class TreeScene: LittleFamilyScene {
         self.addChild(self.treeContainer!)
 		
 		treeSearchButton = AnimatedStateSprite(imageNamed: "tree_search")
-		treeSearchButton?.zPosition = 5
+		treeSearchButton?.zPosition = 15
 		treeSearchButton?.position = CGPointMake(self.size.width - (treeSearchButton?.size.width)!, (treeSearchButton?.size.height)!)
 		let searching:[SKTexture] = [
             SKTexture(imageNamed: "tree_search1"),
@@ -191,7 +191,7 @@ class TreeScene: LittleFamilyScene {
         ]
         let searchAction = SKAction.animateWithTextures(searching, timePerFrame: 0.07, resize: false, restore: false)
         treeSearchButton?.addAction(1, action: searchAction)
-		treeSearchButton?.addTexture(2, SKTexture(imageNamed: "tree_search8"))
+		treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
     }
     
@@ -466,7 +466,7 @@ class TreeScene: LittleFamilyScene {
 						self.treeSearchGame?.nextClue()
 					}
 					let text = self.treeSearchGame?.getClueText()
-					SpeechHelper.getInstance().speak(text)
+					SpeechHelper.getInstance().speak(text!)
 				}
             } else {
                 print(treeContainer?.position)
