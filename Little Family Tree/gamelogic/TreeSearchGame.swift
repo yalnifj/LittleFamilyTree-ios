@@ -111,17 +111,12 @@ class TreeSearchGame {
 		}
     }
 
-    func isMatch(node:TreeNode, isSpouse:Bool) -> Bool {
+    func isMatch(person:LittlePerson) -> Bool {
         let clue = clues[clueNumber]
-        let ret = clue.isMatch(node, targetPerson: targetPerson!, isSpouse: isSpouse)
+        let ret = clue.isMatch(person, targetPerson: targetPerson!)
         if (ret) {
 			complete = true
-			if (isSpouse) {
-				recentPeople.append(node.rightPerson!)
-			}
-			else {
-				recentPeople.append(node.leftPerson!)
-			}
+            recentPeople.append(person)
 			if (recentPeople.count > 5) {
 				recentPeople.removeFirst()
 			}
@@ -132,7 +127,7 @@ class TreeSearchGame {
 
 protocol TreeClue {
 	func getClueText(targetPerson:LittlePerson) -> String
-	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool
+    func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool
 }
 
 class NameTreeClue : TreeClue {
@@ -141,19 +136,13 @@ class NameTreeClue : TreeClue {
 		return clue
 	}
 
-    func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
-		var person = node.leftPerson
-		if (isSpouse) {
-			person = node.rightPerson
-		}
-		if person != nil {
-			if (person == targetPerson) {
-				return true
-			}
-			if person!.givenName?.lowercaseString == targetPerson.givenName?.lowercaseString {
-				return true
-			}
-		}
+    func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+        if (person == targetPerson) {
+            return true
+        }
+        if person.givenName?.lowercaseString == targetPerson.givenName?.lowercaseString {
+            return true
+        }
 		return false
 	}
 }
@@ -165,19 +154,13 @@ class FullNameTreeClue : TreeClue {
 		return clue
 	}
 
-	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
-		var person = node.leftPerson
-		if (isSpouse) {
-			person = node.rightPerson
-		}
-		if (person != nil) {
-			if (person == targetPerson) {
-				return true
-			}
-			if person!.name?.lowercaseString == targetPerson.name?.lowercaseString {
-				return true
-			}
-		}
+	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+        if (person == targetPerson) {
+            return true
+        }
+        if person.name?.lowercaseString == targetPerson.name?.lowercaseString {
+            return true
+        }
 		return false
 	}
 }
@@ -194,21 +177,16 @@ class RelationshipTreeClue : TreeClue {
 		return clue
 	}
 
-	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
-		var person = node.leftPerson
-		if (isSpouse) {
-			person = node.rightPerson
-		}
-		if (person != nil) {
-			if (person == targetPerson) {
-				return true
-			}
-            let relationship1 = RelationshipCalculator.getRelationship(me, p: targetPerson)
-            let relationship2 = RelationshipCalculator.getRelationship(me, p: person)
-			if relationship1 == relationship2 {
-				return true
-			}
-		}
+	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+        if (person == targetPerson) {
+            return true
+        }
+        let relationship1 = RelationshipCalculator.getRelationship(me, p: targetPerson)
+        let relationship2 = RelationshipCalculator.getRelationship(me, p: person)
+        if relationship1 == relationship2 {
+            return true
+        }
+		
 		return false
 	}
 }
@@ -224,21 +202,15 @@ class GenderTreeClue : TreeClue {
 		return clue
 	}
 
-	func isMatch(node:TreeNode, targetPerson:LittlePerson, isSpouse:Bool) -> Bool {
-		var person = node.leftPerson
-		if (isSpouse) {
-			person = node.rightPerson
-		}
-		if (person != nil) {
-			if (person == targetPerson) {
-				return true
-			}
-			let gender1 = targetPerson.gender
-			let gender2 = person!.gender
-			if (gender1 == gender2) {
-				return true
-			}
-		}
+	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+        if (person == targetPerson) {
+            return true
+        }
+        let gender1 = targetPerson.gender
+        let gender2 = person.gender
+        if (gender1 == gender2) {
+            return true
+        }
 		return false
 	}
 }

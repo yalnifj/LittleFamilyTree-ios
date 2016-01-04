@@ -1208,8 +1208,8 @@
 				A16241B31C0634A5009205F1 /* MatchPerson.swift */,
 				A1AC2B341C1D03D5000028A1 /* PuzzleGame.swift */,
 				A17C32591C1A676200F64737 /* RandomMediaChooser.swift */,
-				A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */,
 				A1064FD01C34C3490016A9C6 /* RecentPersonTracker.swift */,
+				A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */,
 			);
 			name = gamelogic;
 			sourceTree = "<group>";
@@ -1330,13 +1330,13 @@
 				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
 				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
 				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
+				A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */,
 				A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */,
 				A16241C41C064507009205F1 /* PersonMatchSprite.swift */,
 				A18F04A71BF7E44E00538F0B /* PersonNameSprite.swift */,
 				A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
 				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
-				A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */,
 			);
 			name = sprites;
 			sourceTree = "<group>";

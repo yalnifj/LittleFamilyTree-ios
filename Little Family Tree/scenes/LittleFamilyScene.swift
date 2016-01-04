@@ -133,6 +133,15 @@ class LittleFamilyScene: SKScene, EventListener {
         }
     }
     
+    func playFailSound(wait:Double, onCompletion: () -> Void) {
+        let levelUpAction = SKAction.waitForDuration(wait)
+        runAction(levelUpAction) {
+            let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: true);
+            self.runAction(soundAction)
+            onCompletion()
+        }
+    }
+    
     func showStars(rect:CGRect, starsInRect: Bool, count: Int) {
         self.starRect = rect
         self.starsInRect = starsInRect

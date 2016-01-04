@@ -47,6 +47,15 @@ class TreeScene: LittleFamilyScene {
 	
 	var treeSearchGame : TreeSearchGame?
     
+    var buttonPanel : SKSpriteNode?
+    var buttons = [SKSpriteNode]()
+    var dressupButton:SKSpriteNode?
+    var bubbleButton:SKSpriteNode?
+    var matchButton:SKSpriteNode?
+    var scratchButton:SKSpriteNode?
+    var coloringButton:SKSpriteNode?
+    var puzzleButton:SKSpriteNode?
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
@@ -73,6 +82,36 @@ class TreeScene: LittleFamilyScene {
         showLoadingDialog()
 		
 		self.treeSearchGame = TreeSearchGame(me: selectedPerson!)
+        
+        matchButton = SKSpriteNode(imageNamed: "house_familyroom_frame1")
+        var br = matchButton!.size.height / matchButton!.size.width
+        matchButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(matchButton!)
+        
+        scratchButton = SKSpriteNode(imageNamed: "house_chilldroom_desk19")
+        br = scratchButton!.size.height / scratchButton!.size.width
+        scratchButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(scratchButton!)
+        
+        coloringButton = SKSpriteNode(imageNamed: "house_chilldroom_paint11")
+        br = coloringButton!.size.height / coloringButton!.size.width
+        coloringButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(coloringButton!)
+        
+        puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
+        br = puzzleButton!.size.height / puzzleButton!.size.width
+        puzzleButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(puzzleButton!)
+        
+        bubbleButton = SKSpriteNode(imageNamed: "bubbles1")
+        br = bubbleButton!.size.height / bubbleButton!.size.width
+        bubbleButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(bubbleButton!)
+        
+        dressupButton = SKSpriteNode(imageNamed: "bubbles1")
+        br = dressupButton!.size.height / dressupButton!.size.width
+        dressupButton!.size = CGSizeMake(30, 30 * br)
+        buttons.append(dressupButton!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -459,23 +498,87 @@ class TreeScene: LittleFamilyScene {
             lastPoint = touch.locationInNode(self)
             if moved == false {
                 let touchedNode = nodeAtPoint(lastPoint)
-				if touchedNode == treeSearchButton {
-					treeSearchButton?.state = 0
-					treeSearchButton?.nextState()
-					if self.treeSearchGame?.complete == true {
-						self.treeSearchGame?.findRandomPerson(self.root!)
-					} else {
-						self.treeSearchGame?.nextClue()
-					}
-					let text = self.treeSearchGame?.getClueText()
-					SpeechHelper.getInstance().speak(text!)
-				}
+                if touchedNode.parent == buttonPanel {
+                    
+                }
+                else if touchedNode == treeSearchButton {
+                    self.hideButtonPanel()
+                    treeSearchButton?.state = 0
+                    treeSearchButton?.nextState()
+                    if self.treeSearchGame?.complete == true {
+                        self.treeSearchGame?.findRandomPerson(self.root!)
+                    } else {
+                        self.treeSearchGame?.nextClue()
+                    }
+                    let text = self.treeSearchGame?.getClueText()
+                    SpeechHelper.getInstance().speak(text!)
+                } else if touchedNode is TreePersonSprite {
+                    self.personTouched(touchedNode as! TreePersonSprite)
+                } else if touchedNode.parent is TreePersonSprite {
+                    self.personTouched(touchedNode.parent as! TreePersonSprite)
+                }
             } else {
                 print(treeContainer?.position)
                 print("minX=\(minX) maxX=\(maxX)")
                 print("minY=\(minY) maxY=\(maxY)")
             }
+            break
         }
         moved = false
+    }
+    
+    func hideButtonPanel() {
+        if buttonPanel != nil {
+            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
+            buttonPanel?.runAction(act) {
+                self.buttonPanel = nil
+            }
+        }
+    }
+    
+    func showButtonPanel(node:TreePersonSprite) {
+        self.buttonPanel = SKSpriteNode(color: UIColor.greenColor(), size: CGSizeMake(5, 5))
+        self.buttonPanel?.zPosition = 100
+        self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width, node.position.y)
+        self.treeContainer?.addChild(self.buttonPanel!)
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(200, height: 150, duration: 1.5))
+    }
+    
+    func personTouched(node:TreePersonSprite) {
+        if self.treeSearchGame?.complete == true {
+            if node.person != nil {
+                let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
+                var msg = "\(node.person?.name!) is you \(relationship)"
+                if node.person?.birthPlace != nil && node.person?.birthDate != nil {
+                    msg += " was born on \(node.person?.birthDate!) in \(node.person?.birthPlace!)"
+                }
+                else if node.person?.birthDate != nil {
+                    msg += " was born on \(node.person?.birthDate!)"
+                } else if node.person?.birthPlace != nil {
+                    msg += " was born in \(node.person?.birthPlace!)"
+                }
+                if buttonPanel != nil {
+                    let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
+                    buttonPanel?.runAction(act) {
+                        self.showButtonPanel(node)
+                    }
+                } else {
+                    self.showButtonPanel(node)
+                }
+            }
+        } else {
+            if node.person != nil {
+                if self.treeSearchGame?.isMatch(node.person!) == true {
+                    self.showStars(node.frame, starsInRect: true, count: 10)
+                    self.playSuccessSound(0.5, onCompletion: { () in
+                        self.treeSearchButton?.nextState()
+                    })
+                } else {
+                    self.playFailSound(0.0, onCompletion: {() in })
+                }
+            } else {
+                self.playFailSound(0.0, onCompletion: {() in })
+            }
+        }
     }
 }
