@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, EventListener {
+class GameScene: LittleFamilyScene {
     static var TOPIC_START_MATCH = "start_match"
     static var TOPIC_START_DRESSUP = "start_dressup"
     static var TOPIC_START_PUZZLE = "start_puzzle"
@@ -31,9 +31,12 @@ class GameScene: SKScene, EventListener {
     var spriteContainer : SKSpriteNode!
 	var updateSprites = [AnimatedStateSprite]()
     var touchableSprites = [SKNode]()
+	var starSprites = [SKSpriteNode]()
     var minScale : CGFloat = 0.5
     var maxScale : CGFloat = 2.0
     var moved = false
+	
+	var starDelay = 100
     
     var selectedPerson:LittlePerson?
     
@@ -42,6 +45,7 @@ class GameScene: SKScene, EventListener {
     var personLeaves : PersonLeavesButton?
     
     override func didMoveToView(view: SKView) {
+		super.didMoveToView(view)
         let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
         view.addGestureRecognizer(pinch)
         
@@ -94,6 +98,7 @@ class GameScene: SKScene, EventListener {
 		cloud1.maxY = oHeight
         spriteContainer.addChild(cloud1)
 		updateSprites.append(cloud1)
+		cloud1.runAction(cloud1.moveAction!)
         
         let cloud2 = MovingAnimatedStateSprite(imageNamed: "house_cloud2")
         cloud2.anchorPoint = CGPoint.zero
@@ -104,6 +109,7 @@ class GameScene: SKScene, EventListener {
 		cloud2.maxY = oHeight
         spriteContainer.addChild(cloud2)
 		updateSprites.append(cloud2)
+		cloud2.runAction(cloud2.moveAction!)
         
         let tree = SKSpriteNode(imageNamed: "house_tree1")
         tree.anchorPoint = CGPoint.zero
@@ -145,6 +151,7 @@ class GameScene: SKScene, EventListener {
 		personLeaves?.zPosition = z++
 		touchableSprites.append(personLeaves!)
 		spriteContainer.addChild(personLeaves!)
+		starSprites.append(personLeaves!)
 		
 		DataService.getInstance().getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
 			self.personLeaves?.people = people
@@ -368,6 +375,7 @@ class GameScene: SKScene, EventListener {
         frame.addClick(1, val: false)
         frame.addEvent(0, topic: GameScene.TOPIC_START_MATCH)
         spriteContainer.addChild(frame)
+		starSprites.append(frame)
         
         let childBed = SKSpriteNode(imageNamed: "house_chilldroom_bed")
         childBed.anchorPoint = CGPoint.zero
@@ -402,6 +410,7 @@ class GameScene: SKScene, EventListener {
         childPaint.addClick(1, val: false)
 		childPaint.addEvent(0, topic: GameScene.TOPIC_START_COLORING)
         spriteContainer.addChild(childPaint)
+		starSprites.append(childPaint)
         
         let childDesk = AnimatedStateSprite(imageNamed: "house_chilldroom_desk")
         childDesk.anchorPoint = CGPoint.zero
@@ -435,6 +444,7 @@ class GameScene: SKScene, EventListener {
 		childDesk.addEvent(0, topic: GameScene.TOPIC_START_SCRATCH)
         childDesk.addSound(1, soundFile: "erasing")
         spriteContainer.addChild(childDesk)
+		starSprites.append(childDesk)
         
         let teddy = AnimatedStateSprite(imageNamed: "house_chilldroom_teddy")
         teddy.anchorPoint = CGPoint.zero
@@ -628,6 +638,7 @@ class GameScene: SKScene, EventListener {
 		bubbles.addEvent(1, topic: GameScene.TOPIC_START_BUBBLES)
         bubbles.runAction(bubbleAction)
 		spriteContainer.addChild(bubbles)
+		starSprites.append(bubbles)
         
         let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
         adultBed.anchorPoint = CGPoint.zero
@@ -661,6 +672,7 @@ class GameScene: SKScene, EventListener {
         wardrobe.addClick(1, val: false)
         wardrobe.addEvent(0, topic: GameScene.TOPIC_START_DRESSUP)
         spriteContainer.addChild(wardrobe)
+		starSprites.append(wardrobe)
         
         let lightA = AnimatedStateSprite(imageNamed: "house_light_a1")
         lightA.anchorPoint = CGPoint.zero
@@ -702,6 +714,7 @@ class GameScene: SKScene, EventListener {
         blocks.addClick(1, val: false)
         blocks.addEvent(0, topic: GameScene.TOPIC_START_PUZZLE)
         spriteContainer.addChild(blocks)
+		starSprites.append(blocks)
         
         let horse = AnimatedStateSprite(imageNamed: "house_toys_horse")
         horse.anchorPoint = CGPoint.zero
@@ -835,7 +848,7 @@ class GameScene: SKScene, EventListener {
         
         let personSprite = PersonNameSprite()
         touchableSprites.append(personSprite)
-        personSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
+        personSprite.position = CGPointMake(self.size.width - (110 * lfScale), 10)
         personSprite.zPosition = z++
         personSprite.size.width = 50 * lfScale
         personSprite.size.height = 50 * lfScale
@@ -843,9 +856,18 @@ class GameScene: SKScene, EventListener {
         personSprite.showLabel = false
         personSprite.topic = LittleFamilyScene.TOPIC_START_CHOOSE
         self.addChild(personSprite)
+		
+		let settingsSprite = AnimatedStateSprite(imageNamed: "settings")
+		settingsSprite.size.height = 50 * lfScale
+		settingsSprite.size.width = 50 * lfScale
+		settingsSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
+		settingsSprite.zPosition = z++
+		settingsSprite.addEvent(0, LittleFamilyScene.TOPIC_START_SETTINGS)
+		self.addChild(settingsSprite)
+		
+		starDelay = Int(arc4random_uniform(200))
         
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
-        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
@@ -858,7 +880,6 @@ class GameScene: SKScene, EventListener {
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
-        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SCRATCH, listener: self)
@@ -968,6 +989,15 @@ class GameScene: SKScene, EventListener {
 		}
 		
 		self.updateSprites = notRemoving
+		
+		if starDelay > 0 {
+			starDelay--
+		} else {
+			starDelay = Int(arc4random_uniform(200))
+			let s = Int(arc4random_uniform(UInt32(starSprites.count)))
+			let sprite starSprites[s]
+			showStars(sprite.frame, starsInRect: true, count: sprite.size.width / 5)
+		}
     }
     
     var index:Int?
@@ -1026,13 +1056,6 @@ class GameScene: SKScene, EventListener {
             let nextScene = BubbleScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
             nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
-        }
-        else if topic == LittleFamilyScene.TOPIC_START_CHOOSE {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = ChoosePlayerScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
             scene?.view?.presentScene(nextScene, transition: transition)
         }
     }

@@ -12,6 +12,7 @@ import SpriteKit
 class LittleFamilyScene: SKScene, EventListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
+	static var TOPIC_START_SETTINGS = "start_choose"
     var selectedPerson:LittlePerson?
     var topBar:TopBar?
     var addingStars = false
@@ -26,12 +27,14 @@ class LittleFamilyScene: SKScene, EventListener {
         super.didMoveToView(view)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
+		EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
+		EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {

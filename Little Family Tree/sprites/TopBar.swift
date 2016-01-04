@@ -12,6 +12,7 @@ import SpriteKit
 class TopBar: SKSpriteNode {
     var photoSprite:SKSpriteNode?
     var homeSprite:SKSpriteNode?
+	var settingsSprite:SKSpriteNode?
     
     var person:LittlePerson? {
         didSet {
@@ -36,6 +37,12 @@ class TopBar: SKSpriteNode {
             homeSprite?.zPosition = 1
             self.addChild(homeSprite!)
 
+			settingsSprite = SKSpriteNode(imageNamed: "settings")
+			settingsSprite?.size.height = self.size.height - 5
+			settingsSprite?.size.width = self.size.height - 5
+			settingsSprite?.position = CGPointMake(self.size.width/2, 0)
+			settingsSprite?.zPosition = 1
+			self.addChild(settingsSprite!)
         }
     }
     
@@ -50,6 +57,9 @@ class TopBar: SKSpriteNode {
             else if touchedNode == photoSprite {
                 EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_CHOOSE, data: person)
             }
+			else if touchedNode == settingsSprite {
+				EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_SETTINGS, data: person)
+			}
         }
     }
 

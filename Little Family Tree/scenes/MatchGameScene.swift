@@ -74,15 +74,14 @@ class MatchGameScene: LittleFamilyScene {
     }
     
     func setupGame() {
-        var cols = 2
-        var rows = game!.board!.count / cols
-        var width = (self.size.width / CGFloat(cols)) - 20
-        
-        while CGFloat(rows) * width > self.size.height-40 {
-            cols++
-            rows = game!.board!.count / cols
-            width = (self.size.width / CGFloat(cols)) - 20
-        }
+        var width = CGFloat(round(self.size.width * self.size.height / game!.board!.count) - 20)
+		
+		var cols = Int(self.size.width / width)
+		var rows = game!.board!.count / cols
+		
+		if  CGFloat(rows) * (width + 20) > self.size.height {
+			width = CGFloat(round(self.size.height / rows) - 20)
+		}
         
         for s in matchSprites {
             s.removeFromParent()
@@ -99,18 +98,16 @@ class MatchGameScene: LittleFamilyScene {
             sprite.size.height = width
             sprite.userInteractionEnabled = true
             let x = 10 + ((10 + width) * CGFloat(c))
-            let y = (self.size.height - 40) - ((10 + width) * CGFloat(r+1))
+			if x + width > self.size.width {
+				r++
+				c = 0
+			}
+            let y = (self.size.height - topBar!.size.height) - ((10 + width) * CGFloat(r+1))
             sprite.position = CGPointMake(x, y)
             sprite.gameScene = self
             sprite.person = mp
             self.addChild(sprite)
             matchSprites.append(sprite)
-            
-            c++
-            if c >= cols {
-                r++
-                c = 0
-            }
         }
     }
     
