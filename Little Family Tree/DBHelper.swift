@@ -218,23 +218,31 @@ class DBHelper {
 	
 	func getPersonById(id:Int64) -> LittlePerson? {
 		var person:LittlePerson
-        let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id))
-		for c in stmt! {
-            person = buildLittlePerson(c)
-            person.id = c[COL_ID]
-            return person
-		}
+        do {
+            let stmt = try lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_ID == id))
+            for c in stmt! {
+                person = buildLittlePerson(c)
+                person.id = c[COL_ID]
+                return person
+            }
+        } catch {
+            print("Error getting person by id \(id)")
+        }
 		return nil
 	}
 	
 	func getPersonByFamilySearchId(fsid:String) -> LittlePerson? {
 		var person:LittlePerson
-        let stmt = lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid))
-		for c in stmt! {
-            person = buildLittlePerson(c)
-            person.id = c[COL_ID]
-            return person
-		}
+        do {
+            let stmt = try lftdb?.prepare(TABLE_LITTLE_PERSON.filter(COL_FAMILY_SEARCH_ID == fsid))
+            for c in stmt! {
+                person = buildLittlePerson(c)
+                person.id = c[COL_ID]
+                return person
+            }
+        } catch {
+            print("Error getting person by fsid \(fsid)")
+        }
 		return nil
 	}
 	
@@ -245,19 +253,24 @@ class DBHelper {
 	
 	func getFirstPerson() -> LittlePerson? {
 		var person:LittlePerson
-		let query = TABLE_LITTLE_PERSON.filter(COL_ACTIVE == true).order(COL_ID).limit(1)
-        let stmt = lftdb?.prepare(query)
-		for c in stmt! {
-            person = buildLittlePerson(c)
-            person.id = c[COL_ID]
-            return person
-		}
+        do {
+            let query = TABLE_LITTLE_PERSON.filter(COL_ACTIVE == true).order(COL_ID).limit(1)
+            let stmt = try lftdb?.prepare(query)
+            for c in stmt! {
+                person = buildLittlePerson(c)
+                person.id = c[COL_ID]
+                return person
+            }
+        } catch {
+            print("Error getting first person")
+        }
 		return nil
 	}
 	
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?
-		let stmt = lftdb?.prepare("select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, "
+        do {
+		let stmt = try lftdb?.prepare("select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, "
             + " p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, "
             + " p.hasMedia, p.treeLevel "
             + " from littleperson p join tags t on t.person_id=p.id" +
@@ -301,34 +314,41 @@ class DBHelper {
             person!.updateAge()
 
 		}
+        } catch {
+            print("Error getting random person")
+        }
 		return person
 	}
 
 	func getRelativesForPerson(id:Int64, followSpouse:Bool) -> [LittlePerson]? {
-		let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_LITTLE_PERSON[COL_ACTIVE])
+        var persons = [LittlePerson]()
+        do {
+            let query = TABLE_LITTLE_PERSON.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
+                .filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
-		var persons = [LittlePerson]()
-        let stmt = lftdb?.prepare(query)
-        for c in stmt! {
-            let person = buildLittlePerson(c)
-            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
-            if !persons.contains(person) {
-                persons.append(person)
+            let stmt = try lftdb?.prepare(query)
+            for c in stmt! {
+                let person = buildLittlePerson(c)
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
+                if !persons.contains(person) {
+                    persons.append(person)
+                }
             }
-		}
-		
-		if followSpouse {
-			let spouses = getSpousesForPerson(id)
-			for spouse in spouses! {
-				let speople = getRelativesForPerson(spouse.id!, followSpouse: false)
-				for sp in speople! {
-					if !persons.contains(sp) {
-						persons.append(sp)
-					}
-				}
-			}
-		}
+            
+            if followSpouse {
+                let spouses = getSpousesForPerson(id)
+                for spouse in spouses! {
+                    let speople = getRelativesForPerson(spouse.id!, followSpouse: false)
+                    for sp in speople! {
+                        if !persons.contains(sp) {
+                            persons.append(sp)
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Error getting person relatives by id \(id)")
+        }
 		
 		return persons
 	}
@@ -338,12 +358,16 @@ class DBHelper {
 			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
-        let stmt = lftdb?.prepare(query)
-		for c in stmt! {
-            let person = buildLittlePerson(c)
-            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
-            persons.append(person)
-		}
+        do {
+            let stmt = try lftdb?.prepare(query)
+            for c in stmt! {
+                let person = buildLittlePerson(c)
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
+                persons.append(person)
+            }
+        } catch {
+            print("Error getting person parents by id \(id)")
+        }
 		return persons
 	}
 	
@@ -352,12 +376,16 @@ class DBHelper {
 			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
-        let stmt = lftdb?.prepare(query)
-        for c in stmt! {
-            let person = buildLittlePerson(c)
-            person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
-			persons.append(person)
-		}
+        do {
+            let stmt = try lftdb?.prepare(query)
+            for c in stmt! {
+                let person = buildLittlePerson(c)
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
+                persons.append(person)
+            }
+        } catch {
+            print("Error getting person children by id \(id)")
+        }
 		return persons
 	}
 	
@@ -366,14 +394,18 @@ class DBHelper {
 			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE.rawValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
-        let stmt = lftdb?.prepare(query)
-        for c in stmt! {
-			if (c[TABLE_LITTLE_PERSON[COL_ID]] != id) {
-                let person = buildLittlePerson(c)
-                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
-				persons.append(person)
-			}
-		}
+        do {
+            let stmt = try lftdb?.prepare(query)
+            for c in stmt! {
+                if (c[TABLE_LITTLE_PERSON[COL_ID]] != id) {
+                    let person = buildLittlePerson(c)
+                    person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
+                    persons.append(person)
+                }
+            }
+        } catch {
+            print("Error getting person spouses by id \(id)")
+        }
 		return persons
 	}
     
@@ -452,31 +484,39 @@ class DBHelper {
 	}
 	
 	func getRelationship(id1:Int64, id2:Int64, type:RelationshipType) -> LocalRelationship? {
-		var rel:LocalRelationship?
-		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id1 && COL_ID2==id2 && COL_TYPE==type.hashValue)
-        let stmt = lftdb?.prepare(query)
-		for r in stmt! {
-            rel = LocalRelationship()
-            rel?.id1 = r[COL_ID1]
-            rel?.id2 = r[COL_ID2]
-            rel?.type = RelationshipType(rawValue: r[COL_TYPE])
-            rel?.id = r[COL_ID]
-		}
+		var rel:LocalRelationship? = nil
+        do {
+            let query = TABLE_RELATIONSHIP.filter(COL_ID1==id1 && COL_ID2==id2 && COL_TYPE==type.hashValue)
+            let stmt = try lftdb?.prepare(query)
+            for r in stmt! {
+                rel = LocalRelationship()
+                rel?.id1 = r[COL_ID1]
+                rel?.id2 = r[COL_ID2]
+                rel?.type = RelationshipType(rawValue: r[COL_TYPE])
+                rel?.id = r[COL_ID]
+            }
+        } catch {
+            print("Error getting relationship by id \(id1) \(id2) \(type)")
+        }
 		return rel
 	}
 	
 	func getRelationshipsForPerson(id:Int64) -> [LocalRelationship]? {
 		var rels = [LocalRelationship]()
-		let query = TABLE_RELATIONSHIP.filter(COL_ID1==id || COL_ID2==id)
-        let stmt = lftdb?.prepare(query)
-        for r in stmt! {
-            let rel = LocalRelationship()
-            rel.id1 = r[COL_ID1]
-            rel.id2 = r[COL_ID2]
-            rel.type = RelationshipType(rawValue: r[COL_TYPE])
-            rel.id = r[COL_ID]
-			rels.append(rel)
-		}
+            do {
+            let query = TABLE_RELATIONSHIP.filter(COL_ID1==id || COL_ID2==id)
+            let stmt = try lftdb?.prepare(query)
+            for r in stmt! {
+                let rel = LocalRelationship()
+                rel.id1 = r[COL_ID1]
+                rel.id2 = r[COL_ID2]
+                rel.type = RelationshipType(rawValue: r[COL_TYPE])
+                rel.id = r[COL_ID]
+                rels.append(rel)
+            }
+        } catch {
+            print("error getting relationships for person with id \(id)")
+        }
 		return rels
 	}
 	
@@ -523,31 +563,39 @@ class DBHelper {
 	
 	func getMediaByFamilySearchId(fsid:String) -> Media? {
 		var media:Media? = nil
-		let query = TABLE_MEDIA.filter(COL_FAMILY_SEARCH_ID == fsid)
-        let stmt = lftdb?.prepare(query)
-		for m in stmt! {
-            media = Media()
-            media?.id = m[COL_ID]
-            media?.familySearchId = m[COL_FAMILY_SEARCH_ID]
-            media?.type = m[COL_MEDIA_TYPE]
-            media?.localPath = m[COL_LOCAL_PATH]
+        do {
+            let query = TABLE_MEDIA.filter(COL_FAMILY_SEARCH_ID == fsid)
+            let stmt = try lftdb?.prepare(query)
+            for m in stmt! {
+                media = Media()
+                media?.id = m[COL_ID]
+                media?.familySearchId = m[COL_FAMILY_SEARCH_ID]
+                media?.type = m[COL_MEDIA_TYPE]
+                media?.localPath = m[COL_LOCAL_PATH]
+            }
+        } catch {
+            print("Error getting media by fsid \(fsid)")
         }
 		return media
 	}
 	
 	func getMediaForPerson(id:Int64) -> [Media] {
 		var media = [Media]()
-		let query = TABLE_MEDIA.join(TABLE_TAGS, on: TABLE_MEDIA[COL_ID] == TABLE_TAGS[COL_MEDIA_ID])
-			.filter(TABLE_TAGS[COL_PERSON_ID] == id)
-        let stmt = lftdb?.prepare(query)
-		for m in stmt! {
-            let med = Media()
-            med.id = m[TABLE_MEDIA[COL_ID]]
-            med.familySearchId = m[COL_FAMILY_SEARCH_ID]
-            med.type = m[COL_MEDIA_TYPE]
-            med.localPath = m[COL_LOCAL_PATH]
-			media.append(med)
-		}
+        do {
+            let query = TABLE_MEDIA.join(TABLE_TAGS, on: TABLE_MEDIA[COL_ID] == TABLE_TAGS[COL_MEDIA_ID])
+                .filter(TABLE_TAGS[COL_PERSON_ID] == id)
+            let stmt = try lftdb?.prepare(query)
+            for m in stmt! {
+                let med = Media()
+                med.id = m[TABLE_MEDIA[COL_ID]]
+                med.familySearchId = m[COL_FAMILY_SEARCH_ID]
+                med.type = m[COL_MEDIA_TYPE]
+                med.localPath = m[COL_LOCAL_PATH]
+                media.append(med)
+            }
+        } catch {
+            print ("Error getting media for person \(id)")
+        }
 		return media
 	}
 	
@@ -598,19 +646,23 @@ class DBHelper {
 	}
 	
 	func getTagForPersonMedia(personId:Int64, mediaId:Int64) -> Tag? {
-		var tag:Tag?
-		let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaId)
-        let stmt = lftdb?.prepare(query)
-		for t in stmt! {
-			tag = Tag()
-			tag!.id = t[COL_ID]
-			tag!.mediaId = t[COL_MEDIA_ID]!
-			tag!.personId = t[COL_PERSON_ID]!
-			tag!.left = t[COL_LEFT]
-			tag!.right = t[COL_RIGHT]
-			tag!.top = t[COL_TOP]
-			tag!.bottom = t[COL_BOTTOM]
-		}
+		var tag:Tag? = nil
+        do {
+            let query = TABLE_TAGS.filter(COL_PERSON_ID == personId && COL_MEDIA_ID==mediaId)
+            let stmt = try lftdb?.prepare(query)
+            for t in stmt! {
+                tag = Tag()
+                tag!.id = t[COL_ID]
+                tag!.mediaId = t[COL_MEDIA_ID]!
+                tag!.personId = t[COL_PERSON_ID]!
+                tag!.left = t[COL_LEFT]
+                tag!.right = t[COL_RIGHT]
+                tag!.top = t[COL_TOP]
+                tag!.bottom = t[COL_BOTTOM]
+            }
+        } catch {
+            print("Error getting tag for person \(personId)")
+        }
 		return tag
 	}
 	
@@ -638,10 +690,14 @@ class DBHelper {
 	func getProperty(property:String) -> NSString? {
 		let query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
 		var value:NSString? = nil
-        let stmt = lftdb?.prepare(query)
-		for t in stmt! {
-			value = t[COL_VALUE]
-		}
+        do {
+            let stmt = try lftdb?.prepare(query)
+            for t in stmt! {
+                value = t[COL_VALUE]
+            }
+        }catch {
+            print("Error getting value for property \(property)")
+        }
 		return value
 	}
 	
@@ -671,10 +727,14 @@ class DBHelper {
 	
 	func getSyncQ() -> [Int64] {
 		var list = [Int64]()
-        let stmt = lftdb?.prepare(TABLE_SYNCQ)
-		for i in stmt! {
-			list.append(i[COL_ID])
-		}
+        do {
+            let stmt = try lftdb?.prepare(TABLE_SYNCQ)
+            for i in stmt! {
+                list.append(i[COL_ID])
+            }
+        } catch {
+            print("Error getting syncQ")
+        }
 		return list
 	}
     

@@ -87,6 +87,8 @@
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
+		A12CC7FA1C3B995500669E90 /* ParentLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12CC7F91C3B995500669E90 /* ParentLogin.xib */; };
+		A12CC8031C3B99DF00669E90 /* ParentLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC8021C3B99DF00669E90 /* ParentLogin.swift */; };
 		A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */; };
 		A149740B1C0E9A6F004E99D5 /* gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A149740A1C0E9A6E004E99D5 /* gradient.fsh */; };
 		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
@@ -649,6 +651,8 @@
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		A12CC7F91C3B995500669E90 /* ParentLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParentLogin.xib; path = views/ParentLogin.xib; sourceTree = "<group>"; };
+		A12CC8021C3B99DF00669E90 /* ParentLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentLogin.swift; sourceTree = "<group>"; };
 		A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAnimatedStateSprite.swift; sourceTree = "<group>"; };
 		A149740A1C0E9A6E004E99D5 /* gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = gradient.fsh; path = sprites/gradient.fsh; sourceTree = "<group>"; };
 		A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LittleFamilyScene.swift; path = scenes/LittleFamilyScene.swift; sourceTree = "<group>"; };
@@ -1710,7 +1714,9 @@
 				A1F81D941BF3E43300078870 /* ChooseServiceView.xib */,
 				A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */,
 				A1F81D9C1BF4076100078870 /* FamilySearchLogin.swift */,
+				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */,
+				A12CC7F91C3B995500669E90 /* ParentLogin.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1868,6 +1874,7 @@
 				A1F81C8D1BF3AFDF00078870 /* house_chilldroom_desk5.png in Resources */,
 				A1F81CE51BF3AFDF00078870 /* house_kitchen_fridge2.png in Resources */,
 				A1F81D061BF3AFDF00078870 /* house_music_piano.png in Resources */,
+				A12CC7FA1C3B995500669E90 /* ParentLogin.xib in Resources */,
 				A1F81C831BF3AFDF00078870 /* house_chilldroom_desk13.png in Resources */,
 				A1EC61471C132ED1006DF050 /* dolls in Resources */,
 				A1F81CD11BF3AFDF00078870 /* house_familyroom_table.png in Resources */,
@@ -2346,6 +2353,7 @@
 				A10BF12E1BC9D359005CAFDA /* NameForm.swift in Sources */,
 				A10BF1011BC9CE52005CAFDA /* SplashScene.swift in Sources */,
 				A1D7F47F1C2106E000806723 /* RelationshipCalculator.swift in Sources */,
+				A12CC8031C3B99DF00669E90 /* ParentLogin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

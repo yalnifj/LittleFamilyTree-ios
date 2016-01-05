@@ -9,11 +9,10 @@
 import Foundation
 import SpriteKit
 
-class LittleFamilyScene: SKScene, EventListener {
+class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
 	static var TOPIC_START_SETTINGS = "start_choose"
-    var selectedPerson:LittlePerson?
     var topBar:TopBar?
     var addingStars = false
     var starRect:CGRect?
@@ -22,6 +21,7 @@ class LittleFamilyScene: SKScene, EventListener {
     var starDelayCount = 2
     var starDelay = 2
     var loadingDialog:SKSpriteNode?
+    var selectedPerson:LittlePerson?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -108,6 +108,9 @@ class LittleFamilyScene: SKScene, EventListener {
         else if topic == LittleFamilyScene.TOPIC_START_CHOOSE {
             showChoosePlayerScreen()
         }
+        else if topic == LittleFamilyScene.TOPIC_START_SETTINGS {
+            showParentLogin()
+        }
     }
     
     func showHomeScreen() {
@@ -115,7 +118,7 @@ class LittleFamilyScene: SKScene, EventListener {
         
         let nextScene = GameScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
-        nextScene.selectedPerson = selectedPerson
+        nextScene.selectedPerson = self.selectedPerson
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
@@ -125,6 +128,16 @@ class LittleFamilyScene: SKScene, EventListener {
         let nextScene = ChoosePlayerScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition)
+    }
+    
+    func showParentLogin() {
+        let subview = ParentLogin(frame: (self.view?.bounds)!)
+        subview.loginListener = self
+        self.view?.addSubview(subview)
+    }
+    
+    func LoginComplete() {
+        // TODO -- show settings view
     }
     
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {

@@ -36,9 +36,7 @@ class GameScene: LittleFamilyScene {
     var maxScale : CGFloat = 2.0
     var moved = false
 	
-	var starDelay = 100
-    
-    var selectedPerson:LittlePerson?
+	var starWait = 100
     
     var previousScale:CGFloat? = nil
     
@@ -862,10 +860,10 @@ class GameScene: LittleFamilyScene {
 		settingsSprite.size.width = 50 * lfScale
 		settingsSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
 		settingsSprite.zPosition = z++
-		settingsSprite.addEvent(0, LittleFamilyScene.TOPIC_START_SETTINGS)
+		settingsSprite.addEvent(0, topic: LittleFamilyScene.TOPIC_START_SETTINGS)
 		self.addChild(settingsSprite)
 		
-		starDelay = Int(arc4random_uniform(200))
+		starWait = Int(arc4random_uniform(200))
         
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
@@ -990,18 +988,18 @@ class GameScene: LittleFamilyScene {
 		
 		self.updateSprites = notRemoving
 		
-		if starDelay > 0 {
-			starDelay--
+		if starWait > 0 {
+			starWait--
 		} else {
-			starDelay = Int(arc4random_uniform(200))
+			starWait = Int(arc4random_uniform(200))
 			let s = Int(arc4random_uniform(UInt32(starSprites.count)))
-			let sprite starSprites[s]
-			showStars(sprite.frame, starsInRect: true, count: sprite.size.width / 5)
+			let sprite = starSprites[s]
+			showStars(sprite.frame, starsInRect: true, count: Int(sprite.size.width) / 5)
 		}
     }
     
-    var index:Int?
-    func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
         if topic == GameScene.TOPIC_START_MATCH {
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
