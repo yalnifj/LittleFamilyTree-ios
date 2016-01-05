@@ -131,13 +131,16 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     }
     
     func showParentLogin() {
-        let subview = ParentLogin(frame: (self.view?.bounds)!)
+        let frame = CGRect(x: self.size.width/2 - 200, y: self.size.height/2 - 250, width: 400, height: 500)
+        let subview = ParentLogin(frame: frame)
         subview.loginListener = self
         self.view?.addSubview(subview)
     }
     
     func LoginComplete() {
-        // TODO -- show settings view
+        let subview = SettingsView(frame: (self.view?.bounds)!)
+        subview.selectedPerson = self.selectedPerson
+        self.view?.addSubview(subview)
     }
     
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {

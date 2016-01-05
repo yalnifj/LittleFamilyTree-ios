@@ -477,6 +477,8 @@
 		A1F81D9B1BF3E8BE00078870 /* pgv_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */; };
 		A1F81D9D1BF4076100078870 /* FamilySearchLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F81D9C1BF4076100078870 /* FamilySearchLogin.swift */; };
 		A1F81D9F1BF4078600078870 /* FamilySearchLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */; };
+		A1F863081C3C10EF00838CEC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F863071C3C10EF00838CEC /* SettingsView.swift */; };
+		A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F863091C3C111D00838CEC /* SettingsView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1039,6 +1041,8 @@
 		A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pgv_logo.png; sourceTree = "<group>"; };
 		A1F81D9C1BF4076100078870 /* FamilySearchLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilySearchLogin.swift; path = views/FamilySearchLogin.swift; sourceTree = "<group>"; };
 		A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FamilySearchLogin.xib; path = views/FamilySearchLogin.xib; sourceTree = "<group>"; };
+		A1F863071C3C10EF00838CEC /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = views/SettingsView.swift; sourceTree = "<group>"; };
+		A1F863091C3C111D00838CEC /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsView.xib; path = views/SettingsView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1717,6 +1721,8 @@
 				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */,
 				A12CC7F91C3B995500669E90 /* ParentLogin.xib */,
+				A1F863071C3C10EF00838CEC /* SettingsView.swift */,
+				A1F863091C3C111D00838CEC /* SettingsView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2111,6 +2117,7 @@
 				A1F81D7B1BF3AFDF00078870 /* pullchainslowon.wav in Resources */,
 				A1F81CF01BF3AFDF00078870 /* house_kitchen_kettle5.png in Resources */,
 				A1F81D511BF3AFDF00078870 /* house_rooms_0_2.png in Resources */,
+				A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */,
 				A1F81D6C1BF3AFDF00078870 /* drums_allinourfamilytree.mp3 in Resources */,
 				A1064FB61C3372CA0016A9C6 /* bubbles8.png in Resources */,
 				A176B7CF1C28E98100A2A49C /* tree_search8.png in Resources */,
@@ -2283,6 +2290,7 @@
 				A10BF1321BC9D359005CAFDA /* PlaceReference.swift in Sources */,
 				A1AC2B3E1C1D04BE000028A1 /* PuzzleSprite.swift in Sources */,
 				A117C7351BA4AD0000964D50 /* GameViewController.swift in Sources */,
+				A1F863081C3C10EF00838CEC /* SettingsView.swift in Sources */,
 				A1686D651BB97D3400E58A09 /* Media.swift in Sources */,
 				A10BF1251BC9D359005CAFDA /* EvidenceReference.swift in Sources */,
 				A16241C51C064507009205F1 /* PersonMatchSprite.swift in Sources */,
