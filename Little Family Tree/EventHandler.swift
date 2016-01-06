@@ -27,18 +27,18 @@ class EventHandler {
             listeners = [EventListener]()
         }
         listeners!.append(listener)
-        listener.index = (listeners?.count)! - 1
+        listener.listenerIndex = (listeners?.count)! - 1
         subscribers[topic] = listeners
     }
     
     func unSubscribe(topic:String, listener:EventListener) {
         var listeners = subscribers[topic];
-        if (listeners != nil && listener.index != nil) {
-            listeners!.removeAtIndex(listener.index!)
+        if (listeners != nil && listener.listenerIndex != nil) {
+            listeners!.removeAtIndex(listener.listenerIndex!)
             subscribers[topic] = listeners
             //-- reindex
             for i in 0..<listeners!.count {
-                listeners![i].index = i
+                listeners![i].listenerIndex = i
             }
         }
     }
@@ -55,6 +55,6 @@ class EventHandler {
 }
 
 protocol EventListener {
-    var index:Int? { get set }
+    var listenerIndex:Int? { get set }
     func onEvent(topic:String, data:NSObject?)
 }

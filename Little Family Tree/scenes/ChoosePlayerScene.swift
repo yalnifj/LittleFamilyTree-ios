@@ -79,7 +79,7 @@ class ChoosePlayerScene: SKScene, EventListener {
         super.update(currentTime)
     }
     
-    var index:Int?
+    var listenerIndex:Int?
     func onEvent(topic: String, data: NSObject?) {
         if topic == ChoosePlayerScene.TOPIC_CHOOSE_PERSON {
             let person = data as! LittlePerson?

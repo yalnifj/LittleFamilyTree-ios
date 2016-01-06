@@ -479,6 +479,7 @@
 		A1F81D9F1BF4078600078870 /* FamilySearchLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */; };
 		A1F863081C3C10EF00838CEC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F863071C3C10EF00838CEC /* SettingsView.swift */; };
 		A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F863091C3C111D00838CEC /* SettingsView.xib */; };
+		A1F8630C1C3C159500838CEC /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F8630B1C3C159500838CEC /* settings.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1043,6 +1044,7 @@
 		A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FamilySearchLogin.xib; path = views/FamilySearchLogin.xib; sourceTree = "<group>"; };
 		A1F863071C3C10EF00838CEC /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = views/SettingsView.swift; sourceTree = "<group>"; };
 		A1F863091C3C111D00838CEC /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsView.xib; path = views/SettingsView.xib; sourceTree = "<group>"; };
+		A1F8630B1C3C159500838CEC /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1403,6 +1405,7 @@
 				A176B7A41C28E6DF00A2A49C /* paintbrush.png */,
 				A18F04A91BF7F10C00538F0B /* people */,
 				A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */,
+				A1F8630B1C3C159500838CEC /* settings.png */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
 				A17C324E1C1A65A200F64737 /* star1.png */,
 				A176B7A71C28E98100A2A49C /* tree */,
@@ -2073,6 +2076,7 @@
 				A1F81C861BF3AFDF00078870 /* house_chilldroom_desk16.png in Resources */,
 				A1F81C7F1BF3AFDF00078870 /* house_chilldroom_desk1.png in Resources */,
 				A1F81CA51BF3AFDF00078870 /* house_chilldroom_teddy4.png in Resources */,
+				A1F8630C1C3C159500838CEC /* settings.png in Resources */,
 				A176B7C41C28E98100A2A49C /* leaves_overlay4.png in Resources */,
 				A1064FBE1C3372CA0016A9C6 /* soap1.png in Resources */,
 				A1F81D371BF3AFDF00078870 /* house_toys_blocks.png in Resources */,

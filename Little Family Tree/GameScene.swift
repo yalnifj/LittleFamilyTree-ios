@@ -102,7 +102,7 @@ class GameScene: LittleFamilyScene {
         cloud2.anchorPoint = CGPoint.zero
         cloud2.position = CGPointMake(minY + oWidth*0.75, oHeight - cloud1.size.height - 15)
         cloud2.zPosition = z++
-		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(50, y:0, duration: 1))
+		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(10, y:0, duration: 1))
 		cloud2.maxX = oWidth
 		cloud2.maxY = oHeight
         spriteContainer.addChild(cloud2)
@@ -856,9 +856,9 @@ class GameScene: LittleFamilyScene {
         self.addChild(personSprite)
 		
 		let settingsSprite = AnimatedStateSprite(imageNamed: "settings")
-		settingsSprite.size.height = 50 * lfScale
-		settingsSprite.size.width = 50 * lfScale
-		settingsSprite.position = CGPointMake(self.size.width - (50 * lfScale), 10)
+		settingsSprite.size.height = 30 * lfScale
+		settingsSprite.size.width = 30 * lfScale
+		settingsSprite.position = CGPointMake(self.size.width - settingsSprite.size.width, settingsSprite.size.height + 5)
 		settingsSprite.zPosition = z++
 		settingsSprite.addEvent(0, topic: LittleFamilyScene.TOPIC_START_SETTINGS)
 		self.addChild(settingsSprite)

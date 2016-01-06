@@ -9,6 +9,13 @@
 import Foundation
 import SpriteKit
 
+struct RGBA {
+    var r: UInt8
+    var g: UInt8
+    var b: UInt8
+    var a: UInt8
+}
+
 class DressUpScene: LittleFamilyScene {
     var dolls = DressUpDolls()
     var dollConfig:DollConfig?
@@ -26,7 +33,7 @@ class DressUpScene: LittleFamilyScene {
     var scrolling = false
     var thumbSpriteMap = [SKNode : String]()
     var snapTolerance = CGFloat(10)
-    var outlines = [SKSpriteNode : SKSpriteNode]()
+    var outlines = [SKSpriteNode : SKEffectNode]()
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -136,13 +143,37 @@ class DressUpScene: LittleFamilyScene {
                 clotheSprites.append(clothSprite)
                 clothingMap[clothSprite] = cloth
                 
-                let outlineTexture = createOutlineImage(cloth.filename)
+                let skmt = SKMutableTexture(imageNamed: cloth.filename)
+                skmt.modifyPixelDataWithBlock { voidptr, len in
+                    let rgbaptr = UnsafeMutablePointer<RGBA>(voidptr)
                 
-                let outlineSprite = SKSpriteNode(texture: outlineTexture)
+                    //let pixels = UnsafeMutableBufferPointer(start: rgbaptr, count: Int(len / sizeof(RGBA)))
+                        
+                    // now, you can manipulate the pixels buffer like any other mutable collection type
+                    for i in 0..<Int(len / sizeof(RGBA)) {
+                        if rgbaptr[i].a < 0x20 {
+                            rgbaptr[i].a = 0x00
+                        }
+                        else {
+                            rgbaptr[i].r = 0xff
+                            rgbaptr[i].g = 0x00
+                            rgbaptr[i].b = 0x00
+                            rgbaptr[i].a = 0xff
+                        }
+                    }
+                }
+                
+                //let filter = CIFilter(name: "CIEdgeWork")!
+                
+                let osksn = SKSpriteNode(texture: skmt)
+                
+                let outlineSprite = SKEffectNode()
                 outlineSprite.zPosition = (doll?.zPosition)! + 1
                 outlineSprite.setScale(scale)
                 outlineSprite.position = getSnap(cloth, sprite:clothSprite)
                 outlineSprite.hidden = true
+                //outlineSprite.filter = filter
+                outlineSprite.addChild(osksn)
                 self.addChild(outlineSprite)
                 outlines[clothSprite] = outlineSprite
             }

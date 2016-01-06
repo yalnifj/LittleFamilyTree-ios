@@ -100,7 +100,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         self.addChild(topBar!)
     }
     
-    var index:Int?
+    var listenerIndex:Int?
     func onEvent(topic: String, data: NSObject?) {
         if topic == LittleFamilyScene.TOPIC_START_HOME {
             showHomeScreen()
