@@ -31,6 +31,7 @@ class BubbleScene: LittleFamilyScene {
     var next:PersonBubbleSprite?
     
     var hasSoap = false
+	var bubbleSteps = 100
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -372,7 +373,15 @@ class BubbleScene: LittleFamilyScene {
     }
     
     override func update(currentTime: NSTimeInterval) {
-        
+        if bubbleSteps > 0 {
+			bubbleSteps--
+		}
+		else {
+			bubbleSteps = 100
+			if next != nil {
+				next.highlight()
+			}
+		}
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -421,6 +430,7 @@ class BubbleScene: LittleFamilyScene {
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
+							bubbleSteps = 100
                         }
                     
                         SpeechHelper.getInstance().speak((child?.person?.givenName)! as String)
@@ -451,6 +461,7 @@ class BubbleScene: LittleFamilyScene {
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
+							bubbleSteps = 100
                         }
                         
                         SpeechHelper.getInstance().speak((mom?.person?.givenName)! as String)
@@ -481,6 +492,7 @@ class BubbleScene: LittleFamilyScene {
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
+							bubbleSteps = 100
                         }
                         
                         SpeechHelper.getInstance().speak((dad?.person?.givenName)! as String)
