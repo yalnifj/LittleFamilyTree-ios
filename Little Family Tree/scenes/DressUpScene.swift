@@ -144,25 +144,26 @@ class DressUpScene: LittleFamilyScene {
                 clothingMap[clothSprite] = cloth
                 
                 let skmt = SKMutableTexture(imageNamed: cloth.filename)
-                skmt.modifyPixelDataWithBlock { voidptr, len in
-                    let rgbaptr = UnsafeMutablePointer<RGBA>(voidptr)
-                
-                    //let pixels = UnsafeMutableBufferPointer(start: rgbaptr, count: Int(len / sizeof(RGBA)))
-                        
-                    // now, you can manipulate the pixels buffer like any other mutable collection type
-                    for i in 0..<Int(len / sizeof(RGBA)) {
-                        if rgbaptr[i].a < 0x20 {
-                            rgbaptr[i].a = 0x00
-                        }
-                        else {
-                            rgbaptr[i].r = 0xff
-                            rgbaptr[i].g = 0x00
-                            rgbaptr[i].b = 0x00
-                            rgbaptr[i].a = 0xff
+                skmt.preloadWithCompletionHandler({() in
+                    skmt.modifyPixelDataWithBlock { voidptr, len in
+                        let rgbaptr = UnsafeMutablePointer<RGBA>(voidptr)
+                    
+                        //let pixels = UnsafeMutableBufferPointer(start: rgbaptr, count: Int(len / sizeof(RGBA)))
+                            
+                        // now, you can manipulate the pixels buffer like any other mutable collection type
+                        for i in 0..<Int(len / sizeof(RGBA)) {
+                            if rgbaptr[i].a < 0x20 {
+                                rgbaptr[i].a = 0x00
+                            }
+                            else {
+                                rgbaptr[i].r = 0xff
+                                rgbaptr[i].g = 0x00
+                                rgbaptr[i].b = 0x00
+                                rgbaptr[i].a = 0xff
+                            }
                         }
                     }
-                }
-                
+                })
                 //let filter = CIFilter(name: "CIEdgeWork")!
                 
                 let osksn = SKSpriteNode(texture: skmt)

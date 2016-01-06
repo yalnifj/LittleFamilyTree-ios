@@ -91,7 +91,7 @@ class GameScene: LittleFamilyScene {
         let rainAction = SKAction.repeatAction(SKAction.animateWithTextures(cloudrain, timePerFrame: 0.06, resize: false, restore: false), count: 20)
         cloud1.addAction(4, action: rainAction)
         cloud1.addSound(4, soundFile: "rain")
-		cloud1.moveAction = SKAction.repeatActionForever(SKAction.moveByX(10, y:0, duration: 1))
+		cloud1.moveAction = SKAction.repeatActionForever(SKAction.moveByX(5, y:0, duration: 1))
 		cloud1.maxX = oWidth
 		cloud1.maxY = oHeight
         spriteContainer.addChild(cloud1)
@@ -102,7 +102,7 @@ class GameScene: LittleFamilyScene {
         cloud2.anchorPoint = CGPoint.zero
         cloud2.position = CGPointMake(minY + oWidth*0.75, oHeight - cloud1.size.height - 15)
         cloud2.zPosition = z++
-		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(10, y:0, duration: 1))
+		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(5, y:0, duration: 1))
 		cloud2.maxX = oWidth
 		cloud2.maxY = oHeight
         spriteContainer.addChild(cloud2)
@@ -846,7 +846,7 @@ class GameScene: LittleFamilyScene {
         
         let personSprite = PersonNameSprite()
         touchableSprites.append(personSprite)
-        personSprite.position = CGPointMake(self.size.width - (110 * lfScale), 10)
+        personSprite.position = CGPointMake(self.size.width - (100 * lfScale), 10)
         personSprite.zPosition = z++
         personSprite.size.width = 50 * lfScale
         personSprite.size.height = 50 * lfScale
@@ -858,7 +858,7 @@ class GameScene: LittleFamilyScene {
 		let settingsSprite = AnimatedStateSprite(imageNamed: "settings")
 		settingsSprite.size.height = 30 * lfScale
 		settingsSprite.size.width = 30 * lfScale
-		settingsSprite.position = CGPointMake(self.size.width - settingsSprite.size.width, settingsSprite.size.height + 5)
+		settingsSprite.position = CGPointMake(self.size.width - settingsSprite.size.width, settingsSprite.size.height + 8)
 		settingsSprite.zPosition = z++
 		settingsSprite.addEvent(0, topic: LittleFamilyScene.TOPIC_START_SETTINGS)
 		self.addChild(settingsSprite)

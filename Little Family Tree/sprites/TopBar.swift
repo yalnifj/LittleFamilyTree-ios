@@ -40,7 +40,7 @@ class TopBar: SKSpriteNode {
 			settingsSprite = SKSpriteNode(imageNamed: "settings")
 			settingsSprite?.size.height = self.size.height - 5
 			settingsSprite?.size.width = self.size.height - 5
-			settingsSprite?.position = CGPointMake(self.size.width/4, 0)
+			settingsSprite?.position = CGPointMake(0, 0)
 			settingsSprite?.zPosition = 1
 			self.addChild(settingsSprite!)
         }

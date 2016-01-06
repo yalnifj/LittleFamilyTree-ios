@@ -19,34 +19,34 @@ class EventHandler {
         return EventHandler.instance!
     }
     
-    var subscribers = [String: [EventListener]]()
+    var subscribers = [String: [Int : EventListener]]()
+    var counter = 1
     
     func subscribe(topic:String, var listener:EventListener) {
         var listeners = subscribers[topic]
         if (listeners == nil) {
-            listeners = [EventListener]()
+            listeners = [Int : EventListener]()
         }
-        listeners!.append(listener)
+        if listener.listenerIndex == nil {
+            listener.listenerIndex = counter++
+        }
+        listeners![listener.listenerIndex!] = listener
         listener.listenerIndex = (listeners?.count)! - 1
         subscribers[topic] = listeners
     }
     
     func unSubscribe(topic:String, listener:EventListener) {
-        var listeners = subscribers[topic];
+        var listeners = subscribers[topic]
         if (listeners != nil && listener.listenerIndex != nil) {
-            listeners!.removeAtIndex(listener.listenerIndex!)
+            listeners!.removeValueForKey(listener.listenerIndex!)
             subscribers[topic] = listeners
-            //-- reindex
-            for i in 0..<listeners!.count {
-                listeners![i].listenerIndex = i
-            }
         }
     }
     
     func publish(topic:String, data:NSObject?) {
         let listeners = subscribers[topic];
         if (listeners != nil) {
-            for l in listeners! {
+            for l in listeners!.values {
                 l.onEvent(topic, data:data);
             }
         }
