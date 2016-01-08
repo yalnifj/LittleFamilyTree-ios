@@ -861,6 +861,7 @@ class GameScene: LittleFamilyScene {
 		settingsSprite.position = CGPointMake(self.size.width - settingsSprite.size.width, settingsSprite.size.height + 8)
 		settingsSprite.zPosition = z++
 		settingsSprite.addEvent(0, topic: LittleFamilyScene.TOPIC_START_SETTINGS)
+		touchableSprites.append(settingsSprite)
 		self.addChild(settingsSprite)
 		
 		starWait = Int(arc4random_uniform(200))
@@ -965,6 +966,9 @@ class GameScene: LittleFamilyScene {
                 if self.touchableSprites.contains(touchedNode) {
                     touchedNode.touchesEnded(touches, withEvent: event)
                 }
+				else if self.touchableSprites.contains(touchedNode.parent) {
+					touchedNode.parent.touchesEnded(touches, withEvent: event)
+				}
                 else if personLeaves!.children.contains(touchedNode) == true {
                     personLeaves!.touchesEnded(touches, withEvent: event)
                 }
