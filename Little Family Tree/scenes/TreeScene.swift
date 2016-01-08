@@ -233,6 +233,7 @@ class TreeScene: LittleFamilyScene {
         ]
         let searchAction = SKAction.animateWithTextures(searching, timePerFrame: 0.07, resize: false, restore: false)
         treeSearchButton?.addAction(1, action: searchAction)
+        treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
     }
     
@@ -516,6 +517,8 @@ class TreeScene: LittleFamilyScene {
                     self.personTouched(touchedNode as! TreePersonSprite)
                 } else if touchedNode.parent is TreePersonSprite {
                     self.personTouched(touchedNode.parent as! TreePersonSprite)
+                } else {
+                    self.hideButtonPanel()
                 }
             } else {
                 print(treeContainer?.position)
@@ -569,7 +572,8 @@ class TreeScene: LittleFamilyScene {
         } else {
             if node.person != nil {
                 if self.treeSearchGame?.isMatch(node.person!) == true {
-                    self.showStars(node.frame, starsInRect: true, count: 10)
+                    let rect = CGRect(x: node.frame.origin.x + node.frame.width / 2, y: node.frame.origin.y + node.frame.height / 2, width: node.frame.width, height: node.frame.height)
+                    self.showStars(rect, starsInRect: true, count: 5, container: node.parent)
                     self.playSuccessSound(0.5, onCompletion: { () in
                         self.treeSearchButton?.nextState()
                     })

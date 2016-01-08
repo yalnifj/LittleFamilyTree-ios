@@ -54,7 +54,7 @@ class ParentLogin: UIView {
     
     func loadViewFromNib() -> UIView {
         let bundle = NSBundle(forClass:self.dynamicType)
-        let nib = UINib(nibName: "FamilySearchLogin", bundle: bundle)
+        let nib = UINib(nibName: "ParentLogin", bundle: bundle)
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         
         return view
@@ -88,8 +88,6 @@ class ParentLogin: UIView {
             showAlert("Password may not be empty")
             return
         }
-        
-        showInfoMsg("Logging into FamilySearch")
         
         let dataService = DataService.getInstance()
         let storedUsername = dataService.getEncryptedProperty(DataService.SERVICE_USERNAME)

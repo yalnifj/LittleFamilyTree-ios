@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1060E061C3F6AF70067E76A /* ParentsGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1060E051C3F6AF70067E76A /* ParentsGuide.swift */; };
+		A1060E0F1C3F6B260067E76A /* ParentsGuide.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1060E0E1C3F6B260067E76A /* ParentsGuide.xib */; };
 		A1064FA51C3372CA0016A9C6 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = A1064F851C3372CA0016A9C6 /* bubble.png */; };
 		A1064FA61C3372CA0016A9C6 /* bubble_pop1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1064F861C3372CA0016A9C6 /* bubble_pop1.png */; };
 		A1064FA71C3372CA0016A9C6 /* bubble_pop2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1064F871C3372CA0016A9C6 /* bubble_pop2.png */; };
@@ -85,6 +87,7 @@
 		A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A117C7391BA4AD0000964D50 /* Images.xcassets */; };
 		A117C73D1BA4AD0000964D50 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
+		A12A64A31C3E12DD00A2CB13 /* bubbled_hi.png in Resources */ = {isa = PBXBuildFile; fileRef = A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */; };
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
 		A12CC7FA1C3B995500669E90 /* ParentLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12CC7F91C3B995500669E90 /* ParentLogin.xib */; };
@@ -570,6 +573,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A1060E051C3F6AF70067E76A /* ParentsGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParentsGuide.swift; path = views/ParentsGuide.swift; sourceTree = "<group>"; };
+		A1060E0E1C3F6B260067E76A /* ParentsGuide.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParentsGuide.xib; path = views/ParentsGuide.xib; sourceTree = "<group>"; };
 		A1064F851C3372CA0016A9C6 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		A1064F861C3372CA0016A9C6 /* bubble_pop1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_pop1.png; sourceTree = "<group>"; };
 		A1064F871C3372CA0016A9C6 /* bubble_pop2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_pop2.png; sourceTree = "<group>"; };
@@ -652,6 +657,7 @@
 		A117C7421BA4AD0100964D50 /* Little Family TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Little Family TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
+		A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbled_hi.png; sourceTree = "<group>"; };
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A12CC7F91C3B995500669E90 /* ParentLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParentLogin.xib; path = views/ParentLogin.xib; sourceTree = "<group>"; };
@@ -1070,6 +1076,7 @@
 			isa = PBXGroup;
 			children = (
 				A1064F851C3372CA0016A9C6 /* bubble.png */,
+				A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */,
 				A1064F861C3372CA0016A9C6 /* bubble_pop1.png */,
 				A1064F871C3372CA0016A9C6 /* bubble_pop2.png */,
 				A1064F881C3372CA0016A9C6 /* bubble_pop3.png */,
@@ -1718,12 +1725,14 @@
 		A1F81D911BF3B32300078870 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A1F81D941BF3E43300078870 /* ChooseServiceView.xib */,
 				A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */,
+				A1F81D941BF3E43300078870 /* ChooseServiceView.xib */,
 				A1F81D9C1BF4076100078870 /* FamilySearchLogin.swift */,
-				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */,
+				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A12CC7F91C3B995500669E90 /* ParentLogin.xib */,
+				A1060E051C3F6AF70067E76A /* ParentsGuide.swift */,
+				A1060E0E1C3F6B260067E76A /* ParentsGuide.xib */,
 				A1F863071C3C10EF00838CEC /* SettingsView.swift */,
 				A1F863091C3C111D00838CEC /* SettingsView.xib */,
 			);
@@ -2012,6 +2021,7 @@
 				A1F81CFB1BF3AFDF00078870 /* house_music_drums2.png in Resources */,
 				A1F81CC71BF3AFDF00078870 /* house_familyroom_frame25.png in Resources */,
 				A1F81CE81BF3AFDF00078870 /* house_kitchen_fridge5.png in Resources */,
+				A1060E0F1C3F6B260067E76A /* ParentsGuide.xib in Resources */,
 				A1F81D5C1BF3AFDF00078870 /* house_rooms_2_3.png in Resources */,
 				A1064FAF1C3372CA0016A9C6 /* bubbles1.png in Resources */,
 				A18F04B51BF7F16C00538F0B /* grandpa.png in Resources */,
@@ -2160,6 +2170,7 @@
 				A1F81CAF1BF3AFDF00078870 /* house_familyroom_cat_a1.png in Resources */,
 				A1F81CF21BF3AFDF00078870 /* house_kitchen_kettle7.png in Resources */,
 				A1F81D261BF3AFDF00078870 /* house_toys_bat14.png in Resources */,
+				A12A64A31C3E12DD00A2CB13 /* bubbled_hi.png in Resources */,
 				A1F81D7A1BF3AFDF00078870 /* powerup_success.wav in Resources */,
 				A1F81C781BF3AFDF00078870 /* house_adult_wardrobe5.png in Resources */,
 				A1064FB01C3372CA0016A9C6 /* bubbles2.png in Resources */,
@@ -2339,6 +2350,7 @@
 				A1064FD31C34C8C80016A9C6 /* PersonBubbleSprite.swift in Sources */,
 				A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */,
 				A1686D631BB97D3400E58A09 /* GenderType.swift in Sources */,
+				A1060E061C3F6AF70067E76A /* ParentsGuide.swift in Sources */,
 				A1EC614B1C1367A4006DF050 /* DollConfig.swift in Sources */,
 				A10BF1261BC9D359005CAFDA /* ExtensibleData.swift in Sources */,
 				A10BF12A1BC9D359005CAFDA /* HypermediaEnabledData.swift in Sources */,

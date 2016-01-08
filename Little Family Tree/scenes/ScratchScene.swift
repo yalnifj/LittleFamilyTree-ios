@@ -235,7 +235,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         
         if complete {
             coverSprite?.hidden = true
-            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(35)))
+            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(35)), container: self)
             self.playSuccessSound(1.0, onCompletion: {
                 if self.nameLabel != nil {
                     self.nameLabel?.removeFromParent()

@@ -12,7 +12,7 @@ import SpriteKit
 class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
-	static var TOPIC_START_SETTINGS = "start_choose"
+	static var TOPIC_START_SETTINGS = "start_settings"
     var topBar:TopBar?
     var addingStars = false
     var starRect:CGRect?
@@ -22,6 +22,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     var starDelay = 2
     var loadingDialog:SKSpriteNode?
     var selectedPerson:LittlePerson?
+    var starContainer:SKNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -42,7 +43,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
             if (starDelayCount <= 0) {
                 starDelayCount = starDelay
                 starCount--;
-                for _ in 0..<5 {
+                for _ in 0..<6 {
                 if (starRect != nil) {
                     let star = SKSpriteNode(imageNamed: "star1")
                     var x = CGFloat(0)
@@ -79,7 +80,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
                     let shrinkAction = SKAction.scaleTo(0.0, duration: 1.0)
                     let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
                     star.runAction(doubleAction)
-                    self.addChild(star)
+                    if self.starContainer == nil {
+                        self.addChild(star)
+                    } else {
+                        self.starContainer?.addChild(star)
+                    }
                 }
                 }
             } else {
@@ -131,7 +136,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     }
     
     func showParentLogin() {
-        let frame = CGRect(x: self.size.width/2 - 200, y: self.size.height/2 - 250, width: 400, height: 500)
+        let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self
         self.view?.addSubview(subview)
@@ -161,10 +166,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         }
     }
     
-    func showStars(rect:CGRect, starsInRect: Bool, count: Int) {
+    func showStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
         self.starRect = rect
         self.starsInRect = starsInRect
         self.starCount = count
+        self.starContainer = container
     }
     
     func showLoadingDialog() {

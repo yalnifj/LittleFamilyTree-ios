@@ -991,10 +991,10 @@ class GameScene: LittleFamilyScene {
 		if starWait > 0 {
 			starWait--
 		} else {
-			starWait = Int(arc4random_uniform(200))
+			starWait = 10 + Int(arc4random_uniform(10))
 			let s = Int(arc4random_uniform(UInt32(starSprites.count)))
 			let sprite = starSprites[s]
-			showStars(sprite.frame, starsInRect: true, count: Int(sprite.size.width) / 5)
+            showStars(sprite.frame, starsInRect: true, count: 2, container: spriteContainer)
 		}
     }
     

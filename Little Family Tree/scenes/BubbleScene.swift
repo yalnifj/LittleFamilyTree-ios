@@ -379,7 +379,7 @@ class BubbleScene: LittleFamilyScene {
 		else {
 			bubbleSteps = 100
 			if next != nil {
-				next.highlight()
+				next!.highlight()
 			}
 		}
     }

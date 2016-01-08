@@ -35,13 +35,13 @@ class PersonBubbleSprite: SKSpriteNode {
     var popped = false
 	
 	func highlight() {
-		let highlight = SKSpriteNode(imageNamed: "bubble_hi")
+		let highlight = SKSpriteNode(imageNamed: "bubbled_hi")
 		highlight.size = self.size
 		highlight.position = CGPointMake(0, 0)
 		highlight.zPosition = 3
 		self.addChild(highlight)
 		let action = SKAction.sequence([
-			SKAction.repeatAction(SKAction.rotateByAngle(6, 1), 3),
+			SKAction.repeatAction(SKAction.rotateByAngle(6, duration: 1), count: 3),
 			SKAction.removeFromParent()
 		])
 		highlight.runAction(action)

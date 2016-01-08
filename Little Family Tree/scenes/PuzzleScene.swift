@@ -247,7 +247,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             complete = true
             self.hintSprite?.hidden = false
             self.hintButton?.hidden = true
-            self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(40)))
+            self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(40)), container: self)
             self.playSuccessSound(1.0, onCompletion: {
                 self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
                 self.nameLabel?.fontSize = self.size.height / 30

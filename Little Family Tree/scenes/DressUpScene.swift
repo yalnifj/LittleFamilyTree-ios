@@ -275,7 +275,7 @@ class DressUpScene: LittleFamilyScene {
                 }
             }
             if allPlaced == true {
-                self.showStars(CGRectMake((self.doll?.position.x)! / 2, (self.doll?.position.y)! / 2, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 25)
+                self.showStars(CGRectMake((self.doll?.position.x)! / 2, (self.doll?.position.y)! / 2, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 25, container: nil)
                 self.playSuccessSound(0.5, onCompletion: { () in
                     self.dollHolder?.hidden = false
                 })
