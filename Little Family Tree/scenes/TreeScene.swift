@@ -55,6 +55,9 @@ class TreeScene: LittleFamilyScene {
     var scratchButton:SKSpriteNode?
     var coloringButton:SKSpriteNode?
     var puzzleButton:SKSpriteNode?
+	
+	var dolls = DressUpDolls()
+	var dollConfig:DollConfig?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -84,33 +87,33 @@ class TreeScene: LittleFamilyScene {
 		self.treeSearchGame = TreeSearchGame(me: selectedPerson!)
         
         matchButton = SKSpriteNode(imageNamed: "house_familyroom_frame1")
-        var br = matchButton!.size.height / matchButton!.size.width
-        matchButton!.size = CGSizeMake(30, 30 * br)
+        var br = matchButton!.size.width / matchButton!.size.height
+        matchButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(matchButton!)
         
         scratchButton = SKSpriteNode(imageNamed: "house_chilldroom_desk19")
-        br = scratchButton!.size.height / scratchButton!.size.width
-        scratchButton!.size = CGSizeMake(30, 30 * br)
+        br = scratchButton!.size.width / scratchButton!.size.height
+        scratchButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(scratchButton!)
         
         coloringButton = SKSpriteNode(imageNamed: "house_chilldroom_paint11")
-        br = coloringButton!.size.height / coloringButton!.size.width
-        coloringButton!.size = CGSizeMake(30, 30 * br)
+        br = coloringButton!.size.width / coloringButton!.size.height
+        coloringButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(coloringButton!)
         
         puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
-        br = puzzleButton!.size.height / puzzleButton!.size.width
-        puzzleButton!.size = CGSizeMake(30, 30 * br)
+        br = puzzleButton!.size.width / puzzleButton!.size.height
+        puzzleButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(puzzleButton!)
         
         bubbleButton = SKSpriteNode(imageNamed: "bubbles1")
-        br = bubbleButton!.size.height / bubbleButton!.size.width
-        bubbleButton!.size = CGSizeMake(30, 30 * br)
+        br = bubbleButton!.size.width / bubbleButton!.size.height
+        bubbleButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(bubbleButton!)
         
-        dressupButton = SKSpriteNode(imageNamed: "bubbles1")
-        br = dressupButton!.size.height / dressupButton!.size.width
-        dressupButton!.size = CGSizeMake(30, 30 * br)
+        dressupButton = SKSpriteNode(imageNamed: "dolls/usa/boy_thumb.png")
+        br = dressupButton!.size.width / dressupButton!.size.height
+        dressupButton!.size = CGSizeMake(30 * br, 30)
         buttons.append(dressupButton!)
         
         dispatch_group_enter(treeGroup)
@@ -499,9 +502,24 @@ class TreeScene: LittleFamilyScene {
             lastPoint = touch.locationInNode(self)
             if moved == false {
                 let touchedNode = nodeAtPoint(lastPoint)
-                if touchedNode.parent == buttonPanel {
-                    
+                if touchedNode == bubbleButton {
+                    self.showBubbleGame()
                 }
+				else if touchedNode == matchButton {
+					self.showMatchGame()
+				}
+				else if touchedNode == scratchButton {
+					self.showScratchGame()
+				}
+				else if touchedNode == puzzleButton {
+					self.showPuzzleGame()
+				}
+				else if touchedNode == coloringButton {
+					self.showColoringGame()
+				}
+				else if touchedNode == dressupButton {
+					self.showDressupGame(dollConfig)
+				}
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
                     treeSearchButton?.state = 0
@@ -544,7 +562,26 @@ class TreeScene: LittleFamilyScene {
         self.buttonPanel?.zPosition = 100
         self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width, node.position.y)
         self.treeContainer?.addChild(self.buttonPanel!)
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(200, height: 150, duration: 1.5))
+		let person  = node.person!
+		let place = PlaceHelper.getPersonCountry(person)
+		dollConfig = self.dolls.getDollConfig(place, person: person)
+        let texture = SKTexture(imageNamed: dollConfig!.getThumbnail())
+        let ratio = texture.size().width / texture.size().height
+        self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
+        self.dressupButton?.texture = texture
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(200, height: 150, duration: 1.5)) {
+			var x = 0
+			var y = 0
+			for button in self.buttons {
+				button.position = CGPointMake(x, y)
+				self.buttonPanel?.addChild(button)
+				x = x + button.size.width + 5
+				if x > self.buttonPanel!.size.width {
+					x = 0
+					y = y + button.size.height + 5
+				}
+			}
+		}
     }
     
     func personTouched(node:TreePersonSprite) {

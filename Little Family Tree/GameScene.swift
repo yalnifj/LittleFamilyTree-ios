@@ -1001,60 +1001,25 @@ class GameScene: LittleFamilyScene {
     override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if topic == GameScene.TOPIC_START_MATCH {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = MatchGameScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showMatchGame()
         }
         else if topic == GameScene.TOPIC_START_DRESSUP {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = ChooseCultureScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showHeritageCalculatorGame()
         }
         else if topic == GameScene.TOPIC_START_PUZZLE {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = PuzzleScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showPuzzleGame()
         }
 		else if topic == GameScene.TOPIC_START_SCRATCH {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = ScratchScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showScratchGame()
         }
 		else if topic == GameScene.TOPIC_START_COLORING {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = ColoringScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showColoringGame()
         }
 		else if topic == GameScene.TOPIC_START_TREE {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = TreeScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showTree()
         }
 		else if topic == GameScene.TOPIC_START_BUBBLES {
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
-            let nextScene = BubbleScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
-            nextScene.selectedPerson = selectedPerson
-            scene?.view?.presentScene(nextScene, transition: transition)
+            self.showBubbleGame()
         }
     }
 

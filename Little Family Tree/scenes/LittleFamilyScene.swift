@@ -119,7 +119,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     }
     
     func showHomeScreen() {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
         
         let nextScene = GameScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
@@ -128,12 +128,85 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     }
     
     func showChoosePlayerScreen() {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
         
         let nextScene = ChoosePlayerScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition)
     }
+	
+	func showMatchGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = MatchGameScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showHeritageCalculatorGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+        let nextScene = ChooseCultureScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showDressupGame(dollConfig:DollConfig) {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+                    
+		let nextScene = DressUpScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		nextScene.dollConfig = dollConfig
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showPuzzleGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = PuzzleScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showScratchGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = ScratchScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showColoringGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = ColoringScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showTree() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = TreeScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
+	
+	func showBubbleGame() {
+		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+            
+		let nextScene = BubbleScene(size: scene!.size)
+		nextScene.scaleMode = .AspectFill
+		nextScene.selectedPerson = selectedPerson
+		scene?.view?.presentScene(nextScene, transition: transition)
+	}
     
     func showParentLogin() {
         let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)

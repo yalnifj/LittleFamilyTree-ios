@@ -58,11 +58,7 @@ class HeritageCalculator {
                 let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
                 if (parents != nil && parents!.count > 0) {
                     for parent in parents! {
-                        var place = PlaceHelper.getPlaceCountry(parent.birthPlace as String?);
-                        //-- sometimes people use nationality as a note, try to ignore those
-                        if (parent.nationality != nil && parent.nationality!.length < 80) {
-                            place = parent.nationality! as String
-                        }
+                        let place = PlaceHelper.getPersonCountry(parent)
                         let ppath = HeritagePath(place: place)
                         ppath.percent = path.percent / Double(parents!.count)
                         ppath.treePath.appendContentsOf(path.treePath)

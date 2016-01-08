@@ -225,13 +225,7 @@ class ChooseCultureScene: LittleFamilyScene {
             
             if touchedNode == self.doll || touchedNode == self.countryLabel {
                 if dollConfig != nil {
-                    let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
-                    
-                    let nextScene = DressUpScene(size: scene!.size)
-                    nextScene.scaleMode = .AspectFill
-                    nextScene.selectedPerson = selectedPerson
-                    nextScene.dollConfig = self.dollConfig
-                    scene?.view?.presentScene(nextScene, transition: transition)
+                    self.showDressupGame(dollConfig!)
                 }
             }
         }
