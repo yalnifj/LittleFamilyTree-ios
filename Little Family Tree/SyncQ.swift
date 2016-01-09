@@ -49,9 +49,14 @@ class SyncQ : NSObject {
 	
 	func processNextInQ() {
 		if dataService.remoteService != nil && dataService.remoteService!.sessionId != nil && syncQ.count > 0 {
-			let person = syncQ.removeFirst()
-			let operation = SyncOperation(person: person, syncQ: self)
-			queue.addOperation(operation)
+            let backSync = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_BACKGROUND)
+            if backSync == nil || backSync == "true" {
+                let person = syncQ.removeFirst()
+                let operation = SyncOperation(person: person, syncQ: self)
+                queue.addOperation(operation)
+            } else {
+                print("Sync queue disabled in settings")
+            }
 		}
         let date = NSDate()
 		print("\(date) Sync Q has \(syncQ.count) people in it.");

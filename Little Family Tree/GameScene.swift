@@ -966,8 +966,8 @@ class GameScene: LittleFamilyScene {
                 if self.touchableSprites.contains(touchedNode) {
                     touchedNode.touchesEnded(touches, withEvent: event)
                 }
-				else if self.touchableSprites.contains(touchedNode.parent) {
-					touchedNode.parent.touchesEnded(touches, withEvent: event)
+				else if self.touchableSprites.contains(touchedNode.parent!) {
+					touchedNode.parent!.touchesEnded(touches, withEvent: event)
 				}
                 else if personLeaves!.children.contains(touchedNode) == true {
                     personLeaves!.touchesEnded(touches, withEvent: event)

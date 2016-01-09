@@ -213,11 +213,22 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self
         self.view?.addSubview(subview)
+        SpeechHelper.getInstance().speak("Ask an adult for help.")
     }
     
     func LoginComplete() {
+        showSettings()
+    }
+    
+    func showSettings() {
         let subview = SettingsView(frame: (self.view?.bounds)!)
         subview.selectedPerson = self.selectedPerson
+        self.view?.addSubview(subview)
+    }
+    
+    func showParentsGuide() {
+        let subview = ParentsGuide(frame: (self.view?.bounds)!)
+        //subview.selectedPerson = self.selectedPerson
         self.view?.addSubview(subview)
     }
     

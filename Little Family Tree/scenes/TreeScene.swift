@@ -88,32 +88,32 @@ class TreeScene: LittleFamilyScene {
         
         matchButton = SKSpriteNode(imageNamed: "house_familyroom_frame1")
         var br = matchButton!.size.width / matchButton!.size.height
-        matchButton!.size = CGSizeMake(30 * br, 30)
+        matchButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(matchButton!)
         
         scratchButton = SKSpriteNode(imageNamed: "house_chilldroom_desk19")
         br = scratchButton!.size.width / scratchButton!.size.height
-        scratchButton!.size = CGSizeMake(30 * br, 30)
+        scratchButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(scratchButton!)
         
         coloringButton = SKSpriteNode(imageNamed: "house_chilldroom_paint11")
         br = coloringButton!.size.width / coloringButton!.size.height
-        coloringButton!.size = CGSizeMake(30 * br, 30)
+        coloringButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(coloringButton!)
         
         puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
         br = puzzleButton!.size.width / puzzleButton!.size.height
-        puzzleButton!.size = CGSizeMake(30 * br, 30)
+        puzzleButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(puzzleButton!)
         
         bubbleButton = SKSpriteNode(imageNamed: "bubbles1")
         br = bubbleButton!.size.width / bubbleButton!.size.height
-        bubbleButton!.size = CGSizeMake(30 * br, 30)
+        bubbleButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(bubbleButton!)
         
         dressupButton = SKSpriteNode(imageNamed: "dolls/usa/boy_thumb.png")
         br = dressupButton!.size.width / dressupButton!.size.height
-        dressupButton!.size = CGSizeMake(30 * br, 30)
+        dressupButton!.size = CGSizeMake(50 * br, 50)
         buttons.append(dressupButton!)
         
         dispatch_group_enter(treeGroup)
@@ -518,7 +518,7 @@ class TreeScene: LittleFamilyScene {
 					self.showColoringGame()
 				}
 				else if touchedNode == dressupButton {
-					self.showDressupGame(dollConfig)
+					self.showDressupGame(dollConfig!)
 				}
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
@@ -550,18 +550,19 @@ class TreeScene: LittleFamilyScene {
     
     func hideButtonPanel() {
         if buttonPanel != nil {
-            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
+            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 0.6), SKAction.removeFromParent() ])
             buttonPanel?.runAction(act) {
                 self.buttonPanel = nil
             }
+            buttonPanel?.removeAllChildren()
         }
     }
     
     func showButtonPanel(node:TreePersonSprite) {
         self.buttonPanel = SKSpriteNode(color: UIColor.greenColor(), size: CGSizeMake(5, 5))
         self.buttonPanel?.zPosition = 100
-        self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width, node.position.y)
-        self.treeContainer?.addChild(self.buttonPanel!)
+        self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width + 100, node.position.y + 50)
+        node.parent!.addChild(self.buttonPanel!)
 		let person  = node.person!
 		let place = PlaceHelper.getPersonCountry(person)
 		dollConfig = self.dolls.getDollConfig(place, person: person)
@@ -569,15 +570,15 @@ class TreeScene: LittleFamilyScene {
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(200, height: 150, duration: 1.5)) {
-			var x = 0
-			var y = 0
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(220, height: 120, duration: 0.6)) {
+			var x = CGFloat(-60)
+			var y = CGFloat(-10)
 			for button in self.buttons {
 				button.position = CGPointMake(x, y)
 				self.buttonPanel?.addChild(button)
 				x = x + button.size.width + 5
-				if x > self.buttonPanel!.size.width {
-					x = 0
+				if x > self.buttonPanel!.size.width - 60 {
+					x = CGFloat(-60)
 					y = y + button.size.height + 5
 				}
 			}

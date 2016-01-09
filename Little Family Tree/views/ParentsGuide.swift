@@ -37,4 +37,7 @@ class ParentsGuide: UIView {
         return view
     }
 
+    @IBAction func gotItAction(sender: UIButton) {
+        self.removeFromSuperview()
+    }
 }

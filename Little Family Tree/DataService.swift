@@ -14,6 +14,9 @@ class DataService {
     static let SERVICE_DEFAULTPERSONID = "DefaultPersonId"
     static let SERVICE_USERNAME = "Username"
     static let ROOT_PERSON_ID = "Root_Person_id"
+    static let PROPERTY_SYNC_BACKGROUND = "syncBackground"
+    static let PROPERTY_SYNC_CELL = "syncCell"
+    static let PROPERTY_SYNC_DELAY = "syncDelay"
 
 	var remoteService:RemoteService?
 	var serviceType:NSString?

@@ -105,7 +105,7 @@ class PlaceHelper {
 		var place = PlaceHelper.getPlaceCountry(person.birthPlace as String?);
         //-- sometimes people use nationality as a note, try to ignore those
         if (person.nationality != nil && person.nationality!.length < 80) {
-			place = parent.nationality! as String
+			place = person.nationality! as String
 		}
 		return place
 	}
