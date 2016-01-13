@@ -8,7 +8,7 @@ class LittlePerson : NSObject {
 	var relationship : NSString?
 	var familySearchId : NSString?
 	var photoPath : NSString?
-	var birthDate : NSDate?;
+	var birthDate : NSDate?
 	var birthPlace : NSString?
 	var age : Int?
 	var alive : Bool?
@@ -21,6 +21,8 @@ class LittlePerson : NSObject {
 	var hasSpouses : Bool?
 	var hasMedia : Bool?
 	var treeLevel : Int?
+	
+	var occupation: NSString?
 	
 	func updateAge() {
 		if (birthDate != nil) {

@@ -12,6 +12,7 @@ import SpriteKit
 class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListener, BrushSizeListener {
     var randomMediaChooser = RandomMediaChooser.getInstance()
     
+	var fullImageHolder:SKSpriteNode?
 	var photoSprite:SKSpriteNode?
 	var coverSprite:SKSpriteNode?
 	var lastPoint : CGPoint!
@@ -130,13 +131,20 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             }
             
             let ypos = (self.size.height / 2) + (palette?.size.height)! / 2 - (topBar?.size.height)! / 2
+			
+			fullImageHolder = SKSpriteNode()
+			fullImageHolder?.zPosition = 2
+			fullImageHolder?.position = CGPointMake(self.size.width / 2, ypos)
+			fullImageHolder?.size.width = w
+			fullImageHolder?.size.height = h
+			self.addChild(fullImageHolder!)
             
             photoSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
             photoSprite?.zPosition = 2
-            photoSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            photoSprite?.position = CGPointMake(0, 0)
             photoSprite?.size.width = w
             photoSprite?.size.height = h
-            self.addChild(photoSprite!)
+            fullImageHolder!.addChild(photoSprite!)
             
             let rect = CGRectMake(0, 0, (photoSprite?.size.width)!, (photoSprite?.size.height)!)
             UIGraphicsBeginImageContextWithOptions((photoSprite?.size)!, false, 0)
@@ -149,10 +157,10 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             let coverTexture = SKTexture(image: image!)
             coverSprite = SKSpriteNode(texture: coverTexture)
             coverSprite?.zPosition = 3
-            coverSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            coverSprite?.position = CGPointMake(0, 0)
             coverSprite?.size.width = w
             coverSprite?.size.height = h
-            self.addChild(coverSprite!)
+            fullImageHolder!.addChild(coverSprite!)
 
             var filter:CIFilter? = nil
             let os = NSProcessInfo().operatingSystemVersion
@@ -166,9 +174,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             }
             outlineSprite = SKEffectNode()
             outlineSprite?.zPosition = 4
-            outlineSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            outlineSprite?.position = CGPointMake(0, 0)
             outlineSprite?.filter = filter
-            self.addChild(outlineSprite!)
+            fullImageHolder!.addChild(outlineSprite!)
             
             let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSizeMake(self.size.width/2, self.size.height/2))
             photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSizeMake(w, h))
@@ -177,7 +185,6 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             photoCopySprite?.size.width = w
             photoCopySprite?.size.height = h
             outlineSprite?.addChild(photoCopySprite!)
-            
             
             hideLoadingDialog()
             
@@ -221,6 +228,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                     //-- 1 get image from node
                     //-- launch sharing options
                     print("Share me")
+					showSharingPanel()
                 }
             }
         }
@@ -261,4 +269,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     func onBrushSizeChange(size:CGFloat) {
         self.brushSize = size
     }
+	
+	func showSharingPanel() {
+		if (fullImageHolder != nil) {
+			let imageTexture = self.scene.view.textureFromNode(fullImageHolder!)
+			let image = UIImage(CGImage: imageTexture.CGImage)
+			let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+			self.presentViewController(activityViewController, animated: true, completion: nil)
+		}
+	}
 }

@@ -642,6 +642,9 @@ class DataService {
 			if b.type == "http://gedcomx.org/Nationality" {
 				person.nationality = b.value
 			}
+			if b.type == "http://gedcomx.org/Occupation" {
+				person.occupation = b.value
+			}
 		}
 		
 		if birth != nil {
