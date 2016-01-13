@@ -244,7 +244,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.nameLabel?.fontSize = self.size.height / 30
                 self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
                 self.nameLabel?.zPosition = 12
-                self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                //self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.nameLabel?.color = UIColor.blackColor()
                 self.addChild(self.nameLabel!)
                 
@@ -256,7 +256,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
                 self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
                 self.relationshipLabel?.zPosition = 12
-                self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                //self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.relationshipLabel?.color = UIColor.blackColor()
                 self.addChild(self.relationshipLabel!)
                 

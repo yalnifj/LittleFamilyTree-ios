@@ -89,32 +89,38 @@ class TreeScene: LittleFamilyScene {
         matchButton = SKSpriteNode(imageNamed: "house_familyroom_frame1")
         var br = matchButton!.size.width / matchButton!.size.height
         matchButton!.size = CGSizeMake(50 * br, 50)
+        matchButton!.anchorPoint = CGPointZero
         buttons.append(matchButton!)
         
         scratchButton = SKSpriteNode(imageNamed: "house_chilldroom_desk19")
         br = scratchButton!.size.width / scratchButton!.size.height
         scratchButton!.size = CGSizeMake(50 * br, 50)
+        scratchButton!.anchorPoint = CGPointZero
         buttons.append(scratchButton!)
         
         coloringButton = SKSpriteNode(imageNamed: "house_chilldroom_paint11")
         br = coloringButton!.size.width / coloringButton!.size.height
         coloringButton!.size = CGSizeMake(50 * br, 50)
+        coloringButton!.anchorPoint = CGPointZero
         buttons.append(coloringButton!)
-        
-        puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
-        br = puzzleButton!.size.width / puzzleButton!.size.height
-        puzzleButton!.size = CGSizeMake(50 * br, 50)
-        buttons.append(puzzleButton!)
         
         bubbleButton = SKSpriteNode(imageNamed: "bubbles1")
         br = bubbleButton!.size.width / bubbleButton!.size.height
         bubbleButton!.size = CGSizeMake(50 * br, 50)
+        bubbleButton!.anchorPoint = CGPointZero
         buttons.append(bubbleButton!)
         
         dressupButton = SKSpriteNode(imageNamed: "dolls/usa/boy_thumb.png")
         br = dressupButton!.size.width / dressupButton!.size.height
         dressupButton!.size = CGSizeMake(50 * br, 50)
+        dressupButton!.anchorPoint = CGPointZero
         buttons.append(dressupButton!)
+        
+        puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
+        br = puzzleButton!.size.width / puzzleButton!.size.height
+        puzzleButton!.size = CGSizeMake(50 * br, 50)
+        puzzleButton!.anchorPoint = CGPointZero
+        buttons.append(puzzleButton!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -550,16 +556,16 @@ class TreeScene: LittleFamilyScene {
     
     func hideButtonPanel() {
         if buttonPanel != nil {
-            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 0.6), SKAction.removeFromParent() ])
+            buttonPanel?.removeAllChildren()
+            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 0.3), SKAction.removeFromParent() ])
             buttonPanel?.runAction(act) {
                 self.buttonPanel = nil
             }
-            buttonPanel?.removeAllChildren()
         }
     }
     
-    func showButtonPanel(node:TreePersonSprite) {
-        self.buttonPanel = SKSpriteNode(color: UIColor.greenColor(), size: CGSizeMake(5, 5))
+    func showButtonPanel(node:TreePersonSprite, relationship: String) {
+        self.buttonPanel = SKSpriteNode(color: UIColor(hexString: "#00A400FF"), size: CGSizeMake(5, 5))
         self.buttonPanel?.zPosition = 100
         self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width + 100, node.position.y + 50)
         node.parent!.addChild(self.buttonPanel!)
@@ -570,18 +576,37 @@ class TreeScene: LittleFamilyScene {
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(220, height: 120, duration: 0.6)) {
-			var x = CGFloat(-60)
-			var y = CGFloat(-10)
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(220, height: 200, duration: 0.6)) {
+			let startX = CGFloat(-90)
+            var x = startX
+			var y = CGFloat(-73)
+            var counter = 0
 			for button in self.buttons {
+                if counter >= self.buttons.count / 2  {
+                    x = startX
+                    y = y + button.size.height + 8
+                    counter = 0
+                }
 				button.position = CGPointMake(x, y)
 				self.buttonPanel?.addChild(button)
-				x = x + button.size.width + 5
-				if x > self.buttonPanel!.size.width - 60 {
-					x = CGFloat(-60)
-					y = y + button.size.height + 5
-				}
+                x = x + 8 + button.size.width
+                counter++
 			}
+            y = y + self.buttons[0].size.height + 7
+            let relLabel = SKLabelNode(text: relationship)
+            relLabel.fontSize = self.buttonPanel!.size.width / 9
+            relLabel.fontColor = UIColor.whiteColor()
+            relLabel.position = CGPointMake(0, y)
+            relLabel.zPosition = 3
+            self.buttonPanel?.addChild(relLabel)
+            
+            y = y + relLabel.fontSize + 5
+            let nameLabel = SKLabelNode(text: node.person?.name as String?)
+            nameLabel.fontSize = self.buttonPanel!.size.width / 9
+            nameLabel.fontColor = UIColor.whiteColor()
+            nameLabel.position = CGPointMake(0, y)
+            nameLabel.zPosition = 3
+            self.buttonPanel?.addChild(nameLabel)
 		}
     }
     
@@ -589,22 +614,34 @@ class TreeScene: LittleFamilyScene {
         if self.treeSearchGame?.complete == true {
             if node.person != nil {
                 let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
-                var msg = "\(node.person?.name!) is you \(relationship)"
-                if node.person?.birthPlace != nil && node.person?.birthDate != nil {
-                    msg += " was born on \(node.person?.birthDate!) in \(node.person?.birthPlace!)"
+                var msg = "\(node.person!.name!) is your \(relationship)"
+                if relationship == "You" {
+                    msg = "Hi, \(node.person!.givenName)"
+                }
+                var heshe = "He"
+                if node.person!.gender == GenderType.FEMALE {
+                    heshe = "She"
+                }
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "MMMM d, yyyy"
+                if node.person?.birthPlace != nil && node.person!.birthDate != nil {
+                    let dateString = formatter.stringFromDate(node.person!.birthDate!)
+                    msg += "\(heshe) was born on \(dateString) in \(node.person!.birthPlace!)"
                 }
                 else if node.person?.birthDate != nil {
-                    msg += " was born on \(node.person?.birthDate!)"
+                    let dateString = formatter.stringFromDate(node.person!.birthDate!)
+                    msg += "\(heshe) was born on \(dateString)"
                 } else if node.person?.birthPlace != nil {
-                    msg += " was born in \(node.person?.birthPlace!)"
+                    msg += "\(heshe) was born in \(node.person!.birthPlace!)"
                 }
+                SpeechHelper.getInstance().speak(msg)
                 if buttonPanel != nil {
                     let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
                     buttonPanel?.runAction(act) {
-                        self.showButtonPanel(node)
+                        self.showButtonPanel(node, relationship: relationship)
                     }
                 } else {
-                    self.showButtonPanel(node)
+                    self.showButtonPanel(node, relationship: relationship)
                 }
             }
         } else {

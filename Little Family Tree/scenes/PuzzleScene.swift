@@ -253,7 +253,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 self.nameLabel?.fontSize = self.size.height / 30
                 self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
                 self.nameLabel?.zPosition = 12
-                self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                //self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.addChild(self.nameLabel!)
                 
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
@@ -261,7 +261,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
                 self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
                 self.relationshipLabel?.zPosition = 12
-                self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
+                //self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.addChild(self.relationshipLabel!)
                 
                 SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
