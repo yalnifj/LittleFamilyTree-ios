@@ -2,7 +2,7 @@ import Foundation
 import SQLite
 
 class DBHelper {
-	static let VERSION:Int32? = 3
+	static let VERSION:Int32? = 4
 	static let UUID_PROPERTY = "UUID"
 	
 	let TABLE_LITTLE_PERSON = Table("littleperson")
@@ -41,6 +41,7 @@ class DBHelper {
 	let COL_HAS_SPOUSES = Expression<Bool?>("hasSpouses")
 	let COL_HAS_MEDIA = Expression<Bool?>("hasMedia")
 	let COL_TREE_LEVEL = Expression<Int?>("treeLevel")
+	let COL_OCCUPATION = Expression<String?>("occupation")
 	let COL_PROPERTY = Expression<String>("property")
 	let COL_VALUE = Expression<String>("value")
 	
@@ -101,6 +102,7 @@ class DBHelper {
                 t.column(COL_ACTIVE)
                 t.column(COL_LAST_SYNC)
                 t.column(COL_TREE_LEVEL)
+				t.column(COL_OCCUPATION)
                 })
         } catch let error as NSError {
             print("Error creating table little person \(error)")
@@ -187,7 +189,8 @@ class DBHelper {
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
-				COL_TREE_LEVEL <- person.treeLevel
+				COL_TREE_LEVEL <- person.treeLevel,
+				COL_OCCUPATION <- person.occupation
 			))
             print("Updated little person \(person.id!) \(person.name)")
 		}
@@ -209,7 +212,8 @@ class DBHelper {
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
-				COL_TREE_LEVEL <- person.treeLevel
+				COL_TREE_LEVEL <- person.treeLevel,
+				COL_OCCUPATION <- person.occupation
 			))
 			person.id = rowid
             print("Inserted new little person \(person.id!) \(person.name)")
@@ -272,7 +276,7 @@ class DBHelper {
         do {
 		let stmt = try lftdb?.prepare("select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, "
             + " p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, "
-            + " p.hasMedia, p.treeLevel "
+            + " p.hasMedia, p.treeLevel, p.occupation "
             + " from littleperson p join tags t on t.person_id=p.id" +
 			" where p.active=1 order by RANDOM() LIMIT 1")
         print(stmt)
@@ -311,6 +315,7 @@ class DBHelper {
             if c[15] != nil { person!.hasSpouses = (c[15] as! Bool) }
             if c[16] != nil { person!.hasMedia = (c[16] as! Bool) }
             if c[17] != nil { person!.treeLevel = (c[17] as! Int) }
+			if c[18] != nil { person!.occupation = (c[18] as! String?) }
             person!.updateAge()
 
 		}
@@ -450,6 +455,7 @@ class DBHelper {
         person.hasSpouses = c[COL_HAS_SPOUSES]
         person.hasMedia = c[COL_HAS_MEDIA]
         person.treeLevel = c[COL_TREE_LEVEL]
+		person.occupation = c[COL_OCCUPATION]
         person.updateAge()
 
         return person
