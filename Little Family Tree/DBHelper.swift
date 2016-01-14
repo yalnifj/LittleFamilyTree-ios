@@ -60,7 +60,7 @@ class DBHelper {
             if instance!.tableExists("properties") == true {
                 let dbstr = instance!.getProperty("VERSION")
                 if dbstr != nil {
-                    instance!.dbversion = dbstr?.intValue
+                    instance!.dbversion = Int32(dbstr!)
                 }
                 print("DBVersion is \(instance!.dbversion)")
             }
@@ -190,7 +190,7 @@ class DBHelper {
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel,
-				COL_OCCUPATION <- person.occupation
+				COL_OCCUPATION <- (person.occupation as String?)
 			))
             print("Updated little person \(person.id!) \(person.name)")
 		}
@@ -213,7 +213,7 @@ class DBHelper {
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel,
-				COL_OCCUPATION <- person.occupation
+				COL_OCCUPATION <- (person.occupation as String?)
 			))
 			person.id = rowid
             print("Inserted new little person \(person.id!) \(person.name)")
@@ -693,9 +693,9 @@ class DBHelper {
         }
 	}
 	
-	func getProperty(property:String) -> NSString? {
+	func getProperty(property:String) -> String? {
 		let query = TABLE_PROPERTIES.filter(COL_PROPERTY == property)
-		var value:NSString? = nil
+		var value:String? = nil
         do {
             let stmt = try lftdb?.prepare(query)
             for t in stmt! {

@@ -1,4 +1,5 @@
 import Foundation
+import CryptoSwift
 
 typealias LittlePersonResponse = (LittlePerson?, NSError?) -> Void
 typealias PeopleResponse = ([LittlePerson]?, NSError?) -> Void
@@ -554,12 +555,20 @@ class DataService {
     }
     
 	
-	func getEncryptedProperty(property:NSString) -> NSString? {
-		return dbHelper.getProperty(property as String)
+	func getEncryptedProperty(property:String) -> String? {
+		let base64 = dbHelper.getProperty(property as String)
+        if base64 == nil {
+            return nil
+        }
+        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
+        let value:String = try! base64!.decrypt(AES(key: uuid!, iv: "0123456789012345"))
+        return value
 	}
 	
-	func saveEncryptedProperty(property:NSString, value:NSString) {
-		dbHelper.saveProperty(property as String, value: value as String)
+	func saveEncryptedProperty(property:String, value:String) {
+        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
+        let base64: String = try! value.encrypt(AES(key: uuid!, iv: "0123456789012345"))
+		dbHelper.saveProperty(property as String, value: base64)
 	}
     
     func addStatusListener(listener:StatusListener) {
