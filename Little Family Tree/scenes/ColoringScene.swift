@@ -273,9 +273,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 	func showSharingPanel() {
 		if (fullImageHolder != nil) {
 			let imageTexture = self.scene!.view!.textureFromNode(fullImageHolder!)
-			let image = UIImage(CGImage: imageTexture.CGImage)
+			let image = UIImage(CGImage: imageTexture!.CGImage())
 			let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-			self.presentViewController(activityViewController, animated: true, completion: nil)
+			self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
 		}
 	}
 }

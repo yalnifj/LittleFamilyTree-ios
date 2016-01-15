@@ -30,6 +30,7 @@ class ColorPaletteSprite : SKSpriteNode {
         didSet {
             setupColors()
             
+            /*
             var i = 0
             for r in colorRects {
                 let temp = SKSpriteNode(color: colors[i], size: r.size)
@@ -38,7 +39,7 @@ class ColorPaletteSprite : SKSpriteNode {
                 self.addChild(temp)
                 i++
             }
-            
+            */
             
             let ratio = (paintbrush?.size.height)! / (paintbrush?.size.width)!
             paintbrush?.size.width = (colorPalette?.size.height)! / 2
@@ -115,7 +116,9 @@ class ColorPaletteSprite : SKSpriteNode {
             var rect:CGRect?
             var i = 0
             for r in colorRects {
-                if r.contains(position) {
+                print("r=\(r) position=\(position)")
+                if r.contains(position) ||
+                    (position.x >= r.origin.x && position.x <= r.origin.x + r.size.width && position.y >= r.origin.y && position.y <= r.origin.y + r.size.height){
                     rect = r
                     break
                 }

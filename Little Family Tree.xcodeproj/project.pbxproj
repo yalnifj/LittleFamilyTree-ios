@@ -98,7 +98,6 @@
 		A12CC7FA1C3B995500669E90 /* ParentLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12CC7F91C3B995500669E90 /* ParentLogin.xib */; };
 		A12CC8031C3B99DF00669E90 /* ParentLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC8021C3B99DF00669E90 /* ParentLogin.swift */; };
 		A133C7601BBE0079005A3BFA /* MovingAnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */; };
-		A149740B1C0E9A6F004E99D5 /* gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A149740A1C0E9A6E004E99D5 /* gradient.fsh */; };
 		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
@@ -168,7 +167,6 @@
 		A176B7D41C28E98100A2A49C /* vineh.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BD1C28E98100A2A49C /* vineh.png */; };
 		A176B7D51C28E98100A2A49C /* vineh2.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B7BE1C28E98100A2A49C /* vineh2.png */; };
 		A176B7D71C28F4C700A2A49C /* erasing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A176B7D61C28F4C700A2A49C /* erasing.mp3 */; };
-		A176B7D91C29031D00A2A49C /* MaskFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */; };
 		A17C324F1C1A65A200F64737 /* star1.png in Resources */ = {isa = PBXBuildFile; fileRef = A17C324E1C1A65A200F64737 /* star1.png */; };
 		A17C32581C1A667B00F64737 /* PuzzleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17C32571C1A667B00F64737 /* PuzzleScene.swift */; };
 		A17C325A1C1A676200F64737 /* RandomMediaChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17C32591C1A676200F64737 /* RandomMediaChooser.swift */; };
@@ -687,7 +685,6 @@
 		A12CC7F91C3B995500669E90 /* ParentLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParentLogin.xib; path = views/ParentLogin.xib; sourceTree = "<group>"; };
 		A12CC8021C3B99DF00669E90 /* ParentLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentLogin.swift; sourceTree = "<group>"; };
 		A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAnimatedStateSprite.swift; sourceTree = "<group>"; };
-		A149740A1C0E9A6E004E99D5 /* gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = gradient.fsh; path = sprites/gradient.fsh; sourceTree = "<group>"; };
 		A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LittleFamilyScene.swift; path = scenes/LittleFamilyScene.swift; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
@@ -757,7 +754,6 @@
 		A176B7BD1C28E98100A2A49C /* vineh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vineh.png; sourceTree = "<group>"; };
 		A176B7BE1C28E98100A2A49C /* vineh2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vineh2.png; sourceTree = "<group>"; };
 		A176B7D61C28F4C700A2A49C /* erasing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = erasing.mp3; sourceTree = "<group>"; };
-		A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MaskFilter.cikernel; path = sprites/MaskFilter.cikernel; sourceTree = "<group>"; };
 		A17C324E1C1A65A200F64737 /* star1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star1.png; sourceTree = "<group>"; };
 		A17C32571C1A667B00F64737 /* PuzzleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleScene.swift; path = scenes/PuzzleScene.swift; sourceTree = "<group>"; };
 		A17C32591C1A676200F64737 /* RandomMediaChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomMediaChooser.swift; path = gamelogic/RandomMediaChooser.swift; sourceTree = "<group>"; };
@@ -1391,8 +1387,6 @@
 				A1653C821C2B5CDF00D586E5 /* BrushSizeSprite.swift */,
 				A1653C801C2A38CB00D586E5 /* ColorPaletteSprite.swift */,
 				A11108871C22729800053DCE /* Filters.swift */,
-				A149740A1C0E9A6E004E99D5 /* gradient.fsh */,
-				A176B7D81C29031D00A2A49C /* MaskFilter.cikernel */,
 				A133C75F1BBE0079005A3BFA /* MovingAnimatedStateSprite.swift */,
 				A1064FD21C34C8C80016A9C6 /* PersonBubbleSprite.swift */,
 				A176B7A01C28E46300A2A49C /* PersonLeavesButton.swift */,
@@ -2071,7 +2065,6 @@
 				A1F81C741BF3AFDF00078870 /* house_adult_wardrobe1.png in Resources */,
 				A1653C851C2BAD9900D586E5 /* camera.png in Resources */,
 				A1F81D161BF3AFDF00078870 /* house_toaster2.png in Resources */,
-				A149740B1C0E9A6F004E99D5 /* gradient.fsh in Resources */,
 				A1F81D7C1BF3AFDF00078870 /* pushbuttonoff.wav in Resources */,
 				A1F81D791BF3AFDF00078870 /* pop.mp3 in Resources */,
 				A1F81CB31BF3AFDF00078870 /* house_familyroom_cat_a5.png in Resources */,
@@ -2117,7 +2110,6 @@
 				A1F81C771BF3AFDF00078870 /* house_adult_wardrobe4.png in Resources */,
 				A1F81CE61BF3AFDF00078870 /* house_kitchen_fridge3.png in Resources */,
 				A1F81C811BF3AFDF00078870 /* house_chilldroom_desk11.png in Resources */,
-				A176B7D91C29031D00A2A49C /* MaskFilter.cikernel in Resources */,
 				A10BF1001BC9CE52005CAFDA /* SplashScene.sks in Resources */,
 				A1F81D301BF3AFDF00078870 /* house_toys_bat3.png in Resources */,
 				A1F81D2B1BF3AFDF00078870 /* house_toys_bat19.png in Resources */,
@@ -2581,7 +2573,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Yellow-Fork-Tech.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2598,7 +2590,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Yellow-Fork-Tech.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

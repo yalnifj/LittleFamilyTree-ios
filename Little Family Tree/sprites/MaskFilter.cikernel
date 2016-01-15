@@ -1,6 +1,0 @@
-kernel vec4 maskFilterKernel(sampler src)
-{
-    vec4 t = sample(src, destCoord());
-    t.w = (t.x >= 0.90 ? (t.y >= 0.90 ? (t.z >= 0.90 ? 0.0 : 1.0) : 1.0) : 1.0);
-    return t;
-}
