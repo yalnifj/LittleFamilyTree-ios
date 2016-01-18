@@ -23,6 +23,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     var coloring = false
     var nextButton :SKSpriteNode?
     var shareButton :SKSpriteNode?
+    var logoMark: SKSpriteNode?
     
     var image:UIImage?
     var color:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
@@ -162,16 +163,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             coverSprite?.size.height = h
             fullImageHolder!.addChild(coverSprite!)
 
-            var filter:CIFilter? = nil
-            let os = NSProcessInfo().operatingSystemVersion
-            switch(os.majorVersion) {
-                case 9:
-                    filter = CIFilter(name: "CILineOverlay")!
-                break
-                default:
-                    filter = EdgeMaskFilter()
-                break
-            }
+            let filter:CIFilter? = CIFilter(name: "CILineOverlay")!
             outlineSprite = SKEffectNode()
             outlineSprite?.zPosition = 4
             outlineSprite?.position = CGPointMake(0, 0)
@@ -185,6 +177,21 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             photoCopySprite?.size.width = w
             photoCopySprite?.size.height = h
             outlineSprite?.addChild(photoCopySprite!)
+            
+            logoMark = SKSpriteNode(imageNamed: "little_family_logo")
+            let lr = logoMark!.size.height / logoMark!.size.width
+            logoMark?.zPosition = 10
+            logoMark?.anchorPoint = CGPointZero
+            logoMark?.position = CGPointMake(w / -2, h / -2)
+            if w > h {
+                logoMark?.size.width = h * CGFloat(0.4) / lr
+                logoMark?.size.height = h * CGFloat(0.4)
+            } else {
+                logoMark?.size.width = w * CGFloat(0.4)
+                logoMark?.size.height = w * CGFloat(0.4) * lr
+            }
+            logoMark?.hidden = true
+            fullImageHolder!.addChild(logoMark!)
             
             hideLoadingDialog()
             
@@ -228,7 +235,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                     //-- 1 get image from node
                     //-- launch sharing options
                     print("Share me")
-					showSharingPanel()
+					showParentAuth()
                 }
             }
         }
@@ -269,11 +276,30 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     func onBrushSizeChange(size:CGFloat) {
         self.brushSize = size
     }
+    
+    func showParentAuth() {
+        let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)
+        let subview = ParentLogin(frame: frame)
+        class ShareLoginListener : LoginCompleteListener {
+            var scene:ColoringScene
+            init(scene:ColoringScene) {
+                self.scene = scene
+            }
+            func LoginComplete() {
+                scene.showSharingPanel()
+            }
+        }
+        subview.loginListener = ShareLoginListener(scene: self)
+        self.view?.addSubview(subview)
+        self.speak("Ask an adult for help.")
+    }
 	
 	func showSharingPanel() {
 		if (fullImageHolder != nil) {
+            logoMark?.hidden = false
 			let imageTexture = self.scene!.view!.textureFromNode(fullImageHolder!)
 			let image = UIImage(CGImage: imageTexture!.CGImage())
+            logoMark?.hidden = true
 			let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 			self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
 		}

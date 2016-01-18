@@ -147,7 +147,7 @@ class ChooseCultureScene: LittleFamilyScene {
         
         })
         operationQueue.addOperation(operation1)
-        SpeechHelper.getInstance().speak("Calculating your heritage. Please wait...")
+        self.speak("Calculating your heritage. Please wait...")
     }
     
     func speakDetails(relative:LittlePerson) {
@@ -164,7 +164,7 @@ class ChooseCultureScene: LittleFamilyScene {
         } else {
             text += " \(relative.name!)"
         }
-        SpeechHelper.getInstance().speak(text);
+        self.speak(text);
     }
 
     

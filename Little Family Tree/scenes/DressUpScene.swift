@@ -309,19 +309,4 @@ class DressUpScene: LittleFamilyScene {
         super.update(currentTime)
     }
     
-    func createOutlineImage(fileNamed: String) -> SKTexture {
-        
-        let image = UIImage(named: fileNamed)
-        let beginImage = CIImage(image: image!)
-        
-        let filter1 = MaskFilter()
-        filter1.inputImage = beginImage
-        
-        let filter = CIFilter(name: "CIEdgeWork")!
-        filter.setValue(filter1.outputImage, forKey: kCIInputImageKey)
-        
-        let newImage = UIImage(CIImage: filter.outputImage!)
-        let texture = SKTexture(image: newImage)
-        return texture
-    }
 }

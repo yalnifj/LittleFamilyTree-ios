@@ -136,9 +136,12 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             let touchedNode = nodeAtPoint(lastPoint)
             if touchedNode == coverSprite {
                 scratching = true
-                let sound = SKAction.playSoundFileNamed("erasing", waitForCompletion: true)
-                let repeatSound = SKAction.repeatActionForever(sound)
-                self.runAction(repeatSound)
+                let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                if quietMode == nil || quietMode == "false" {
+                    let sound = SKAction.playSoundFileNamed("erasing", waitForCompletion: true)
+                    let repeatSound = SKAction.repeatActionForever(sound)
+                    self.runAction(repeatSound)
+                }
             }
         }
     }
@@ -260,7 +263,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.relationshipLabel?.color = UIColor.blackColor()
                 self.addChild(self.relationshipLabel!)
                 
-                SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
+                self.speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
                 let waitAction = SKAction.waitForDuration(2.5)
                 self.runAction(waitAction) {
                     self.showLoadingDialog()

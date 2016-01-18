@@ -873,7 +873,7 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_COLORING, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_TREE, listener: self)
 		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
-        SpeechHelper.getInstance().speak("Hi \(selectedPerson!.givenName!)")
+        self.speak("Hi, \(selectedPerson!.givenName!)")
     }
     
     override func willMoveFromView(view: SKView) {
@@ -995,7 +995,7 @@ class GameScene: LittleFamilyScene {
 		if starWait > 0 {
 			starWait--
 		} else {
-			starWait = 10 + Int(arc4random_uniform(10))
+			starWait = 70 + Int(arc4random_uniform(70))
 			let s = Int(arc4random_uniform(UInt32(starSprites.count)))
 			let sprite = starSprites[s]
             showStars(sprite.frame, starsInRect: true, count: 2, container: spriteContainer)

@@ -1,5 +1,4 @@
 import Foundation
-import CryptoSwift
 
 typealias LittlePersonResponse = (LittlePerson?, NSError?) -> Void
 typealias PeopleResponse = ([LittlePerson]?, NSError?) -> Void
@@ -560,15 +559,13 @@ class DataService {
         if base64 == nil {
             return nil
         }
-        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
-        let value:String = try! base64!.decrypt(AES(key: uuid!, iv: "0123456789012345"))
+        let value = AES128Decryption(base64!)
         return value
 	}
 	
 	func saveEncryptedProperty(property:String, value:String) {
-        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
-        let base64: String = try! value.encrypt(AES(key: uuid!, iv: "0123456789012345"))
-		dbHelper.saveProperty(property as String, value: base64)
+        let enc = AES128Encryption(value)
+        dbHelper.saveProperty(property, value: enc!)
 	}
     
     func addStatusListener(listener:StatusListener) {
@@ -745,5 +742,105 @@ class DataService {
 			i--
         } while i >= 0
         return href;
+    }
+    
+    func AES128Encryption(message:String) -> String?
+    {
+        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
+        let keyString        = uuid?.substringToIndex(uuid!.startIndex.advancedBy(32))
+        let keyData: NSData! = (keyString! as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
+        let keyBytes         = UnsafeMutablePointer<Void>(keyData.bytes)
+        print("keyLength   = \(keyData.length), keyData   = \(keyData)")
+        
+        let data: NSData! = (message as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
+        let dataLength    = size_t(data.length)
+        let dataBytes     = UnsafeMutablePointer<Void>(data.bytes)
+        print("dataLength  = \(dataLength), data      = \(data)")
+        
+        let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
+        let cryptPointer = UnsafeMutablePointer<Void>(cryptData!.mutableBytes)
+        let cryptLength  = size_t(cryptData!.length)
+        
+        let keyLength              = size_t(kCCKeySizeAES256)
+        let operation: CCOperation = UInt32(kCCEncrypt)
+        let algoritm:  CCAlgorithm = UInt32(kCCAlgorithmAES128)
+        let options:   CCOptions   = UInt32(kCCOptionPKCS7Padding + kCCOptionECBMode)
+        
+        var numBytesEncrypted :size_t = 0
+        
+        let cryptStatus = CCCrypt(operation,
+            algoritm,
+            options,
+            keyBytes, keyLength,
+            nil,
+            dataBytes, dataLength,
+            cryptPointer, cryptLength,
+            &numBytesEncrypted)
+        
+        if UInt32(cryptStatus) == UInt32(kCCSuccess) {
+            //  let x: UInt = numBytesEncrypted
+            cryptData!.length = Int(numBytesEncrypted)
+            print("cryptLength = \(numBytesEncrypted), cryptData = \(cryptData)")
+            
+            // Not all data is a UTF-8 string so Base64 is used
+            let base64cryptString = cryptData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            print("base64cryptString = \(base64cryptString)")
+            
+            return base64cryptString
+        } else {
+            print("Error: \(cryptStatus)")
+        }
+        return nil
+    }
+    
+    func AES128Decryption(enc:String) -> String? //data = cryptData
+    {
+        let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
+        let keyString        = uuid?.substringToIndex(uuid!.startIndex.advancedBy(32))
+        let keyData: NSData! = (keyString! as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
+        let keyBytes         = UnsafeMutablePointer<Void>(keyData.bytes)
+        print("keyLength   = \(keyData.length), keyData   = \(keyData)")
+        
+        let data: NSData! = NSData(base64EncodedString: enc, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        //let data: NSData! = (enc as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
+        let dataLength    = size_t(data.length)
+        let dataBytes     = UnsafeMutablePointer<Void>(data.bytes)
+        print("dataLength  = \(dataLength), data      = \(data)")
+        
+        let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
+        let cryptPointer = UnsafeMutablePointer<Void>(cryptData!.mutableBytes)
+        let cryptLength  = size_t(cryptData!.length)
+        
+        let keyLength              = size_t(kCCKeySizeAES256)
+        let operation: CCOperation = UInt32(kCCDecrypt)
+        let algoritm:  CCAlgorithm = UInt32(kCCAlgorithmAES128)
+        let options:   CCOptions   = UInt32(kCCOptionPKCS7Padding + kCCOptionECBMode)
+        
+        var numBytesEncrypted :size_t = 0
+        
+        let cryptStatus = CCCrypt(operation,
+            algoritm,
+            options,
+            keyBytes, keyLength,
+            nil,
+            dataBytes, dataLength,
+            cryptPointer, cryptLength,
+            &numBytesEncrypted)
+        
+        if UInt32(cryptStatus) == UInt32(kCCSuccess) {
+            //  let x: UInt = numBytesEncrypted
+            cryptData!.length = Int(numBytesEncrypted)
+            print("DecryptcryptLength = \(numBytesEncrypted), Decrypt = \(cryptData)")
+            
+            // Not all data is a UTF-8 string so Base64 is used
+            let base64cryptString = cryptData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            print("base64DecryptString = \(base64cryptString)")
+            let value = NSString(data: cryptData!, encoding: NSUTF8StringEncoding)
+            //print( "utf8 actual string = \(value)");
+            return value as String?
+        } else {
+            print("Error: \(cryptStatus)")
+        }
+        return nil
     }
 }

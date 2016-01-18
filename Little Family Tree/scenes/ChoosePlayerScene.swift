@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class ChoosePlayerScene: SKScene, EventListener {
+class ChoosePlayerScene: LittleFamilyScene {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
     var dataService:DataService?
     
@@ -64,7 +64,7 @@ class ChoosePlayerScene: SKScene, EventListener {
                         y -= width + 5
                     }
                 }
-                SpeechHelper.getInstance().speak("Who is playing today?")
+                self.speak("Who is playing today?")
             })
         })
         EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
@@ -78,9 +78,8 @@ class ChoosePlayerScene: SKScene, EventListener {
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
     }
-    
-    var listenerIndex:Int?
-    func onEvent(topic: String, data: NSObject?) {
+
+    override func onEvent(topic: String, data: NSObject?) {
         if topic == ChoosePlayerScene.TOPIC_CHOOSE_PERSON {
             let person = data as! LittlePerson?
             let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)

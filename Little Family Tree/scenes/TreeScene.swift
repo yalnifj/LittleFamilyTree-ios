@@ -536,7 +536,7 @@ class TreeScene: LittleFamilyScene {
                         self.treeSearchGame?.nextClue()
                     }
                     let text = self.treeSearchGame?.getClueText()
-                    SpeechHelper.getInstance().speak(text!)
+                    self.speak(text!)
                 } else if touchedNode is TreePersonSprite {
                     self.personTouched(touchedNode as! TreePersonSprite)
                 } else if touchedNode.parent is TreePersonSprite {
@@ -634,7 +634,7 @@ class TreeScene: LittleFamilyScene {
                 } else if node.person?.birthPlace != nil {
                     msg += "\(heshe) was born in \(node.person!.birthPlace!)"
                 }
-                SpeechHelper.getInstance().speak(msg)
+                self.speak(msg)
                 if buttonPanel != nil {
                     let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
                     buttonPanel?.runAction(act) {

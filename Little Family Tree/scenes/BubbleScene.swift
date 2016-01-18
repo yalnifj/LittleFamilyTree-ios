@@ -325,7 +325,7 @@ class BubbleScene: LittleFamilyScene {
                     r = 1
                 } else {
                     childSpot?.texture = SKTexture(imageNamed: "bubble_spot_down_h")
-                    SpeechHelper.getInstance().speak("Find the child in this family?")
+                    self.speak("Find the child in this family?")
                 }
             }
             if r == 1 {
@@ -338,7 +338,7 @@ class BubbleScene: LittleFamilyScene {
                     if mom?.person?.gender == GenderType.MALE {
                         mother = "father"
                     }
-                    SpeechHelper.getInstance().speak("Find the \(mother) in this family?")
+                    self.speak("Find the \(mother) in this family?")
                 }
             }
             if r == 2 {
@@ -351,7 +351,7 @@ class BubbleScene: LittleFamilyScene {
                     if dad?.person?.gender == GenderType.FEMALE {
                         father = "mother"
                     }
-                    SpeechHelper.getInstance().speak("Find the \(father) in this family?")
+                    self.speak("Find the \(father) in this family?")
                 }
             }
         }
@@ -404,9 +404,11 @@ class BubbleScene: LittleFamilyScene {
                     touchedNode.runAction(action) {
                         self.bubbles.removeObject(touchedNode as! SKSpriteNode)
                     }
-                    
-                    let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
-                    self.runAction(popSound)
+                    let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                    if quietMode == nil || quietMode == "false" {
+                        let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
+                        self.runAction(popSound)
+                    }
                 } else if touchedNode == child || child?.children.contains(touchedNode) == true {
                     if next == child || child?.popped == true {
                         if child?.popped == false {
@@ -415,8 +417,11 @@ class BubbleScene: LittleFamilyScene {
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             child?.bubble?.runAction(action)
                             
-                            let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
-                            self.runAction(popSound)
+                            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                            if quietMode == nil || quietMode == "false" {
+                                let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
+                                self.runAction(popSound)
+                            }
                             
                             child?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                             
@@ -433,10 +438,13 @@ class BubbleScene: LittleFamilyScene {
 							bubbleSteps = 100
                         }
                     
-                        SpeechHelper.getInstance().speak((child?.person?.givenName)! as String)
+                        self.speak((child?.person?.givenName)! as String)
                     } else {
-                        let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
-                        self.runAction(nopopSound)
+                        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                        if quietMode == nil || quietMode == "false" {
+                            let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
+                            self.runAction(nopopSound)
+                        }
                     }
                 } else if touchedNode == mom || mom?.children.contains(touchedNode) == true {
                     if next == mom || mom?.popped == true {
@@ -446,8 +454,11 @@ class BubbleScene: LittleFamilyScene {
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             mom?.bubble?.runAction(action)
                             
-                            let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
-                            self.runAction(popSound)
+                            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                            if quietMode == nil || quietMode == "false" {
+                                let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
+                                self.runAction(popSound)
+                            }
                             
                             mom?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                             
@@ -464,10 +475,13 @@ class BubbleScene: LittleFamilyScene {
 							bubbleSteps = 100
                         }
                         
-                        SpeechHelper.getInstance().speak((mom?.person?.givenName)! as String)
+                        self.speak((mom?.person?.givenName)! as String)
                     } else {
-                        let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
-                        self.runAction(nopopSound)
+                        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                        if quietMode == nil || quietMode == "false" {
+                            let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
+                            self.runAction(nopopSound)
+                        }
                     }
                 } else if touchedNode == dad || dad?.children.contains(touchedNode) == true {
                     if next == dad || dad?.popped == true {
@@ -477,8 +491,11 @@ class BubbleScene: LittleFamilyScene {
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             dad?.bubble?.runAction(action)
                             
-                            let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
-                            self.runAction(popSound)
+                            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                            if quietMode == nil || quietMode == "false" {
+                                let popSound = SKAction.playSoundFileNamed("pop", waitForCompletion: false)
+                                self.runAction(popSound)
+                            }
                             
                             dad?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                             
@@ -495,10 +512,13 @@ class BubbleScene: LittleFamilyScene {
 							bubbleSteps = 100
                         }
                         
-                        SpeechHelper.getInstance().speak((dad?.person?.givenName)! as String)
+                        self.speak((dad?.person?.givenName)! as String)
                     } else {
-                        let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
-                        self.runAction(nopopSound)
+                        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+                        if quietMode == nil || quietMode == "false" {
+                            let nopopSound = SKAction.playSoundFileNamed("nopop", waitForCompletion: false)
+                            self.runAction(nopopSound)
+                        }
                     }
                 }
             }

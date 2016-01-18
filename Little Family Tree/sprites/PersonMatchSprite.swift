@@ -25,7 +25,7 @@ class PersonMatchSprite: SKSpriteNode {
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.width = self.size.width * 0.6
             photoSprite?.size.height = (self.size.width * 0.6) / ratio
-            photoSprite?.zPosition = 1
+            photoSprite?.zPosition = 2
             photoSprite?.hidden = true
             self.addChild(photoSprite!)
             
@@ -33,7 +33,7 @@ class PersonMatchSprite: SKSpriteNode {
             frameSprite?.position = CGPointMake(self.size.width/2, self.size.height/2)
             frameSprite?.size.width = self.size.width
             frameSprite?.size.height = self.size.height
-            frameSprite?.zPosition = 2
+            frameSprite?.zPosition = 3
             self.addChild(frameSprite!)
         }
     }
@@ -46,7 +46,7 @@ class PersonMatchSprite: SKSpriteNode {
         if person?.matched == false {
             gameScene?.frameTouched(self)
         } else {
-            SpeechHelper.getInstance().speak(person!.person.givenName as! String)
+            gameScene?.speak(person!.person.givenName as! String)
         }
     }
     
@@ -69,7 +69,7 @@ class PersonMatchSprite: SKSpriteNode {
                 } else {
                     self.person?.flipped = true
                     self.photoSprite?.hidden = false
-                    SpeechHelper.getInstance().speak(self.person!.person.givenName as! String)
+                    self.gameScene?.speak(self.person!.person.givenName as! String)
                 }
                 self.runAction(secondHalfMove)
                 self.runAction(secondHalfFlip) {

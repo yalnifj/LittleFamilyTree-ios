@@ -72,7 +72,10 @@ class AnimatedStateSprite: SKSpriteNode {
         }
         removeAllActions();
         if (stateSounds[state] != nil) {
-            runAction(stateSounds[state]!)
+            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+            if quietMode == nil || quietMode == "false" {
+                runAction(stateSounds[state]!)
+            }
         }
 		if (moveAction != nil) {
 			runAction(moveAction!)

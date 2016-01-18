@@ -13,6 +13,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
 	static var TOPIC_START_SETTINGS = "start_settings"
+    static var TOPIC_TOGGLE_QUIET = "toggle_quiet"
     var topBar:TopBar?
     var addingStars = false
     var starRect:CGRect?
@@ -29,6 +30,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
     }
     
     override func willMoveFromView(view: SKView) {
@@ -36,6 +38,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -43,7 +46,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
             if (starDelayCount <= 0) {
                 starDelayCount = starDelay
                 starCount--;
-                for _ in 0..<6 {
+                for _ in 0..<4 {
                 if (starRect != nil) {
                     let star = SKSpriteNode(imageNamed: "star1")
                     var x = CGFloat(0)
@@ -76,8 +79,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
                     star.position.y = y
                     star.zPosition = 100
                     star.setScale(0.1)
-                    let growAction = SKAction.scaleTo(1.0, duration: 1.0)
-                    let shrinkAction = SKAction.scaleTo(0.0, duration: 1.0)
+                    let growAction = SKAction.scaleTo(1.0, duration: 1.5)
+                    let shrinkAction = SKAction.scaleTo(0.0, duration: 1.5)
                     let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
                     star.runAction(doubleAction)
                     if self.starContainer == nil {
@@ -115,6 +118,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         }
         else if topic == LittleFamilyScene.TOPIC_START_SETTINGS {
             showParentLogin()
+        }
+        else if topic == LittleFamilyScene.TOPIC_TOGGLE_QUIET {
+            toggleQuietMode()
         }
     }
     
@@ -213,7 +219,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self
         self.view?.addSubview(subview)
-        SpeechHelper.getInstance().speak("Ask an adult for help.")
+        self.speak("Ask an adult for help.")
     }
     
     func LoginComplete() {
@@ -235,8 +241,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {
         let levelUpAction = SKAction.waitForDuration(wait)
         runAction(levelUpAction) {
-            let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
-            self.runAction(soundAction)
+            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+            if quietMode == nil || quietMode == "false" {
+                let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
+                self.runAction(soundAction)
+            }
             onCompletion()
         }
     }
@@ -244,9 +253,21 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     func playFailSound(wait:Double, onCompletion: () -> Void) {
         let levelUpAction = SKAction.waitForDuration(wait)
         runAction(levelUpAction) {
-            let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: true);
-            self.runAction(soundAction)
+            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+            if quietMode == nil || quietMode == "false" {
+                let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: true);
+                self.runAction(soundAction)
+            }
             onCompletion()
+        }
+    }
+    
+    func speak(message:String) {
+        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        if quietMode == nil || quietMode == "false" {
+            SpeechHelper.getInstance().speak(message)
+        } else {
+            // TODO
         }
     }
     
@@ -298,6 +319,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     func hideLoadingDialog() {
         if loadingDialog != nil {
             loadingDialog?.hidden = true
+        }
+    }
+    
+    func toggleQuietMode() {
+        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        if quietMode == nil || quietMode == "false" {
+            DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "true")
+        } else {
+            DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
         }
     }
 }

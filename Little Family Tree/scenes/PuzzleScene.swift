@@ -264,7 +264,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 //self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
                 self.addChild(self.relationshipLabel!)
                 
-                SpeechHelper.getInstance().speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
+                self.speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
                 let waitAction = SKAction.waitForDuration(2.5)
                 self.runAction(waitAction) {
                     self.showLoadingDialog()

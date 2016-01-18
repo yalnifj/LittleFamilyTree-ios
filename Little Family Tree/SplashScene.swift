@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class SplashScene: SKScene, LoginCompleteListener {
+class SplashScene: SKScene, LoginCompleteListener, EventListener {
     var dataService:DataService?
     var startTime:NSTimeInterval?
     var launched = false
@@ -33,10 +33,23 @@ class SplashScene: SKScene, LoginCompleteListener {
         let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
         tree.runAction(action)
         
-        let introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
-        runAction(introTune)
+        let quietToggle = AnimatedStateSprite(imageNamed: "quiet_mode_off")
+        quietToggle.anchorPoint = CGPointZero
+        quietToggle.position = CGPointMake(15, 15)
+        quietToggle.zPosition = 4
+        quietToggle.addTexture(1, texture: SKTexture(imageNamed: "quiet_mode_on"))
+        quietToggle.addEvent(0, topic: LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        quietToggle.addEvent(1, topic: LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        quietToggle.userInteractionEnabled = true
+        self.addChild(quietToggle)
         
         dataService = DataService.getInstance()
+        
+        let quietMode = dataService?.dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        if quietMode == nil || quietMode == "false" {
+            let introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
+            runAction(introTune)
+        }
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -71,5 +84,18 @@ class SplashScene: SKScene, LoginCompleteListener {
     
     func LoginComplete() {
         launched = false
+    }
+    
+    var listenerIndex:Int?
+    func onEvent(topic: String, data: NSObject?) {
+        if topic == LittleFamilyScene.TOPIC_TOGGLE_QUIET {
+            let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+            if quietMode == nil || quietMode == "false" {
+                self.removeAllActions()
+                DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "true")
+            } else {
+                DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
+            }
+        }
     }
 }

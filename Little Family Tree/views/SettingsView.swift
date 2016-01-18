@@ -20,12 +20,13 @@ class SettingsView: UIView {
     @IBOutlet weak var view6: UIView!
     @IBOutlet weak var view7: UIView!
     @IBOutlet weak var view8: UIView!
+    @IBOutlet weak var view9: UIView!
     @IBOutlet weak var remoteTreeType: UILabel!
-    
     @IBOutlet weak var syncInBackgroundSwitch: UISwitch!
     @IBOutlet weak var syncUsingCellSwitch: UISwitch!
     @IBOutlet weak var syncDelaySlider: UISlider!
     @IBOutlet weak var syncDelayLabel: UILabel!
+    @IBOutlet weak var quietModeSwitch: UISwitch!
     
     @IBOutlet weak var versionLabel: UILabel!
     
@@ -68,6 +69,8 @@ class SettingsView: UIView {
         view7.layer.borderWidth = 0.5
         view8.layer.borderColor = UIColor.grayColor().CGColor
         view8.layer.borderWidth = 0.5
+        view9.layer.borderColor = UIColor.grayColor().CGColor
+        view9.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
         let treeType = dataService.dbHelper.getProperty(DataService.SERVICE_TYPE)
@@ -85,6 +88,13 @@ class SettingsView: UIView {
             syncUsingCellSwitch.setOn(false, animated: false)
         } else {
             syncUsingCellSwitch.setOn(true, animated: false)
+        }
+        
+        let quietMode = dataService.dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        if quietMode == nil || quietMode == "false" {
+            quietModeSwitch.setOn(false, animated: false)
+        } else {
+            quietModeSwitch.setOn(true, animated: false)
         }
         
     }
@@ -127,5 +137,13 @@ class SettingsView: UIView {
     @IBAction func backButtonAction(sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
+    }
+    @IBAction func quietModeToggleAction(sender: UISwitch) {
+        let dataService = DataService.getInstance()
+        if sender.on {
+            dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "true")
+        } else {
+            dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
+        }
     }
 }

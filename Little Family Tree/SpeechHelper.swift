@@ -23,11 +23,14 @@ class SpeechHelper {
     }
     
     func speak(message:String) {
-        if speechSynthesizer.speaking {
-            speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Word)
+        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+        if quietMode == nil || quietMode == "false" {
+            if speechSynthesizer.speaking {
+                speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Word)
+            }
+            let speechUtterance = AVSpeechUtterance(string: message)
+            
+            speechSynthesizer.speakUtterance(speechUtterance)
         }
-        let speechUtterance = AVSpeechUtterance(string: message)
-        
-        speechSynthesizer.speakUtterance(speechUtterance)
     }
 }
