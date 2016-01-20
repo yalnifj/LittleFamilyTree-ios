@@ -86,23 +86,23 @@ class ColorPaletteSprite : SKSpriteNode {
         colorRects.append(dg);
         colors.append(UIColor(hexString: "#006c0044"));
         
-        let b = CGRectMake(145*rw, 71*rh, 55*rw, 57*rh)
+        let b = CGRectMake(145*rw, 71*rh, 56*rw, 57*rh)
         colorRects.append(b);
         colors.append(UIColor(hexString: "#0000cf44"));
         
-        let db = CGRectMake(218*rw, 71*rh, 55*rw, 57*rh)
+        let db = CGRectMake(218*rw, 71*rh, 56*rw, 57*rh)
         colorRects.append(db);
         colors.append(UIColor(hexString: "#00006f44"));
         
-        let p = CGRectMake(287*rw, 70*rh, 55*rw, 57*rh)
+        let p = CGRectMake(287*rw, 70*rh, 56*rw, 57*rh)
         colorRects.append(p);
         colors.append(UIColor(hexString: "#6400aa44"));
         
-        let br = CGRectMake(357*rw, 70*rh, 55*rw, 57*rh)
+        let br = CGRectMake(357*rw, 70*rh, 56*rw, 57*rh)
         colorRects.append(br);
         colors.append(UIColor(hexString: "#80330044"));
         
-        let wh = CGRectMake(430*rw, 70*rh, 55*rw, 57*rh)
+        let wh = CGRectMake(430*rw, 70*rh, 56*rw, 57*rh)
         colorRects.append(wh);
         colors.append(UIColor(hexString: "#00000000"));
         
@@ -111,7 +111,9 @@ class ColorPaletteSprite : SKSpriteNode {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
-            let position = touch.locationInNode(self)
+            var position = touch.locationInNode(colorPalette!)
+            position.x = position.x + colorPalette!.size.width / 2
+            position.y = position.y + colorPalette!.size.height / 2
             print("position=\(position)")
             var rect:CGRect?
             var i = 0

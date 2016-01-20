@@ -178,21 +178,6 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             photoCopySprite?.size.height = h
             outlineSprite?.addChild(photoCopySprite!)
             
-            logoMark = SKSpriteNode(imageNamed: "little_family_logo")
-            let lr = logoMark!.size.height / logoMark!.size.width
-            logoMark?.zPosition = 10
-            logoMark?.anchorPoint = CGPointZero
-            logoMark?.position = CGPointMake(w / -2, h / -2)
-            if w > h {
-                logoMark?.size.width = h * CGFloat(0.4) / lr
-                logoMark?.size.height = h * CGFloat(0.4)
-            } else {
-                logoMark?.size.width = w * CGFloat(0.4)
-                logoMark?.size.height = w * CGFloat(0.4) * lr
-            }
-            logoMark?.hidden = true
-            fullImageHolder!.addChild(logoMark!)
-            
             hideLoadingDialog()
             
         } else {
@@ -248,10 +233,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
-        let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        let oy = CGFloat(0) //(photoSprite?.position.y)! - (photoSprite?.size.height)!/2
+        let ox = CGFloat(0) //(photoSprite?.position.x)! - (photoSprite?.size.width)!/2
         
         image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
+        
+        CGContextMoveToPoint(context, 0, 0)
+        CGContextAddLineToPoint(context, 0, 50)
         
         CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
         CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
@@ -296,10 +284,32 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 	
 	func showSharingPanel() {
 		if (fullImageHolder != nil) {
-            logoMark?.hidden = false
+            let ratio = (photoSprite?.texture?.size().width)! / (photoSprite?.texture?.size().height)!
+            var w = self.size.width
+            var h = self.size.height - ((palette?.size.height)! + (topBar?.size.height)! * 3)
+            if ratio < 1.0 || w > h {
+                w = h * ratio
+            } else {
+                h = w / ratio
+            }
+
+            logoMark = SKSpriteNode(imageNamed: "little_family_logo")
+            let lr = logoMark!.size.height / logoMark!.size.width
+            logoMark?.zPosition = 10
+            logoMark?.anchorPoint = CGPointZero
+            logoMark?.position = CGPointMake(w / -2, h / -2)
+            if w > h {
+                logoMark?.size.width = h * CGFloat(0.4) / lr
+                logoMark?.size.height = h * CGFloat(0.4)
+            } else {
+                logoMark?.size.width = w * CGFloat(0.4)
+                logoMark?.size.height = w * CGFloat(0.4) * lr
+            }
+            fullImageHolder!.addChild(logoMark!)
+            
 			let imageTexture = self.scene!.view!.textureFromNode(fullImageHolder!)
 			let image = UIImage(CGImage: imageTexture!.CGImage())
-            logoMark?.hidden = true
+            logoMark?.removeFromParent()
 			let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 			self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
 		}

@@ -267,8 +267,30 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         if quietMode == nil || quietMode == "false" {
             SpeechHelper.getInstance().speak(message)
         } else {
-            // TODO
+            let w = min(self.size.width, self.size.height) * CGFloat(0.9)
+            let h = w / 10
+            let lc = SKSpriteNode(color: UIColor.grayColor(), size: CGSizeMake(w, h))
+            lc.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+            let speakLabel = SKLabelNode(text: message)
+            speakLabel.fontSize = h / 2
+            speakLabel.position = CGPointMake(0, 0)
+            speakLabel.zPosition = 1
+            adjustLabelFontSizeToFitRect(speakLabel, rect: lc.frame)
+            lc.addChild(speakLabel)
+            self.addChild(lc)
+            
+            let action = SKAction.sequence([SKAction.moveByX(0, y: h, duration: 2.0), SKAction.removeFromParent()])
+            lc.runAction(action)
         }
+    }
+    
+    func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
+        // Determine the font scaling factor that should let the label text fit in the given rectangle.
+        let scalingFactor = min(rect.width / labelNode.frame.width, rect.height / labelNode.frame.height)
+        // Change the fontSize.
+        labelNode.fontSize *= scalingFactor
+        // Optionally move the SKLabelNode to the center of the rectangle.
+        labelNode.position = CGPoint(x: rect.midX, y: rect.midY - labelNode.frame.height / 2.0)
     }
     
     func showStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {

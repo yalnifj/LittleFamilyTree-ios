@@ -12,6 +12,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     var dataService:DataService?
     var startTime:NSTimeInterval?
     var launched = false
+    var introTune:SKAction?
     
     override func didMoveToView(view: SKView) {
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
@@ -47,9 +48,17 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         
         let quietMode = dataService?.dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
         if quietMode == nil || quietMode == "false" {
-            let introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
-            runAction(introTune)
+            introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: false)
+            runAction(introTune!)
+        } else {
+            quietToggle.nextState()
         }
+        
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
