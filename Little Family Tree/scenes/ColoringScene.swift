@@ -233,13 +233,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
-        let oy = CGFloat(0) //(photoSprite?.position.y)! - (photoSprite?.size.height)!/2
-        let ox = CGFloat(0) //(photoSprite?.position.x)! - (photoSprite?.size.width)!/2
+        let oy = (fullImageHolder?.position.y)! - (fullImageHolder?.size.height)!/2
+        let ox = (fullImageHolder?.position.x)! - (fullImageHolder?.size.width)!/2
         
         image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
-        CGContextMoveToPoint(context, 0, 0)
-        CGContextAddLineToPoint(context, 0, 50)
+        //CGContextMoveToPoint(context, 0, 0)
+        //CGContextAddLineToPoint(context, 0, 50)
         
         CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
         CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
