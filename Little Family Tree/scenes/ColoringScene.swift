@@ -16,7 +16,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 	var photoSprite:SKSpriteNode?
 	var coverSprite:SKSpriteNode?
 	var lastPoint : CGPoint!
-    var outlineSprite:SKEffectNode?
+    var outlineSprite:SKSpriteNode?
     var photoCopySprite:SKSpriteNode?
     var palette : ColorPaletteSprite?
     var brushSizer : BrushSizeSprite?
@@ -29,6 +29,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     var color:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
     var clearColor:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
     var brushSize:CGFloat = 12
+    var activityViewController:UIActivityViewController?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -60,13 +61,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let paintBrush = SKSpriteNode(imageNamed: "paintbrush")
         palette?.paintbrush = paintBrush
         
-        brushSize = self.size.width/16
+        brushSize = min(self.size.width, self.size.height)/16
         brushSizer = BrushSizeSprite()
         brushSizer?.size = CGSizeMake((palette?.size.height)!, (palette?.size.height)!)
         brushSizer?.position = CGPointMake((palette?.size.width)!, 0)
         brushSizer?.zPosition = 10
-        brushSizer?.maxSize = brushSize*2
-        brushSizer?.minSize = brushSize/8
+        brushSizer?.maxSize = min(brushSizer!.size.width, brushSizer!.size.height)
+        brushSizer?.minSize = max(brushSize/6, 10)
         brushSizer?.brushSize = brushSize
         brushSizer?.userInteractionEnabled = true
         brushSizer?.listener = self
@@ -164,11 +165,10 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             fullImageHolder!.addChild(coverSprite!)
 
             let filter:CIFilter? = CIFilter(name: "CILineOverlay")!
-            outlineSprite = SKEffectNode()
-            outlineSprite?.zPosition = 4
-            outlineSprite?.position = CGPointMake(0, 0)
-            outlineSprite?.filter = filter
-            fullImageHolder!.addChild(outlineSprite!)
+            let os = SKEffectNode()
+            os.zPosition = 4
+            os.position = CGPointMake(0, 0)
+            os.filter = filter
             
             let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSizeMake(self.size.width/2, self.size.height/2))
             photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSizeMake(w, h))
@@ -176,7 +176,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             photoCopySprite?.position = CGPointMake(0, 0)
             photoCopySprite?.size.width = w
             photoCopySprite?.size.height = h
-            outlineSprite?.addChild(photoCopySprite!)
+            os.addChild(photoCopySprite!)
+            
+            let imageTexture = self.scene!.view!.textureFromNode(os)
+            outlineSprite = SKSpriteNode(texture: imageTexture)
+            outlineSprite!.zPosition = 4
+            outlineSprite!.position = CGPointMake(0, 0)
+            fullImageHolder!.addChild(outlineSprite!)
             
             hideLoadingDialog()
             
@@ -310,8 +316,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 			let imageTexture = self.scene!.view!.textureFromNode(fullImageHolder!)
 			let image = UIImage(CGImage: imageTexture!.CGImage())
             logoMark?.removeFromParent()
-			let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-			self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+            
+			activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            if let wPPC = activityViewController!.popoverPresentationController {
+                wPPC.sourceView = self.view!
+                wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+            }
+			self.view!.window!.rootViewController!.presentViewController(activityViewController!, animated: true, completion: nil)
 		}
 	}
 }

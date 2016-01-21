@@ -1768,7 +1768,12 @@
 				TargetAttributes = {
 					A117C7281BA4AD0000964D50 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 5523539D9N;
+						DevelopmentTeam = KXJU72995U;
+						SystemCapabilities = {
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
+						};
 					};
 					A117C7411BA4AD0100964D50 = {
 						CreatedOnToolsVersion = 6.4;
@@ -2464,7 +2469,7 @@
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Yellow-Fork-Tech.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yellowforktech.littlefamilytreeios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LittleFamilyTree-Bridging-Header.h";
@@ -2482,7 +2487,7 @@
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Yellow-Fork-Tech.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yellowforktech.littlefamilytreeios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LittleFamilyTree-Bridging-Header.h";

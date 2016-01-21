@@ -96,8 +96,8 @@ class GameViewController: UIViewController {
         if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
+            //skView.showsFPS = true
+            //skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -110,11 +110,11 @@ class GameViewController: UIViewController {
     }
 
     override func shouldAutorotate() -> Bool {
-        return false
+        return true
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.Portrait.rawValue)
+        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
     }
 
     override func didReceiveMemoryWarning() {

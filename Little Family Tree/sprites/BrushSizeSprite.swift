@@ -13,7 +13,7 @@ class BrushSizeSprite : SKSpriteNode {
     var preview : SKShapeNode?
     var lastPoint : CGPoint?
     var maxSize:CGFloat = 30
-    var minSize:CGFloat = 1
+    var minSize:CGFloat = 5
     var brushSize:CGFloat = 15
     var brushColor:UIColor = UIColor.blueColor() {
         didSet {
@@ -49,7 +49,7 @@ class BrushSizeSprite : SKSpriteNode {
             if lastPoint != nil {
                 let dx = nextPoint.x - (lastPoint?.x)!
                 let dy = nextPoint.y - (lastPoint?.y)!
-                let distance = sqrt((dx*dx) + (dy*dy)) / 5
+                let distance = sqrt((dx*dx) + (dy*dy)) / 3
                 if dx < 0 || dy < 0 {
                     brushSize -= distance
                 } else {

@@ -17,10 +17,12 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     override func didMoveToView(view: SKView) {
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
         logo.position = CGPointMake(self.size.width/2, self.size.height/2 - 20)
+        logo.zPosition = 1
         self.addChild(logo)
         
         let tree = SKSpriteNode(imageNamed: "growing_plant1")
         tree.position = CGPointMake(self.size.width/2, self.size.height - tree.size.height/2 - 20)
+        tree.zPosition = 2
         let growing:[SKTexture] = [
             SKTexture(imageNamed: "growing_plant2"),
             SKTexture(imageNamed: "growing_plant3"),
