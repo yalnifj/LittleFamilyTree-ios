@@ -15,10 +15,8 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     var introTune:SKAction?
     
     override func didMoveToView(view: SKView) {
-        let logo = SKSpriteNode(imageNamed: "little_family_logo")
-        logo.position = CGPointMake(self.size.width/2, self.size.height/2 - 20)
-        logo.zPosition = 1
-        self.addChild(logo)
+        self.size.width = view.bounds.width
+        self.size.height = view.bounds.height
         
         let tree = SKSpriteNode(imageNamed: "growing_plant1")
         tree.position = CGPointMake(self.size.width/2, self.size.height - tree.size.height/2 - 20)
@@ -35,6 +33,11 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         self.addChild(tree)
         let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
         tree.runAction(action)
+        
+        let logo = SKSpriteNode(imageNamed: "little_family_logo")
+        logo.position = CGPointMake(self.size.width/2, tree.position.y - (tree.size.height / 2 + self.size.height/2 + 20))
+        logo.zPosition = 1
+        self.addChild(logo)
         
         let quietToggle = AnimatedStateSprite(imageNamed: "quiet_mode_off")
         quietToggle.anchorPoint = CGPointZero

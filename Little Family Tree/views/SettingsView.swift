@@ -16,8 +16,8 @@ class SettingsView: UIView {
     @IBOutlet weak var view2: UIView!
     @IBOutlet weak var view3: UIView!
     @IBOutlet weak var view4: UIView!
-    @IBOutlet weak var view5: UIView!
     @IBOutlet weak var view6: UIView!
+    @IBOutlet weak var view5: UIView!
     @IBOutlet weak var view7: UIView!
     @IBOutlet weak var view8: UIView!
     @IBOutlet weak var view9: UIView!

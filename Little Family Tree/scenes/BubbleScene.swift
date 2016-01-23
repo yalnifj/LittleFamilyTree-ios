@@ -205,7 +205,7 @@ class BubbleScene: LittleFamilyScene {
                 self.child = PersonBubbleSprite()
                 self.child?.size = CGSizeMake(self.width, self.width)
                 self.child?.position = CGPointMake(bx, by)
-                self.child?.zPosition = 6
+                self.child?.zPosition = 7
                 self.child?.person = person
                 self.child?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
                 self.child?.physicsBody?.categoryBitMask = 2
@@ -227,7 +227,7 @@ class BubbleScene: LittleFamilyScene {
                 self.dad = PersonBubbleSprite()
                 self.dad?.size = CGSizeMake(self.width, self.width)
                 self.dad?.position = CGPointMake(bx, by)
-                self.dad?.zPosition = 6
+                self.dad?.zPosition = 7
                 self.dad?.person = parents![0]
                 self.dad?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
                 self.dad?.physicsBody?.categoryBitMask = 2
@@ -249,7 +249,7 @@ class BubbleScene: LittleFamilyScene {
                 self.mom = PersonBubbleSprite()
                 self.mom?.size = CGSizeMake(self.width, self.width)
                 self.mom?.position = CGPointMake(bx, by)
-                self.mom?.zPosition = 6
+                self.mom?.zPosition = 7
                 self.mom?.person = parents![1]
                 self.mom?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
                 self.mom?.physicsBody?.categoryBitMask = 2
@@ -283,7 +283,7 @@ class BubbleScene: LittleFamilyScene {
             let x = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(width)))
             let y = (w / 2) + CGFloat(arc4random_uniform(UInt32(width)))
             bubble.position = CGPointMake(x, y)
-            bubble.zPosition = 6
+            bubble.zPosition = 7
             bubble.physicsBody = SKPhysicsBody(circleOfRadius: w/2)
             bubble.physicsBody?.categoryBitMask = 2
             bubble.physicsBody?.collisionBitMask = 1
