@@ -227,9 +227,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     }
     
     func showSettings() {
-        let subview = SettingsView(frame: (self.view?.bounds)!)
-        subview.selectedPerson = self.selectedPerson
-        self.view?.addSubview(subview)
+        let operationQueue = NSOperationQueue()
+        let operation1 : NSBlockOperation = NSBlockOperation (block: {
+            let subview = SettingsView(frame: (self.view?.bounds)!)
+            subview.selectedPerson = self.selectedPerson
+            self.view?.addSubview(subview)
+        })
+        operationQueue.addOperation(operation1)
     }
     
     func showParentsGuide() {
@@ -275,11 +279,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
             speakLabel.fontSize = h / 2
             speakLabel.position = CGPointMake(0, 0)
             speakLabel.zPosition = 1
-            adjustLabelFontSizeToFitRect(speakLabel, rect: lc.frame)
+            //adjustLabelFontSizeToFitRect(speakLabel, rect: lc.frame)
             lc.addChild(speakLabel)
             self.addChild(lc)
             
-            let action = SKAction.sequence([SKAction.moveByX(0, y: h, duration: 2.0), SKAction.removeFromParent()])
+            let action = SKAction.sequence([SKAction.moveByX(0, y: h/2, duration: 2.0), SKAction.removeFromParent()])
             lc.runAction(action)
         }
     }

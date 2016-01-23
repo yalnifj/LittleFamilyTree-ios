@@ -31,7 +31,7 @@ class BubbleScene: LittleFamilyScene {
     var next:PersonBubbleSprite?
     
     var hasSoap = false
-	var bubbleSteps = 100
+    var lastHighlightTime:NSTimeInterval = 0
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -56,7 +56,7 @@ class BubbleScene: LittleFamilyScene {
         let ratio = (width * 3) / sinkTexture.size().width
         let sink = SKSpriteNode(texture: sinkTexture)
         let r = sink.size.height / sink.size.width
-        sink.size = CGSizeMake(width * 3, width * 3 * r)
+        sink.size = CGSizeMake(width * 3, width * 3 * r / 2)
         sink.position = CGPointMake(self.size.width / 2, sink.size.height / 2)
         sink.zPosition = 1
         self.addChild(sink)
@@ -65,7 +65,7 @@ class BubbleScene: LittleFamilyScene {
         faucet = AnimatedStateSprite(texture: faucetTexture)
         faucet?.size = CGSizeMake(faucetTexture.size().width * ratio/2, faucetTexture.size().height * ratio/2)
         faucet?.position = CGPointMake((self.size.width / 2) + (faucet?.size.width)! / 2, (faucet?.size.height)! / 2 + sink.size.height/1.5)
-        faucet?.zPosition = 2
+        faucet?.zPosition = 5
         let spin:[SKTexture] = [
             SKTexture(imageNamed: "faucet2"),
             SKTexture(imageNamed: "faucet1")
@@ -98,8 +98,8 @@ class BubbleScene: LittleFamilyScene {
         let soapTexture = SKTexture(imageNamed: "soap1")
         soap = AnimatedStateSprite(texture: soapTexture)
         soap?.size = CGSizeMake(soapTexture.size().width * ratio/1.5, soapTexture.size().height * ratio/1.5)
-        soap?.position = CGPointMake((self.size.width / 2) + (faucet?.size.width)!/2 + (soap?.size.width)!/1.5, sink.size.height/2 + (soap?.size.height)!/1.5)
-        soap?.zPosition = 2
+        soap?.position = CGPointMake((self.size.width / 2) + (faucet?.size.width)!/2 + (soap?.size.width)!/1.2, sink.size.height/2 + (soap?.size.height)!/1.8)
+        soap?.zPosition = 6
         let squirting:[SKTexture] = [
             SKTexture(imageNamed: "soap2"),
             SKTexture(imageNamed: "soap3"),
@@ -216,8 +216,8 @@ class BubbleScene: LittleFamilyScene {
                 self.child?.physicsBody?.angularDamping = 0.0
                 self.child?.physicsBody?.affectedByGravity = false
                 self.child?.physicsBody?.dynamic = true
-                let dx = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
-                let dy = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
+                let dx = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                let dy = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
                 let v = CGVectorMake(dx, dy)
                 self.addChild(self.child!)
                 self.child?.physicsBody?.applyImpulse(v)
@@ -238,8 +238,8 @@ class BubbleScene: LittleFamilyScene {
                 self.dad?.physicsBody?.angularDamping = 0.0
                 self.dad?.physicsBody?.affectedByGravity = false
                 self.dad?.physicsBody?.dynamic = true
-                let dx2 = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
-                let dy2 = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
+                let dx2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                let dy2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
                 let v2 = CGVectorMake(dx2, dy2)
                 self.addChild(self.dad!)
                 self.dad?.physicsBody?.applyImpulse(v2)
@@ -260,8 +260,8 @@ class BubbleScene: LittleFamilyScene {
                 self.mom?.physicsBody?.angularDamping = 0.0;
                 self.mom?.physicsBody?.affectedByGravity = false
                 self.mom?.physicsBody?.dynamic = true
-                let dx3 = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
-                let dy3 = self.width/6 - CGFloat(arc4random_uniform(UInt32(self.width/3)))
+                let dx3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                let dy3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
                 let v3 = CGVectorMake(dx3, dy3)
                 self.addChild(self.mom!)
                 self.mom?.physicsBody?.applyImpulse(v3)
@@ -294,8 +294,8 @@ class BubbleScene: LittleFamilyScene {
             bubble.physicsBody?.affectedByGravity = false
             bubble.physicsBody?.dynamic = true
             
-            let dx = w/6 - CGFloat(arc4random_uniform(UInt32(w/3)))
-            let dy = w/6 - CGFloat(arc4random_uniform(UInt32(w/3)))
+            let dx = w/2 - CGFloat(arc4random_uniform(UInt32(w)))
+            let dy = w/2 - CGFloat(arc4random_uniform(UInt32(w)))
             let v = CGVectorMake(dx, dy)
             
             self.addChild(bubble)
@@ -373,14 +373,16 @@ class BubbleScene: LittleFamilyScene {
     }
     
     override func update(currentTime: NSTimeInterval) {
-        if bubbleSteps > 0 {
-			bubbleSteps--
+        if lastHighlightTime == 0 {
+			lastHighlightTime = currentTime
 		}
 		else {
-			bubbleSteps = 100
-			if next != nil {
-				next!.highlight()
-			}
+            if currentTime - lastHighlightTime > 10 {
+                lastHighlightTime = currentTime
+                if next != nil {
+                    next!.highlight()
+                }
+            }
 		}
     }
     
@@ -413,6 +415,7 @@ class BubbleScene: LittleFamilyScene {
                     if next == child || child?.popped == true {
                         if child?.popped == false {
                             child?.popped = true
+                            child?.removeAllActions()
                             let aaction = SKAction.animateWithTextures(popping, timePerFrame: 0.06)
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             child?.bubble?.runAction(action)
@@ -429,13 +432,13 @@ class BubbleScene: LittleFamilyScene {
                             child?.runAction(moveAction) {
                                 self.child?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                                 self.child?.physicsBody = nil
-                                self.child?.zPosition = 4
+                                self.child?.zPosition = 3
                             }
                             
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
-							bubbleSteps = 100
+							lastHighlightTime = 0
                         }
                     
                         self.speak((child?.person?.givenName)! as String)
@@ -450,6 +453,7 @@ class BubbleScene: LittleFamilyScene {
                     if next == mom || mom?.popped == true {
                         if mom?.popped == false {
                             mom?.popped = true
+                            mom?.removeAllActions()
                             let aaction = SKAction.animateWithTextures(popping, timePerFrame: 0.06)
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             mom?.bubble?.runAction(action)
@@ -466,13 +470,13 @@ class BubbleScene: LittleFamilyScene {
                             mom?.runAction(moveAction) {
                                 self.mom?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                                 self.mom?.physicsBody = nil
-                                self.mom?.zPosition = 4
+                                self.mom?.zPosition = 3
                             }
                             
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
-							bubbleSteps = 100
+							lastHighlightTime = 0
                         }
                         
                         self.speak((mom?.person?.givenName)! as String)
@@ -487,7 +491,8 @@ class BubbleScene: LittleFamilyScene {
                     if next == dad || dad?.popped == true {
                         if dad?.popped == false {
                             dad?.popped = true
-                            let aaction = SKAction.animateWithTextures(popping, timePerFrame: 0.6)
+                            dad?.removeAllActions()
+                            let aaction = SKAction.animateWithTextures(popping, timePerFrame: 0.06)
                             let action = SKAction.sequence([aaction, SKAction.removeFromParent()])
                             dad?.bubble?.runAction(action)
                             
@@ -503,13 +508,13 @@ class BubbleScene: LittleFamilyScene {
                             dad?.runAction(moveAction) {
                                 self.dad?.physicsBody?.applyImpulse(CGVectorMake(0,0))
                                 self.dad?.physicsBody = nil
-                                self.dad?.zPosition = 4
+                                self.dad?.zPosition = 3
                             }
                             
                             self.runAction(SKAction.waitForDuration(2.0)) {
                                 self.nextSpot()
                             }
-							bubbleSteps = 100
+							lastHighlightTime = 0
                         }
                         
                         self.speak((dad?.person?.givenName)! as String)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -9,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsView" customModule="Little_Family_Tree" customModuleProvider="target">
             <connections>
                 <outlet property="btnBack" destination="Wtn-Th-yBl" id="Cf2-nq-eMh"/>
-                <outlet property="quietModeSwitch" destination="fSP-li-HH1" id="Hhd-m7-vDo"/>
+                <outlet property="quietModeSwitch" destination="kpB-Rn-73d" id="u2I-hw-fdA"/>
                 <outlet property="remoteTreeType" destination="1GI-LH-c7Q" id="N24-Qw-RzL"/>
                 <outlet property="syncDelayLabel" destination="nhH-fF-29K" id="4Tt-Fi-d1x"/>
                 <outlet property="syncDelaySlider" destination="dJv-E9-yQm" id="2K1-SV-3mz"/>

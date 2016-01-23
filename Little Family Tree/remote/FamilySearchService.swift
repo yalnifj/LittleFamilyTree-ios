@@ -2,21 +2,42 @@ import Foundation
 import SpriteKit
 
 class FamilySearchService : RemoteService {
-	let FS_PLATFORM_PATH = "https://sandbox.familysearch.org/platform/"
-    //let FS_PLATFORM_PATH = "https://beta.familysearch.org/platform/"
-	//let FS_PLATFORM_PATH = "https://familysearch.org/platform/"
+	let FS_PLATFORM_PATH_SAND = "https://sandbox.familysearch.org/platform/"
+    let FS_PLATFORM_PATH_BETA = "https://beta.familysearch.org/platform/"
+	let FS_PLATFORM_PATH_PROD = "https://familysearch.org/platform/"
+    var FS_PLATFORM_PATH:String
 	
-	let FS_OAUTH2_PATH = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token"
-    //let FS_OAUTH2_PATH = "https://identbeta.familysearch.org/cis-web/oauth2/v3/token"
-	//let FS_OAUTH2_PATH = "https://ident.familysearch.org/cis-web/oauth2/v3/token"
+	let FS_OAUTH2_PATH_SAND = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token"
+    let FS_OAUTH2_PATH_BETA = "https://identbeta.familysearch.org/cis-web/oauth2/v3/token"
+	let FS_OAUTH2_PATH_PROD = "https://ident.familysearch.org/cis-web/oauth2/v3/token"
+    var FS_OAUTH2_PATH:String
 	
 	private let FS_APP_KEY = "a02j0000009AXffAAG"
-    //private let FS_APP_KEY = "a0T3000000BM5hcEAD"
 
     var sessionId: NSString?
     var personCache = [String: Person]()
+    
+    private init() {
+        FS_PLATFORM_PATH = FS_PLATFORM_PATH_SAND
+        FS_OAUTH2_PATH = FS_OAUTH2_PATH_SAND
+    }
 	
 	static let sharedInstance = FamilySearchService()
+    
+    func setEnvironment(env:String) {
+        if (env=="sandbox") {
+            FS_PLATFORM_PATH = FS_PLATFORM_PATH_SAND
+            FS_OAUTH2_PATH = FS_OAUTH2_PATH_SAND
+        }
+        else if (env=="beta") {
+            FS_PLATFORM_PATH = FS_PLATFORM_PATH_BETA
+            FS_OAUTH2_PATH = FS_OAUTH2_PATH_BETA
+        }
+        else if (env=="prod") {
+            FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
+            FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
+        }
+    }
 	
 	
 	func authenticate(username: String, password: String, onCompletion: ServiceResponse) {

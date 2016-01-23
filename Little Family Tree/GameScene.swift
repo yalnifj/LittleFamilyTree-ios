@@ -891,7 +891,7 @@ class GameScene: LittleFamilyScene {
         print("pinched \(lfScale)")
         if previousScale != nil {
             if sender.scale != previousScale! {
-                let diff = (sender.scale - previousScale!) / 4
+                let diff = (sender.scale - previousScale!) / (maxScale - minScale)
                 lfScale += diff
                 if lfScale < minScale {
                     lfScale = minScale

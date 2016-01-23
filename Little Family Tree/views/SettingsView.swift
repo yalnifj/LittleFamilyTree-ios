@@ -30,9 +30,6 @@ class SettingsView: UIView {
     
     @IBOutlet weak var versionLabel: UILabel!
     
-    
-    
-    
     var view:UIView!
     
     var selectedPerson:LittlePerson?
@@ -133,6 +130,8 @@ class SettingsView: UIView {
     }
 
     @IBAction func visitWebsiteAction(sender: AnyObject) {
+        print("Visit website")
+        UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
     }
     @IBAction func backButtonAction(sender: UIBarButtonItem) {
         print("Back Button clicked")

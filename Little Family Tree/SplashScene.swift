@@ -50,7 +50,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         
         let quietMode = dataService?.dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
         if quietMode == nil || quietMode == "false" {
-            introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: false)
+            introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
             runAction(introTune!)
         } else {
             quietToggle.nextState()

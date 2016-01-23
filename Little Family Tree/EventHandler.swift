@@ -31,7 +31,6 @@ class EventHandler {
             listener.listenerIndex = counter++
         }
         listeners![listener.listenerIndex!] = listener
-        listener.listenerIndex = (listeners?.count)! - 1
         subscribers[topic] = listeners
     }
     

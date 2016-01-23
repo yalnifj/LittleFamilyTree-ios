@@ -15,7 +15,7 @@ class PersonBubbleSprite: SKSpriteNode {
             bubble = SKSpriteNode(imageNamed: "bubble")
             bubble?.size = self.size
             bubble?.position = CGPointMake(0, 0)
-            bubble?.zPosition = 1
+            bubble?.zPosition = 0
             self.addChild(bubble!)
             
             let photo = TextureHelper.getPortraitTexture(person!)
@@ -25,7 +25,7 @@ class PersonBubbleSprite: SKSpriteNode {
             let h = w * r
             personSprite?.size = CGSizeMake(w, h)
             personSprite?.position = CGPointMake(0, 0)
-            personSprite?.zPosition = 2
+            personSprite?.zPosition = 1
             self.addChild(personSprite!)
         }
     }
@@ -38,10 +38,10 @@ class PersonBubbleSprite: SKSpriteNode {
 		let highlight = SKSpriteNode(imageNamed: "bubbled_hi")
 		highlight.size = self.size
 		highlight.position = CGPointMake(0, 0)
-		highlight.zPosition = 3
+		highlight.zPosition = 2
 		self.addChild(highlight)
 		let action = SKAction.sequence([
-			SKAction.repeatAction(SKAction.rotateByAngle(6, duration: 1), count: 3),
+			SKAction.repeatAction(SKAction.rotateByAngle(4, duration: 1), count: 3),
 			SKAction.removeFromParent()
 		])
 		highlight.runAction(action)

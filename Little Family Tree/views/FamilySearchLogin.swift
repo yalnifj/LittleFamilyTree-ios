@@ -92,7 +92,7 @@ class FamilySearchLogin: UIView, StatusListener {
         showInfoMsg("Logging into FamilySearch")
         
         let dataService = DataService.getInstance()
-        let remoteService = FamilySearchService()
+        let remoteService = FamilySearchService.sharedInstance
         dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH
         dataService.remoteService = remoteService
         
