@@ -11,6 +11,7 @@ import UIKit
 class ParentsGuide: UIView {
 
     var view:UIView!
+    @IBOutlet weak var pageControl: UIPageControl!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +38,7 @@ class ParentsGuide: UIView {
         return view
     }
 
-    @IBAction func gotItAction(sender: UIButton) {
+    @IBAction func doneAction(sender: UIBarButtonItem) {
         self.removeFromSuperview()
     }
 }

@@ -15,8 +15,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var pieces = [PuzzleSprite]()
     var hintSprite:SKSpriteNode?
     var hintButton:SKSpriteNode?
-    var nameLabel:SKLabelNode?
-    var relationshipLabel:SKLabelNode?
     var lastPoint : CGPoint!
     var game : PuzzleGame?
     var rows = 2
@@ -76,12 +74,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             if hintSprite != nil {
                 hintSprite?.removeFromParent()
             }
-            if nameLabel != nil {
-                nameLabel?.removeFromParent()
-            }
-            if relationshipLabel != nil {
-                relationshipLabel?.removeFromParent()
-            }
             
             if cols < rows {
                 cols++
@@ -137,8 +129,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
-        for touch in touches {
-            lastPoint = touch.locationInNode(self)
+        let touch = touches.first
+        if touch != nil {
+            lastPoint = touch!.locationInNode(self)
             let touchedNode = nodeAtPoint(lastPoint)
             if touchedNode == self.hintButton {
                 hintSprite?.hidden = false
@@ -149,7 +142,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     ps.zPosition = 3
                     ps.oldX = ps.position.x
                     ps.oldY = ps.position.y
-                    break;
                 }
             }
         }
@@ -157,15 +149,15 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         var nextPoint = CGPointMake(0,0)
-        for touch in touches {
-            nextPoint = touch.locationInNode(self)
+        let touch = touches.first
+        if touch != nil {
+            nextPoint = touch!.locationInNode(self)
             if movingSprite != nil {
                 let dx = lastPoint.x - nextPoint.x
                 let dy = lastPoint.y - nextPoint.y
                 movingSprite?.position.x -= dx
                 movingSprite?.position.y -= dy
             }
-            break;
         }
         lastPoint = nextPoint
     }
@@ -173,8 +165,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         hintSprite?.hidden = true
-        for touch in touches {
-            lastPoint = touch.locationInNode(self)
+        let touch = touches.first
+        if touch != nil {
+            lastPoint = touch!.locationInNode(self)
             
             if movingSprite != nil {
                 let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
@@ -238,7 +231,6 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                     })
                 }
             }
-            break;
         }
     }
     
@@ -249,20 +241,8 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             self.hintButton?.hidden = true
             self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(40)), container: self)
             self.playSuccessSound(1.0, onCompletion: {
-                self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
-                self.nameLabel?.fontSize = self.size.height / 30
-                self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
-                self.nameLabel?.zPosition = 12
-                //self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
-                self.addChild(self.nameLabel!)
-                
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
-                self.relationshipLabel = SKLabelNode(text: relationship)
-                self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
-                self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
-                self.relationshipLabel?.zPosition = 12
-                //self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
-                self.addChild(self.relationshipLabel!)
+                self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
                 self.speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
                 let waitAction = SKAction.waitForDuration(2.5)

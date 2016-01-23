@@ -35,7 +35,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         tree.runAction(action)
         
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
-        logo.position = CGPointMake(self.size.width/2, tree.position.y - (tree.size.height / 2 + self.size.height/2 + 20))
+        logo.position = CGPointMake(self.size.width/2, tree.position.y - (tree.size.height / 2 + logo.size.height/2 + 20))
         logo.zPosition = 1
         self.addChild(logo)
         

@@ -50,23 +50,25 @@ class SettingsView: UIView {
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
         
-        view1.layer.borderColor = UIColor.grayColor().CGColor
+        let color:UIColor = UIColor.lightGrayColor()
+        
+        view1.layer.borderColor = color.CGColor
         view1.layer.borderWidth = 0.5
-        view2.layer.borderColor = UIColor.grayColor().CGColor
+        view2.layer.borderColor = color.CGColor
         view2.layer.borderWidth = 0.5
-        view3.layer.borderColor = UIColor.grayColor().CGColor
+        view3.layer.borderColor = color.CGColor
         view3.layer.borderWidth = 0.5
-        view4.layer.borderColor = UIColor.grayColor().CGColor
+        view4.layer.borderColor = color.CGColor
         view4.layer.borderWidth = 0.5
-        view5.layer.borderColor = UIColor.grayColor().CGColor
+        view5.layer.borderColor = color.CGColor
         view5.layer.borderWidth = 0.5
-        view6.layer.borderColor = UIColor.grayColor().CGColor
+        view6.layer.borderColor = color.CGColor
         view6.layer.borderWidth = 0.5
-        view7.layer.borderColor = UIColor.grayColor().CGColor
+        view7.layer.borderColor = color.CGColor
         view7.layer.borderWidth = 0.5
-        view8.layer.borderColor = UIColor.grayColor().CGColor
+        view8.layer.borderColor = color.CGColor
         view8.layer.borderWidth = 0.5
-        view9.layer.borderColor = UIColor.grayColor().CGColor
+        view9.layer.borderColor = color.CGColor
         view9.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
@@ -124,6 +126,7 @@ class SettingsView: UIView {
 
     @IBAction func ManagePeopleAction(sender: UIButton) {
     }
+    
     @IBAction func parentsGuideAction(sender: UIButton) {
         let subview = ParentsGuide(frame: (self.view?.bounds)!)
         self.view?.addSubview(subview)
@@ -133,10 +136,12 @@ class SettingsView: UIView {
         print("Visit website")
         UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
     }
+    
     @IBAction func backButtonAction(sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
     }
+    
     @IBAction func quietModeToggleAction(sender: UISwitch) {
         let dataService = DataService.getInstance()
         if sender.on {

@@ -204,8 +204,7 @@
                                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="ManagePeopleAction:" destination="-1" eventType="touchUpInside" id="ASt-ff-Iu0"/>
-                                        <action selector="parentsGuideAction:" destination="-1" eventType="touchUpInside" id="8Vm-jm-dYc"/>
+                                        <action selector="ManagePeopleAction:" destination="-1" eventType="touchUpInside" id="nbT-Dw-m0e"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -227,7 +226,7 @@
                                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="parentsGuideAction:" destination="-1" eventType="touchUpInside" id="LWV-Hh-QVD"/>
+                                        <action selector="parentsGuideAction:" destination="-1" eventType="touchUpInside" id="mlf-b3-17Q"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -249,8 +248,7 @@
                                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="parentsGuideAction:" destination="-1" eventType="touchUpInside" id="Av5-gz-uVJ"/>
-                                        <action selector="visitWebsiteAction:" destination="-1" eventType="touchUpInside" id="LaN-ha-Px8"/>
+                                        <action selector="visitWebsiteAction:" destination="-1" eventType="touchUpInside" id="ueb-kQ-bH4"/>
                                     </connections>
                                 </button>
                             </subviews>

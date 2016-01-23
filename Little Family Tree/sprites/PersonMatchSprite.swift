@@ -14,7 +14,7 @@ class PersonMatchSprite: SKSpriteNode {
     var gameScene:MatchGameScene?
     var person:MatchPerson? {
         didSet {
-            let back = SKSpriteNode(color: UIColor(hexString: "#D99F9F"), size: CGSizeMake(self.size.width * 0.87, self.size.height * 0.87))
+            let back = SKSpriteNode(color: UIColor(hexString: "#D99F9FFF"), size: CGSizeMake(self.size.width * 0.80, self.size.height * 0.80))
             back.position = CGPointMake(self.size.width/2, self.size.height/2)
             back.zPosition = 1
             self.addChild(back)

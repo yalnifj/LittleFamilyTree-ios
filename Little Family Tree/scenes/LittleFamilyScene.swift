@@ -271,23 +271,42 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         if quietMode == nil || quietMode == "false" {
             SpeechHelper.getInstance().speak(message)
         } else {
-            let w = min(self.size.width, self.size.height) * CGFloat(0.9)
-            let h = w / 15
-            let lc = SKSpriteNode(color: UIColor(hexString: "#BBBBBB88"), size: CGSizeMake(w, h))
-            lc.position = CGPointMake(self.size.width / 2, 0)
+            showFakeToasts([message])
+        }
+    }
+    
+    func showFakeToasts(messages:[String]) {
+        let w = min(self.size.width, self.size.height) * CGFloat(0.9)
+        let h = w / 15
+        var y = CGFloat(0)
+        var maxWidth = CGFloat(0)
+        var toasts = [SKSpriteNode]()
+        for m in (0..<messages.count).reverse() {
+            let message = messages[m]
+            let lc = SKSpriteNode(color: UIColor(hexString: "#BBBBBBCC"), size: CGSizeMake(w, h))
+            lc.position = CGPointMake(self.size.width / 2, y)
             lc.zPosition = 100
             let speakLabel = SKLabelNode(text: message)
             speakLabel.fontColor = UIColor.blackColor()
             speakLabel.fontSize = h / 2
-            speakLabel.position = CGPointMake(0, 0)
+            speakLabel.position = CGPointMake(0, -h/4)
             speakLabel.zPosition = 1
             lc.addChild(speakLabel)
             self.addChild(lc)
             adjustLabelFontSizeToFitRect(speakLabel, node: lc)
-
+            if maxWidth < lc.size.width {
+                maxWidth = lc.size.width
+            }
             
             let action = SKAction.sequence([SKAction.moveByX(0, y: h/3, duration: 3.0), SKAction.removeFromParent()])
             lc.runAction(action)
+            
+            y = y + lc.size.height + 5
+            toasts.append(lc)
+        }
+        
+        for lc in toasts {
+            lc.size.width = maxWidth
         }
     }
     

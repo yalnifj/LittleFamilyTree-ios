@@ -18,9 +18,6 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
 	var lastPoint : CGPoint!
     var scratching = false
     
-    var nameLabel:SKLabelNode?
-    var relationshipLabel:SKLabelNode?
-    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
@@ -64,12 +61,6 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             }
             if coverSprite != nil {
                 coverSprite?.removeFromParent()
-            }
-            if nameLabel != nil {
-                nameLabel?.removeFromParent()
-            }
-            if relationshipLabel != nil {
-                relationshipLabel?.removeFromParent()
             }
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
@@ -238,30 +229,10 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         
         if complete {
             coverSprite?.hidden = true
-            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(35)), container: self)
+            self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: 5, container: self)
             self.playSuccessSound(1.0, onCompletion: {
-                if self.nameLabel != nil {
-                    self.nameLabel?.removeFromParent()
-                }
-                self.nameLabel = SKLabelNode(text: self.randomMediaChooser.selectedPerson?.name as? String)
-                self.nameLabel?.fontSize = self.size.height / 30
-                self.nameLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! * 2)
-                self.nameLabel?.zPosition = 12
-                //self.nameLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
-                self.nameLabel?.color = UIColor.blackColor()
-                self.addChild(self.nameLabel!)
-                
-                if self.relationshipLabel != nil {
-                    self.relationshipLabel?.removeFromParent()
-                }
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
-                self.relationshipLabel = SKLabelNode(text: relationship)
-                self.relationshipLabel?.fontSize = (self.nameLabel?.fontSize)!
-                self.relationshipLabel?.position = CGPointMake(self.size.width / 2, (self.nameLabel?.fontSize)! / 2)
-                self.relationshipLabel?.zPosition = 12
-                //self.relationshipLabel?.fontName = (self.nameLabel?.fontName)! + "-Bold"
-                self.relationshipLabel?.color = UIColor.blackColor()
-                self.addChild(self.relationshipLabel!)
+                self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
                 self.speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
                 let waitAction = SKAction.waitForDuration(2.5)

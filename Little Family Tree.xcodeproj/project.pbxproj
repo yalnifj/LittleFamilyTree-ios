@@ -78,6 +78,7 @@
 		A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BF11E1BC9D359005CAFDA /* TextValue.swift */; };
 		A11108921C245A2100053DCE /* ColoringScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108901C245A2100053DCE /* ColoringScene.swift */; };
 		A11108931C245A2100053DCE /* ScratchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11108911C245A2100053DCE /* ScratchScene.swift */; };
+		A115B65B1C53C9DA002A2095 /* ParentsGuide.xib in Resources */ = {isa = PBXBuildFile; fileRef = A115B65A1C53C9DA002A2095 /* ParentsGuide.xib */; };
 		A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C72E1BA4AD0000964D50 /* AppDelegate.swift */; };
 		A117C7331BA4AD0000964D50 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7321BA4AD0000964D50 /* GameScene.swift */; };
 		A117C7351BA4AD0000964D50 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7341BA4AD0000964D50 /* GameViewController.swift */; };
@@ -616,6 +617,7 @@
 		A10BF11E1BC9D359005CAFDA /* TextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValue.swift; sourceTree = "<group>"; };
 		A11108901C245A2100053DCE /* ColoringScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColoringScene.swift; path = scenes/ColoringScene.swift; sourceTree = "<group>"; };
 		A11108911C245A2100053DCE /* ScratchScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScratchScene.swift; path = scenes/ScratchScene.swift; sourceTree = "<group>"; };
+		A115B65A1C53C9DA002A2095 /* ParentsGuide.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParentsGuide.xib; path = views/ParentsGuide.xib; sourceTree = "<group>"; };
 		A117C7291BA4AD0000964D50 /* Little Family Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Little Family Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C72D1BA4AD0000964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C72E1BA4AD0000964D50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1714,6 +1716,7 @@
 				A1060E051C3F6AF70067E76A /* ParentsGuide.swift */,
 				A1F863071C3C10EF00838CEC /* SettingsView.swift */,
 				A1F863091C3C111D00838CEC /* SettingsView.xib */,
+				A115B65A1C53C9DA002A2095 /* ParentsGuide.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1867,6 +1870,7 @@
 				A1F81D601BF3AFDF00078870 /* house_rooms_3_2.png in Resources */,
 				A176B7CB1C28E98100A2A49C /* tree_search4.png in Resources */,
 				A1064FC31C3372CA0016A9C6 /* soap6.png in Resources */,
+				A115B65B1C53C9DA002A2095 /* ParentsGuide.xib in Resources */,
 				A16241AD1C063374009205F1 /* frame2.png in Resources */,
 				A1F81D741BF3AFDF00078870 /* kettle.mp3 in Resources */,
 				A1F81D3F1BF3AFDF00078870 /* house_toys_blocks8.png in Resources */,
