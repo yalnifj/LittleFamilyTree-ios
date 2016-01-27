@@ -59,11 +59,15 @@ class TreeScene: LittleFamilyScene {
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
     
+    var arrows = [TreeUpArrow]()
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        self.minY = -2 * self.size.height
         
         let background = SKSpriteNode(imageNamed: "wood_back")
         background.position = CGPointMake(self.size.width/2, self.size.height/2)
@@ -214,7 +218,7 @@ class TreeScene: LittleFamilyScene {
             
             self.y = self.y + self.leaf.size().height + self.vine2.size().height/2
             
-            self.addCoupleSprite(self.root!)
+            self.addCoupleSprite(self.root!, container: self.treeContainer!, x: self.x, y: self.y)
             
             self.hideLoadingDialog()
         }
@@ -340,35 +344,35 @@ class TreeScene: LittleFamilyScene {
         }
 	}
 	
-    func addCoupleSprite(node: TreeNode) -> TreeCoupleSprite {
+    func addCoupleSprite(node: TreeNode, container: SKNode, var x: CGFloat, var y: CGFloat) -> TreeCoupleSprite {
         let sprite = TreeCoupleSprite()
         sprite.size = CGSizeMake(self.leaf.size().width * 2, self.leaf.size().height)
-        sprite.position = CGPointMake(self.x, self.y)
+        sprite.position = CGPointMake(x, y)
         sprite.zPosition = self.z++
         sprite.treeNode = node
-        self.treeContainer?.addChild(sprite)
+        container.addChild(sprite)
         
-        if self.x < self.minX {
-            self.minX = self.x
-            self.maxX = self.size.width * 2 + self.x
+        if x < self.minX {
+            self.minX = x
+            self.maxX = self.size.width * 2 + x
         }
-        if self.y < self.minY {
-            self.minY = self.y
-            self.maxX = self.size.height * 2 + self.y
+        if y < self.minY {
+            self.minY = y
+            self.maxY = self.size.height * 2 + y
         }
         
         let offsetY = CGFloat(40)
-        self.y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
+        y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
         if node.leftNode != nil {
-            self.x = sprite.position.x - (sprite.size.width / 2)
+            x = sprite.position.x - (sprite.size.width / 2)
             if node.level == 0 {
-                self.x = self.x - sprite.size.width / 2
+                x = x - sprite.size.width / 2
             }
             
             let vine = SKSpriteNode(texture: self.vine)
-            vine.position = CGPointMake(self.x + self.leaf.size().width - 5, sprite.position.y + offsetY + self.leaf.size().height + 30)
+            vine.position = CGPointMake(x + self.leaf.size().width - 5, sprite.position.y + offsetY + self.leaf.size().height + 30)
             vine.zPosition = 2
-            self.treeContainer?.addChild(vine)
+            container.addChild(vine)
             
             var vx = vine.position.x + self.vineh.size().width / 2
             var flip = true
@@ -382,7 +386,7 @@ class TreeScene: LittleFamilyScene {
                 let vine2 = SKSpriteNode(texture: bv)
                 vine2.position = CGPointMake(vx, vy)
                 vine2.zPosition = 2
-                self.treeContainer!.addChild(vine2);
+                container.addChild(vine2);
                 vx = vx + vine2.size.width
                 flip = !flip
             }
@@ -390,22 +394,22 @@ class TreeScene: LittleFamilyScene {
             let vine2 = SKSpriteNode(texture: self.vine2)
             vine2.position = CGPointMake(vx - vine.size.width - 30, sprite.position.y + 80)
             vine2.zPosition = 2
-            self.treeContainer?.addChild(vine2)
+            container.addChild(vine2)
             
-            addCoupleSprite(node.leftNode!)
+            addCoupleSprite(node.leftNode!, container: container, x: x, y: y)
         }
         
-        self.y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
+        y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
         if node.rightNode != nil {
-            self.x = sprite.position.x + (sprite.size.width / 2)
+            x = sprite.position.x + (sprite.size.width / 2)
             if node.level == 0 {
-                self.x = self.x + sprite.size.width / 2
+                x = x + sprite.size.width / 2
             }
             
             let vine = SKSpriteNode(texture: self.vine3)
-            vine.position = CGPointMake(self.x + self.leaf.size().width - 6, sprite.position.y + offsetY + self.leaf.size().height + 30)
+            vine.position = CGPointMake(x + self.leaf.size().width - 6, sprite.position.y + offsetY + self.leaf.size().height + 30)
             vine.zPosition = 2
-            self.treeContainer?.addChild(vine)
+            container.addChild(vine)
             
             var vx = vine.position.x - (14 + self.vineh.size().width / 2)
             var flip = true
@@ -422,20 +426,22 @@ class TreeScene: LittleFamilyScene {
                 let vine2 = SKSpriteNode(texture: bv)
                 vine2.position = CGPointMake(vx, vy)
                 vine2.zPosition = 2
-                self.treeContainer!.addChild(vine2);
+                container.addChild(vine2);
                 vx = vx - vine2.size.width
                 flip = !flip
             }
 
             
-            addCoupleSprite(node.rightNode!)
+            addCoupleSprite(node.rightNode!, container: container, x: x, y: y)
         }
         
         if node.leftNode == nil && node.rightNode == nil && node.hasParents == true {
-            let upArrow = SKSpriteNode(imageNamed: "vine_arrow")
+            let upArrow = TreeUpArrow(imageNamed: "vine_arrow")
             upArrow.position = CGPointMake(sprite.position.x + sprite.size.width/2, sprite.position.y + sprite.size.height + upArrow.size.height)
             upArrow.zPosition = 3
-            self.treeContainer!.addChild(upArrow)
+            upArrow.treeNode = node
+            container.addChild(upArrow)
+            self.arrows.append(upArrow)
         }
         
         return sprite
@@ -447,9 +453,18 @@ class TreeScene: LittleFamilyScene {
     
     func pinched(sender:UIPinchGestureRecognizer){
         print("pinched \(tscale)")
-        if previousScale != nil {
+        if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+            previousScale = nil
+        }
+        else if sender.state == UIGestureRecognizerState.Began {
+            previousScale = sender.scale
+        }
+        else if previousScale != nil {
             if sender.scale != previousScale! {
-                let diff = (sender.scale - previousScale!) / 4
+                var diff = (sender.scale - previousScale!) / 20
+                if diff > 0 {
+                    diff = diff / 6
+                }
                 tscale += diff
                 if tscale < minScale {
                     tscale = minScale
@@ -461,7 +476,6 @@ class TreeScene: LittleFamilyScene {
                 treeContainer?.runAction(zoomIn)
             }
         }
-        previousScale = sender.scale
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -485,18 +499,18 @@ class TreeScene: LittleFamilyScene {
 		}
         
         treeContainer?.position.y += clipY
-        if treeContainer?.position.y < minY {
-            treeContainer?.position.y = minY
+        if treeContainer?.position.y < minY * tscale {
+            treeContainer?.position.y = minY * tscale
         }
-        if treeContainer?.position.y > maxY {
-            treeContainer?.position.y = maxY
+        if treeContainer?.position.y > maxY * tscale {
+            treeContainer?.position.y = maxY * tscale
         }
         treeContainer?.position.x += clipX
-        if treeContainer?.position.x < minX {
-            treeContainer?.position.x = minX
+        if treeContainer?.position.x < minX * tscale {
+            treeContainer?.position.x = minX * tscale
         }
-        if treeContainer?.position.x > maxX {
-            treeContainer?.position.x = maxX
+        if treeContainer?.position.x > maxX * tscale {
+            treeContainer?.position.x = maxX * tscale
         }
         
         lastPoint = nextPoint
@@ -543,6 +557,10 @@ class TreeScene: LittleFamilyScene {
                     self.personTouched(touchedNode.parent as! TreePersonSprite)
                 } else {
                     self.hideButtonPanel()
+                    if touchedNode is TreeUpArrow {
+                        let upArrow = touchedNode as! TreeUpArrow
+                        arrowTouched(upArrow)
+                    }
                 }
             } else {
                 print(treeContainer?.position)
@@ -614,7 +632,7 @@ class TreeScene: LittleFamilyScene {
         if self.treeSearchGame?.complete == true {
             if node.person != nil {
                 let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
-                var msg = "\(node.person!.name!) is your \(relationship)"
+                var msg = "\(node.person!.name!) is your \(relationship). "
                 if relationship == "You" {
                     msg = "Hi, \(node.person!.givenName)"
                 }
@@ -659,5 +677,36 @@ class TreeScene: LittleFamilyScene {
                 self.playFailSound(0.0, onCompletion: {() in })
             }
         }
+    }
+    
+    func arrowTouched(upArrow:TreeUpArrow) {
+        var highArrows = [TreeUpArrow]()
+        for arrow in arrows {
+            if arrow.treeNode?.level > upArrow.treeNode?.level {
+                arrow.removeFromParent()
+                highArrows.append(arrow)
+            } else if arrow.treeNode?.level == upArrow.treeNode?.level {
+                arrow.removeAllChildren()
+                arrow.texture = SKTexture(imageNamed: "vine_arrow")
+            }
+        }
+        
+        for arrow in highArrows {
+            arrows.removeObject(arrow)
+        }
+        
+        let node = upArrow.treeNode
+        //let dataService = DataService.getInstance()
+        let newNode = TreeNode()
+        var couple = [LittlePerson]()
+        if node!.leftPerson != nil {
+            couple.append(node!.leftPerson!)
+        }
+        if node!.rightPerson != nil {
+            couple.append(node!.rightPerson!)
+        }
+        self.buildTreeNode(newNode, couple: couple, depth: node!.level, maxDepth: node!.level+1, isInLaw: node!.isInLaw)
+        upArrow.texture = nil
+        addCoupleSprite(newNode, container: upArrow, x: -1 * leaf.size().width, y: -1 * (leaf.size().height + upArrow.size.height))
     }
 }

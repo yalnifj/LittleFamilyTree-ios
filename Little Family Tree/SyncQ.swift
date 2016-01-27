@@ -306,6 +306,7 @@ class SyncQ : NSObject {
 					}
                     
                     onCompletion([rel!], nil)
+                    return
 				}
                 onCompletion([LocalRelationship](), nil)
 			})

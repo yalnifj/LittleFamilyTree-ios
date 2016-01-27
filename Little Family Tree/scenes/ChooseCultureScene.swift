@@ -11,6 +11,7 @@ import SpriteKit
 
 class ChooseCultureScene: LittleFamilyScene {
     var titleLabel:SKLabelNode?
+    var whiteBackground:SKSpriteNode?
     var outlineSprite:SKSpriteNode?
     var pathPerson:PersonNameSprite?
     var doll:AnimatedStateSprite?
@@ -24,11 +25,15 @@ class ChooseCultureScene: LittleFamilyScene {
     var dolls = DressUpDolls()
     var dollConfig:DollConfig?
     
+    var portrait = true
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
+        self.portrait = self.size.height > self.size.width
         
         let background = SKSpriteNode(imageNamed: "dressup_background")
         background.position = CGPointMake(self.size.width/2, self.size.height/2)
@@ -46,11 +51,21 @@ class ChooseCultureScene: LittleFamilyScene {
         titleLabel?.position = CGPointMake(self.size.width/2, (topBar?.position.y)! - (5 + (topBar?.size.height)!))
         self.addChild(titleLabel!)
         
-        let height = self.size.height * 0.5
-        let whiteBackground = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(self.size.width, self.size.height * 0.5))
-        whiteBackground.position = CGPointMake(self.size.width/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
-        whiteBackground.zPosition = 2
-        self.addChild(whiteBackground)
+        var height = self.size.height * 0.5
+        if !portrait {
+            height = (self.size.height - self.topBar!.size.height) * 0.90
+        }
+        whiteBackground = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(self.size.width, self.size.height * 0.5))
+        if !portrait {
+            whiteBackground?.size.height = height
+            whiteBackground?.size.width = self.size.width * 0.66
+        }
+        whiteBackground?.position = CGPointMake(self.size.width/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        if !portrait {
+            whiteBackground?.position.x = self.size.width * 0.66 / 2
+        }
+        whiteBackground?.zPosition = 2
+        self.addChild(whiteBackground!)
         
         var outline = "boyoutline"
         if selectedPerson?.gender == GenderType.FEMALE {
@@ -59,9 +74,9 @@ class ChooseCultureScene: LittleFamilyScene {
         let outlineTexture = SKTexture(imageNamed: "dolls/\(outline)")
         let ratio = outlineTexture.size().width / outlineTexture.size().height
         outlineSprite = SKSpriteNode(texture: outlineTexture)
-        outlineSprite?.size.width = height * ratio
-        outlineSprite?.size.height = height
-        outlineSprite?.position = CGPointMake(20 + self.size.width/2 - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        outlineSprite?.size.width = whiteBackground!.size.width / 2
+        outlineSprite?.size.height = (whiteBackground!.size.width / 2) / ratio
+        outlineSprite?.position = CGPointMake(20 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         outlineSprite?.zPosition = 3
         let shader = SKShader(fileNamed: "gradient.fsh")
         outlineSprite?.shader = shader
@@ -71,6 +86,11 @@ class ChooseCultureScene: LittleFamilyScene {
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 15)
+        if !portrait {
+            pathPerson?.position = CGPointMake(self.size.width * 0.66, height / 1.7)
+            pathPerson?.size.width = self.size.width * 0.30
+            pathPerson?.size.height = height / 2.3
+        }
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
         self.addChild(pathPerson!)
@@ -79,6 +99,11 @@ class ChooseCultureScene: LittleFamilyScene {
         doll?.size.width = self.size.width/3
         doll?.size.height = self.size.width/3
         doll?.position = CGPointMake(self.size.width*0.75, (doll?.size.height)!)
+        if !portrait {
+            doll?.size.width = self.size.width/4
+            doll?.size.height = self.size.width/4
+            doll?.position = CGPointMake(self.size.width*0.82, 40 + doll!.size.height / 2)
+        }
         doll?.zPosition = 3
         doll?.hidden = true
         self.addChild(doll!)
@@ -123,14 +148,14 @@ class ChooseCultureScene: LittleFamilyScene {
                     pathTitle.fontColor = UIColor.blackColor()
                     pathTitle.fontSize = self.size.height / 40
                     pathTitle.zPosition = 4
-                    pathTitle.position = CGPointMake(self.size.width*0.75, y - height/3)
+                    pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y - height/3)
                     self.addChild(pathTitle)
                     print(pathTitle.text)
                     
                     let linePath = CGPathCreateMutable()
                     CGPathMoveToPoint(linePath, nil, pathColor.position.x+20, pathColor.position.y)
                     CGPathAddLineToPoint(linePath, nil, pathColor.position.x + pathColor.size.width/2, pathTitle.position.y-2)
-                    CGPathAddLineToPoint(linePath, nil, self.size.width - 20, pathTitle.position.y-2)
+                    CGPathAddLineToPoint(linePath, nil, self.whiteBackground!.size.width - 10, pathTitle.position.y-2)
                     let line = SKShapeNode()
                     line.path = linePath
                     line.strokeColor = UIColor.blackColor()

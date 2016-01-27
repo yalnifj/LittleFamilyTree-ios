@@ -888,11 +888,20 @@ class GameScene: LittleFamilyScene {
     }
     
     func pinched(sender:UIPinchGestureRecognizer){
-        print("pinched \(lfScale)")
-        if previousScale != nil {
+        if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+            previousScale = nil
+        }
+        else if sender.state == UIGestureRecognizerState.Began {
+            previousScale = sender.scale
+        }
+        else if previousScale != nil {
             if sender.scale != previousScale! {
-                let diff = (sender.scale - previousScale!) / (maxScale - minScale)
+                var diff = (sender.scale - previousScale!) / 20
+                if diff > 0 {
+                    diff = diff / 6
+                }
                 lfScale += diff
+                print("pinched \(lfScale) diff=\(diff)")
                 if lfScale < minScale {
                     lfScale = minScale
                 }
@@ -906,7 +915,6 @@ class GameScene: LittleFamilyScene {
                 background.runAction(zoomIn2)
             }
         }
-        previousScale = sender.scale
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -934,24 +942,24 @@ class GameScene: LittleFamilyScene {
         if background.position.y > 0 {
             background.position.y = 0
         }
-        if background.position.y < 0 - diffY {
-            background.position.y = 0 - diffY
+        if background.position.y < self.size.height - (oHeight * lfScale) {
+            background.position.y = self.size.height - (oHeight * lfScale)
         }
         
         spriteContainer.position.y += clipY
         if spriteContainer.position.y > minY*lfScale {
             spriteContainer.position.y = minY*lfScale
         }
-        if spriteContainer.position.y < 0 - diffY {
-            spriteContainer.position.y = 0 - diffY
+        if spriteContainer.position.y < self.size.height - (oHeight * lfScale)  {
+            spriteContainer.position.y = self.size.height - (oHeight * lfScale)
         }
         
         spriteContainer.position.x += clipX
-        if spriteContainer.position.x < 0-(oWidth*lfScale - minX*lfScale) {
-            spriteContainer.position.x = 0-(oWidth*lfScale - minX*lfScale)
+        if spriteContainer.position.x < self.size.width - (oWidth * lfScale) {
+            spriteContainer.position.x = self.size.width - (oWidth * lfScale)
         }
-        if spriteContainer.position.x > minX*2 {
-            spriteContainer.position.x = minX*2
+        if spriteContainer.position.x > (oWidth * lfScale) - self.size.width {
+            spriteContainer.position.x = (oWidth * lfScale) - self.size.width
         }
         
         lastPoint = nextPoint
