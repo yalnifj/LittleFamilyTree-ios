@@ -130,8 +130,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         let touch = touches.first
-        if touch != nil {
+        if touch != nil && movingSprite == nil {
             lastPoint = touch!.locationInNode(self)
+            print("began \(lastPoint)")
             let touchedNode = nodeAtPoint(lastPoint)
             if touchedNode == self.hintButton {
                 hintSprite?.hidden = false
@@ -153,6 +154,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         if touch != nil {
             nextPoint = touch!.locationInNode(self)
             if movingSprite != nil {
+                print("moved \(nextPoint)")
                 let dx = lastPoint.x - nextPoint.x
                 let dy = lastPoint.y - nextPoint.y
                 movingSprite?.position.x -= dx
@@ -168,68 +170,80 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         let touch = touches.first
         if touch != nil {
             lastPoint = touch!.locationInNode(self)
+            print("ended \(lastPoint)")
+            doneMoving()
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        super.touchesCancelled(touches, withEvent: event)
+        hintSprite?.hidden = true
+        print("cancelled \(lastPoint)")
+        doneMoving()
+    }
+    
+    func doneMoving() {
+        if movingSprite != nil {
+            let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+            let row = Int(((movingSprite?.position.y)! - oy) / (movingSprite?.size.height)!)
+            let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
+            let col = Int(((movingSprite?.position.x)! - ox) / (movingSprite?.size.width)!)
             
-            if movingSprite != nil {
-                let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
-                let row = Int(((movingSprite?.position.y)! - oy) / (movingSprite?.size.height)!)
-                let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
-                let col = Int(((movingSprite?.position.x)! - ox) / (movingSprite?.size.width)!)
+            var sprite:PuzzleSprite? = nil
+            for s in pieces {
+                if s.row == row && s.col == col {
+                    sprite = s
+                    break
+                }
+            }
+            if sprite == nil || sprite == movingSprite || sprite?.isPlaced()==true || sprite?.animating==true {
+                //-- return to old position
+                let oldX = (movingSprite?.oldX)!
+                let oldY = (movingSprite?.oldY)!
+                let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
+                movingSprite!.animating = true
+                animCount++
+                movingSprite!.runAction(action, completion: {
+                    self.movingSprite?.zPosition = 2
+                    self.movingSprite?.animating = false
+                    self.animCount--
+                    self.movingSprite = nil
+                })
+            } else {
+                let mc = sprite?.col
+                let mr = sprite?.row
+                let sc = movingSprite!.col
+                let sr = movingSprite!.row
+                sprite?.zPosition = 3
+                let oldX = (movingSprite?.oldX)!
+                let oldY = (movingSprite?.oldY)!
+                let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
                 
-                var sprite:PuzzleSprite? = nil
-                for s in pieces {
-                    if s.row == row && s.col == col {
-                        sprite = s
-                        break
-                    }
-                }
-                if sprite == nil || sprite == movingSprite || sprite?.isPlaced()==true || sprite?.animating==true {
-                    //-- return to old position
-                    let oldX = (movingSprite?.oldX)!
-                    let oldY = (movingSprite?.oldY)!
-                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
-                    movingSprite!.animating = true
-                    animCount++
-                    movingSprite!.runAction(action, completion: {
-                        self.movingSprite?.zPosition = 2
-                        self.movingSprite?.animating = false
-                        self.animCount--
-                    })
-                } else {
-                    let mc = sprite?.col
-                    let mr = sprite?.row
-                    let sc = movingSprite!.col
-                    let sr = movingSprite!.row
-                    sprite?.zPosition = 3
-                    let oldX = (movingSprite?.oldX)!
-                    let oldY = (movingSprite?.oldY)!
-                    let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
-                    
-                    let x = (sprite?.position.x)!
-                    let y = (sprite?.position.y)!
-                    let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.6)
-                    
-                    sprite!.animating = true
-                    animCount++
-                    sprite!.runAction(action, completion: {
-                        sprite?.zPosition = 2
-                        sprite?.col = sc
-                        sprite?.row = sr
-                        sprite?.animating = false
-                        self.animCount--
-                        self.checkComplete()
-                    })
-                    movingSprite!.animating = true
-                    animCount++
-                    movingSprite!.runAction(action2, completion: {
-                        self.movingSprite?.zPosition = 2
-                        self.movingSprite?.col = mc
-                        self.movingSprite?.row = mr
-                        self.movingSprite?.animating = false
-                        self.animCount--
-                        self.checkComplete()
-                        self.movingSprite = nil
-                    })
-                }
+                let x = (sprite?.position.x)!
+                let y = (sprite?.position.y)!
+                let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.6)
+                
+                sprite!.animating = true
+                animCount++
+                sprite!.runAction(action, completion: {
+                    sprite?.zPosition = 2
+                    sprite?.col = sc
+                    sprite?.row = sr
+                    sprite?.animating = false
+                    self.animCount--
+                    self.checkComplete()
+                })
+                movingSprite!.animating = true
+                animCount++
+                movingSprite!.runAction(action2, completion: {
+                    self.movingSprite?.zPosition = 2
+                    self.movingSprite?.col = mc
+                    self.movingSprite?.row = mr
+                    self.movingSprite?.animating = false
+                    self.animCount--
+                    self.checkComplete()
+                    self.movingSprite = nil
+                })
             }
         }
     }

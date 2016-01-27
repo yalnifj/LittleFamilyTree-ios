@@ -278,7 +278,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     func showFakeToasts(messages:[String]) {
         let w = min(self.size.width, self.size.height) * CGFloat(0.9)
         let h = w / 15
-        var y = CGFloat(0)
+        var y = CGFloat(h / 2)
         var maxWidth = CGFloat(0)
         var toasts = [SKSpriteNode]()
         for m in (0..<messages.count).reverse() {

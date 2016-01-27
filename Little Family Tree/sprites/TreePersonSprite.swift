@@ -71,3 +71,7 @@ class TreeCoupleSprite : SKSpriteNode {
         }
     }
 }
+
+class TreeUpArrow : SKSpriteNode {
+    var treeNode:TreeNode?
+}
