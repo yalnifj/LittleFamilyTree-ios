@@ -96,6 +96,11 @@
 		A149A9681C49B0A300367342 /* quiet_mode_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A149A9661C49B0A300367342 /* quiet_mode_off.png */; };
 		A149A9691C49B0A300367342 /* quiet_mode_on.png in Resources */ = {isa = PBXBuildFile; fileRef = A149A9671C49B0A300367342 /* quiet_mode_on.png */; };
 		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
+		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
+		A15B0ADD1C59BFD7000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
+		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A15B0AE21C59CC24000B6B33 /* sobelAlphaShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */; };
+		A15B0AE41C59CE72000B6B33 /* alphaMaskShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
 		A16241AC1C063374009205F1 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A51C063374009205F1 /* frame1.png */; };
@@ -184,7 +189,6 @@
 		A1AE10EC1BF669D90043033A /* StatusListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AE10EB1BF669D90043033A /* StatusListener.swift */; };
 		A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B554681BB240FD00DF709F /* AnimatedStateSprite.swift */; };
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A1C0A9971C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A2931BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A1D7F47F1C2106E000806723 /* RelationshipCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D7F47E1C2106E000806723 /* RelationshipCalculator.swift */; };
 		A1D7F4881C2121CE00806723 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = A1D7F4871C2121CE00806723 /* loading.png */; };
@@ -508,6 +512,27 @@
 			remoteGlobalIDString = A117C7281BA4AD0000964D50;
 			remoteInfo = "Little Family Tree";
 		};
+		A15B0AD51C59BF66000B6B33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
+		A15B0AD71C59BF66000B6B33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCE209E51943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
+		A15B0ADF1C59BFD7000B6B33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCE209E41943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
 		A1C0A9931C081CC0006804BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
@@ -539,7 +564,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */,
-				A1C0A9971C081D01006804BB /* SQLite.framework in CopyFiles */,
+				A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +665,9 @@
 		A149A9661C49B0A300367342 /* quiet_mode_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quiet_mode_off.png; sourceTree = "<group>"; };
 		A149A9671C49B0A300367342 /* quiet_mode_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quiet_mode_on.png; sourceTree = "<group>"; };
 		A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LittleFamilyScene.swift; path = scenes/LittleFamilyScene.swift; sourceTree = "<group>"; };
+		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = sobelAlphaShader.fsh; path = sprites/sobelAlphaShader.fsh; sourceTree = "<group>"; };
+		A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = alphaMaskShader.fsh; path = sprites/alphaMaskShader.fsh; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
 		A16241A51C063374009205F1 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
@@ -1033,6 +1061,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
+				A15B0ADD1C59BFD7000B6B33 /* GPUImage.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 				A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */,
 			);
@@ -1141,6 +1171,7 @@
 				A117C7451BA4AD0100964D50 /* Little Family TreeTests */,
 				A117C72A1BA4AD0000964D50 /* Products */,
 				A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */,
+				A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1201,6 +1232,15 @@
 				A117C7471BA4AD0100964D50 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A15B0AD01C59BF65000B6B33 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A15B0AD61C59BF66000B6B33 /* libGPUImage.a */,
+				A15B0AD81C59BF66000B6B33 /* GPUImage.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A16241A11C06320A009205F1 /* gamelogic */ = {
@@ -1338,6 +1378,8 @@
 				A1AC2B3D1C1D04BE000028A1 /* PuzzleSprite.swift */,
 				A16241C81C067C20009205F1 /* TopBar.swift */,
 				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
+				A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */,
+				A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -1737,6 +1779,7 @@
 			);
 			dependencies = (
 				A1C0A9941C081CC0006804BB /* PBXTargetDependency */,
+				A15B0AE01C59BFD7000B6B33 /* PBXTargetDependency */,
 			);
 			name = "Little Family Tree";
 			productName = "Little Family Tree";
@@ -1800,6 +1843,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = A15B0AD01C59BF65000B6B33 /* Products */;
+					ProjectRef = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
+				},
+				{
 					ProductGroup = A1D2A2831BE1B5D5007F0F64 /* Products */;
 					ProjectRef = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
 				},
@@ -1825,6 +1872,20 @@
 			fileType = wrapper.cfbundle;
 			path = "SQLiteTests Mac.xctest";
 			remoteRef = A1060E2D1C473C280067E76A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A15B0AD61C59BF66000B6B33 /* libGPUImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGPUImage.a;
+			remoteRef = A15B0AD51C59BF66000B6B33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A15B0AD81C59BF66000B6B33 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = A15B0AD71C59BF66000B6B33 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */ = {
@@ -2048,6 +2109,7 @@
 				A1F81D221BF3AFDF00078870 /* house_toys_bat10.png in Resources */,
 				A1F81D751BF3AFDF00078870 /* nopop.mp3 in Resources */,
 				A1F81D631BF3AFDF00078870 /* house_rooms_4_1.png in Resources */,
+				A15B0AE41C59CE72000B6B33 /* alphaMaskShader.fsh in Resources */,
 				A1060E161C41B2FE0067E76A /* guide_full_tree.png in Resources */,
 				A1064FB11C3372CA0016A9C6 /* bubbles3.png in Resources */,
 				A1F81D521BF3AFDF00078870 /* house_rooms_0_3.png in Resources */,
@@ -2189,6 +2251,7 @@
 				A1F81CA81BF3AFDF00078870 /* house_cloud1.png in Resources */,
 				A1F81C9E1BF3AFDF00078870 /* house_chilldroom_paint6.png in Resources */,
 				A1064FC01C3372CA0016A9C6 /* soap3.png in Resources */,
+				A15B0AE21C59CC24000B6B33 /* sobelAlphaShader.fsh in Resources */,
 				A1F81C9D1BF3AFDF00078870 /* house_chilldroom_paint5.png in Resources */,
 				A1F81D711BF3AFDF00078870 /* guitar.mp3 in Resources */,
 				A1F81C7A1BF3AFDF00078870 /* house_adult_wardrobe7.png in Resources */,
@@ -2355,6 +2418,11 @@
 			isa = PBXTargetDependency;
 			target = A117C7281BA4AD0000964D50 /* Little Family Tree */;
 			targetProxy = A117C7431BA4AD0100964D50 /* PBXContainerItemProxy */;
+		};
+		A15B0AE01C59BFD7000B6B33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImageFramework;
+			targetProxy = A15B0ADF1C59BFD7000B6B33 /* PBXContainerItemProxy */;
 		};
 		A1C0A9941C081CC0006804BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

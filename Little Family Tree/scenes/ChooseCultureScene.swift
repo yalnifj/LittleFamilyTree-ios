@@ -74,8 +74,12 @@ class ChooseCultureScene: LittleFamilyScene {
         let outlineTexture = SKTexture(imageNamed: "dolls/\(outline)")
         let ratio = outlineTexture.size().width / outlineTexture.size().height
         outlineSprite = SKSpriteNode(texture: outlineTexture)
-        outlineSprite?.size.width = whiteBackground!.size.width / 2
-        outlineSprite?.size.height = (whiteBackground!.size.width / 2) / ratio
+        outlineSprite?.size.width = height * ratio
+        outlineSprite?.size.height = height
+        if !portrait {
+            outlineSprite?.size.width = whiteBackground!.size.width / 2
+            outlineSprite?.size.height = (whiteBackground!.size.width / 2) / ratio
+        }
         outlineSprite?.position = CGPointMake(20 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         outlineSprite?.zPosition = 3
         let shader = SKShader(fileNamed: "gradient.fsh")
@@ -87,7 +91,7 @@ class ChooseCultureScene: LittleFamilyScene {
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 15)
         if !portrait {
-            pathPerson?.position = CGPointMake(self.size.width * 0.66, height / 1.7)
+            pathPerson?.position = CGPointMake(self.size.width * 0.68, height / 1.7)
             pathPerson?.size.width = self.size.width * 0.30
             pathPerson?.size.height = height / 2.3
         }
@@ -98,11 +102,11 @@ class ChooseCultureScene: LittleFamilyScene {
         doll = AnimatedStateSprite()
         doll?.size.width = self.size.width/3
         doll?.size.height = self.size.width/3
-        doll?.position = CGPointMake(self.size.width*0.75, (doll?.size.height)!)
+        doll?.position = CGPointMake(self.size.width*0.75, 70 + doll!.size.height / 2)
         if !portrait {
             doll?.size.width = self.size.width/4
             doll?.size.height = self.size.width/4
-            doll?.position = CGPointMake(self.size.width*0.82, 40 + doll!.size.height / 2)
+            doll?.position = CGPointMake(self.size.width*0.82, 70 + doll!.size.height / 2)
         }
         doll?.zPosition = 3
         doll?.hidden = true
@@ -112,7 +116,7 @@ class ChooseCultureScene: LittleFamilyScene {
         countryLabel?.fontColor = UIColor.blackColor()
         countryLabel?.fontSize = 11
         countryLabel?.zPosition = 4
-        countryLabel?.position = CGPointMake((doll?.position.x)!, 20)
+        countryLabel?.position = CGPointMake((doll?.position.x)!, 30)
         countryLabel?.hidden = true
         self.addChild(countryLabel!)
 

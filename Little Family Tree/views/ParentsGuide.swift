@@ -28,6 +28,8 @@ class ParentsGuide: UIView {
         view.frame = bounds
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
+        
+        pageControl.numberOfPages = 2
     }
     
     func loadViewFromNib() -> UIView {

@@ -8,13 +8,7 @@
 
 import Foundation
 import SpriteKit
-
-struct RGBA {
-    var r: UInt8
-    var g: UInt8
-    var b: UInt8
-    var a: UInt8
-}
+import GPUImage
 
 class DressUpScene: LittleFamilyScene {
     var dolls = DressUpDolls()
@@ -33,7 +27,7 @@ class DressUpScene: LittleFamilyScene {
     var scrolling = false
     var thumbSpriteMap = [SKNode : String]()
     var snapTolerance = CGFloat(10)
-    var outlines = [SKSpriteNode : SKEffectNode]()
+    var outlines = [SKSpriteNode : SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -118,6 +112,17 @@ class DressUpScene: LittleFamilyScene {
             s.removeFromParent()
         }
         outlines.removeAll()
+        
+        let alphaMaskFilter = GPUImageFilter(fragmentShaderFromFile: "alphaMaskShader")
+        //let sobelFilter = GPUImageSobelEdgeDetectionFilter()
+        let sobelFilter = GPUImageAlphaSobelEdgeDetectionFilter(fragmentShaderFromFile: "sobelAlphaShader")
+        let groupFilter = GPUImageFilterGroup()
+        groupFilter.addFilter(alphaMaskFilter)
+        groupFilter.addFilter(sobelFilter)
+        alphaMaskFilter.addTarget(sobelFilter)
+        groupFilter.initialFilters = [ alphaMaskFilter ]
+        groupFilter.terminalFilter = sobelFilter
+        
         clothing = dollConfig?.getClothing()
         if clothing != nil {
             var x = CGFloat(0)
@@ -143,38 +148,17 @@ class DressUpScene: LittleFamilyScene {
                 clotheSprites.append(clothSprite)
                 clothingMap[clothSprite] = cloth
                 
-                let skmt = SKMutableTexture(imageNamed: cloth.filename)
-                skmt.preloadWithCompletionHandler({() in
-                    skmt.modifyPixelDataWithBlock { voidptr, len in
-                        let rgbaptr = UnsafeMutablePointer<RGBA>(voidptr)
-                    
-                        //let pixels = UnsafeMutableBufferPointer(start: rgbaptr, count: Int(len / sizeof(RGBA)))
-                            
-                        // now, you can manipulate the pixels buffer like any other mutable collection type
-                        for i in 0..<Int(len / sizeof(RGBA)) {
-                            if rgbaptr[i].a < 0x20 {
-                                rgbaptr[i].a = 0x00
-                            }
-                            else {
-                                rgbaptr[i].r = 0xff
-                                rgbaptr[i].g = 0x00
-                                rgbaptr[i].b = 0x00
-                                rgbaptr[i].a = 0xff
-                            }
-                        }
-                    }
-                })
-                //let filter = CIFilter(name: "CIEdgeWork")!
+                let outlineImage = UIImage(named: cloth.filename)
+                print("outlineImage size: \(outlineImage!.size)")
+                let outputImage = groupFilter.imageByFilteringImage(outlineImage!)
+                //let outputImage = alphaMaskFilter.imageByFilteringImage(outlineImage!)
+                let outlineTexture = SKTexture(image: outputImage)
                 
-                let osksn = SKSpriteNode(texture: skmt)
-                
-                let outlineSprite = SKEffectNode()
+                let outlineSprite = SKSpriteNode(texture: outlineTexture)
                 outlineSprite.zPosition = (doll?.zPosition)! + 1
                 outlineSprite.setScale(scale)
                 outlineSprite.position = getSnap(cloth, sprite:clothSprite)
                 outlineSprite.hidden = true
-                //outlineSprite.filter = filter
-                outlineSprite.addChild(osksn)
                 self.addChild(outlineSprite)
                 outlines[clothSprite] = outlineSprite
             }
@@ -309,4 +293,13 @@ class DressUpScene: LittleFamilyScene {
         super.update(currentTime)
     }
     
+}
+
+class GPUImageAlphaSobelEdgeDetectionFilter : GPUImageSobelEdgeDetectionFilter {
+    override init!(fragmentShaderFromFile fragmentShaderFilename: String!) {
+        let fragmentShaderPathname = NSBundle.mainBundle().pathForResource(fragmentShaderFilename, ofType: "fsh")
+        //let fragmentShaderPathname = [[NSBundle mainBundle] pathForResource:fragmentShaderFilename ofType:@"fsh"];
+        let shaderString = try! NSString(contentsOfFile: fragmentShaderPathname!, encoding: NSUTF8StringEncoding)
+        super.init(fragmentShaderFromString: shaderString as String)
+    }
 }
