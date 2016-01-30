@@ -30,6 +30,8 @@ class SettingsView: UIView {
     
     @IBOutlet weak var versionLabel: UILabel!
     
+    let delays = [1,2,3,5,8,12,18,24,36,48]
+    
     var view:UIView!
     
     var selectedPerson:LittlePerson?
@@ -96,6 +98,20 @@ class SettingsView: UIView {
             quietModeSwitch.setOn(true, animated: false)
         }
         
+        syncDelaySlider.minimumValue = 0
+        syncDelaySlider.maximumValue = Float(delays.count-1)
+        syncDelaySlider.continuous = true
+        
+        let syncDelay = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_DELAY)
+        var delay = 1
+        if syncDelay != nil {
+            delay = Int(syncDelay!)!
+        }
+        var delayIndex = delays.indexOf(delay)
+        if delayIndex == nil {
+            delayIndex = 0
+        }
+        syncDelaySlider.setValue(Float(delayIndex!), animated: false)
     }
     
     func loadViewFromNib() -> UIView {
@@ -122,6 +138,11 @@ class SettingsView: UIView {
         }
     }
     @IBAction func syncDelaySliderAction(sender: UISlider) {
+        let index = Int(round(syncDelaySlider.value))
+        let delay = delays[index]
+        syncDelaySlider.setValue(Float(index), animated: false)
+        syncDelayLabel.text = "\(delay) hours"
+        DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SYNC_DELAY, value: String(delay))
     }
 
     @IBAction func ManagePeopleAction(sender: UIButton) {

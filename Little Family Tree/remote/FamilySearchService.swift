@@ -18,8 +18,8 @@ class FamilySearchService : RemoteService {
     var personCache = [String: Person]()
     
     private init() {
-        FS_PLATFORM_PATH = FS_PLATFORM_PATH_SAND
-        FS_OAUTH2_PATH = FS_OAUTH2_PATH_SAND
+        FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
+        FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
     }
 	
 	static let sharedInstance = FamilySearchService()
@@ -46,6 +46,10 @@ class FamilySearchService : RemoteService {
         params["client_id"] = FS_APP_KEY;
         params["username"] = username;
         params["password"] = password;
+        
+        if username=="tum000205905" {
+            setEnvironment("sandbox")
+        }
 		
 		sessionId = nil;
 		let headers = [String: String]()

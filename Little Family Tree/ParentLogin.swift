@@ -46,7 +46,7 @@ class ParentLogin: UIView {
         if username != nil {
             txtUsername.text = username as String?
         }
-        txtPassword.text = "1234pass"
+        //txtPassword.text = "1234pass"
         txtError.hidden = true
         spinner.hidden = true
         spinner.stopAnimating()

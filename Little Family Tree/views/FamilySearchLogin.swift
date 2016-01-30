@@ -45,8 +45,8 @@ class FamilySearchLogin: UIView, StatusListener {
         if username != nil {
             txtUsername.text = username as String?
         }
-        txtUsername.text = "tum000205905"
-        txtPassword.text = "1234pass"
+        //txtUsername.text = "tum000205905"
+        //txtPassword.text = "1234pass"
         txtError.hidden = true
         spinner.hidden = true
         spinner.stopAnimating()
