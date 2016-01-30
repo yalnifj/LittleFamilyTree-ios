@@ -19,6 +19,13 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         self.size.height = view.bounds.height
         
         let tree = SKSpriteNode(imageNamed: "growing_plant1")
+        let tr = tree.size.width / tree.size.height
+        var scale = CGFloat(1.0)
+        if tree.size.height > self.size.height / 3 {
+            tree.size.height = self.size.height / 3
+            scale = tree.size.height * tr / tree.size.width
+            tree.size.width = tree.size.height * tr
+        }
         tree.position = CGPointMake(self.size.width/2, self.size.height - tree.size.height/2 - 20)
         tree.zPosition = 2
         let growing:[SKTexture] = [
@@ -35,11 +42,17 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         tree.runAction(action)
         
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
+        let lr = logo.size.width / logo.size.height
+        logo.size.width = logo.size.width * scale
+        logo.size.height = logo.size.width / lr
+        
         logo.position = CGPointMake(self.size.width/2, tree.position.y - (tree.size.height / 2 + logo.size.height/2 + 20))
         logo.zPosition = 1
         self.addChild(logo)
         
         let quietToggle = AnimatedStateSprite(imageNamed: "quiet_mode_off")
+        quietToggle.size.width = quietToggle.size.width * scale
+        quietToggle.size.height = quietToggle.size.height * scale
         quietToggle.anchorPoint = CGPointZero
         quietToggle.position = CGPointMake(15, 15)
         quietToggle.zPosition = 4

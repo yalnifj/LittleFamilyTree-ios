@@ -89,17 +89,19 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             self.addChild(graybox!)
             
             var width = CGFloat(500)
+            var height = CGFloat(400)
             var x = (self.size.width - width) / 2
+            var y = (self.size.height - height) / 2
             if width > self.size.width {
                 width = self.size.width
                 x = CGFloat(0)
-            }
-
-            var height = CGFloat(400)
-            var y = (self.size.height - height) / 2
-            if height > self.size.height {
                 height = self.size.height
                 y = CGFloat(0)
+            } else {
+                if height > self.size.height {
+                    height = self.size.height
+                    y = CGFloat(0)
+                }
             }
             
             let rect = CGRect(x: x, y: y, width: width, height: height)
