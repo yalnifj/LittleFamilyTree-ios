@@ -88,6 +88,7 @@
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
 		A1244A9D1C5C8EAC0074BC4E /* play_together.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244A9C1C5C8EAC0074BC4E /* play_together.png */; };
 		A1244AA41C5CAD8E0074BC4E /* rw.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244AA31C5CAD8E0074BC4E /* rw.png */; };
+		A1244AA61C5D40BD0074BC4E /* FamilySearchLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */; };
 		A12A64A31C3E12DD00A2CB13 /* bubbled_hi.png in Resources */ = {isa = PBXBuildFile; fileRef = A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */; };
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
@@ -485,7 +486,6 @@
 		A1F81D971BF3E4B100078870 /* ChooseServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */; };
 		A1F81D991BF3E8AD00078870 /* tree_logotype_1x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */; };
 		A1F81D9B1BF3E8BE00078870 /* pgv_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */; };
-		A1F81D9D1BF4076100078870 /* okhk,mhkjh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F81D9C1BF4076100078870 /* okhk,mhkjh.swift */; };
 		A1F81D9F1BF4078600078870 /* FamilySearchLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */; };
 		A1F863081C3C10EF00838CEC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F863071C3C10EF00838CEC /* SettingsView.swift */; };
 		A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F863091C3C111D00838CEC /* SettingsView.xib */; };
@@ -658,6 +658,7 @@
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
 		A1244A9C1C5C8EAC0074BC4E /* play_together.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_together.png; sourceTree = "<group>"; };
 		A1244AA31C5CAD8E0074BC4E /* rw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rw.png; sourceTree = "<group>"; };
+		A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilySearchLogin.swift; path = views/FamilySearchLogin.swift; sourceTree = "<group>"; };
 		A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbled_hi.png; sourceTree = "<group>"; };
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
@@ -1053,7 +1054,6 @@
 		A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseServiceView.swift; path = views/ChooseServiceView.swift; sourceTree = "<group>"; };
 		A1F81D981BF3E8AD00078870 /* tree_logotype_1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_logotype_1x.png; sourceTree = "<group>"; };
 		A1F81D9A1BF3E8BE00078870 /* pgv_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pgv_logo.png; sourceTree = "<group>"; };
-		A1F81D9C1BF4076100078870 /* okhk,mhkjh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "okhk,mhkjh.swift"; path = "views/okhk,mhkjh.swift"; sourceTree = "<group>"; };
 		A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FamilySearchLogin.xib; path = views/FamilySearchLogin.xib; sourceTree = "<group>"; };
 		A1F863071C3C10EF00838CEC /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = views/SettingsView.swift; sourceTree = "<group>"; };
 		A1F863091C3C111D00838CEC /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsView.xib; path = views/SettingsView.xib; sourceTree = "<group>"; };
@@ -1757,7 +1757,7 @@
 			children = (
 				A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */,
 				A1F81D941BF3E43300078870 /* ChooseServiceView.xib */,
-				A1F81D9C1BF4076100078870 /* okhk,mhkjh.swift */,
+				A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */,
 				A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */,
 				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A12CC7F91C3B995500669E90 /* ParentLogin.xib */,
@@ -2324,7 +2324,6 @@
 				A10BF1281BC9D359005CAFDA /* Field.swift in Sources */,
 				A1EC61491C1366B7006DF050 /* DressUpDolls.swift in Sources */,
 				A1064FD11C34C3490016A9C6 /* RecentPersonTracker.swift in Sources */,
-				A1F81D9D1BF4076100078870 /* okhk,mhkjh.swift in Sources */,
 				A16241B61C063E63009205F1 /* MatchGameScene.swift in Sources */,
 				A10BF1351BC9D359005CAFDA /* ResourceReference.swift in Sources */,
 				A10BF1331BC9D359005CAFDA /* Qualifier.swift in Sources */,
@@ -2369,6 +2368,7 @@
 				A176B79F1C28E43300A2A49C /* TreePersonSprite.swift in Sources */,
 				A17C325A1C1A676200F64737 /* RandomMediaChooser.swift in Sources */,
 				A10BF1341BC9D359005CAFDA /* Relationship.swift in Sources */,
+				A1244AA61C5D40BD0074BC4E /* FamilySearchLogin.swift in Sources */,
 				A1EA5D331C091CBE006528A5 /* HeritageCalculator.swift in Sources */,
 				A10BF12C1BC9D359005CAFDA /* Link.swift in Sources */,
 				A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */,

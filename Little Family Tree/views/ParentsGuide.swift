@@ -29,6 +29,12 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var prevButton: UIButton!
     
+    @IBOutlet weak var welcomeImage: UIImageView!
+    @IBOutlet weak var photosImage: UIImageView!
+    @IBOutlet weak var playImage: UIImageView!
+    @IBOutlet weak var chooseImage: UIImageView!
+    
+    
     var scrolledViews = [UIView]()
     
     var listener:ParentsGuideCloseListener?
@@ -53,27 +59,35 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         
         welcomeText.text = "Little Family Tree engages toddlers and pre-school children with their personal family history through photos, games, and activities designed for their level. (Most of the games are fun for the kid in all of us.)"
         welcomeText.numberOfLines = 0
+        welcomeImage.frame.size.width = view.frame.width / 2.5
         welcomeText.sizeToFit()
         photoText.text = "The more information--especially photos--that you add to your online family tree, the more fun Little Family Tree will be for your child!"
         photoText.numberOfLines = 0
+        photosImage.frame.size.width = view.frame.width / 2.5
         photoText.sizeToFit()
+        
         playTogetherText.text = "Playing with your child will give you the opportunity to strengthen family associations and enhance the experience through your personal memories and stories."
         playTogetherText.numberOfLines = 0
+        playImage.frame.size.width = view.frame.width / 2.5
         playTogetherText.sizeToFit()
+        
         choosePlayerText.text = "The games and activities in Little Family Tree are centered around the person who is playing.  You may choose a different person by using the back button or tapping the profile picture on the activity screens."
         choosePlayerText.numberOfLines = 0
+        chooseImage.frame.size.width = view.frame.width / 2.5
         choosePlayerText.sizeToFit()
+        
         homeActivityText.text = "The home is the hub of the game.  Tap around and explore to find interactive elements.  You may need to help the youngest to get started.  Return anytime by using the home button at the top of every screen."
         homeActivityText.numberOfLines = 0
         homeActivityText.sizeToFit()
+        
         starsText.text = "Special games and activities are highlighted by stars on the home screen.  Follow the stars to interact in fun and unique ways with your relatives."
         starsText.numberOfLines = 0
         starsText.sizeToFit()
         
-        var x = CGFloat(50)
+        var x = CGFloat(10)
         let y = CGFloat(0)
-        let w = view.frame.width - 100
-        var h = view.frame.height - 100
+        let w = view.frame.width - 20
+        var h = pagedScrollView.frame.height - 20
         if h > 400 {
             h = CGFloat(400)
         }
@@ -84,27 +98,31 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         pagedScrollView.addSubview(WelcomView)
         scrolledViews.append(WelcomView)
         
-        x = x + w + 100
+        //if welcomeImage.frame.size.width > w / 2 {
+        //    welcomeImage.frame.size.width = w / 2
+        //}
+        
+        x = x + w + 20
         MorePhotosView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(MorePhotosView)
         scrolledViews.append(MorePhotosView)
         
-        x = x + w + 100
+        x = x + w + 20
         PlayTogetherView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(PlayTogetherView)
         scrolledViews.append(PlayTogetherView)
         
-        x = x + w + 100
+        x = x + w + 20
         ChoosePlayerView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(ChoosePlayerView)
         scrolledViews.append(ChoosePlayerView)
         
-        x = x + w + 100
+        x = x + w + 20
         HomeActivityView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(HomeActivityView)
         scrolledViews.append(HomeActivityView)
         
-        x = x + w + 100
+        x = x + w + 20
         StarsView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(StarsView)
         scrolledViews.append(StarsView)
@@ -149,7 +167,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         if (currentPage < scrolledViews.count - 1) {
             currentPage++
             let rect = scrolledViews[currentPage].frame
-            let pageRect = CGRect(x: rect.origin.x+50, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
+            let pageRect = CGRect(x: rect.origin.x+10, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)
             prevButton.hidden = false
         }
@@ -159,7 +177,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         if (currentPage > 0) {
             currentPage--
             let rect = scrolledViews[currentPage].frame
-            let pageRect = CGRect(x: rect.origin.x-50, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
+            let pageRect = CGRect(x: rect.origin.x-10, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)
         }
     }

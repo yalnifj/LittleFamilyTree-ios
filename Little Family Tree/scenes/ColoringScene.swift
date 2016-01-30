@@ -171,18 +171,22 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             os.filter = filter
             
             let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSizeMake(self.size.width/2, self.size.height/2))
-            photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSizeMake(w, h))
-            photoCopySprite?.zPosition = 2
-            photoCopySprite?.position = CGPointMake(0, 0)
-            photoCopySprite?.size.width = w
-            photoCopySprite?.size.height = h
-            os.addChild(photoCopySprite!)
+            if smalltexture != nil {
+                photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSizeMake(w, h))
+                photoCopySprite?.zPosition = 2
+                photoCopySprite?.position = CGPointMake(0, 0)
+                photoCopySprite?.size.width = w
+                photoCopySprite?.size.height = h
+                os.addChild(photoCopySprite!)
             
-            let imageTexture = self.scene!.view!.textureFromNode(os)
-            outlineSprite = SKSpriteNode(texture: imageTexture)
-            outlineSprite!.zPosition = 4
-            outlineSprite!.position = CGPointMake(0, 0)
-            fullImageHolder!.addChild(outlineSprite!)
+                let imageTexture = self.scene!.view!.textureFromNode(os)
+                if imageTexture != nil {
+                    outlineSprite = SKSpriteNode(texture: imageTexture)
+                    outlineSprite!.zPosition = 4
+                    outlineSprite!.position = CGPointMake(0, 0)
+                    fullImageHolder!.addChild(outlineSprite!)
+                }
+            }
             
             hideLoadingDialog()
             
