@@ -138,7 +138,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 hintSprite?.hidden = false
             } else if touchedNode is PuzzleSprite {
                 let ps = touchedNode as! PuzzleSprite
-                if ps.isPlaced() == false && ps.animating == false && animCount == 0{
+                if ps.isPlaced() == false && ps.animating == false && animCount == 0 {
                     movingSprite = ps
                     ps.zPosition = 3
                     ps.oldX = ps.position.x
@@ -183,7 +183,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     }
     
     func doneMoving() {
-        if movingSprite != nil {
+        if movingSprite != nil && animCount == 0 {
             let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
             let row = Int(((movingSprite?.position.y)! - oy) / (movingSprite?.size.height)!)
             let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2

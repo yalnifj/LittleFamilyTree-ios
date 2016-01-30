@@ -142,14 +142,15 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         if listener != nil {
             listener!.onClose()
         }
-        DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE, value: "true")
+        DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE, value: "false")
     }
     
     @IBAction func nextButtonClicked(sender: AnyObject) {
         if (currentPage < scrolledViews.count - 1) {
             currentPage++
             let rect = scrolledViews[currentPage].frame
-            pagedScrollView.scrollRectToVisible(rect, animated: true)
+            let pageRect = CGRect(x: rect.origin.x+50, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
+            pagedScrollView.scrollRectToVisible(pageRect, animated: true)
             prevButton.hidden = false
         }
     }
@@ -158,7 +159,8 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         if (currentPage > 0) {
             currentPage--
             let rect = scrolledViews[currentPage].frame
-            pagedScrollView.scrollRectToVisible(rect, animated: true)
+            let pageRect = CGRect(x: rect.origin.x-50, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
+            pagedScrollView.scrollRectToVisible(pageRect, animated: true)
         }
     }
     
@@ -170,7 +172,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         } else {
             prevButton.hidden = true
         }
-        if currentPage < scrolledViews.count {
+        if currentPage < scrolledViews.count-1 {
             nextButton.hidden = false
         } else {
             nextButton.hidden = true

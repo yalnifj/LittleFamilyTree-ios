@@ -230,6 +230,15 @@ class ChooseCultureScene: LittleFamilyScene {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
+            let location = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(location)
+            
+            if touchedNode == self.doll || touchedNode == self.countryLabel {
+                if dollConfig != nil {
+                    self.showDressupGame(dollConfig!)
+                    break
+                }
+            }
 
             var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
             for path in (self.calculator?.uniquePaths)! {
@@ -249,14 +258,7 @@ class ChooseCultureScene: LittleFamilyScene {
                 y -= height
             }
             
-            let location = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(location)
-            
-            if touchedNode == self.doll || touchedNode == self.countryLabel {
-                if dollConfig != nil {
-                    self.showDressupGame(dollConfig!)
-                }
-            }
+            break
         }
     }
 }
