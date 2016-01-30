@@ -7,10 +7,12 @@
 //
 
 import SpriteKit
+import CoreImage
 
-class ChoosePlayerScene: LittleFamilyScene {
+class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
     var dataService:DataService?
+    var graybox:SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         self.size.width = view.bounds.width
@@ -64,10 +66,49 @@ class ChoosePlayerScene: LittleFamilyScene {
                         y -= width + 5
                     }
                 }
-                self.speak("Who is playing today?")
+                let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
+                if showGuide != nil && showGuide! != "true" {
+                    self.speak("Who is playing today?")
+                }
             })
         })
         EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
+        
+        let showGuide = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
+        if showGuide == nil || showGuide! == "true" {
+            
+            //let filter = CIFilter(name: "CIGaussianBlur")
+            //filter?.setValue(15, forKey: kCIInputRadiusKey)
+            //self.shouldEnableEffects = true
+            //self.filter = filter
+            
+            graybox = SKSpriteNode(color: UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.7), size: self.size)
+            graybox!.userInteractionEnabled = true
+            graybox!.zPosition = 100
+            graybox!.position = CGPointMake(self.size.width/2, self.size.height/2)
+            self.addChild(graybox!)
+            
+            var width = CGFloat(500)
+            var x = (self.size.width - width) / 2
+            if width > self.size.width {
+                width = self.size.width
+                x = CGFloat(0)
+            }
+
+            var height = CGFloat(400)
+            var y = (self.size.height - height) / 2
+            if height > self.size.height {
+                height = self.size.height
+                y = CGFloat(0)
+            }
+            
+            let rect = CGRect(x: x, y: y, width: width, height: height)
+            let subview = ParentsGuide(frame: rect)
+            subview.listener = self
+            self.view?.addSubview(subview)
+            
+            
+        }
     }
     
     override func willMoveFromView(view: SKView) {
@@ -89,5 +130,11 @@ class ChoosePlayerScene: LittleFamilyScene {
             nextScene.selectedPerson = person
             scene?.view?.presentScene(nextScene, transition: transition)
         }
+    }
+    
+    func onClose() {
+        self.filter = nil
+        graybox!.removeFromParent()
+        self.speak("Who is playing today?")
     }
 }

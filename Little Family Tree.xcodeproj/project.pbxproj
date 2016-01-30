@@ -86,6 +86,8 @@
 		A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A117C7391BA4AD0000964D50 /* Images.xcassets */; };
 		A117C73D1BA4AD0000964D50 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
+		A1244A9D1C5C8EAC0074BC4E /* play_together.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244A9C1C5C8EAC0074BC4E /* play_together.png */; };
+		A1244AA41C5CAD8E0074BC4E /* rw.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244AA31C5CAD8E0074BC4E /* rw.png */; };
 		A12A64A31C3E12DD00A2CB13 /* bubbled_hi.png in Resources */ = {isa = PBXBuildFile; fileRef = A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */; };
 		A12B90661BDC44030014ED16 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90641BDC44030014ED16 /* DataService.swift */; };
 		A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B90651BDC44030014ED16 /* DBHelper.swift */; };
@@ -654,6 +656,8 @@
 		A117C7421BA4AD0100964D50 /* Little Family TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Little Family TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
+		A1244A9C1C5C8EAC0074BC4E /* play_together.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_together.png; sourceTree = "<group>"; };
+		A1244AA31C5CAD8E0074BC4E /* rw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rw.png; sourceTree = "<group>"; };
 		A12A64A21C3E12DD00A2CB13 /* bubbled_hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbled_hi.png; sourceTree = "<group>"; };
 		A12B90641BDC44030014ED16 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A12B90651BDC44030014ED16 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
@@ -1083,6 +1087,7 @@
 			children = (
 				A1060E131C41B2FE0067E76A /* guide_choose.png */,
 				A1060E141C41B2FE0067E76A /* guide_full_tree.png */,
+				A1244A9C1C5C8EAC0074BC4E /* play_together.png */,
 			);
 			path = parentsguide;
 			sourceTree = "<group>";
@@ -1424,6 +1429,7 @@
 				A176B7A21C28E6CE00A2A49C /* colors.png */,
 				A1EC61461C132ED1006DF050 /* dolls */,
 				A1653C861C2BADA600D586E5 /* ff.png */,
+				A1244AA31C5CAD8E0074BC4E /* rw.png */,
 				A16241A41C063374009205F1 /* frames */,
 				A16241CA1C06801F009205F1 /* home.png */,
 				A1F81B561BF3AFDE00078870 /* house */,
@@ -2019,6 +2025,7 @@
 				A1F81D051BF3AFDF00078870 /* house_music_guitar3.png in Resources */,
 				A1F81CCC1BF3AFDF00078870 /* house_familyroom_frame7.png in Resources */,
 				A176B7CE1C28E98100A2A49C /* tree_search7.png in Resources */,
+				A1244A9D1C5C8EAC0074BC4E /* play_together.png in Resources */,
 				A1F81CF61BF3AFDF00078870 /* house_light_a2.png in Resources */,
 				A1F81D491BF3AFDF00078870 /* house_tree_bird1.png in Resources */,
 				A1F81D131BF3AFDF00078870 /* house_toaster17.png in Resources */,
@@ -2282,6 +2289,7 @@
 				A1F81CCF1BF3AFDF00078870 /* house_familyroom_lamp1.png in Resources */,
 				A1064FAB1C3372CA0016A9C6 /* bubble_spot.png in Resources */,
 				A1F81C761BF3AFDF00078870 /* house_adult_wardrobe3.png in Resources */,
+				A1244AA41C5CAD8E0074BC4E /* rw.png in Resources */,
 				A1F81C911BF3AFDF00078870 /* house_chilldroom_desk9.png in Resources */,
 				A1F81D571BF3AFDF00078870 /* house_rooms_1_3.png in Resources */,
 				A1F81CD41BF3AFDF00078870 /* house_flowers_a3.png in Resources */,

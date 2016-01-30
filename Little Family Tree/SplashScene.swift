@@ -73,7 +73,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         else {
             if (!launched && (currentTime - startTime! > 10)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
-                    if dataService?.remoteService?.sessionId != nil && dataService?.dbHelper.getFirstPerson() != nil {
+                    if dataService?.dbHelper.getFirstPerson() != nil {
                         if self.view?.subviews != nil {
                             for v in (self.view?.subviews)! {
                                 v.removeFromSuperview()
