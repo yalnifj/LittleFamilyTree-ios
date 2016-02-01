@@ -44,7 +44,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
                 var width = (view.bounds.width / 3) - 5
                 if view.bounds.width > view.bounds.height {
-                    width = (view.bounds.height / 3) - 5
+                    width = (view.bounds.height / 3) - 20
                 }
                 print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
                 var x = CGFloat(5.0)
@@ -129,6 +129,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             
             let nextScene = GameScene(size: scene!.size)
             nextScene.scaleMode = .AspectFill
+            nextScene.chosenPlayer = person
             nextScene.selectedPerson = person
             scene?.view?.presentScene(nextScene, transition: transition)
         }

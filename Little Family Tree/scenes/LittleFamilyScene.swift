@@ -23,7 +23,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     var starDelay = 2
     var loadingDialog:SKSpriteNode?
     var selectedPerson:LittlePerson?
+    var chosenPlayer:LittlePerson?
     var starContainer:SKNode?
+    var previousTopic:String?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -111,7 +113,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     var listenerIndex:Int?
     func onEvent(topic: String, data: NSObject?) {
         if topic == LittleFamilyScene.TOPIC_START_HOME {
-            showHomeScreen()
+            if previousTopic == nil || previousTopic == LittleFamilyScene.TOPIC_START_HOME {
+                showHomeScreen()
+            } else {
+                onEvent(previousTopic!, data: data)
+            }
         }
         else if topic == LittleFamilyScene.TOPIC_START_CHOOSE {
             showChoosePlayerScreen()
@@ -121,30 +127,52 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         }
         else if topic == LittleFamilyScene.TOPIC_TOGGLE_QUIET {
             toggleQuietMode()
+        } else if topic == GameScene.TOPIC_START_MATCH {
+            self.showMatchGame(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_DRESSUP {
+            self.showHeritageCalculatorGame(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_PUZZLE {
+            self.showPuzzleGame(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_SCRATCH {
+            self.showScratchGame(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_COLORING {
+            self.showColoringGame(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_TREE {
+            self.showTree(nil, previousTopic: nil)
+        }
+        else if topic == GameScene.TOPIC_START_BUBBLES {
+            self.showBubbleGame(nil, previousTopic: nil)
         }
     }
     
     func showHomeScreen() {
         let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-        
         let nextScene = GameScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
-        nextScene.selectedPerson = self.selectedPerson
+        if self.chosenPlayer != nil {
+            nextScene.selectedPerson = self.chosenPlayer
+        } else {
+            nextScene.selectedPerson = self.selectedPerson
+        }
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
     func showChoosePlayerScreen() {
         let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-        
         let nextScene = ChoosePlayerScene(size: scene!.size)
         nextScene.scaleMode = .AspectFill
         scene?.view?.presentScene(nextScene, transition: transition)
     }
 	
-    func showMatchGame(person:LittlePerson?) {
+    func showMatchGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
 		let nextScene = MatchGameScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -154,10 +182,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showHeritageCalculatorGame(person:LittlePerson?) {
+	func showHeritageCalculatorGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
         let nextScene = ChooseCultureScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -167,10 +195,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showDressupGame(dollConfig:DollConfig, person:LittlePerson?) {
+	func showDressupGame(dollConfig:DollConfig, person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-                    
 		let nextScene = DressUpScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -181,10 +209,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showPuzzleGame(person:LittlePerson?) {
+	func showPuzzleGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
 		let nextScene = PuzzleScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -194,10 +222,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showScratchGame(person:LittlePerson?) {
+	func showScratchGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
+        
 		let nextScene = ScratchScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -207,10 +236,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showColoringGame(person:LittlePerson?) {
+    func showColoringGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
 		let nextScene = ColoringScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -220,10 +249,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showTree(person:LittlePerson?) {
+	func showTree(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
 		let nextScene = TreeScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -233,10 +262,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showBubbleGame(person:LittlePerson?) {
+	func showBubbleGame(person:LittlePerson?, previousTopic:String?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
-            
 		let nextScene = BubbleScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person

@@ -524,22 +524,22 @@ class TreeScene: LittleFamilyScene {
             if moved == false {
                 let touchedNode = nodeAtPoint(lastPoint)
                 if touchedNode == bubbleButton {
-                    self.showBubbleGame(panelPerson!)
+                    self.showBubbleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
                 }
 				else if touchedNode == matchButton {
-					self.showMatchGame(panelPerson!)
+					self.showMatchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
 				else if touchedNode == scratchButton {
-					self.showScratchGame(panelPerson!)
+					self.showScratchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
 				else if touchedNode == puzzleButton {
-					self.showPuzzleGame(panelPerson!)
+					self.showPuzzleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
 				else if touchedNode == coloringButton {
-					self.showColoringGame(panelPerson!)
+					self.showColoringGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
 				else if touchedNode == dressupButton {
-                    self.showDressupGame(dollConfig!, person: panelPerson!)
+                    self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
@@ -617,6 +617,7 @@ class TreeScene: LittleFamilyScene {
             relLabel.fontColor = UIColor.whiteColor()
             relLabel.position = CGPointMake(0, y)
             relLabel.zPosition = 3
+            self.adjustLabelFontSizeToFitRect(relLabel, node: self.buttonPanel!)
             self.buttonPanel?.addChild(relLabel)
             
             y = y + relLabel.fontSize + 5
@@ -625,6 +626,7 @@ class TreeScene: LittleFamilyScene {
             nameLabel.fontColor = UIColor.whiteColor()
             nameLabel.position = CGPointMake(0, y)
             nameLabel.zPosition = 3
+            self.adjustLabelFontSizeToFitRect(nameLabel, node: self.buttonPanel!)
             self.buttonPanel?.addChild(nameLabel)
 		}
     }

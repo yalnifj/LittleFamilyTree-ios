@@ -1012,27 +1012,6 @@ class GameScene: LittleFamilyScene {
     
     override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
-        if topic == GameScene.TOPIC_START_MATCH {
-            self.showMatchGame(nil)
-        }
-        else if topic == GameScene.TOPIC_START_DRESSUP {
-            self.showHeritageCalculatorGame(nil)
-        }
-        else if topic == GameScene.TOPIC_START_PUZZLE {
-            self.showPuzzleGame(nil)
-        }
-		else if topic == GameScene.TOPIC_START_SCRATCH {
-            self.showScratchGame(nil)
-        }
-		else if topic == GameScene.TOPIC_START_COLORING {
-            self.showColoringGame(nil)
-        }
-		else if topic == GameScene.TOPIC_START_TREE {
-            self.showTree(nil)
-        }
-		else if topic == GameScene.TOPIC_START_BUBBLES {
-            self.showBubbleGame(nil)
-        }
     }
 
 }
