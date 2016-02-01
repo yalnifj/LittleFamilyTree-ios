@@ -235,7 +235,7 @@ class ChooseCultureScene: LittleFamilyScene {
             
             if touchedNode == self.doll || touchedNode == self.countryLabel {
                 if dollConfig != nil {
-                    self.showDressupGame(dollConfig!)
+                    self.showDressupGame(dollConfig!, person: selectedPerson!)
                     break
                 }
             }

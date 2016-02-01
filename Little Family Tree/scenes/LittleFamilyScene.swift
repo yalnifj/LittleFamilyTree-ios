@@ -141,76 +141,108 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         scene?.view?.presentScene(nextScene, transition: transition)
     }
 	
-	func showMatchGame() {
+    func showMatchGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = MatchGameScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showHeritageCalculatorGame() {
+	func showHeritageCalculatorGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
         let nextScene = ChooseCultureScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showDressupGame(dollConfig:DollConfig) {
+	func showDressupGame(dollConfig:DollConfig, person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
                     
 		let nextScene = DressUpScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		nextScene.dollConfig = dollConfig
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showPuzzleGame() {
+	func showPuzzleGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = PuzzleScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showScratchGame() {
+	func showScratchGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = ScratchScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showColoringGame() {
+	func showColoringGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = ColoringScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showTree() {
+	func showTree(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = TreeScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showBubbleGame() {
+	func showBubbleGame(person:LittlePerson?) {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
             
 		let nextScene = BubbleScene(size: scene!.size)
 		nextScene.scaleMode = .AspectFill
-		nextScene.selectedPerson = selectedPerson
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
     

@@ -58,6 +58,7 @@ class TreeScene: LittleFamilyScene {
 	
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
+    var panelPerson:LittlePerson?
     
     var arrows = [TreeUpArrow]()
     
@@ -523,22 +524,22 @@ class TreeScene: LittleFamilyScene {
             if moved == false {
                 let touchedNode = nodeAtPoint(lastPoint)
                 if touchedNode == bubbleButton {
-                    self.showBubbleGame()
+                    self.showBubbleGame(panelPerson!)
                 }
 				else if touchedNode == matchButton {
-					self.showMatchGame()
+					self.showMatchGame(panelPerson!)
 				}
 				else if touchedNode == scratchButton {
-					self.showScratchGame()
+					self.showScratchGame(panelPerson!)
 				}
 				else if touchedNode == puzzleButton {
-					self.showPuzzleGame()
+					self.showPuzzleGame(panelPerson!)
 				}
 				else if touchedNode == coloringButton {
-					self.showColoringGame()
+					self.showColoringGame(panelPerson!)
 				}
 				else if touchedNode == dressupButton {
-					self.showDressupGame(dollConfig!)
+                    self.showDressupGame(dollConfig!, person: panelPerson!)
 				}
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
@@ -587,9 +588,9 @@ class TreeScene: LittleFamilyScene {
         self.buttonPanel?.zPosition = 100
         self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width + 100, node.position.y + 50)
         node.parent!.addChild(self.buttonPanel!)
-		let person  = node.person!
-		let place = PlaceHelper.getPersonCountry(person)
-		dollConfig = self.dolls.getDollConfig(place, person: person)
+		panelPerson  = node.person!
+		let place = PlaceHelper.getPersonCountry(panelPerson!)
+		dollConfig = self.dolls.getDollConfig(place, person: panelPerson!)
         let texture = SKTexture(imageNamed: dollConfig!.getThumbnail())
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
