@@ -637,7 +637,7 @@ class TreeScene: LittleFamilyScene {
                 let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
                 var msg = "\(node.person!.name!) is your \(relationship). "
                 if relationship == "You" {
-                    msg = "Hi, \(node.person!.givenName)"
+                    msg = "Hi, \(node.person!.givenName!)"
                 }
                 var heshe = "He"
                 if node.person!.gender == GenderType.FEMALE {

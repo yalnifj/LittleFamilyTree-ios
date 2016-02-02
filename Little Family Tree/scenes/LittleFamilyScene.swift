@@ -264,7 +264,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         if person != nil {
             nextScene.selectedPerson = person
         } else {
-            nextScene.selectedPerson = selectedPerson
+            if self.chosenPlayer != nil {
+                nextScene.selectedPerson = self.chosenPlayer
+            } else {
+                nextScene.selectedPerson = self.selectedPerson
+            }
         }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
@@ -385,8 +389,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         // Change the fontSize.
         if adjustUp || scalingFactor < 1.0 {
             labelNode.fontSize *= scalingFactor
+            node.size.width = labelNode.frame.width+40
         }
-        node.size.width = labelNode.frame.width+40
     }
     
     func showStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
