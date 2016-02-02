@@ -74,17 +74,19 @@ class MatchGameScene: LittleFamilyScene {
     }
     
     func setupGame() {
-
+        let ratio = self.size.width / self.size.height
         var cols = 2
-		var rows = game!.board!.count / cols
-        
-        while (game!.board!.count % cols != 0) {
+        var rows = game!.board!.count / cols
+        while CGFloat(cols) / CGFloat(rows) < ratio {
             cols++
             rows = game!.board!.count / cols
         }
-        
+        if game!.board!.count % cols > 0 {
+            cols--
+            rows = game!.board!.count / cols
+        }
         var width = (self.size.width / CGFloat(cols)) - 20
-
+        
 		if  CGFloat(rows) * (width + 20) > self.size.height {
 			width = CGFloat(round(self.size.height / CGFloat(rows)) - 20)
 		}

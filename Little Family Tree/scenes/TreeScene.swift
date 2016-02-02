@@ -636,24 +636,25 @@ class TreeScene: LittleFamilyScene {
             if node.person != nil {
                 let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
                 var msg = "\(node.person!.name!) is your \(relationship). "
-                if relationship == "You" {
-                    msg = "Hi, \(node.person!.givenName!)"
-                }
-                var heshe = "He"
+                var heshe = "He was "
                 if node.person!.gender == GenderType.FEMALE {
-                    heshe = "She"
+                    heshe = "She was "
+                }
+                if relationship == "You" {
+                    msg = "Hi, \(node.person!.givenName!). "
+                    heshe = "You were "
                 }
                 let formatter = NSDateFormatter()
                 formatter.dateFormat = "MMMM d, yyyy"
                 if node.person?.birthPlace != nil && node.person!.birthDate != nil {
                     let dateString = formatter.stringFromDate(node.person!.birthDate!)
-                    msg += "\(heshe) was born on \(dateString) in \(node.person!.birthPlace!)"
+                    msg += "\(heshe) born on \(dateString) in \(node.person!.birthPlace!)"
                 }
                 else if node.person?.birthDate != nil {
                     let dateString = formatter.stringFromDate(node.person!.birthDate!)
-                    msg += "\(heshe) was born on \(dateString)"
+                    msg += "\(heshe) born on \(dateString)"
                 } else if node.person?.birthPlace != nil {
-                    msg += "\(heshe) was born in \(node.person!.birthPlace!)"
+                    msg += "\(heshe) born in \(node.person!.birthPlace!)"
                 }
                 self.speak(msg)
                 if buttonPanel != nil {
