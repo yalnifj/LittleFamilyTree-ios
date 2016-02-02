@@ -633,7 +633,7 @@ class DataService {
 		}
 		
 		if person.givenName == nil && person.name != nil {
-			let parts = (person.givenName as! String).characters.split{$0 == " "}.map(String.init)
+			let parts = (person.name as! String).characters.split{$0 == " "}.map(String.init)
 			person.givenName = parts[0]
 		}
 		

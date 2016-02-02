@@ -617,7 +617,7 @@ class TreeScene: LittleFamilyScene {
             relLabel.fontColor = UIColor.whiteColor()
             relLabel.position = CGPointMake(0, y)
             relLabel.zPosition = 3
-            self.adjustLabelFontSizeToFitRect(relLabel, node: self.buttonPanel!)
+            self.adjustLabelFontSizeToFitRect(relLabel, node: self.buttonPanel!, adjustUp: false)
             self.buttonPanel?.addChild(relLabel)
             
             y = y + relLabel.fontSize + 5
@@ -626,7 +626,7 @@ class TreeScene: LittleFamilyScene {
             nameLabel.fontColor = UIColor.whiteColor()
             nameLabel.position = CGPointMake(0, y)
             nameLabel.zPosition = 3
-            self.adjustLabelFontSizeToFitRect(nameLabel, node: self.buttonPanel!)
+            self.adjustLabelFontSizeToFitRect(nameLabel, node: self.buttonPanel!, adjustUp: false)
             self.buttonPanel?.addChild(nameLabel)
 		}
     }

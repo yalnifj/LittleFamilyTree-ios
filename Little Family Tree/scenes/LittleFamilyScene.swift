@@ -362,7 +362,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
             speakLabel.zPosition = 1
             lc.addChild(speakLabel)
             self.addChild(lc)
-            adjustLabelFontSizeToFitRect(speakLabel, node: lc)
+            adjustLabelFontSizeToFitRect(speakLabel, node: lc, adjustUp: true)
             if maxWidth < lc.size.width {
                 maxWidth = lc.size.width
             }
@@ -379,11 +379,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         }
     }
     
-    func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, node:SKSpriteNode) {
+    func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, node:SKSpriteNode, adjustUp:Bool) {
         // Determine the font scaling factor that should let the label text fit in the given rectangle.
         let scalingFactor = min(node.size.width / labelNode.frame.width, (node.size.height / labelNode.frame.height)/2)
         // Change the fontSize.
-        labelNode.fontSize *= scalingFactor
+        if adjustUp || scalingFactor < 1.0 {
+            labelNode.fontSize *= scalingFactor
+        }
         node.size.width = labelNode.frame.width+40
     }
     

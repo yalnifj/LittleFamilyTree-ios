@@ -196,7 +196,7 @@ class DBHelper {
 		}
 		else {
 			let rowid = try lftdb?.run(TABLE_LITTLE_PERSON.insert(
-				COL_NAME <- (person.name as! String),
+				COL_NAME <- (person.name as String?),
 				COL_GIVEN_NAME <- (person.givenName as String?),
 				COL_GENDER <- gender,
 				COL_PHOTO_PATH <- (person.photoPath as String?),
