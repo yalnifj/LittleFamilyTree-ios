@@ -173,6 +173,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = MatchGameScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -186,6 +187,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
         let nextScene = ChooseCultureScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -199,6 +201,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = DressUpScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -213,6 +216,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = PuzzleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -227,6 +231,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         
 		let nextScene = ScratchScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -240,6 +245,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = ColoringScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -253,6 +259,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = TreeScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person
@@ -266,6 +273,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
 		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
 		let nextScene = BubbleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
 		nextScene.scaleMode = .AspectFill
         if person != nil {
             nextScene.selectedPerson = person

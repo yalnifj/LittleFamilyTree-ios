@@ -10,7 +10,7 @@ class Person : Subject {
   var display:DisplayProperties?
   
   func getFullName() -> NSString? {
-    if (display != nil) {
+    if (display != nil && display!.name != nil) {
       return display!.name!
     }
     if (names.count > 0 && names[0].nameForms.count > 0) {
