@@ -438,8 +438,8 @@ class DBHelper {
             }
         }
         if c[COL_AGE] != nil { person.age = c[COL_AGE]! }
-        person.givenName = NSString(UTF8String: c[COL_GIVEN_NAME]!)
-        person.name = NSString(UTF8String: c[COL_NAME]!)
+        if c[COL_GIVEN_NAME] != nil { person.givenName = NSString(UTF8String: c[COL_GIVEN_NAME]!) }
+        if c[COL_NAME] != nil { person.name = NSString(UTF8String: c[COL_NAME]!) }
         if c[COL_PHOTO_PATH] != nil {
             person.photoPath = NSString(UTF8String: c[COL_PHOTO_PATH]!)
         }

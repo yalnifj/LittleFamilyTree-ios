@@ -189,9 +189,17 @@ class ChooseCultureScene: LittleFamilyScene {
             let df = NSDateFormatter()
             df.dateStyle = .LongStyle
             let dateText = df.stringFromDate(relative.birthDate!)
-            text += " \(relative.name!) was born in \(relative.birthPlace!) on \(dateText)"
+            if (relative.birthPlace != nil ) {
+                text += " \(relative.name!) was born in \(relative.birthPlace!) on \(dateText)"
+            } else {
+                text += " \(relative.name!) was born on \(dateText)"
+            }
         } else {
-            text += " \(relative.name!)"
+            if (relative.birthPlace != nil ) {
+                text += " \(relative.name!) was born in \(relative.birthPlace!)"
+            } else {
+                text += " \(relative.name!)"
+            }
         }
         self.speak(text);
     }
@@ -228,37 +236,47 @@ class ChooseCultureScene: LittleFamilyScene {
         super.update(currentTime)
     }
     
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            checkForPath(touch)
+            break
+        }
+    }
+    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(location)
-            
-            if touchedNode == self.doll || touchedNode == self.countryLabel {
-                if dollConfig != nil {
-                    self.showDressupGame(dollConfig!, person: selectedPerson!, previousTopic: GameScene.TOPIC_START_DRESSUP)
-                    break
-                }
-            }
-
-            var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
-            for path in (self.calculator?.uniquePaths)! {
-                var height = (self.outlineSprite?.size.height)! * CGFloat(path.percent)
-                if height < 10 {
-                    height = CGFloat(10)
-                }
-                //print("y=\(y) height=\(height)")
-                
-                let ty = self.size.height - touch.locationInView(self.view).y
-                //print("ty=\(ty)")
-                if ty <= y && ty > y - height {
-                    setSelectedPath(path)
-                    break
-                }
-                
-                y -= height
-            }
-            
+            checkForPath(touch)
             break
+        }
+    }
+
+    func checkForPath(touch:UITouch) {
+        let location = touch.locationInNode(self)
+        let touchedNode = nodeAtPoint(location)
+        
+        if touchedNode == self.doll || touchedNode == self.countryLabel {
+            if dollConfig != nil {
+                self.showDressupGame(dollConfig!, person: selectedPerson!, previousTopic: GameScene.TOPIC_START_DRESSUP)
+                return
+            }
+        }
+        
+        var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
+        for path in (self.calculator?.uniquePaths)! {
+            var height = (self.outlineSprite?.size.height)! * CGFloat(path.percent)
+            if height < 10 {
+                height = CGFloat(10)
+            }
+            //print("y=\(y) height=\(height)")
+            
+            let ty = self.size.height - touch.locationInView(self.view).y
+            //print("ty=\(ty)")
+            if ty <= y && ty > y - height {
+                setSelectedPath(path)
+                break
+            }
+            
+            y -= height
         }
     }
 }

@@ -439,7 +439,7 @@ class TreeScene: LittleFamilyScene {
         if node.leftNode == nil && node.rightNode == nil && node.hasParents == true {
             let upArrow = TreeUpArrow(imageNamed: "vine_arrow")
             upArrow.position = CGPointMake(sprite.position.x + sprite.size.width/2, sprite.position.y + sprite.size.height + upArrow.size.height)
-            upArrow.zPosition = 3
+            upArrow.zPosition = 4
             upArrow.treeNode = node
             container.addChild(upArrow)
             self.arrows.append(upArrow)
@@ -692,6 +692,7 @@ class TreeScene: LittleFamilyScene {
             } else if arrow.treeNode?.level == upArrow.treeNode?.level {
                 arrow.removeAllChildren()
                 arrow.texture = SKTexture(imageNamed: "vine_arrow")
+                upArrow.zPosition = 4
             }
         }
         
@@ -711,6 +712,7 @@ class TreeScene: LittleFamilyScene {
         }
         self.buildTreeNode(newNode, couple: couple, depth: node!.level, maxDepth: node!.level+1, isInLaw: node!.isInLaw)
         upArrow.texture = nil
+        upArrow.zPosition = 3
         addCoupleSprite(newNode, container: upArrow, x: -1 * leaf.size().width, y: -1 * (leaf.size().height + upArrow.size.height))
     }
 }

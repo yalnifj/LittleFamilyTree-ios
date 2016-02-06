@@ -684,14 +684,16 @@ class DataService {
 						if person.birthDate == nil {
 							let regex = try? NSRegularExpression(pattern: "[0-9]{4}", options: [])
 							let results = regex!.firstMatchInString(birthDateStr as! String, options:[], range: NSMakeRange(0, birthDateStr!.length))
-							let yearStr = birthDateStr!.substringWithRange(results!.range)
-							let year = Int(yearStr)
-							let todayDate = NSDate()
-							let currYear = NSCalendar.currentCalendar().component(.Year, fromDate: todayDate)
-							person.age = currYear - year!
-                            let df3 = NSDateFormatter()
-                            df3.dateFormat = "yyyy"
-                            person.birthDate = df3.dateFromString(yearStr)
+                            if results != nil {
+                                let yearStr = birthDateStr!.substringWithRange(results!.range)
+                                let year = Int(yearStr)
+                                let todayDate = NSDate()
+                                let currYear = NSCalendar.currentCalendar().component(.Year, fromDate: todayDate)
+                                person.age = currYear - year!
+                                let df3 = NSDateFormatter()
+                                df3.dateFormat = "yyyy"
+                                person.birthDate = df3.dateFromString(yearStr)
+                            }
 						} else {
 							person.updateAge()
 						}

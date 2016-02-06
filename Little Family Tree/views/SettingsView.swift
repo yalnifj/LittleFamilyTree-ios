@@ -112,6 +112,8 @@ class SettingsView: UIView {
             delayIndex = 0
         }
         syncDelaySlider.setValue(Float(delayIndex!), animated: false)
+        
+        versionLabel.text = "1.0.2"
     }
     
     func loadViewFromNib() -> UIView {

@@ -17,6 +17,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     var image:UIImage?
 	var lastPoint : CGPoint!
     var scratching = false
+    var completed = false
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -114,6 +115,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
 
             
             hideLoadingDialog()
+            completed = false
             
         } else {
             randomMediaChooser.loadMoreFamilyMembers()
@@ -167,7 +169,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
 
         }
         self.removeAllActions()
-        checkComplete()
+        if !completed {
+            checkComplete()
+        }
         scratching = false
     }
     
@@ -198,7 +202,6 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     
     func checkComplete() {
         var complete = false
-        
         let provider = CGImageGetDataProvider(image!.CGImage)
         let providerData = CGDataProviderCopyData(provider)
         let data = CFDataGetBytePtr(providerData)
@@ -231,6 +234,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             coverSprite?.hidden = true
             self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: 5, container: self)
             self.playSuccessSound(1.0, onCompletion: {
+                self.completed = true
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
                 self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
