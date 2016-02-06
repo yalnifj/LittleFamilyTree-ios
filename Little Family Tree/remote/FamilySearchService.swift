@@ -342,6 +342,7 @@ class FamilySearchService : RemoteService {
                 }
                 if response == nil {
                     onCompletion(nil, error)
+                    return
                 }
                 let httpResponse = response as! NSHTTPURLResponse
                 if httpResponse.statusCode != 200 {
@@ -401,6 +402,7 @@ class FamilySearchService : RemoteService {
             }
             if response == nil {
                 onCompletion(nil, error)
+                return
             }
             let httpResponse = response as! NSHTTPURLResponse
             if httpResponse.statusCode != 200 {

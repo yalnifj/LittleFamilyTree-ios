@@ -45,10 +45,6 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         super.willMoveFromView(view)
     }
     
-    override func update(currentTime: NSTimeInterval) {
-        
-    }
-    
     func onMediaLoaded(media:Media?) {
         if media == nil {
             randomMediaChooser.loadMoreFamilyMembers()
@@ -169,9 +165,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
 
         }
         self.removeAllActions()
-        if !completed {
+        //if !completed {
             checkComplete()
-        }
+        //}
         scratching = false
     }
     
@@ -234,7 +230,6 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             coverSprite?.hidden = true
             self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: 5, container: self)
             self.playSuccessSound(1.0, onCompletion: {
-                self.completed = true
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
                 self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
@@ -243,6 +238,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 self.runAction(waitAction) {
                     self.showLoadingDialog()
                     self.randomMediaChooser.loadRandomImage()
+                    self.completed = true
                 }
             })
 

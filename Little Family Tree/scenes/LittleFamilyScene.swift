@@ -398,6 +398,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         self.starsInRect = starsInRect
         self.starCount = count
         self.starContainer = container
+        self.starDelayCount = 0
     }
     
     func showLoadingDialog() {

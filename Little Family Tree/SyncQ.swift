@@ -6,6 +6,7 @@ class SyncQ : NSObject {
 	var dbHelper:DBHelper
 	var timer:NSTimer?
     var started = false
+    var authCounter = 0
 	lazy var queue:NSOperationQueue = {
 		var queue = NSOperationQueue()
 		queue.name = "Sync queue"
@@ -57,7 +58,14 @@ class SyncQ : NSObject {
             } else {
                 print("Sync queue disabled in settings")
             }
-		}
+        } else {
+            //-- if we are not authenticated try to authenticate again after 10 minutes
+            authCounter++
+            if authCounter > 60 {
+                authCounter = 0
+                dataService.autoLogin()
+            }
+        }
         let date = NSDate()
 		print("\(date) Sync Q has \(syncQ.count) people in it.");
 	}
