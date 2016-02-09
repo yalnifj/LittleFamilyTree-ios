@@ -192,7 +192,7 @@ class DBHelper {
 				COL_TREE_LEVEL <- person.treeLevel,
 				COL_OCCUPATION <- (person.occupation as String?)
 			))
-            print("Updated little person \(person.id!) \(person.name)")
+            print("Updated little person \(person.id!)")
 		}
 		else {
 			let rowid = try lftdb?.run(TABLE_LITTLE_PERSON.insert(
@@ -270,6 +270,35 @@ class DBHelper {
         }
 		return nil
 	}
+    
+    func search(given:String?, surname:String?, remoteid:String?) -> [LittlePerson] {
+        var people = [LittlePerson]()
+        
+        if given != nil || surname != nil || remoteid != nil {
+            do {
+                var query = TABLE_LITTLE_PERSON.order(COL_NAME, COL_ID)
+                if given != nil {
+                    query = query.filter(COL_GIVEN_NAME.like(given! + "%"))
+                }
+                if surname != nil {
+                    query = query.filter(COL_NAME.like("%\(surname!)%") )
+                }
+                if remoteid != nil {
+                    query = query.filter(COL_FAMILY_SEARCH_ID.like(remoteid! + "%"))
+                }
+                let stmt = try lftdb?.prepare(query)
+                for c in stmt! {
+                    var person = buildLittlePerson(c)
+                    person.id = c[COL_ID]
+                    people.append(person)
+                }
+            } catch {
+                print("Error getting searching people")
+            }
+        }
+        return people;
+    }
+
 	
 	func getRandomPersonWithMedia() -> LittlePerson? {
 		var person:LittlePerson?

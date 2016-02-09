@@ -342,7 +342,7 @@ class SyncOperation : NSOperation {
         let dbHelper = DBHelper.getInstance()
         dbHelper.removeFromSyncQ(person.id!)
         
-        print("Synchronizing person \(person.id!) \(person.familySearchId!) \(person.name!)")
+        print("Synchronizing person \(person.id!) \(person.familySearchId!)")
         
         dataService.remoteService!.getLastChangeForPerson(person.familySearchId!, onCompletion: { timestamp, err in
             if timestamp != nil {
@@ -375,7 +375,7 @@ class SyncOperation : NSOperation {
                     if (self.person.hasParents == nil) {
                         let dbParents = self.dataService.dbHelper.getParentsForPerson(self.person.id!)
                         if (dbParents == nil || dbParents!.count == 0) {
-                            print("SyncThread - Synchronizing parents for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            print("SyncThread - Synchronizing parents for \(self.person.id!) \(self.person.familySearchId!)")
                             self.dataService.getParentsFromRemoteService(self.person, onCompletion: { parents, err in
                                 if parents != nil && parents!.count > 0 {
                                     for p in parents! {
@@ -412,7 +412,7 @@ class SyncOperation : NSOperation {
                     if (self.person.hasChildren == nil) {
                         let dbChildren = self.dataService.dbHelper.getChildrenForPerson(self.person.id!);
                         if (dbChildren == nil || dbChildren!.count == 0) {
-                            print("SyncThread - Synchronizing children for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            print("SyncThread - Synchronizing children for \(self.person.id!) \(self.person.familySearchId!)")
                             self.dataService.getChildrenFromRemoteService(self.person, onCompletion: { children, err in
                                 if children != nil && children!.count > 0 {
                                     for p in children! {
@@ -447,7 +447,7 @@ class SyncOperation : NSOperation {
                     if (self.person.hasSpouses == nil) {
                         let dbSpouses = self.dataService.dbHelper.getSpousesForPerson(self.person.id!)
                         if (dbSpouses == nil || dbSpouses!.count == 0) {
-                            print("SyncThread - Synchronizing spouses for \(self.person.id!) \(self.person.familySearchId!) \(self.person.name!)")
+                            print("SyncThread - Synchronizing spouses for \(self.person.id!) \(self.person.familySearchId!)")
                             self.dataService.getSpousesFromRemoteService(self.person, onCompletion: { spouses, err in
                                 if spouses != nil && spouses!.count > 0  {
                                     for p in spouses! {

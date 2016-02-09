@@ -86,6 +86,8 @@
 		A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A117C7391BA4AD0000964D50 /* Images.xcassets */; };
 		A117C73D1BA4AD0000964D50 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
+		A11E31191C67062300DA2B5F /* SearchPeople.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E31181C67062300DA2B5F /* SearchPeople.xib */; };
+		A11E311B1C67067100DA2B5F /* SearchPeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11E311A1C67067100DA2B5F /* SearchPeople.swift */; };
 		A1244A9D1C5C8EAC0074BC4E /* play_together.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244A9C1C5C8EAC0074BC4E /* play_together.png */; };
 		A1244AA41C5CAD8E0074BC4E /* rw.png in Resources */ = {isa = PBXBuildFile; fileRef = A1244AA31C5CAD8E0074BC4E /* rw.png */; };
 		A1244AA61C5D40BD0074BC4E /* FamilySearchLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */; };
@@ -656,6 +658,8 @@
 		A117C7421BA4AD0100964D50 /* Little Family TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Little Family TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
+		A11E31181C67062300DA2B5F /* SearchPeople.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchPeople.xib; path = views/SearchPeople.xib; sourceTree = "<group>"; };
+		A11E311A1C67067100DA2B5F /* SearchPeople.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPeople.swift; path = views/SearchPeople.swift; sourceTree = "<group>"; };
 		A1244A9C1C5C8EAC0074BC4E /* play_together.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_together.png; sourceTree = "<group>"; };
 		A1244AA31C5CAD8E0074BC4E /* rw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rw.png; sourceTree = "<group>"; };
 		A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilySearchLogin.swift; path = views/FamilySearchLogin.swift; sourceTree = "<group>"; };
@@ -1765,6 +1769,8 @@
 				A1F863071C3C10EF00838CEC /* SettingsView.swift */,
 				A1F863091C3C111D00838CEC /* SettingsView.xib */,
 				A115B65A1C53C9DA002A2095 /* ParentsGuide.xib */,
+				A11E31181C67062300DA2B5F /* SearchPeople.xib */,
+				A11E311A1C67067100DA2B5F /* SearchPeople.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2159,6 +2165,7 @@
 				A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */,
 				A1F81D6C1BF3AFDF00078870 /* drums_allinourfamilytree.mp3 in Resources */,
 				A1064FB61C3372CA0016A9C6 /* bubbles8.png in Resources */,
+				A11E31191C67062300DA2B5F /* SearchPeople.xib in Resources */,
 				A176B7CF1C28E98100A2A49C /* tree_search8.png in Resources */,
 				A1F81D641BF3AFDF00078870 /* house_rooms_4_2.png in Resources */,
 				A1064FBB1C3372CA0016A9C6 /* faucet5.png in Resources */,
@@ -2355,6 +2362,7 @@
 				A1686D6C1BB97D4A00E58A09 /* FamilySearchService.swift in Sources */,
 				A10BF12B1BC9D359005CAFDA /* Identifier.swift in Sources */,
 				A1686D641BB97D3400E58A09 /* LittlePerson.swift in Sources */,
+				A11E311B1C67067100DA2B5F /* SearchPeople.swift in Sources */,
 				A117C72F1BA4AD0000964D50 /* AppDelegate.swift in Sources */,
 				A17C32581C1A667B00F64737 /* PuzzleScene.swift in Sources */,
 				A1EA5D311C091280006528A5 /* HeritagePath.swift in Sources */,

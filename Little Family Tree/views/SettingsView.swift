@@ -148,6 +148,8 @@ class SettingsView: UIView {
     }
 
     @IBAction func ManagePeopleAction(sender: UIButton) {
+        let subview = SearchPeople(frame: (self.view?.bounds)!)
+        self.view?.addSubview(subview)
     }
     
     @IBAction func parentsGuideAction(sender: UIButton) {
