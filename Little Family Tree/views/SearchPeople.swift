@@ -20,6 +20,8 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var resultsTable: UITableView!
     
+    var selectedPerson:LittlePerson?
+    
     var results = [LittlePerson]()
     
     override init(frame: CGRect) {
@@ -76,5 +78,10 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("You selected cell #\(indexPath.row)!")
+        let person = results[indexPath.row]
+        let subview = PersonDetailsView(frame: (self.view?.bounds)!)
+        subview.selectedPerson = self.selectedPerson
+        subview.showPerson(person)
+        self.view?.addSubview(subview)
     }
 }

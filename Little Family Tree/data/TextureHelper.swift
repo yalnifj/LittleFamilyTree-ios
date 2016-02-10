@@ -68,6 +68,60 @@ class TextureHelper {
         }
     }
     
+    static func getPortraitImage(person:LittlePerson) -> UIImage? {
+        let fileManager = NSFileManager.defaultManager()
+        let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        
+        if person.photoPath === nil || person.photoPath!.length == 0 {
+            print("no portrait found for \(person.name!)")
+            return getDefaultPortraitImage(person)
+        }
+        let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
+        if !fileManager.fileExistsAtPath(photoUrl.path!) {
+            print("no portrait found for \(person.name!)")
+            return getDefaultPortraitImage(person)
+        }
+        
+        let data = NSData(contentsOfURL: photoUrl)
+        if data != nil {
+            let uiImage = UIImage(data: data!)
+            if uiImage != nil {
+                return uiImage
+            }
+        }
+        print("Unable to load data for \(person.photoPath)")
+        return getDefaultPortraitImage(person)
+    }
+    
+    static func getDefaultPortraitImage(person:LittlePerson) -> UIImage? {
+        if (person.age != nil) {
+            if (person.age < 2) {
+                return UIImage(named: "baby")
+            }
+            if (person.age < 18) {
+                if (person.gender == GenderType.FEMALE) {
+                    return UIImage(named: "girl")
+                }
+                return UIImage(named: "boy")
+            }
+            if (person.age < 50) {
+                if (person.gender == GenderType.FEMALE) {
+                    return UIImage(named: "mom")
+                }
+                return UIImage(named: "dad")
+            }
+            if (person.gender == GenderType.FEMALE) {
+                return UIImage(named: "grandma")
+            }
+            return UIImage(named: "grandpa")
+        } else {
+            if (person.gender == GenderType.FEMALE) {
+                return UIImage(named: "mom")
+            }
+            return UIImage(named: "dad")
+        }
+    }
+    
     static func getTextureForMedia(media:Media, size:CGSize) -> SKTexture? {
         let fileManager = NSFileManager.defaultManager()
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
