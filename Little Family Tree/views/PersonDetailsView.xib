@@ -22,6 +22,8 @@
                 <outlet property="portraitImg" destination="5dN-hW-F82" id="yIf-06-1nA"/>
                 <outlet property="relationshipLbl" destination="tyT-JQ-YJr" id="yBs-KF-ng5"/>
                 <outlet property="remoteIdLbl" destination="kvI-WR-46q" id="uUf-L9-2IF"/>
+                <outlet property="spinner" destination="bTN-BX-kTX" id="T6J-Tm-rWQ"/>
+                <outlet property="syncButton" destination="ars-Gp-755" id="Gjs-Bo-QPB"/>
                 <outlet property="visibleSwitch" destination="0ha-Cp-igE" id="MgI-NM-cey"/>
             </connections>
         </placeholder>
@@ -77,6 +79,9 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="49" id="eKk-XM-niI"/>
                     </constraints>
+                    <connections>
+                        <action selector="visibleSwitchAction:" destination="-1" eventType="valueChanged" id="MfF-cL-h94"/>
+                    </connections>
                 </switch>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gU-A8-1oG">
                     <rect key="frame" x="8" y="183" width="94" height="21"/>
@@ -215,6 +220,9 @@
                         <action selector="websiteAction:" destination="-1" eventType="touchUpInside" id="Hym-Eh-bpJ"/>
                     </connections>
                 </button>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bTN-BX-kTX">
+                    <rect key="frame" x="204" y="141" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -244,6 +252,8 @@
                 <constraint firstItem="xP8-lp-HUs" firstAttribute="leading" secondItem="hVT-cT-T3u" secondAttribute="leading" id="Jy2-9a-Kv8"/>
                 <constraint firstItem="Li2-em-kKb" firstAttribute="leading" secondItem="4gU-A8-1oG" secondAttribute="leading" id="KXS-QY-CjX"/>
                 <constraint firstItem="HiV-4H-mZ4" firstAttribute="trailing" secondItem="mpL-XQ-gwc" secondAttribute="trailing" id="L9I-AF-gka"/>
+                <constraint firstItem="bTN-BX-kTX" firstAttribute="bottom" secondItem="Li2-em-kKb" secondAttribute="bottom" id="LNa-hD-oF3"/>
+                <constraint firstItem="bTN-BX-kTX" firstAttribute="centerX" secondItem="ars-Gp-755" secondAttribute="centerX" id="LUy-32-kga"/>
                 <constraint firstItem="xP8-lp-HUs" firstAttribute="trailing" secondItem="hVT-cT-T3u" secondAttribute="trailing" id="LW4-jx-3Gb"/>
                 <constraint firstItem="LQP-g5-ALk" firstAttribute="trailing" secondItem="gYe-cY-jcK" secondAttribute="trailing" id="Nb3-9v-ydP"/>
                 <constraint firstItem="gYe-cY-jcK" firstAttribute="leading" secondItem="LQP-g5-ALk" secondAttribute="leading" id="OL7-b0-4rM"/>

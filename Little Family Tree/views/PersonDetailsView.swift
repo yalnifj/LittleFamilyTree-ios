@@ -29,6 +29,8 @@ class PersonDetailsView: UIView {
     @IBOutlet weak var hasChildrenLbl: UILabel!
     @IBOutlet weak var hasPicturesLbl: UILabel!
     @IBOutlet weak var lastSyncLbl: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var syncButton: UIButton!
     
     
     override init(frame: CGRect) {
@@ -164,17 +166,25 @@ class PersonDetailsView: UIView {
     }
     
     @IBAction func refreshAction(sender: AnyObject) {
+        // TODO add a spinner
+        spinner.hidden = false
+        syncButton.hidden = true
+        
         SyncQ.getInstance().syncPerson(self.person!, onCompletion: {updatedPerson, err in
-            //-- update person's lastsync date
-            if updatedPerson != nil {
-                updatedPerson!.lastSync = NSDate()
-                do {
-                    try DataService.getInstance().dbHelper.persistLittlePerson(updatedPerson!)
-                } catch {
-                    print("Unable to persist person \(updatedPerson!.id!)")
+            dispatch_async(dispatch_get_main_queue(), {
+                //-- update person's lastsync date
+                if updatedPerson != nil {
+                    updatedPerson!.lastSync = NSDate()
+                    do {
+                        try DataService.getInstance().dbHelper.persistLittlePerson(updatedPerson!)
+                    } catch {
+                        print("Unable to persist person \(updatedPerson!.id!)")
+                    }
+                    self.showPerson(updatedPerson!)
                 }
-                self.showPerson(updatedPerson!)
-            }
+                self.spinner.hidden = true
+                self.syncButton.hidden = false
+            })
         })
     }
    
@@ -183,4 +193,12 @@ class PersonDetailsView: UIView {
         UIApplication.sharedApplication().openURL(NSURL(string: remoteService!.getPersonUrl(person!.familySearchId!) as String )!)
     }
     
+    @IBAction func visibleSwitchAction(sender: UISwitch) {
+        self.person?.active = visibleSwitch.on
+        do {
+            try DataService.getInstance().dbHelper.persistLittlePerson(self.person!)
+        } catch {
+            print("Unable to persist person \(self.person!.id!)")
+        }
+    }
 }
