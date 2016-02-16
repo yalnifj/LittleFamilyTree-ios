@@ -8,6 +8,7 @@ class Person : Subject {
   var names = [Name]()
   var facts = [Fact]()
   var display:DisplayProperties?
+  var lastChange:NSDate?
   
   func getFullName() -> NSString? {
     if (display != nil && display!.name != nil) {

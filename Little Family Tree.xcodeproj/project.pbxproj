@@ -110,6 +110,9 @@
 		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A15B0AE21C59CC24000B6B33 /* sobelAlphaShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */; };
 		A15B0AE41C59CE72000B6B33 /* alphaMaskShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */; };
+		A15BD0901C716DD100830742 /* GedcomParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD08E1C716DD100830742 /* GedcomParser.swift */; };
+		A15BD0911C716DD100830742 /* PGVService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD08F1C716DD100830742 /* PGVService.swift */; };
+		A15BD09E1C716DE300830742 /* FamilyHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD09D1C716DE300830742 /* FamilyHolder.swift */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
 		A16241AC1C063374009205F1 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A51C063374009205F1 /* frame1.png */; };
@@ -541,6 +544,20 @@
 			remoteGlobalIDString = BCE209E41943F20C002FEED8;
 			remoteInfo = GPUImageFramework;
 		};
+		A15BD0991C716DD100830742 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03A65E5A1C6BB0F50062603F;
+			remoteInfo = "SQLite tvOS";
+		};
+		A15BD09B1C716DD100830742 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03A65E631C6BB0F60062603F;
+			remoteInfo = "SQLiteTests tvOS";
+		};
 		A1C0A9931C081CC0006804BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
@@ -685,6 +702,9 @@
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = sobelAlphaShader.fsh; path = sprites/sobelAlphaShader.fsh; sourceTree = "<group>"; };
 		A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = alphaMaskShader.fsh; path = sprites/alphaMaskShader.fsh; sourceTree = "<group>"; };
+		A15BD08E1C716DD100830742 /* GedcomParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GedcomParser.swift; sourceTree = "<group>"; };
+		A15BD08F1C716DD100830742 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVService.swift; sourceTree = "<group>"; };
+		A15BD09D1C716DE300830742 /* FamilyHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyHolder.swift; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
 		A16241A51C063374009205F1 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
@@ -1152,6 +1172,7 @@
 				A10BF1051BC9D359005CAFDA /* Conclusion.swift */,
 				A10BF1061BC9D359005CAFDA /* Coverage.swift */,
 				A10BF1071BC9D359005CAFDA /* Date.swift */,
+				A15BD09D1C716DE300830742 /* FamilyHolder.swift */,
 				A10BF1081BC9D359005CAFDA /* DisplayProperties.swift */,
 				A10BF1091BC9D359005CAFDA /* EvidenceReference.swift */,
 				A10BF10A1BC9D359005CAFDA /* ExtensibleData.swift */,
@@ -1330,6 +1351,8 @@
 			children = (
 				A10BF1021BC9D359005CAFDA /* data */,
 				A1686D691BB97D4A00E58A09 /* FamilySearchService.swift */,
+				A15BD08E1C716DD100830742 /* GedcomParser.swift */,
+				A15BD08F1C716DD100830742 /* PGVService.swift */,
 				A1686D6A1BB97D4A00E58A09 /* RemoteService.swift */,
 				A1686D6B1BB97D4A00E58A09 /* SwiftyJSON.swift */,
 			);
@@ -1428,6 +1451,8 @@
 				A1060E2C1C473C280067E76A /* SQLiteTests iOS.xctest */,
 				A1D2A2931BE1B5D5007F0F64 /* SQLite.framework */,
 				A1060E2E1C473C280067E76A /* SQLiteTests Mac.xctest */,
+				A15BD09A1C716DD100830742 /* SQLite.framework */,
+				A15BD09C1C716DD100830742 /* SQLiteTests tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1912,6 +1937,20 @@
 			remoteRef = A15B0AD71C59BF66000B6B33 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A15BD09A1C716DD100830742 /* SQLite.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SQLite.framework;
+			remoteRef = A15BD0991C716DD100830742 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A15BD09C1C716DD100830742 /* SQLiteTests tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SQLiteTests tvOS.xctest";
+			remoteRef = A15BD09B1C716DD100830742 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2362,10 +2401,12 @@
 				A10BF1251BC9D359005CAFDA /* EvidenceReference.swift in Sources */,
 				A16241C51C064507009205F1 /* PersonMatchSprite.swift in Sources */,
 				A12B90671BDC44030014ED16 /* DBHelper.swift in Sources */,
+				A15BD0901C716DD100830742 /* GedcomParser.swift in Sources */,
 				A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */,
 				A1686D6E1BB97D4A00E58A09 /* SwiftyJSON.swift in Sources */,
 				A1653C831C2B5CDF00D586E5 /* BrushSizeSprite.swift in Sources */,
 				A10BF13A1BC9D359005CAFDA /* TextValue.swift in Sources */,
+				A15BD0911C716DD100830742 /* PGVService.swift in Sources */,
 				A16241C71C0676BC009205F1 /* SpeechHelper.swift in Sources */,
 				A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */,
 				A1686D6D1BB97D4A00E58A09 /* RemoteService.swift in Sources */,
@@ -2374,6 +2415,7 @@
 				A1DC44CB1C13A38F00344531 /* DressUpScene.swift in Sources */,
 				A1F81D971BF3E4B100078870 /* ChooseServiceView.swift in Sources */,
 				A1064FCF1C3373070016A9C6 /* BubbleScene.swift in Sources */,
+				A15BD09E1C716DE300830742 /* FamilyHolder.swift in Sources */,
 				A1686D6C1BB97D4A00E58A09 /* FamilySearchService.swift in Sources */,
 				A10BF12B1BC9D359005CAFDA /* Identifier.swift in Sources */,
 				A1686D641BB97D3400E58A09 /* LittlePerson.swift in Sources */,
