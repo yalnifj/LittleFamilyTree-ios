@@ -113,6 +113,8 @@
 		A15BD0901C716DD100830742 /* GedcomParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD08E1C716DD100830742 /* GedcomParser.swift */; };
 		A15BD0911C716DD100830742 /* PGVService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD08F1C716DD100830742 /* PGVService.swift */; };
 		A15BD09E1C716DE300830742 /* FamilyHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD09D1C716DE300830742 /* FamilyHolder.swift */; };
+		A15BD0A01C74BA9A00830742 /* PGVLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = A15BD09F1C74BA9A00830742 /* PGVLogin.xib */; };
+		A15BD0A21C74BAC000830742 /* PGVLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15BD0A11C74BAC000830742 /* PGVLogin.swift */; };
 		A16241981C05FCAC009205F1 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241971C05FCAB009205F1 /* EventHandler.swift */; };
 		A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16241A21C06326F009205F1 /* MatchingGame.swift */; };
 		A16241AC1C063374009205F1 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A16241A51C063374009205F1 /* frame1.png */; };
@@ -705,6 +707,8 @@
 		A15BD08E1C716DD100830742 /* GedcomParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GedcomParser.swift; sourceTree = "<group>"; };
 		A15BD08F1C716DD100830742 /* PGVService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVService.swift; sourceTree = "<group>"; };
 		A15BD09D1C716DE300830742 /* FamilyHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyHolder.swift; sourceTree = "<group>"; };
+		A15BD09F1C74BA9A00830742 /* PGVLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PGVLogin.xib; path = views/PGVLogin.xib; sourceTree = "<group>"; };
+		A15BD0A11C74BAC000830742 /* PGVLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGVLogin.swift; sourceTree = "<group>"; };
 		A16241971C05FCAB009205F1 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		A16241A21C06326F009205F1 /* MatchingGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingGame.swift; path = gamelogic/MatchingGame.swift; sourceTree = "<group>"; };
 		A16241A51C063374009205F1 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
@@ -1797,7 +1801,9 @@
 				A1F81D961BF3E4B100078870 /* ChooseServiceView.swift */,
 				A1F81D941BF3E43300078870 /* ChooseServiceView.xib */,
 				A1244AA51C5D40BC0074BC4E /* FamilySearchLogin.swift */,
+				A15BD0A11C74BAC000830742 /* PGVLogin.swift */,
 				A1F81D9E1BF4078600078870 /* FamilySearchLogin.xib */,
+				A15BD09F1C74BA9A00830742 /* PGVLogin.xib */,
 				A12CC8021C3B99DF00669E90 /* ParentLogin.swift */,
 				A12CC7F91C3B995500669E90 /* ParentLogin.xib */,
 				A1060E051C3F6AF70067E76A /* ParentsGuide.swift */,
@@ -2103,6 +2109,7 @@
 				A1F81D791BF3AFDF00078870 /* pop.mp3 in Resources */,
 				A1F81CB31BF3AFDF00078870 /* house_familyroom_cat_a5.png in Resources */,
 				A1F81CFB1BF3AFDF00078870 /* house_music_drums2.png in Resources */,
+				A15BD0A01C74BA9A00830742 /* PGVLogin.xib in Resources */,
 				A1F81CC71BF3AFDF00078870 /* house_familyroom_frame25.png in Resources */,
 				A1F81CE81BF3AFDF00078870 /* house_kitchen_fridge5.png in Resources */,
 				A1F81D5C1BF3AFDF00078870 /* house_rooms_2_3.png in Resources */,
@@ -2456,6 +2463,7 @@
 				A18F04B91BF7F3E500538F0B /* TextureHelper.swift in Sources */,
 				A10BF1381BC9D359005CAFDA /* SourceReference.swift in Sources */,
 				A10BF1361BC9D359005CAFDA /* SourceCitation.swift in Sources */,
+				A15BD0A21C74BAC000830742 /* PGVLogin.swift in Sources */,
 				A10BF1201BC9D359005CAFDA /* CitationField.swift in Sources */,
 				A11108931C245A2100053DCE /* ScratchScene.swift in Sources */,
 				A16241B41C0634A5009205F1 /* MatchPerson.swift in Sources */,

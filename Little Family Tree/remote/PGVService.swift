@@ -57,7 +57,7 @@ class PGVService : RemoteService {
 					self.sessionId = parts[2]
 				}
 			}
-			onCompletion(data, err)
+			onCompletion(self.sessionId, err)
 		})
 	}
 	

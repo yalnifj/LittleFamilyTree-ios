@@ -31,7 +31,7 @@ import UIKit
         view.frame = bounds
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
-        PGVButton.hidden = true
+        PGVButton.hidden = false
     }
     
     func loadViewFromNib() -> UIView {

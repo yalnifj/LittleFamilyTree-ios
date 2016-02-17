@@ -40,7 +40,7 @@ class FamilySearchService : RemoteService {
     }
 	
 	
-	func authenticate(username: String, password: String, onCompletion: ServiceResponse) {
+	func authenticate(username: String, password: String, onCompletion: StringResponse) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
@@ -59,7 +59,7 @@ class FamilySearchService : RemoteService {
             if self.sessionId!.length == 0 || self.sessionId! == "null" {
                 self.sessionId = nil
             }
-			onCompletion(json, err)
+			onCompletion(self.sessionId, err)
 		})
 	}
 	

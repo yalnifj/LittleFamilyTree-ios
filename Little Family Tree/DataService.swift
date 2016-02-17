@@ -19,8 +19,8 @@ class DataService {
     static let PROPERTY_SYNC_DELAY = "syncDelay"
     static let PROPERTY_SHOW_PARENTS_GUIDE = "showParentsGuide"
 
-	var remoteService:RemoteService?
-	var serviceType:NSString?
+	var remoteService:RemoteService? = nil
+	var serviceType:NSString? = nil
 	var dbHelper:DBHelper
 	var authenticating:Bool = false
     var listeners = [StatusListener]()
@@ -41,11 +41,16 @@ class DataService {
 			if serviceType == DataService.SERVICE_TYPE_FAMILYSEARCH {
 				self.remoteService = FamilySearchService.sharedInstance
 			}
-			/*
 			else if serviceType == DataService.SERVICE_TYPE_PHPGEDVIEW {
+                let url = dbHelper.getProperty(DataService.SERVICE_BASEURL)
+                if url != nil {
+                    let defaultId = self.getEncryptedProperty(DataService.ROOT_PERSON_ID)
+                    if defaultId != nil {
+                        self.remoteService = PGVService(baseUrl: url!, defaultPersonId: defaultId!)
+                    }
+                }
 			}
-			*/
-			if remoteService?.sessionId == nil {
+			if remoteService != nil && remoteService?.sessionId == nil {
 				autoLogin()
 			}
 		}
