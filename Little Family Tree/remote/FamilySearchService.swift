@@ -58,6 +58,14 @@ class FamilySearchService : RemoteService {
 			self.sessionId = json["access_token"].description
             if self.sessionId!.length == 0 || self.sessionId! == "null" {
                 self.sessionId = nil
+                if err == nil {
+                    let jerror = json["error_description"]
+                    if jerror != nil {
+                        let error = NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":jerror.description])
+                        onCompletion(self.sessionId, error)
+                        return
+                    }
+                }
             }
 			onCompletion(self.sessionId, err)
 		})
