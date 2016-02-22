@@ -54,6 +54,10 @@ import UIKit
 
     @IBAction func PGVButtonClicked(sender: UIButton) {
         print("PGVButton clicked")
+        let superview = self.view.superview
         self.view.removeFromSuperview()
+        let subview = PGVLogin(frame: (self.view?.bounds)!)
+        subview.loginListener = self.loginListener
+        superview?.addSubview(subview)
     }
 }

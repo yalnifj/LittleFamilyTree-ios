@@ -11,8 +11,14 @@ class PGVService : RemoteService {
     var personCache = [String: Person]()
 	var gedcomParser:GedcomParser
     
-    init(baseUrl:String, defaultPersonId:String) {
-        self.baseUrl = baseUrl
+    init(base:String, defaultPersonId:String) {
+        self.baseUrl = base
+        if baseUrl!.hasSuffix("client.php") {
+            baseUrl = baseUrl!.substringToIndex(baseUrl!.startIndex.advancedBy(baseUrl!.characters.count-10))
+        }
+        if baseUrl!.hasSuffix("/") == false {
+            baseUrl = baseUrl! + "/"
+        }
 		self.defaultPersonId = defaultPersonId
 		gedcomParser = GedcomParser()
     }

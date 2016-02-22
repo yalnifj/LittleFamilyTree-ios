@@ -46,7 +46,7 @@ class DataService {
                 if url != nil {
                     let defaultId = self.getEncryptedProperty(DataService.ROOT_PERSON_ID)
                     if defaultId != nil {
-                        self.remoteService = PGVService(baseUrl: url!, defaultPersonId: defaultId!)
+                        self.remoteService = PGVService(base: url!, defaultPersonId: defaultId!)
                     }
                 }
 			}

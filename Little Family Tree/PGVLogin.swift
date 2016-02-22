@@ -46,6 +46,8 @@ class PGVLogin: UIView, StatusListener {
         let url = dataService.dbHelper.getProperty(DataService.SERVICE_BASEURL)
         if url != nil {
             txtUrl.text = url as String?
+        } else {
+            txtUrl.text = "http://"
         }
         let username = dataService.getEncryptedProperty(DataService.SERVICE_USERNAME)
         if username != nil {
@@ -111,7 +113,7 @@ class PGVLogin: UIView, StatusListener {
         showInfoMsg("Logging into PhpGedView")
         
         let dataService = DataService.getInstance()
-        let remoteService = PGVService(baseUrl: url!, defaultPersonId: defaultPersonId!)
+        let remoteService = PGVService(base: url!, defaultPersonId: defaultPersonId!)
         dataService.serviceType = DataService.SERVICE_TYPE_PHPGEDVIEW
         dataService.remoteService = remoteService
         
@@ -140,12 +142,12 @@ class PGVLogin: UIView, StatusListener {
                             }
                         })
                     } else {
-                        self.showAlert("Unable to get default person")
+                        self.showAlert("Unable to get default person \(err)")
                     }
                 })
                 
             } else {
-                self.showAlert("Unable to login to FamilySearch \(err)")
+                self.showAlert("Unable to login to PhpGedView \(err)")
             }
         })
     }
