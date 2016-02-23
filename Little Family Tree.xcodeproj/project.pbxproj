@@ -153,6 +153,8 @@
 		A16A1DF51C38548000761C2E /* squirt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A16A1DF41C38548000761C2E /* squirt.mp3 */; };
 		A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */; };
 		A16C37CE1BE9B4DF0036D28A /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C37CC1BE9B4DF0036D28A /* Tag.swift */; };
+		A174032E1C7C0E47007A69FF /* LabelEventSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A174032D1C7C0E47007A69FF /* LabelEventSprite.swift */; };
+		A17403371C7C1613007A69FF /* SongScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17403361C7C1613007A69FF /* SongScene.swift */; };
 		A176B79B1C28E3FD00A2A49C /* wood_back.png in Resources */ = {isa = PBXBuildFile; fileRef = A176B79A1C28E3FD00A2A49C /* wood_back.png */; };
 		A176B79D1C28E41800A2A49C /* TreeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176B79C1C28E41800A2A49C /* TreeScene.swift */; };
 		A176B79F1C28E43300A2A49C /* TreePersonSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */; };
@@ -747,6 +749,8 @@
 		A16A1DF41C38548000761C2E /* squirt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = squirt.mp3; sourceTree = "<group>"; };
 		A16C37CB1BE9B4DF0036D28A /* PlaceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceHelper.swift; sourceTree = "<group>"; };
 		A16C37CC1BE9B4DF0036D28A /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A174032D1C7C0E47007A69FF /* LabelEventSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LabelEventSprite.swift; path = sprites/LabelEventSprite.swift; sourceTree = "<group>"; };
+		A17403361C7C1613007A69FF /* SongScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongScene.swift; path = scenes/SongScene.swift; sourceTree = "<group>"; };
 		A176B79A1C28E3FD00A2A49C /* wood_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_back.png; sourceTree = "<group>"; };
 		A176B79C1C28E41800A2A49C /* TreeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreeScene.swift; path = scenes/TreeScene.swift; sourceTree = "<group>"; };
 		A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreePersonSprite.swift; path = sprites/TreePersonSprite.swift; sourceTree = "<group>"; };
@@ -1424,6 +1428,7 @@
 				A176B79E1C28E43300A2A49C /* TreePersonSprite.swift */,
 				A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */,
 				A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */,
+				A174032D1C7C0E47007A69FF /* LabelEventSprite.swift */,
 			);
 			name = sprites;
 			sourceTree = "<group>";
@@ -1444,6 +1449,7 @@
 				A1F14C9C1C4D4B750074B879 /* SplashScene.sks */,
 				A10BF0FF1BC9CE52005CAFDA /* SplashScene.swift */,
 				A176B79C1C28E41800A2A49C /* TreeScene.swift */,
+				A17403361C7C1613007A69FF /* SongScene.swift */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -2434,6 +2440,7 @@
 				A18F04A61BF7E27E00538F0B /* ChoosePlayerScene.swift in Sources */,
 				A1AE10E21BF663660043033A /* InitialDataLoader.swift in Sources */,
 				A10BF1311BC9D359005CAFDA /* Person.swift in Sources */,
+				A17403371C7C1613007A69FF /* SongScene.swift in Sources */,
 				A12B90661BDC44030014ED16 /* DataService.swift in Sources */,
 				A10BF1211BC9D359005CAFDA /* Conclusion.swift in Sources */,
 				A176B79D1C28E41800A2A49C /* TreeScene.swift in Sources */,
@@ -2461,6 +2468,7 @@
 				A1686D661BB97D3400E58A09 /* LocalRelationship.swift in Sources */,
 				A10BF1291BC9D359005CAFDA /* FieldValue.swift in Sources */,
 				A18F04B91BF7F3E500538F0B /* TextureHelper.swift in Sources */,
+				A174032E1C7C0E47007A69FF /* LabelEventSprite.swift in Sources */,
 				A10BF1381BC9D359005CAFDA /* SourceReference.swift in Sources */,
 				A10BF1361BC9D359005CAFDA /* SourceCitation.swift in Sources */,
 				A15BD0A21C74BAC000830742 /* PGVLogin.swift in Sources */,

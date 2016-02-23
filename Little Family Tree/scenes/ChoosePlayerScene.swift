@@ -11,8 +11,11 @@ import CoreImage
 
 class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
+    static var TOPIC_SIGN_IN = "sign_in"
     var dataService:DataService?
     var graybox:SKSpriteNode?
+    var titleBar:SKSpriteNode?
+    var peopleSprites = [PersonNameSprite]()
     
     override func didMoveToView(view: SKView) {
         self.size.width = view.bounds.width
@@ -26,53 +29,31 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         background.zPosition = 0
         self.addChild(background)
         
-        let titleSize = CGSizeMake(self.size.width, 30)
-        let titleBar = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
-        titleBar.position = CGPointMake(self.size.width/2, (self.size.height - titleBar.size.height/2))
+        let titleSize = CGSizeMake(self.size.width, self.size.height / 10)
+        titleBar = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
+        titleBar?.position = CGPointMake(self.size.width/2, (self.size.height - titleBar!.size.height))
+        self.addChild(titleBar!)
         
         let titleLabel = SKLabelNode(text: "Who is playing today?")
-        titleLabel.fontSize = 20
+        titleLabel.fontSize = titleBar!.size.height
         titleLabel.fontColor = UIColor.blackColor()
-        titleLabel.position = CGPointMake(0, -8)
+        titleLabel.position = CGPointMake(0, 0)
         titleLabel.zPosition = 2
-        titleBar.addChild(titleLabel)
-
-        self.addChild(titleBar)
+        titleBar!.addChild(titleLabel)
+        
+        let signInLabel = LabelEventSprite(text: "Sign-In")
+        signInLabel.fontColor = UIColor.blueColor()
+        signInLabel.fontSize = titleBar!.size.height / 2
+        signInLabel.position = CGPointMake(titleBar!.size.width - signInLabel.frame.width, 0)
+        signInLabel.zPosition = 2
+        signInLabel.userInteractionEnabled = true
+        signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN
+        titleBar!.addChild(signInLabel)
         
         dataService = DataService.getInstance()
-        dataService?.getDefaultPerson(false, onCompletion: { person, err in
-            self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
-                var width = (view.bounds.width / 3) - 5
-                if view.bounds.width > view.bounds.height {
-                    width = (view.bounds.height / 3) - 20
-                }
-                print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
-                var x = CGFloat(5.0)
-                var y = CGFloat(self.size.height - (width + titleBar.size.height + 5))
-                for p in family! {
-                    print("\(p.name!) (\(x),\(y))")
-                    let sprite = PersonNameSprite()
-                    sprite.userInteractionEnabled = true
-                    sprite.position = CGPointMake(x, y)
-                    sprite.size.width = width
-                    sprite.size.height = width
-                    sprite.person = p
-                    sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
-                    self.addChild(sprite)
-                    
-                    x += width + 5
-                    if x > view.bounds.width - width {
-                        x = CGFloat(5)
-                        y -= width + 5
-                    }
-                }
-                let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
-                if showGuide != nil && showGuide! != "true" {
-                    self.speak("Who is playing today?")
-                }
-            })
-        })
+        loadPeople()
         EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
+        EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_SIGN_IN, listener: self)
         
         let showGuide = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
         if showGuide == nil || showGuide! == "true" {
@@ -116,6 +97,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
+        EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_SIGN_IN, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -133,11 +115,63 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             nextScene.selectedPerson = person
             scene?.view?.presentScene(nextScene, transition: transition)
         }
+        else if topic == ChoosePlayerScene.TOPIC_SIGN_IN {
+            if dataService?.serviceType == DataService.SERVICE_TYPE_FAMILYSEARCH {
+                let subview = FamilySearchLogin(frame: (self.view?.bounds)!)
+                subview.loginListener = self
+                self.view!.addSubview(subview)
+            } else if dataService?.serviceType == DataService.SERVICE_TYPE_PHPGEDVIEW {
+                let subview = PGVLogin(frame: (self.view?.bounds)!)
+                subview.loginListener = self
+                self.view!.addSubview(subview)
+            }
+        }
     }
     
     func onClose() {
         self.filter = nil
         graybox!.removeFromParent()
         self.speak("Who is playing today?")
+    }
+    
+    func loadPeople() {
+        dataService?.getDefaultPerson(false, onCompletion: { person, err in
+            self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
+                self.peopleSprites.removeAll()
+                var width = (self.view!.bounds.width / 3) - 5
+                if self.view!.bounds.width > self.view!.bounds.height {
+                    width = (self.view!.bounds.height / 3) - 20
+                }
+                //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
+                var x = CGFloat(5.0)
+                var y = CGFloat(self.size.height - (width + self.titleBar!.size.height + 5))
+                for p in family! {
+                    print("\(p.name!) (\(x),\(y))")
+                    let sprite = PersonNameSprite()
+                    sprite.userInteractionEnabled = true
+                    sprite.position = CGPointMake(x, y)
+                    sprite.size.width = width
+                    sprite.size.height = width
+                    sprite.person = p
+                    sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
+                    self.addChild(sprite)
+                    self.peopleSprites.append(sprite)
+                    
+                    x += width + 5
+                    if x > self.view!.bounds.width - width {
+                        x = CGFloat(5)
+                        y -= width + 5
+                    }
+                }
+                let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
+                if showGuide != nil && showGuide! != "true" {
+                    self.speak("Who is playing today?")
+                }
+            })
+        })
+    }
+    
+    override func LoginComplete() {
+       loadPeople()
     }
 }
