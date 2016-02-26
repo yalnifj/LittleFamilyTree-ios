@@ -313,7 +313,11 @@ class DBHelper {
             person = LittlePerson()
             person!.id = (c[0] as! Int64)
             if c[1] != nil {
-                person!.birthDate = (c[1] as! NSDate?)
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                let parts = (c[1] as! String).split("T")
+                let birthDate = formatter.dateFromString(parts[0])
+                person!.birthDate = birthDate
             }
             if c[2] != nil { person!.birthPlace = (c[2] as! String) }
             if c[3] != nil { person!.nationality = (c[3] as! String?) }
@@ -331,19 +335,25 @@ class DBHelper {
                     person!.gender = GenderType.UNKNOWN
                 }
             }
-            person!.age = (c[6] as! Int)
+            person!.age = Int(c[6] as! Int64)
             if c[7] != nil { person!.givenName = (c[7] as! String?) }
             if c[8] != nil { person!.name = (c[8] as! String?) }
             if c[9] != nil { person!.photoPath = (c[9] as! String?) }
-            person!.lastSync = (c[10] as! NSDate?)
+            if c[10] != nil {
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
+                let parts = (c[10] as! String).split(".")
+                let syncDate = formatter.dateFromString(parts[0])
+                person!.lastSync = syncDate
+            }
             
-            person!.alive = (c[11] as! Bool)
-            person!.active = (c[12] as! Bool)
-            if c[13] != nil { person!.hasParents = (c[13] as! Bool) }
-            if c[14] != nil { person!.hasChildren = (c[14] as! Bool) }
-            if c[15] != nil { person!.hasSpouses = (c[15] as! Bool) }
-            if c[16] != nil { person!.hasMedia = (c[16] as! Bool) }
-            if c[17] != nil { person!.treeLevel = (c[17] as! Int) }
+            person!.alive = (c[11] as! Int64 == 1)
+            person!.active = (c[12] as! Int64 == 1)
+            if c[13] != nil { person!.hasParents = (c[13] as! Int64 == 1) }
+            if c[14] != nil { person!.hasChildren = (c[14] as! Int64 == 1) }
+            if c[15] != nil { person!.hasSpouses = (c[15] as! Int64 == 1) }
+            if c[16] != nil { person!.hasMedia = (c[16] as! Int64 == 1) }
+            if c[17] != nil { person!.treeLevel = Int(c[17] as! Int64) }
 			if c[18] != nil { person!.occupation = (c[18] as! String?) }
             person!.updateAge()
 

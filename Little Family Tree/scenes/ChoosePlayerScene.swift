@@ -34,7 +34,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         titleBar?.position = CGPointMake(self.size.width/2, (self.size.height - titleBar!.size.height))
         self.addChild(titleBar!)
         
-        let titleBackground = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
+        let titleBackground = SKSpriteNode(color: UIColor.lightGrayColor(), size: titleSize)
         titleBackground.zPosition = 1
         titleBackground.position = CGPointMake(0,titleSize.height / 2)
         titleBar!.addChild(titleBackground)
@@ -42,14 +42,14 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         let titleLabel = SKLabelNode(text: "Who is playing today?")
         titleLabel.fontSize = titleBar!.size.height * 0.8
         titleLabel.fontColor = UIColor.blackColor()
-        titleLabel.position = CGPointMake(0, titleSize.height / 2)
+        titleLabel.position = CGPointMake(0, titleLabel.fontSize / 3)
         titleLabel.zPosition = 2
         titleBar!.addChild(titleLabel)
         
         let signInLabel = LabelEventSprite(text: "Sign In")
         signInLabel.fontColor = UIColor.blueColor()
         signInLabel.fontSize = titleBar!.size.height / 2
-        signInLabel.position = CGPointMake(0, titleSize.height / 2)
+        signInLabel.position = CGPointMake((titleSize.width / 2) - 50, signInLabel.fontSize / 2)
         signInLabel.zPosition = 3
         signInLabel.userInteractionEnabled = true
         signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN

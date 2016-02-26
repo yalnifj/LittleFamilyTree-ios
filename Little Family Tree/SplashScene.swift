@@ -72,6 +72,8 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
             quietToggle.nextState()
         }
         
+        //dataService!.dbHelper.getRandomPersonWithMedia()
+        
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
     }
     
