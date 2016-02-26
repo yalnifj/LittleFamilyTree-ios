@@ -67,7 +67,7 @@ class DataService {
 		if token != nil {
 			if remoteService?.sessionId == nil && !authenticating {
 				authenticating = true
-				remoteService?.authenticate(username! as String, password: token! as String, onCompletion: { json, err in
+				remoteService?.authenticate(username! as String, password: token! as String, onCompletion: { data, err in
 					self.authenticating = false
 					
 				})

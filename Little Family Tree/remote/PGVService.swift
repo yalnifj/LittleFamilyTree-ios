@@ -74,7 +74,7 @@ class PGVService : RemoteService {
 
 		var headers = [String: String]()
 		headers["User-Agent"] = "PGVAgent"
-		headers["Cookie"] = "(\(sessionName)=\(sessionId); "
+		headers["Cookie"] = "\(sessionName!)=\(sessionId!)"
 		
 		makeHTTPPostRequest(self.baseUrl! + "client.php", body: params, headers: headers, onCompletion: {data, err in
 			if data != nil {
@@ -83,7 +83,10 @@ class PGVService : RemoteService {
 					let record = data!.substringFromIndex(zeroRange.toRange()!.startIndex)
 					onCompletion(record, err)
 					return
-				}
+                } else if err == nil{
+                    onCompletion(nil, NSError(domain: "PGVService", code: 500, userInfo: ["message":data!]))
+                    return
+                }
 			}
 			onCompletion(nil, err)
 		})
@@ -163,7 +166,7 @@ class PGVService : RemoteService {
 												if sd != nil {
 													for link2 in sd!.links {
 														if link2.rel == "image" {
-															if portrait == nil || sd?.sortKey! == "1" {
+															if portrait == nil || (sd?.sortKey != nil && sd?.sortKey! == "1") {
 																portrait = link2
 															}
 														}
@@ -484,7 +487,7 @@ class PGVService : RemoteService {
         let session = NSURLSession.sharedSession()
 		var headers = [String: String]()
 		headers["User-Agent"] = "PGVAgent"
-		headers["Cookie"] = "\(sessionName!)=\(sessionId!); "
+		headers["Cookie"] = "\(sessionName!)=\(sessionId!)"
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -571,7 +574,7 @@ class PGVService : RemoteService {
 		request.HTTPMethod = "POST"
         
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        //request.setValue("application/json", forHTTPHeaderField: "Accept")
 		
 		// Set the headers
 		for(field, value) in headers {

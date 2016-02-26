@@ -86,6 +86,27 @@
 		A117C73A1BA4AD0000964D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A117C7391BA4AD0000964D50 /* Images.xcassets */; };
 		A117C73D1BA4AD0000964D50 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A117C73B1BA4AD0000964D50 /* LaunchScreen.xib */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
+		A11BA2831C8023D4008E8208 /* clarinet.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2701C8023D4008E8208 /* clarinet.png */; };
+		A11BA2841C8023D4008E8208 /* clarinet_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2711C8023D4008E8208 /* clarinet_off.png */; };
+		A11BA2851C8023D4008E8208 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2721C8023D4008E8208 /* drums.png */; };
+		A11BA2861C8023D4008E8208 /* drums_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2731C8023D4008E8208 /* drums_allinourfamilytree.mp3 */; };
+		A11BA2871C8023D4008E8208 /* drums_myhistory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2741C8023D4008E8208 /* drums_myhistory.mp3 */; };
+		A11BA2881C8023D4008E8208 /* drums_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2751C8023D4008E8208 /* drums_off.png */; };
+		A11BA2891C8023D4008E8208 /* flute_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2761C8023D4008E8208 /* flute_allinourfamilytree.mp3 */; };
+		A11BA28A1C8023D4008E8208 /* flute_myhistory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2771C8023D4008E8208 /* flute_myhistory.mp3 */; };
+		A11BA28B1C8023D4008E8208 /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2781C8023D4008E8208 /* piano.png */; };
+		A11BA28C1C8023D4008E8208 /* piano_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2791C8023D4008E8208 /* piano_allinourfamilytree.mp3 */; };
+		A11BA28D1C8023D4008E8208 /* piano_myhistory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27A1C8023D4008E8208 /* piano_myhistory.mp3 */; };
+		A11BA28E1C8023D4008E8208 /* piano_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27B1C8023D4008E8208 /* piano_off.png */; };
+		A11BA28F1C8023D4008E8208 /* stage.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27C1C8023D4008E8208 /* stage.png */; };
+		A11BA2901C8023D4008E8208 /* violin.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27D1C8023D4008E8208 /* violin.png */; };
+		A11BA2911C8023D4008E8208 /* violin_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27E1C8023D4008E8208 /* violin_allinourfamilytree.mp3 */; };
+		A11BA2921C8023D4008E8208 /* violin_myhistory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA27F1C8023D4008E8208 /* violin_myhistory.mp3 */; };
+		A11BA2931C8023D4008E8208 /* violin_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2801C8023D4008E8208 /* violin_off.png */; };
+		A11BA2941C8023D4008E8208 /* voice_allinourfamilytree.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2811C8023D4008E8208 /* voice_allinourfamilytree.mp3 */; };
+		A11BA2951C8023D4008E8208 /* voice_myhistory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A11BA2821C8023D4008E8208 /* voice_myhistory.mp3 */; };
+		A11BA2971C802522008E8208 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA2961C802522008E8208 /* Song.swift */; };
+		A11BA2991C8025EC008E8208 /* SongPersonAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */; };
 		A11E31191C67062300DA2B5F /* SearchPeople.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E31181C67062300DA2B5F /* SearchPeople.xib */; };
 		A11E311B1C67067100DA2B5F /* SearchPeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11E311A1C67067100DA2B5F /* SearchPeople.swift */; };
 		A11E311D1C6A2E4400DA2B5F /* PersonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11E311C1C6A2E4400DA2B5F /* PersonDetailsView.swift */; };
@@ -106,7 +127,6 @@
 		A149A9691C49B0A300367342 /* quiet_mode_on.png in Resources */ = {isa = PBXBuildFile; fileRef = A149A9671C49B0A300367342 /* quiet_mode_on.png */; };
 		A14C1A161C075C4200F59DE1 /* LittleFamilyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14C1A151C075C4200F59DE1 /* LittleFamilyScene.swift */; };
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
-		A15B0ADD1C59BFD7000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
 		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A15B0AE21C59CC24000B6B33 /* sobelAlphaShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE11C59CC24000B6B33 /* sobelAlphaShader.fsh */; };
 		A15B0AE41C59CE72000B6B33 /* alphaMaskShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A15B0AE31C59CE72000B6B33 /* alphaMaskShader.fsh */; };
@@ -683,6 +703,27 @@
 		A117C7421BA4AD0100964D50 /* Little Family TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Little Family TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
+		A11BA2701C8023D4008E8208 /* clarinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clarinet.png; sourceTree = "<group>"; };
+		A11BA2711C8023D4008E8208 /* clarinet_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clarinet_off.png; sourceTree = "<group>"; };
+		A11BA2721C8023D4008E8208 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
+		A11BA2731C8023D4008E8208 /* drums_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drums_allinourfamilytree.mp3; sourceTree = "<group>"; };
+		A11BA2741C8023D4008E8208 /* drums_myhistory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drums_myhistory.mp3; sourceTree = "<group>"; };
+		A11BA2751C8023D4008E8208 /* drums_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums_off.png; sourceTree = "<group>"; };
+		A11BA2761C8023D4008E8208 /* flute_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flute_allinourfamilytree.mp3; sourceTree = "<group>"; };
+		A11BA2771C8023D4008E8208 /* flute_myhistory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flute_myhistory.mp3; sourceTree = "<group>"; };
+		A11BA2781C8023D4008E8208 /* piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piano.png; sourceTree = "<group>"; };
+		A11BA2791C8023D4008E8208 /* piano_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano_allinourfamilytree.mp3; sourceTree = "<group>"; };
+		A11BA27A1C8023D4008E8208 /* piano_myhistory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano_myhistory.mp3; sourceTree = "<group>"; };
+		A11BA27B1C8023D4008E8208 /* piano_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piano_off.png; sourceTree = "<group>"; };
+		A11BA27C1C8023D4008E8208 /* stage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stage.png; sourceTree = "<group>"; };
+		A11BA27D1C8023D4008E8208 /* violin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = violin.png; sourceTree = "<group>"; };
+		A11BA27E1C8023D4008E8208 /* violin_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = violin_allinourfamilytree.mp3; sourceTree = "<group>"; };
+		A11BA27F1C8023D4008E8208 /* violin_myhistory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = violin_myhistory.mp3; sourceTree = "<group>"; };
+		A11BA2801C8023D4008E8208 /* violin_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = violin_off.png; sourceTree = "<group>"; };
+		A11BA2811C8023D4008E8208 /* voice_allinourfamilytree.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_allinourfamilytree.mp3; sourceTree = "<group>"; };
+		A11BA2821C8023D4008E8208 /* voice_myhistory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_myhistory.mp3; sourceTree = "<group>"; };
+		A11BA2961C802522008E8208 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Song.swift; path = gamelogic/Song.swift; sourceTree = "<group>"; };
+		A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongPersonAttributes.swift; path = gamelogic/SongPersonAttributes.swift; sourceTree = "<group>"; };
 		A11E31181C67062300DA2B5F /* SearchPeople.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchPeople.xib; path = views/SearchPeople.xib; sourceTree = "<group>"; };
 		A11E311A1C67067100DA2B5F /* SearchPeople.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPeople.swift; path = views/SearchPeople.swift; sourceTree = "<group>"; };
 		A11E311C1C6A2E4400DA2B5F /* PersonDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonDetailsView.swift; path = views/PersonDetailsView.swift; sourceTree = "<group>"; };
@@ -1106,7 +1147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
-				A15B0ADD1C59BFD7000B6B33 /* GPUImage.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 				A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */,
 			);
@@ -1280,6 +1320,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A11BA26F1C8023D4008E8208 /* song */ = {
+			isa = PBXGroup;
+			children = (
+				A11BA2701C8023D4008E8208 /* clarinet.png */,
+				A11BA2711C8023D4008E8208 /* clarinet_off.png */,
+				A11BA2721C8023D4008E8208 /* drums.png */,
+				A11BA2731C8023D4008E8208 /* drums_allinourfamilytree.mp3 */,
+				A11BA2741C8023D4008E8208 /* drums_myhistory.mp3 */,
+				A11BA2751C8023D4008E8208 /* drums_off.png */,
+				A11BA2761C8023D4008E8208 /* flute_allinourfamilytree.mp3 */,
+				A11BA2771C8023D4008E8208 /* flute_myhistory.mp3 */,
+				A11BA2781C8023D4008E8208 /* piano.png */,
+				A11BA2791C8023D4008E8208 /* piano_allinourfamilytree.mp3 */,
+				A11BA27A1C8023D4008E8208 /* piano_myhistory.mp3 */,
+				A11BA27B1C8023D4008E8208 /* piano_off.png */,
+				A11BA27C1C8023D4008E8208 /* stage.png */,
+				A11BA27D1C8023D4008E8208 /* violin.png */,
+				A11BA27E1C8023D4008E8208 /* violin_allinourfamilytree.mp3 */,
+				A11BA27F1C8023D4008E8208 /* violin_myhistory.mp3 */,
+				A11BA2801C8023D4008E8208 /* violin_off.png */,
+				A11BA2811C8023D4008E8208 /* voice_allinourfamilytree.mp3 */,
+				A11BA2821C8023D4008E8208 /* voice_myhistory.mp3 */,
+			);
+			path = song;
+			sourceTree = "<group>";
+		};
 		A15B0AD01C59BF65000B6B33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1300,6 +1366,8 @@
 				A17C32591C1A676200F64737 /* RandomMediaChooser.swift */,
 				A1064FD01C34C3490016A9C6 /* RecentPersonTracker.swift */,
 				A1064FCC1C3372F20016A9C6 /* TreeSearchGame.swift */,
+				A11BA2961C802522008E8208 /* Song.swift */,
+				A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */,
 			);
 			name = gamelogic;
 			sourceTree = "<group>";
@@ -1492,6 +1560,7 @@
 				A149A9671C49B0A300367342 /* quiet_mode_on.png */,
 				A11E31201C6A37A500DA2B5F /* refresh.png */,
 				A1F8630B1C3C159500838CEC /* settings.png */,
+				A11BA26F1C8023D4008E8208 /* song */,
 				A1F81C4F1BF3AFDF00078870 /* sounds */,
 				A17C324E1C1A65A200F64737 /* star1.png */,
 				A176B7A71C28E98100A2A49C /* tree */,
@@ -1873,7 +1942,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Melissa;
 				TargetAttributes = {
 					A117C7281BA4AD0000964D50 = {
@@ -2051,6 +2120,7 @@
 				A1F81D731BF3AFDF00078870 /* intro.wav in Resources */,
 				A1F81D351BF3AFDF00078870 /* house_toys_bat8.png in Resources */,
 				A1F81D3C1BF3AFDF00078870 /* house_toys_blocks5.png in Resources */,
+				A11BA28B1C8023D4008E8208 /* piano.png in Resources */,
 				A1F81D421BF3AFDF00078870 /* house_toys_horse2.png in Resources */,
 				A1F81D171BF3AFDF00078870 /* house_toaster20.png in Resources */,
 				A1064FB51C3372CA0016A9C6 /* bubbles7.png in Resources */,
@@ -2071,6 +2141,8 @@
 				A16241AF1C063374009205F1 /* frame4.png in Resources */,
 				A1F81D861BF3AFDF00078870 /* trumpet_track.mp3 in Resources */,
 				A176B7C51C28E98100A2A49C /* leaves_overlay5.png in Resources */,
+				A11BA2851C8023D4008E8208 /* drums.png in Resources */,
+				A11BA2861C8023D4008E8208 /* drums_allinourfamilytree.mp3 in Resources */,
 				A1F81C7D1BF3AFDF00078870 /* house_chilldroom_bed.png in Resources */,
 				A1F81D871BF3AFDF00078870 /* violin_allinourfamilytree.mp3 in Resources */,
 				A1F81CD31BF3AFDF00078870 /* house_flowers_a2.png in Resources */,
@@ -2095,6 +2167,7 @@
 				A1F81D051BF3AFDF00078870 /* house_music_guitar3.png in Resources */,
 				A1F81CCC1BF3AFDF00078870 /* house_familyroom_frame7.png in Resources */,
 				A176B7CE1C28E98100A2A49C /* tree_search7.png in Resources */,
+				A11BA2921C8023D4008E8208 /* violin_myhistory.mp3 in Resources */,
 				A1244A9D1C5C8EAC0074BC4E /* play_together.png in Resources */,
 				A1F81CF61BF3AFDF00078870 /* house_light_a2.png in Resources */,
 				A1F81D491BF3AFDF00078870 /* house_tree_bird1.png in Resources */,
@@ -2108,6 +2181,7 @@
 				A1F81C801BF3AFDF00078870 /* house_chilldroom_desk10.png in Resources */,
 				A176B7C21C28E98100A2A49C /* leaves_overlay2.png in Resources */,
 				A1F81D991BF3E8AD00078870 /* tree_logotype_1x.png in Resources */,
+				A11BA28F1C8023D4008E8208 /* stage.png in Resources */,
 				A1F81C741BF3AFDF00078870 /* house_adult_wardrobe1.png in Resources */,
 				A1653C851C2BAD9900D586E5 /* camera.png in Resources */,
 				A1F81D161BF3AFDF00078870 /* house_toaster2.png in Resources */,
@@ -2166,6 +2240,7 @@
 				A1F81D591BF3AFDF00078870 /* house_rooms_2_0.png in Resources */,
 				A176B7C11C28E98100A2A49C /* leaves_overlay1.png in Resources */,
 				A1064FB91C3372CA0016A9C6 /* faucet3.png in Resources */,
+				A11BA28A1C8023D4008E8208 /* flute_myhistory.mp3 in Resources */,
 				A176B7A31C28E6CE00A2A49C /* colors.png in Resources */,
 				A1F81C9A1BF3AFDF00078870 /* house_chilldroom_paint2.png in Resources */,
 				A1064FB21C3372CA0016A9C6 /* bubbles4.png in Resources */,
@@ -2177,6 +2252,7 @@
 				A1F81CDC1BF3AFDF00078870 /* house_kitchen_freezer.png in Resources */,
 				A1F81D501BF3AFDF00078870 /* house_rooms_0_1.png in Resources */,
 				A176B7D21C28E98100A2A49C /* vine3.png in Resources */,
+				A11BA2891C8023D4008E8208 /* flute_allinourfamilytree.mp3 in Resources */,
 				A1F81C861BF3AFDF00078870 /* house_chilldroom_desk16.png in Resources */,
 				A1F81C7F1BF3AFDF00078870 /* house_chilldroom_desk1.png in Resources */,
 				A1F81CA51BF3AFDF00078870 /* house_chilldroom_teddy4.png in Resources */,
@@ -2185,6 +2261,7 @@
 				A1064FBE1C3372CA0016A9C6 /* soap1.png in Resources */,
 				A1F81D371BF3AFDF00078870 /* house_toys_blocks.png in Resources */,
 				A1F81D9F1BF4078600078870 /* FamilySearchLogin.xib in Resources */,
+				A11BA2881C8023D4008E8208 /* drums_off.png in Resources */,
 				A1F81D221BF3AFDF00078870 /* house_toys_bat10.png in Resources */,
 				A1F81D751BF3AFDF00078870 /* nopop.mp3 in Resources */,
 				A1F81D631BF3AFDF00078870 /* house_rooms_4_1.png in Resources */,
@@ -2200,6 +2277,7 @@
 				A1F81C791BF3AFDF00078870 /* house_adult_wardrobe6.png in Resources */,
 				A1F81CA01BF3AFDF00078870 /* house_chilldroom_paint8.png in Resources */,
 				A1F81D2F1BF3AFDF00078870 /* house_toys_bat22.png in Resources */,
+				A11BA2831C8023D4008E8208 /* clarinet.png in Resources */,
 				A1F81D691BF3AFDF00078870 /* beepboop.mp3 in Resources */,
 				A1F81D561BF3AFDF00078870 /* house_rooms_1_2.png in Resources */,
 				A176B7D31C28E98100A2A49C /* vine_arrow.png in Resources */,
@@ -2231,12 +2309,14 @@
 				A1F81D511BF3AFDF00078870 /* house_rooms_0_2.png in Resources */,
 				A1F8630A1C3C111D00838CEC /* SettingsView.xib in Resources */,
 				A1F81D6C1BF3AFDF00078870 /* drums_allinourfamilytree.mp3 in Resources */,
+				A11BA2951C8023D4008E8208 /* voice_myhistory.mp3 in Resources */,
 				A1064FB61C3372CA0016A9C6 /* bubbles8.png in Resources */,
 				A11E31191C67062300DA2B5F /* SearchPeople.xib in Resources */,
 				A176B7CF1C28E98100A2A49C /* tree_search8.png in Resources */,
 				A1F81D641BF3AFDF00078870 /* house_rooms_4_2.png in Resources */,
 				A1064FBB1C3372CA0016A9C6 /* faucet5.png in Resources */,
 				A18F04AD1BF7F13000538F0B /* boy.png in Resources */,
+				A11BA28D1C8023D4008E8208 /* piano_myhistory.mp3 in Resources */,
 				A1F81D531BF3AFDF00078870 /* house_rooms_0_4.png in Resources */,
 				A1F81D241BF3AFDF00078870 /* house_toys_bat12.png in Resources */,
 				A1F81D621BF3AFDF00078870 /* house_rooms_3_4.png in Resources */,
@@ -2281,6 +2361,7 @@
 				A176B7D11C28E98100A2A49C /* vine2.png in Resources */,
 				A1F81CC21BF3AFDF00078870 /* house_familyroom_frame20.png in Resources */,
 				A1F81CA11BF3AFDF00078870 /* house_chilldroom_paint9.png in Resources */,
+				A11BA28E1C8023D4008E8208 /* piano_off.png in Resources */,
 				A1F81C871BF3AFDF00078870 /* house_chilldroom_desk17.png in Resources */,
 				A1F81C8B1BF3AFDF00078870 /* house_chilldroom_desk3.png in Resources */,
 				A1F81C731BF3AFDF00078870 /* house_adult_wardrobe.png in Resources */,
@@ -2297,6 +2378,7 @@
 				A1F81CC81BF3AFDF00078870 /* house_familyroom_frame3.png in Resources */,
 				A1F81D151BF3AFDF00078870 /* house_toaster19.png in Resources */,
 				A1F81CBD1BF3AFDF00078870 /* house_familyroom_frame16.png in Resources */,
+				A11BA2911C8023D4008E8208 /* violin_allinourfamilytree.mp3 in Resources */,
 				A176B79B1C28E3FD00A2A49C /* wood_back.png in Resources */,
 				A176B7C31C28E98100A2A49C /* leaves_overlay3.png in Resources */,
 				A1F81CBA1BF3AFDF00078870 /* house_familyroom_frame13.png in Resources */,
@@ -2309,14 +2391,17 @@
 				A1F81CD51BF3AFDF00078870 /* house_flowers_a4.png in Resources */,
 				A1F81D311BF3AFDF00078870 /* house_toys_bat4.png in Resources */,
 				A1F81CA61BF3AFDF00078870 /* house_chilldroom_teddy5.png in Resources */,
+				A11BA2931C8023D4008E8208 /* violin_off.png in Resources */,
 				A176B7C71C28E98100A2A49C /* tree_search.png in Resources */,
 				A1F81D4C1BF3AFDF00078870 /* house_tree_bird4.png in Resources */,
 				A18F04AC1BF7F13000538F0B /* baby.png in Resources */,
 				A1F81C991BF3AFDF00078870 /* house_chilldroom_paint15.png in Resources */,
 				A1F81CAB1BF3AFDF00078870 /* house_cloud1c.png in Resources */,
+				A11BA2941C8023D4008E8208 /* voice_allinourfamilytree.mp3 in Resources */,
 				A16241B21C063374009205F1 /* frame7.png in Resources */,
 				A1F81CC31BF3AFDF00078870 /* house_familyroom_frame21.png in Resources */,
 				A16241C01C063FDC009205F1 /* match_back.png in Resources */,
+				A11BA28C1C8023D4008E8208 /* piano_allinourfamilytree.mp3 in Resources */,
 				A1F81D2A1BF3AFDF00078870 /* house_toys_bat18.png in Resources */,
 				A1064FBD1C3372CA0016A9C6 /* sink.png in Resources */,
 				A1F81CEE1BF3AFDF00078870 /* house_kitchen_kettle3.png in Resources */,
@@ -2351,6 +2436,7 @@
 				A1F81D4F1BF3AFDF00078870 /* house_tree_bird7.png in Resources */,
 				A1F81D191BF3AFDF00078870 /* house_toaster3.png in Resources */,
 				A1F81D5A1BF3AFDF00078870 /* house_rooms_2_1.png in Resources */,
+				A11BA2871C8023D4008E8208 /* drums_myhistory.mp3 in Resources */,
 				A1F81CF11BF3AFDF00078870 /* house_kitchen_kettle6.png in Resources */,
 				A1F81C971BF3AFDF00078870 /* house_chilldroom_paint13.png in Resources */,
 				A1F81D5D1BF3AFDF00078870 /* house_rooms_2_4.png in Resources */,
@@ -2364,9 +2450,11 @@
 				A1064FAB1C3372CA0016A9C6 /* bubble_spot.png in Resources */,
 				A1F81C761BF3AFDF00078870 /* house_adult_wardrobe3.png in Resources */,
 				A1244AA41C5CAD8E0074BC4E /* rw.png in Resources */,
+				A11BA2841C8023D4008E8208 /* clarinet_off.png in Resources */,
 				A1F81C911BF3AFDF00078870 /* house_chilldroom_desk9.png in Resources */,
 				A1F81D571BF3AFDF00078870 /* house_rooms_1_3.png in Resources */,
 				A1F81CD41BF3AFDF00078870 /* house_flowers_a3.png in Resources */,
+				A11BA2901C8023D4008E8208 /* violin.png in Resources */,
 				A1064FAE1C3372CA0016A9C6 /* bubble_spot_h.png in Resources */,
 				A1F81D2C1BF3AFDF00078870 /* house_toys_bat2.png in Resources */,
 				A176B7C81C28E98100A2A49C /* tree_search1.png in Resources */,
@@ -2393,6 +2481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A11BA2971C802522008E8208 /* Song.swift in Sources */,
 				A10BF1271BC9D359005CAFDA /* Fact.swift in Sources */,
 				A10BF11F1BC9D359005CAFDA /* Attribution.swift in Sources */,
 				A10BF1281BC9D359005CAFDA /* Field.swift in Sources */,
@@ -2455,6 +2544,7 @@
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
 				A1AC2B351C1D03D5000028A1 /* PuzzleGame.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,
+				A11BA2991C8025EC008E8208 /* SongPersonAttributes.swift in Sources */,
 				A10BF1241BC9D359005CAFDA /* DisplayProperties.swift in Sources */,
 				A1064FD31C34C8C80016A9C6 /* PersonBubbleSprite.swift in Sources */,
 				A16241A31C06326F009205F1 /* MatchingGame.swift in Sources */,

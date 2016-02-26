@@ -29,23 +29,28 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         background.zPosition = 0
         self.addChild(background)
         
-        let titleSize = CGSizeMake(self.size.width, self.size.height / 10)
+        let titleSize = CGSizeMake(self.size.width, self.size.height / 15)
         titleBar = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
         titleBar?.position = CGPointMake(self.size.width/2, (self.size.height - titleBar!.size.height))
         self.addChild(titleBar!)
         
+        let titleBackground = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
+        titleBackground.zPosition = 1
+        titleBackground.position = CGPointMake(0,titleSize.height / 2)
+        titleBar!.addChild(titleBackground)
+        
         let titleLabel = SKLabelNode(text: "Who is playing today?")
-        titleLabel.fontSize = titleBar!.size.height
+        titleLabel.fontSize = titleBar!.size.height * 0.8
         titleLabel.fontColor = UIColor.blackColor()
-        titleLabel.position = CGPointMake(0, 0)
+        titleLabel.position = CGPointMake(0, titleSize.height / 2)
         titleLabel.zPosition = 2
         titleBar!.addChild(titleLabel)
         
-        let signInLabel = LabelEventSprite(text: "Sign-In")
+        let signInLabel = LabelEventSprite(text: "Sign In")
         signInLabel.fontColor = UIColor.blueColor()
         signInLabel.fontSize = titleBar!.size.height / 2
-        signInLabel.position = CGPointMake(titleBar!.size.width - signInLabel.frame.width, 0)
-        signInLabel.zPosition = 2
+        signInLabel.position = CGPointMake(0, titleSize.height / 2)
+        signInLabel.zPosition = 3
         signInLabel.userInteractionEnabled = true
         signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN
         titleBar!.addChild(signInLabel)
