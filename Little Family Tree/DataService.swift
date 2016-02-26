@@ -615,13 +615,29 @@ class DataService {
 		person.familySearchId = fsPerson.id
 		person.gender = fsPerson.gender
 		var name:Name? = nil
+		var nickname:Name? = nil
 		for n in fsPerson.names {
             if name == nil || (n.preferred != nil && n.preferred == true) {
                 name = n
             }
+			if nickName==null && n.type== "http://gedcomx.org/Nickname" {
+				nickName = n
+			}
         }
-		
-		if name != nil {
+		//-- get preferred given name
+        if fsPerson.living != nil && fsPerson.living==true && nickName != nil {
+            let forms = nickName!.nameForms
+            if forms.count > 0 {
+                let parts = forms[0].parts
+                for p in parts {
+					if p.type == "http://gedcomx.org/Given" {
+						person.givenName = p.value
+						break
+					}
+				}
+            }
+        }
+		if person.givenName == nil && name != nil {
 			let forms = name!.nameForms
 			
             let parts = forms[0].parts
