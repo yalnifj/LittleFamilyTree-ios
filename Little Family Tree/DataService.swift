@@ -44,7 +44,7 @@ class DataService {
 			else if serviceType == DataService.SERVICE_TYPE_PHPGEDVIEW {
                 let url = dbHelper.getProperty(DataService.SERVICE_BASEURL)
                 if url != nil {
-                    let defaultId = self.getEncryptedProperty(DataService.ROOT_PERSON_ID)
+                    let defaultId = self.dbHelper.getProperty(DataService.SERVICE_DEFAULTPERSONID)
                     if defaultId != nil {
                         self.remoteService = PGVService(base: url!, defaultPersonId: defaultId!)
                     }
@@ -91,8 +91,11 @@ class DataService {
 			let idStr = dbHelper.getProperty(DataService.ROOT_PERSON_ID)
 			if idStr != nil {
 				let id = Int64(idStr! as String)
-				person = dbHelper.getPersonById(id!)
-			} else {
+                if id != nil {
+                    person = dbHelper.getPersonById(id!)
+                }
+			}
+            if person == nil {
 				person = dbHelper.getFirstPerson()
 				if person != nil {
 					dbHelper.saveProperty(DataService.ROOT_PERSON_ID, value: String(person!.id!))
@@ -620,13 +623,13 @@ class DataService {
             if name == nil || (n.preferred != nil && n.preferred == true) {
                 name = n
             }
-			if nickName==null && n.type== "http://gedcomx.org/Nickname" {
-				nickName = n
+			if nickname == nil && n.type == "http://gedcomx.org/Nickname" {
+				nickname = n
 			}
         }
 		//-- get preferred given name
-        if fsPerson.living != nil && fsPerson.living==true && nickName != nil {
-            let forms = nickName!.nameForms
+        if fsPerson.living != nil && fsPerson.living==true && nickname != nil {
+            let forms = nickname!.nameForms
             if forms.count > 0 {
                 let parts = forms[0].parts
                 for p in parts {

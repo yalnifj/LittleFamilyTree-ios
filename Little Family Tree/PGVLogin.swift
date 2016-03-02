@@ -53,7 +53,7 @@ class PGVLogin: UIView, StatusListener {
         if username != nil {
             txtUsername.text = username as String?
         }
-        let defaultId = dataService.getEncryptedProperty(DataService.ROOT_PERSON_ID)
+        let defaultId = dataService.dbHelper.getProperty(DataService.SERVICE_DEFAULTPERSONID)
         if defaultId != nil {
             txtDefaultId.text = defaultId as String?
         }
@@ -124,7 +124,7 @@ class PGVLogin: UIView, StatusListener {
                 dataService.dbHelper.saveProperty(DataService.SERVICE_BASEURL, value: url!)
                 dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: username!);
                 dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_PHPGEDVIEW + DataService.SERVICE_TOKEN, value: password!);
-                dataService.saveEncryptedProperty(DataService.ROOT_PERSON_ID, value: defaultPersonId!);
+                dataService.dbHelper.saveProperty(DataService.SERVICE_DEFAULTPERSONID, value: defaultPersonId!);
                 
                 dataService.addStatusListener(self)
                 dataService.getDefaultPerson(true, onCompletion: { person, err in
