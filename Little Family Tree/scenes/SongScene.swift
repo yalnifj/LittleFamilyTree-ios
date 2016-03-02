@@ -10,6 +10,9 @@ import Foundation
 import SpriteKit
 
 class SongScene: LittleFamilyScene {
+    
+    var stage:SKSpriteNode?
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
@@ -22,6 +25,21 @@ class SongScene: LittleFamilyScene {
         background.size.height = self.size.height
         background.zPosition = 0
         self.addChild(background)
+        
+        var width = min(self.size.width, self.size.height)
+        if width == self.size.width {
+            width = width * 0.8
+        }
+        
+        let stageTexture = SKTexture(imageNamed: "stage")
+        let ratio = stageTexture.size().width / stageTexture.size().height
+        let height = width / ratio
+        
+        stage = SKSpriteNode(texture: stageTexture)
+        stage?.size = CGSizeMake(width, height)
+        stage?.zPosition = 1
+        stage?.position = CGPointMake(0, 0)
+        self.addChild(stage!)
         
         setupTopBar()
         

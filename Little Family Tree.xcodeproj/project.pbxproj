@@ -108,6 +108,7 @@
 		A11BA2971C802522008E8208 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA2961C802522008E8208 /* Song.swift */; };
 		A11BA2991C8025EC008E8208 /* SongPersonAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */; };
 		A11BA29B1C802F53008E8208 /* SongAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA29A1C802F53008E8208 /* SongAlbum.swift */; };
+		A11BA29D1C8215FB008E8208 /* TreeWalker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11BA29C1C8215FB008E8208 /* TreeWalker.swift */; };
 		A11E31191C67062300DA2B5F /* SearchPeople.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E31181C67062300DA2B5F /* SearchPeople.xib */; };
 		A11E311B1C67067100DA2B5F /* SearchPeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11E311A1C67067100DA2B5F /* SearchPeople.swift */; };
 		A11E311D1C6A2E4400DA2B5F /* PersonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11E311C1C6A2E4400DA2B5F /* PersonDetailsView.swift */; };
@@ -726,6 +727,7 @@
 		A11BA2961C802522008E8208 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Song.swift; path = gamelogic/Song.swift; sourceTree = "<group>"; };
 		A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongPersonAttributes.swift; path = gamelogic/SongPersonAttributes.swift; sourceTree = "<group>"; };
 		A11BA29A1C802F53008E8208 /* SongAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SongAlbum.swift; path = gamelogic/SongAlbum.swift; sourceTree = "<group>"; };
+		A11BA29C1C8215FB008E8208 /* TreeWalker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TreeWalker.swift; path = gamelogic/TreeWalker.swift; sourceTree = "<group>"; };
 		A11E31181C67062300DA2B5F /* SearchPeople.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchPeople.xib; path = views/SearchPeople.xib; sourceTree = "<group>"; };
 		A11E311A1C67067100DA2B5F /* SearchPeople.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPeople.swift; path = views/SearchPeople.swift; sourceTree = "<group>"; };
 		A11E311C1C6A2E4400DA2B5F /* PersonDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonDetailsView.swift; path = views/PersonDetailsView.swift; sourceTree = "<group>"; };
@@ -1371,6 +1373,7 @@
 				A11BA2961C802522008E8208 /* Song.swift */,
 				A11BA2981C8025EC008E8208 /* SongPersonAttributes.swift */,
 				A11BA29A1C802F53008E8208 /* SongAlbum.swift */,
+				A11BA29C1C8215FB008E8208 /* TreeWalker.swift */,
 			);
 			name = gamelogic;
 			sourceTree = "<group>";
@@ -2546,6 +2549,7 @@
 				A16C37CD1BE9B4DF0036D28A /* PlaceHelper.swift in Sources */,
 				A10BF12F1BC9D359005CAFDA /* NamePart.swift in Sources */,
 				A1B554691BB240FD00DF709F /* AnimatedStateSprite.swift in Sources */,
+				A11BA29D1C8215FB008E8208 /* TreeWalker.swift in Sources */,
 				A1AC2B351C1D03D5000028A1 /* PuzzleGame.swift in Sources */,
 				A1686D671BB97D3400E58A09 /* RelationshipType.swift in Sources */,
 				A11BA2991C8025EC008E8208 /* SongPersonAttributes.swift in Sources */,
