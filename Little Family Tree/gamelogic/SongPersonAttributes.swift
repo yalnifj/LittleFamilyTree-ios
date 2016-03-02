@@ -48,3 +48,19 @@ class SongDatePlaceAttributor : SongPersonAttribute {
 
     }
 }
+
+class SongRelationshipAttributor : SongPersonAttribute {
+    var me:LittlePerson
+
+    init(me:LittlePerson)
+    {
+        self.me = me;
+    }
+
+    func getAttributeFromPerson(person:LittlePerson, number:Int) -> String? {
+        if me == person {
+            return "Self"
+        }
+        return RelationshipCalculator.getRelationship(me, p:person)
+    }
+}

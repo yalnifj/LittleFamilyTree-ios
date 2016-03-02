@@ -21,6 +21,9 @@ class PlaceHelper {
     
     static var canadaStates = [ "alberta","british columbia","manitoba","new brunswick","newfoundland",
         "newfoundland and labrador","nova scotia","ontario","prince edward island","quebec","saskatchewan" ]
+		
+	static var synonyms = ["holland":"Netherlands", "prussia":"Germany", "eng":"England", "great britain":"England", "gb":"England", 
+					"northern ireland":"Ireland" ]
     
 	static func countPlaceLevels(place:String) -> Int {
 		let parts = place.split("[ ,]+")
@@ -55,6 +58,7 @@ class PlaceHelper {
         if (tempPlace == "united states of america") { return true; }
         if (tempPlace == "us") { return true; }
         if (tempPlace == "usa") { return true; }
+		if (tempPlace == "new england") { return true }
         var i = usStates.indexOf(tempPlace)
         if (i != nil) { return true; }
         i = abbvStates.indexOf(tempPlace);
@@ -75,29 +79,28 @@ class PlaceHelper {
         if (place == nil) {
             return UNKNOWN
         }
-        if (place!.caseInsensitiveCompare("United Kingdom") == NSComparisonResult.OrderedSame) {
-            place = getTopPlace(p, level: 2);
-        }
-        if (place!.caseInsensitiveCompare("United States") != NSComparisonResult.OrderedSame
+		
+		if (place!.caseInsensitiveCompare("United States") != NSComparisonResult.OrderedSame
             && PlaceHelper.isInUS(place!)) {
                 return "United States"
         }
+		
+        if (place!.caseInsensitiveCompare("United Kingdom") == NSComparisonResult.OrderedSame) {
+            place = getTopPlace(p, level: 2);
+        }
         
-        if (place!.caseInsensitiveCompare("Eng") == NSComparisonResult.OrderedSame
-            || place!.caseInsensitiveCompare("Great Britain") == NSComparisonResult.OrderedSame
-            || place!.caseInsensitiveCompare("gb") == NSComparisonResult.OrderedSame
-            || place!.lowercaseString.hasSuffix("england")) {
-            return "England"
-        }
-        if (place!.caseInsensitiveCompare("Holland") == NSComparisonResult.OrderedSame) {
-            return "Netherlands"
-        }
-        if (place!.caseInsensitiveCompare("Northern Ireland") == NSComparisonResult.OrderedSame) {
-            return "Ireland"
-        }
         if (canadaStates.indexOf(place!.lowercaseString) != nil) {
             return "Canada"
         }
+		
+		if (place!.lowercaseString.hasSuffix("england")) {
+            return "England"
+        }
+		
+		if synonyms[place!.lowercaseString] != nil {
+			place = synonyms[place!.lowercaseString]
+		}
+		
         return place!
     }
 	
