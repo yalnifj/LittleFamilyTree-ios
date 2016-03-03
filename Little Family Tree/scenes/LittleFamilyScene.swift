@@ -26,6 +26,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     var chosenPlayer:LittlePerson?
     var starContainer:SKNode?
     var previousTopic:String?
+    var graybox:SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -452,5 +453,36 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         } else {
             DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
         }
+    }
+    
+    func prepareDialogRect(width:CGFloat, height:CGFloat) -> CGRect {
+        graybox = SKSpriteNode(color: UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.7), size: self.size)
+        graybox!.userInteractionEnabled = true
+        graybox!.zPosition = 100
+        graybox!.position = CGPointMake(self.size.width/2, self.size.height/2)
+        self.addChild(graybox!)
+        
+        var w = width
+        var h = height
+        var x = (self.size.width - width) / 2
+        var y = (self.size.height - height) / 2
+        if w > self.size.width {
+            w = self.size.width
+            x = CGFloat(0)
+            h = self.size.height
+            y = CGFloat(0)
+        } else {
+            if h > self.size.height {
+                h = self.size.height
+                y = CGFloat(0)
+            }
+        }
+        
+        let rect = CGRect(x: x, y: y, width: w, height: h)
+        return rect
+    }
+    
+    func clearDialogRect() {
+        graybox!.removeFromParent()
     }
 }

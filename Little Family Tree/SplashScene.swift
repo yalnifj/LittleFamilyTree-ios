@@ -13,21 +13,23 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     var startTime:NSTimeInterval?
     var launched = false
     var introTune:SKAction?
+    var graybox:SKSpriteNode?
+    var tree:SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         
-        let tree = SKSpriteNode(imageNamed: "growing_plant1")
-        let tr = tree.size.width / tree.size.height
+        tree = SKSpriteNode(imageNamed: "growing_plant1")
+        let tr = tree!.size.width / tree!.size.height
         var scale = CGFloat(1.0)
-        if tree.size.height > self.size.height / 3 {
-            tree.size.height = self.size.height / 3
-            scale = tree.size.height * tr / tree.size.width
-            tree.size.width = tree.size.height * tr
+        if tree!.size.height > self.size.height / 3 {
+            tree!.size.height = self.size.height / 3
+            scale = tree!.size.height * tr / tree!.size.width
+            tree!.size.width = tree!.size.height * tr
         }
-        tree.position = CGPointMake(self.size.width/2, self.size.height - tree.size.height/2 - 20)
-        tree.zPosition = 2
+        tree!.position = CGPointMake(self.size.width/2, self.size.height - tree!.size.height/2 - 20)
+        tree!.zPosition = 2
         let growing:[SKTexture] = [
             SKTexture(imageNamed: "growing_plant2"),
             SKTexture(imageNamed: "growing_plant3"),
@@ -37,16 +39,16 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
             SKTexture(imageNamed: "growing_plant7"),
             SKTexture(imageNamed: "growing_plant1")
         ]
-        self.addChild(tree)
+        self.addChild(tree!)
         let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
-        tree.runAction(action)
+        tree!.runAction(action)
         
         let logo = SKSpriteNode(imageNamed: "little_family_logo")
         let lr = logo.size.width / logo.size.height
         logo.size.width = logo.size.width * scale
         logo.size.height = logo.size.width / lr
         
-        logo.position = CGPointMake(self.size.width/2, tree.position.y - (tree.size.height / 2 + logo.size.height/2 + 20))
+        logo.position = CGPointMake(self.size.width/2, tree!.position.y - (tree!.size.height / 2 + logo.size.height/2 + 20))
         logo.zPosition = 1
         self.addChild(logo)
         
@@ -101,7 +103,8 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
                         launched = true
                         scene?.view?.presentScene(nextScene, transition: transition)
                     } else {
-                        let subview = ChooseServiceView(frame: (self.view?.bounds)!)
+                        let rect = self.prepareDialogRect(CGFloat(600), height: CGFloat(600))
+                        let subview = ChooseServiceView(frame: rect)
                         subview.loginListener = self
                         launched = true
                         self.view?.addSubview(subview)
@@ -126,5 +129,34 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
                 DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
             }
         }
+    }
+    
+    func prepareDialogRect(width:CGFloat, height:CGFloat) -> CGRect {
+        graybox = SKSpriteNode(color: UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.7), size: self.size)
+        graybox!.userInteractionEnabled = true
+        graybox!.zPosition = 100
+        graybox!.position = CGPointMake(self.size.width/2, self.size.height/2)
+        self.addChild(graybox!)
+        
+        tree!.hidden = true
+        
+        var w = width
+        var h = height
+        var x = (self.size.width - width) / 2
+        var y = (self.size.height - height) / 2
+        if w > self.size.width {
+            w = self.size.width
+            x = CGFloat(0)
+            h = self.size.height
+            y = CGFloat(0)
+        } else {
+            if h > self.size.height {
+                h = self.size.height
+                y = CGFloat(0)
+            }
+        }
+        
+        let rect = CGRect(x: x, y: y, width: w, height: h)
+        return rect
     }
 }

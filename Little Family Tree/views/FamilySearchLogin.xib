@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="340" height="456"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="I5V-Us-EdD">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="I5V-Us-EdD">
                     <rect key="frame" x="8" y="117" width="324" height="63"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="63" id="7pt-wu-d0V"/>
@@ -31,7 +31,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Little Family Tree will use this information in accordance with their respective terms of service and privacy policies." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="h37-oz-pMd">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Little Family Tree will use this information in accordance with their respective terms of service and privacy policies." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="h37-oz-pMd">
                     <rect key="frame" x="8" y="182" width="324" height="34"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="8LA-N3-UmH"/>
@@ -40,7 +40,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Little Family Tree will not distribute or share any information outside of your device except with FamilySearch." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="XWv-zz-TWM">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Little Family Tree will not distribute or share any information outside of your device except with FamilySearch." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="XWv-zz-TWM">
                     <rect key="frame" x="8" y="219" width="324" height="34"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="te3-4W-VVh"/>

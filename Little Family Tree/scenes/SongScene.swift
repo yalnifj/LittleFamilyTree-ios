@@ -68,7 +68,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         stage?.position = CGPointMake(xOffset + width / 2, yOffset + height / 2)
         self.addChild(stage!)
 		
-		manWidth = stage.size.width / CGFloat(7)
+		manWidth = stage!.size.width / CGFloat(7)
         womanWidth = manWidth + 4
 		
 		var personWidth = width * CGFloat(0.17);

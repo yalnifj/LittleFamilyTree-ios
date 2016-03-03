@@ -18,7 +18,7 @@ class SongAlbum {
 		
         addFamilyTreeSong()
         addMyHistorySong()
-		addThisIsMyHistorySong
+		addThisIsMyHistorySong()
     }
     
     func nextSong() -> Song {
@@ -161,7 +161,7 @@ class SongAlbum {
         songs.append(song)
     }
 	
-	private void addThisIsMyHistorySong() {
+	private func addThisIsMyHistorySong() {
         let song = Song()
         song.drumTrack = "drums_thisismyfamily"
         song.fluteTrack = "flute_thisismyfamily"
@@ -217,7 +217,7 @@ class SongAlbum {
         song.danceTimings.append(32500)
         song.danceTimings.append(34000)
 
-        song.attributor = SongRelationshipAttributor(selectedPerson)
+        song.attributor = SongRelationshipAttributor(me: selectedPerson)
 
         songs.append(song)
     }

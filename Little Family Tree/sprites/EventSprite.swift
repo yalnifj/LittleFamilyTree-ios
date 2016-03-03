@@ -15,7 +15,7 @@ class EventSprite: SKSpriteNode {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         if topic != nil {
-            EventHandler.getInstance().publish(topic!, data: self.text)
+            EventHandler.getInstance().publish(topic!, data: self)
         }
     }
 }

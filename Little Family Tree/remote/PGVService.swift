@@ -87,7 +87,22 @@ class PGVService : RemoteService {
                     onCompletion(nil, NSError(domain: "PGVService", code: 500, userInfo: ["message":data!]))
                     return
                 }
-			}
+            } else if err != nil && err!.code == -1005 {
+                print("Sleeping for 10 seconds after \(err)")
+                sleep(10)
+                self.getGedcomRecord(recordId, onCompletion: {gedcom, err in
+                    if err != nil && err!.code == -1005 {
+                        print("Sleeping for 10 more seconds after \(err)")
+                        sleep(10)
+                        self.getGedcomRecord(recordId, onCompletion: {gedcom, err in
+                            onCompletion(gedcom, err)
+                        })
+                    } else {
+                        onCompletion(gedcom, err)
+                    }
+                })
+                return
+            }
 			onCompletion(nil, err)
 		})
 	}
@@ -532,6 +547,7 @@ class PGVService : RemoteService {
         let myDelegate = RedirectSessionDelegate(headers: headers)
         //let session = NSURLSession.sharedSession()
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
+        session.configuration.HTTPMaximumConnectionsPerHost = 5
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -596,8 +612,9 @@ class PGVService : RemoteService {
         //print(postString)
 		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
+        session.configuration.HTTPMaximumConnectionsPerHost = 5
 	 
-        print("makeHTTPPostRequest: \(request)")
+        print("makeHTTPPostRequest: \(request)?\(postString)")
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             if error != nil {
                 print(error!.description)

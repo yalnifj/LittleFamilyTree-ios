@@ -289,6 +289,7 @@ class FamilySearchService : RemoteService {
         let myDelegate = RedirectSessionDelegate(headers: headers)
         //let session = NSURLSession.sharedSession()
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
+        session.configuration.HTTPMaximumConnectionsPerHost = 5
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -343,6 +344,7 @@ class FamilySearchService : RemoteService {
             print("makeHTTPPostJSONRequest: \(request)")
             try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: options)
             let session = NSURLSession.sharedSession()
+            session.configuration.HTTPMaximumConnectionsPerHost = 5
 	 
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
                 if error != nil {
@@ -402,8 +404,9 @@ class FamilySearchService : RemoteService {
         //print(postString)
 		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
 		let session = NSURLSession.sharedSession()
+        session.configuration.HTTPMaximumConnectionsPerHost = 5
 	 
-        print("makeHTTPPostRequest: \(request)")
+        print("makeHTTPPostRequest: \(request)?\(postString)")
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             if error != nil {
                 print(error!.description)

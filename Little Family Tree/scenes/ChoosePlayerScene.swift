@@ -13,7 +13,6 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
     static var TOPIC_SIGN_IN = "sign_in"
     var dataService:DataService?
-    var graybox:SKSpriteNode?
     var titleBar:SKSpriteNode?
     var peopleSprites = [PersonNameSprite]()
     
@@ -68,29 +67,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             //self.shouldEnableEffects = true
             //self.filter = filter
             
-            graybox = SKSpriteNode(color: UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.7), size: self.size)
-            graybox!.userInteractionEnabled = true
-            graybox!.zPosition = 100
-            graybox!.position = CGPointMake(self.size.width/2, self.size.height/2)
-            self.addChild(graybox!)
+            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
             
-            var width = CGFloat(500)
-            var height = CGFloat(400)
-            var x = (self.size.width - width) / 2
-            var y = (self.size.height - height) / 2
-            if width > self.size.width {
-                width = self.size.width
-                x = CGFloat(0)
-                height = self.size.height
-                y = CGFloat(0)
-            } else {
-                if height > self.size.height {
-                    height = self.size.height
-                    y = CGFloat(0)
-                }
-            }
-            
-            let rect = CGRect(x: x, y: y, width: width, height: height)
             let subview = ParentsGuide(frame: rect)
             subview.listener = self
             self.view?.addSubview(subview)
@@ -135,7 +113,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     
     func onClose() {
         self.filter = nil
-        graybox!.removeFromParent()
+        self.clearDialogRect()
         self.speak("Who is playing today?")
     }
     
