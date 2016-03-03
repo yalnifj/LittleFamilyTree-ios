@@ -34,6 +34,22 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var song3Button:EventSprite?
 	var song4Button:EventSprite?
 	
+	var drumKit:AnimatedStateSprite?
+	var gPiano:AnimatedStateSprite?
+	var violin:AnimatedStateSprite?
+	var bass:AnimatedStateSprite?
+	var clarinet:AnimatedStateSprite?
+	var guitar:AnimatedStateSprite?
+	
+	var selPerson1:SKSpriteNode?
+	var selPerson2:SKSpriteNode?
+	var selPerson3:SKSpriteNode?
+	var selPerson4:SKSpriteNode?
+	
+	var playButton:AnimatedStateSprite?
+	var resetButton:EventSprite?
+	
+	var treeWalker:TreeWalker?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -47,6 +63,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         background.size.height = self.size.height
         background.zPosition = 0
         self.addChild(background)
+		
+		treeWalker = TreeWalker(selectedPerson, listener:self)
         
 		setupTopBar()
 		
@@ -77,7 +95,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		}
 		
 		song1Button = EventSprite(imageNamed:"song1")
-		song1Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7)
+		var ratio = song1Button!.size.height / song1Button!.size.width
+		song1Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song1Button?.zPosition = 2
 		song1Button?.position = CGPointMake(xOffset + 15 + song1Button!.size.width / 2, yOffset + 50 + song1Button!.size.height / 2)
 		song1Button?.userInteractionEnabled = true
@@ -85,7 +104,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		self.addChild(song1Button!)
 		
 		song2Button = EventSprite(imageNamed:"song2")
-		song2Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7)
+		ratio = song2Button!.size.height / song2Button!.size.width
+		song2Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song2Button?.zPosition = 2
 		song2Button?.position = CGPointMake(xOffset + (stage!.size.width / 2) - song2Button!.size.width / 2, yOffset + 20 + song2Button!.size.height / 2)
 		song2Button?.userInteractionEnabled = true
@@ -93,12 +113,141 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		self.addChild(song2Button!)
 		
 		song3Button = EventSprite(imageNamed:"song3")
-		song3Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7)
+		ratio = song3Button!.size.height / song3Button!.size.width
+		song3Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song3Button?.zPosition = 2
 		song3Button?.position = CGPointMake(xOffset + 15 + stage!.size.width - song3Button!.size.width / 2, yOffset + 55 + song3Button!.size.height / 2)
 		song3Button?.userInteractionEnabled = true
 		song3Button?.topic = SongScene.TOPIC_CHOOSE_SONG3
 		self.addChild(song3Button!)
+		
+		drumKit = AnimatedStateSprite(imageNamed: "drums")
+		ratio = drumKit!.size.height / drumKit!.size.width
+		drumKit?.zPosition = 3
+		drumKit?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
+		drumKit?.position = CGPointMake(xOffset + 10 + drumKit!.size.width / 2, yOffset + 55 + drumKit!.size.height / 2)
+		drumKit?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_DRUMS)
+		drumKit?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_DRUMS)
+		drumKit?.addTexture(1, SKTexture(imageNamed: "drums_off")
+		drumKit?.userInteractionEnabled = true
+		drumKit?.state = 1
+		drumKit?.hidden = true
+		self.addChild(drumKit!)
+		
+		gPiano = AnimatedStateSprite(imageNamed: "piano")
+		ratio = gPiano!.size.height / gPiano!.size.width
+		gPiano?.zPosition = 3
+		gPiano?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
+		gPiano?.position = CGPointMake(xOffset + stage!.size.width - (15 + gPiano!.size.width / 2), yOffset + 35 + gPiano!.size.height / 2)
+		gPiano?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_PIANO)
+		gPiano?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_PIANO)
+		gPiano?.addTexture(1, SKTexture(imageNamed: "piano_off")
+		gPiano?.userInteractionEnabled = true
+		gPiano?.state = 1
+		gPiano?.hidden = true
+		self.addChild(gPiano!)
+		
+		violin = AnimatedStateSprite(imageNamed: "violin")
+		ratio = violin!.size.height / violin!.size.width
+		violin?.zPosition = 3
+		violin?.size = CGSizeMake(personWidth * 1.7 / ratio, personWidth * 1.7)
+		violin?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (violin!.size.width / 3), yOffset + violin!.size.height / 2)
+		violin?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_VIOLIN)
+		violin?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_VIOLIN)
+		violin?.addTexture(1, SKTexture(imageNamed: "violin_off")
+		violin?.userInteractionEnabled = true
+		violin?.state = 1
+		violin?.hidden = true
+		self.addChild(violin!)
+		
+		bass = AnimatedStateSprite(imageNamed: "bass")
+		ratio = bass!.size.height / bass!.size.width
+		bass?.zPosition = 3
+		bass?.size = CGSizeMake(personWidth * 1.7 / ratio, personWidth * 1.7)
+		bass?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (bass!.size.width / 3), yOffset + bass!.size.height / 2)
+		bass?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_BASS)
+		bass?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_BASS)
+		bass?.addTexture(1, SKTexture(imageNamed: "bass_off")
+		bass?.userInteractionEnabled = true
+		bass?.state = 1
+		bass?.hidden = true
+		self.addChild(bass!)
+		
+		clarinet = AnimatedStateSprite(imageNamed: "clarinet")
+		ratio = clarinet!.size.height / clarinet!.size.width
+		clarinet?.zPosition = 3
+		clarinet?.size = CGSizeMake(personWidth * 1.7 / ratio, personWidth * 1.7)
+		clarinet?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (clarinet!.size.width / 3), yOffset + 20 + clarinet!.size.height / 2)
+		clarinet?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_FLUTE)
+		clarinet?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_FLUTE)
+		clarinet?.addTexture(1, SKTexture(imageNamed: "clarinet_off")
+		clarinet?.userInteractionEnabled = true
+		clarinet?.state = 1
+		clarinet?.hidden = true
+		self.addChild(clarinet!)
+		
+		guitar = AnimatedStateSprite(imageNamed: "guitar")
+		ratio = guitar!.size.height / guitar!.size.width
+		guitar?.zPosition = 3
+		guitar?.size = CGSizeMake(personWidth * 1.7 / ratio, personWidth * 1.7)
+		guitar?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (guitar!.size.width / 3), yOffset + 20 + guitar!.size.height / 2)
+		guitar?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_GUITAR)
+		guitar?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_GUITAR)
+		guitar?.addTexture(1, SKTexture(imageNamed: "guitar_off")
+		guitar?.userInteractionEnabled = true
+		guitar?.state = 1
+		guitar?.hidden = true
+		self.addChild(guitar!)
+		
+		selPerson1 = SKSpriteNode(imageNamed: "man_silhouette")
+		ratio = selPerson1!.size.height / selPerson1!.size.width
+		selPerson1?.zPosition = 3
+		selPerson1?.size = CGSizeMake(manWidth, manWidth * ratio)
+		selPerson1?.position = CGPointMake(xOffset + personWidth, yOffset + stage!.size.height/2 - personWidth / 2)
+		self.addChild(selPerson1!)
+		
+		selPerson2 = SKSpriteNode(imageNamed: "woman_silhouette")
+		ratio = selPerson2!.size.height / selPerson2!.size.width
+		selPerson2?.zPosition = 3
+		selPerson2?.size = CGSizeMake(womanWidth, womanWidth * ratio)
+		selPerson2?.position = CGPointMake(selPerson1!.position.x + selPerson1!.size.width, selPerson1!.position.y)
+		self.addChild(selPerson2!)
+		
+		selPerson3 = SKSpriteNode(imageNamed: "man_silhouette")
+		ratio = selPerson3!.size.height / selPerson3!.size.width
+		selPerson3?.zPosition = 3
+		selPerson3?.size = CGSizeMake(manWidth, manWidth * ratio)
+		selPerson3?.position = CGPointMake(selPerson2!.position.x + selPerson2!.size.width, selPerson2!.position.y)
+		self.addChild(selPerson3!)
+		
+		selPerson4 = SKSpriteNode(imageNamed: "woman_silhouette")
+		ratio = selPerson4!.size.height / selPerson4!.size.width
+		selPerson4?.zPosition = 3
+		selPerson4?.size = CGSizeMake(womanWidth, womanWidth * ratio)
+		selPerson4?.position = CGPointMake(selPerson3!.position.x + selPerson3!.size.width, selPerson3!.position.y)
+		self.addChild(selPerson4!)
+		
+		playButton = AnimatedStateSprite(imageNamed: "media_play")
+		ratio = playButton!.size.height / playButton!.size.width
+		playButton?.zPosition = 3
+		playButton?.size = CGSizeMake(personWidth, personWidth * ratio)
+		playButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) - personWidth, yOffset + stage!.size.height - 60)
+		playButton?.addEvent(0, topic: SongScene.TOPIC_PLAY_SONG)
+		playButton?.addEvent(1, topic: SongScene.TOPIC_PLAY_SONG)
+		playButton?.addTexture(1, SKTexture(imageNamed: "media_pause")
+		playButton?.userInteractionEnabled = true
+		playButton?.hidden = true
+		self.addChild(playButton!)
+		
+		resetButton = EventSprite(imageNamed: "media_reset")
+		ratio = resetButton!.size.height / resetButton!.size.width
+		resetButton?.zPosition = 3
+		resetButton?.size = CGSizeMake(personWidth, personWidth * ratio)
+		resetButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) + personWidth, yOffset + stage!.size.height - 60)
+		resetButton?.topic = SongScene.TOPIC_PLAY_RESET
+		resetButton?.userInteractionEnabled = true
+		resetButton?.hidden = true
+		self.addChild(resetButton!)
         
         showLoadingDialog()
 		
@@ -139,5 +288,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
     }
-
+	
+	override func onEvent(topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
+    }
 }
