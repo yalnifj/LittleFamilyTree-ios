@@ -35,10 +35,25 @@ class SyncQ : NSObject {
             start()
         }
 		let diff = person.lastSync!.timeIntervalSinceNow
-		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 1 && person.hasChildren == nil) {
+		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 2 && person.hasChildren == nil) {
 			if !syncQ.contains(person) {
 				dbHelper.addToSyncQ(person.id!)
-				syncQ.append(person)
+				if person.treeLevel == nil {
+					syncQ.append(person)
+				}
+				else {
+					var i = 0
+					for i in 0..<syncQ.count {
+						if syncQ[i].treeLevel == nil || syncQ[i].treeLevel < person.treeLevel {
+							break
+						}
+					}
+					if i < syncQ.count-1 {
+						syncQ.insert(person, atIndex:i)
+					} else {
+						syncQ.append(person)
+					}
+				}
 			}
 		}
 	}

@@ -500,18 +500,18 @@ class TreeScene: LittleFamilyScene {
 		}
         
         treeContainer?.position.y += clipY
-        if treeContainer?.position.y < minY * tscale {
-            treeContainer?.position.y = minY * tscale
+        if treeContainer?.position.y < (minY * 2) * tscale {
+            treeContainer?.position.y = (minY * 2) * tscale
         }
-        if treeContainer?.position.y > maxY * tscale {
-            treeContainer?.position.y = maxY * tscale
+        if treeContainer?.position.y > (maxY * 2) * tscale {
+            treeContainer?.position.y = (maxY * 2) * tscale
         }
         treeContainer?.position.x += clipX
-        if treeContainer?.position.x < minX * tscale {
-            treeContainer?.position.x = minX * tscale
+        if treeContainer?.position.x < (minX * 2) * tscale {
+            treeContainer?.position.x = (minX * 2) * tscale
         }
-        if treeContainer?.position.x > maxX * tscale {
-            treeContainer?.position.x = maxX * tscale
+        if treeContainer?.position.x > (maxX * 2) * tscale {
+            treeContainer?.position.x = (maxX * 2) tscale
         }
         
         lastPoint = nextPoint

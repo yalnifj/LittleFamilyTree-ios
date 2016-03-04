@@ -12,6 +12,7 @@ import CoreImage
 class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
     static var TOPIC_SIGN_IN = "sign_in"
+	static var TOPIC_PARENTS_GUIDE = "parents_guide"
     var dataService:DataService?
     var titleBar:SKSpriteNode?
     var peopleSprites = [PersonNameSprite]()
@@ -53,27 +54,25 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         signInLabel.userInteractionEnabled = true
         signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN
         titleBar!.addChild(signInLabel)
+		
+		let parentsGuideLabel = LabelEventSprite(text: "Parent's Guide")
+        parentsGuideLabel.fontColor = UIColor.blueColor()
+        parentsGuideLabel.fontSize = titleBar!.size.height / 2
+        parentsGuideLabel.position = CGPointMake((titleSize.width / 2) - 100, parentsGuideLabel.fontSize / 2)
+        parentsGuideLabel.zPosition = 3
+        parentsGuideLabel.userInteractionEnabled = true
+        parentsGuideLabel.topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE
+        titleBar!.addChild(parentsGuideLabel)
         
         dataService = DataService.getInstance()
         loadPeople()
         EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
         EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_SIGN_IN, listener: self)
+		EventHandler.getInstance().subscribe(ChoosePlayerScene.TOPIC_PARENTS_GUIDE, listener: self)
         
         let showGuide = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
         if showGuide == nil || showGuide! == "true" {
-            
-            //let filter = CIFilter(name: "CIGaussianBlur")
-            //filter?.setValue(15, forKey: kCIInputRadiusKey)
-            //self.shouldEnableEffects = true
-            //self.filter = filter
-            
-            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
-            
-            let subview = ParentsGuide(frame: rect)
-            subview.listener = self
-            self.view?.addSubview(subview)
-            
-            
+            self.showParentsGuide()
         }
     }
     
@@ -81,6 +80,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
         EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_SIGN_IN, listener: self)
+		EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_PARENTS_GUIDE, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -108,8 +108,18 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 subview.loginListener = self
                 self.view!.addSubview(subview)
             }
-        }
+        } else if topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE {
+			self.showParentsGuide()
+		}
     }
+	
+	func showParentsGuide() {
+		let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+            
+		let subview = ParentsGuide(frame: rect)
+		subview.listener = self
+		self.view?.addSubview(subview)
+	}
     
     func onClose() {
         self.filter = nil
@@ -121,10 +131,16 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
                 self.peopleSprites.removeAll()
-                var width = (self.view!.bounds.width / 3) - 5
-                if self.view!.bounds.width > self.view!.bounds.height {
-                    width = (self.view!.bounds.height / 3) - 20
-                }
+                var width = min(self.view!.bounds.width, self.view!.bounds.height)
+				var cols = CGFloat(3)
+				if family.count > 9 {
+					cols = CGFloat(4)
+				}
+				if family.count > 16 {
+					cols = CGFloat(5)
+				}
+				width = (self.view!.bounds.width / cols) - 10
+
                 //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
                 var x = CGFloat(5.0)
                 var y = CGFloat(self.size.height - (width + self.titleBar!.size.height + 5))

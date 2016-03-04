@@ -55,26 +55,46 @@ class HeritageCalculator {
             }
             else {
                 let pathPerson = path.treePath.last!
-                let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
-                if (parents != nil && parents!.count > 0) {
-                    for parent in parents! {
-                        let place = PlaceHelper.getPersonCountry(parent)
-                        let ppath = HeritagePath(place: place)
-                        ppath.percent = path.percent / Double(parents!.count)
-                        ppath.treePath.appendContentsOf(path.treePath)
-                        ppath.treePath.append(parent)
-                        paths.append(ppath)
-                        if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
-                            origin = ppath.place
-                        }
-                    }
-                } else {
-                    //-- if we don't know if this person has parents, then sync them to pick up the parents next time
-                    if (pathPerson.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
-                        dataService.addToSyncQ(pathPerson)
-                    }
-                    returnPaths.append(path);
-                }
+				if pathPerson.treeLevel != nil && pathPerson.treeLevel! < 4 {
+					dataService.getParents(pathPerson, onCompletion: {parents, err in 
+						if (parents != nil && parents!.count > 0) {
+							for parent in parents! {
+								let place = PlaceHelper.getPersonCountry(parent)
+								let ppath = HeritagePath(place: place)
+								ppath.percent = path.percent / Double(parents!.count)
+								ppath.treePath.appendContentsOf(path.treePath)
+								ppath.treePath.append(parent)
+								paths.append(ppath)
+								if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
+									origin = ppath.place
+								}
+							}
+						} else {
+							returnPaths.append(path);
+						}
+					})
+				} else {
+					let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
+					if (parents != nil && parents!.count > 0) {
+						for parent in parents! {
+							let place = PlaceHelper.getPersonCountry(parent)
+							let ppath = HeritagePath(place: place)
+							ppath.percent = path.percent / Double(parents!.count)
+							ppath.treePath.appendContentsOf(path.treePath)
+							ppath.treePath.append(parent)
+							paths.append(ppath)
+							if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
+								origin = ppath.place
+							}
+						}
+					} else {
+						//-- if we don't know if this person has parents, then sync them to pick up the parents next time
+						if (pathPerson.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
+							dataService.addToSyncQ(pathPerson)
+						}
+						returnPaths.append(path);
+					}
+				}
             }
         }
         

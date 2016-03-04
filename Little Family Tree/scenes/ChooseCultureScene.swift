@@ -50,6 +50,9 @@ class ChooseCultureScene: LittleFamilyScene {
         titleLabel?.zPosition = 1
         titleLabel?.position = CGPointMake(self.size.width/2, (topBar?.position.y)! - (5 + (topBar?.size.height)!))
         self.addChild(titleLabel!)
+		//-- adjust font size
+		let scalingFactor = min(self.size.width / titleLabel!.frame.width, (self.size.height / titleLabel!.frame.height)/2)
+		titleLabel!.fontSize *= scalingFactor
         
         var height = self.size.height * 0.5
         if !portrait {
@@ -80,7 +83,7 @@ class ChooseCultureScene: LittleFamilyScene {
             outlineSprite?.size.width = whiteBackground!.size.width / 2
             outlineSprite?.size.height = (whiteBackground!.size.width / 2) / ratio
         }
-        outlineSprite?.position = CGPointMake(20 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        outlineSprite?.position = CGPointMake(30 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         outlineSprite?.zPosition = 3
         let shader = SKShader(fileNamed: "gradient.fsh")
         outlineSprite?.shader = shader
@@ -138,10 +141,10 @@ class ChooseCultureScene: LittleFamilyScene {
                 
                 var c = 0
                 var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
-                for path in (self.calculator?.uniquePaths)! {
-                    var height = (self.outlineSprite?.size.height)! * CGFloat(path.percent)
-                    if height < self.size.height / 40 {
-                        height = CGFloat(self.size.height / 40)
+                for path in self.calculator!.uniquePaths {
+                    var height = self.outlineSprite!.size.height * CGFloat(path.percent)
+                    if height < self.outlineSprite!.size.height / self.calculator!.uniquePaths.count {
+                        height = CGFloat(self.outlineSprite!.size.height / self.calculator!.uniquePaths.count)
                     }
                     let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSizeMake((self.outlineSprite?.size.width)!, height))
                     pathColor.zPosition = 2
@@ -150,7 +153,7 @@ class ChooseCultureScene: LittleFamilyScene {
                     
                     let pathTitle = SKLabelNode(text: "\(path.place) " + String(format: "%.1f", path.percent*100) + "%")
                     pathTitle.fontColor = UIColor.blackColor()
-                    pathTitle.fontSize = self.size.height / 40
+                    pathTitle.fontSize = self.outlineSprite!.size.height / self.calculator!.uniquePaths.count
                     pathTitle.zPosition = 4
                     pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y - height/3)
                     self.addChild(pathTitle)
