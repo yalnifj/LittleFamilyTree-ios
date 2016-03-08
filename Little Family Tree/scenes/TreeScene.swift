@@ -511,7 +511,7 @@ class TreeScene: LittleFamilyScene {
             treeContainer?.position.x = (minX * 2) * tscale
         }
         if treeContainer?.position.x > (maxX * 2) * tscale {
-            treeContainer?.position.x = (maxX * 2) tscale
+            treeContainer?.position.x = (maxX * 2) * tscale
         }
         
         lastPoint = nextPoint

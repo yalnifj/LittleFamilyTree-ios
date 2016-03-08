@@ -64,7 +64,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         background.zPosition = 0
         self.addChild(background)
 		
-		treeWalker = TreeWalker(selectedPerson, listener:self)
+		treeWalker = TreeWalker(person: selectedPerson!, listener:self)
         
 		setupTopBar()
 		
@@ -75,7 +75,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         }
 		
 		let stageTexture = SKTexture(imageNamed: "stage")
-        let ratio = stageTexture.size().width / stageTexture.size().height
+        var ratio = stageTexture.size().width / stageTexture.size().height
         height = width / ratio
 		xOffset = (self.size.width - width) / CGFloat(2)
 		yOffset = (self.size.height - (height + topBar!.size.height)) / CGFloat(2)
@@ -95,7 +95,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		}
 		
 		song1Button = EventSprite(imageNamed:"song1")
-		var ratio = song1Button!.size.height / song1Button!.size.width
+		ratio = song1Button!.size.height / song1Button!.size.width
 		song1Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song1Button?.zPosition = 2
 		song1Button?.position = CGPointMake(xOffset + 15 + song1Button!.size.width / 2, yOffset + 50 + song1Button!.size.height / 2)
@@ -128,7 +128,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		drumKit?.position = CGPointMake(xOffset + 10 + drumKit!.size.width / 2, yOffset + 55 + drumKit!.size.height / 2)
 		drumKit?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_DRUMS)
 		drumKit?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_DRUMS)
-		drumKit?.addTexture(1, SKTexture(imageNamed: "drums_off")
+		drumKit?.addTexture(1, texture: SKTexture(imageNamed: "drums_off"))
 		drumKit?.userInteractionEnabled = true
 		drumKit?.state = 1
 		drumKit?.hidden = true
@@ -141,7 +141,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		gPiano?.position = CGPointMake(xOffset + stage!.size.width - (15 + gPiano!.size.width / 2), yOffset + 35 + gPiano!.size.height / 2)
 		gPiano?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_PIANO)
 		gPiano?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_PIANO)
-		gPiano?.addTexture(1, SKTexture(imageNamed: "piano_off")
+		gPiano?.addTexture(1, texture: SKTexture(imageNamed: "piano_off"))
 		gPiano?.userInteractionEnabled = true
 		gPiano?.state = 1
 		gPiano?.hidden = true
@@ -154,7 +154,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		violin?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (violin!.size.width / 3), yOffset + violin!.size.height / 2)
 		violin?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_VIOLIN)
 		violin?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_VIOLIN)
-		violin?.addTexture(1, SKTexture(imageNamed: "violin_off")
+		violin?.addTexture(1, texture: SKTexture(imageNamed: "violin_off"))
 		violin?.userInteractionEnabled = true
 		violin?.state = 1
 		violin?.hidden = true
@@ -167,7 +167,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		bass?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (bass!.size.width / 3), yOffset + bass!.size.height / 2)
 		bass?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_BASS)
 		bass?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_BASS)
-		bass?.addTexture(1, SKTexture(imageNamed: "bass_off")
+		bass?.addTexture(1, texture: SKTexture(imageNamed: "bass_off"))
 		bass?.userInteractionEnabled = true
 		bass?.state = 1
 		bass?.hidden = true
@@ -180,7 +180,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		clarinet?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (clarinet!.size.width / 3), yOffset + 20 + clarinet!.size.height / 2)
 		clarinet?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_FLUTE)
 		clarinet?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_FLUTE)
-		clarinet?.addTexture(1, SKTexture(imageNamed: "clarinet_off")
+		clarinet?.addTexture(1, texture: SKTexture(imageNamed: "clarinet_off"))
 		clarinet?.userInteractionEnabled = true
 		clarinet?.state = 1
 		clarinet?.hidden = true
@@ -193,7 +193,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		guitar?.position = CGPointMake(xOffset + (stage!.size.width / 2) - (guitar!.size.width / 3), yOffset + 20 + guitar!.size.height / 2)
 		guitar?.addEvent(0, topic: SongScene.TOPIC_TOGGLE_GUITAR)
 		guitar?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_GUITAR)
-		guitar?.addTexture(1, SKTexture(imageNamed: "guitar_off")
+		guitar?.addTexture(1, texture: SKTexture(imageNamed: "guitar_off"))
 		guitar?.userInteractionEnabled = true
 		guitar?.state = 1
 		guitar?.hidden = true
@@ -234,7 +234,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		playButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) - personWidth, yOffset + stage!.size.height - 60)
 		playButton?.addEvent(0, topic: SongScene.TOPIC_PLAY_SONG)
 		playButton?.addEvent(1, topic: SongScene.TOPIC_PLAY_SONG)
-		playButton?.addTexture(1, SKTexture(imageNamed: "media_pause")
+		playButton?.addTexture(1, texture: SKTexture(imageNamed: "media_pause"))
 		playButton?.userInteractionEnabled = true
 		playButton?.hidden = true
 		self.addChild(playButton!)

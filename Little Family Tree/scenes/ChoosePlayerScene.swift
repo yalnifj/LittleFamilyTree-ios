@@ -72,7 +72,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         
         let showGuide = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
         if showGuide == nil || showGuide! == "true" {
-            self.showParentsGuide()
+            self.showParentsGuide(self)
         }
     }
     
@@ -108,22 +108,13 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 subview.loginListener = self
                 self.view!.addSubview(subview)
             }
-        } else if topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE {
-			self.showParentsGuide()
+        } else if topic == ChoosePlayerScene.TOPIC_PARENTS_GUIDE {
+			self.showParentsGuide(self)
 		}
     }
-	
-	func showParentsGuide() {
-		let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
-            
-		let subview = ParentsGuide(frame: rect)
-		subview.listener = self
-		self.view?.addSubview(subview)
-	}
     
     func onClose() {
-        self.filter = nil
-        self.clearDialogRect()
+        self.hideParentsGuide()
         self.speak("Who is playing today?")
     }
     
@@ -133,10 +124,10 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 self.peopleSprites.removeAll()
                 var width = min(self.view!.bounds.width, self.view!.bounds.height)
 				var cols = CGFloat(3)
-				if family.count > 9 {
+				if family?.count > 9 {
 					cols = CGFloat(4)
 				}
-				if family.count > 16 {
+				if family?.count > 16 {
 					cols = CGFloat(5)
 				}
 				width = (self.view!.bounds.width / cols) - 10

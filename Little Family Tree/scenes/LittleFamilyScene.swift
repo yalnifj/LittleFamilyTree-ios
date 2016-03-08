@@ -310,10 +310,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         //operationQueue.addOperation(operation1)
     }
     
-    func showParentsGuide() {
-        let subview = ParentsGuide(frame: (self.view?.bounds)!)
-        //subview.selectedPerson = self.selectedPerson
+    func showParentsGuide(listener:ParentsGuideCloseListener) {
+        let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+        let subview = ParentsGuide(frame: rect)
+        subview.listener = listener
         self.view?.addSubview(subview)
+    }
+    
+    func hideParentsGuide() {
+        self.clearDialogRect()
     }
     
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {
