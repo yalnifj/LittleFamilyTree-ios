@@ -28,6 +28,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var yOffset = CGFloat(0)
 	var manWidth = CGFloat(0)
 	var womanWidth = CGFloat(0)
+	var personWidth = CGFloat(0)
 	
 	var song1Button:EventSprite?
 	var song2Button:EventSprite?
@@ -49,7 +50,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var playButton:AnimatedStateSprite?
 	var resetButton:EventSprite?
 	
+	var peopleHolder:SKSpriteNode?
+	
+	var peopleSprites:[PersonNameSprite]()
+	var onStage:[PersonNameSprite]()
+	
 	var treeWalker:TreeWalker?
+	var songAlbum:SongAlbum?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -65,6 +72,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         self.addChild(background)
 		
 		treeWalker = TreeWalker(person: selectedPerson!, listener:self)
+		treeWalker.loadFamilyMembers()
+		songAlbum = SongAlbum(selectedPerson!)
         
 		setupTopBar()
 		
@@ -86,10 +95,15 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         stage?.position = CGPointMake(xOffset + width / 2, yOffset + height / 2)
         self.addChild(stage!)
 		
+		peopleHolder = SKSpriteNode()
+		peopleHolder?.zPosition = 3
+		peopleHolder?.position = CGPointMake(10 + stage!.position.x + stage!.size.width / 2, topBar!.position.y + topBar!.size.height)
+		self.addChild(peopleHolder!)
+		
 		manWidth = stage!.size.width / CGFloat(7)
         womanWidth = manWidth + 4
 		
-		var personWidth = width * CGFloat(0.17);
+		personWidth = width * CGFloat(0.17);
 		if personWidth > 250 {
 			personWidth = CGFloat(250)
 		}
@@ -283,6 +297,25 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func onComplete(family:[LittlePerson]) {
+		peopleSprites.removeAll()
+		peopleHolder!.removeAllChildren()
+		
+		let x = CGFloat(0)
+		let y = CGFloat(0)
+		for person in family {
+			let sprite = PersonNameSprite()
+			//sprite.userInteractionEnabled = true
+			sprite.position = CGPointMake(x, y)
+			sprite.size.width = personWidth
+			sprite.size.height = personWidth
+			sprite.showLabel = false
+			sprite.person = person
+			//sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
+			self.peopleHolder!.addChild(sprite)
+			self.peopleSprites.append(sprite)
+			
+			y = y - (width + CGFloat(10))
+		}
 	}
     
     override func update(currentTime: NSTimeInterval) {

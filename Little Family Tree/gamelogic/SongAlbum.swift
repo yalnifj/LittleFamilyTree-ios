@@ -187,35 +187,35 @@ class SongAlbum {
         song.wordTimings.append(10400)//_
         song.wordTimings.append(13100)//my
         song.wordTimings.append(13800)//_
-        song.wordTimings.append(15700)//is
-        song.wordTimings.append(16300)//here
-        song.wordTimings.append(16800)//too.
+        song.wordTimings.append(15200)//is
+        song.wordTimings.append(15800)//here
+        song.wordTimings.append(16300)//too.
 
-        song.wordTimings.append(18400)//here
-        song.wordTimings.append(18900)//is
-        song.wordTimings.append(19400)//my
-        song.wordTimings.append(20100)//_
-        song.wordTimings.append(22800)//my
-        song.wordTimings.append(23400)//_
-        song.wordTimings.append(25300)//is
-        song.wordTimings.append(25950)//here
-        song.wordTimings.append(26500)//too.
+        song.wordTimings.append(17900)//here
+        song.wordTimings.append(18400)//is
+        song.wordTimings.append(18900)//my
+        song.wordTimings.append(19600)//_
+        song.wordTimings.append(22300)//my
+        song.wordTimings.append(22600)//_
+        song.wordTimings.append(24300)//is
+        song.wordTimings.append(24950)//here
+        song.wordTimings.append(25500)//too.
 
-        song.wordTimings.append(28170)//this
-        song.wordTimings.append(28760)//is
-        song.wordTimings.append(29280)//my
-        song.wordTimings.append(29770)//fam
-        song.wordTimings.append(30500)//i
-        song.wordTimings.append(31070)//ly
-        song.wordTimings.append(32300)//
+        song.wordTimings.append(27170)//this
+        song.wordTimings.append(27760)//is
+        song.wordTimings.append(28380)//my
+        song.wordTimings.append(28770)//fam
+        song.wordTimings.append(29500)//i
+        song.wordTimings.append(30070)//ly
+        song.wordTimings.append(31300)//
 
         song.danceTimings.append(8700)
         song.danceTimings.append(13300)
         song.danceTimings.append(18300)
-        song.danceTimings.append(22800)
-        song.danceTimings.append(28000)
-        song.danceTimings.append(32500)
-        song.danceTimings.append(34000)
+        song.danceTimings.append(22300)
+        song.danceTimings.append(27500)
+        song.danceTimings.append(31500)
+        song.danceTimings.append(33000)
 
         song.attributor = SongRelationshipAttributor(me: selectedPerson)
 
