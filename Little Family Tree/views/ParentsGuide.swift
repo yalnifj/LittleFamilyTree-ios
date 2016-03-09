@@ -197,6 +197,8 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         }
     }
     
+    @IBAction func websiteButtonClicked(sender: AnyObject) {
+    }
 }
 
 protocol ParentsGuideCloseListener {

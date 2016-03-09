@@ -34,13 +34,16 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         titleBar?.position = CGPointMake(self.size.width/2, (self.size.height - titleBar!.size.height))
         self.addChild(titleBar!)
         
-        let titleBackground = SKSpriteNode(color: UIColor.lightGrayColor(), size: titleSize)
+        let titleBackground = SKSpriteNode(color: UIColor.whiteColor(), size: titleSize)
         titleBackground.zPosition = 1
         titleBackground.position = CGPointMake(0,titleSize.height / 2)
         titleBar!.addChild(titleBackground)
         
         let titleLabel = SKLabelNode(text: "Who is playing today?")
         titleLabel.fontSize = titleBar!.size.height * 0.7
+        if titleLabel.frame.size.width > titleBar!.size.width * 0.60 {
+            titleLabel.fontSize = titleLabel.fontSize * 0.75
+        }
         titleLabel.fontColor = UIColor.blackColor()
         titleLabel.position = CGPointMake(0, titleLabel.fontSize / 3)
         titleLabel.zPosition = 2
@@ -48,8 +51,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         
         let signInLabel = LabelEventSprite(text: "Sign In")
         signInLabel.fontColor = UIColor.blueColor()
-        signInLabel.fontSize = titleLabel.fontSize / 2
-        signInLabel.position = CGPointMake((titleSize.width / 2) - 50, signInLabel.fontSize / 2)
+        signInLabel.fontSize = titleLabel.fontSize / 1.6
+        signInLabel.position = CGPointMake((titleSize.width / 2) - (5 + signInLabel.frame.size.width / 2), signInLabel.fontSize)
         signInLabel.zPosition = 3
         signInLabel.userInteractionEnabled = true
         signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN
@@ -57,8 +60,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 		
 		let parentsGuideLabel = LabelEventSprite(text: "Parent's Guide")
         parentsGuideLabel.fontColor = UIColor.blueColor()
-        parentsGuideLabel.fontSize = titleLabel.fontSize / 2
-        parentsGuideLabel.position = CGPointMake((titleSize.width / 2) - 150, parentsGuideLabel.fontSize / 2)
+        parentsGuideLabel.fontSize = titleLabel.fontSize / 1.6
+        parentsGuideLabel.position = CGPointMake((5 + parentsGuideLabel.frame.size.width / 2) - (titleSize.width / 2), parentsGuideLabel.fontSize)
         parentsGuideLabel.zPosition = 3
         parentsGuideLabel.userInteractionEnabled = true
         parentsGuideLabel.topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE
