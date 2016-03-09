@@ -40,7 +40,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         titleBar!.addChild(titleBackground)
         
         let titleLabel = SKLabelNode(text: "Who is playing today?")
-        titleLabel.fontSize = titleBar!.size.height * 0.8
+        titleLabel.fontSize = titleBar!.size.height * 0.7
         titleLabel.fontColor = UIColor.blackColor()
         titleLabel.position = CGPointMake(0, titleLabel.fontSize / 3)
         titleLabel.zPosition = 2
@@ -48,7 +48,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         
         let signInLabel = LabelEventSprite(text: "Sign In")
         signInLabel.fontColor = UIColor.blueColor()
-        signInLabel.fontSize = titleBar!.size.height / 2
+        signInLabel.fontSize = titleLabel.fontSize / 2
         signInLabel.position = CGPointMake((titleSize.width / 2) - 50, signInLabel.fontSize / 2)
         signInLabel.zPosition = 3
         signInLabel.userInteractionEnabled = true
@@ -57,8 +57,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 		
 		let parentsGuideLabel = LabelEventSprite(text: "Parent's Guide")
         parentsGuideLabel.fontColor = UIColor.blueColor()
-        parentsGuideLabel.fontSize = titleBar!.size.height / 2
-        parentsGuideLabel.position = CGPointMake((titleSize.width / 2) - 100, parentsGuideLabel.fontSize / 2)
+        parentsGuideLabel.fontSize = titleLabel.fontSize / 2
+        parentsGuideLabel.position = CGPointMake((titleSize.width / 2) - 150, parentsGuideLabel.fontSize / 2)
         parentsGuideLabel.zPosition = 3
         parentsGuideLabel.userInteractionEnabled = true
         parentsGuideLabel.topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE

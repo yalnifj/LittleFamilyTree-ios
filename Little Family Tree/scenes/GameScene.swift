@@ -16,6 +16,7 @@ class GameScene: LittleFamilyScene {
 	static var TOPIC_START_COLORING = "start_coloring"
 	static var TOPIC_START_TREE = "start_tree"
 	static var TOPIC_START_BUBBLES = "start_bubbles"
+    static var TOPIC_START_SONG = "start_song"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -787,6 +788,9 @@ class GameScene: LittleFamilyScene {
         piano.anchorPoint = CGPoint.zero
         piano.position = CGPointMake(625, 490)
         piano.zPosition = z++
+        touchableSprites.append(piano)
+        piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
+        starSprites.append(piano)
         spriteContainer.addChild(piano)
         
         let trumpet = AnimatedStateSprite(imageNamed: "house_music_trumpet")

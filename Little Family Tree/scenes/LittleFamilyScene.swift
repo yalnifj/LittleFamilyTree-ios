@@ -149,6 +149,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         else if topic == GameScene.TOPIC_START_BUBBLES {
             self.showBubbleGame(nil, previousTopic: nil)
         }
+        else if topic == GameScene.TOPIC_START_SONG {
+            self.showSongGame(nil, previousTopic: nil)
+        }
     }
     
     func showHomeScreen() {
@@ -287,6 +290,20 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         }
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
+    
+    func showSongGame(person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+        let nextScene = SongScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
+        nextScene.scaleMode = .AspectFill
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
+        scene?.view?.presentScene(nextScene, transition: transition)
+    }
     
     func showParentLogin() {
         let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)

@@ -52,8 +52,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var peopleHolder:SKSpriteNode?
 	
-	var peopleSprites:[PersonNameSprite]()
-	var onStage:[PersonNameSprite]()
+	var peopleSprites = [PersonNameSprite]()
+	var onStage = [PersonNameSprite]()
 	
 	var treeWalker:TreeWalker?
 	var songAlbum:SongAlbum?
@@ -72,8 +72,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         self.addChild(background)
 		
 		treeWalker = TreeWalker(person: selectedPerson!, listener:self)
-		treeWalker.loadFamilyMembers()
-		songAlbum = SongAlbum(selectedPerson!)
+		treeWalker!.loadFamilyMembers()
+		songAlbum = SongAlbum(person: selectedPerson!)
         
 		setupTopBar()
 		
@@ -301,7 +301,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		peopleHolder!.removeAllChildren()
 		
 		let x = CGFloat(0)
-		let y = CGFloat(0)
+		var y = CGFloat(0)  
 		for person in family {
 			let sprite = PersonNameSprite()
 			//sprite.userInteractionEnabled = true
@@ -314,7 +314,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			self.peopleHolder!.addChild(sprite)
 			self.peopleSprites.append(sprite)
 			
-			y = y - (width + CGFloat(10))
+			y = y - (personWidth + CGFloat(10))
 		}
 	}
     
