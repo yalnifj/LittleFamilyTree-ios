@@ -121,7 +121,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = song2Button!.size.height / song2Button!.size.width
 		song2Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song2Button?.zPosition = 2
-		song2Button?.position = CGPointMake(xOffset + (stage!.size.width / 2) - song2Button!.size.width / 2, yOffset + 20 + song2Button!.size.height / 2)
+		song2Button?.position = CGPointMake(xOffset + (stage!.size.width / 2), yOffset + 20 + song2Button!.size.height / 2)
 		song2Button?.userInteractionEnabled = true
 		song2Button?.topic = SongScene.TOPIC_CHOOSE_SONG2
 		self.addChild(song2Button!)
@@ -130,7 +130,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = song3Button!.size.height / song3Button!.size.width
 		song3Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song3Button?.zPosition = 2
-		song3Button?.position = CGPointMake(xOffset + 15 + stage!.size.width - song3Button!.size.width / 2, yOffset + 55 + song3Button!.size.height / 2)
+		song3Button?.position = CGPointMake(xOffset + 15 + stage!.size.width - song3Button!.size.width, yOffset + 25 + song3Button!.size.height / 2)
 		song3Button?.userInteractionEnabled = true
 		song3Button?.topic = SongScene.TOPIC_CHOOSE_SONG3
 		self.addChild(song3Button!)
@@ -217,7 +217,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = selPerson1!.size.height / selPerson1!.size.width
 		selPerson1?.zPosition = 3
 		selPerson1?.size = CGSizeMake(manWidth, manWidth * ratio)
-		selPerson1?.position = CGPointMake(xOffset + personWidth, yOffset + stage!.size.height/2 - personWidth / 2)
+		selPerson1?.position = CGPointMake(xOffset + personWidth * 1.5, yOffset + stage!.size.height/2)
 		self.addChild(selPerson1!)
 		
 		selPerson2 = SKSpriteNode(imageNamed: "woman_silhouette")
@@ -262,8 +262,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		resetButton?.userInteractionEnabled = true
 		resetButton?.hidden = true
 		self.addChild(resetButton!)
-        
-        showLoadingDialog()
 		
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_PERSON_TOUCHED, listener: self)
         EventHandler.getInstance().subscribe(SongScene.TOPIC_PLAY_SONG, listener: self)

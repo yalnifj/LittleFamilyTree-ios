@@ -90,7 +90,7 @@ class TreeSearchGame {
             }
         }
 
-        if (targetPerson==nil && retryCounter < 5) {
+        if (targetPerson==nil && retryCounter < 10) {
             retryCounter++
             findRandomPerson(root)
         }
@@ -101,7 +101,11 @@ class TreeSearchGame {
     }
 
     func getClueText() -> String {
-        return clues[clueNumber].getClueText(targetPerson!);
+        if targetPerson != nil {
+            return clues[clueNumber].getClueText(targetPerson!);
+        } else {
+            return ""
+        }
     }
 
     func nextClue() {

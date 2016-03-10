@@ -45,7 +45,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             titleLabel.fontSize = titleLabel.fontSize * 0.75
         }
         titleLabel.fontColor = UIColor.blackColor()
-        titleLabel.position = CGPointMake(0, titleLabel.fontSize)
+        titleLabel.position = CGPointMake(0, titleLabel.fontSize / 2)
         titleLabel.zPosition = 2
         titleBar!.addChild(titleLabel)
         

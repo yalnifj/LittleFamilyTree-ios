@@ -28,6 +28,13 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     @IBOutlet weak var starsText: UILabel!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var prevButton: UIButton!
+    @IBOutlet weak var closeButton: UIBarButtonItem!
+    @IBOutlet var settingsView: UIView!
+    @IBOutlet weak var settingsText: UILabel!
+    @IBOutlet var KidHeritageView: UIView!
+    @IBOutlet weak var moreText: UILabel!
+    @IBOutlet weak var moreText3: UILabel!
+    @IBOutlet weak var kidHeritageButton: UIButton!
     
     @IBOutlet weak var welcomeImage: UIImageView!
     @IBOutlet weak var photosImage: UIImageView!
@@ -57,6 +64,9 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
         
+        closeButton.enabled      = false
+        closeButton.tintColor    = UIColor.clearColor()
+        
         welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)  Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
         welcomeText.numberOfLines = 0
         welcomeImage.frame.size.width = view.frame.width / 2.5
@@ -83,6 +93,21 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         starsText.text = "Special games and activities are highlighted by stars on the home screen.  Follow the stars to interact in fun and unique ways with your relatives."
         starsText.numberOfLines = 0
         starsText.sizeToFit()
+        
+        settingsText.text = "Parents may alter app settings through the manage settings button found on any screen.  You must enter the password for your online tree account in order to access the settings.  This prevents children from accidentally changing the settings."
+        settingsText.numberOfLines = 0
+        settingsText.sizeToFit()
+        
+        moreText3.text = "From the settings you can manage your connection to your online family tree and change synchronization settings. You can also choose to hide people from your online tree so that they do not show up in Little Family Tree."
+        moreText3.numberOfLines = 0
+        moreText3.sizeToFit()
+        
+        kidHeritageButton.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
+        
+        moreText.text = "Teach your children more about their heritage with their own personal heritage book. Use coupon code LTFAMTR316 for free shipping!"
+        moreText.numberOfLines = 0
+        moreText.sizeToFit()
+        
         
         var x = CGFloat(10)
         let y = CGFloat(0)
@@ -126,6 +151,16 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         StarsView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(StarsView)
         scrolledViews.append(StarsView)
+        
+        x = x + w + 20
+        settingsView.frame = CGRect(x: x, y: y, width: w, height: h)
+        pagedScrollView.addSubview(settingsView)
+        scrolledViews.append(settingsView)
+        
+        x = x + w + 20
+        KidHeritageView.frame = CGRect(x: x, y: y, width: w, height: h)
+        pagedScrollView.addSubview(KidHeritageView)
+        scrolledViews.append(KidHeritageView)
         
         pagedScrollView.contentSize = CGSizeMake(x + w + 10, h)
         pagedScrollView.pagingEnabled = true
@@ -171,6 +206,10 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)
             prevButton.hidden = false
         }
+        if currentPage == scrolledViews.count-1 {
+            closeButton.enabled      = true
+            closeButton.tintColor    = nil
+        }
     }
 
     @IBAction func prevButtonClicked(sender: AnyObject) {
@@ -195,10 +234,17 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         } else {
             nextButton.hidden = true
         }
+        if currentPage == scrolledViews.count-1 {
+            closeButton.enabled      = true
+            closeButton.tintColor    = nil
+        }
     }
     
     @IBAction func websiteButtonClicked(sender: AnyObject) {
 		UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
+    }
+    @IBAction func kidHeritageClicked(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string:"http://www.myheritagebook.com")!)
     }
 }
 

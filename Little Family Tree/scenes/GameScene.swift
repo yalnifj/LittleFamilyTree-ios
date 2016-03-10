@@ -794,12 +794,13 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_music_piano2"),
             SKTexture(imageNamed: "house_music_piano3")
         ]
-        let pianoAction = SKAction.animateWithTextures(pianoAnim, timePerFrame: 0.07, resize: false, restore: false)
+        let pianoAction = SKAction.animateWithTextures(pianoAnim, timePerFrame: 0.12, resize: false, restore: false)
 		let pianoReverse = SKAction.reversedAction(pianoAction)()
 		let pianoSeqAction = SKAction.sequence([pianoAction, pianoReverse])
-		let pianoRepeatAction = SKAction.repeatAction(pianoSeqAction, count: 3)
+		let pianoRepeatAction = SKAction.repeatAction(pianoSeqAction, count: 4)
         piano.addAction(1, action: pianoRepeatAction)
         piano.addClick(1, val: false)
+        piano.addSound(1, soundFile: "piano")
         piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
         starSprites.append(piano)
         spriteContainer.addChild(piano)
@@ -888,6 +889,7 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_COLORING, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_TREE, listener: self)
 		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SONG, listener: self)
         self.speak("Hi, \(selectedPerson!.givenName!)")
     }
     
@@ -900,6 +902,7 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_COLORING, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_TREE, listener: self)
 		EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SONG, listener: self)
     }
     
     func pinched(sender:UIPinchGestureRecognizer){

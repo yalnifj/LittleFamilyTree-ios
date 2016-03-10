@@ -85,7 +85,7 @@ class TreeWalker {
 					}
 				}
 			}
-			dispatch_group_enter(group)
+			dispatch_group_leave(group)
 		})
 		
 		dispatch_group_notify(group, dqueue) {
