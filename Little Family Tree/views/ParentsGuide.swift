@@ -94,7 +94,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         starsText.numberOfLines = 0
         starsText.sizeToFit()
         
-        settingsText.text = "Parents may alter app settings through the manage settings button found on any screen.  You must enter the password for your online tree account in order to access the settings.  This prevents children from accidentally changing the settings."
+        settingsText.text = "Parents may alter app settings through the manage settings button found on any screen.  You must enter the password for your online tree account in order to access the settings."
         settingsText.numberOfLines = 0
         settingsText.sizeToFit()
         

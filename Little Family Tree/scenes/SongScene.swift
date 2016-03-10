@@ -82,11 +82,16 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         if width == self.size.width {
             width = width * 0.8
         }
+        
+        personWidth = width * CGFloat(0.17);
+        if personWidth > 250 {
+            personWidth = CGFloat(250)
+        }
 		
 		let stageTexture = SKTexture(imageNamed: "stage")
         var ratio = stageTexture.size().width / stageTexture.size().height
         height = width / ratio
-		xOffset = (self.size.width - width) / CGFloat(2)
+		xOffset = (self.size.width - width - personWidth) / CGFloat(2)
 		yOffset = (self.size.height - (height + topBar!.size.height)) / CGFloat(2)
         
         stage = SKSpriteNode(texture: stageTexture)
@@ -102,11 +107,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		
 		manWidth = stage!.size.width / CGFloat(7)
         womanWidth = manWidth + 4
-		
-		personWidth = width * CGFloat(0.17);
-		if personWidth > 250 {
-			personWidth = CGFloat(250)
-		}
 		
 		song1Button = EventSprite(imageNamed:"song1")
 		ratio = song1Button!.size.height / song1Button!.size.width

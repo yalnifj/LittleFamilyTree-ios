@@ -31,7 +31,7 @@ class TreeWalker {
         dataService.getParents(selectedPerson, onCompletion: { parents, err in
             if parents != nil && parents!.count > 0 {
 				for parent in parents! {
-					if self.usedPeople[parent.id!] != nil {
+					if self.usedPeople[parent.id!] == nil {
 						self.people.append(parent)
 						self.usedPeople[parent.id!] = parent
 						self.loadQueue.append(parent)
@@ -41,7 +41,7 @@ class TreeWalker {
 						self.dataService.getChildren(parent, onCompletion: {children, err in
 							if children != nil && children!.count > 0 {
 								for child in children! {
-									if self.usedPeople[child.id!] != nil {
+									if self.usedPeople[child.id!] == nil {
 										self.people.append(child)
 										self.usedPeople[child.id!] = child
 										self.loadQueue.append(child)
@@ -54,7 +54,7 @@ class TreeWalker {
 							self.dataService.getParents(parent, onCompletion: { parents2, err in
 								if parents2 != nil && parents2!.count > 0 {
 									for parent in parents2! {
-										if self.usedPeople[parent.id!] != nil {
+										if self.usedPeople[parent.id!] == nil {
 											self.people.append(parent)
 											self.usedPeople[parent.id!] = parent
 											self.loadQueue.append(parent)
@@ -66,9 +66,8 @@ class TreeWalker {
 							dispatch_group_leave(group)
 						})
 					}
-					
-					self.parents = parents!
 				}
+                self.parents = parents!
 			}
 			dispatch_group_leave(group)
         })
@@ -78,7 +77,7 @@ class TreeWalker {
 		dataService.getChildren(selectedPerson, onCompletion: {children, err in
 			if children != nil && children!.count > 0 {
 				for child in children! {
-					if self.usedPeople[child.id!] != nil {
+					if self.usedPeople[child.id!] == nil {
 						self.people.append(child)
 						self.usedPeople[child.id!] = child
 						self.loadQueue.append(child)
@@ -110,7 +109,7 @@ class TreeWalker {
 				dataService.getChildren(person, onCompletion: {children, err in
 					if children != nil && children!.count > 0 {
 						for child in children! {
-							if self.usedPeople[child.id!] != nil {
+							if self.usedPeople[child.id!] == nil {
 								self.people.append(child)
 								self.usedPeople[child.id!] = child
 								self.loadQueue.append(child)
@@ -125,7 +124,7 @@ class TreeWalker {
 			dataService.getParents(person, onCompletion: { parents2, err in
 				if parents2 != nil && parents2!.count > 0 {
 					for parent in parents2! {
-						if self.usedPeople[parent.id!] != nil {
+						if self.usedPeople[parent.id!] == nil {
 							self.people.append(parent)
 							self.usedPeople[parent.id!] = parent
 							self.loadQueue.append(parent)
