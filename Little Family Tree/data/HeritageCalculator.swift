@@ -55,7 +55,7 @@ class HeritageCalculator {
             }
             else {
                 let pathPerson = path.treePath.last!
-				if pathPerson.treeLevel != nil && pathPerson.treeLevel! < 4 {
+				if pathPerson.treeLevel != nil && pathPerson.treeLevel! < 3 {
 					dataService.getParents(pathPerson, onCompletion: {parents, err in 
 						if (parents != nil && parents!.count > 0) {
 							for parent in parents! {

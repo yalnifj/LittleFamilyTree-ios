@@ -57,7 +57,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
         
-        welcomeText.text = "Little Family Tree engages toddlers and pre-school children with their personal family history through photos, games, and activities designed for their level. (Most of the games are fun for the kid in all of us.)"
+        welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)  Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
         welcomeText.numberOfLines = 0
         welcomeImage.frame.size.width = view.frame.width / 2.5
         welcomeText.sizeToFit()
@@ -198,6 +198,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     }
     
     @IBAction func websiteButtonClicked(sender: AnyObject) {
+		UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
     }
 }
 

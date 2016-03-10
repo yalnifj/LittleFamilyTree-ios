@@ -789,6 +789,17 @@ class GameScene: LittleFamilyScene {
         piano.position = CGPointMake(625, 490)
         piano.zPosition = z++
         touchableSprites.append(piano)
+		let pianoAnim:[SKTexture] = [
+            SKTexture(imageNamed: "house_music_piano1"),
+            SKTexture(imageNamed: "house_music_piano2"),
+            SKTexture(imageNamed: "house_music_piano3")
+        ]
+        let pianoAction = SKAction.animateWithTextures(pianoAnim, timePerFrame: 0.07, resize: false, restore: false)
+		let pianoReverse = SKAction.reversedAction(pianoAction)()
+		let pianoSeqAction = SKAction.sequence([pianoAction, pianoReverse])
+		let pianoRepeatAction = SKAction.repeatAction(pianoSeqAction, count: 3)
+        piano.addAction(1, action: pianoRepeatAction)
+        piano.addClick(1, val: false)
         piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
         starSprites.append(piano)
         spriteContainer.addChild(piano)
