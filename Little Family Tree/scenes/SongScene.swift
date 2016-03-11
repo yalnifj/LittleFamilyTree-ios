@@ -71,8 +71,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         background.zPosition = 0
         self.addChild(background)
 		
-		treeWalker = TreeWalker(person: selectedPerson!, listener:self)
-		treeWalker!.loadFamilyMembers()
 		songAlbum = SongAlbum(person: selectedPerson!)
         
 		setupTopBar()
@@ -275,6 +273,9 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_CHOOSE_SONG1, listener: self)
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_CHOOSE_SONG2, listener: self)
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_CHOOSE_SONG3, listener: self)
+        
+        treeWalker = TreeWalker(person: selectedPerson!, listener:self)
+        treeWalker!.loadFamilyMembers()
     }
     
     override func willMoveFromView(view: SKView) {
