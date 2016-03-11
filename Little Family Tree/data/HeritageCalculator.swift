@@ -138,6 +138,5 @@ class HeritageCalculator {
             let lastInPath = path.treePath.last
             dataService.addToSyncQ(lastInPath!)
         }
-
     }
 }

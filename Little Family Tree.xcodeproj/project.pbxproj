@@ -54,6 +54,8 @@
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
 		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A172F0231C926C55007346FD /* grandma_outline.png in Resources */ = {isa = PBXBuildFile; fileRef = A172F0221C926C55007346FD /* grandma_outline.png */; };
+		A172F02C1C927E07007346FD /* SimpleDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A172F02B1C927E07007346FD /* SimpleDialogView.xib */; };
+		A172F02E1C927E57007346FD /* SimpleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A172F02D1C927E56007346FD /* SimpleDialogView.swift */; };
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A1F7CE231C8FBBA4006053A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7CE221C8FBBA4006053A2 /* Images.xcassets */; };
@@ -690,6 +692,8 @@
 		A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LittleFamilyTree-Bridging-Header.h"; sourceTree = "<group>"; };
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		A172F0221C926C55007346FD /* grandma_outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_outline.png; sourceTree = "<group>"; };
+		A172F02B1C927E07007346FD /* SimpleDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleDialogView.xib; sourceTree = "<group>"; };
+		A172F02D1C927E56007346FD /* SimpleDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDialogView.swift; sourceTree = "<group>"; };
 		A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		A1F7CE221C8FBBA4006053A2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1F7CE241C8FBBD6006053A2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1439,6 +1443,8 @@
 				A1F7CE9B1C8FBBD6006053A2 /* SearchPeople.xib */,
 				A1F7CE9C1C8FBBD6006053A2 /* SettingsView.swift */,
 				A1F7CE9D1C8FBBD6006053A2 /* SettingsView.xib */,
+				A172F02B1C927E07007346FD /* SimpleDialogView.xib */,
+				A172F02D1C927E56007346FD /* SimpleDialogView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -2186,6 +2192,7 @@
 				A1F7CF021C8FBBD6006053A2 /* ChooseServiceView.xib in Resources */,
 				A1F7D2DC1C8FBC12006053A2 /* house_kitchen_freezer6.png in Resources */,
 				A1F7D1AB1C8FBC12006053A2 /* dad.png in Resources */,
+				A172F02C1C927E07007346FD /* SimpleDialogView.xib in Resources */,
 				A1F7D1881C8FBC12006053A2 /* bubble.png in Resources */,
 				A1F7D3671C8FBC12006053A2 /* guide_full_tree.png in Resources */,
 				A1F7D2771C8FBC12006053A2 /* house_chilldroom_bed.png in Resources */,
@@ -2573,6 +2580,7 @@
 				A1F7CECB1C8FBBD6006053A2 /* HypermediaEnabledData.swift in Sources */,
 				A1F7CED51C8FBBD6006053A2 /* Relationship.swift in Sources */,
 				A1F7CEE31C8FBBD6006053A2 /* ChoosePlayerScene.swift in Sources */,
+				A172F02E1C927E57007346FD /* SimpleDialogView.swift in Sources */,
 				A1F7CEBD1C8FBBD6006053A2 /* GameViewController.swift in Sources */,
 				A1F7CEEA1C8FBBD6006053A2 /* ScratchScene.swift in Sources */,
 				A1F7CEA71C8FBBD6006053A2 /* PlaceHelper.swift in Sources */,

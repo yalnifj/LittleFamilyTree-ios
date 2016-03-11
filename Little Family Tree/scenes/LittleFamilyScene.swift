@@ -338,6 +338,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
         self.clearDialogRect()
     }
     
+    func showSimpleDialog(title:String, message:String) {
+        let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+        let subview = SimpleDialogView(frame: rect)
+        subview.setMessage(title, message: message)
+        self.view?.addSubview(subview)
+    }
+    
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {
         let levelUpAction = SKAction.waitForDuration(wait)
         runAction(levelUpAction) {

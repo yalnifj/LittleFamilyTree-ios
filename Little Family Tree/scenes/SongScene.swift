@@ -82,7 +82,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             width = width * 0.8
         }
         
-        personWidth = width * CGFloat(0.17);
+        personWidth = width * CGFloat(0.20);
         if personWidth > 250 {
             personWidth = CGFloat(250)
         }
