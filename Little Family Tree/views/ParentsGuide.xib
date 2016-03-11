@@ -19,10 +19,9 @@
                 <outlet property="closeButton" destination="vua-TB-Wpb" id="BeB-ZN-UbB"/>
                 <outlet property="homeActivityText" destination="CcN-kj-FCW" id="pqd-CJ-nAt"/>
                 <outlet property="kidHeritageButton" destination="Hsj-d0-0nq" id="xWp-BH-lRc"/>
-                <outlet property="moreText" destination="e79-3z-U6c" id="Xwf-vJ-nvD"/>
+                <outlet property="moreText" destination="Np0-SW-1Ra" id="dys-ir-g1s"/>
                 <outlet property="moreText3" destination="IDq-Cr-l3c" id="Yhc-er-0tM"/>
                 <outlet property="nextButton" destination="c8v-he-amK" id="cHd-Nj-UOr"/>
-                <outlet property="pageControl" destination="nQT-LZ-1f0" id="9rm-Tp-STj"/>
                 <outlet property="pagedScrollView" destination="f4X-ia-rlg" id="xuD-yq-dkc"/>
                 <outlet property="photoText" destination="lWc-pw-P9K" id="4lp-ES-Y8H"/>
                 <outlet property="photosImage" destination="saX-HX-ylF" id="bfQ-5m-esJ"/>
@@ -53,43 +52,39 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f4X-ia-rlg">
                     <rect key="frame" x="0.0" y="46" width="400" height="310"/>
                 </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HW4-Sd-AXR">
-                    <rect key="frame" x="0.0" y="316" width="50" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="50" id="3aP-Pz-Df5"/>
-                        <constraint firstAttribute="height" constant="45" id="Q1w-ec-ciJ"/>
-                    </constraints>
-                    <state key="normal" image="rw.png"/>
-                    <connections>
-                        <action selector="prevButtonClicked:" destination="-1" eventType="touchUpInside" id="Wvc-W9-uOl"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8v-he-amK">
-                    <rect key="frame" x="350" y="316" width="50" height="45"/>
-                    <state key="normal" image="ff.png"/>
-                    <connections>
-                        <action selector="nextButtonClicked:" destination="-1" eventType="touchUpInside" id="2m2-NG-3Y7"/>
-                    </connections>
-                </button>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4PL-OH-OAR">
                     <rect key="frame" x="0.0" y="356" width="400" height="44"/>
                     <items>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="36W-it-f6I"/>
-                        <barButtonItem style="plain" id="eGV-fW-dcT">
-                            <pageControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="nQT-LZ-1f0">
-                                <rect key="frame" x="180" y="4" width="39" height="37"/>
+                        <barButtonItem style="plain" id="iaW-TU-FlG">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HW4-Sd-AXR">
+                                <rect key="frame" x="20" y="-1" width="50" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="pageIndicatorTintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="3aP-Pz-Df5"/>
+                                    <constraint firstAttribute="height" constant="45" id="Q1w-ec-ciJ"/>
+                                </constraints>
+                                <state key="normal" image="rw.png"/>
                                 <connections>
-                                    <action selector="pageChanged:" destination="-1" eventType="valueChanged" id="LLc-EP-FW2"/>
+                                    <action selector="prevButtonClicked:" destination="-1" eventType="touchUpInside" id="Wvc-W9-uOl"/>
                                 </connections>
-                            </pageControl>
+                            </button>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="8Tz-bD-yK8"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="36W-it-f6I"/>
                         <barButtonItem title="Close" id="vua-TB-Wpb">
                             <connections>
                                 <action selector="doneAction:" destination="-1" id="Kd5-su-kFC"/>
                             </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="8Tz-bD-yK8"/>
+                        <barButtonItem style="plain" id="mzf-t8-6OJ">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="c8v-he-amK">
+                                <rect key="frame" x="330" y="-1" width="50" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="ff.png"/>
+                                <connections>
+                                    <action selector="nextButtonClicked:" destination="-1" eventType="touchUpInside" id="2m2-NG-3Y7"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </items>
                 </toolbar>
@@ -99,22 +94,18 @@
                 <constraint firstAttribute="trailing" secondItem="XYY-c2-Spy" secondAttribute="trailing" constant="66" id="1JP-w1-3hp"/>
                 <constraint firstItem="f4X-ia-rlg" firstAttribute="top" secondItem="XYY-c2-Spy" secondAttribute="bottom" constant="8" id="1ad-H2-Xpd"/>
                 <constraint firstItem="f4X-ia-rlg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="1jR-OC-4A0"/>
-                <constraint firstAttribute="bottom" secondItem="c8v-he-amK" secondAttribute="bottom" constant="39" id="4Gg-G6-EJV"/>
                 <constraint firstItem="XYY-c2-Spy" firstAttribute="top" secondItem="bgI-7o-Y49" secondAttribute="top" id="7wq-2U-XeV"/>
                 <constraint firstItem="4PL-OH-OAR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="87K-Ng-c0B"/>
                 <constraint firstAttribute="bottom" secondItem="f4X-ia-rlg" secondAttribute="bottom" constant="44" id="AOd-jb-rMV"/>
-                <constraint firstAttribute="trailing" secondItem="c8v-he-amK" secondAttribute="trailing" id="BYz-iC-idE"/>
                 <constraint firstItem="XYY-c2-Spy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="DIu-lr-6cx"/>
                 <constraint firstItem="XYY-c2-Spy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="F2Q-la-9ff"/>
                 <constraint firstAttribute="bottom" secondItem="4PL-OH-OAR" secondAttribute="bottom" id="Zsb-au-4d4"/>
-                <constraint firstItem="HW4-Sd-AXR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aWu-UL-sk9"/>
                 <constraint firstAttribute="trailing" secondItem="f4X-ia-rlg" secondAttribute="trailing" id="bBE-cf-H5z"/>
                 <constraint firstItem="bgI-7o-Y49" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fB1-AO-GYo"/>
                 <constraint firstAttribute="trailing" secondItem="bgI-7o-Y49" secondAttribute="trailing" id="ffL-bQ-75J"/>
                 <constraint firstItem="XYY-c2-Spy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="67" id="hc8-6q-Hjd"/>
                 <constraint firstItem="bgI-7o-Y49" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ie3-AK-oZF"/>
                 <constraint firstAttribute="bottom" secondItem="bgI-7o-Y49" secondAttribute="bottom" id="iue-nQ-cbL"/>
-                <constraint firstAttribute="bottom" secondItem="HW4-Sd-AXR" secondAttribute="bottom" constant="39" id="kZ6-cP-WTN"/>
                 <constraint firstItem="4PL-OH-OAR" firstAttribute="top" secondItem="f4X-ia-rlg" secondAttribute="bottom" id="pBh-cO-IOa"/>
                 <constraint firstAttribute="trailing" secondItem="4PL-OH-OAR" secondAttribute="trailing" id="ppU-K7-Z1d"/>
                 <constraint firstAttribute="bottom" secondItem="bgI-7o-Y49" secondAttribute="bottom" id="vk2-Fj-vgk"/>
@@ -477,39 +468,39 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="308"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More Family History for Children" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTK-AU-Fzx">
-                    <rect key="frame" x="8" y="8" width="384" height="34"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="More Family History for Children" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTK-AU-Fzx">
+                    <rect key="frame" x="8" y="8" width="384" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="G7R-sX-Byb"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e79-3z-U6c">
-                    <rect key="frame" x="8" y="250" width="384" height="50"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hsj-d0-0nq">
-                    <rect key="frame" x="8" y="50" width="384" height="192"/>
+                    <rect key="frame" x="8" y="38" width="384" height="204"/>
                     <state key="normal" title="Button" image="kidsheritage_logo.jpg"/>
                     <connections>
                         <action selector="kidHeritageClicked:" destination="-1" eventType="touchUpInside" id="tdj-OU-lAt"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Np0-SW-1Ra">
+                    <rect key="frame" x="8" y="250" width="384" height="50"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="e79-3z-U6c" secondAttribute="trailing" constant="8" id="2aR-3f-QnG"/>
                 <constraint firstAttribute="trailing" secondItem="qTK-AU-Fzx" secondAttribute="trailing" constant="8" id="2sW-8C-eXe"/>
-                <constraint firstItem="e79-3z-U6c" firstAttribute="top" secondItem="Hsj-d0-0nq" secondAttribute="bottom" constant="8" id="Esc-PR-wQM"/>
+                <constraint firstAttribute="trailing" secondItem="Np0-SW-1Ra" secondAttribute="trailing" constant="8" id="424-3J-G93"/>
+                <constraint firstAttribute="bottom" secondItem="Np0-SW-1Ra" secondAttribute="bottom" constant="8" id="CgW-f7-iZ9"/>
                 <constraint firstItem="Hsj-d0-0nq" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" constant="8" id="HRw-is-7VJ"/>
-                <constraint firstItem="e79-3z-U6c" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" constant="8" id="WT3-jN-Gwd"/>
+                <constraint firstItem="Np0-SW-1Ra" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" constant="8" id="fyf-Oy-iOj"/>
                 <constraint firstItem="qTK-AU-Fzx" firstAttribute="top" secondItem="KBD-If-AC0" secondAttribute="topMargin" id="gYe-jw-TRD"/>
                 <constraint firstAttribute="trailing" secondItem="Hsj-d0-0nq" secondAttribute="trailing" constant="8" id="uGL-xr-y9b"/>
-                <constraint firstAttribute="bottom" secondItem="e79-3z-U6c" secondAttribute="bottom" constant="8" id="um5-v9-jmR"/>
+                <constraint firstItem="Np0-SW-1Ra" firstAttribute="top" secondItem="Hsj-d0-0nq" secondAttribute="bottom" constant="8" id="wZW-n4-RmU"/>
                 <constraint firstItem="qTK-AU-Fzx" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" constant="8" id="x00-eZ-Nz7"/>
                 <constraint firstItem="Hsj-d0-0nq" firstAttribute="top" secondItem="qTK-AU-Fzx" secondAttribute="bottom" constant="8" id="y1V-D1-aJw"/>
             </constraints>

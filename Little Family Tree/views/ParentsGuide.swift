@@ -11,7 +11,6 @@ import UIKit
 class ParentsGuide: UIView, UIScrollViewDelegate {
 
     var view:UIView!
-    @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var pagedScrollView: UIScrollView!
     
     @IBOutlet weak var WelcomView: UIView!
@@ -166,9 +165,6 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         pagedScrollView.pagingEnabled = true
         pagedScrollView.delegate = self
         
-        pageControl.numberOfPages = scrolledViews.count
-        pageControl.currentPage = 0
-        pageControl.hidden = true
         nextButton.hidden = false
         prevButton.hidden = true
     }

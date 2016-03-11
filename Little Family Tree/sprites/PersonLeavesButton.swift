@@ -40,7 +40,7 @@ class PersonLeavesButton: SKSpriteNode {
 			leaves?.runAction(repeated)
 			
 			index = 0
-			if photoSprite == nil {
+			if photoSprite == nil && self.people != nil && index < self.people!.count {
 				let photo = TextureHelper.getPortraitTexture(self.people![index])
 				photoSprite = SKSpriteNode(texture: photo)
 				photoSprite?.position = CGPointMake(self.size.width/2, self.size.height/2)

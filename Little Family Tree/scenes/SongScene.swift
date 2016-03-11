@@ -57,6 +57,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var treeWalker:TreeWalker?
 	var songAlbum:SongAlbum?
+    var song:Song?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -324,7 +325,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
 		if topic == SongScene.TOPIC_CHOOSE_SONG1 {
-			
+			self.song = songAlbum!.songs[0]
 		}
+        else if topic == SongScene.TOPIC_CHOOSE_SONG2 {
+            self.song = songAlbum!.songs[1]
+        }
+        else if topic == SongScene.TOPIC_CHOOSE_SONG3 {
+            self.song = songAlbum!.songs[2]
+        }
     }
 }

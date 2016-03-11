@@ -10,6 +10,9 @@ import Foundation
 import SpriteKit
 
 class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListener, BrushSizeListener {
+    static var TOPIC_NEXT_IMAGE = "nextImage"
+    static var TOPIC_SHARE_IMAGE = "shareImage"
+    
     var randomMediaChooser = RandomMediaChooser.getInstance()
     
 	var fullImageHolder:SKSpriteNode?
@@ -21,8 +24,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     var palette : ColorPaletteSprite?
     var brushSizer : BrushSizeSprite?
     var coloring = false
-    var nextButton :SKSpriteNode?
-    var shareButton :SKSpriteNode?
+    var nextButton :EventSprite?
+    var shareButton :EventSprite?
+    var outlineButton : SKSpriteNode?
     var logoMark: SKSpriteNode?
     
     var image:UIImage?
@@ -30,6 +34,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     var clearColor:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
     var brushSize:CGFloat = 12
     var activityViewController:UIActivityViewController?
+    
+    var showOutline = true
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -73,32 +79,51 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         brushSizer?.listener = self
         self.addChild(brushSizer!)
         
-        nextButton = SKSpriteNode(imageNamed: "ff")
-        let r1 = (nextButton?.size.width)! / (nextButton?.size.height)!
-        let h = (palette?.size.height)! / 3
-        nextButton?.size.height = h
-        nextButton?.size.width = h * r1
-        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h)
-        nextButton?.zPosition = 10
-        self.addChild(nextButton!)
+        outlineButton = SKSpriteNode(imageNamed: "grandma_outline")
+        let r1 = (outlineButton?.size.width)! / (outlineButton?.size.height)!
+        let h = (palette?.size.height)! / 2
+        outlineButton?.size.height = h
+        outlineButton?.size.width = h * r1
+        outlineButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h)
+        outlineButton?.zPosition = 10
+        self.addChild(outlineButton!)
+
         
-        shareButton = SKSpriteNode(imageNamed: "camera")
+        nextButton = EventSprite(imageNamed: "ff")
+        let r3 = (nextButton?.size.width)! / (nextButton?.size.height)!
+        let h2 = (palette?.size.height)! / 3
+        nextButton?.size.height = h2
+        nextButton?.size.width = h2 * r3
+        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h2)
+        nextButton?.zPosition = 10
+        nextButton?.topic = ColoringScene.TOPIC_NEXT_IMAGE
+        topBar!.addCustomSprite(nextButton!)
+        //self.addChild(nextButton!)
+        
+        shareButton = EventSprite(imageNamed: "camera")
         let r2 = (shareButton?.size.width)! / (shareButton?.size.height)!
-        shareButton?.size.height = h
-        shareButton?.size.width = h * r2
-        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, h)
+        shareButton?.size.height = h2
+        shareButton?.size.width = h2 * r2
+        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, h2)
         shareButton?.zPosition = 10
-        self.addChild(shareButton!)
+        shareButton?.topic = ColoringScene.TOPIC_SHARE_IMAGE
+        //self.addChild(shareButton!)
+        topBar!.addCustomSprite(shareButton!)
         
         showLoadingDialog()
         
         randomMediaChooser.listener = self
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
+        
+        EventHandler.getInstance().subscribe(ColoringScene.TOPIC_NEXT_IMAGE, listener: self)
+        EventHandler.getInstance().subscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
+        EventHandler.getInstance().unSubscribe(ColoringScene.TOPIC_NEXT_IMAGE, listener: self)
+        EventHandler.getInstance().unSubscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -109,6 +134,10 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         if media == nil {
             randomMediaChooser.loadMoreFamilyMembers()
             return
+        }
+        
+        if showOutline == false {
+            toggleOutline()
         }
         
         let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
@@ -184,6 +213,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                     outlineSprite = SKSpriteNode(texture: imageTexture)
                     outlineSprite!.zPosition = 4
                     outlineSprite!.position = CGPointMake(0, 0)
+                    outlineSprite?.hidden = !showOutline
                     fullImageHolder!.addChild(outlineSprite!)
                 }
             }
@@ -200,7 +230,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(lastPoint)
-            if touchedNode == outlineSprite! || touchedNode == photoCopySprite! {
+            if (outlineSprite != nil && touchedNode == outlineSprite!) || (coverSprite != nil && touchedNode == coverSprite!) {
                 coloring = true
             }
         }
@@ -223,14 +253,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             lastPoint = touch.locationInNode(self)
             if coloring == false {
                 let touchedNode = nodeAtPoint(lastPoint)
-                if touchedNode == nextButton {
-                    showLoadingDialog()
-                    randomMediaChooser.loadRandomImage()
-                } else if touchedNode == shareButton {
-                    //-- 1 get image from node
-                    //-- launch sharing options
-                    print("Share me")
-					showParentAuth()
+                if touchedNode == outlineButton {
+                    toggleOutline()
                 }
             }
         }
@@ -239,7 +263,24 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         coloring = false
     }
     
+    override func onEvent(topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
+        if topic == ColoringScene.TOPIC_NEXT_IMAGE {
+            showLoadingDialog()
+            randomMediaChooser.loadRandomImage()
+        } else if topic == ColoringScene.TOPIC_SHARE_IMAGE {
+            //-- 1 get image from node
+            //-- launch sharing options
+            print("Share me")
+            showParentAuth()
+        }
+    }
+    
     func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+        if fullImageHolder == nil || photoSprite == nil || coverSprite == nil {
+            return
+        }
+        
         UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
@@ -265,6 +306,21 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 
         let coverTexture = SKTexture(image: image!)
         coverSprite?.texture = coverTexture
+    }
+    
+    func toggleOutline() {
+        showOutline = !showOutline
+        if showOutline {
+            outlineButton?.texture = SKTexture(imageNamed: "grandma_outline")
+            if outlineSprite != nil {
+                outlineSprite?.hidden = false
+            }
+        } else {
+            outlineButton?.texture = SKTexture(imageNamed: "grandma")
+            if outlineSprite != nil {
+                outlineSprite?.hidden = true
+            }
+        }
     }
     
     func onColorChange(color: UIColor) {

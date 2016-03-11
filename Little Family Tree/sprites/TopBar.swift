@@ -13,6 +13,7 @@ class TopBar: SKSpriteNode {
     var photoSprite:SKSpriteNode?
     var homeSprite:SKSpriteNode?
 	var settingsSprite:SKSpriteNode?
+    var customSprites = [SKSpriteNode]()
     
     var person:LittlePerson? {
         didSet {
@@ -46,6 +47,23 @@ class TopBar: SKSpriteNode {
         }
     }
     
+    func addCustomSprite(sprite:SKSpriteNode) {
+        customSprites.append(sprite)
+        let ratio = sprite.size.height / sprite.size.width
+        sprite.size.height = self.size.height - 5
+        sprite.size.width = sprite.size.height / ratio
+        let width = self.size.width - photoSprite!.size.width - homeSprite!.size.width - 20
+        let bwidth = width / CGFloat(customSprites.count + 1)
+        settingsSprite?.position.x = photoSprite!.position.x + (photoSprite!.size.width / 2) + (bwidth / 2)
+        var x = settingsSprite!.position.x + bwidth
+        for s in customSprites {
+            s.position = CGPointMake(x, 0)
+            x = x + bwidth
+        }
+        
+        self.addChild(sprite)
+    }
+    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
@@ -60,6 +78,13 @@ class TopBar: SKSpriteNode {
 			else if touchedNode == settingsSprite {
 				EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_SETTINGS, data: person)
 			}
+            else {
+                for sprite in customSprites {
+                    if touchedNode == sprite || touchedNode.parent == sprite || sprite.children.contains(touchedNode) {
+                        sprite.touchesEnded(touches, withEvent: event)
+                    }
+                }
+            }
         }
     }
 
