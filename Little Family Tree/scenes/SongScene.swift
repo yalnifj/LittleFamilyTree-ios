@@ -313,7 +313,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			self.peopleHolder!.addChild(sprite)
 			self.peopleSprites.append(sprite)
 			
-			y = y - (personWidth + CGFloat(10))
+			y = y - personWidth
 		}
 	}
     
@@ -323,5 +323,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	
 	override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
+		if topic == SongScene.TOPIC_CHOOSE_SONG1 {
+			
+		}
     }
 }
