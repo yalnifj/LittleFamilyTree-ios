@@ -118,6 +118,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     
     func onClose() {
         self.hideParentsGuide()
+		self.checkMedia()
         self.speak("Who is playing today?")
     }
     
@@ -158,11 +159,18 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 }
                 let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
                 if showGuide != nil && showGuide! != "true" {
+					self.checkMedia()
                     self.speak("Who is playing today?")
                 }
             })
         })
     }
+	
+	func checkMedia() {
+		if dataService.dbHelper.getMediaCount() < 5 {
+			showSimpleDialog("Add more pictures", message:"There are not many pictures on your online family tree.  The game is more fun with more pictures.  Please go to your online family tree and upload more photos.");
+		}
+	}
     
     override func LoginComplete() {
        loadPeople()
