@@ -167,7 +167,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     }
 	
 	func checkMedia() {
-		if dataService.dbHelper.getMediaCount() < 5 {
+		if dataService!.dbHelper.getMediaCount() < 5 {
 			showSimpleDialog("Add more pictures", message:"There are not many pictures on your online family tree.  The game is more fun with more pictures.  Please go to your online family tree and upload more photos.");
 		}
 	}

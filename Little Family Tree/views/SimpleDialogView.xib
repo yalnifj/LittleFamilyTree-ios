@@ -4,7 +4,13 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleDialogView" customModule="Little_Family_Tree"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleDialogView" customModule="Little_Family_Tree" customModuleProvider="target">
+            <connections>
+                <outlet property="closeButton" destination="1fA-d1-KCG" id="FaY-Ml-syw"/>
+                <outlet property="messageLabel" destination="Rf3-bG-HNo" id="0FY-lr-zJh"/>
+                <outlet property="titleBar" destination="5vc-ya-qaa" id="fMd-PB-UvY"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="312"/>
@@ -20,7 +26,11 @@
                     <rect key="frame" x="0.0" y="268" width="320" height="44"/>
                     <items>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="bsb-Y0-OUy"/>
-                        <barButtonItem title="Close" id="1fA-d1-KCG"/>
+                        <barButtonItem title="Close" id="1fA-d1-KCG">
+                            <connections>
+                                <action selector="closeButtonClicked:" destination="-1" id="epk-pH-ZHg"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Jtu-Jp-zNz"/>
                     </items>
                 </toolbar>

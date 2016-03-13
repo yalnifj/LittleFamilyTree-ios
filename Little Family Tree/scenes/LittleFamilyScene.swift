@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
+class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDialogCloseListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
 	static var TOPIC_START_SETTINGS = "start_settings"
@@ -341,8 +341,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener {
     func showSimpleDialog(title:String, message:String) {
         let rect = self.prepareDialogRect(CGFloat(400), height: CGFloat(300))
         let subview = SimpleDialogView(frame: rect)
+        subview.listener = self
         subview.setMessage(title, message: message)
         self.view?.addSubview(subview)
+    }
+    
+    func onDialogClose() {
+        self.clearDialogRect()
     }
     
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {

@@ -101,7 +101,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		
 		peopleHolder = SKSpriteNode()
 		peopleHolder?.zPosition = 3
-		peopleHolder?.position = CGPointMake(10 + stage!.position.x + stage!.size.width / 2, topBar!.position.y + topBar!.size.height)
+		peopleHolder?.position = CGPointMake(10 + stage!.position.x + stage!.size.width / 2, topBar!.position.y - topBar!.size.height * 3)
 		self.addChild(peopleHolder!)
 		
 		manWidth = stage!.size.width / CGFloat(7)
@@ -129,7 +129,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = song3Button!.size.height / song3Button!.size.width
 		song3Button?.size = CGSizeMake(personWidth * 1.7, personWidth * 1.7 * ratio)
 		song3Button?.zPosition = 2
-		song3Button?.position = CGPointMake(xOffset + 15 + stage!.size.width - song3Button!.size.width, yOffset + 25 + song3Button!.size.height / 2)
+		song3Button?.position = CGPointMake(xOffset + 30 + stage!.size.width - song3Button!.size.width, yOffset + 25 + song3Button!.size.height / 2)
 		song3Button?.userInteractionEnabled = true
 		song3Button?.topic = SongScene.TOPIC_CHOOSE_SONG3
 		self.addChild(song3Button!)
@@ -314,7 +314,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			self.peopleHolder!.addChild(sprite)
 			self.peopleSprites.append(sprite)
 			
-			y = y - personWidth
+			y = y - (personWidth - 15)
 		}
 	}
     
