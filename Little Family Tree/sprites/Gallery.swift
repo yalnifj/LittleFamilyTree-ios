@@ -87,10 +87,10 @@ class Gallery : SKSpriteNode {
         var xdiff = newPoint.x - oldPoint.x
         let xspace = self.size.width / CGFloat(0.5 + Double(distance))
         
-        if visibleNodes.count > 0 && visibleNodes[0].position.x + xdiff > 0 {
+        if self.currentNode==0 && visibleNodes.count > 0 && visibleNodes[0].position.x + xdiff > 0 {
             xdiff = 0 - visibleNodes[0].position.x
         }
-        if visibleNodes.count > 0 && visibleNodes[visibleNodes.count - 1].position.x + xdiff < 0 {
+        if self.currentNode == adapter!.size()-1 && visibleNodes.count > 0 && visibleNodes[visibleNodes.count - 1].position.x + xdiff < 0 {
             xdiff = 0 - visibleNodes[visibleNodes.count - 1].position.x
         }
         

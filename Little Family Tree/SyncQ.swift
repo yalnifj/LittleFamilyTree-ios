@@ -36,7 +36,7 @@ class SyncQ : NSObject {
 		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 2 && person.hasChildren == nil) {
 			if !syncQ.contains(person) {
                 startCounter++
-				dbHelper.addToSyncQ(person.id!)
+				//dbHelper.addToSyncQ(person.id!)
 				if person.treeLevel == nil {
 					syncQ.append(person)
 				}
@@ -361,7 +361,7 @@ class SyncOperation : NSOperation {
         }
         
         let dbHelper = DBHelper.getInstance()
-        dbHelper.removeFromSyncQ(person.id!)
+        //dbHelper.removeFromSyncQ(person.id!)
         
         print("Synchronizing person \(person.id!) \(person.familySearchId!) \(person.treeLevel)")
         
