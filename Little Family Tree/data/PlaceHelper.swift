@@ -59,6 +59,7 @@ class PlaceHelper {
         if (tempPlace == "us") { return true; }
         if (tempPlace == "usa") { return true; }
 		if (tempPlace == "new england") { return true }
+        if (tempPlace == "american colonies") { return true }
         var i = usStates.indexOf(tempPlace)
         if (i != nil) { return true; }
         i = abbvStates.indexOf(tempPlace);

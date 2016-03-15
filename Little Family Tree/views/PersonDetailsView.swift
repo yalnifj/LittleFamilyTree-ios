@@ -32,6 +32,7 @@ class PersonDetailsView: UIView {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var syncButton: UIButton!
     
+    var listener:PersonDetailsCloseListener?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -162,7 +163,11 @@ class PersonDetailsView: UIView {
     }
     
     @IBAction func backButtonAction(sender: AnyObject) {
-        self.view.removeFromSuperview()
+        if listener != nil {
+            listener!.onPersonDetailsClose()
+        } else {
+            self.view.removeFromSuperview()
+        }
     }
     
     @IBAction func refreshAction(sender: AnyObject) {
@@ -201,4 +206,8 @@ class PersonDetailsView: UIView {
             print("Unable to persist person \(self.person!.id!)")
         }
     }
+}
+
+protocol PersonDetailsCloseListener {
+    func onPersonDetailsClose()
 }

@@ -95,7 +95,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         pathPerson = Gallery()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
-        pathPerson?.position = CGPointMake(0, 15)
+        pathPerson?.position = CGPointMake(0, 20)
         if !portrait {
             pathPerson?.position = CGPointMake(self.size.width * 0.68, height / 1.7)
             pathPerson?.size.width = self.size.width * 0.30
@@ -236,7 +236,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel?.text = "Choose a country"
 
-        galleryAdapter?.people = self.calculator!.culturePeople[path.place]!
+        galleryAdapter?.people = self.calculator!.culturePeople[path.place.lowercaseString]!
         pathPerson?.hidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
@@ -288,7 +288,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             }
         }
         
-        var y:CGFloat = self.whiteBackground!.position.y //- self.whiteBackground!.size.height / 2
+        var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+        let ty = self.size.height - touch.locationInView(self.view).y
         let rpaths = self.calculator!.uniquePaths.reverse()
         var theight = CGFloat(0)
         for path in rpaths {
@@ -301,10 +302,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 }
             }
             theight += height
-            print("y=\(y) height=\(height)")
-            
-            let ty = self.size.height - touch.locationInView(self.view).y
-            print("ty=\(ty)")
+            print("y=\(y) height=\(height) ty=\(ty)")
             if ty >= y && ty < y + height {
                 setSelectedPath(path)
                 break

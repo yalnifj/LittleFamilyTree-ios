@@ -385,15 +385,38 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func showFakeToasts(messages:[String]) {
         let w = min(self.size.width, self.size.height) * CGFloat(0.9)
-        let h = w / 15
+        let h = w / 12
         var y = CGFloat(h / 2)
         var maxWidth = CGFloat(0)
         var toasts = [SKSpriteNode]()
-        for m in (0..<messages.count).reverse() {
-            let message = messages[m]
+        var splitMessages = [String]()
+        // split up really long messages
+        for mes in messages {
+            let words = mes.split(" ")
+            if words.count > 10 {
+                var c = 0
+                var str = ""
+                for w in words {
+                    if c > 0 {
+                        str = str + " "
+                    }
+                    str = str + w
+                    c++
+                    if c > 10 {
+                        splitMessages.append(str)
+                        str = ""
+                        c = 0
+                    }
+                }
+            } else {
+                splitMessages.append(mes)
+            }
+        }
+        for m in (0..<splitMessages.count).reverse() {
+            let message = splitMessages[m]
             let lc = SKSpriteNode(color: UIColor(hexString: "#BBBBBBCC"), size: CGSizeMake(w, h))
             lc.position = CGPointMake(self.size.width / 2, y)
-            lc.zPosition = 100
+            lc.zPosition = 1000
             let speakLabel = SKLabelNode(text: message)
             speakLabel.fontColor = UIColor.blackColor()
             speakLabel.fontSize = h / 2
@@ -406,7 +429,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 maxWidth = lc.size.width
             }
             
-            let action = SKAction.sequence([SKAction.moveByX(0, y: h/3, duration: 3.0), SKAction.removeFromParent()])
+            let action = SKAction.sequence([SKAction.moveByX(0, y: h/3, duration: 4.0), SKAction.removeFromParent()])
             lc.runAction(action)
             
             y = y + lc.size.height + 5

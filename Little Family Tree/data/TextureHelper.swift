@@ -18,12 +18,16 @@ class TextureHelper {
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         
         if person.photoPath === nil || person.photoPath!.length == 0 {
-            print("no portrait found for \(person.name!)")
+            if person.name != nil {
+                print("no portrait found for \(person.name!)")
+            }
             return getDefaultPortrait(person)
         }
         let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
         if !fileManager.fileExistsAtPath(photoUrl.path!) {
-            print("no portrait found for \(person.name!)")
+            if person.name != nil {
+                print("no portrait found for \(person.name!)")
+            }
             return getDefaultPortrait(person)
         }
         
@@ -73,12 +77,16 @@ class TextureHelper {
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         
         if person.photoPath === nil || person.photoPath!.length == 0 {
-            print("no portrait found for \(person.name!)")
+            if person.name != nil {
+                print("no portrait found for \(person.name!)")
+            }
             return getDefaultPortraitImage(person)
         }
         let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
         if !fileManager.fileExistsAtPath(photoUrl.path!) {
-            print("no portrait found for \(person.name!)")
+            if person.name != nil {
+                print("no portrait found for \(person.name!)")
+            }
             return getDefaultPortraitImage(person)
         }
         

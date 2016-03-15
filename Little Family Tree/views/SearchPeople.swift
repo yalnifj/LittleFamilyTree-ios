@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
+class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetailsCloseListener {
     
     var view:UIView!
     
@@ -21,6 +21,7 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     @IBOutlet weak var resultsTable: UITableView!
     
     var selectedPerson:LittlePerson?
+    var personDetailsView:PersonDetailsView?
     
     var results = [LittlePerson]()
     
@@ -42,6 +43,7 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
         
         let nib = UINib(nibName: "SearchPersonTableCell", bundle: nil)
         self.resultsTable.registerNib(nib, forCellReuseIdentifier: "SearchPersonTableCell")
+        self.resultsTable.rowHeight = 60
     }
     
     func loadViewFromNib() -> UIView {
@@ -81,9 +83,15 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("You selected cell #\(indexPath.row)!")
         let person = results[indexPath.row]
-        let subview = PersonDetailsView(frame: (self.view?.bounds)!)
-        subview.selectedPerson = self.selectedPerson
-        subview.showPerson(person)
-        self.view?.addSubview(subview)
+        personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
+        personDetailsView?.listener = self
+        personDetailsView?.selectedPerson = self.selectedPerson
+        personDetailsView?.showPerson(person)
+        self.view?.addSubview(personDetailsView!)
+    }
+    
+    func onPersonDetailsClose() {
+        self.userInteractionEnabled = true
+        personDetailsView!.view.removeFromSuperview()
     }
 }

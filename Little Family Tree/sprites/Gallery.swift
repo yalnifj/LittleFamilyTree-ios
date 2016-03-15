@@ -18,18 +18,22 @@ class Gallery : SKSpriteNode {
         currentNode = 0
         visibleNodes.removeAll()
         self.removeAllChildren()
-        var x = self.size.width / 2
+        let xspace = self.size.width / CGFloat(0.5 + Double(distance))
+        var x = xspace * CGFloat(0 - distance)
         let y = CGFloat(0)
         let s = currentNode - distance
         let e = currentNode + distance + 1
         for n in s..<e {
+            print("n=\(n) x=\(x)")
             if n >= 0 && n < adapter!.size() {
                 let node = setupNode(n, x: x, y: y)
-                node.runAction(SKAction.scaleXTo(1.0 - abs((x - self.size.width / 2) / (self.size.width/2)), duration: 0.0))
+                node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.0))
                 visibleNodes.append(node)
                 self.addChild(node)
             }
-            x += self.size.width / CGFloat(1 + distance * 2) - 10
+            x += xspace
         }
 
     }
@@ -38,14 +42,12 @@ class Gallery : SKSpriteNode {
         let node = adapter!.getNodeAtPosition(n)
         node.position = CGPointMake(x, y)
         if n < currentNode {
-            node.zPosition = CGFloat(currentNode - n)
+            node.zPosition = CGFloat(adapter!.size() - (currentNode - n))
         } else if n > currentNode {
-            node.zPosition = CGFloat(n - currentNode)
+            node.zPosition = CGFloat(adapter!.size() - (n - currentNode))
         } else {
-            node.zPosition = CGFloat(n)
+            node.zPosition = CGFloat(adapter!.size() )
         }
-        let ratio = node.size.width / node.size.height
-        node.size = CGSizeMake(self.size.height * 0.75 * ratio, self.size.height * 0.75)
         
         return node
         
@@ -82,27 +84,58 @@ class Gallery : SKSpriteNode {
     }
     
     func slide(oldPoint:CGPoint, newPoint:CGPoint) {
-        let xdiff = newPoint.x - oldPoint.x
+        var xdiff = newPoint.x - oldPoint.x
+        let xspace = self.size.width / CGFloat(0.5 + Double(distance))
+        
+        if visibleNodes.count > 0 && visibleNodes[0].position.x + xdiff > 0 {
+            xdiff = 0 - visibleNodes[0].position.x
+        }
+        if visibleNodes.count > 0 && visibleNodes[visibleNodes.count - 1].position.x + xdiff < 0 {
+            xdiff = 0 - visibleNodes[visibleNodes.count - 1].position.x
+        }
+        
+        var c = 0
         for node in visibleNodes {
             node.removeAllActions()
             let newx = node.position.x + xdiff
-            node.runAction(SKAction.scaleXTo(1 - (newx * newx / self.size.width), duration: 0.1))
+            
+            node.runAction(SKAction.scaleXTo(1 - (abs(newx) / (xspace*CGFloat(distance*2))), duration: 0.1))
+            node.runAction(SKAction.scaleYTo(1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.1))
+            node.runAction(SKAction.fadeAlphaTo(1 - (abs(newx) / (xspace*CGFloat(distance))), duration: 0.1))
             node.runAction(SKAction.moveByX(xdiff, y: 0, duration: 0.1)) {
-                if node.position.x < 0 {
+                if node.position.x < xspace * -2 {
                     node.removeFromParent()
                     self.visibleNodes.removeObject(node)
                     if self.currentNode < self.adapter!.size() {
                         self.currentNode++
                         if self.currentNode < self.adapter!.size()-self.distance {
-                            let x = self.size.width / CGFloat(1 + self.distance * 2)
+                            let x = xspace * CGFloat(self.distance)
                             let node = self.setupNode(self.currentNode + self.distance - 1, x: x, y: CGFloat(0))
-                            node.runAction(SKAction.scaleXTo(1 - (x * x / self.size.width), duration: 0.0))
+                            node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(self.distance*2))), duration: 0.0))
+                            node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(self.distance*4))), duration: 0.0))
+                            node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(self.distance)*1.5))), duration: 0.0))
+                            self.visibleNodes.append(node)
+                            self.addChild(node)
+                        }
+                    }
+                } else if node.position.x > xspace * 2 {
+                    node.removeFromParent()
+                    self.visibleNodes.removeObject(node)
+                    if self.currentNode > 0 {
+                        self.currentNode--
+                        if self.currentNode > self.distance - 1 {
+                            let x = xspace * CGFloat(self.distance * -1)
+                            let node = self.setupNode(self.currentNode - self.distance - 1, x: x, y: CGFloat(0))
+                            node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(self.distance*2))), duration: 0.0))
+                            node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(self.distance*4))), duration: 0.0))
+                            node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(self.distance)*1.5))), duration: 0.0))
                             self.visibleNodes.append(node)
                             self.addChild(node)
                         }
                     }
                 }
             }
+            c++
         }
     }
 }
@@ -110,5 +143,5 @@ class Gallery : SKSpriteNode {
 protocol GalleryPageAdapter : class {
     func setGallery(gallery:Gallery)
     func size() -> Int
-	func getNodeAtPosition(position:Int) -> SKSpriteNode
+    func getNodeAtPosition(position:Int) -> SKSpriteNode
 }

@@ -184,7 +184,9 @@ class DataService {
 	
 	func getFamilyMembersFromRemoteService(person:LittlePerson, loadSpouse:Bool, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
-        fireStatusUpdate("Loading close family members of \(person.name!)")
+        if person.name != nil {
+            fireStatusUpdate("Loading close family members of \(person.name!)")
+        }
         remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err in

@@ -52,85 +52,50 @@ class HeritageCalculator {
         first.treePath.append(person);
         workingPaths.append(first)
         
-        let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-        let group2 = dispatch_group_create()
-        dispatch_group_enter(group2)
-        
-        
-        while workingPaths.count > 0 || aCounter > 0{
-            if workingPaths.count > 0 {
+        while workingPaths.count > 0 {
             let path = workingPaths.removeFirst()
             if (canEndPath(path, origin: origin)) {
                 self.paths.append(path)
             }
             else {
                 let pathPerson = path.treePath.last!
-				if pathPerson.treeLevel != nil && pathPerson.treeLevel! < 3 {
-                    aCounter++
-					dataService.getParents(pathPerson, onCompletion: {parents, err in 
-						if (parents != nil && parents!.count > 0) {
-							for parent in parents! {
-								let place = PlaceHelper.getPersonCountry(parent)
-								let ppath = HeritagePath(place: place)
-								ppath.percent = path.percent / Double(parents!.count)
-								ppath.treePath.appendContentsOf(path.treePath)
-								ppath.treePath.append(parent)
-								self.workingPaths.append(ppath)
-								if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
-									origin = ppath.place
-								}
-							}
-						} else {
-							self.paths.append(path);
-						}
-                        self.aCounter--
-					})
-				} else {
-					let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
-					if (parents != nil && parents!.count > 0) {
-						for parent in parents! {
-							let place = PlaceHelper.getPersonCountry(parent)
-							let ppath = HeritagePath(place: place)
-							ppath.percent = path.percent / Double(parents!.count)
-							ppath.treePath.appendContentsOf(path.treePath)
-							ppath.treePath.append(parent)
-							self.workingPaths.append(ppath)
-							if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
-								origin = ppath.place
-							}
-						}
-					} else {
-						//-- if we don't know if this person has parents, then sync them to pick up the parents next time
-						if (pathPerson.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
-							dataService.addToSyncQ(pathPerson)
-						}
-						self.paths.append(path);
-					}
-				}
+                let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
+                if (parents != nil && parents!.count > 0) {
+                    for parent in parents! {
+                        let place = PlaceHelper.getPersonCountry(parent)
+                        let ppath = HeritagePath(place: place)
+                        ppath.percent = path.percent / Double(parents!.count)
+                        ppath.treePath.appendContentsOf(path.treePath)
+                        ppath.treePath.append(parent)
+                        self.workingPaths.append(ppath)
+                        if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
+                            origin = ppath.place
+                        }
+                    }
+                } else {
+                    //-- if we don't know if this person has parents, then sync them to pick up the parents next time
+                    if (pathPerson.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
+                        dataService.addToSyncQ(pathPerson)
+                    }
+                    self.paths.append(path);
+                }
             }
-            } else {
-                sleep(1)
-            }
-            if self.workingPaths.count == 0 && self.aCounter == 0 {
-                dispatch_group_leave(group2)
+        }
+    
+        for path in self.paths {
+            let lastInPath = path.treePath.last!
+            if (lastInPath.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
+                self.dataService.addToSyncQ(lastInPath);
             }
         }
         
-        dispatch_group_notify(group2, dqueue) {
-            for path in self.paths {
-                let lastInPath = path.treePath.last!
-                if (lastInPath.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
-                    self.dataService.addToSyncQ(lastInPath);
-                }
-            }
-            
-            self.listener.onCalculationComplete()
-        }
+        self.listener.onCalculationComplete()
+        
     }
     
     func mapPaths() {
         for path in self.paths {
-            let place = path.place
+            let place = path.place.lowercaseString
             if (cultures[place] == nil) {
                 cultures[place] = path
                 var pl = [LittlePerson]()

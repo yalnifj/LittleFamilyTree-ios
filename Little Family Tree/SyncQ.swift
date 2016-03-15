@@ -41,14 +41,15 @@ class SyncQ : NSObject {
 					syncQ.append(person)
 				}
 				else {
-					var i = 0
+					var index = 0
 					for i in 0..<syncQ.count {
-						if syncQ[i].treeLevel == nil || syncQ[i].treeLevel < person.treeLevel {
+                        index = i
+						if syncQ[i].treeLevel != nil && person.treeLevel < syncQ[i].treeLevel {
 							break
 						}
 					}
-					if i < syncQ.count-1 {
-						syncQ.insert(person, atIndex:i)
+					if index < syncQ.count-1 {
+						syncQ.insert(person, atIndex:index)
 					} else {
 						syncQ.append(person)
 					}
@@ -362,7 +363,7 @@ class SyncOperation : NSOperation {
         let dbHelper = DBHelper.getInstance()
         dbHelper.removeFromSyncQ(person.id!)
         
-        print("Synchronizing person \(person.id!) \(person.familySearchId!)")
+        print("Synchronizing person \(person.id!) \(person.familySearchId!) \(person.treeLevel)")
         
         dataService.remoteService!.getLastChangeForPerson(person.familySearchId!, onCompletion: { timestamp, err in
             if err != nil && err?.code == 401 {
