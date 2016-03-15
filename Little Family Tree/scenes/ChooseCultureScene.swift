@@ -288,7 +288,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             }
         }
         
-        var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+        var y:CGFloat = self.whiteBackground!.position.y //- self.whiteBackground!.size.height / 2
         let rpaths = self.calculator!.uniquePaths.reverse()
         var theight = CGFloat(0)
         for path in rpaths {
@@ -301,10 +301,10 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 }
             }
             theight += height
-            //print("y=\(y) height=\(height)")
+            print("y=\(y) height=\(height)")
             
-            let ty = touch.locationInNode(self.whiteBackground!).y
-            //print("ty=\(ty)")
+            let ty = self.size.height - touch.locationInView(self.view).y
+            print("ty=\(ty)")
             if ty >= y && ty < y + height {
                 setSelectedPath(path)
                 break

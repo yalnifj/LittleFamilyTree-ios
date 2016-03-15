@@ -17,7 +17,6 @@ class SearchPersonTableCell: UITableViewCell {
     @IBOutlet weak var birthDateLbl: UILabel!
     @IBOutlet weak var remoteIdLbl: UILabel!
     @IBOutlet weak var birthPlaceLbl: UILabel!
-   
     
     override func awakeFromNib() {
         super.awakeFromNib()
