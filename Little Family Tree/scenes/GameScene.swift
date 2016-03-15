@@ -801,8 +801,8 @@ class GameScene: LittleFamilyScene {
         piano.addAction(1, action: pianoRepeatAction)
         piano.addClick(1, val: false)
         piano.addSound(1, soundFile: "piano")
-        piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
-        starSprites.append(piano)
+        //piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
+        //starSprites.append(piano)
         spriteContainer.addChild(piano)
         
         let trumpet = AnimatedStateSprite(imageNamed: "house_music_trumpet")

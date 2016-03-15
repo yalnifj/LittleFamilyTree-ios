@@ -104,6 +104,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
         pathPerson?.adapter = galleryAdapter
+        pathPerson?.userInteractionEnabled = true
         self.addChild(pathPerson!)
         
         doll = AnimatedStateSprite()
@@ -287,22 +288,29 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             }
         }
         
-        var y:CGFloat = (self.outlineSprite?.position.y)! + (self.outlineSprite?.size.height)!/2
-        for path in (self.calculator?.uniquePaths)! {
-            var height = (self.outlineSprite?.size.height)! * CGFloat(path.percent)
-            if height < 10 {
-                height = CGFloat(10)
+        var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+        let rpaths = self.calculator!.uniquePaths.reverse()
+        var theight = CGFloat(0)
+        for path in rpaths {
+            var height = self.outlineSprite!.size.height * CGFloat(path.percent)
+            if height < self.whiteBackground!.size.height / 20 {
+                height = self.whiteBackground!.size.height / 20
+            } else {
+                if theight + height > CGFloat(1) + self.outlineSprite!.size.height {
+                    height = self.outlineSprite!.size.height - theight
+                }
             }
+            theight += height
             //print("y=\(y) height=\(height)")
             
-            let ty = self.size.height - touch.locationInView(self.view).y
+            let ty = touch.locationInNode(self.whiteBackground!).y
             //print("ty=\(ty)")
-            if ty <= y && ty > y - height {
+            if ty >= y && ty < y + height {
                 setSelectedPath(path)
                 break
             }
             
-            y -= height
+            y += height
         }
     }
 }

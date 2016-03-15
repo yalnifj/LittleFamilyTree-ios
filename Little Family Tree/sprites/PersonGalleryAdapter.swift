@@ -17,13 +17,14 @@ class PersonGalleryAdapter: GalleryPageAdapter {
             }
         }
     }
-    var gallery:Gallery? {
-        get { return self.gallery }
-        set {}
-    }
+    var gallery:Gallery?
     
     init(people:[LittlePerson]) {
         self.people = people
+    }
+    
+    func setGallery(gallery: Gallery) {
+        self.gallery = gallery
     }
     
     func size() -> Int {

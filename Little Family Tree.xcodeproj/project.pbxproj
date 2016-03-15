@@ -50,6 +50,8 @@
 		A111A10A1C914E0200552AE6 /* media_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = A111A1091C914E0100552AE6 /* media_reset.png */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
 		A1281F731C87C2CD00FBA940 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = A1281F541C87C2CD00FBA940 /* drums.png */; };
+		A14938AD1C97D753006F1DC9 /* SearchPersonTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A14938AC1C97D753006F1DC9 /* SearchPersonTableCell.xib */; };
+		A14938B61C97DCA1006F1DC9 /* SearchPersonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */; };
 		A149A9611C49A3CF00367342 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A149A9601C49A3CF00367342 /* Security.framework */; };
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
 		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -690,6 +692,8 @@
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Little_Family_TreeTests.swift; sourceTree = "<group>"; };
 		A1281F541C87C2CD00FBA940 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
+		A14938AC1C97D753006F1DC9 /* SearchPersonTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPersonTableCell.xib; sourceTree = "<group>"; };
+		A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPersonTableCell.swift; sourceTree = "<group>"; };
 		A149A9601C49A3CF00367342 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LittleFamilyTree-Bridging-Header.h"; sourceTree = "<group>"; };
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
@@ -1451,6 +1455,8 @@
 				A1F7CE9D1C8FBBD6006053A2 /* SettingsView.xib */,
 				A172F02B1C927E07007346FD /* SimpleDialogView.xib */,
 				A172F02D1C927E56007346FD /* SimpleDialogView.swift */,
+				A14938AC1C97D753006F1DC9 /* SearchPersonTableCell.xib */,
+				A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -2155,6 +2161,7 @@
 				A1F7D3571C8FBC12006053A2 /* house_rooms_2_4.png in Resources */,
 				A1F7D3421C8FBC12006053A2 /* house_tree_bird.png in Resources */,
 				A1F7D1A71C8FBC12006053A2 /* soap6.png in Resources */,
+				A14938AD1C97D753006F1DC9 /* SearchPersonTableCell.xib in Resources */,
 				A1F7D1981C8FBC12006053A2 /* bubbles6.png in Resources */,
 				A1F7D2C31C8FBC12006053A2 /* house_familyroom_frame4.png in Resources */,
 				A10CC8B61C8FC807005B3233 /* piano_allinourfamilytree.mp3 in Resources */,
@@ -2633,6 +2640,7 @@
 				A1F7CF051C8FBBD6006053A2 /* ParentLogin.swift in Sources */,
 				A172F0301C94B675007346FD /* Gallery.swift in Sources */,
 				A1F7CEDC1C8FBBD6006053A2 /* FamilySearchService.swift in Sources */,
+				A14938B61C97DCA1006F1DC9 /* SearchPersonTableCell.swift in Sources */,
 				A1F7CEBB1C8FBBD6006053A2 /* TreeSearchGame.swift in Sources */,
 				A1F7CED61C8FBBD6006053A2 /* ResourceReference.swift in Sources */,
 				A1F7CEBC1C8FBBD6006053A2 /* TreeWalker.swift in Sources */,

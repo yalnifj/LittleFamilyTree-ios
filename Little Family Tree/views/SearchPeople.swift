@@ -40,7 +40,8 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
         
-        self.resultsTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        let nib = UINib(nibName: "SearchPersonTableCell", bundle: nil)
+        self.resultsTable.registerNib(nib, forCellReuseIdentifier: "SearchPersonTableCell")
     }
     
     func loadViewFromNib() -> UIView {
@@ -71,8 +72,9 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = self.resultsTable.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
-        cell.textLabel?.text = self.results[indexPath.row].name as? String
+        let cell:SearchPersonTableCell = self.resultsTable.dequeueReusableCellWithIdentifier("SearchPersonTableCell")! as! SearchPersonTableCell
+        let person = self.results[indexPath.row]
+        cell.setValues(person)
         return cell
     }
     
