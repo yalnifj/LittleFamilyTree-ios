@@ -7,6 +7,7 @@ class SyncQ : NSObject {
 	var timer:NSTimer?
     var started = false
     var authCounter = 0
+    var startCounter = 0
 	lazy var queue:NSOperationQueue = {
 		var queue = NSOperationQueue()
 		queue.name = "Sync queue"
@@ -31,12 +32,10 @@ class SyncQ : NSObject {
 	}
 	
 	func addToSyncQ(person:LittlePerson) {
-        if !started {
-            start()
-        }
 		let diff = person.lastSync!.timeIntervalSinceNow
 		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 2 && person.hasChildren == nil) {
 			if !syncQ.contains(person) {
+                startCounter++
 				dbHelper.addToSyncQ(person.id!)
 				if person.treeLevel == nil {
 					syncQ.append(person)
@@ -59,11 +58,19 @@ class SyncQ : NSObject {
 	}
     
     func start() {
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "processNextInQ", userInfo: nil, repeats: true)
+        if self.timer != nil {
+            self.timer!.invalidate()
+        }
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("processNextInQ:"), userInfo: nil, repeats: true)
         started = true
+        startCounter = 0
+        print("SyncQ Timer started")
     }
 	
-	func processNextInQ() {
+	func processNextInQ(timer:NSTimer) {
+        startCounter -= 2
+        let date = NSDate()
+        print("\(date) Sync Q has \(syncQ.count) people in it.");
 		if dataService.remoteService != nil && dataService.remoteService!.sessionId != nil && syncQ.count > 0 {
             let backSync = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_BACKGROUND)
             if backSync == nil || backSync == "true" {
@@ -81,8 +88,6 @@ class SyncQ : NSObject {
                 dataService.autoLogin()
             }
         }
-        let date = NSDate()
-		print("\(date) Sync Q has \(syncQ.count) people in it.");
 	}
 	
 	func syncPerson(person:LittlePerson, onCompletion: LittlePersonResponse) {
@@ -360,6 +365,13 @@ class SyncOperation : NSOperation {
         print("Synchronizing person \(person.id!) \(person.familySearchId!)")
         
         dataService.remoteService!.getLastChangeForPerson(person.familySearchId!, onCompletion: { timestamp, err in
+            if err != nil && err?.code == 401 {
+                if self.dataService.remoteService != nil && self.dataService.remoteService!.sessionId != nil {
+                    self.dataService.autoLogin()
+                    self.syncQ.syncQ.insert(self.person, atIndex: 0)
+                }
+                return
+            }
             if timestamp != nil {
                 print("Local date=\(self.person.lastSync?.timeIntervalSince1970) remote date=\(timestamp)")
             }

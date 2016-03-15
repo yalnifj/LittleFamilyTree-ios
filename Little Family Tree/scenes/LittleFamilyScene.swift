@@ -339,7 +339,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showSimpleDialog(title:String, message:String) {
-        let rect = self.prepareDialogRect(CGFloat(400), height: CGFloat(300))
+        let rect = self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
         let subview = SimpleDialogView(frame: rect)
         subview.listener = self
         subview.setMessage(title, message: message)

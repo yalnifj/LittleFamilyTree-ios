@@ -128,16 +128,18 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 self.peopleSprites.removeAll()
                 var width = min(self.view!.bounds.width, self.view!.bounds.height)
 				var cols = CGFloat(3)
-				if family?.count > 9 {
+                width = (self.view!.bounds.width / cols)
+				if family?.count > 12 || (CGFloat(family!.count) / cols) * width > self.view!.bounds.height {
 					cols = CGFloat(4)
 				}
-				if family?.count > 16 {
+                width = (self.view!.bounds.width / cols)
+				if family?.count > 16 || (CGFloat(family!.count) / cols) * width > self.view!.bounds.height  {
 					cols = CGFloat(5)
 				}
-				width = (self.view!.bounds.width / cols) - 10
+				width = (self.view!.bounds.width / cols)
 
                 //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
-                var x = CGFloat(5.0)
+                var x = CGFloat(0.0)
                 var y = CGFloat(self.size.height - (width + self.titleBar!.size.height + 5))
                 for p in family! {
                     print("\(p.name!) (\(x),\(y))")
@@ -151,17 +153,19 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                     self.addChild(sprite)
                     self.peopleSprites.append(sprite)
                     
-                    x += width + 5
+                    x += width - 10
                     if x > self.view!.bounds.width - width {
                         x = CGFloat(5)
-                        y -= width + 5
+                        y -= width - 10
                     }
                 }
+                SyncQ.getInstance().start()
                 let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
                 if showGuide != nil && showGuide! != "true" {
 					self.checkMedia()
                     self.speak("Who is playing today?")
                 }
+                
             })
         })
     }

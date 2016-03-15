@@ -12,16 +12,20 @@ class HeritageCalculator {
     static var MAX_PATHS=13
     var dataService:DataService
     var paths:[HeritagePath]
+    var workingPaths = [HeritagePath]()
     var cultures:[String:HeritagePath]
     var culturePeople:[String:[LittlePerson]]
     var uniquePaths:[HeritagePath]
+    var listener:CalculatorCompleteListener
+    var aCounter = 0
     
-    init() {
+    init(listener:CalculatorCompleteListener) {
         dataService = DataService.getInstance()
         paths = [HeritagePath]()
         cultures = [String:HeritagePath]()
         culturePeople = [String:[LittlePerson]]()
         uniquePaths = [HeritagePath]()
+        self.listener = listener
     }
     
     func canEndPath(path:HeritagePath, origin:String) -> Bool {
@@ -39,23 +43,30 @@ class HeritageCalculator {
     }
     
     func execute(person:LittlePerson) {
-        var returnPaths = [HeritagePath]()
-        var paths = [HeritagePath]()
+        self.paths = [HeritagePath]()
+        workingPaths = [HeritagePath]()
         var origin = PlaceHelper.getPlaceCountry(person.birthPlace as String?)
         
         let first = HeritagePath(place: origin)
         first.percent = 1.0
         first.treePath.append(person);
-        paths.append(first)
+        workingPaths.append(first)
         
-        while paths.count > 0 {
-            let path = paths.removeFirst()
+        let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
+        let group2 = dispatch_group_create()
+        dispatch_group_enter(group2)
+        
+        
+        while workingPaths.count > 0 || aCounter > 0{
+            if workingPaths.count > 0 {
+            let path = workingPaths.removeFirst()
             if (canEndPath(path, origin: origin)) {
-                returnPaths.append(path)
+                self.paths.append(path)
             }
             else {
                 let pathPerson = path.treePath.last!
 				if pathPerson.treeLevel != nil && pathPerson.treeLevel! < 3 {
+                    aCounter++
 					dataService.getParents(pathPerson, onCompletion: {parents, err in 
 						if (parents != nil && parents!.count > 0) {
 							for parent in parents! {
@@ -64,14 +75,15 @@ class HeritageCalculator {
 								ppath.percent = path.percent / Double(parents!.count)
 								ppath.treePath.appendContentsOf(path.treePath)
 								ppath.treePath.append(parent)
-								paths.append(ppath)
+								self.workingPaths.append(ppath)
 								if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
 									origin = ppath.place
 								}
 							}
 						} else {
-							returnPaths.append(path);
+							self.paths.append(path);
 						}
+                        self.aCounter--
 					})
 				} else {
 					let parents = dataService.dbHelper.getParentsForPerson(pathPerson.id!);
@@ -82,7 +94,7 @@ class HeritageCalculator {
 							ppath.percent = path.percent / Double(parents!.count)
 							ppath.treePath.appendContentsOf(path.treePath)
 							ppath.treePath.append(parent)
-							paths.append(ppath)
+							self.workingPaths.append(ppath)
 							if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
 								origin = ppath.place
 							}
@@ -92,20 +104,28 @@ class HeritageCalculator {
 						if (pathPerson.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
 							dataService.addToSyncQ(pathPerson)
 						}
-						returnPaths.append(path);
+						self.paths.append(path);
 					}
 				}
             }
-        }
-        
-        for path in returnPaths {
-            let lastInPath = path.treePath.last!
-            if (lastInPath.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
-                dataService.addToSyncQ(lastInPath);
+            } else {
+                sleep(1)
+            }
+            if self.workingPaths.count == 0 && self.aCounter == 0 {
+                dispatch_group_leave(group2)
             }
         }
-
-        self.paths = returnPaths
+        
+        dispatch_group_notify(group2, dqueue) {
+            for path in self.paths {
+                let lastInPath = path.treePath.last!
+                if (lastInPath.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
+                    self.dataService.addToSyncQ(lastInPath);
+                }
+            }
+            
+            self.listener.onCalculationComplete()
+        }
     }
     
     func mapPaths() {
@@ -139,4 +159,8 @@ class HeritageCalculator {
             dataService.addToSyncQ(lastInPath!)
         }
     }
+}
+
+protocol CalculatorCompleteListener {
+    func onCalculationComplete()
 }

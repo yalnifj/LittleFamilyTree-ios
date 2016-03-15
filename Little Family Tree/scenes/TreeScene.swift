@@ -34,10 +34,10 @@ class TreeScene: LittleFamilyScene {
     var moved = false
     var clipX = CGFloat(0)
     var clipY = CGFloat(0)
-    var minX = CGFloat(-100)
-    var minY = CGFloat(-100)
-    var maxX = CGFloat(100)
-    var maxY = CGFloat(100)
+    var minX = CGFloat(-300)
+    var minY = CGFloat(-300)
+    var maxX = CGFloat(200)
+    var maxY = CGFloat(200)
     
     var previousScale:CGFloat? = nil
     var minScale : CGFloat = 0.2

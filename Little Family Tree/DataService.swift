@@ -228,7 +228,9 @@ class DataService {
     
     func getParentsFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
-        fireStatusUpdate("Loading parents of \(person.name!)")
+        if person.name != nil {
+            fireStatusUpdate("Loading parents of \(person.name!)")
+        }
         remoteService?.getParents(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
@@ -242,7 +244,9 @@ class DataService {
     
     func getChildrenFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
-        fireStatusUpdate("Loading children of \(person.name!)")
+        if person.name != nil {
+            fireStatusUpdate("Loading children of \(person.name!)")
+        }
         remoteService?.getChildren(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in
@@ -256,7 +260,9 @@ class DataService {
     
     func getSpousesFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
-        fireStatusUpdate("Loading spouses of \(person.name!)")
+        if person.name != nil {
+            fireStatusUpdate("Loading spouses of \(person.name!)")
+        }
         remoteService?.getSpouses(person.familySearchId!, onCompletion: { closeRelatives, err in
             if closeRelatives != nil {
                 self.processRelatives(closeRelatives!, person: person, onCompletion: { people, err2 in

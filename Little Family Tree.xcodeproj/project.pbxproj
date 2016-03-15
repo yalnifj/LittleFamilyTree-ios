@@ -57,6 +57,7 @@
 		A172F02C1C927E07007346FD /* SimpleDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A172F02B1C927E07007346FD /* SimpleDialogView.xib */; };
 		A172F02E1C927E57007346FD /* SimpleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A172F02D1C927E56007346FD /* SimpleDialogView.swift */; };
 		A172F0301C94B675007346FD /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A172F02F1C94B675007346FD /* Gallery.swift */; };
+		A1A22D8E1C97B2F6003E6A53 /* PersonGalleryAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A22D8D1C97B2F6003E6A53 /* PersonGalleryAdapter.swift */; };
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A1F7CE231C8FBBA4006053A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7CE221C8FBBA4006053A2 /* Images.xcassets */; };
@@ -696,6 +697,7 @@
 		A172F02B1C927E07007346FD /* SimpleDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleDialogView.xib; sourceTree = "<group>"; };
 		A172F02D1C927E56007346FD /* SimpleDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDialogView.swift; sourceTree = "<group>"; };
 		A172F02F1C94B675007346FD /* Gallery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
+		A1A22D8D1C97B2F6003E6A53 /* PersonGalleryAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonGalleryAdapter.swift; sourceTree = "<group>"; };
 		A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		A1F7CE221C8FBBA4006053A2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1F7CE241C8FBBD6006053A2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1414,6 +1416,7 @@
 				A1F7CE821C8FBBD6006053A2 /* LabelEventSprite.swift */,
 				A1F7CE831C8FBBD6006053A2 /* MovingAnimatedStateSprite.swift */,
 				A1F7CE841C8FBBD6006053A2 /* PersonBubbleSprite.swift */,
+				A1A22D8D1C97B2F6003E6A53 /* PersonGalleryAdapter.swift */,
 				A1F7CE851C8FBBD6006053A2 /* PersonLeavesButton.swift */,
 				A1F7CE861C8FBBD6006053A2 /* PersonMatchSprite.swift */,
 				A1F7CE871C8FBBD6006053A2 /* PersonNameSprite.swift */,
@@ -2578,6 +2581,7 @@
 				A1F7CE9F1C8FBBD6006053A2 /* DollClothing.swift in Sources */,
 				A1F7CEB71C8FBBD6006053A2 /* RecentPersonTracker.swift in Sources */,
 				A1F7CEB81C8FBBD6006053A2 /* Song.swift in Sources */,
+				A1A22D8E1C97B2F6003E6A53 /* PersonGalleryAdapter.swift in Sources */,
 				A1F7CEBF1C8FBBD6006053A2 /* Attribution.swift in Sources */,
 				A1F7CEF11C8FBBD6006053A2 /* AnimatedStateSprite.swift in Sources */,
 				A1F7CECB1C8FBBD6006053A2 /* HypermediaEnabledData.swift in Sources */,

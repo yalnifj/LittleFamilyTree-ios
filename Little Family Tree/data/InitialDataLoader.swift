@@ -66,6 +66,7 @@ class InitialDataLoader {
                         for parent in parents! {
                             if (!self.familyMembers.contains(parent) && !self.grandParents.contains(parent)) {
                                 self.grandParents.append(parent)
+                                self.dataService.addToSyncQ(parent)
                                 dispatch_group_enter(downloadGroup2)
                             }
                         }

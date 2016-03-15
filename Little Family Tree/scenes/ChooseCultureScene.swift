@@ -9,11 +9,12 @@
 import Foundation
 import SpriteKit
 
-class ChooseCultureScene: LittleFamilyScene {
+class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     var titleLabel:SKLabelNode?
     var whiteBackground:SKSpriteNode?
     var outlineSprite:SKSpriteNode?
-    var pathPerson:PersonNameSprite?
+    var pathPerson:Gallery?
+    var galleryAdapter:PersonGalleryAdapter?
     var doll:AnimatedStateSprite?
     var countryLabel:SKLabelNode?
     var startTime:NSDate?
@@ -89,7 +90,9 @@ class ChooseCultureScene: LittleFamilyScene {
         outlineSprite?.shader = shader
         self.addChild(outlineSprite!)
         
-        pathPerson = PersonNameSprite()
+        galleryAdapter = PersonGalleryAdapter(people: [LittlePerson]())
+        
+        pathPerson = Gallery()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 15)
@@ -100,6 +103,7 @@ class ChooseCultureScene: LittleFamilyScene {
         }
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
+        pathPerson?.adapter = galleryAdapter
         self.addChild(pathPerson!)
         
         doll = AnimatedStateSprite()
@@ -126,76 +130,78 @@ class ChooseCultureScene: LittleFamilyScene {
         self.startTime = NSDate()
         let operationQueue = NSOperationQueue()
         let operation1 : NSBlockOperation = NSBlockOperation (block: {
-            self.calculator = HeritageCalculator()
+            self.calculator = HeritageCalculator(listener: self)
             self.calculator!.execute(self.selectedPerson!)
-            
-            var diff = Int64(3 + self.startTime!.timeIntervalSinceNow)
-            if diff < 0 {
-                diff = 0
-            }
-            let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), diff * Int64(NSEC_PER_SEC))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.calculator?.mapPaths()
-                
-                self.outlineSprite?.shader = nil
-                
-                var c = 0
-                var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
-                let rpaths = self.calculator!.uniquePaths.reverse()
-                var theight = CGFloat(0)
-                var tpercent = Double(0)
-                var count = 0
-                for path in rpaths {
-                    var height = self.outlineSprite!.size.height * CGFloat(path.percent)
-                    if height < self.whiteBackground!.size.height / 20 {
-                        height = self.whiteBackground!.size.height / 20
-                    } else {
-                        if theight + height > CGFloat(1) + self.outlineSprite!.size.height * CGFloat(tpercent + path.percent) {
-                            let hd = (theight + height - self.outlineSprite!.size.height * CGFloat(tpercent)) / CGFloat(rpaths.count - count)
-                            height -= hd
-                        }
-                    }
-                    tpercent += path.percent
-                    theight += height
-                    count++
-                    let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSizeMake((self.outlineSprite?.size.width)!, height))
-                    pathColor.zPosition = 2
-                    pathColor.position = CGPointMake((self.outlineSprite?.position.x)!, y + height/2)
-                    self.addChild(pathColor)
-                    
-                    let pathTitle = SKLabelNode(text: "\(path.place) " + String(format: "%.1f", path.percent*100) + "%")
-                    pathTitle.fontColor = UIColor.blackColor()
-                    pathTitle.fontSize = self.whiteBackground!.size.height / 20
-                    pathTitle.zPosition = 4
-                    pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y + height/3)
-                    self.addChild(pathTitle)
-                    print(pathTitle.text)
-                    
-                    let linePath = CGPathCreateMutable()
-                    CGPathMoveToPoint(linePath, nil, pathColor.position.x+20, pathColor.position.y)
-                    CGPathAddLineToPoint(linePath, nil, pathColor.position.x + pathColor.size.width/2, pathTitle.position.y-2)
-                    CGPathAddLineToPoint(linePath, nil, self.whiteBackground!.size.width - 10, pathTitle.position.y-2)
-                    let line = SKShapeNode()
-                    line.path = linePath
-                    line.strokeColor = UIColor.blackColor()
-                    line.lineWidth = 1
-                    line.zPosition = 4
-                    self.addChild(line)
-
-                    c++
-                    y += height
-                }
-				
-				if count > 0 && count < 3 && self.calculator!.paths.count < 17 {
-					self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
-				}
-                
-                self.setSelectedPath((self.calculator?.uniquePaths[0])!)
-            }
-        
         })
         operationQueue.addOperation(operation1)
         self.speak("Calculating your heritage. Please wait...")
+    }
+    
+    func onCalculationComplete() {
+        var diff = Int64(3 + self.startTime!.timeIntervalSinceNow)
+        if diff < 0 {
+            diff = 0
+        }
+        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), diff * Int64(NSEC_PER_SEC))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            self.calculator?.mapPaths()
+            
+            self.outlineSprite?.shader = nil
+            
+            var c = 0
+            var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+            let rpaths = self.calculator!.uniquePaths.reverse()
+            var theight = CGFloat(0)
+            var tpercent = Double(0)
+            var count = 0
+            for path in rpaths {
+                var height = self.outlineSprite!.size.height * CGFloat(path.percent)
+                if height < self.whiteBackground!.size.height / 20 {
+                    height = self.whiteBackground!.size.height / 20
+                } else {
+                    if theight + height > CGFloat(1) + self.outlineSprite!.size.height {
+                        height = self.outlineSprite!.size.height - theight
+                    }
+                }
+                tpercent += path.percent
+                theight += height
+                count++
+                let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSizeMake((self.outlineSprite?.size.width)!, height))
+                pathColor.zPosition = 2
+                pathColor.position = CGPointMake((self.outlineSprite?.position.x)!, y + height/2)
+                self.addChild(pathColor)
+                
+                let pathTitle = SKLabelNode(text: "\(path.place) " + String(format: "%.1f", path.percent*100) + "%")
+                pathTitle.fontColor = UIColor.blackColor()
+                pathTitle.fontSize = self.whiteBackground!.size.height / 20
+                pathTitle.zPosition = 4
+                pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y + height/3)
+                self.addChild(pathTitle)
+                print(pathTitle.text)
+                
+                let linePath = CGPathCreateMutable()
+                CGPathMoveToPoint(linePath, nil, pathColor.position.x+20, pathColor.position.y)
+                CGPathAddLineToPoint(linePath, nil, pathColor.position.x + pathColor.size.width/2, pathTitle.position.y-2)
+                CGPathAddLineToPoint(linePath, nil, self.whiteBackground!.size.width - 10, pathTitle.position.y-2)
+                let line = SKShapeNode()
+                line.path = linePath
+                line.strokeColor = UIColor.blackColor()
+                line.lineWidth = 1
+                line.zPosition = 4
+                self.addChild(line)
+                
+                c++
+                y += height
+            }
+            
+            if count > 0 && count < 3 && self.calculator!.paths.count < 17 {
+                self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
+            }
+            
+            if count > 0 {
+               self.setSelectedPath(self.calculator!.uniquePaths[0]) 
+            }
+        }
     }
     
     func speakDetails(relative:LittlePerson) {
@@ -229,7 +235,7 @@ class ChooseCultureScene: LittleFamilyScene {
         
         titleLabel?.text = "Choose a country"
 
-        pathPerson?.person = self.calculator!.culturePeople[path.place]![0]
+        galleryAdapter?.people = self.calculator!.culturePeople[path.place]!
         pathPerson?.hidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
@@ -241,10 +247,11 @@ class ChooseCultureScene: LittleFamilyScene {
         doll?.hidden = false
         
         countryLabel?.text = path.place
-        countryLabel?.fontSize = (pathPerson?.nameLabel?.fontSize)!
+        let personNode:PersonNameSprite = galleryAdapter!.getNodeAtPosition(0) as! PersonNameSprite
+        countryLabel?.fontSize = personNode.nameLabel!.fontSize
         countryLabel?.hidden = false
         
-        speakDetails(pathPerson!.person!)
+        speakDetails(personNode.person!)
     }
 
     override func willMoveFromView(view: SKView) {
