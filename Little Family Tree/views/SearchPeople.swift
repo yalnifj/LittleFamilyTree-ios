@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetailsCloseListener {
+class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     
     var view:UIView!
     
@@ -22,6 +22,8 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetai
     
     var selectedPerson:LittlePerson?
     var personDetailsView:PersonDetailsView?
+    
+    var openingScene:LittleFamilyScene?
     
     var results = [LittlePerson]()
     
@@ -57,6 +59,7 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetai
     @IBAction func backButtonAction(sender: AnyObject) {
         print("Back Button Clicked")
         self.view.removeFromSuperview()
+        openingScene?.showSettings()
     }
     
     @IBAction func searchButtonAction(sender: AnyObject) {
@@ -66,6 +69,11 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetai
         let remoteid = remoteIdTxt.text
         
         self.results = dataService.dbHelper.search(given, surname: surname, remoteid: remoteid)
+        self.resultsTable.reloadData()
+    }
+    
+    func showResults(results:[LittlePerson]) {
+        self.results = results
         self.resultsTable.reloadData()
     }
     
@@ -83,15 +91,22 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource,PersonDetai
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("You selected cell #\(indexPath.row)!")
         let person = results[indexPath.row]
-        personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
-        personDetailsView?.listener = self
-        personDetailsView?.selectedPerson = self.selectedPerson
-        personDetailsView?.showPerson(person)
-        self.view?.addSubview(personDetailsView!)
+        
+        self.view?.removeFromSuperview()
+        
+        openingScene?.showPersonDetails(person, listener: PersonDetailsListener(results: self.results, openingScene: openingScene!))
     }
     
+}
+
+class PersonDetailsListener:PersonDetailsCloseListener {
+    var results:[LittlePerson]
+    var openingScene:LittleFamilyScene
+    init(results:[LittlePerson], openingScene:LittleFamilyScene) {
+        self.results = results
+        self.openingScene = openingScene
+    }
     func onPersonDetailsClose() {
-        self.userInteractionEnabled = true
-        personDetailsView!.view.removeFromSuperview()
+        self.openingScene.showManagePeople().showResults(self.results)
     }
 }

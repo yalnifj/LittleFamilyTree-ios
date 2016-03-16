@@ -35,6 +35,7 @@ class SettingsView: UIView {
     var view:UIView!
     
     var selectedPerson:LittlePerson?
+    var openingScene:LittleFamilyScene?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -154,14 +155,13 @@ class SettingsView: UIView {
     }
 
     @IBAction func ManagePeopleAction(sender: UIButton) {
-        let subview = SearchPeople(frame: (self.view?.bounds)!)
-        subview.selectedPerson = self.selectedPerson
-        self.view?.addSubview(subview)
+        self.view.removeFromSuperview()
+        openingScene?.showManagePeople()
     }
     
     @IBAction func parentsGuideAction(sender: UIButton) {
-        let subview = ParentsGuide(frame: (self.view?.bounds)!)
-        self.view?.addSubview(subview)
+        self.view.removeFromSuperview()
+        openingScene?.showParentsGuide(SettingsPGCloseListener(os: openingScene!))
     }
 
     @IBAction func visitWebsiteAction(sender: AnyObject) {
@@ -181,5 +181,15 @@ class SettingsView: UIView {
         } else {
             dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
         }
+    }
+}
+
+class SettingsPGCloseListener: ParentsGuideCloseListener {
+    var openingScene:LittleFamilyScene
+    init(os:LittleFamilyScene) {
+        self.openingScene = os
+    }
+    func onClose() {
+        openingScene.showSettings()
     }
 }

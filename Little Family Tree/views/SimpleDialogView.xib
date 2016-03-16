@@ -17,8 +17,8 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <navigationBar contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5vc-ya-qaa">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5vc-ya-qaa">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                     <items>
                         <navigationItem title="Title" id="UUT-hU-kKD"/>
                     </items>
@@ -60,15 +60,16 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="PD2-Ji-Z4y" secondAttribute="leading" id="0m3-9C-pme"/>
-                <constraint firstItem="5vc-ya-qaa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="29k-YJ-o40"/>
                 <constraint firstItem="CtU-cq-kpv" firstAttribute="bottom" secondItem="PD2-Ji-Z4y" secondAttribute="top" id="4du-nE-Jww"/>
                 <constraint firstAttribute="bottom" secondItem="CtU-cq-kpv" secondAttribute="bottom" constant="32" id="7x9-Tu-M1d"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="bottom" secondItem="CtU-cq-kpv" secondAttribute="top" id="AOC-Lh-LnK"/>
                 <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ezr-Pn-Ixl"/>
-                <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="5vc-ya-qaa" secondAttribute="leading" id="Iqc-Cc-dWw"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailing" id="FHY-OF-inn"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="leading" secondItem="CtU-cq-kpv" secondAttribute="leading" id="JsA-l9-JWf"/>
                 <constraint firstAttribute="bottom" secondItem="PD2-Ji-Z4y" secondAttribute="bottom" id="TYl-Cm-cUj"/>
                 <constraint firstAttribute="trailing" secondItem="PD2-Ji-Z4y" secondAttribute="trailing" id="TzD-TQ-7ds"/>
-                <constraint firstItem="CtU-cq-kpv" firstAttribute="top" secondItem="5vc-ya-qaa" secondAttribute="bottom" id="Us1-9v-eR5"/>
                 <constraint firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailing" id="pIp-GH-z1p"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="yJT-Ct-xrI"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="258" y="112"/>

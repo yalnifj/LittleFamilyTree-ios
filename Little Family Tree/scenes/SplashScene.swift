@@ -143,7 +143,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         var w = width
         var h = height
         var x = (self.size.width - width) / 2
-        var y = (self.size.height - height) / 2
+        var y = (self.size.height - height) / 4
         if w > self.size.width {
             w = self.size.width
             x = CGFloat(0)

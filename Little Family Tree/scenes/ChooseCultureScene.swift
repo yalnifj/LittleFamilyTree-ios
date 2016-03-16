@@ -47,13 +47,10 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel = SKLabelNode(text: "Calculating your heritage. Please wait...")
         titleLabel?.fontColor = UIColor.blackColor()
-        titleLabel?.fontSize = self.size.height / 25
+        titleLabel?.fontSize = min(self.size.height, self.size.height) / 25
         titleLabel?.zPosition = 1
-        titleLabel?.position = CGPointMake(self.size.width/2, (topBar?.position.y)! - (5 + (topBar?.size.height)!))
+        titleLabel?.position = CGPointMake(self.size.width/2, topBar!.position.y - (5 + topBar!.size.height))
         self.addChild(titleLabel!)
-		//-- adjust font size
-		let scalingFactor = min(self.size.width / titleLabel!.frame.width, (self.size.height / titleLabel!.frame.height)/2)
-		titleLabel!.fontSize *= scalingFactor
         
         var height = self.size.height * 0.5
         if !portrait {
@@ -97,8 +94,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 20)
         if !portrait {
-            pathPerson?.position = CGPointMake(self.size.width * 0.68, height / 1.7)
-            pathPerson?.size.width = self.size.width * 0.30
+            pathPerson?.position = CGPointMake(self.size.width * 0.76, height / 1.7)
+            pathPerson?.size.width = self.size.width / 4.5
             pathPerson?.size.height = height / 2.3
         }
         pathPerson?.zPosition = 3
@@ -150,15 +147,15 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             self.outlineSprite?.shader = nil
             
             var c = 0
-            var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+            var y:CGFloat = self.outlineSprite!.position.y - (self.outlineSprite!.size.height / 2)
             let rpaths = self.calculator!.uniquePaths.reverse()
             var theight = CGFloat(0)
             var tpercent = Double(0)
             var count = 0
             for path in rpaths {
                 var height = self.outlineSprite!.size.height * CGFloat(path.percent)
-                if height < self.whiteBackground!.size.height / 20 {
-                    height = self.whiteBackground!.size.height / 20
+                if height < self.outlineSprite!.size.height / 20 {
+                    height = self.outlineSprite!.size.height / 20
                 } else {
                     if theight + height > CGFloat(1) + self.outlineSprite!.size.height {
                         height = self.outlineSprite!.size.height - theight
@@ -174,7 +171,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 
                 let pathTitle = SKLabelNode(text: "\(path.place) " + String(format: "%.1f", path.percent*100) + "%")
                 pathTitle.fontColor = UIColor.blackColor()
-                pathTitle.fontSize = self.whiteBackground!.size.height / 20
+                pathTitle.fontSize = self.outlineSprite!.size.height / 20
                 pathTitle.zPosition = 4
                 pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y + height/3)
                 self.addChild(pathTitle)
@@ -288,14 +285,19 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             }
         }
         
-        var y:CGFloat = self.whiteBackground!.position.y - self.whiteBackground!.size.height / 2
+        var y:CGFloat = self.outlineSprite!.position.y - self.outlineSprite!.size.height / 2
+        let x:CGFloat = self.whiteBackground!.position.x + self.whiteBackground!.size.width / 2
         let ty = self.size.height - touch.locationInView(self.view).y
+        let tx = touch.locationInView(self.view).x
+        if tx > x {
+            return
+        }
         let rpaths = self.calculator!.uniquePaths.reverse()
         var theight = CGFloat(0)
         for path in rpaths {
             var height = self.outlineSprite!.size.height * CGFloat(path.percent)
-            if height < self.whiteBackground!.size.height / 20 {
-                height = self.whiteBackground!.size.height / 20
+            if height < self.outlineSprite!.size.height / 20 {
+                height = self.outlineSprite!.size.height / 20
             } else {
                 if theight + height > CGFloat(1) + self.outlineSprite!.size.height {
                     height = self.outlineSprite!.size.height - theight

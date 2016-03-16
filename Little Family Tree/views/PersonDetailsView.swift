@@ -163,10 +163,9 @@ class PersonDetailsView: UIView {
     }
     
     @IBAction func backButtonAction(sender: AnyObject) {
+        self.view.removeFromSuperview()
         if listener != nil {
             listener!.onPersonDetailsClose()
-        } else {
-            self.view.removeFromSuperview()
         }
     }
     

@@ -306,7 +306,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showParentLogin() {
-        let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)
+        let frame = prepareDialogRect(300, height: 400)
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self
         self.view?.addSubview(subview)
@@ -314,17 +314,33 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func LoginComplete() {
+        clearDialogRect()
         showSettings()
     }
     
-    func showSettings() {
-        //let operationQueue = NSOperationQueue()
-        //let operation1 : NSBlockOperation = NSBlockOperation (block: {
-            let subview = SettingsView(frame: (self.view?.bounds)!)
-            subview.selectedPerson = self.selectedPerson
-            self.view?.addSubview(subview)
-        //})
-        //operationQueue.addOperation(operation1)
+    func showSettings() -> SettingsView {
+        let subview = SettingsView(frame: (self.view?.bounds)!)
+        subview.selectedPerson = self.selectedPerson
+        subview.openingScene = self
+        self.view?.addSubview(subview)
+        return subview
+    }
+    
+    func showManagePeople() -> SearchPeople {
+        let subview = SearchPeople(frame: (self.view?.bounds)!)
+        subview.selectedPerson = self.selectedPerson
+        subview.openingScene = self
+        self.view?.addSubview(subview)
+        return subview
+    }
+    
+    func showPersonDetails(person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
+        let personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
+        personDetailsView.listener = listener
+        personDetailsView.selectedPerson = self.selectedPerson
+        personDetailsView.showPerson(person)
+        self.view?.addSubview(personDetailsView)
+        return personDetailsView
     }
     
     func showParentsGuide(listener:ParentsGuideCloseListener) {
@@ -522,7 +538,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         var w = width
         var h = height
         var x = (self.size.width - width) / 2
-        var y = (self.size.height - height) / 2
+        var y = (self.size.height - height) / 4
         if w > self.size.width {
             w = self.size.width
             x = CGFloat(0)
@@ -533,6 +549,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 h = self.size.height
                 y = CGFloat(0)
             }
+        }
+        if y < 0 {
+            y = CGFloat(0)
+        }
+        if x < 0 {
+            x = CGFloat(0)
         }
         
         let rect = CGRect(x: x, y: y, width: w, height: h)

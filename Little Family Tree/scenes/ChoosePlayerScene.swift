@@ -140,7 +140,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 
                 //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
                 var x = CGFloat(0.0)
-                var y = CGFloat(self.size.height - (width + self.titleBar!.size.height + 5))
+                var y = CGFloat(self.size.height - (width + self.titleBar!.size.height - 10))
                 for p in family! {
                     print("\(p.name!) (\(x),\(y))")
                     let sprite = PersonNameSprite()
@@ -156,7 +156,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                     x += width - 10
                     if x > self.view!.bounds.width - width {
                         x = CGFloat(5)
-                        y -= width - 10
+                        y -= width - 20
                     }
                 }
                 SyncQ.getInstance().start()
