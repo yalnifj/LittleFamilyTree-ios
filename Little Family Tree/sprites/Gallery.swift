@@ -14,6 +14,7 @@ class Gallery : SKSpriteNode {
         }
 	}
     var lastPoint:CGPoint?
+    var lastNodePosition:CGPoint?
     var moved = false
     
     func adapterDidChange() {
@@ -61,6 +62,7 @@ class Gallery : SKSpriteNode {
         super.touchesBegan(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
+            lastNodePosition = visibleNodes[0].position
             break
         }
     }
@@ -84,19 +86,74 @@ class Gallery : SKSpriteNode {
             lastPoint = touch.locationInNode(self)
             //-- snap nodes into place
             let xspace = self.size.width / CGFloat(1.0 + Double(distance))
+            
+            let totalDistance = Int(round((lastNodePosition!.x - visibleNodes[0].position.x) / xspace))
+            if (totalDistance > 0 && currentNode < adapter!.size() - 1) || (totalDistance < 0 && currentNode >= 0) {
+                if totalDistance < 0 {
+                    var sn = startNode
+                    while sn >= 0 {
+                        sn--
+                        let x = visibleNodes.first!.position.x - xspace / 2
+                        let node = setupNode(sn, x: x, y: visibleNodes.first!.position.y)
+                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.0))
+                        visibleNodes.insert(node, atIndex: 0)
+                        self.addChild(node)
+                    }
+
+                }
+                startNode += totalDistance
+                currentNode += totalDistance
+                if totalDistance > 0 {
+                    var en = endNode
+                    while en < adapter!.size() - 1 {
+                        en++
+                        let x = visibleNodes.last!.position.x + xspace
+                        let node = setupNode(en, x: x, y: visibleNodes.last!.position.y)
+                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.0))
+                        visibleNodes.append(node)
+                        self.addChild(node)
+                    }
+                }
+                endNode += totalDistance
+            }
+            
             var x = xspace * CGFloat(0 - distance)
+            while visibleNodes[0].position.x < x {
+                visibleNodes.removeFirst()
+            }
+            let x2 = xspace * CGFloat(distance)
+            while visibleNodes.last!.position.x > x2 {
+                visibleNodes.removeLast()
+            }
+            
             let s = startNode
             let e = endNode + 1
             var c = 0
             for n in s..<e {
-                if n >= 0 && c < visibleNodes.count {
+                if c < visibleNodes.count {
                     let node = visibleNodes[c]
-                    
-                    node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.3))
-                    node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.3))
-                    node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.3))
-                    node.runAction(SKAction.moveToX(x, duration: 0.3))
-                    c++
+                    if node.position.x <= x {
+                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.3))
+                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.3))
+                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.3))
+                        if x < 0  {
+                            node.runAction(SKAction.moveToX(x + (xspace/2), duration: 0.3))
+                        } else {
+                            node.runAction(SKAction.moveToX(x, duration: 0.3))
+                        }
+                        if x < 0 {
+                            node.zPosition = CGFloat(n)
+                        } else if x > 0 {
+                            node.zPosition = CGFloat(e - n)
+                        } else {
+                            node.zPosition = CGFloat(e + 1)
+                        }
+                        c++
+                    }
                 }
                 x += xspace
             }
@@ -119,50 +176,25 @@ class Gallery : SKSpriteNode {
         var c = 0
         for node in visibleNodes {
             node.removeAllActions()
-            let newx = node.position.x + xdiff
+            let oldx = node.position.x
+            var newx = node.position.x + xdiff
+            
+            if newx < 0 {
+                node.zPosition = CGFloat(c)
+            } else if newx > 0 {
+                node.zPosition = CGFloat(adapter!.size() - c)
+            } else {
+                node.zPosition = CGFloat(adapter!.size() + 1)
+            }
+
             
             node.runAction(SKAction.scaleXTo(1 - (abs(newx) / (xspace*CGFloat(distance*2))), duration: 0.0))
             node.runAction(SKAction.scaleYTo(1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.0))
             node.runAction(SKAction.fadeAlphaTo(1 - (abs(newx) / (xspace*CGFloat(distance))), duration: 0.0))
-            node.runAction(SKAction.moveToX(newx, duration: 0.0)) {
-                if node.position.x < xspace * -2 && self.endNode < self.adapter!.size() + self.distance {
-                    node.removeFromParent()
-                    self.visibleNodes.removeObject(node)
-                    self.startNode++
-                    self.endNode++
-                    self.currentNode++
-                    print("start=\(self.startNode) current=\(self.currentNode) end=\(self.endNode)")
-
-                    if self.endNode < self.adapter!.size() {
-                        let x = xspace * CGFloat(self.distance-1)
-                        let node = self.setupNode(self.endNode, x: x, y: CGFloat(0))
-                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(self.distance*2))), duration: 0.0))
-                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(self.distance*4))), duration: 0.0))
-                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(self.distance)*1.5))), duration: 0.0))
-                        self.visibleNodes.append(node)
-                        self.addChild(node)
-                    }
-
-                } else if node.position.x > xspace * 2 && self.startNode > 0 - self.distance {
-                    node.removeFromParent()
-                    self.visibleNodes.removeObject(node)
-                    self.startNode--
-                    self.endNode--
-                    self.currentNode--
-                    print("start=\(self.startNode) current=\(self.currentNode) end=\(self.endNode)")
-                    
-                    if self.startNode >= 0 {
-                        let x = xspace * CGFloat(self.distance * -1)
-                        let node = self.setupNode(self.startNode, x: x, y: CGFloat(0))
-                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(self.distance*2))), duration: 0.0))
-                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(self.distance*4))), duration: 0.0))
-                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(self.distance)*1.5))), duration: 0.0))
-                        self.visibleNodes.append(node)
-                        self.addChild(node)
-                    }
-                    
-                }
+            if (newx < 0) {
+                newx = oldx + (xdiff / 2)
             }
+            node.runAction(SKAction.moveToX(newx, duration: 0.0))
             c++
         }
     }

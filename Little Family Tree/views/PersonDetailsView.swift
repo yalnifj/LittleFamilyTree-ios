@@ -170,7 +170,6 @@ class PersonDetailsView: UIView {
     }
     
     @IBAction func refreshAction(sender: AnyObject) {
-        // TODO add a spinner
         spinner.hidden = false
         syncButton.hidden = true
         

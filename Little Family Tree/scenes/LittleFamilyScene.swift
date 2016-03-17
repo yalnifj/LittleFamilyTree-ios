@@ -318,6 +318,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         showSettings()
     }
     
+    func LoginCanceled() {
+        clearDialogRect()
+    }
+    
     func showSettings() -> SettingsView {
         let subview = SettingsView(frame: (self.view?.bounds)!)
         subview.selectedPerson = self.selectedPerson

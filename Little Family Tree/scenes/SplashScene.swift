@@ -117,6 +117,9 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     func LoginComplete() {
         launched = false
     }
+    func LoginCanceled() {
+        
+    }
     
     var listenerIndex:Int?
     func onEvent(topic: String, data: NSObject?) {

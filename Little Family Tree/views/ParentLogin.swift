@@ -63,6 +63,9 @@ class ParentLogin: UIView {
     @IBAction func BackButtonClicked(sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
+        if self.loginListener != nil {
+            loginListener?.LoginCanceled()
+        }
     }
 
     @IBAction func SignInButtonClicked(sender: UIBarButtonItem) {

@@ -342,6 +342,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             func LoginComplete() {
                 scene.showSharingPanel()
             }
+            func LoginCanceled() {
+                
+            }
         }
         subview.loginListener = ShareLoginListener(scene: self)
         self.view?.addSubview(subview)

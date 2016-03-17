@@ -114,6 +114,9 @@ class FamilySearchLogin: UIView, StatusListener {
                             self.txtError.hidden = true
                             print(people?.count)
                             dataService.removeStatusListener(self)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.removeFromSuperview()
+                            }
                             if self.loginListener != nil {
                                 self.loginListener?.LoginComplete()
                             }

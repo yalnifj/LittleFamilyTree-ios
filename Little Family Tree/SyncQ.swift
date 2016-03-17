@@ -189,16 +189,18 @@ class SyncQ : NSObject {
                                                     
                                                     dispatch_group_enter(group2)
                                                     self.dataService.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: self.dataService.lastPath(link.href! as String), onCompletion: { path, err2 in
-                                                        med?.localPath = path
-                                                        mediaFound = true
-                                                        self.dbHelper.persistMedia(med!)
-                                                        let tag = Tag()
-                                                        tag.mediaId = med!.id
-                                                        tag.personId = person.id!
-                                                        do {
-                                                            try self.dbHelper.persistTag(tag)
-                                                        } catch {
-                                                            print("Error saving tag")
+                                                        if path != nil {
+                                                            med?.localPath = path
+                                                            mediaFound = true
+                                                            self.dbHelper.persistMedia(med!)
+                                                            let tag = Tag()
+                                                            tag.mediaId = med!.id
+                                                            tag.personId = person.id!
+                                                            do {
+                                                                try self.dbHelper.persistTag(tag)
+                                                            } catch {
+                                                                print("Error saving tag")
+                                                            }
                                                         }
                                                         dispatch_group_leave(group2)
                                                     })

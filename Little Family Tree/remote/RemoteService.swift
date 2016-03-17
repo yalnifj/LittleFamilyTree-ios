@@ -26,4 +26,5 @@ protocol RemoteService {
 
 protocol LoginCompleteListener {
     func LoginComplete()
+    func LoginCanceled()
 }

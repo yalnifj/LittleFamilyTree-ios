@@ -177,6 +177,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 	}
     
     override func LoginComplete() {
-       loadPeople()
+        
+        loadPeople()
     }
 }
