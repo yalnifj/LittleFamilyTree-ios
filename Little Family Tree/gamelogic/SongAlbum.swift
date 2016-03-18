@@ -89,6 +89,11 @@ class SongAlbum {
         
         song.attributor = SongNameAttributor()
         
+        song.instruments.append("drums")
+        song.instruments.append("flute")
+        song.instruments.append("violin")
+        song.instruments.append("piano")
+        
         songs.append(song)
 
     }
@@ -158,6 +163,11 @@ class SongAlbum {
 
         song.attributor = SongDatePlaceAttributor()
         
+        song.instruments.append("drums")
+        song.instruments.append("bass")
+        song.instruments.append("violin")
+        song.instruments.append("piano")
+        
         songs.append(song)
     }
 	
@@ -218,6 +228,11 @@ class SongAlbum {
         song.danceTimings.append(33000)
 
         song.attributor = SongRelationshipAttributor(me: selectedPerson)
+        
+        song.instruments.append("drums")
+        song.instruments.append("flute")
+        song.instruments.append("guitar")
+        song.instruments.append("piano")
 
         songs.append(song)
     }

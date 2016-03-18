@@ -124,7 +124,73 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     }
     
     func loadPeople() {
+        self.people = [LittlePerson]()
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
+            if person != nil {
+                self.people.append(person!)
+                self.dataService?.getSpouses(person!, loadSpouse: false, onCompletion: { spouses, err in
+                    if spouses != nil {
+                        for s in spouses! {
+                            if !self.people.contains(s) {
+                                self.people.append(s)
+                            }
+                        }
+                    }
+                    
+                    var haschildren = false
+                    self.dataService?.getChildren(person!, onCompletion: {children, err in
+                        if children != nil {
+                            for c in children! {
+                                if !self.people.contains(c) {
+                                    self.people.append(c)
+                                    haschildren = true
+                                }
+                            }
+                        }
+                        
+                        self.dataService?.getParents(person!, onCompletion: {parents, err in
+                            if parents != nil {
+                                for p in parents! {
+                                    if !self.people.contains(p) {
+                                        self.people.append(p)
+                                    }
+                                }
+                                
+                                if !haschildren {
+                                    if parents!.count > 1 {
+                                        self.dataService?.getChildrenForCouple(parents[0], person2: parents[1], onCompletion: {grandchildren, err in
+                                            if grandchildren != nil {
+                                                for gc in grandchildren {
+                                                    if !self.people.contains(gc) {
+                                                        self.people.append(gc)
+                                                    }
+                                                }
+                                            }
+                                            self.addSprites()
+                                        })
+                                    } else if parents!.count > 0 {
+                                        self.dataService?.getChildren(parents[0], onCompletion: {grandchildren, err in
+                                            if grandchildren != nil {
+                                                for gc in grandchildren {
+                                                    if !self.people.contains(gc) {
+                                                        self.people.append(gc)
+                                                    }
+                                                }
+                                            }
+                                            self.addSprites()
+                                        })
+                                    }
+                                } else {
+                                    self.addSprites()
+                                }
+                            }
+                        })
+                    })
+                    
+                })
+            }
+            
+            /*
             self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
                 if family != nil && family!.count > 0 {
                     self.people = [LittlePerson]()
@@ -152,6 +218,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                     }
                 }
             })
+            */
         })
     }
     

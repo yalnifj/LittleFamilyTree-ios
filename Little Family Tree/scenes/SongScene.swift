@@ -59,6 +59,14 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var songAlbum:SongAlbum?
     var song:Song?
     
+    var drumsOn = true
+    var fluteOn = true
+    var violinOn = true
+    var pianoOn = true
+    
+    var lastPoint:CGPoint?
+    var movingPerson:PersonNameSprite?
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         self.size.width = view.bounds.width
@@ -143,7 +151,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		drumKit?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_DRUMS)
 		drumKit?.addTexture(1, texture: SKTexture(imageNamed: "drums_off"))
 		drumKit?.userInteractionEnabled = true
-		drumKit?.state = 1
 		drumKit?.hidden = true
 		self.addChild(drumKit!)
 		
@@ -156,7 +163,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		gPiano?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_PIANO)
 		gPiano?.addTexture(1, texture: SKTexture(imageNamed: "piano_off"))
 		gPiano?.userInteractionEnabled = true
-		gPiano?.state = 1
 		gPiano?.hidden = true
 		self.addChild(gPiano!)
 		
@@ -169,7 +175,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		violin?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_VIOLIN)
 		violin?.addTexture(1, texture: SKTexture(imageNamed: "violin_off"))
 		violin?.userInteractionEnabled = true
-		violin?.state = 1
 		violin?.hidden = true
 		self.addChild(violin!)
 		
@@ -195,7 +200,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		clarinet?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_FLUTE)
 		clarinet?.addTexture(1, texture: SKTexture(imageNamed: "clarinet_off"))
 		clarinet?.userInteractionEnabled = true
-		clarinet?.state = 1
 		clarinet?.hidden = true
 		self.addChild(clarinet!)
 		
@@ -208,7 +212,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		guitar?.addEvent(1, topic: SongScene.TOPIC_TOGGLE_GUITAR)
 		guitar?.addTexture(1, texture: SKTexture(imageNamed: "guitar_off"))
 		guitar?.userInteractionEnabled = true
-		guitar?.state = 1
 		guitar?.hidden = true
 		self.addChild(guitar!)
 		
@@ -321,17 +324,96 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
     }
+    
+    func showInstruments() {
+        speak("Place your dancers on stage")
+        
+        song1Button?.hidden = true
+        song2Button?.hidden = true
+        song3Button?.hidden = true
+        
+        playButton?.hidden = false
+        resetButton?.hidden = false
+        
+        for instrument in song.instruments {
+            if instrument=="drums" {
+                drumKit?.hidden = false
+                drumKit?.state = drumsOn ? 0 : 1
+            }
+            else if instrument=="flute" {
+                clarinet?.hidden = false
+                clarinet?.state = fluteOn ? 0 : 1
+            }
+            else if instrument=="violin" {
+                violin?.hidden = false
+                violin?.state = violinOn ? 0 : 1
+            }
+            else if instrument=="piano" {
+                gPiano?.hidden = false
+                gPiano?.state = pianoOn ? 0 : 1
+            }
+            else if instrument=="bass" {
+                bass?.hidden = false
+                bass?.state = bassOn ? 0 : 1
+            }
+            else if instrument=="guitar" {
+                guitar?.hidden = false
+                guitar?.state = guitarOn ? 0 : 1
+            }
+        }
+    }
+    
+    func showSongButtons() {
+        speak("Choose a song")
+        
+        song1Button?.hidden = false
+        song2Button?.hidden = false
+        song3Button?.hidden = false
+        
+        drumKit?.hidden = true
+        clarinet?.hidden = true
+        violin?.hidden = true
+        gPiano?.hidden = true
+        guitar?.hidden = true
+        bass?.hidden = true
+        
+        playButton?.hidden = true
+        resetButton?.hidden = true
+    }
 	
 	override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
 		if topic == SongScene.TOPIC_CHOOSE_SONG1 {
 			self.song = songAlbum!.songs[0]
+            showInstruments()
 		}
         else if topic == SongScene.TOPIC_CHOOSE_SONG2 {
             self.song = songAlbum!.songs[1]
+            showInstruments()
         }
         else if topic == SongScene.TOPIC_CHOOSE_SONG3 {
             self.song = songAlbum!.songs[2]
+            showInstruments()
         }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        movingPerson = nil
+        for touch in touches {
+            lastPoint = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(lastPoint)
+            if touchedNode is PersonNameSprite {
+            }
+            break
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesMoved(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
     }
 }

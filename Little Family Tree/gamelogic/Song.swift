@@ -19,4 +19,5 @@ class Song {
     var danceTimings = [Int64]()
     var wordTimings = [Int64]()
     var attributor:SongPersonAttribute?
+    var instruments = [String]()
 }
