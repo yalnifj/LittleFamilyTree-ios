@@ -99,7 +99,7 @@ class RandomMediaChooser {
     }
     
     func loadMoreFamilyMembers() {
-        if (familyLoaderQueue.count > 0) {
+        if (familyLoaderQueue.count > 0 && counter < self.maxTries) {
             counter++;
             selectedPerson = familyLoaderQueue.removeFirst()
             if (selectedPerson != nil) {
@@ -124,7 +124,7 @@ class RandomMediaChooser {
                         self.backgroundLoadIndex++
                         
                         //-- no pictures try again
-                        if (c==0 && peeps!.count<3) {
+                        if (c==0) {
                             self.loadMoreFamilyMembers()
                         } else {
                             self.loadRandomImage();
@@ -134,10 +134,10 @@ class RandomMediaChooser {
                 })
             }
         } else {
-            if (people.count > 0) {
+            if (people.count > 0 && counter < self.maxTries) {
                 loadRandomImage()
             } else {
-                self.listener.onMediaLoaded(nil)
+                self.loadRandomDBImage()
             }
         }
     }
@@ -158,8 +158,7 @@ class RandomMediaChooser {
                 self.photo = media[index]
                 //-- stop if we've used all of these images
                 if (index == origIndex) {
-                    self.loadMoreFamilyMembers();
-                    return;
+                    break;
                 }
             }
             if (self.usedPhotos.count >= self.maxUsed) {
