@@ -47,7 +47,7 @@ class FamilySearchService : RemoteService {
         params["username"] = username;
         params["password"] = password;
         
-        if username=="tum000205905" {
+        if username=="tum000205905" || username=="tum000142047" {
             setEnvironment("sandbox")
         }
 		

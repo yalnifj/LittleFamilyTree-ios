@@ -27,6 +27,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var starContainer:SKNode?
     var previousTopic:String?
     var graybox:SKSpriteNode?
+    var toasts = [SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -404,11 +405,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showFakeToasts(messages:[String]) {
+        for s in self.toasts {
+            s.removeFromParent()
+        }
+        self.toasts.removeAll()
+        
         let w = min(self.size.width, self.size.height) * CGFloat(0.9)
         let h = w / 12
         var y = CGFloat(h / 2)
         var maxWidth = CGFloat(0)
-        var toasts = [SKSpriteNode]()
         var splitMessages = [String]()
         // split up really long messages
         for mes in messages {

@@ -36,8 +36,8 @@ class TreeScene: LittleFamilyScene {
     var clipY = CGFloat(0)
     var minX = CGFloat(-300)
     var minY = CGFloat(-300)
-    var maxX = CGFloat(200)
-    var maxY = CGFloat(200)
+    var maxX = CGFloat(300)
+    var maxY = CGFloat(300)
     
     var previousScale:CGFloat? = nil
     var minScale : CGFloat = 0.2
@@ -55,6 +55,7 @@ class TreeScene: LittleFamilyScene {
     var scratchButton:SKSpriteNode?
     var coloringButton:SKSpriteNode?
     var puzzleButton:SKSpriteNode?
+    var songButton:SKSpriteNode?
 	
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
@@ -127,6 +128,12 @@ class TreeScene: LittleFamilyScene {
         puzzleButton!.anchorPoint = CGPointZero
         buttons.append(puzzleButton!)
         
+        songButton = SKSpriteNode(imageNamed: "house_music_piano")
+        br = songButton!.size.width / songButton!.size.height
+        songButton!.size = CGSizeMake(50 * br, 50)
+        songButton!.anchorPoint = CGPointZero
+        //buttons.append(songButton!)
+        
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
 		dataService.getChildren(selectedPerson!, onCompletion: { children, err in 
@@ -139,7 +146,7 @@ class TreeScene: LittleFamilyScene {
 						self.buildTreeNode(self.root!, couple:parents!, depth:0, maxDepth: 2, isInLaw:false)
 						
                         dispatch_group_enter(self.treeGroup)
-						dataService.getChildren(parents![0], onCompletion: { children2, err in
+                        dataService.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: { children2, err in
                             if children2 != nil {
                                 self.addChildNodes(self.root!, children: children2!)
                             }
@@ -164,9 +171,18 @@ class TreeScene: LittleFamilyScene {
 					self.root = TreeNode()
 					self.root!.isRoot = true
 					self.buildTreeNode(self.root!, couple:couple, depth:0, maxDepth: 2, isInLaw:false)
-					
-					self.addChildNodes(self.root!, children: children!)
-                    dispatch_group_leave(self.treeGroup)
+                    
+                    if couple.count > 1 {
+                        dataService.getChildrenForCouple(couple[0], person2: couple[1], onCompletion: {children2, err in
+                            if children2 != nil && children2!.count > 0 {
+                                self.addChildNodes(self.root!, children: children2!)
+                            }
+                            dispatch_group_leave(self.treeGroup)
+                        })
+                    } else {
+                        self.addChildNodes(self.root!, children: children!)
+                        dispatch_group_leave(self.treeGroup)
+                    }
 				})
 			}
             dispatch_group_leave(self.treeGroup)
@@ -355,11 +371,15 @@ class TreeScene: LittleFamilyScene {
         
         if x < self.minX {
             self.minX = x
-            self.maxX = self.size.width * 2 + x
+            if self.size.width * 2 + x > maxX {
+                self.maxX = self.size.width * 2 + x
+            }
         }
         if y < self.minY {
             self.minY = y
-            self.maxY = self.size.height * 2 + y
+            if self.size.height * 2 + y > maxY {
+                self.maxY = self.size.height * 2 + y
+            }
         }
         
         let offsetY = CGFloat(40)
@@ -541,6 +561,9 @@ class TreeScene: LittleFamilyScene {
 				else if touchedNode == dressupButton {
                     self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
+                else if touchedNode == songButton {
+                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
+                }
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
                     treeSearchButton?.state = 0

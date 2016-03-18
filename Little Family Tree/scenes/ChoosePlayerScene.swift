@@ -16,6 +16,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     var dataService:DataService?
     var titleBar:SKSpriteNode?
     var peopleSprites = [PersonNameSprite]()
+    var people = [LittlePerson]()
     
     override func didMoveToView(view: SKView) {
         self.size.width = view.bounds.width
@@ -125,49 +126,82 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     func loadPeople() {
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
-                self.peopleSprites.removeAll()
-                var width = min(self.view!.bounds.width, self.view!.bounds.height)
-				var cols = CGFloat(3)
-                width = (self.view!.bounds.width / cols)
-				if family?.count > 12 || (CGFloat(family!.count) / cols) * width > self.view!.bounds.height {
-					cols = CGFloat(4)
-				}
-                width = (self.view!.bounds.width / cols)
-				if family?.count > 16 || (CGFloat(family!.count) / cols) * width > self.view!.bounds.height  {
-					cols = CGFloat(5)
-				}
-				width = (self.view!.bounds.width / cols)
-
-                //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
-                var x = CGFloat(0.0)
-                var y = CGFloat(self.size.height - (width + self.titleBar!.size.height - 10))
-                for p in family! {
-                    print("\(p.name!) (\(x),\(y))")
-                    let sprite = PersonNameSprite()
-                    sprite.userInteractionEnabled = true
-                    sprite.position = CGPointMake(x, y)
-                    sprite.size.width = width
-                    sprite.size.height = width
-                    sprite.person = p
-                    sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
-                    self.addChild(sprite)
-                    self.peopleSprites.append(sprite)
+                if family != nil && family!.count > 0 {
+                    self.people = [LittlePerson]()
+                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                    let group = dispatch_group_create()
+                    for p in family! {
+                        if self.people.contains(p) == false {
+                            self.people.append(p)
+                        }
+                        dispatch_group_enter(group)
+                        self.dataService?.getChildren(p, onCompletion: { grandchildren, err in
+                            if grandchildren != nil && grandchildren!.count > 0 {
+                                for gc in grandchildren! {
+                                    if self.people.contains(gc) == false {
+                                        self.people.append(gc)
+                                    }
+                                }
+                            }
+                            dispatch_group_leave(group)
+                        })
+                    }
                     
-                    x += width - 10
-                    if x > self.view!.bounds.width - width {
-                        x = CGFloat(5)
-                        y -= width - 20
+                    dispatch_group_notify(group, queue) {
+                        self.addSprites()
                     }
                 }
-                SyncQ.getInstance().start()
-                let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
-                if showGuide != nil && showGuide! != "true" {
-					self.checkMedia()
-                    self.speak("Who is playing today?")
-                }
-                
             })
         })
+    }
+    
+    func addSprites() {
+        for s in self.peopleSprites {
+            s.removeFromParent()
+        }
+        self.peopleSprites.removeAll()
+        var width = min(self.view!.bounds.width, self.view!.bounds.height)
+        var cols = CGFloat(3)
+        width = (self.view!.bounds.width / cols)
+        if self.people.count > 12 || (CGFloat(self.people.count) / cols) * width > self.view!.bounds.height {
+            cols = CGFloat(4)
+        }
+        width = (self.view!.bounds.width / cols)
+        if self.people.count > 16 || (CGFloat(self.people.count) / cols) * width > self.view!.bounds.height  {
+            cols = CGFloat(5)
+        }
+        width = (self.view!.bounds.width / cols)
+        
+        //-- sort the people
+        self.people.sortInPlace({ $0.age < $1.age })
+        
+        //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
+        var x = CGFloat(0.0)
+        var y = CGFloat(self.size.height - (width + self.titleBar!.size.height - 10))
+        for p in self.people {
+            print("\(p.name!) (\(x),\(y))")
+            let sprite = PersonNameSprite()
+            sprite.userInteractionEnabled = true
+            sprite.position = CGPointMake(x, y)
+            sprite.size.width = width
+            sprite.size.height = width
+            sprite.person = p
+            sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
+            self.addChild(sprite)
+            self.peopleSprites.append(sprite)
+            
+            x += width - 10
+            if x > self.view!.bounds.width - width {
+                x = CGFloat(5)
+                y -= width - 20
+            }
+        }
+        SyncQ.getInstance().start()
+        let showGuide = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
+        if showGuide != nil && showGuide! != "true" {
+            self.checkMedia()
+            self.speak("Who is playing today?")
+        }
     }
 	
 	func checkMedia() {

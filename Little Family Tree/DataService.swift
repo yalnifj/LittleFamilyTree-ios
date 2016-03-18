@@ -111,6 +111,7 @@ class DataService {
                             do {
                                 person2?.treeLevel = 0
                                 try self.dbHelper.persistLittlePerson(person2!)
+                                self.dbHelper.saveProperty(DataService.ROOT_PERSON_ID, value: String(person2!.id!))
                                 onCompletion(person2, err2)
                             } catch {
                                 onCompletion(nil, NSError(domain: "LittleFamily", code: 404, userInfo: ["message":"Unable to persist little person"]))
@@ -403,6 +404,25 @@ class DataService {
             }
             onCompletion(children, nil)
         }
+    }
+    
+    func getChildrenForCouple(person1:LittlePerson, person2:LittlePerson, onCompletion: PeopleResponse) {
+        self.getChildren(person1, onCompletion: { children1, err in
+            self.getChildren(person2, onCompletion: { children2, err in
+                var children = [LittlePerson]()
+                if children1 != nil && children2 != nil && children1!.count > 0 && children2!.count > 0 {
+                    for child1 in children1! {
+                        for child2 in children2! {
+                            if child1 == child2 {
+                                children.append(child1)
+                                break
+                            }
+                        }
+                    }
+                }
+                onCompletion(children, nil)
+            })
+        })
     }
     
     func processRelatives(closeRelatives:[Relationship], person:LittlePerson, onCompletion:PeopleResponse) {

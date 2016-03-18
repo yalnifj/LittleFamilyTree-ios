@@ -136,15 +136,16 @@ class Gallery : SKSpriteNode {
             for n in s..<e {
                 if c < visibleNodes.count {
                     let node = visibleNodes[c]
-                    if node.position.x <= x {
-                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.3))
-                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.3))
-                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.3))
-                        if x < 0  {
-                            node.runAction(SKAction.moveToX(x + (xspace/2), duration: 0.3))
-                        } else {
-                            node.runAction(SKAction.moveToX(x, duration: 0.3))
-                        }
+                    var dx = CGFloat(0)
+                    if x < 0 {
+                        dx = xspace / 2
+                    }
+                    if node.position.x <= x + dx {
+                        node.runAction(SKAction.scaleXTo(1 - (abs(x + dx) / (xspace*CGFloat(distance*2))), duration: 0.3))
+                        node.runAction(SKAction.scaleYTo(1 - (abs(x + dx) / (xspace*CGFloat(distance*4))), duration: 0.3))
+                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x + dx) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.3))
+                        node.runAction(SKAction.moveToX(x + dx, duration: 0.3))
+                        
                         if x < 0 {
                             node.zPosition = CGFloat(n)
                         } else if x > 0 {
