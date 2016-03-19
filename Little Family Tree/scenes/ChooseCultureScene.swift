@@ -46,7 +46,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel = SKLabelNode(text: "Calculating your heritage. Please wait...")
         titleLabel?.fontColor = UIColor.blackColor()
-        titleLabel?.fontSize = min(self.size.height, self.size.height) / 25
+        titleLabel?.fontSize = min(self.size.width, self.size.height) / 25
         titleLabel?.zPosition = 1
         titleLabel?.position = CGPointMake(self.size.width/2, topBar!.position.y - (5 + topBar!.size.height))
         self.addChild(titleLabel!)
@@ -229,7 +229,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel?.text = "Choose a country"
 
-        pathPerson?.person = self.calculator!.culturePeople[path.place]![0]
+        pathPerson?.person = self.calculator!.culturePeople[path.place.lowercaseString]![0]
         pathPerson?.hidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)

@@ -158,9 +158,9 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 
                                 if !haschildren {
                                     if parents!.count > 1 {
-                                        self.dataService?.getChildrenForCouple(parents[0], person2: parents[1], onCompletion: {grandchildren, err in
+                                        self.dataService?.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
-                                                for gc in grandchildren {
+                                                for gc in grandchildren! {
                                                     if !self.people.contains(gc) {
                                                         self.people.append(gc)
                                                     }
@@ -169,9 +169,9 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                             self.addSprites()
                                         })
                                     } else if parents!.count > 0 {
-                                        self.dataService?.getChildren(parents[0], onCompletion: {grandchildren, err in
+                                        self.dataService?.getChildren(parents![0], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
-                                                for gc in grandchildren {
+                                                for gc in grandchildren! {
                                                     if !self.people.contains(gc) {
                                                         self.people.append(gc)
                                                     }
