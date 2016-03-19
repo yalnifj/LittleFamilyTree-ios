@@ -335,7 +335,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         playButton?.hidden = false
         resetButton?.hidden = false
         
-        for instrument in song.instruments {
+        for instrument in song!.instruments {
             if instrument=="drums" {
                 drumKit?.hidden = false
                 drumKit?.state = drumsOn ? 0 : 1
@@ -354,11 +354,11 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             }
             else if instrument=="bass" {
                 bass?.hidden = false
-                bass?.state = bassOn ? 0 : 1
+                bass?.state = fluteOn ? 0 : 1
             }
             else if instrument=="guitar" {
                 guitar?.hidden = false
-                guitar?.state = guitarOn ? 0 : 1
+                guitar?.state = violinOn ? 0 : 1
             }
         }
     }
@@ -402,7 +402,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         movingPerson = nil
         for touch in touches {
             lastPoint = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(lastPoint)
+            let touchedNode = nodeAtPoint(lastPoint!)
             if touchedNode is PersonNameSprite {
             }
             break

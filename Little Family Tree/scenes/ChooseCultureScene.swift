@@ -241,8 +241,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         doll?.hidden = false
         
         countryLabel?.text = path.place
-        let personNode:PersonNameSprite = galleryAdapter!.getNodeAtPosition(0) as! PersonNameSprite
-        countryLabel?.fontSize = personNode.nameLabel!.fontSize
+        countryLabel?.fontSize = pathPerson!.nameLabel!.fontSize
         countryLabel?.hidden = false
         
         speakDetails(pathPerson!.person!)

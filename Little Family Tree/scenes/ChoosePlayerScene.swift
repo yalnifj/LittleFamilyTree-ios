@@ -41,7 +41,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         titleBar!.addChild(titleBackground)
         
         let titleLabel = SKLabelNode(text: "Who is playing today?")
-        titleLabel.fontSize = titleBar!.size.height * 0.7
+        titleLabel.fontSize = titleBar!.size.height * 0.6
         if titleLabel.frame.size.width > titleBar!.size.width * 0.60 {
             titleLabel.fontSize = titleLabel.fontSize * 0.75
         }
@@ -128,7 +128,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             if person != nil {
                 self.people.append(person!)
-                self.dataService?.getSpouses(person!, loadSpouse: false, onCompletion: { spouses, err in
+                self.dataService?.getSpouses(person!, onCompletion: { spouses, err in
                     if spouses != nil {
                         for s in spouses! {
                             if !self.people.contains(s) {
