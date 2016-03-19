@@ -13,8 +13,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     var titleLabel:SKLabelNode?
     var whiteBackground:SKSpriteNode?
     var outlineSprite:SKSpriteNode?
-    var pathPerson:Gallery?
-    var galleryAdapter:PersonGalleryAdapter?
+    var pathPerson:PersonNameSprite?
     var doll:AnimatedStateSprite?
     var countryLabel:SKLabelNode?
     var startTime:NSDate?
@@ -87,9 +86,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         outlineSprite?.shader = shader
         self.addChild(outlineSprite!)
         
-        galleryAdapter = PersonGalleryAdapter(people: [LittlePerson]())
-        
-        pathPerson = Gallery()
+        pathPerson = PersonNameSprite()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 20)
@@ -100,7 +97,6 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         }
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
-        pathPerson?.adapter = galleryAdapter
         pathPerson?.userInteractionEnabled = true
         self.addChild(pathPerson!)
         
@@ -192,7 +188,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 y += height
             }
             
-            if count > 0 && count < 3 && self.calculator!.paths.count < 17 {
+            if count > 0 && count < 3 && self.calculator!.paths.count < 10 {
                 self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
             }
             
@@ -233,7 +229,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel?.text = "Choose a country"
 
-        galleryAdapter?.people = self.calculator!.culturePeople[path.place.lowercaseString]!
+        pathPerson?.person = self.calculator!.culturePeople[path.place]![0]
         pathPerson?.hidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
@@ -249,7 +245,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         countryLabel?.fontSize = personNode.nameLabel!.fontSize
         countryLabel?.hidden = false
         
-        speakDetails(personNode.person!)
+        speakDetails(pathPerson!.person!)
     }
 
     override func willMoveFromView(view: SKView) {
