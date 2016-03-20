@@ -55,7 +55,7 @@ class TreeScene: LittleFamilyScene {
     var scratchButton:SKSpriteNode?
     var coloringButton:SKSpriteNode?
     var puzzleButton:SKSpriteNode?
-    var songButton:SKSpriteNode?
+    //var songButton:SKSpriteNode?
 	
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
@@ -128,10 +128,10 @@ class TreeScene: LittleFamilyScene {
         puzzleButton!.anchorPoint = CGPointZero
         buttons.append(puzzleButton!)
         
-        songButton = SKSpriteNode(imageNamed: "house_music_piano")
-        br = songButton!.size.width / songButton!.size.height
-        songButton!.size = CGSizeMake(50 * br, 50)
-        songButton!.anchorPoint = CGPointZero
+        //songButton = SKSpriteNode(imageNamed: "house_music_piano")
+        //br = songButton!.size.width / songButton!.size.height
+        //songButton!.size = CGSizeMake(50 * br, 50)
+        //songButton!.anchorPoint = CGPointZero
         //buttons.append(songButton!)
         
         dispatch_group_enter(treeGroup)
@@ -459,7 +459,7 @@ class TreeScene: LittleFamilyScene {
         if node.leftNode == nil && node.rightNode == nil && node.hasParents == true {
             let upArrow = TreeUpArrow(imageNamed: "vine_arrow")
             upArrow.position = CGPointMake(sprite.position.x + sprite.size.width/2, sprite.position.y + sprite.size.height + upArrow.size.height)
-            upArrow.zPosition = 4
+            upArrow.zPosition = 5
             upArrow.treeNode = node
             container.addChild(upArrow)
             self.arrows.append(upArrow)
@@ -561,9 +561,9 @@ class TreeScene: LittleFamilyScene {
 				else if touchedNode == dressupButton {
                     self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
-                else if touchedNode == songButton {
-                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
-                }
+                //else if touchedNode == songButton {
+                //    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
+                //}
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
                     treeSearchButton?.state = 0
@@ -680,7 +680,8 @@ class TreeScene: LittleFamilyScene {
                     msg += "\(heshe) born in \(node.person!.birthPlace!)"
                 }
                 self.speak(msg)
-                if buttonPanel != nil {
+                if buttonPanel != nil && buttonPanel!.size.width > 5 {
+                    buttonPanel?.removeAllActions()
                     let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
                     buttonPanel?.runAction(act) {
                         self.showButtonPanel(node, relationship: relationship)
@@ -715,7 +716,7 @@ class TreeScene: LittleFamilyScene {
             } else if arrow.treeNode?.level == upArrow.treeNode?.level {
                 arrow.removeAllChildren()
                 arrow.texture = SKTexture(imageNamed: "vine_arrow")
-                upArrow.zPosition = 4
+                upArrow.zPosition = 5
             }
         }
         
