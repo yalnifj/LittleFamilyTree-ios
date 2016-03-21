@@ -13,7 +13,9 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     var titleLabel:SKLabelNode?
     var whiteBackground:SKSpriteNode?
     var outlineSprite:SKSpriteNode?
-    var pathPerson:PersonNameSprite?
+    var pathPerson:Gallery?
+    var galleryAdapter:PersonGalleryAdapter?
+    //var pathPerson:PersonNameSprite?
     var doll:AnimatedStateSprite?
     var countryLabel:SKLabelNode?
     var startTime:NSDate?
@@ -86,7 +88,9 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         outlineSprite?.shader = shader
         self.addChild(outlineSprite!)
         
-        pathPerson = PersonNameSprite()
+        galleryAdapter = PersonGalleryAdapter(people: [LittlePerson]())
+        
+        pathPerson = Gallery()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
         pathPerson?.position = CGPointMake(0, 20)
@@ -98,6 +102,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         pathPerson?.zPosition = 3
         pathPerson?.hidden = true
         pathPerson?.userInteractionEnabled = true
+        pathPerson?.adapter = galleryAdapter
         self.addChild(pathPerson!)
         
         doll = AnimatedStateSprite()
@@ -229,7 +234,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         titleLabel?.text = "Choose a country"
 
-        pathPerson?.person = self.calculator!.culturePeople[path.place.lowercaseString]![0]
+        //pathPerson?.person = self.calculator!.culturePeople[path.place.lowercaseString]![0]
+        galleryAdapter?.people = self.calculator!.culturePeople[path.place.lowercaseString]!
         pathPerson?.hidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
@@ -240,11 +246,14 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         doll?.texture = texture
         doll?.hidden = false
         
+        let personNode = pathPerson!.visibleNodes[0] as! PersonNameSprite
+        
         countryLabel?.text = path.place
-        countryLabel?.fontSize = pathPerson!.nameLabel!.fontSize
+        countryLabel?.fontSize = personNode.nameLabel!.fontSize
         countryLabel?.hidden = false
         
-        speakDetails(pathPerson!.person!)
+        speakDetails(personNode.person!)
+        //speakDetails(pathPerson!.person!)
     }
 
     override func willMoveFromView(view: SKView) {

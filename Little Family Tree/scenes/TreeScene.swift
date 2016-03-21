@@ -55,7 +55,7 @@ class TreeScene: LittleFamilyScene {
     var scratchButton:SKSpriteNode?
     var coloringButton:SKSpriteNode?
     var puzzleButton:SKSpriteNode?
-    //var songButton:SKSpriteNode?
+    var songButton:SKSpriteNode?
 	
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
@@ -128,11 +128,11 @@ class TreeScene: LittleFamilyScene {
         puzzleButton!.anchorPoint = CGPointZero
         buttons.append(puzzleButton!)
         
-        //songButton = SKSpriteNode(imageNamed: "house_music_piano")
-        //br = songButton!.size.width / songButton!.size.height
-        //songButton!.size = CGSizeMake(50 * br, 50)
-        //songButton!.anchorPoint = CGPointZero
-        //buttons.append(songButton!)
+        songButton = SKSpriteNode(imageNamed: "house_music_piano")
+        br = songButton!.size.width / songButton!.size.height
+        songButton!.size = CGSizeMake(50 * br, 50)
+        songButton!.anchorPoint = CGPointZero
+        buttons.append(songButton!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -561,9 +561,9 @@ class TreeScene: LittleFamilyScene {
 				else if touchedNode == dressupButton {
                     self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
-                //else if touchedNode == songButton {
-                //    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
-                //}
+                else if touchedNode == songButton {
+                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
+                }
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()
                     treeSearchButton?.state = 0

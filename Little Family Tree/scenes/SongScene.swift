@@ -50,8 +50,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var playButton:AnimatedStateSprite?
 	var resetButton:EventSprite?
 	
-	var peopleHolder:SKSpriteNode?
-	
 	var peopleSprites = [PersonNameSprite]()
 	var onStage = [PersonNameSprite]()
 	
@@ -66,6 +64,9 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     
     var lastPoint:CGPoint?
     var movingPerson:PersonNameSprite?
+    var songChosen = false
+    var scrolling = false
+    var dropReady = false
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -106,11 +107,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         stage?.zPosition = 1
         stage?.position = CGPointMake(xOffset + width / 2, yOffset + height / 2)
         self.addChild(stage!)
-		
-		peopleHolder = SKSpriteNode()
-		peopleHolder?.zPosition = 3
-		peopleHolder?.position = CGPointMake(10 + stage!.position.x + stage!.size.width / 2, topBar!.position.y - topBar!.size.height * 3)
-		self.addChild(peopleHolder!)
 		
 		manWidth = stage!.size.width / CGFloat(7)
         womanWidth = manWidth + 4
@@ -300,11 +296,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func onComplete(family:[LittlePerson]) {
+        for s in peopleSprites {
+            s.removeFromParent()
+        }
 		peopleSprites.removeAll()
-		peopleHolder!.removeAllChildren()
 		
-		let x = CGFloat(0)
-		var y = CGFloat(0)  
+		let x = 10 + stage!.position.x + stage!.size.width / 2
+		var y = topBar!.position.y - topBar!.size.height * 3
 		for person in family {
 			let sprite = PersonNameSprite()
 			//sprite.userInteractionEnabled = true
@@ -314,7 +312,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			sprite.showLabel = false
 			sprite.person = person
 			//sprite.topic = ChoosePlayerScene.TOPIC_CHOOSE_PERSON
-			self.peopleHolder!.addChild(sprite)
+			self.addChild(sprite)
 			self.peopleSprites.append(sprite)
 			
 			y = y - (personWidth - 15)
@@ -323,6 +321,17 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
+        if dropReady {
+            selPerson1!.setScale(1.2)
+            selPerson2!.setScale(1.2)
+            selPerson3!.setScale(1.2)
+            selPerson4!.setScale(1.2)
+        } else {
+            selPerson1!.setScale(1.0)
+            selPerson2!.setScale(1.0)
+            selPerson3!.setScale(1.0)
+            selPerson4!.setScale(1.0)
+        }
     }
     
     func showInstruments() {
@@ -334,6 +343,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         
         playButton?.hidden = false
         resetButton?.hidden = false
+        
+        songChosen = true
         
         for instrument in song!.instruments {
             if instrument=="drums" {
@@ -379,6 +390,17 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         
         playButton?.hidden = true
         resetButton?.hidden = true
+        songChosen = false
+    }
+    
+    func reorderPeople() {
+        let x = 10 + stage!.position.x + stage!.size.width / 2
+        var y = topBar!.position.y - topBar!.size.height * 3
+        for s in self.peopleSprites {
+            let act = SKAction.moveTo(CGPointMake(x, y), duration: 1.0)
+            s.runAction(act)
+            y = y - (personWidth - 15)
+        }
     }
 	
 	override func onEvent(topic: String, data: NSObject?) {
@@ -402,8 +424,12 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         movingPerson = nil
         for touch in touches {
             lastPoint = touch.locationInNode(self)
+            if lastPoint!.x >= self.stage!.position.x + self.stage!.size.width / 2 {
+                scrolling = true
+            }
             let touchedNode = nodeAtPoint(lastPoint!)
             if touchedNode is PersonNameSprite {
+                movingPerson = touchedNode as? PersonNameSprite
             }
             break
         }
@@ -411,9 +437,47 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesMoved(touches, withEvent: event)
+        for touch in touches {
+            let nextPoint = touch.locationInNode(self)
+            let dx = nextPoint.x - lastPoint!.x
+            let dy = nextPoint.y - lastPoint!.y
+            if scrolling {
+                if dx < -10 {
+                    scrolling = false
+                } else {
+                    for s in peopleSprites {
+                        s.position.y += dy
+                    }
+                }
+            }
+            if movingPerson != nil && scrolling == false {
+                movingPerson!.position.x += dx
+                movingPerson!.position.y += dy
+            }
+            if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 && nextPoint.y < stage!.size.height / 2 + personWidth * 2 {
+                dropReady = true
+            }
+            lastPoint = nextPoint
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
+        for touch in touches {
+            let nextPoint = touch.locationInNode(self)
+            if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 && nextPoint.y < stage!.size.height / 2 + personWidth * 2 {
+                dropReady = true
+            }
+        }
+        if movingPerson != nil && dropReady {
+            peopleSprites.removeObject(movingPerson!)
+            onStage.append(movingPerson!)
+            let act = SKAction.moveTo(selPerson1!.position, duration: 1.0)
+            movingPerson!.runAction(act)
+        }
+        dropReady = false
+        scrolling = false
+        movingPerson = nil
+        reorderPeople()
     }
 }
