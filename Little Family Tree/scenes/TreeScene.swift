@@ -273,6 +273,8 @@ class TreeScene: LittleFamilyScene {
 	
 	func addChildNodes(node:TreeNode, children:[LittlePerson]) {
 		var childNodes = [TreeNode]()
+		//-- sort the children by age
+		children.sortInPlace({ $0.age < $1.age })
 		for child in children {
 			let node = TreeNode()
 			node.level = node.level - 1
