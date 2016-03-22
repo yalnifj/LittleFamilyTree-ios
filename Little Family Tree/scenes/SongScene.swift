@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import AVFoundation
 
 class SongScene: LittleFamilyScene, TreeWalkerListener {
     static var TOPIC_PERSON_TOUCHED = "topic_person_touched"
@@ -61,6 +62,15 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     var fluteOn = true
     var violinOn = true
     var pianoOn = true
+	
+	var drumTrack:AVAudioPlayer?
+	var fluteTrack:AVAudioPlayer?
+	var violinTrack:AVAudioPlayer?
+	var pianoTrack:AVAudioPlayer?
+	var voiceTrack:AVAudioPlayer?
+	
+	var playing = false
+	var paused = false
     
     var lastPoint:CGPoint?
     var movingPerson:PersonNameSprite?
@@ -243,7 +253,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = playButton!.size.height / playButton!.size.width
 		playButton?.zPosition = 3
 		playButton?.size = CGSizeMake(personWidth, personWidth * ratio)
-		playButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) - personWidth, yOffset + stage!.size.height - 60)
+		playButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) - personWidth / 2, yOffset + stage!.size.height - 60)
 		playButton?.addEvent(0, topic: SongScene.TOPIC_PLAY_SONG)
 		playButton?.addEvent(1, topic: SongScene.TOPIC_PLAY_SONG)
 		playButton?.addTexture(1, texture: SKTexture(imageNamed: "media_pause"))
@@ -255,7 +265,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		ratio = resetButton!.size.height / resetButton!.size.width
 		resetButton?.zPosition = 3
 		resetButton?.size = CGSizeMake(personWidth, personWidth * ratio)
-		resetButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) + personWidth, yOffset + stage!.size.height - 60)
+		resetButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) + personWidth / 2, yOffset + stage!.size.height - 60)
 		resetButton?.topic = SongScene.TOPIC_PLAY_RESET
 		resetButton?.userInteractionEnabled = true
 		resetButton?.hidden = true
@@ -323,10 +333,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
         if dropReady {
-            selPerson1!.setScale(1.2)
-            selPerson2!.setScale(1.2)
-            selPerson3!.setScale(1.2)
-            selPerson4!.setScale(1.2)
+            selPerson1!.setScale(1.1)
+            selPerson2!.setScale(1.1)
+            selPerson3!.setScale(1.1)
+            selPerson4!.setScale(1.1)
         } else {
             selPerson1!.setScale(1.0)
             selPerson2!.setScale(1.0)
@@ -406,6 +416,82 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         }
     }
 	
+	func resetSong() {
+		playing = false
+		paused = false
+		let drumTrackUrl = NSURL(fileURLWithPath: song!.drumTrack)
+		drumTrack = AVAudioPlayer(contentsOfURL: drumTrackUrl)
+		if drumsOn {
+			drumTrack!.volume = 1.0
+		} else {
+			drumTrack!.volume = 0.0
+		}
+		let fluteTrackUrl = NSURL(fileURLWithPath: song!.fluteTrack)
+		fluteTrack = AVAudioPlayer(contentsOfURL: fluteTrackUrl)
+		if fluteOn {
+			fluteTrack!.volume = 1.0
+		} else {
+			fluteTrack!.volume = 0.0
+		}
+		let violinTrackUrl = NSURL(fileURLWithPath: song!.violinTrack)
+		violinTrack = AVAudioPlayer(contentsOfURL: violinTrackUrl)
+		if violinOn {
+			violinTrack!.volume = 1.0
+		} else {
+			violinTrack!.volume = 0.0
+		}
+		let pianoTrackUrl = NSURL(fileURLWithPath: song!.pianoTrack)
+		pianoTrack = AVAudioPlayer(contentsOfURL: pianoTrackUrl)
+		if pianoOn {
+			pianoTrack!.volume = 1.0
+		} else {
+			pianoTrack!.volume = 0.0
+		}
+		let voiceTrackUrl = NSURL(fileURLWithPath: song!.voiceTrack)
+		voiceTrack = AVAudioPlayer(contentsOfURL: voiceTrackUrl)
+	}
+	
+	func playSong() {
+		playing = true
+		if paused {
+			if drumTrack != nil {
+				drumTrack.play()
+			}
+			if fluteTrack != nil {
+				fluteTrack.play()
+			}
+			if violinTrack != nil {
+				violinTrack.play()
+			}
+			if pianoTrack != nil {
+				pianoTrack.play()
+			}
+			if voiceTrack != nil {
+				voiceTrack.play()
+			}
+		}
+		paused = false
+	}
+	
+	func pauseSong() {
+		paused = true
+		if drumTrack != nil {
+			drumTrack.pause()
+		}
+		if fluteTrack != nil {
+			fluteTrack.pause()
+		}
+		if violinTrack != nil {
+			violinTrack.pause()
+		}
+		if pianoTrack != nil {
+			pianoTrack.pause()
+		}
+		if voiceTrack != nil {
+			voiceTrack.pause()
+		}
+	}
+	
 	override func onEvent(topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
 		if topic == SongScene.TOPIC_CHOOSE_SONG1 {
@@ -419,7 +505,77 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         else if topic == SongScene.TOPIC_CHOOSE_SONG3 {
             self.song = songAlbum!.songs[2]
             showInstruments()
-        }
+        } else if topic == SongScene.TOPIC_PLAY_SONG {
+			
+		} else if topic == SongScene.TOPIC_PLAY_RESET {
+		
+		} else if topic == SongScene.TOPIC_TOGGLE_DRUMS {
+			drumsOn = !drumsOn
+			if drumTrack != nil {
+				if drumsOn {
+					drumTrack!.volume = 1.0
+					drumKit.state = 0
+				} else {
+					drumTrack!.volume = 0.0
+					drumKit.state = 1
+				}
+			}
+		} else if topic == SongScene.TOPIC_TOGGLE_BASS {
+			fluteOn = !fluteOn
+			if fluteTrack != nil {
+				if fluteOn {
+					fluteTrack!.volume = 1.0
+					bass.state = 0
+				} else {
+					fluteTrack!.volume = 0.0
+					bass.state = 1
+				}
+			}
+		} else if topic == SongScene.TOPIC_TOGGLE_FLUTE {
+			fluteOn = !fluteOn
+			if fluteTrack != nil {
+				if fluteOn {
+					fluteTrack!.volume = 1.0
+					clarinet.state = 0
+				} else {
+					fluteTrack!.volume = 0.0
+					clarinet.state = 1
+				}
+			}
+		} else if topic == SongScene.TOPIC_TOGGLE_GUITAR {
+			violinOn = !violinOn
+			if violinTrack != nil {
+				if violinOn {
+					violinTrack!.volume = 1.0
+					guitar.state = 0
+				} else {
+					violinTrack!.volume = 0.0
+					guitar.state = 1
+				}
+			}
+		} else if topic == SongScene.TOPIC_TOGGLE_VIOLIN {
+			violinOn = !violinOn
+			if violinTrack != nil {
+				if violinOn {
+					violinTrack!.volume = 1.0
+					violin.state = 0
+				} else {
+					violinTrack!.volume = 0.0
+					violin.state = 1
+				}
+			}
+		} else if topic == SongScene.TOPIC_TOGGLE_PIANO {
+			pianoOn = !pianoOn
+			if pianoTrack != nil {
+				if pianoOn {
+					pianoTrack!.volume = 1.0
+					piano.state = 0
+				} else {
+					pianoTrack!.volume = 0.0
+					piano.state = 1
+				}
+			}
+		}
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -431,7 +587,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 scrolling = true
             }
             let touchedNode = nodeAtPoint(lastPoint!)
-            if touchedNode is PersonNameSprite {
+            if !playing && touchedNode is PersonNameSprite {
                 movingPerson = touchedNode as? PersonNameSprite
             }
             break
@@ -445,7 +601,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             let dx = nextPoint.x - lastPoint!.x
             let dy = nextPoint.y - lastPoint!.y
             if scrolling {
-                if dx < -10 {
+                if dx < -10 && nextPoint.x < xOffset + stage!.size.width {
                     scrolling = false
                 } else {
                     for s in peopleSprites {
@@ -472,10 +628,18 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 dropReady = true
             }
         }
-        if movingPerson != nil && dropReady {
+        if movingPerson != nil && dropReady && scrolling == false && onStage.count < 4 {
             peopleSprites.removeObject(movingPerson!)
             onStage.append(movingPerson!)
-            let act = SKAction.moveTo(selPerson1!.position, duration: 1.0)
+			var moveToSprite = selPerson1!
+			if onStage.count == 2 {
+				moveToSprite = selPerson2!
+			} else if onStage.count == 3 {
+				moveToSprite = selPerson3!
+			} else if onStage.count == 4 {
+				moveToSprite = selPerson4!
+			}
+            let act = SKAction.moveTo(moveToSprite.position, duration: 1.0)
             movingPerson!.runAction(act)
         }
         dropReady = false
