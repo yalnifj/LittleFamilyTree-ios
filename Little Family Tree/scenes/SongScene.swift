@@ -276,6 +276,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         
         treeWalker = TreeWalker(person: selectedPerson!, listener:self)
         treeWalker!.loadFamilyMembers()
+        speak("Choose a song.")
     }
     
     override func willMoveFromView(view: SKView) {
@@ -372,6 +373,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 guitar?.state = violinOn ? 0 : 1
             }
         }
+        speak("Place your dancers on stage.")
     }
     
     func showSongButtons() {
@@ -391,6 +393,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         playButton?.hidden = true
         resetButton?.hidden = true
         songChosen = false
+        speak("Choose a song.")
     }
     
     func reorderPeople() {
