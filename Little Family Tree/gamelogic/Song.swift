@@ -16,8 +16,8 @@ class Song {
     var voiceTrack:String?
     var words:String?
     
-    var danceTimings = [Int64]()
-    var wordTimings = [Int64]()
+    var danceTimings = [NSTimeInterval]()
+    var wordTimings = [NSTimeInterval]()
     var attributor:SongPersonAttribute?
     var instruments = [String]()
 }

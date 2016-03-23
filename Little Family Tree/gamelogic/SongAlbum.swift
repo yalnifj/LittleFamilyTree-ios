@@ -33,11 +33,11 @@ class SongAlbum {
     
     private func addFamilyTreeSong() {
         let song = Song()
-        song.drumTrack = "drums_allinourfamilytree"
-        song.fluteTrack = "flute_allinourfamilytree"
-        song.pianoTrack = "piano_allinourfamilytree"
-        song.violinTrack = "violin_allinourfamilytree"
-        song.voiceTrack = "voice_allinourfamilytree"
+        song.drumTrack = "drums_allinourfamilytree.mp3"
+        song.fluteTrack = "flute_allinourfamilytree.mp3"
+        song.pianoTrack = "piano_allinourfamilytree.mp3"
+        song.violinTrack = "violin_allinourfamilytree.mp3"
+        song.voiceTrack = "voice_allinourfamilytree.mp3"
         song.words = "We are a fam -i -ly. We are a fam -i -ly. We have _.  We have _. We have _. We have _. They're all in our fami -ly tree. They're all in our fami -ly tree."
         song.wordTimings.append(1500)//are
         song.wordTimings.append(1700)//a
@@ -79,13 +79,13 @@ class SongAlbum {
         song.wordTimings.append(23500)
         song.wordTimings.append(24500)
         
-        song.danceTimings.append(6900)
-        song.danceTimings.append(9000)
-        song.danceTimings.append(11000)
-        song.danceTimings.append(13200)
-        song.danceTimings.append(15400)
-        song.danceTimings.append(23000)
-        song.danceTimings.append(24000)
+        song.danceTimings.append(6900)//first on
+        song.danceTimings.append(9000)//first off, second on
+        song.danceTimings.append(11000)//second off, third on
+        song.danceTimings.append(13200)//third off, fourth on
+        song.danceTimings.append(15400)//fourth off
+        song.danceTimings.append(23000)//exit left
+        song.danceTimings.append(24000)//song over
         
         song.attributor = SongNameAttributor()
         
@@ -100,11 +100,11 @@ class SongAlbum {
     
     private func addMyHistorySong() {
         let song = Song()
-        song.drumTrack = "drums_myhistory"
-        song.fluteTrack = "flute_myhistory"
-        song.pianoTrack = "piano_myhistory"
-        song.violinTrack = "violin_myhistory"
-        song.voiceTrack = "voice_myhistory"
+        song.drumTrack = "drums_myhistory.mp3"
+        song.fluteTrack = "flute_myhistory.mp3"
+        song.pianoTrack = "piano_myhistory.mp3"
+        song.violinTrack = "violin_myhistory.mp3"
+        song.voiceTrack = "voice_myhistory.mp3"
         song.words = "Fami -ly his -tor -y, is my his -tor -y. My an -cest -or was born in _. This rel -a -tive lived in _. My an -cest -or was born in _. This rel -a -tive lived in _. That's my his -tor -y."
         
         song.wordTimings.append(500)//-ly
@@ -173,11 +173,11 @@ class SongAlbum {
 	
 	private func addThisIsMyHistorySong() {
         let song = Song()
-        song.drumTrack = "drums_thisismyfamily"
-        song.fluteTrack = "flute_thisismyfamily"
-        song.pianoTrack = "piano_thisismyfamily"
-        song.violinTrack = "guitar_thisismyfamily"
-        song.voiceTrack = "voice_thisismyfamily"
+        song.drumTrack = "drums_thisismyfamily.mp3"
+        song.fluteTrack = "flute_thisismyfamily.mp3"
+        song.pianoTrack = "piano_thisismyfamily.mp3"
+        song.violinTrack = "guitar_thisismyfamily.mp3"
+        song.voiceTrack = "voice_thisismyfamily.mp3"
         song.words = "This is my fam -i -ly. They mean so much to me. Here is my _. My _ is here too. Here is my _. My _ is here too. This is my fam -i -ly."
 
         song.wordTimings.append(700)//is
