@@ -23,7 +23,7 @@ class SongAlbum {
     
     func nextSong() -> Song {
         let song = songs[currentSong]
-        currentSong++
+        currentSong += 1
         if (currentSong >= songs.count) {
             currentSong = 0
         }

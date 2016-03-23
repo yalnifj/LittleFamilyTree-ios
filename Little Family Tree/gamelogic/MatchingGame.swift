@@ -68,7 +68,7 @@ class MatchingGame {
     }
 
     func levelUp() {
-        self.level++
+        self.level += 1
         setupLevel()
     }
     

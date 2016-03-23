@@ -122,6 +122,9 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
     }
     
     var listenerIndex:Int?
+    func setListenerIndex(index: Int) {
+        self.listenerIndex = index
+    }
     func onEvent(topic: String, data: NSObject?) {
         if topic == LittleFamilyScene.TOPIC_TOGGLE_QUIET {
             let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)

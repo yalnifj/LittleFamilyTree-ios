@@ -95,7 +95,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 }
                 }
             } else {
-                starDelayCount--;
+                starDelayCount -= 1;
             }
         }
 
@@ -113,6 +113,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     var listenerIndex:Int?
+    func setListenerIndex(index: Int) {
+        self.listenerIndex = index
+    }
     func onEvent(topic: String, data: NSObject?) {
         if topic == LittleFamilyScene.TOPIC_START_HOME {
             if previousTopic == nil || previousTopic == LittleFamilyScene.TOPIC_START_HOME {

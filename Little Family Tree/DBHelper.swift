@@ -288,7 +288,7 @@ class DBHelper {
                 }
                 let stmt = try lftdb?.prepare(query)
                 for c in stmt! {
-                    var person = buildLittlePerson(c)
+                    let person = buildLittlePerson(c)
                     person.id = c[COL_ID]
                     people.append(person)
                 }

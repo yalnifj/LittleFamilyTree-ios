@@ -23,7 +23,7 @@ class Gallery : SKSpriteNode {
         endNode = currentNode + distance
         visibleNodes.removeAll()
         self.removeAllChildren()
-        let xspace = self.size.width / CGFloat(Double(distance))
+        let xspace = self.size.width / CGFloat(0.5 + Double(distance))
         var x = xspace * CGFloat(0 - distance)
         let y = CGFloat(0)
         let s = startNode
@@ -85,21 +85,23 @@ class Gallery : SKSpriteNode {
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             //-- snap nodes into place
-            let xspace = self.size.width / CGFloat(Double(distance))
+            let xspace = self.size.width / CGFloat(0.5 + Double(distance))
             
             let totalDistance = Int(round((lastNodePosition!.x - visibleNodes[0].position.x) / xspace))
             if (totalDistance > 0 && currentNode < adapter!.size() - 1) || (totalDistance < 0 && currentNode >= 0) {
                 if totalDistance < 0 {
                     var sn = startNode
-                    while sn >= 0 {
+                    while sn >= 1 {
                         sn -= 1
-                        let x = visibleNodes.first!.position.x - xspace / 2
-                        let node = setupNode(sn, x: x, y: visibleNodes.first!.position.y)
-                        node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
-                        node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
-                        node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.0))
-                        visibleNodes.insert(node, atIndex: 0)
-                        self.addChild(node)
+                        if sn >= 0 && sn < adapter!.size() {
+                            let x = visibleNodes.first!.position.x - xspace / 2
+                            let node = setupNode(sn, x: x, y: visibleNodes.first!.position.y)
+                            node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                            node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                            node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.0))
+                            visibleNodes.insert(node, atIndex: 0)
+                            self.addChild(node)
+                        }
                     }
 
                 }
@@ -122,12 +124,16 @@ class Gallery : SKSpriteNode {
             }
             
             var x = xspace * CGFloat(0 - distance)
-            while visibleNodes[0].position.x < x {
-                visibleNodes.removeFirst()
+            if visibleNodes.count > 0 {
+                while visibleNodes.count > 2 && visibleNodes.first!.position.x < x {
+                    visibleNodes.removeFirst()
+                }
             }
             let x2 = xspace * CGFloat(distance)
-            while visibleNodes.last!.position.x > x2 {
-                visibleNodes.removeLast()
+            if visibleNodes.count > 0 {
+                while visibleNodes.count > 2 && visibleNodes.last!.position.x > x2 {
+                    visibleNodes.removeLast()
+                }
             }
             
             let s = startNode

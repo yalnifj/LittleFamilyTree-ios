@@ -28,7 +28,8 @@ class EventHandler {
             listeners = [Int : EventListener]()
         }
         if listener.listenerIndex == nil {
-            listener.listenerIndex = counter++
+            counter += 1
+            listener.setListenerIndex(counter)
         }
         listeners![listener.listenerIndex!] = listener
         subscribers[topic] = listeners
@@ -55,5 +56,6 @@ class EventHandler {
 
 protocol EventListener {
     var listenerIndex:Int? { get set }
+    func setListenerIndex(index:Int)
     func onEvent(topic:String, data:NSObject?)
 }

@@ -644,7 +644,7 @@ class TreeScene: LittleFamilyScene {
 				button.position = CGPointMake(x, y)
 				self.buttonPanel?.addChild(button)
                 x = x + 8 + button.size.width
-                counter++
+                counter += 1
 			}
             y = y + self.buttons[0].size.height + 7
             let relLabel = SKLabelNode(text: relationship)
