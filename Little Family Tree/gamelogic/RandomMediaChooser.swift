@@ -55,7 +55,7 @@ class RandomMediaChooser {
     }
     
     func loadRandomImage() {
-        counter++;
+        counter += 1;
         if (people.count > 0) {
             let r = Int(arc4random_uniform(UInt32(people.count)))
             selectedPerson = people[r]
@@ -73,7 +73,7 @@ class RandomMediaChooser {
                     let origIndex = index;
                     self.photo = photos[index]
                     while (self.usedPhotos[self.photo!.id] != nil) {
-                        index++;
+                        index += 1;
                         if (index >= photos.count) {
                             index = 0;
                         }
@@ -100,7 +100,7 @@ class RandomMediaChooser {
     
     func loadMoreFamilyMembers() {
         if (familyLoaderQueue.count > 0 && counter < self.maxTries) {
-            counter++;
+            counter += 1;
             selectedPerson = familyLoaderQueue.removeFirst()
             if (selectedPerson != nil) {
                 dataService.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: {peeps, err in
@@ -113,7 +113,7 @@ class RandomMediaChooser {
                             if (!self.noPhotos.contains(p) && !self.people.contains(p)) {
                                 if (p.hasMedia == nil || p.hasMedia == true) {
                                     self.people.append(p)
-                                    c++
+                                    c += 1
                                 }
                                 else {
                                     self.noPhotos.append(p)
@@ -121,7 +121,7 @@ class RandomMediaChooser {
                             }
                             self.dataService.addToSyncQ(p)
                         }
-                        self.backgroundLoadIndex++
+                        self.backgroundLoadIndex += 1
                         
                         //-- no pictures try again
                         if (c==0) {
@@ -151,7 +151,7 @@ class RandomMediaChooser {
             let origIndex = index;
             self.photo = media[index]
             while (self.usedPhotos[self.photo!.id] != nil) {
-                index++;
+                index += 1;
                 if (index >= media.count) {
                     index = 0;
                 }

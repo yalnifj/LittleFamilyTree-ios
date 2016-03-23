@@ -70,7 +70,7 @@ class PersonLeavesButton: SKSpriteNode {
     }
 	
 	func nextPhoto() {
-		self.index++
+		self.index += 1
 		if self.index >= self.people?.count {
 			self.index = 0
 		}

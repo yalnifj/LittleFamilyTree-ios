@@ -22,7 +22,7 @@ class EventHandler {
     var subscribers = [String: [Int : EventListener]]()
     var counter = 1
     
-    func subscribe(topic:String, var listener:EventListener) {
+    func subscribe(topic:String, listener:EventListener) {
         var listeners = subscribers[topic]
         if (listeners == nil) {
             listeners = [Int : EventListener]()

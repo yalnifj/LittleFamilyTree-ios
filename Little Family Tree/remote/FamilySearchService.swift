@@ -398,7 +398,7 @@ class FamilySearchService : RemoteService {
                 postString += "&"
             }
 			postString += "\(param)=\(value)";
-            p++
+            p += 1
 		}
 
         //print(postString)

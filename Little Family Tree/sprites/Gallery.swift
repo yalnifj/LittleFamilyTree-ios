@@ -92,7 +92,7 @@ class Gallery : SKSpriteNode {
                 if totalDistance < 0 {
                     var sn = startNode
                     while sn >= 0 {
-                        sn--
+                        sn -= 1
                         let x = visibleNodes.first!.position.x - xspace / 2
                         let node = setupNode(sn, x: x, y: visibleNodes.first!.position.y)
                         node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
@@ -108,7 +108,7 @@ class Gallery : SKSpriteNode {
                 if totalDistance > 0 {
                     var en = endNode
                     while en < adapter!.size() - 1 {
-                        en++
+                        en += 1
                         let x = visibleNodes.last!.position.x + xspace
                         let node = setupNode(en, x: x, y: visibleNodes.last!.position.y)
                         node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
@@ -153,7 +153,7 @@ class Gallery : SKSpriteNode {
                         } else {
                             node.zPosition = CGFloat(e + 1)
                         }
-                        c++
+                        c += 1
                     }
                 }
                 x += xspace
@@ -196,7 +196,7 @@ class Gallery : SKSpriteNode {
                 newx = oldx + (xdiff / 2)
             }
             node.runAction(SKAction.moveToX(newx, duration: 0.0))
-            c++
+            c += 1
         }
     }
 }

@@ -117,7 +117,7 @@ class RelationshipCalculator {
                     }
                     inLaws = nextInLaw
     
-                    d++
+                    d += 1
                 } while(d < distance)
     
                 if (levelPeople.contains(p!)) {

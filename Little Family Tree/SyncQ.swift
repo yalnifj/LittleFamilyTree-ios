@@ -35,7 +35,7 @@ class SyncQ : NSObject {
 		let diff = person.lastSync!.timeIntervalSinceNow
 		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 2 && person.hasChildren == nil) {
 			if !syncQ.contains(person) {
-                startCounter++
+                startCounter += 1
 				//dbHelper.addToSyncQ(person.id!)
 				if person.treeLevel == nil {
 					syncQ.append(person)
@@ -62,7 +62,7 @@ class SyncQ : NSObject {
         if self.timer != nil {
             self.timer!.invalidate()
         }
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("processNextInQ:"), userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(SyncQ.processNextInQ(_:)), userInfo: nil, repeats: true)
         started = true
         startCounter = 0
         print("SyncQ Timer started")
@@ -83,7 +83,7 @@ class SyncQ : NSObject {
             }
         } else {
             //-- if we are not authenticated try to authenticate again after 10 minutes
-            authCounter++
+            authCounter += 1
             if authCounter > 60 {
                 authCounter = 0
                 dataService.autoLogin()

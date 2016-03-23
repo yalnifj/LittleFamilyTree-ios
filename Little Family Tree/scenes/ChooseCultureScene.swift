@@ -164,7 +164,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 }
                 tpercent += path.percent
                 theight += height
-                count++
+                count += 1
                 let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSizeMake((self.outlineSprite?.size.width)!, height))
                 pathColor.zPosition = 2
                 pathColor.position = CGPointMake((self.outlineSprite?.position.x)!, y + height/2)
@@ -189,7 +189,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 line.zPosition = 4
                 self.addChild(line)
                 
-                c++
+                c += 1
                 y += height
             }
             

@@ -76,10 +76,10 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             }
             
             if cols < rows {
-                cols++
+                cols += 1
             }
             else {
-                rows++
+                rows += 1
             }
             
             self.texture = texture
@@ -202,11 +202,11 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 let oldY = (movingSprite?.oldY)!
                 let action = SKAction.moveTo(CGPointMake(oldX, oldY), duration: 0.6)
                 movingSprite!.animating = true
-                animCount++
+                animCount += 1
                 movingSprite!.runAction(action, completion: {
                     self.movingSprite?.zPosition = 2
                     self.movingSprite?.animating = false
-                    self.animCount--
+                    self.animCount -= 1
                     self.movingSprite = nil
                 })
             } else {
@@ -224,23 +224,23 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 let action2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.6)
                 
                 sprite!.animating = true
-                animCount++
+                animCount += 1
                 sprite!.runAction(action, completion: {
                     sprite?.zPosition = 2
                     sprite?.col = sc
                     sprite?.row = sr
                     sprite?.animating = false
-                    self.animCount--
+                    self.animCount -= 1
                     self.checkComplete()
                 })
                 movingSprite!.animating = true
-                animCount++
+                animCount += 1
                 movingSprite!.runAction(action2, completion: {
                     self.movingSprite?.zPosition = 2
                     self.movingSprite?.col = mc
                     self.movingSprite?.row = mr
                     self.movingSprite?.animating = false
-                    self.animCount--
+                    self.animCount -= 1
                     self.checkComplete()
                     self.movingSprite = nil
                 })

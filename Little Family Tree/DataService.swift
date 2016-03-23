@@ -622,7 +622,7 @@ class DataService {
         var index = -1
         var i = -1
         for l in listeners {
-            i++
+            i += 1
             if (l as! AnyObject) === (listener as! AnyObject) {
                 index = i
                 break
@@ -794,7 +794,7 @@ class DataService {
                 }
                 return NSString(string: filePath);
             }
-			i--
+			i -= 1
         } while i >= 0
         return href;
     }

@@ -36,7 +36,7 @@ class TreeSearchGame {
                     if targetPerson == nil {
                         targetPerson = cnode!.rightPerson
                     }
-					counter++
+					counter += 1
 				}
             } else if (root.leftNode != nil && root.leftNode?.children != nil && root.leftNode?.children?.count > 0) {
                 targetNode = root.leftNode
@@ -47,7 +47,7 @@ class TreeSearchGame {
                     if targetPerson == nil {
                         targetPerson = cnode!.rightPerson
                     }
-					counter++
+					counter += 1
 				}
             }
         }
@@ -86,12 +86,12 @@ class TreeSearchGame {
                         targetPerson = targetNode?.rightPerson
                         break
                 }
-				counter++
+				counter += 1
             }
         }
 
         if (targetPerson==nil && retryCounter < 10) {
-            retryCounter++
+            retryCounter += 1
             findRandomPerson(root)
         }
         retryCounter = 0
@@ -109,7 +109,7 @@ class TreeSearchGame {
     }
 
     func nextClue() {
-        clueNumber++
+        clueNumber += 1
         if (clueNumber >= clues.count) {
 			clueNumber = 0
 		}

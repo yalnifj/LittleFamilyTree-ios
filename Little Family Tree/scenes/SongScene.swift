@@ -69,8 +69,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	var pianoTrack:AVAudioPlayer?
 	var voiceTrack:AVAudioPlayer?
 	
-	var playing = false
-	var paused = false
+	var songPlaying = false
+	var songPaused = false
     
     var lastPoint:CGPoint?
     var movingPerson:PersonNameSprite?
@@ -417,78 +417,98 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func resetSong() {
-		playing = false
-		paused = false
-		let drumTrackUrl = NSURL(fileURLWithPath: song!.drumTrack)
-		drumTrack = AVAudioPlayer(contentsOfURL: drumTrackUrl)
+		songPlaying = false
+		songPaused = false
+		let drumTrackUrl = NSURL(fileURLWithPath: song!.drumTrack!)
+        do {
+            drumTrack = try AVAudioPlayer(contentsOfURL: drumTrackUrl)
+        } catch {
+            drumTrack = nil
+        }
 		if drumsOn {
 			drumTrack!.volume = 1.0
 		} else {
 			drumTrack!.volume = 0.0
 		}
-		let fluteTrackUrl = NSURL(fileURLWithPath: song!.fluteTrack)
-		fluteTrack = AVAudioPlayer(contentsOfURL: fluteTrackUrl)
+		let fluteTrackUrl = NSURL(fileURLWithPath: song!.fluteTrack!)
+        do {
+            fluteTrack = try AVAudioPlayer(contentsOfURL: fluteTrackUrl)
+        } catch {
+            fluteTrack = nil
+        }
 		if fluteOn {
 			fluteTrack!.volume = 1.0
 		} else {
 			fluteTrack!.volume = 0.0
 		}
-		let violinTrackUrl = NSURL(fileURLWithPath: song!.violinTrack)
-		violinTrack = AVAudioPlayer(contentsOfURL: violinTrackUrl)
+		let violinTrackUrl = NSURL(fileURLWithPath: song!.violinTrack!)
+        do {
+            violinTrack = try AVAudioPlayer(contentsOfURL: violinTrackUrl)
+        } catch {
+            violinTrack = nil
+        }
 		if violinOn {
 			violinTrack!.volume = 1.0
 		} else {
 			violinTrack!.volume = 0.0
 		}
-		let pianoTrackUrl = NSURL(fileURLWithPath: song!.pianoTrack)
-		pianoTrack = AVAudioPlayer(contentsOfURL: pianoTrackUrl)
+		let pianoTrackUrl = NSURL(fileURLWithPath: song!.pianoTrack!)
+        do {
+            pianoTrack = try AVAudioPlayer(contentsOfURL: pianoTrackUrl)
+        } catch {
+            pianoTrack = nil
+        }
 		if pianoOn {
 			pianoTrack!.volume = 1.0
 		} else {
 			pianoTrack!.volume = 0.0
 		}
-		let voiceTrackUrl = NSURL(fileURLWithPath: song!.voiceTrack)
-		voiceTrack = AVAudioPlayer(contentsOfURL: voiceTrackUrl)
+		let voiceTrackUrl = NSURL(fileURLWithPath: song!.voiceTrack!)
+        do {
+            voiceTrack = try AVAudioPlayer(contentsOfURL: voiceTrackUrl)
+        } catch {
+            voiceTrack = nil
+        }
 	}
 	
 	func playSong() {
-		playing = true
-		if paused {
+		songPlaying = true
+		if songPaused {
 			if drumTrack != nil {
-				drumTrack.play()
+				drumTrack!.play()
 			}
 			if fluteTrack != nil {
-				fluteTrack.play()
+				fluteTrack!.play()
 			}
 			if violinTrack != nil {
-				violinTrack.play()
+				violinTrack!.play()
 			}
 			if pianoTrack != nil {
-				pianoTrack.play()
+				pianoTrack!.play()
 			}
 			if voiceTrack != nil {
-				voiceTrack.play()
+				voiceTrack!.play()
 			}
 		}
-		paused = false
+        songPaused = false
 	}
 	
 	func pauseSong() {
-		paused = true
+		songPaused = true
 		if drumTrack != nil {
-			drumTrack.pause()
+			drumTrack!.pause()
 		}
 		if fluteTrack != nil {
-			fluteTrack.pause()
+			fluteTrack!.pause()
 		}
 		if violinTrack != nil {
-			violinTrack.pause()
+			violinTrack!.pause()
 		}
 		if pianoTrack != nil {
-			pianoTrack.pause()
+			pianoTrack!.pause()
 		}
 		if voiceTrack != nil {
-			voiceTrack.pause()
+			voiceTrack!.pause()
 		}
 	}
 	
@@ -514,10 +534,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if drumTrack != nil {
 				if drumsOn {
 					drumTrack!.volume = 1.0
-					drumKit.state = 0
+					drumKit!.state = 0
 				} else {
 					drumTrack!.volume = 0.0
-					drumKit.state = 1
+					drumKit!.state = 1
 				}
 			}
 		} else if topic == SongScene.TOPIC_TOGGLE_BASS {
@@ -525,10 +545,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if fluteTrack != nil {
 				if fluteOn {
 					fluteTrack!.volume = 1.0
-					bass.state = 0
+					bass!.state = 0
 				} else {
 					fluteTrack!.volume = 0.0
-					bass.state = 1
+					bass!.state = 1
 				}
 			}
 		} else if topic == SongScene.TOPIC_TOGGLE_FLUTE {
@@ -536,10 +556,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if fluteTrack != nil {
 				if fluteOn {
 					fluteTrack!.volume = 1.0
-					clarinet.state = 0
+					clarinet!.state = 0
 				} else {
 					fluteTrack!.volume = 0.0
-					clarinet.state = 1
+					clarinet!.state = 1
 				}
 			}
 		} else if topic == SongScene.TOPIC_TOGGLE_GUITAR {
@@ -547,10 +567,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if violinTrack != nil {
 				if violinOn {
 					violinTrack!.volume = 1.0
-					guitar.state = 0
+					guitar!.state = 0
 				} else {
 					violinTrack!.volume = 0.0
-					guitar.state = 1
+					guitar!.state = 1
 				}
 			}
 		} else if topic == SongScene.TOPIC_TOGGLE_VIOLIN {
@@ -558,10 +578,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if violinTrack != nil {
 				if violinOn {
 					violinTrack!.volume = 1.0
-					violin.state = 0
+					violin!.state = 0
 				} else {
 					violinTrack!.volume = 0.0
-					violin.state = 1
+					violin!.state = 1
 				}
 			}
 		} else if topic == SongScene.TOPIC_TOGGLE_PIANO {
@@ -569,10 +589,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 			if pianoTrack != nil {
 				if pianoOn {
 					pianoTrack!.volume = 1.0
-					piano.state = 0
+					gPiano!.state = 0
 				} else {
 					pianoTrack!.volume = 0.0
-					piano.state = 1
+					gPiano!.state = 1
 				}
 			}
 		}
@@ -587,7 +607,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 scrolling = true
             }
             let touchedNode = nodeAtPoint(lastPoint!)
-            if !playing && touchedNode is PersonNameSprite {
+            if !songPlaying && touchedNode is PersonNameSprite {
                 movingPerson = touchedNode as? PersonNameSprite
             }
             break

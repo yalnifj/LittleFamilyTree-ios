@@ -41,9 +41,12 @@ class DollConfig {
                 boyclothing = [DollClothing]()
                 var c = 1
                 for _ in 0..<boycount! {
-                    let clothingname = parts[c++]
-                    let left = Int(parts[c++])
-                    let top = Int(parts[c++])
+                    let clothingname = parts[c]
+                    c += 1
+                    let left = Int(parts[c])
+                    c += 1
+                    let top = Int(parts[c])
+                    c += 1
                     let filename = "dolls/\(folderName!)/\(clothingname).png"
                     let dc = DollClothing()
                     dc.filename = filename
@@ -51,12 +54,16 @@ class DollConfig {
                     dc.snapY = top!
                     boyclothing!.append(dc)
                 }
-                let girlcount =  Int(parts[c++])
+                let girlcount =  Int(parts[c])
+                c += 1
                 girlclothing = [DollClothing]()
                 for _ in 0..<girlcount! {
-                    let clothingname = parts[c++]
-                    let left = Int(parts[c++])
-                    let top = Int(parts[c++])
+                    let clothingname = parts[c]
+                    c += 1
+                    let left = Int(parts[c])
+                    c += 1
+                    let top = Int(parts[c])
+                    c += 1
                     let filename = "dolls/\(folderName!)/\(clothingname).png"
                     let dc = DollClothing()
                     dc.filename = filename

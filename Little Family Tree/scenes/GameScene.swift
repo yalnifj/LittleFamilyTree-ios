@@ -45,7 +45,7 @@ class GameScene: LittleFamilyScene {
     
     override func didMoveToView(view: SKView) {
 		super.didMoveToView(view)
-        let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
+        let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameScene.pinched(_:)))
         view.addGestureRecognizer(pinch)
         
         /* Setup your scene here */
@@ -1019,7 +1019,7 @@ class GameScene: LittleFamilyScene {
 		self.updateSprites = notRemoving
 		
 		if starWait > 0 {
-			starWait--
+			starWait -= 1
 		} else {
 			starWait = 70 + Int(arc4random_uniform(70))
 			let s = Int(arc4random_uniform(UInt32(starSprites.count)))

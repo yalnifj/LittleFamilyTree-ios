@@ -213,9 +213,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
 
                     let a = data[pixelData + 3]
                     if (a < 30) {
-                        passed++
+                        passed += 1
                     }
-                    count++
+                    count += 1
                 
                 x += (coverSprite?.size.width)! / 30
             } while(x < coverSprite?.size.width)

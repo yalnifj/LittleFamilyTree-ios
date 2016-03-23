@@ -196,7 +196,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     
     @IBAction func nextButtonClicked(sender: AnyObject) {
         if (currentPage < scrolledViews.count - 1) {
-            currentPage++
+            currentPage += 1
             let rect = scrolledViews[currentPage].frame
             let pageRect = CGRect(x: rect.origin.x+10, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)
@@ -210,7 +210,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
 
     @IBAction func prevButtonClicked(sender: AnyObject) {
         if (currentPage > 0) {
-            currentPage--
+            currentPage -= 1
             let rect = scrolledViews[currentPage].frame
             let pageRect = CGRect(x: rect.origin.x-10, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)

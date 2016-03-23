@@ -49,7 +49,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         if (starCount > 0) {
             if (starDelayCount <= 0) {
                 starDelayCount = starDelay
-                starCount--;
+                starCount -= 1;
                 for _ in 0..<4 {
                 if (starRect != nil) {
                     let star = SKSpriteNode(imageNamed: "star1")
@@ -426,7 +426,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                         str = str + " "
                     }
                     str = str + w
-                    c++
+                    c += 1
                     if c > 10 {
                         splitMessages.append(str)
                         str = ""

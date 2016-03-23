@@ -78,7 +78,7 @@ class TreeScene: LittleFamilyScene {
         background.zPosition = 0
         self.addChild(background)
         
-        let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinched:"))
+        let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(TreeScene.pinched(_:)))
         view.addGestureRecognizer(pinch)
         
         let md = min(self.size.width, self.size.height)
@@ -245,7 +245,7 @@ class TreeScene: LittleFamilyScene {
             
             self.y = self.y + self.leaf.size().height + self.vine2.size().height/2
             
-            self.addCoupleSprite(self.root!, container: self.treeContainer!, x: self.x, y: self.y)
+            self.addCoupleSprite(self.root!, container: self.treeContainer!, px: self.x, py: self.y)
             
             self.hideLoadingDialog()
         }
@@ -284,8 +284,8 @@ class TreeScene: LittleFamilyScene {
 	func addChildNodes(node:TreeNode, children:[LittlePerson]) {
 		var childNodes = [TreeNode]()
 		//-- sort the children by age
-		children.sortInPlace({ $0.age < $1.age })
-		for child in children {
+		let sortedChildren = children.sort({ $0.age < $1.age })
+		for child in sortedChildren {
 			let node = TreeNode()
 			node.level = node.level - 1
 			if child.gender == GenderType.FEMALE {
@@ -373,31 +373,31 @@ class TreeScene: LittleFamilyScene {
         }
 	}
 	
-    func addCoupleSprite(node: TreeNode, container: SKNode, var x: CGFloat, var y: CGFloat) -> TreeCoupleSprite {
+    func addCoupleSprite(node: TreeNode, container: SKNode, px: CGFloat, py: CGFloat) -> TreeCoupleSprite {
         let sprite = TreeCoupleSprite()
         sprite.size = CGSizeMake(self.leaf.size().width * 2, self.leaf.size().height)
-        sprite.position = CGPointMake(x, y)
+        sprite.position = CGPointMake(px, py)
         sprite.zPosition = self.z++
         sprite.treeNode = node
         container.addChild(sprite)
         
-        if x < self.minX {
-            self.minX = x
+        if px < self.minX {
+            self.minX = px
         }
-        if self.size.width * 2 + x > maxX {
-            self.maxX = self.size.width * 2 + x
+        if self.size.width * 2 + px > maxX {
+            self.maxX = self.size.width * 2 + px
         }
-        if y < self.minY {
-            self.minY = y
+        if py < self.minY {
+            self.minY = py
         }
-        if self.size.height * 2 + y > maxY {
-            self.maxY = self.size.height * 2 + y
+        if self.size.height * 2 + py > maxY {
+            self.maxY = self.size.height * 2 + py
         }
         
         let offsetY = CGFloat(40)
-        y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
+        var y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
         if node.leftNode != nil {
-            x = sprite.position.x - (sprite.size.width / 2)
+            var x = sprite.position.x - (sprite.size.width / 2)
             if node.level == 0 {
                 x = x - sprite.size.width / 2
             }
@@ -429,12 +429,12 @@ class TreeScene: LittleFamilyScene {
             vine2.zPosition = 2
             container.addChild(vine2)
             
-            addCoupleSprite(node.leftNode!, container: container, x: x, y: y)
+            addCoupleSprite(node.leftNode!, container: container, px: x, py: y)
         }
         
         y = sprite.position.y + offsetY + sprite.size.height + self.vine2.size().height/2
         if node.rightNode != nil {
-            x = sprite.position.x + (sprite.size.width / 2)
+            var x = sprite.position.x + (sprite.size.width / 2)
             if node.level == 0 {
                 x = x + sprite.size.width / 2
             }
@@ -465,7 +465,7 @@ class TreeScene: LittleFamilyScene {
             }
 
             
-            addCoupleSprite(node.rightNode!, container: container, x: x, y: y)
+            addCoupleSprite(node.rightNode!, container: container, px: x, py: y)
         }
         
         if node.leftNode == nil && node.rightNode == nil && node.hasParents == true {
@@ -749,6 +749,6 @@ class TreeScene: LittleFamilyScene {
         self.buildTreeNode(newNode, couple: couple, depth: node!.level, maxDepth: node!.level+1, isInLaw: node!.isInLaw)
         upArrow.texture = nil
         upArrow.zPosition = 3
-        addCoupleSprite(newNode, container: upArrow, x: -1 * leaf.size().width, y: -1 * (leaf.size().height + upArrow.size.height))
+        addCoupleSprite(newNode, container: upArrow, px: -1 * leaf.size().width, py: -1 * (leaf.size().height + upArrow.size.height))
     }
 }

@@ -155,7 +155,7 @@ class ColorPaletteSprite : SKSpriteNode {
                     rect = r
                     break
             }
-            i++
+            i += 1
         }
         if rect != nil {
             //print("rect=\(rect)")
