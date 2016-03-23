@@ -34,10 +34,10 @@ class TreeScene: LittleFamilyScene {
     var moved = false
     var clipX = CGFloat(0)
     var clipY = CGFloat(0)
-    var minX = CGFloat(-300)
-    var minY = CGFloat(-300)
-    var maxX = CGFloat(300)
-    var maxY = CGFloat(300)
+    var minX = CGFloat(-400)
+    var minY = CGFloat(-400)
+    var maxX = CGFloat(400)
+    var maxY = CGFloat(400)
     
     var previousScale:CGFloat? = nil
     var minScale : CGFloat = 0.2
@@ -145,13 +145,23 @@ class TreeScene: LittleFamilyScene {
 						self.root!.isRoot = true
 						self.buildTreeNode(self.root!, couple:parents!, depth:0, maxDepth: 2, isInLaw:false)
 						
-                        dispatch_group_enter(self.treeGroup)
-                        dataService.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: { children2, err in
-                            if children2 != nil {
-                                self.addChildNodes(self.root!, children: children2!)
-                            }
-                            dispatch_group_leave(self.treeGroup)
-						})
+                        if parents!.count > 1 {
+                            dispatch_group_enter(self.treeGroup)
+                            dataService.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: { children2, err in
+                                if children2 != nil {
+                                    self.addChildNodes(self.root!, children: children2!)
+                                }
+                                dispatch_group_leave(self.treeGroup)
+                            })
+                        } else {
+                            dispatch_group_enter(self.treeGroup)
+                            dataService.getChildren(parents![0], onCompletion: { children2, err in
+                                if children2 != nil {
+                                    self.addChildNodes(self.root!, children: children2!)
+                                }
+                                dispatch_group_leave(self.treeGroup)
+                            })
+                        }
 						
 					} else {
 						self.root = TreeNode()
@@ -373,15 +383,15 @@ class TreeScene: LittleFamilyScene {
         
         if x < self.minX {
             self.minX = x
-            if self.size.width * 2 + x > maxX {
-                self.maxX = self.size.width * 2 + x
-            }
+        }
+        if self.size.width * 2 + x > maxX {
+            self.maxX = self.size.width * 2 + x
         }
         if y < self.minY {
             self.minY = y
-            if self.size.height * 2 + y > maxY {
-                self.maxY = self.size.height * 2 + y
-            }
+        }
+        if self.size.height * 2 + y > maxY {
+            self.maxY = self.size.height * 2 + y
         }
         
         let offsetY = CGFloat(40)

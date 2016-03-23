@@ -181,7 +181,25 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                         })
                                     }
                                 } else {
-                                    self.addSprites()
+                                    // add grandchildren
+                                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                                    let group = dispatch_group_create()
+                                    for c in children! {
+                                        dispatch_group_enter(group)
+                                        self.dataService?.getChildren(c, onCompletion: {grandchildren, err in
+                                            if grandchildren != nil {
+                                                for gc in grandchildren! {
+                                                    if !self.people.contains(gc) {
+                                                        self.people.append(gc)
+                                                    }
+                                                }
+                                            }
+                                            dispatch_group_leave(group)
+                                        })
+                                    }
+                                    dispatch_group_notify(group, queue) {
+                                        self.addSprites()
+                                    }
                                 }
                             }
                         })
