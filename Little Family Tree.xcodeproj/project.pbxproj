@@ -95,7 +95,6 @@
 		A1F7CEBB1C8FBBD6006053A2 /* TreeSearchGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE431C8FBBD6006053A2 /* TreeSearchGame.swift */; };
 		A1F7CEBC1C8FBBD6006053A2 /* TreeWalker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE441C8FBBD6006053A2 /* TreeWalker.swift */; };
 		A1F7CEBD1C8FBBD6006053A2 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE451C8FBBD6006053A2 /* GameViewController.swift */; };
-		A1F7CEBE1C8FBBD6006053A2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1F7CE461C8FBBD6006053A2 /* Info.plist */; };
 		A1F7CEBF1C8FBBD6006053A2 /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE491C8FBBD6006053A2 /* Attribution.swift */; };
 		A1F7CEC01C8FBBD6006053A2 /* CitationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE4A1C8FBBD6006053A2 /* CitationField.swift */; };
 		A1F7CEC11C8FBBD6006053A2 /* Conclusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE4B1C8FBBD6006053A2 /* Conclusion.swift */; };
@@ -1999,7 +1998,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Melissa;
 				TargetAttributes = {
 					A117C7281BA4AD0000964D50 = {
@@ -2489,7 +2488,6 @@
 				A1F7D2631C8FBC12006053A2 /* frame4.png in Resources */,
 				A1F7D1921C8FBC12006053A2 /* bubbled_hi.png in Resources */,
 				A1F7D29B1C8FBC12006053A2 /* house_chilldroom_paint9.png in Resources */,
-				A1F7CEBE1C8FBBD6006053A2 /* Info.plist in Resources */,
 				A1F7D2AB1C8FBC12006053A2 /* house_familyroom_cat_a3.png in Resources */,
 				A1F7D3291C8FBC12006053A2 /* house_toys_bat22.png in Resources */,
 				A1F7D30C1C8FBC12006053A2 /* house_toaster16.png in Resources */,

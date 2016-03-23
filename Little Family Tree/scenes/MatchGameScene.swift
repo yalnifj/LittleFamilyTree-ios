@@ -50,7 +50,7 @@ class MatchGameScene: LittleFamilyScene {
             self.people!.append(selectedPerson!)
         }
         self.dataService?.getFamilyMembers(people![loadIndex], loadSpouse: true, onCompletion: { family, err in
-            self.loadIndex++
+            self.loadIndex += 1
             if family != nil {
                 for p in family! {
                     if !self.people!.contains(p) {
@@ -78,11 +78,11 @@ class MatchGameScene: LittleFamilyScene {
         var cols = 2
         var rows = game!.board!.count / cols
         while CGFloat(cols) / CGFloat(rows) < ratio {
-            cols++
+            cols += 1
             rows = game!.board!.count / cols
         }
         if game!.board!.count % cols > 0 {
-            cols--
+            cols -= 1
             rows = game!.board!.count / cols
         }
         var width = (self.size.width / CGFloat(cols)) - 20
@@ -107,7 +107,7 @@ class MatchGameScene: LittleFamilyScene {
             sprite.userInteractionEnabled = true
             var x = 10 + ((10 + width) * CGFloat(c))
 			if x + width > self.size.width {
-				r++
+				r += 1
                 x = CGFloat(10)
 				c = 0
 			}
@@ -117,7 +117,7 @@ class MatchGameScene: LittleFamilyScene {
             sprite.person = mp
             self.addChild(sprite)
             matchSprites.append(sprite)
-            c++
+            c += 1
         }
     }
     
@@ -148,7 +148,7 @@ class MatchGameScene: LittleFamilyScene {
                 } else {
                     flip2 = sprite
                 }
-                flipCount++
+                flipCount += 1
                 sprite.flip()
                 if flipCount == 2 {
                     if flip1?.person?.person == flip2?.person?.person {
