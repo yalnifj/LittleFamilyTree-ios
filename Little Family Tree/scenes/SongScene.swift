@@ -81,8 +81,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     var words = [String]()
     var wordIndex = 0
     var lastShownWordIndex = 0
+    var wordPersonIndex = 0
     var wordSprites = [SKLabelNode]()
     var danceIndex = 0
+    var speakPersonIndex = 0
     var songTime:NSTimeInterval = 0
     var lastUpdateTime:NSTimeInterval = 0
     
@@ -276,6 +278,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		playButton?.position = CGPointMake(xOffset + (stage!.size.width / 2) - personWidth / 2, yOffset + stage!.size.height - 60)
 		playButton?.addEvent(0, topic: SongScene.TOPIC_PLAY_SONG)
 		playButton?.addEvent(1, topic: SongScene.TOPIC_PLAY_SONG)
+        playButton?.addTexture(0, texture: SKTexture(imageNamed: "media_play"))
 		playButton?.addTexture(1, texture: SKTexture(imageNamed: "media_pause"))
 		playButton?.userInteractionEnabled = true
 		playButton?.hidden = true
@@ -369,7 +372,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             selPerson3!.setScale(1.0)
             selPerson4!.setScale(1.0)
         }
-        if songPlaying {
+        if songPlaying && !songPaused {
             songTime = songTime + (currentTime - lastUpdateTime) * 1000
             if lastShownWordIndex == wordIndex {
                 for ws in wordSprites {
@@ -377,19 +380,52 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 }
                 wordSprites.removeAll()
                 var wx = xOffset + personWidth / 2
-                let wy = playButton!.position.y - personWidth
+                let wy = playButton!.position.y - personWidth*1.5
+                var c = 0
                 while lastShownWordIndex < words.count && wx < xOffset + stage!.size.width {
-                    let wordNode = SKLabelNode(text: words[lastShownWordIndex])
+                    var word = words[lastShownWordIndex]
+                    if word.hasPrefix("_") && wordPersonIndex < onStage.count {
+                        let person = onStage[wordPersonIndex].person
+                        let attr = song!.attributor!.getAttributeFromPerson(person!, number: wordPersonIndex)
+                        word = word.replaceAll("_", replace: attr!)
+                        wordPersonIndex += 1
+                    }
+                    let wordNode = SKLabelNode(text: word)
                     wordNode.fontSize = personWidth / 2
-                    wordNode.position = CGPointMake(wx, wy)
                     wordNode.zPosition = 10
+                    wx += wordNode.frame.width / 2
+                    if c==0 {
+                        wordNode.fontColor = UIColor.yellowColor()
+                    } else {
+                        wordNode.fontColor = UIColor.whiteColor()
+                        if word.hasPrefix("-") {
+                            wx -= (personWidth / 6)
+                        }
+                    }
+                    if wx + (wordNode.frame.width / 2) > xOffset + stage!.size.width {
+                        break
+                    }
+                    wordNode.position = CGPointMake(wx, wy)
                     self.addChild(wordNode)
                     wordSprites.append(wordNode)
                     lastShownWordIndex += 1
-                    wx += wordNode.frame.width + (personWidth / 2)
+                    wx += (wordNode.frame.width / 2) + (personWidth / 6)
+                    c += 1
                 }
             }
             if wordIndex < song!.wordTimings.count && songTime > song!.wordTimings[wordIndex] {
+                let w = wordSprites.count - (lastShownWordIndex - wordIndex + 1)
+                if w > 0 {
+                    wordSprites[w-1].fontColor = UIColor.whiteColor()
+                }
+                if w < wordSprites.count {
+                    wordSprites[w].fontColor = UIColor.yellowColor()
+                    
+                    let word = words[wordIndex]
+                    if word.hasPrefix("_") {
+                        speak(wordSprites[w].text!)
+                    }
+                }
                 wordIndex += 1
             }
             
@@ -400,53 +436,78 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             if lastDanceIndex != danceIndex {
                 if danceIndex == 1 {
                     let dancer = onStage[0]
-                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer.size.width / 2), selPerson1!.position.y - personWidth), duration: 0.5)
+                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer.size.width / 2), selPerson1!.position.y - personWidth*1.5), duration: 0.5)
                     dancer.runAction(act)
+                    let act2 = SKAction.scaleTo(1.2, duration: 0.5)
+                    dancer.runAction(act2)
                 }
                 else if danceIndex == 2 {
                     let dancer1 = onStage[0]
                     let act1 = SKAction.moveTo(CGPointMake(selPerson1!.position.x - personWidth/2, selPerson1!.position.y - personWidth/2), duration: 0.5)
                     dancer1.runAction(act1)
+                    let act2 = SKAction.scaleTo(1.0, duration: 0.5)
+                    dancer1.runAction(act2)
                     let dancer2 = onStage[1]
-                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth), duration: 0.5)
+                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth*1.5), duration: 0.5)
                     dancer2.runAction(act)
+                    let act3 = SKAction.scaleTo(1.2, duration: 0.5)
+                    dancer2.runAction(act3)
                 }
                 else if danceIndex == 3 {
                     let dancer1 = onStage[1]
                     let act1 = SKAction.moveTo(CGPointMake(selPerson2!.position.x - personWidth/2, selPerson1!.position.y - personWidth/2), duration: 0.5)
                     dancer1.runAction(act1)
+                    let act2 = SKAction.scaleTo(1.0, duration: 0.5)
+                    dancer1.runAction(act2)
                     let dancer2 = onStage[2]
-                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth), duration: 0.5)
+                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth*1.5), duration: 0.5)
                     dancer2.runAction(act)
+                    let act3 = SKAction.scaleTo(1.2, duration: 0.5)
+                    dancer2.runAction(act3)
                 }
                 else if danceIndex == 4 {
                     let dancer1 = onStage[2]
                     let act1 = SKAction.moveTo(CGPointMake(selPerson3!.position.x - personWidth/2, selPerson1!.position.y - personWidth/2), duration: 0.5)
                     dancer1.runAction(act1)
+                    let act2 = SKAction.scaleTo(1.0, duration: 0.5)
+                    dancer1.runAction(act2)
                     let dancer2 = onStage[3]
-                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth), duration: 0.5)
+                    let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer2.size.width / 2), selPerson1!.position.y - personWidth*1.5), duration: 0.5)
                     dancer2.runAction(act)
+                    let act3 = SKAction.scaleTo(1.2, duration: 0.5)
+                    dancer2.runAction(act3)
                 }
                 else if danceIndex == 5 {
                     let dancer1 = onStage[3]
                     let act1 = SKAction.moveTo(CGPointMake(selPerson4!.position.x - personWidth/2, selPerson1!.position.y - personWidth/2), duration: 0.5)
                     dancer1.runAction(act1)
+                    let act2 = SKAction.scaleTo(1.0, duration: 0.5)
+                    dancer1.runAction(act2)
                 }
                 else if danceIndex == 6 {
                     for ds in onStage {
+                        ds.removeAllActions()
                         let act = SKAction.moveToX(-personWidth, duration: 0.5)
                         ds.runAction(act)
                     }
                 }
-                else if danceIndex == song!.danceTimings.count - 1 {
-                    songPlaying = false
-                    songPaused = false
-                    for ds in onStage {
-                        ds.removeFromParent()
-                    }
-                    onStage.removeAll()
-                    showSongButtons()
+            }
+            if songTime > song!.danceTimings.last {
+                songPlaying = false
+                songPaused = false
+                for ds in onStage {
+                    ds.removeFromParent()
                 }
+                onStage.removeAll()
+                for ws in wordSprites {
+                    ws.removeFromParent()
+                }
+                wordSprites.removeAll()
+                playButton!.state = 0
+                if peopleSprites.count < 4 {
+                    treeWalker?.loadMorePeople()
+                }
+                showSongButtons()
             }
         }
         lastUpdateTime = currentTime
@@ -494,8 +555,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     }
     
     func showSongButtons() {
-        speak("Choose a song")
-        
         song1Button?.hidden = false
         song2Button?.hidden = false
         song3Button?.hidden = false
@@ -540,10 +599,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         songPaused = false
         songPlaying = false
         wordIndex = 0
+        wordPersonIndex = 0
         danceIndex = 0
         lastShownWordIndex = 0
         songTime = 0
+        speakPersonIndex = 0
         words = song!.words!.split(" ")
+        playButton!.state = 0
         let drumTrackPath = NSBundle.mainBundle().pathForResource(song!.drumTrack!, ofType:nil)!
         let drumTrackUrl = NSURL(fileURLWithPath: drumTrackPath)
         do {
@@ -610,50 +672,55 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             songPaused = true
             while onStage.count < 4 && peopleSprites.count > 0 {
                 let ds = peopleSprites.removeFirst()
+                ds.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 var moveToSprite = selPerson1!
-                if onStage.count == 2 {
+                if onStage.count == 1 {
                     moveToSprite = selPerson2!
-                } else if onStage.count == 3 {
+                } else if onStage.count == 2 {
                     moveToSprite = selPerson3!
-                } else if onStage.count == 4 {
+                } else if onStage.count == 3 {
                     moveToSprite = selPerson4!
                 }
-                let act = SKAction.moveTo(CGPointMake(moveToSprite.position.x - personWidth/2, moveToSprite.position.y-personWidth/2), duration: 1.0)
+                let act = SKAction.moveTo(CGPointMake(moveToSprite.position.x - personWidth/2, moveToSprite.position.y-personWidth/2), duration: 0.6)
                 ds.runAction(act)
                 onStage.append(ds)
             }
             for ds in onStage {
-                ds.anchorPoint = CGPointMake(0, 0)
+                ds.anchorPoint = CGPointMake(personWidth/2, personWidth/2)
                 let act1 = SKAction.rotateToAngle(0.40, duration: 0.6)
                 let act2 = SKAction.rotateToAngle(-0.40, duration: 0.6)
                 let act3 = SKAction.sequence([act1, act2])
                 let act4 = SKAction.repeatActionForever(act3)
                 ds.runAction(act4)
             }
+            reorderPeople()
         } else {
             for ds in onStage {
                 ds.paused = false
             }
         }
 		songPlaying = true
-		if songPaused {
-			if drumTrack != nil {
-				drumTrack!.play()
-			}
-			if fluteTrack != nil {
-				fluteTrack!.play()
-			}
-			if violinTrack != nil {
-				violinTrack!.play()
-			}
-			if pianoTrack != nil {
-				pianoTrack!.play()
-			}
-			if voiceTrack != nil {
-				voiceTrack!.play()
-			}
-		}
-        songPaused = false
+        let waitAction = SKAction.waitForDuration(0.6)
+        runAction(waitAction, completion: {
+            if self.songPaused {
+                if self.drumTrack != nil {
+                    self.drumTrack!.play()
+                }
+                if self.fluteTrack != nil {
+                    self.fluteTrack!.play()
+                }
+                if self.violinTrack != nil {
+                    self.violinTrack!.play()
+                }
+                if self.pianoTrack != nil {
+                    self.pianoTrack!.play()
+                }
+                if self.voiceTrack != nil {
+                    self.voiceTrack!.play()
+                }
+            }
+            self.songPaused = false
+        })
 	}
 	
 	func pauseSong() {
