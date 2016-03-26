@@ -414,14 +414,14 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 }
             }
             if wordIndex < song!.wordTimings.count && songTime > song!.wordTimings[wordIndex] {
-                let w = wordSprites.count - (lastShownWordIndex - wordIndex + 1)
+                let w = wordSprites.count - (lastShownWordIndex - wordIndex)
                 if w > 0 {
                     wordSprites[w-1].fontColor = UIColor.whiteColor()
                 }
-                if w < wordSprites.count {
+                if w>=0 && w < wordSprites.count {
                     wordSprites[w].fontColor = UIColor.yellowColor()
-                    
                     let word = words[wordIndex]
+                    print("songTime=\(songTime) wordIndex=\(wordIndex) word=\(word)")
                     if word.hasPrefix("_") {
                         speak(wordSprites[w].text!)
                     }

@@ -39,6 +39,7 @@ class SongAlbum {
         song.violinTrack = "violin_allinourfamilytree.mp3"
         song.voiceTrack = "voice_allinourfamilytree.mp3"
         song.words = "We are a fam -i -ly. We are a fam -i -ly. We have _.  We have _. We have _. We have _. They're all in our fami -ly tree. They're all in our fami -ly tree."
+        song.wordTimings.append(600)//we
         song.wordTimings.append(1500)//are
         song.wordTimings.append(1700)//a
         song.wordTimings.append(2200)//fam
@@ -106,7 +107,7 @@ class SongAlbum {
         song.violinTrack = "violin_myhistory.mp3"
         song.voiceTrack = "voice_myhistory.mp3"
         song.words = "Fami -ly his -tor -y, is my his -tor -y. My an -cest -or was born in _. This rel -a -tive lived in _. My an -cest -or was born in _. This rel -a -tive lived in _. That's my his -tor -y."
-        
+        song.wordTimings.append(100)//fam
         song.wordTimings.append(500)//-ly
         song.wordTimings.append(1200)//his
         song.wordTimings.append(1800)//-tor
@@ -180,6 +181,7 @@ class SongAlbum {
         song.voiceTrack = "voice_thisismyfamily.mp3"
         song.words = "This is my fam -i -ly. They mean so much to me. Here is my _. My _ is here too. Here is my _. My _ is here too. This is my fam -i -ly."
 
+        song.wordTimings.append(100)//this
         song.wordTimings.append(700)//is
         song.wordTimings.append(1170)//my
         song.wordTimings.append(1750)//fam

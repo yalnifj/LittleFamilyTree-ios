@@ -29,6 +29,7 @@ class DressUpDolls {
         countryMappings["russia"] = "russia"
         countryMappings["spain"] = "spain"
 		countryMappings["portugal"] = "portugal"
+        countryMappings["italy"] = "italy"
     }
     
     func getDollConfig(place:String?, person:LittlePerson) -> DollConfig {
