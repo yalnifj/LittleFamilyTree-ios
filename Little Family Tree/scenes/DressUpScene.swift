@@ -126,7 +126,7 @@ class DressUpScene: LittleFamilyScene {
         clothing = dollConfig?.getClothing()
         if clothing != nil {
             var x = CGFloat(0)
-            var y = CGFloat(0)
+            var y = CGFloat(10)
             var z = CGFloat(3)
             for cloth in clothing! {
                 let clothSprite = SKSpriteNode(imageNamed: cloth.filename)
@@ -139,10 +139,7 @@ class DressUpScene: LittleFamilyScene {
                 if x == 0 {
                     x = 10 + clothSprite.size.width / 2
                 }
-                if y == 0  {
-                    y = clothSprite.size.height * 3
-                }
-                clothSprite.position = CGPointMake(x, y)
+                clothSprite.position = CGPointMake(x, y + clothSprite.size.height / 2)
                 self.addChild(clothSprite)
                 x = x + clothSprite.size.width + 20
                 clotheSprites.append(clothSprite)
@@ -219,14 +216,16 @@ class DressUpScene: LittleFamilyScene {
             }
             if scrollingDolls {
                 let dx = lastPoint.x - nextPoint.x
-                dollHolder?.position.x -= dx
-                if dollHolder?.position.x < self.size.width - (dollHolder?.size.width)! / 2 {
-                    dollHolder?.position.x = self.size.width - (dollHolder?.size.width)! / 2
+                if abs(dx) > 8 {
+                    dollHolder?.position.x -= dx
+                    if dollHolder?.position.x < self.size.width - (dollHolder?.size.width)! / 2 {
+                        dollHolder?.position.x = self.size.width - (dollHolder?.size.width)! / 2
+                    }
+                    if dollHolder?.position.x > (dollHolder?.size.width)!/2 {
+                        dollHolder?.position.x = (dollHolder?.size.width)!/2
+                    }
+                    scrolling = true
                 }
-                if dollHolder?.position.x > (dollHolder?.size.width)!/2 {
-                    dollHolder?.position.x = (dollHolder?.size.width)!/2
-                }
-                scrolling = true
             }
         }
         lastPoint = nextPoint

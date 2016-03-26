@@ -20,6 +20,7 @@ class AnimatedStateSprite: SKSpriteNode {
     var state:Int = 0
     var moved:Bool = false
 	var removeMe:Bool = false
+    var lastPoint:CGPoint?
     
     func addTexture(st:Int, texture:SKTexture) {
         if (stateTextures[st] == nil) {
@@ -98,9 +99,19 @@ class AnimatedStateSprite: SKSpriteNode {
         }
     }
     
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        lastPoint = touches.first?.locationInNode(self)
+    }
+    
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event);
-        moved = true;
+        super.touchesMoved(touches, withEvent: event)
+        let nextPoint = touches.first?.locationInNode(self)
+        if nextPoint != nil && lastPoint != nil {
+            if abs(nextPoint!.x - lastPoint!.x) > 8 || abs(nextPoint!.y - lastPoint!.y) > 8 {
+                moved = true
+            }
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {

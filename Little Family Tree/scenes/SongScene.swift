@@ -53,6 +53,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var peopleSprites = [PersonNameSprite]()
 	var onStage = [PersonNameSprite]()
+    var usedPeople = [Int64:LittlePerson]()
 	
 	var treeWalker:TreeWalker?
 	var songAlbum:SongAlbum?
@@ -87,6 +88,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     var speakPersonIndex = 0
     var songTime:NSTimeInterval = 0
     var lastUpdateTime:NSTimeInterval = 0
+    
+    var dance1actions:SKAction?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -293,6 +296,12 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		resetButton?.userInteractionEnabled = true
 		resetButton?.hidden = true
 		self.addChild(resetButton!)
+        
+        //-- change anchor point
+        let act1 = SKAction.rotateToAngle(0.40, duration: 0.6)
+        let act2 = SKAction.rotateToAngle(-0.40, duration: 0.6)
+        let act3 = SKAction.sequence([act1, act2])
+        dance1actions = SKAction.repeatActionForever(act3)
 		
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_PERSON_TOUCHED, listener: self)
         EventHandler.getInstance().subscribe(SongScene.TOPIC_PLAY_SONG, listener: self)
@@ -339,22 +348,27 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		peopleSprites.removeAll()
         onStage.removeAll()
 		
-		let x = 10 + stage!.position.x + stage!.size.width / 2
+		let x = stage!.position.x + stage!.size.width / 2
 		var y = topBar!.position.y - topBar!.size.height * 3
+        var count = 0
 		for person in family {
-			let sprite = PersonNameSprite()
-			sprite.position = CGPointMake(x, y)
-            sprite.zPosition = 10
-			sprite.size.width = personWidth
-			sprite.size.height = personWidth
-			sprite.showLabel = false
-			sprite.person = person
-			self.addChild(sprite)
-			self.peopleSprites.append(sprite)
-			
-			y = y - (personWidth - 15)
+            if self.usedPeople[person.id!] == nil {
+                count += 1
+                self.usedPeople[person.id!] = person
+                let sprite = PersonNameSprite()
+                sprite.position = CGPointMake(x, y)
+                sprite.zPosition = 10
+                sprite.size.width = personWidth + 10
+                sprite.size.height = personWidth + 10
+                sprite.showLabel = false
+                sprite.person = person
+                self.addChild(sprite)
+                self.peopleSprites.append(sprite)
+                
+                y = y - (personWidth - 15)
+            }
 		}
-        if family.count < 4 {
+        if count < 4 {
             self.treeWalker?.loadMorePeople()
         }
 	}
@@ -384,11 +398,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 var c = 0
                 while lastShownWordIndex < words.count && wx < xOffset + stage!.size.width {
                     var word = words[lastShownWordIndex]
+                    var replaced = false
                     if word.hasPrefix("_") && wordPersonIndex < onStage.count {
                         let person = onStage[wordPersonIndex].person
                         let attr = song!.attributor!.getAttributeFromPerson(person!, number: wordPersonIndex)
                         word = word.replaceAll("_", replace: attr!)
                         wordPersonIndex += 1
+                        replaced = true
                     }
                     let wordNode = SKLabelNode(text: word)
                     wordNode.fontSize = personWidth / 2
@@ -403,6 +419,9 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                         }
                     }
                     if wx + (wordNode.frame.width / 2) > xOffset + stage!.size.width {
+                        if replaced {
+                            wordPersonIndex -= 1
+                        }
                         break
                     }
                     wordNode.position = CGPointMake(wx, wy)
@@ -521,6 +540,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         song3Button?.hidden = true
         
         playButton?.hidden = false
+        playButton?.state = 0
+        playButton?.texture = SKTexture(imageNamed: "media_play")
         resetButton?.hidden = false
         
         songChosen = true
@@ -686,12 +707,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 onStage.append(ds)
             }
             for ds in onStage {
-                ds.anchorPoint = CGPointMake(personWidth/2, personWidth/2)
-                let act1 = SKAction.rotateToAngle(0.40, duration: 0.6)
-                let act2 = SKAction.rotateToAngle(-0.40, duration: 0.6)
-                let act3 = SKAction.sequence([act1, act2])
-                let act4 = SKAction.repeatActionForever(act3)
-                ds.runAction(act4)
+                ds.anchorPoint = CGPointMake(0.5, 0.5)
+                ds.runAction(dance1actions!)
             }
             reorderPeople()
         } else {

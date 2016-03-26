@@ -38,7 +38,7 @@ class SongAlbum {
         song.pianoTrack = "piano_allinourfamilytree.mp3"
         song.violinTrack = "violin_allinourfamilytree.mp3"
         song.voiceTrack = "voice_allinourfamilytree.mp3"
-        song.words = "We are a fam -i -ly. We are a fam -i -ly. We have _.  We have _. We have _. We have _. They're all in our fami -ly tree. They're all in our fami -ly tree."
+        song.words = "We are a fam -i -ly. We are a fam -i -ly. We have _. We have _. We have _. We have _. They're all in our fami -ly tree. They're all in our fami -ly tree."
         song.wordTimings.append(600)//we
         song.wordTimings.append(1500)//are
         song.wordTimings.append(1700)//a
@@ -55,29 +55,29 @@ class SongAlbum {
         song.wordTimings.append(7400)//have
         song.wordTimings.append(7900)//_
         song.wordTimings.append(9000)//we
-        song.wordTimings.append(9600)//have
-        song.wordTimings.append(10080)//_
-        song.wordTimings.append(11100)//we
-        song.wordTimings.append(11900)//have
-        song.wordTimings.append(12100)//_
-        song.wordTimings.append(13400)//we
-        song.wordTimings.append(13800)//have
-        song.wordTimings.append(14300)//_
-        song.wordTimings.append(15800)//Theyre
-        song.wordTimings.append(16100)//all
-        song.wordTimings.append(16600)//in
-        song.wordTimings.append(16900)//our
-        song.wordTimings.append(17200)//fam
-        song.wordTimings.append(18000)//ly
-        song.wordTimings.append(18500)//tree
-        song.wordTimings.append(19300)//theyre
-        song.wordTimings.append(19700)//all
-        song.wordTimings.append(20200)//in
-        song.wordTimings.append(20800)//our
+        song.wordTimings.append(9500)//have
+        song.wordTimings.append(9800)//_
+        song.wordTimings.append(10800)//we
+        song.wordTimings.append(11600)//have
+        song.wordTimings.append(12000)//_
+        song.wordTimings.append(13000)//we
+        song.wordTimings.append(13400)//have
+        song.wordTimings.append(13900)//_
+        song.wordTimings.append(15500)//Theyre
+        song.wordTimings.append(15900)//all
+        song.wordTimings.append(16200)//in
+        song.wordTimings.append(16400)//our
+        song.wordTimings.append(16900)//fam
+        song.wordTimings.append(17700)//ly
+        song.wordTimings.append(18000)//tree
+        song.wordTimings.append(19000)//theyre
+        song.wordTimings.append(19300)//all
+        song.wordTimings.append(19800)//in
+        song.wordTimings.append(20500)//our
         song.wordTimings.append(21100)//fam
         song.wordTimings.append(21500)//ly
-        song.wordTimings.append(22000)//tree
-        song.wordTimings.append(23500)
+        song.wordTimings.append(21900)//tree
+        song.wordTimings.append(22100)
         song.wordTimings.append(24500)
         
         song.danceTimings.append(6900)//first on
