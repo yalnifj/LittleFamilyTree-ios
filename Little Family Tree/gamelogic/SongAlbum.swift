@@ -56,7 +56,7 @@ class SongAlbum {
         song.wordTimings.append(7900)//_
         song.wordTimings.append(9000)//we
         song.wordTimings.append(9500)//have
-        song.wordTimings.append(9800)//_
+        song.wordTimings.append(9900)//_
         song.wordTimings.append(10800)//we
         song.wordTimings.append(11600)//have
         song.wordTimings.append(12000)//_
@@ -208,7 +208,7 @@ class SongAlbum {
         song.wordTimings.append(18900)//my
         song.wordTimings.append(19600)//_
         song.wordTimings.append(22300)//my
-        song.wordTimings.append(22600)//_
+        song.wordTimings.append(22800)//_
         song.wordTimings.append(24300)//is
         song.wordTimings.append(24950)//here
         song.wordTimings.append(25500)//too.

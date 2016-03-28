@@ -156,6 +156,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         else if topic == GameScene.TOPIC_START_SONG {
             self.showSongGame(nil, previousTopic: nil)
         }
+        else if topic == GameScene.TOPIC_START_CARD {
+            self.showCardGame(nil, previousTopic: nil)
+        }
     }
     
     func showHomeScreen() {
@@ -298,6 +301,20 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func showSongGame(person:LittlePerson?, previousTopic:String?) {
         let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
         let nextScene = SongScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
+        nextScene.scaleMode = .AspectFill
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
+        scene?.view?.presentScene(nextScene, transition: transition)
+    }
+    
+    func showCardGame(person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+        let nextScene = BirthdayPeopleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
         nextScene.scaleMode = .AspectFill

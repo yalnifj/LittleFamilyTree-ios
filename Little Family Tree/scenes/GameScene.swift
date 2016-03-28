@@ -17,6 +17,7 @@ class GameScene: LittleFamilyScene {
 	static var TOPIC_START_TREE = "start_tree"
 	static var TOPIC_START_BUBBLES = "start_bubbles"
     static var TOPIC_START_SONG = "start_song"
+    static var TOPIC_START_CARD = "start_card"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -645,11 +646,33 @@ class GameScene: LittleFamilyScene {
         adultBed.zPosition = z++
         spriteContainer.addChild(adultBed)
         
-        let adultVanity = SKSpriteNode(imageNamed: "house_adult_vanity")
+        let adultVanity = AnimatedStateSprite(imageNamed: "house_adult_vanity")
         adultVanity.anchorPoint = CGPoint.zero
-        adultVanity.position = CGPointMake(675, 312)
+        adultVanity.position = CGPointMake(673, 312)
         adultVanity.zPosition = z++
+        touchableSprites.append(adultVanity)
+        let vanityAction:[SKTexture] = [
+            SKTexture(imageNamed: "house_adult_vanity1"),
+            SKTexture(imageNamed: "house_adult_vanity2"),
+            SKTexture(imageNamed: "house_adult_vanity3"),
+            SKTexture(imageNamed: "house_adult_vanity4"),
+            SKTexture(imageNamed: "house_adult_vanity5"),
+            SKTexture(imageNamed: "house_adult_vanity6"),
+            SKTexture(imageNamed: "house_adult_vanity7"),
+            SKTexture(imageNamed: "house_adult_vanity8"),
+            SKTexture(imageNamed: "house_adult_vanity9"),
+            SKTexture(imageNamed: "house_adult_vanity10"),
+            SKTexture(imageNamed: "house_adult_vanity11"),
+            SKTexture(imageNamed: "house_adult_vanity12"),
+            SKTexture(imageNamed: "house_adult_vanity12"),
+            SKTexture(imageNamed: "house_adult_vanity12")
+        ]
+        let vanityAction3 = SKAction.repeatAction(SKAction.animateWithTextures(vanityAction, timePerFrame: 0.12, resize: false, restore: false), count: 1)
+        adultVanity.addAction(1, action: vanityAction3)
+        adultVanity.addClick(1, val: false)
+        adultVanity.addEvent(0, topic: GameScene.TOPIC_START_CARD)
         spriteContainer.addChild(adultVanity)
+        starSprites.append(adultVanity)
         
         let wardrobe = AnimatedStateSprite(imageNamed: "house_adult_wardrobe")
         wardrobe.anchorPoint = CGPoint.zero
@@ -890,6 +913,7 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_TREE, listener: self)
 		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SONG, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_CARD, listener: self)
         self.speak("Hi, \(selectedPerson!.givenName!)")
     }
     
@@ -903,6 +927,7 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_TREE, listener: self)
 		EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SONG, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_CARD, listener: self)
     }
     
     func pinched(sender:UIPinchGestureRecognizer){

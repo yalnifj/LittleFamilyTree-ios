@@ -90,6 +90,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     var lastUpdateTime:NSTimeInterval = 0
     
     var dance1actions:SKAction?
+    var dance2actions:SKAction?
+    var dance3actions:SKAction?
+    var songNum = 0
+    var portrait = true
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -112,16 +116,23 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         var width = min(self.size.width, height)
         if width == self.size.width {
             width = width * 0.8
+        } else {
+            portrait = false
+        }
+		
+		let stageTexture = SKTexture(imageNamed: "stage")
+        var ratio = stageTexture.size().width / stageTexture.size().height
+        if portrait {
+            height = width / ratio
+        } else {
+            width = height * ratio
         }
         
         personWidth = width * CGFloat(0.20);
         if personWidth > 250 {
             personWidth = CGFloat(250)
         }
-		
-		let stageTexture = SKTexture(imageNamed: "stage")
-        var ratio = stageTexture.size().width / stageTexture.size().height
-        height = width / ratio
+        
 		xOffset = (self.size.width - width - personWidth) / CGFloat(2)
 		yOffset = (self.size.height - (height + topBar!.size.height)) / CGFloat(2)
         
@@ -298,10 +309,28 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		self.addChild(resetButton!)
         
         //-- change anchor point
-        let act1 = SKAction.rotateToAngle(0.40, duration: 0.6)
-        let act2 = SKAction.rotateToAngle(-0.40, duration: 0.6)
+        let act1 = SKAction.rotateToAngle(0.28, duration: 0.6)
+        let act2 = SKAction.rotateToAngle(-0.28, duration: 0.6)
         let act3 = SKAction.sequence([act1, act2])
         dance1actions = SKAction.repeatActionForever(act3)
+        
+        let act12 = SKAction.scaleXTo(1.05, duration: 0.6)
+        let actl2 = SKAction.moveByX(personWidth / 5, y: CGFloat(0), duration: 0.6)
+        let actt2 = SKAction.group([act12,actl2])
+        let act22 = SKAction.scaleXTo(0.95, duration: 0.6)
+        let actr2 = SKAction.moveByX(personWidth / -5, y: CGFloat(0), duration: 0.6)
+        let act42 = SKAction.group([act22,actr2])
+        let act32 = SKAction.sequence([actt2, act42])
+        dance2actions = SKAction.repeatActionForever(act32)
+        
+        let act13 = SKAction.scaleYTo(1.05, duration: 0.6)
+        let actu3 = SKAction.moveByX(CGFloat(0), y: personWidth / 4, duration: 0.6)
+        let actt3 = SKAction.group([act13,actu3])
+        let act23 = SKAction.scaleYTo(0.95, duration: 0.6)
+        let actd3 = SKAction.moveByX(CGFloat(0), y: personWidth / -4, duration: 0.6)
+        let act43 = SKAction.group([act23,actd3])
+        let act33 = SKAction.sequence([actt3, act43])
+        dance3actions = SKAction.repeatActionForever(act33)
 		
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_PERSON_TOUCHED, listener: self)
         EventHandler.getInstance().subscribe(SongScene.TOPIC_PLAY_SONG, listener: self)
@@ -339,7 +368,9 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func onComplete(family:[LittlePerson]) {
+        var oldPeople = [LittlePerson]()
         for s in peopleSprites {
+            oldPeople.append(s.person!)
             s.removeFromParent()
         }
         for s in onStage {
@@ -353,20 +384,23 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         var count = 0
 		for person in family {
             if self.usedPeople[person.id!] == nil {
-                count += 1
+                oldPeople.append(person)
                 self.usedPeople[person.id!] = person
-                let sprite = PersonNameSprite()
-                sprite.position = CGPointMake(x, y)
-                sprite.zPosition = 10
-                sprite.size.width = personWidth + 10
-                sprite.size.height = personWidth + 10
-                sprite.showLabel = false
-                sprite.person = person
-                self.addChild(sprite)
-                self.peopleSprites.append(sprite)
-                
-                y = y - (personWidth - 15)
             }
+        }
+        for person in oldPeople {
+            count += 1
+            let sprite = PersonNameSprite()
+            sprite.position = CGPointMake(x, y)
+            sprite.zPosition = 10
+            sprite.size.width = personWidth + 10
+            sprite.size.height = personWidth + 10
+            sprite.showLabel = false
+            sprite.person = person
+            self.addChild(sprite)
+            self.peopleSprites.append(sprite)
+            
+            y = y - (personWidth - 15)
 		}
         if count < 4 {
             self.treeWalker?.loadMorePeople()
@@ -708,7 +742,13 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             }
             for ds in onStage {
                 ds.anchorPoint = CGPointMake(0.5, 0.5)
-                ds.runAction(dance1actions!)
+                if songNum==0 {
+                    ds.runAction(dance1actions!)
+                } else if songNum==1 {
+                    ds.runAction(dance2actions!)
+                } else if songNum==2 {
+                    ds.runAction(dance3actions!)
+                }
             }
             reorderPeople()
         } else {
@@ -766,16 +806,19 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         super.onEvent(topic, data: data)
 		if topic == SongScene.TOPIC_CHOOSE_SONG1 {
 			self.song = songAlbum!.songs[0]
+            self.songNum = 0
             showInstruments()
             setupSong()
 		}
         else if topic == SongScene.TOPIC_CHOOSE_SONG2 {
             self.song = songAlbum!.songs[1]
+            self.songNum = 1
             showInstruments()
             setupSong()
         }
         else if topic == SongScene.TOPIC_CHOOSE_SONG3 {
             self.song = songAlbum!.songs[2]
+            self.songNum = 2
             showInstruments()
             setupSong()
         } else if topic == SongScene.TOPIC_PLAY_SONG {
