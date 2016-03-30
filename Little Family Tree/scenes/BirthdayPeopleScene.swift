@@ -36,21 +36,18 @@ class BirthdayPeopleScene: LittleFamilyScene {
             portrait = false
         }
         
-        var vanityWidth = width
-        if !portrait {
-            vanityWidth = self.size.width / 2
-        }
-        
         let vtTexture = SKTexture(imageNamed: "vanity_top")
         var ratio = vtTexture.size().width / vtTexture.size().height
+        
+        var vanityWidth = width
+        if !portrait {
+            vanityWidth = (width / 2) * ratio
+        }
+        
         vanityTop = SKSpriteNode(texture: vtTexture)
         vanityTop?.size = CGSizeMake(vanityWidth * 0.83, vanityWidth * 0.83 / ratio)
         vanityTop?.zPosition = 1
-        if portrait {
-            vanityTop?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) + vanityTop!.size.height / 2)
-        } else {
-            vanityTop?.position = CGPointMake((self.size.width / 2) + vanityTop!.size.width / 2, (self.size.height - topBar!.size.height) / 2)
-        }
+        vanityTop?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) + vanityTop!.size.height / 2)
         self.addChild(vanityTop!)
         
         let vbTexture = SKTexture(imageNamed: "vanity_bottom")
@@ -58,11 +55,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         vanityBottom = SKSpriteNode(texture: vbTexture)
         vanityBottom?.size = CGSizeMake(vanityWidth, vanityWidth / ratio)
         vanityBottom?.zPosition = 1
-        if portrait {
-            vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - vanityBottom!.size.height / 2)
-        } else {
-            vanityBottom?.position = CGPointMake((self.size.width / 2) - vanityBottom!.size.width / 2, (self.size.height - topBar!.size.height) / 2)
-        }
+        vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - vanityBottom!.size.height / 2)
         self.addChild(vanityBottom!)
     }
         override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
