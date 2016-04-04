@@ -7,6 +7,7 @@ class SyncQ : NSObject {
 	var timer:NSTimer?
     var started = false
     var paused = false
+    var pauseDelay = Double(0)
     var authCounter = 0
     var startCounter = 0
 	lazy var queue:NSOperationQueue = {
@@ -63,7 +64,7 @@ class SyncQ : NSObject {
         if self.timer != nil {
             self.timer!.invalidate()
         }
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(SyncQ.processNextInQ(_:)), userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: #selector(SyncQ.processNextInQ(_:)), userInfo: nil, repeats: true)
         started = true
         startCounter = 0
         print("SyncQ Timer started")
@@ -71,10 +72,7 @@ class SyncQ : NSObject {
     
     func pauseForTime(delay:Double) {
         paused = true
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.paused = false
-        }
+        pauseDelay = pauseDelay + delay
     }
 	
 	func processNextInQ(timer:NSTimer) {
@@ -100,7 +98,8 @@ class SyncQ : NSObject {
                 }
             }
         } else {
-            print("SyncQ is paused")
+            print("SyncQ is paused for \(pauseDelay)")
+            pauseDelay -= 10
         }
 	}
 	

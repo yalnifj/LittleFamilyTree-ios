@@ -23,7 +23,7 @@ class Gallery : SKSpriteNode {
         endNode = currentNode + distance
         visibleNodes.removeAll()
         self.removeAllChildren()
-        let xspace = self.size.width / CGFloat(0.5 + Double(distance))
+        let xspace = self.size.width / CGFloat(2)
         var x = xspace * CGFloat(0 - distance)
         let y = CGFloat(0)
         let s = startNode
@@ -85,7 +85,7 @@ class Gallery : SKSpriteNode {
         for touch in touches {
             lastPoint = touch.locationInNode(self)
             //-- snap nodes into place
-            let xspace = self.size.width / CGFloat(0.5 + Double(distance))
+            let xspace = self.size.width / CGFloat(2)
             
             let totalDistance = Int(round((lastNodePosition!.x - visibleNodes[0].position.x) / xspace))
             if (totalDistance > 0 && currentNode < adapter!.size() - 1) || (totalDistance < 0 && currentNode >= 0) {
@@ -171,7 +171,7 @@ class Gallery : SKSpriteNode {
     
     func slide(oldPoint:CGPoint, newPoint:CGPoint) {
         var xdiff = CGFloat(1) * (newPoint.x - oldPoint.x)
-        let xspace = self.size.width / CGFloat(Double(distance))
+        let xspace = self.size.width / CGFloat(2)
         
         if self.currentNode==0 && visibleNodes.count > 0 && visibleNodes[0].position.x + xdiff > 0 {
             xdiff = 0 - visibleNodes[0].position.x
@@ -199,7 +199,7 @@ class Gallery : SKSpriteNode {
             node.runAction(SKAction.scaleYTo(1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.0))
             node.runAction(SKAction.fadeAlphaTo(1 - (abs(newx) / (xspace*CGFloat(distance))), duration: 0.0))
             if (newx < 0) {
-                newx = oldx + (xdiff / 2)
+                newx = oldx + (xdiff / 4)
             }
             node.runAction(SKAction.moveToX(newx, duration: 0.0))
             c += 1

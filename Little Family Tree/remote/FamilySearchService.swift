@@ -283,11 +283,15 @@ class FamilySearchService : RemoteService {
 	func getPersonUrl(personId: NSString) -> NSString {
 		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)";
 	}
-	
+    
     func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
+        self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
+    }
+	
+    func makeHTTPGetRequest(path: String, headers: [String: String], count: Int, onCompletion: ServiceResponse) {
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let myDelegate = RedirectSessionDelegate(headers: headers)
-        //let session = NSURLSession.sharedSession()
+        // too many requests coming where are they coming from?
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
         session.configuration.HTTPMaximumConnectionsPerHost = 5
 		
@@ -313,10 +317,17 @@ class FamilySearchService : RemoteService {
             }
             if httpResponse.statusCode == 204 {
                 //-- connection was throttled, try again after 10 seconds
-                SyncQ.getInstance().pauseForTime(30)
-                self.throttled(10, closure: {
-                    self.makeHTTPGetRequest(path, headers: headers, onCompletion: onCompletion)
-                })
+                if count < 4 {
+                    SyncQ.getInstance().pauseForTime(60)
+                    print("Connection throttled... delaying 20 seconds")
+                    self.throttled(20, closure: {
+                        self.makeHTTPGetRequest(path, headers: headers, count: count+1, onCompletion: onCompletion)
+                    })
+                } else {
+                    let error = NSError(domain: "FamilySearchService", code: 204, userInfo: ["message":"Connection throttled"])
+                    print("Failed connection throttled 3 times... giving up")
+                    onCompletion(nil, error)
+                }
                 return
             }
             if data != nil {
@@ -368,8 +379,8 @@ class FamilySearchService : RemoteService {
                 }
                 if httpResponse.statusCode == 204 {
                     //-- connection was throttled, try again after 10 seconds
-                    SyncQ.getInstance().pauseForTime(30)
-                    self.throttled(10, closure: {
+                    SyncQ.getInstance().pauseForTime(60)
+                    self.throttled(20, closure: {
                         self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
                     })
                     return

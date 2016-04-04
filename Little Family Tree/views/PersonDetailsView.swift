@@ -184,6 +184,14 @@ class PersonDetailsView: UIView {
                         print("Unable to persist person \(updatedPerson!.id!)")
                     }
                     self.showPerson(updatedPerson!)
+                } else {
+                    //show error message
+                    let x = Int((self.frame.width - 300) / 2)
+                    let y = 50
+                    let rect = CGRect(x: x, y: y, width: 300, height: 300)
+                    let subview = SimpleDialogView(frame: rect)
+                    subview.setMessage("Error synchronizing person", message: err!.description)
+                    self.view?.addSubview(subview)
                 }
                 self.spinner.hidden = true
                 self.syncButton.hidden = false

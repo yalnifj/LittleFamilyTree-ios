@@ -125,7 +125,9 @@ class HeritageCalculator {
         }
         for path in uniquePaths {
             let lastInPath = path.treePath.last
-            dataService.addToSyncQ(lastInPath!)
+            if (lastInPath!.hasParents == nil && path.treePath.count < HeritageCalculator.MAX_PATHS) {
+                dataService.addToSyncQ(lastInPath!)
+            }
         }
     }
 }
