@@ -311,6 +311,14 @@ class FamilySearchService : RemoteService {
             if httpResponse.statusCode != 200 {
                 print(response)
             }
+            if httpResponse.statusCode == 204 {
+                //-- connection was throttled, try again after 10 seconds
+                SyncQ.getInstance().pauseForTime(30)
+                self.throttled(10, closure: {
+                    self.makeHTTPGetRequest(path, headers: headers, onCompletion: onCompletion)
+                })
+                return
+            }
             if data != nil {
                 if httpResponse.statusCode != 200 {
                     print(NSString(data: data!, encoding: NSUTF8StringEncoding))
@@ -357,6 +365,14 @@ class FamilySearchService : RemoteService {
                 let httpResponse = response as! NSHTTPURLResponse
                 if httpResponse.statusCode != 200 {
                     print(response)
+                }
+                if httpResponse.statusCode == 204 {
+                    //-- connection was throttled, try again after 10 seconds
+                    SyncQ.getInstance().pauseForTime(30)
+                    self.throttled(10, closure: {
+                        self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
+                    })
+                    return
                 }
                 if data != nil {
                     if httpResponse.statusCode != 200 {
@@ -432,6 +448,15 @@ class FamilySearchService : RemoteService {
 		})
 		task.resume()
 	}
+    
+    func throttled(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
     
     class RedirectSessionDelegate : NSObject, NSURLSessionDelegate {
         var headers:[String: String]

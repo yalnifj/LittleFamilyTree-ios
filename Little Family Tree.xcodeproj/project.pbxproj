@@ -68,6 +68,12 @@
 		A14938AD1C97D753006F1DC9 /* SearchPersonTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A14938AC1C97D753006F1DC9 /* SearchPersonTableCell.xib */; };
 		A14938B61C97DCA1006F1DC9 /* SearchPersonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */; };
 		A149A9611C49A3CF00367342 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A149A9601C49A3CF00367342 /* Security.framework */; };
+		A150A5AE1CB0276200B63D81 /* stickers in Resources */ = {isa = PBXBuildFile; fileRef = A150A5AD1CB0276200B63D81 /* stickers */; };
+		A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B61CB02AA100B63D81 /* cupcake1.png */; };
+		A150A5BB1CB02AA100B63D81 /* cupcake2.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B71CB02AA100B63D81 /* cupcake2.png */; };
+		A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B81CB02AA100B63D81 /* cupcake3.png */; };
+		A150A5BD1CB02AA100B63D81 /* cupcake4.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B91CB02AA100B63D81 /* cupcake4.png */; };
+		A150A5BF1CB02AC300B63D81 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5BE1CB02AC300B63D81 /* logo.png */; };
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
 		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A172F0231C926C55007346FD /* grandma_outline.png in Resources */ = {isa = PBXBuildFile; fileRef = A172F0221C926C55007346FD /* grandma_outline.png */; };
@@ -725,6 +731,12 @@
 		A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPersonTableCell.swift; sourceTree = "<group>"; };
 		A149A9601C49A3CF00367342 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LittleFamilyTree-Bridging-Header.h"; sourceTree = "<group>"; };
+		A150A5AD1CB0276200B63D81 /* stickers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stickers; sourceTree = "<group>"; };
+		A150A5B61CB02AA100B63D81 /* cupcake1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake1.png; sourceTree = "<group>"; };
+		A150A5B71CB02AA100B63D81 /* cupcake2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake2.png; sourceTree = "<group>"; };
+		A150A5B81CB02AA100B63D81 /* cupcake3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake3.png; sourceTree = "<group>"; };
+		A150A5B91CB02AA100B63D81 /* cupcake4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake4.png; sourceTree = "<group>"; };
+		A150A5BE1CB02AC300B63D81 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		A172F0221C926C55007346FD /* grandma_outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_outline.png; sourceTree = "<group>"; };
 		A172F02B1C927E07007346FD /* SimpleDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleDialogView.xib; sourceTree = "<group>"; };
@@ -1306,6 +1318,10 @@
 		A12445021CA966DA000380A5 /* birthdaycard */ = {
 			isa = PBXGroup;
 			children = (
+				A150A5B61CB02AA100B63D81 /* cupcake1.png */,
+				A150A5B71CB02AA100B63D81 /* cupcake2.png */,
+				A150A5B81CB02AA100B63D81 /* cupcake3.png */,
+				A150A5B91CB02AA100B63D81 /* cupcake4.png */,
 				A12445031CA966DB000380A5 /* vanity_bottom.png */,
 				A12445041CA966DB000380A5 /* vanity_top.png */,
 			);
@@ -1523,6 +1539,7 @@
 				A1F7D10E1C8FBC11006053A2 /* ic_launcher-web.png */,
 				A1F7D10F1C8FBC11006053A2 /* info.png */,
 				A1F7D1101C8FBC11006053A2 /* loading.png */,
+				A150A5BE1CB02AC300B63D81 /* logo.png */,
 				A1F7D1111C8FBC11006053A2 /* mom.png */,
 				A1F7D1121C8FBC11006053A2 /* paintbrush.png */,
 				A1F7D1131C8FBC11006053A2 /* parentsguide */,
@@ -1539,6 +1556,7 @@
 				A1F7D11E1C8FBC12006053A2 /* song */,
 				A1F7D13E1C8FBC12006053A2 /* sounds */,
 				A1F7D1651C8FBC12006053A2 /* star1.png */,
+				A150A5AD1CB0276200B63D81 /* stickers */,
 				A1F7D1661C8FBC12006053A2 /* tree */,
 				A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */,
 			);
@@ -2166,6 +2184,7 @@
 				A1281F731C87C2CD00FBA940 /* drums.png in Resources */,
 				A1F7D3581C8FBC12006053A2 /* house_rooms_3_0.png in Resources */,
 				A1F7D2781C8FBC12006053A2 /* house_chilldroom_desk.png in Resources */,
+				A150A5BF1CB02AC300B63D81 /* logo.png in Resources */,
 				A1F7D2EE1C8FBC12006053A2 /* house_kitchen_kettle9.png in Resources */,
 				A1F7D3BE1C8FBC12006053A2 /* tree_search.png in Resources */,
 				A1F7D3601C8FBC12006053A2 /* house_rooms_4_4.png in Resources */,
@@ -2175,6 +2194,7 @@
 				A1F7D1A81C8FBC12006053A2 /* soap7.png in Resources */,
 				A1F7D32F1C8FBC12006053A2 /* house_toys_bat8.png in Resources */,
 				A172F0231C926C55007346FD /* grandma_outline.png in Resources */,
+				A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */,
 				A1F7D2C61C8FBC12006053A2 /* house_familyroom_frame7.png in Resources */,
 				A1F7D29C1C8FBC12006053A2 /* house_chilldroom_teddy.png in Resources */,
 				A1F7D1971C8FBC12006053A2 /* bubbles5.png in Resources */,
@@ -2304,6 +2324,7 @@
 				A1F7D2621C8FBC12006053A2 /* frame3.png in Resources */,
 				A1F7D2EF1C8FBC12006053A2 /* house_light_a1.png in Resources */,
 				A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */,
+				A150A5BD1CB02AA100B63D81 /* cupcake4.png in Resources */,
 				A1F7D3301C8FBC12006053A2 /* house_toys_bat9.png in Resources */,
 				A1F7D39F1C8FBC12006053A2 /* nopop.mp3 in Resources */,
 				A1F7D2C71C8FBC12006053A2 /* house_familyroom_frame8.png in Resources */,
@@ -2332,6 +2353,7 @@
 				A1F7D28A1C8FBC12006053A2 /* house_chilldroom_desk8.png in Resources */,
 				A1F7D3BB1C8FBC12006053A2 /* leaves_overlay4.png in Resources */,
 				A10CC8B51C8FC807005B3233 /* guitar.png in Resources */,
+				A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */,
 				A1F7D28D1C8FBC12006053A2 /* house_chilldroom_paint1.png in Resources */,
 				A10CC8B41C8FC807005B3233 /* guitar_thisismyfamily.mp3 in Resources */,
 				A1F7D2DA1C8FBC12006053A2 /* house_kitchen_freezer4.png in Resources */,
@@ -2558,6 +2580,7 @@
 				A1F7D3291C8FBC12006053A2 /* house_toys_bat22.png in Resources */,
 				A1F7D30C1C8FBC12006053A2 /* house_toaster16.png in Resources */,
 				A111A1011C91104900552AE6 /* man_silhouette.png in Resources */,
+				A150A5AE1CB0276200B63D81 /* stickers in Resources */,
 				A111A1081C91443500552AE6 /* media_play.png in Resources */,
 				A1F7D2A41C8FBC12006053A2 /* house_cloud1b.png in Resources */,
 				A1F7D18C1C8FBC12006053A2 /* bubble_pop4.png in Resources */,
@@ -2581,6 +2604,7 @@
 				A1F7D1A11C8FBC12006053A2 /* sink.png in Resources */,
 				A1F7D2931C8FBC12006053A2 /* house_chilldroom_paint15.png in Resources */,
 				A1F7D1991C8FBC12006053A2 /* bubbles7.png in Resources */,
+				A150A5BB1CB02AA100B63D81 /* cupcake2.png in Resources */,
 				A1F7D3C41C8FBC12006053A2 /* tree_search6.png in Resources */,
 				A1F7D32B1C8FBC12006053A2 /* house_toys_bat4.png in Resources */,
 				A1F7D2A01C8FBC12006053A2 /* house_chilldroom_teddy5.png in Resources */,

@@ -139,7 +139,7 @@ class TreeScene: LittleFamilyScene {
 		dataService.getChildren(selectedPerson!, onCompletion: { children, err in 
 			if children == nil || children!.count == 0 {
                 dispatch_group_enter(self.treeGroup)
-				dataService.getParents(self.selectedPerson!, onCompletion: { parents, err in
+                dataService.getParentCouple(self.selectedPerson!, inParent: nil, onCompletion: { parents, err in
 					if parents != nil && parents!.count > 0 {
 						self.root = TreeNode()
 						self.root!.isRoot = true
@@ -320,7 +320,7 @@ class TreeScene: LittleFamilyScene {
 		let dataService = DataService.getInstance()
 		if node.leftPerson != nil {
             dispatch_group_enter(self.treeGroup)
-			dataService.getParents(node.leftPerson!, onCompletion: { parents, err in
+            dataService.getParentCouple(node.leftPerson!, inParent: nil, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
 					if depth < maxDepth {
@@ -347,7 +347,7 @@ class TreeScene: LittleFamilyScene {
         
 		if node.rightPerson != nil {
             dispatch_group_enter(self.treeGroup)
-			dataService.getParents(node.rightPerson!, onCompletion: { parents, err in
+            dataService.getParentCouple(node.rightPerson!, inParent: nil, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
 					if depth < maxDepth {
@@ -630,13 +630,13 @@ class TreeScene: LittleFamilyScene {
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(220, height: 200, duration: 0.6)) {
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(300, height: 220, duration: 0.6)) {
 			let startX = CGFloat(-90)
             var x = startX
 			var y = CGFloat(-73)
             var counter = 0
 			for button in self.buttons {
-                if counter >= self.buttons.count / 2  {
+                if counter >= 5 {
                     x = startX
                     y = y + button.size.height + 8
                     counter = 0

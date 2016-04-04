@@ -9,7 +9,7 @@
 import Foundation
 
 class HeritageCalculator {
-    static var MAX_PATHS=13
+    static var MAX_PATHS=12
     var dataService:DataService
     var paths:[HeritagePath]
     var workingPaths = [HeritagePath]()
@@ -43,6 +43,7 @@ class HeritageCalculator {
     }
     
     func execute(person:LittlePerson) {
+        let startdate = NSDate()
         self.paths = [HeritagePath]()
         workingPaths = [HeritagePath]()
         var origin = PlaceHelper.getPlaceCountry(person.birthPlace as String?)
@@ -88,6 +89,9 @@ class HeritageCalculator {
                 self.dataService.addToSyncQ(lastInPath);
             }
         }
+        
+        let timediff = startdate.timeIntervalSinceNow
+        print("Heritage Calculator took \(timediff)")
         
         self.listener.onCalculationComplete()
         

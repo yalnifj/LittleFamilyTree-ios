@@ -6,6 +6,7 @@ class SyncQ : NSObject {
 	var dbHelper:DBHelper
 	var timer:NSTimer?
     var started = false
+    var paused = false
     var authCounter = 0
     var startCounter = 0
 	lazy var queue:NSOperationQueue = {
@@ -67,27 +68,39 @@ class SyncQ : NSObject {
         startCounter = 0
         print("SyncQ Timer started")
     }
+    
+    func pauseForTime(delay:Double) {
+        paused = true
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.paused = false
+        }
+    }
 	
 	func processNextInQ(timer:NSTimer) {
-        startCounter -= 2
-        let date = NSDate()
-        print("\(date) Sync Q has \(syncQ.count) people in it.");
-		if dataService.remoteService != nil && dataService.remoteService!.sessionId != nil && syncQ.count > 0 {
-            let backSync = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_BACKGROUND)
-            if backSync == nil || backSync == "true" {
-                let person = syncQ.removeFirst()
-                let operation = SyncOperation(person: person, syncQ: self)
-                queue.addOperation(operation)
+        if !paused {
+            startCounter -= 2
+            let date = NSDate()
+            print("\(date) Sync Q has \(syncQ.count) people in it.");
+            if dataService.remoteService != nil && dataService.remoteService!.sessionId != nil && syncQ.count > 0 {
+                let backSync = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_BACKGROUND)
+                if backSync == nil || backSync == "true" {
+                    let person = syncQ.removeFirst()
+                    let operation = SyncOperation(person: person, syncQ: self)
+                    queue.addOperation(operation)
+                } else {
+                    print("Sync queue disabled in settings")
+                }
             } else {
-                print("Sync queue disabled in settings")
+                //-- if we are not authenticated try to authenticate again after 10 minutes
+                authCounter += 1
+                if authCounter > 60 {
+                    authCounter = 0
+                    dataService.autoLogin()
+                }
             }
         } else {
-            //-- if we are not authenticated try to authenticate again after 10 minutes
-            authCounter += 1
-            if authCounter > 60 {
-                authCounter = 0
-                dataService.autoLogin()
-            }
+            print("SyncQ is paused")
         }
 	}
 	

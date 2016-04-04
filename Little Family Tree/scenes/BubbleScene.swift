@@ -222,54 +222,64 @@ class BubbleScene: LittleFamilyScene {
                 self.addChild(self.child!)
                 self.child?.physicsBody?.applyImpulse(v)
                 
-                bx = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(self.width)))
-                by = (self.width / 2) + CGFloat(arc4random_uniform(UInt32(self.width)))
-                self.dad = PersonBubbleSprite()
-                self.dad?.size = CGSizeMake(self.width, self.width)
-                self.dad?.position = CGPointMake(bx, by)
-                self.dad?.zPosition = 7
-                self.dad?.person = parents![0]
-                self.dad?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
-                self.dad?.physicsBody?.categoryBitMask = 2
-                self.dad?.physicsBody?.collisionBitMask = 1
-                self.dad?.physicsBody?.restitution = 1.0
-                self.dad?.physicsBody?.friction = 0.0
-                self.dad?.physicsBody?.linearDamping = 0.0
-                self.dad?.physicsBody?.angularDamping = 0.0
-                self.dad?.physicsBody?.affectedByGravity = false
-                self.dad?.physicsBody?.dynamic = true
-                let dx2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
-                let dy2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
-                let v2 = CGVectorMake(dx2, dy2)
-                self.addChild(self.dad!)
-                self.dad?.physicsBody?.applyImpulse(v2)
-
-                bx = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(self.width)))
-                by = (self.width / 2) + CGFloat(arc4random_uniform(UInt32(self.width)))
-                self.mom = PersonBubbleSprite()
-                self.mom?.size = CGSizeMake(self.width, self.width)
-                self.mom?.position = CGPointMake(bx, by)
-                self.mom?.zPosition = 7
-                self.mom?.person = parents![1]
-                self.mom?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
-                self.mom?.physicsBody?.categoryBitMask = 2
-                self.mom?.physicsBody?.collisionBitMask = 1
-                self.mom?.physicsBody?.restitution = 1.0
-                self.mom?.physicsBody?.friction = 0.0
-                self.mom?.physicsBody?.linearDamping = 0.0;
-                self.mom?.physicsBody?.angularDamping = 0.0;
-                self.mom?.physicsBody?.affectedByGravity = false
-                self.mom?.physicsBody?.dynamic = true
-                let dx3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
-                let dy3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
-                let v3 = CGVectorMake(dx3, dy3)
-                self.addChild(self.mom!)
-                self.mom?.physicsBody?.applyImpulse(v3)
-                
-                if self.bubbles.count < 7 {
-                    self.addBubbles()
-                }
-                self.nextSpot()
+                dataService.getParentCouple(person, inParent: parents![0], onCompletion: {parents2, err in
+                    bx = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(self.width)))
+                    by = (self.width / 2) + CGFloat(arc4random_uniform(UInt32(self.width)))
+                    self.dad = PersonBubbleSprite()
+                    self.dad?.size = CGSizeMake(self.width, self.width)
+                    self.dad?.position = CGPointMake(bx, by)
+                    self.dad?.zPosition = 7
+                    if parents2!.count > 0 {
+                        self.dad?.person = parents2![0]
+                    } else {
+                        self.dad?.person = parents![0]
+                    }
+                    self.dad?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
+                    self.dad?.physicsBody?.categoryBitMask = 2
+                    self.dad?.physicsBody?.collisionBitMask = 1
+                    self.dad?.physicsBody?.restitution = 1.0
+                    self.dad?.physicsBody?.friction = 0.0
+                    self.dad?.physicsBody?.linearDamping = 0.0
+                    self.dad?.physicsBody?.angularDamping = 0.0
+                    self.dad?.physicsBody?.affectedByGravity = false
+                    self.dad?.physicsBody?.dynamic = true
+                    let dx2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                    let dy2 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                    let v2 = CGVectorMake(dx2, dy2)
+                    self.addChild(self.dad!)
+                    self.dad?.physicsBody?.applyImpulse(v2)
+                    
+                    bx = (self.size.width / 3) + CGFloat(arc4random_uniform(UInt32(self.width)))
+                    by = (self.width / 2) + CGFloat(arc4random_uniform(UInt32(self.width)))
+                    self.mom = PersonBubbleSprite()
+                    self.mom?.size = CGSizeMake(self.width, self.width)
+                    self.mom?.position = CGPointMake(bx, by)
+                    self.mom?.zPosition = 7
+                    if parents2!.count > 1 {
+                        self.mom?.person = parents2![1]
+                    } else {
+                        self.mom?.person = parents2![0]
+                    }
+                    self.mom?.physicsBody = SKPhysicsBody(circleOfRadius: self.width/2)
+                    self.mom?.physicsBody?.categoryBitMask = 2
+                    self.mom?.physicsBody?.collisionBitMask = 1
+                    self.mom?.physicsBody?.restitution = 1.0
+                    self.mom?.physicsBody?.friction = 0.0
+                    self.mom?.physicsBody?.linearDamping = 0.0;
+                    self.mom?.physicsBody?.angularDamping = 0.0;
+                    self.mom?.physicsBody?.affectedByGravity = false
+                    self.mom?.physicsBody?.dynamic = true
+                    let dx3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                    let dy3 = self.width/2 - CGFloat(arc4random_uniform(UInt32(self.width)))
+                    let v3 = CGVectorMake(dx3, dy3)
+                    self.addChild(self.mom!)
+                    self.mom?.physicsBody?.applyImpulse(v3)
+                    
+                    if self.bubbles.count < 7 {
+                        self.addBubbles()
+                    }
+                    self.nextSpot()
+                })
             }
         })
     }

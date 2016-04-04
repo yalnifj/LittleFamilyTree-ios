@@ -320,6 +320,35 @@ class DataService {
         }
     }
     
+    func getParentCouple(child:LittlePerson, inParent:LittlePerson?, onCompletion: PeopleResponse) {
+        self.getParents(child, onCompletion: { parents, err in
+            if parents != nil && parents!.count > 0 {
+                var parent = inParent
+                if inParent == nil {
+                    parent = parents![0]
+                }
+                self.getSpouses(parent!, onCompletion: {spouses, err in
+                    if spouses != nil && spouses!.count > 0 {
+                        var couple = [LittlePerson]()
+                        couple.append(parent!)
+                        for parent2 in spouses! {
+                            if parent2 != parent && parents!.contains(parent2) {
+                                couple.append(parent2)
+                                onCompletion(couple, err);
+                                return
+                            }
+                        }
+                    } else {
+                        onCompletion(parents, err)
+                    }
+                })
+            }
+            else {
+                onCompletion(parents, err)
+            }
+        })
+    }
+    
     func getSpouses(person:LittlePerson, onCompletion: PeopleResponse) {
         let spouses = dbHelper.getSpousesForPerson(person.id!)
         if person.hasSpouses == nil && (spouses == nil || spouses!.count == 0) {
