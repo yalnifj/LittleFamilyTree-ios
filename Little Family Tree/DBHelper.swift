@@ -363,6 +363,73 @@ class DBHelper {
         }
 		return person
 	}
+	
+	func getNextBirthdays(maxNumber:Int, maxLevel:Int) -> [LittlePerson] {
+		var people = [LittlePerson]
+        do {
+		let stmt = try lftdb?.prepare("select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, " +
+								" p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, " +
+								" p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, " +
+								" cast(((strftime('%s','now') - (604800 + strftime('YYYY-MM-DDTHH:MM:SS', p.birthDate))) / 31557600) as int) as yeardiff "+
+								" from littleperson p "+
+							   	" where p.active='Y' and p.birthDate is not null and p.treeLevel < "+maxLevel+" ) a " +
+								" order by strftime('YYYY-MM-DDTHH:MM:SS', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) "+
+								" LIMIT "+maxNumber)
+        print(stmt)
+		for c in stmt! {
+            var person = LittlePerson()
+            person.id = (c[0] as! Int64)
+            if c[1] != nil {
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                let parts = (c[1] as! String).split("T")
+                let birthDate = formatter.dateFromString(parts[0])
+                person.birthDate = birthDate
+            }
+            if c[2] != nil { person.birthPlace = (c[2] as! String) }
+            if c[3] != nil { person.nationality = (c[3] as! String?) }
+            if c[4] != nil { person.familySearchId = (c[4] as! String) }
+            let gender = (c[5] as? String?)
+            
+            if gender != nil {
+                if gender! == "M" {
+                    person.gender = GenderType.MALE
+                }
+                else if gender! == "F" {
+                    person.gender = GenderType.FEMALE
+                }
+                else {
+                    person.gender = GenderType.UNKNOWN
+                }
+            }
+            person.age = Int(c[6] as! Int64)
+            if c[7] != nil { person.givenName = (c[7] as! String?) }
+            if c[8] != nil { person.name = (c[8] as! String?) }
+            if c[9] != nil { person.photoPath = (c[9] as! String?) }
+            if c[10] != nil {
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
+                let parts = (c[10] as! String).split(".")
+                let syncDate = formatter.dateFromString(parts[0])
+                person.lastSync = syncDate
+            }
+            
+            person.alive = (c[11] as! Int64 == 1)
+            person.active = (c[12] as! Int64 == 1)
+            if c[13] != nil { person.hasParents = (c[13] as! Int64 == 1) }
+            if c[14] != nil { person.hasChildren = (c[14] as! Int64 == 1) }
+            if c[15] != nil { person.hasSpouses = (c[15] as! Int64 == 1) }
+            if c[16] != nil { person.hasMedia = (c[16] as! Int64 == 1) }
+            if c[17] != nil { person.treeLevel = Int(c[17] as! Int64) }
+			if c[18] != nil { person.occupation = (c[18] as! String?) }
+            person.updateAge()
+			people.append(person)
+		}
+        } catch {
+            print("Error getting next birthdays")
+        }
+		return people
+	}
 
 	func getRelativesForPerson(id:Int64, followSpouse:Bool) -> [LittlePerson]? {
         var persons = [LittlePerson]()
