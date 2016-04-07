@@ -17,10 +17,10 @@ class CupcakeSprite: SKSpriteNode {
             }
             let photo = TextureHelper.getPortraitTexture(self.person!)
             photoSprite = SKSpriteNode(texture: photo)
-            photoSprite?.position = CGPointMake(self.size.width/2, self.size.height/2)
+            photoSprite?.position = CGPointMake(0, 0)
             let ratio = (photo?.size().width)! / (photo?.size().height)!
-            photoSprite?.size.width = self.size.width /3
-            photoSprite?.size.height = (self.size.width / 3) / ratio
+            photoSprite?.size.width = self.size.width / 2.5
+            photoSprite?.size.height = (self.size.width / 2.5) / ratio
             photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
             
@@ -37,30 +37,34 @@ class CupcakeSprite: SKSpriteNode {
         if nameLabel != nil {
             nameLabel?.removeFromParent()
         }
-        nameLabel = SKLabelNode(text: person?.givenName as String?)
+        nameLabel = SKLabelNode(text: person?.name as String?)
         nameLabel?.fontSize = self.size.width / 10
         nameLabel?.fontColor = UIColor.blackColor()
-        nameLabel?.position = CGPointMake(self.size.width/2, (nameLabel?.fontSize)! / 2)
+        nameLabel?.position = CGPointMake(0, nameLabel!.fontSize * -3)
         nameLabel?.zPosition = 2
         self.addChild(nameLabel!)
 		
 		if birthDateLabel != nil {
             birthDateLabel?.removeFromParent()
         }
-        birthDateLabel = SKLabelNode(text: person?.birthDate as String?)
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMMM d, yyyy"
+        let dateString = formatter.stringFromDate(person!.birthDate!)
+
+        birthDateLabel = SKLabelNode(text: dateString)
         birthDateLabel?.fontSize = nameLabel!.fontSize
         birthDateLabel?.fontColor = UIColor.blackColor()
-        birthDateLabel?.position = CGPointMake(self.size.width/2, 0 - (birthDateLabel?.fontSize)!)
+        birthDateLabel?.position = CGPointMake(0, birthDateLabel!.fontSize * -4)
         birthDateLabel?.zPosition = 2
         self.addChild(birthDateLabel!)
 		
 		if ageLabel != nil {
             ageLabel?.removeFromParent()
         }
-        ageLabel = SKLabelNode(text: person?.givenName as String?)
+        ageLabel = SKLabelNode(text: "Age \(person!.age)")
         ageLabel?.fontSize = nameLabel!.fontSize
         ageLabel?.fontColor = UIColor.blackColor()
-        ageLabel?.position = CGPointMake(self.size.width/2, (ageLabel?.fontSize)! * -2)
+        ageLabel?.position = CGPointMake(0, ageLabel!.fontSize * -5)
         ageLabel?.zPosition = 2
         self.addChild(ageLabel!)
     }

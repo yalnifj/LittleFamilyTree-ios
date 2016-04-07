@@ -365,19 +365,14 @@ class DBHelper {
 	}
 	
 	func getNextBirthdays(maxNumber:Int, maxLevel:Int) -> [LittlePerson] {
-		var people = [LittlePerson]
+		var people = [LittlePerson]()
         do {
-		let stmt = try lftdb?.prepare("select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, " +
-								" p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, " +
-								" p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, " +
-								" cast(((strftime('%s','now') - (604800 + strftime('YYYY-MM-DDTHH:MM:SS', p.birthDate))) / 31557600) as int) as yeardiff "+
-								" from littleperson p "+
-							   	" where p.active='Y' and p.birthDate is not null and p.treeLevel < "+maxLevel+" ) a " +
-								" order by strftime('YYYY-MM-DDTHH:MM:SS', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) "+
-								" LIMIT "+maxNumber)
+            let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(((strftime('%s','now') - (604800 + strftime('YYYY-MM-DDTHH:MM:SS', p.birthDate))) / 31557600) as int) as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) ) a order by strftime('YYYY-MM-DDTHH:MM:SS', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) LIMIT \(maxNumber)"
+            
+		let stmt = try lftdb?.prepare( sql )
         print(stmt)
 		for c in stmt! {
-            var person = LittlePerson()
+            let person = LittlePerson()
             person.id = (c[0] as! Int64)
             if c[1] != nil {
                 let formatter = NSDateFormatter()

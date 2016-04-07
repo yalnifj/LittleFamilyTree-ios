@@ -345,7 +345,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_CHOOSE_SONG2, listener: self)
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_CHOOSE_SONG3, listener: self)
         
-        treeWalker = TreeWalker(person: selectedPerson!, listener:self)
+        treeWalker = TreeWalker(person: selectedPerson!, listener:self, reusePeople: true)
         treeWalker!.loadFamilyMembers()
         speak("Choose a song.")
     }

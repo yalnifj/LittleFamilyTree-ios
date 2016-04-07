@@ -16,13 +16,13 @@ class TreeWalker {
     var loadQueue = [LittlePerson]()
 	var usedPeople = [Int64:LittlePerson]()
     var listener:TreeWalkerListener
-	var reusePeople = false
+	var resusePeople = false
     
-    init(person:LittlePerson, listener:TreeWalkerListener, reusePeople:boolean) {
+    init(person:LittlePerson, listener:TreeWalkerListener, reusePeople:Bool) {
         selectedPerson = person
         dataService = DataService.getInstance()
         self.listener = listener
-		self.reusePeople = reusePeople
+		self.resusePeople = reusePeople
     }
     
     func loadFamilyMembers() {
