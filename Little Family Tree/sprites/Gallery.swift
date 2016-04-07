@@ -142,12 +142,13 @@ class Gallery : SKSpriteNode {
             for n in s..<e {
                 if c < visibleNodes.count {
                     let node = visibleNodes[c]
+                    let scaleX = 1 - (abs(x) / (xspace*CGFloat(distance*2)))
                     var dx = CGFloat(0)
                     if x < 0 {
-                        dx = xspace / 2
+                        dx = xspace * scaleX
                     }
                     if node.position.x <= x + dx {
-                        node.runAction(SKAction.scaleXTo(1 - (abs(x + dx) / (xspace*CGFloat(distance*2))), duration: 0.3))
+                        node.runAction(SKAction.scaleXTo(scaleX, duration: 0.3))
                         node.runAction(SKAction.scaleYTo(1 - (abs(x + dx) / (xspace*CGFloat(distance*4))), duration: 0.3))
                         node.runAction(SKAction.fadeAlphaTo(1 - (abs(x + dx) / (xspace*CGFloat(Double(distance)*1.5))), duration: 0.3))
                         node.runAction(SKAction.moveToX(x + dx, duration: 0.3))
@@ -194,12 +195,12 @@ class Gallery : SKSpriteNode {
                 node.zPosition = CGFloat(adapter!.size() + 1)
             }
 
-            
-            node.runAction(SKAction.scaleXTo(1 - (abs(newx) / (xspace*CGFloat(distance*2))), duration: 0.0))
+            let scaleX = 1 - (abs(newx) / (xspace*CGFloat(distance*2)))
+            node.runAction(SKAction.scaleXTo(scaleX, duration: 0.0))
             node.runAction(SKAction.scaleYTo(1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.0))
             node.runAction(SKAction.fadeAlphaTo(1 - (abs(newx) / (xspace*CGFloat(distance))), duration: 0.0))
             if (newx < 0) {
-                newx = oldx + (xdiff / 4)
+                newx = oldx + (xdiff * scaleX)
             }
             node.runAction(SKAction.moveToX(newx, duration: 0.0))
             c += 1
