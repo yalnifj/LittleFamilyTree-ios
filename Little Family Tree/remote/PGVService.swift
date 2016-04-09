@@ -542,12 +542,22 @@ class PGVService : RemoteService {
 		return baseUrl! + "individual.php?pid=" + (personId as String)
 	}
 	
+    var lastRequestTime:NSDate = NSDate()
+    var requestDelay:NSTimeInterval = -4.0
     func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: StringResponse) {
+        let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
+        if timeSinceLastRequest > requestDelay {
+            self.throttled(0 - requestDelay, closure: {
+                self.makeHTTPGetRequest(path, headers: headers, onCompletion: onCompletion)
+            })
+            return
+        }
+
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let myDelegate = RedirectSessionDelegate(headers: headers)
         //let session = NSURLSession.sharedSession()
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
-        session.configuration.HTTPMaximumConnectionsPerHost = 5
+        session.configuration.HTTPMaximumConnectionsPerHost = 1
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -640,6 +650,15 @@ class PGVService : RemoteService {
 		})
 		task.resume()
 	}
+    
+    func throttled(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
     
     class RedirectSessionDelegate : NSObject, NSURLSessionDelegate {
         var headers:[String: String]

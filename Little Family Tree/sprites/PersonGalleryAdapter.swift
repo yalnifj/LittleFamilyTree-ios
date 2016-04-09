@@ -36,6 +36,7 @@ class PersonGalleryAdapter: GalleryPageAdapter {
         let node = PersonNameSprite()
         node.size = CGSizeMake(gallery!.size.height * 0.75, gallery!.size.height * 0.75)
         node.person = person
+        node.userInteractionEnabled = true
         return node
     }
 }

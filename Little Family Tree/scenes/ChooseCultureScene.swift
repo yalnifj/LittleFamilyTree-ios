@@ -194,6 +194,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             }
             
             if count > 0 && count < 3 && self.calculator!.paths.count < 10 {
+                SyncQ.getInstance().start()
                 self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
             }
             

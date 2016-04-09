@@ -288,12 +288,22 @@ class FamilySearchService : RemoteService {
         self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
     }
 	
+    var lastRequestTime:NSDate = NSDate()
+    var requestDelay:NSTimeInterval = -0.5
     func makeHTTPGetRequest(path: String, headers: [String: String], count: Int, onCompletion: ServiceResponse) {
+        let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
+        if timeSinceLastRequest > requestDelay {
+            self.throttled(0 - requestDelay, closure: {
+                self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
+            })
+            return
+        }
+        lastRequestTime = NSDate()
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let myDelegate = RedirectSessionDelegate(headers: headers)
         // too many requests coming where are they coming from?
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
-        session.configuration.HTTPMaximumConnectionsPerHost = 5
+        session.configuration.HTTPMaximumConnectionsPerHost = 2
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -312,10 +322,10 @@ class FamilySearchService : RemoteService {
                 return
             }
             let httpResponse = response as! NSHTTPURLResponse
-            if httpResponse.statusCode != 200 {
+            if httpResponse.statusCode != 200 && httpResponse.statusCode != 204 {
                 print(response)
             }
-            if httpResponse.statusCode == 204 {
+            if httpResponse.statusCode == 429 {
                 //-- connection was throttled, try again after 10 seconds
                 if count < 4 {
                     SyncQ.getInstance().pauseForTime(60)
