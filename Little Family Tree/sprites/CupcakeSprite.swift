@@ -25,11 +25,11 @@ class CupcakeSprite: SKSpriteNode {
             self.addChild(photoSprite!)
             
             flame = SKSpriteNode(imageNamed: "flame1.png")
-            flame?.position = CGPointMake(0, self.size.height/2.5)
+            flame?.position = CGPointMake(0, self.size.height/1.8)
             let fr = flame!.size.width / flame!.size.height
-            flame?.size = CGSizeMake(self.size.width / 5, (self.size.width / 5) / fr)
+            flame?.size = CGSizeMake(self.size.width / 6, (self.size.width / 6) / fr)
             flame?.zPosition = 1
-            let action = SKAction.animateWithTextures([SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame3.png"), SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame1.png")], timePerFrame: 0.33)
+            let action = SKAction.animateWithTextures([SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame3.png"), SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame1.png")], timePerFrame: 0.2)
             flame?.runAction(SKAction.repeatActionForever(action))
             self.addChild(flame!)
             

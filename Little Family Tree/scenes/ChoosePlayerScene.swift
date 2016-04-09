@@ -241,6 +241,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     }
     
     func addSprites() {
+        SyncQ.getInstance().start()
         for s in self.peopleSprites {
             s.removeFromParent()
         }

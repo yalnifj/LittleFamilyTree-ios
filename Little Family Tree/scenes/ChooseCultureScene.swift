@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
+    static var TOPIC_PERSON_TOUCHED = "personTouched"
     var titleLabel:SKLabelNode?
     var whiteBackground:SKSpriteNode?
     var outlineSprite:SKSpriteNode?
@@ -88,7 +89,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         outlineSprite?.shader = shader
         self.addChild(outlineSprite!)
         
-        galleryAdapter = PersonGalleryAdapter(people: [LittlePerson]())
+        galleryAdapter = PersonGalleryAdapter(people: [LittlePerson](), topic: ChooseCultureScene.TOPIC_PERSON_TOUCHED)
         
         pathPerson = Gallery()
         pathPerson?.size.width = self.size.width/2
@@ -134,6 +135,13 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         })
         operationQueue.addOperation(operation1)
         self.speak("Calculating your heritage. Please wait...")
+        
+        EventHandler.getInstance().subscribe(ChooseCultureScene.TOPIC_PERSON_TOUCHED, listener: self)
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        super.willMoveFromView(view)
+        EventHandler.getInstance().unSubscribe(ChooseCultureScene.TOPIC_PERSON_TOUCHED, listener: self)
     }
     
     func onCalculationComplete() {
@@ -256,9 +264,13 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         speakDetails(personNode.person!)
         //speakDetails(pathPerson!.person!)
     }
-
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    
+    override func onEvent(topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
+        if topic == ChooseCultureScene.TOPIC_PERSON_TOUCHED {
+            let person = data as! LittlePerson
+            self.speakDetails(person)
+        }
     }
     
     override func update(currentTime: NSTimeInterval) {

@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 class PersonGalleryAdapter: GalleryPageAdapter {
+    var nodeTopic:String!
     var people:[LittlePerson] {
         didSet {
             if gallery != nil {
@@ -19,8 +20,9 @@ class PersonGalleryAdapter: GalleryPageAdapter {
     }
     var gallery:Gallery?
     
-    init(people:[LittlePerson]) {
+    init(people:[LittlePerson], topic: String) {
         self.people = people
+        self.nodeTopic = topic
     }
     
     func setGallery(gallery: Gallery) {
@@ -36,7 +38,7 @@ class PersonGalleryAdapter: GalleryPageAdapter {
         let node = PersonNameSprite()
         node.size = CGSizeMake(gallery!.size.height * 0.75, gallery!.size.height * 0.75)
         node.person = person
-        node.userInteractionEnabled = true
+        node.topic = nodeTopic
         return node
     }
 }

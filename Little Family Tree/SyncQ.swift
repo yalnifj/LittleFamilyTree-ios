@@ -55,6 +55,9 @@ class SyncQ : NSObject {
 					} else {
 						syncQ.append(person)
 					}
+                    if !started {
+                        start()
+                    }
 				}
 			}
 		}
@@ -64,7 +67,7 @@ class SyncQ : NSObject {
         if self.timer != nil {
             self.timer!.invalidate()
         }
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(20, target: self, selector: #selector(SyncQ.processNextInQ(_:)), userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(SyncQ.processNextInQ), userInfo: nil, repeats: true)
         started = true
         startCounter = 0
         print("SyncQ Timer started")
@@ -75,7 +78,7 @@ class SyncQ : NSObject {
         pauseDelay = pauseDelay + delay
     }
 	
-	func processNextInQ(timer:NSTimer) {
+	func processNextInQ() {
         if !paused {
             startCounter -= 2
             let date = NSDate()
