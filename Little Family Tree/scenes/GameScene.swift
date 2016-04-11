@@ -650,6 +650,7 @@ class GameScene: LittleFamilyScene {
         adultVanity.anchorPoint = CGPoint.zero
         adultVanity.position = CGPointMake(673, 312)
         adultVanity.zPosition = z++
+        /*
         touchableSprites.append(adultVanity)
         let vanityAction:[SKTexture] = [
             SKTexture(imageNamed: "house_adult_vanity1"),
@@ -671,8 +672,9 @@ class GameScene: LittleFamilyScene {
         adultVanity.addAction(1, action: vanityAction3)
         adultVanity.addClick(1, val: false)
         adultVanity.addEvent(0, topic: GameScene.TOPIC_START_CARD)
+ */
         spriteContainer.addChild(adultVanity)
-        starSprites.append(adultVanity)
+        //starSprites.append(adultVanity)
         
         let wardrobe = AnimatedStateSprite(imageNamed: "house_adult_wardrobe")
         wardrobe.anchorPoint = CGPoint.zero

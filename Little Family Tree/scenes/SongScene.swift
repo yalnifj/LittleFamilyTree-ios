@@ -400,7 +400,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             self.addChild(sprite)
             self.peopleSprites.append(sprite)
             
-            y = y - (personWidth - 15)
+            y = y - (personWidth - 10)
 		}
         if count < 4 {
             self.treeWalker?.loadMorePeople()

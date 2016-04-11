@@ -10,6 +10,7 @@ class SyncQ : NSObject {
     var pauseDelay = Double(0)
     var authCounter = 0
     var startCounter = 0
+    var lastRunTime:NSDate? = nil
 	lazy var queue:NSOperationQueue = {
 		var queue = NSOperationQueue()
 		queue.name = "Sync queue"
@@ -55,7 +56,7 @@ class SyncQ : NSObject {
 					} else {
 						syncQ.append(person)
 					}
-                    if !started {
+                    if !started || lastRunTime?.timeIntervalSinceNow < -20 {
                         start()
                     }
 				}
@@ -70,6 +71,7 @@ class SyncQ : NSObject {
         self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(SyncQ.processNextInQ), userInfo: nil, repeats: true)
         started = true
         startCounter = 0
+        lastRunTime = NSDate()
         print("SyncQ Timer started")
     }
     
@@ -79,6 +81,7 @@ class SyncQ : NSObject {
     }
 	
 	func processNextInQ() {
+        lastRunTime = NSDate()
         if !paused {
             startCounter -= 2
             let date = NSDate()
