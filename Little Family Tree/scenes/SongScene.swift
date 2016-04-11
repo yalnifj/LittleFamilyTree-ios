@@ -459,7 +459,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                             }
                             break
                         } else {
-                            wordNode.fontSize = wordNode.fontSize / 2
+                            wordNode.fontSize = wordNode.fontSize * 0.80
                         }
                     }
                     wordNode.position = CGPointMake(wx, wy)

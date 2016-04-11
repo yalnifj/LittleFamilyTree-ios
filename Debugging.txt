@@ -1,0 +1,5 @@
+Find out UUID
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool -arch arm64 -l /Users/melissa/Library/Developer/Xcode/Archives/2016-03-22/Little\ Family\ Tree\ 3-22-16\,\ 10.32\ PM.xcarchive/Products/Applications/Little\ Family\ Tree.app/Little\ Family\ Tree
+
+909378c2025f302ba66a9fc67432a6db

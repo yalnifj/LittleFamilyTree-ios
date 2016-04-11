@@ -65,6 +65,7 @@
 		A12445051CA966DB000380A5 /* vanity_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = A12445031CA966DB000380A5 /* vanity_bottom.png */; };
 		A12445061CA966DB000380A5 /* vanity_top.png in Resources */ = {isa = PBXBuildFile; fileRef = A12445041CA966DB000380A5 /* vanity_top.png */; };
 		A1281F731C87C2CD00FBA940 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = A1281F541C87C2CD00FBA940 /* drums.png */; };
+		A12FAC3F1CBC27EB00524322 /* Debugging.txt in Resources */ = {isa = PBXBuildFile; fileRef = A12FAC3E1CBC27EB00524322 /* Debugging.txt */; };
 		A143139C1CB846F900409DD3 /* flame1.png in Resources */ = {isa = PBXBuildFile; fileRef = A14313991CB846F900409DD3 /* flame1.png */; };
 		A143139D1CB846F900409DD3 /* flame2.png in Resources */ = {isa = PBXBuildFile; fileRef = A143139A1CB846F900409DD3 /* flame2.png */; };
 		A143139E1CB846F900409DD3 /* flame3.png in Resources */ = {isa = PBXBuildFile; fileRef = A143139B1CB846F900409DD3 /* flame3.png */; };
@@ -738,6 +739,7 @@
 		A12445031CA966DB000380A5 /* vanity_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vanity_bottom.png; sourceTree = "<group>"; };
 		A12445041CA966DB000380A5 /* vanity_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vanity_top.png; sourceTree = "<group>"; };
 		A1281F541C87C2CD00FBA940 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
+		A12FAC3E1CBC27EB00524322 /* Debugging.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Debugging.txt; sourceTree = SOURCE_ROOT; };
 		A14313991CB846F900409DD3 /* flame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame1.png; sourceTree = "<group>"; };
 		A143139A1CB846F900409DD3 /* flame2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame2.png; sourceTree = "<group>"; };
 		A143139B1CB846F900409DD3 /* flame3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame3.png; sourceTree = "<group>"; };
@@ -1309,6 +1311,7 @@
 				A1F7CE7B1C8FBBD6006053A2 /* sprites */,
 				A1F7CE8C1C8FBBD6006053A2 /* SyncQ.swift */,
 				A1F7CE8D1C8FBBD6006053A2 /* views */,
+				A12FAC3E1CBC27EB00524322 /* Debugging.txt */,
 			);
 			path = "Little Family Tree";
 			sourceTree = "<group>";
@@ -2267,6 +2270,7 @@
 				A1F7D2C31C8FBC12006053A2 /* house_familyroom_frame4.png in Resources */,
 				A10CC8B61C8FC807005B3233 /* piano_allinourfamilytree.mp3 in Resources */,
 				A1F7D2B81C8FBC12006053A2 /* house_familyroom_frame17.png in Resources */,
+				A12FAC3F1CBC27EB00524322 /* Debugging.txt in Resources */,
 				A1F7D2D41C8FBC12006053A2 /* house_kitchen_d.png in Resources */,
 				A1F7D3C81C8FBC12006053A2 /* vine2.png in Resources */,
 				A10CC8A91C8FC807005B3233 /* clarinet_off.png in Resources */,
