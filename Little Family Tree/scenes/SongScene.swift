@@ -314,22 +314,22 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         let act3 = SKAction.sequence([act1, act2])
         dance1actions = SKAction.repeatActionForever(act3)
         
-        let act12 = SKAction.scaleXTo(1.03, duration: 0.6)
+        //let act12 = SKAction.scaleXTo(1.03, duration: 0.6)
         let actl2 = SKAction.moveByX(personWidth / 5, y: CGFloat(0), duration: 0.6)
-        let actt2 = SKAction.group([act12,actl2])
-        let act22 = SKAction.scaleXTo(0.97, duration: 0.6)
+        //let actt2 = SKAction.group([act12,actl2])
+        //let act22 = SKAction.scaleXTo(0.97, duration: 0.6)
         let actr2 = SKAction.moveByX(personWidth / -5, y: CGFloat(0), duration: 0.6)
-        let act42 = SKAction.group([act22,actr2])
-        let act32 = SKAction.sequence([actt2, act42])
+        //let act42 = SKAction.group([act22,actr2])
+        let act32 = SKAction.sequence([actl2, actr2])
         dance2actions = SKAction.repeatActionForever(act32)
         
-        let act13 = SKAction.scaleYTo(1.03, duration: 0.6)
+        //let act13 = SKAction.scaleYTo(1.03, duration: 0.6)
         let actu3 = SKAction.moveByX(CGFloat(0), y: personWidth / 4, duration: 0.6)
-        let actt3 = SKAction.group([act13,actu3])
-        let act23 = SKAction.scaleYTo(0.97, duration: 0.6)
+        //let actt3 = SKAction.group([act13,actu3])
+        //let act23 = SKAction.scaleYTo(0.97, duration: 0.6)
         let actd3 = SKAction.moveByX(CGFloat(0), y: personWidth / -4, duration: 0.6)
-        let act43 = SKAction.group([act23,actd3])
-        let act33 = SKAction.sequence([actt3, act43])
+        //let act43 = SKAction.group([act23,actd3])
+        let act33 = SKAction.sequence([actu3, actd3])
         dance3actions = SKAction.repeatActionForever(act33)
 		
 		EventHandler.getInstance().subscribe(SongScene.TOPIC_PERSON_TOUCHED, listener: self)
@@ -453,10 +453,14 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                         }
                     }
                     if wx + (wordNode.frame.width / 2) > xOffset + stage!.size.width {
-                        if replaced {
-                            wordPersonIndex -= 1
+                        if c > 0 {
+                            if replaced {
+                                wordPersonIndex -= 1
+                            }
+                            break
+                        } else {
+                            wordNode.fontSize = wordNode.fontSize / 2
                         }
-                        break
                     }
                     wordNode.position = CGPointMake(wx, wy)
                     self.addChild(wordNode)
@@ -466,7 +470,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                     c += 1
                 }
             }
-            if wordIndex < song!.wordTimings.count && songTime > song!.wordTimings[wordIndex] {
+            if wordSprites.count > 0 && wordIndex < song!.wordTimings.count && songTime > song!.wordTimings[wordIndex] {
                 let w = wordSprites.count - (lastShownWordIndex - wordIndex)
                 if w > 0 {
                     wordSprites[w-1].fontColor = UIColor.whiteColor()
@@ -489,6 +493,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             if lastDanceIndex != danceIndex {
                 if danceIndex == 1 {
                     let dancer = onStage[0]
+                    
                     let act = SKAction.moveTo(CGPointMake(xOffset + (stage!.size.width / 2) - (dancer.size.width / 2), selPerson1!.position.y - personWidth*1.5), duration: 0.5)
                     dancer.runAction(act)
                     let act2 = SKAction.scaleTo(1.2, duration: 0.5)
@@ -948,7 +953,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 movingPerson!.position.x += dx
                 movingPerson!.position.y += dy
             
-                if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 - personWidth && nextPoint.y < stage!.size.height / 2 + personWidth {
+                if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 - personWidth && nextPoint.y < stage!.size.height / 2 + (personWidth * 2) {
                     dropReady = true
                 } else {
                     dropReady = false
@@ -962,7 +967,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         super.touchesEnded(touches, withEvent: event)
         for touch in touches {
             let nextPoint = touch.locationInNode(self)
-            if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 - personWidth && nextPoint.y < stage!.size.height / 2 + personWidth {
+            if onStage.count < 4 && nextPoint.x > xOffset && nextPoint.x < xOffset + stage!.size.width && nextPoint.y > stage!.size.height / 2 - personWidth && nextPoint.y < stage!.size.height / 2 + (personWidth * 2) {
                 dropReady = true
             } else {
                 dropReady = false

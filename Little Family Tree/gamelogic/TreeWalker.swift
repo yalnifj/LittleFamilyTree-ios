@@ -105,7 +105,7 @@ class TreeWalker {
             let group = dispatch_group_create()
 						
 			let person = loadQueue.removeFirst()
-			if person.treeLevel! <= 2 {
+			if person.treeLevel != nil && person.treeLevel! <= 2 {
 				//-- children
 				dispatch_group_enter(group)
 				dataService.getChildren(person, onCompletion: {children, err in
