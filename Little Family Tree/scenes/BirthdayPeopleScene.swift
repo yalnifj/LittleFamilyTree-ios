@@ -35,6 +35,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	
 	var birthdayPeople = [LittlePerson]()
 	var birthdayPerson: LittlePerson?
+    
+    var stickerRects = [CGRect]()
 	
 	var moved = false
     
@@ -94,6 +96,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		} else if topic == BirthdayPeopleScene.TOPIC_BIRTHDAY_PERSON_SELECTED {
 			setupVanity()
 		} else if topic == BirthdayPeopleScene.TOPIC_CARD_SELECTED {
+            if data is EventSprite {
+                cardSelected(data as! EventSprite)
+            }
 		} else if topic == BirthdayPeopleScene.TOPIC_SHARE_IMAGE {
 		} else if topic == BirthdayPeopleScene.TOPIC_SHOW_CUPCAKES {
 			setupCupcakes()
@@ -136,8 +141,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			
 			x = x + cupcakeWidth + 10
 			if x > width {
-				x = CGFloat(0)
-				y = y - cupcakeWidth / ratio
+				x = CGFloat(10 + cupcakeWidth / 2)
+				y = y - 20 - cupcakeWidth / ratio
 			}
 		}
         minY = y
@@ -174,30 +179,81 @@ class BirthdayPeopleScene: LittleFamilyScene {
         vanityBottom = SKSpriteNode(texture: vbTexture)
         vanityBottom?.size = CGSizeMake(vanityWidth, vanityWidth / ratio)
         vanityBottom?.zPosition = 2
-        vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - (vanityBottom!.size.height / 2) + 3)
+        vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - (vanityBottom!.size.height / 2) + 6)
         self.addChild(vanityBottom!)
         
         let mirrorWidth = vanityTop!.size.width / 3
+        let photoWidth = vanityWidth * 0.065
         
         let photo = TextureHelper.getPortraitTexture(self.birthdayPerson!)
         let photoSprite = SKSpriteNode(texture: photo)
-        photoSprite.position = CGPointMake(vanityTop!.position.x + mirrorWidth, vanityTop!.position.y)
+        photoSprite.position = CGPointMake(vanityTop!.position.x + mirrorWidth - 3, vanityTop!.position.y - 10)
         let pr = photo!.size().width / photo!.size().height
-        photoSprite.size.width = vanityWidth * 0.15
-        photoSprite.size.height = (vanityWidth * 0.15) / pr
+        photoSprite.size.width = photoWidth
+        photoSprite.size.height = (photoWidth) / pr
         photoSprite.zPosition = 3
         self.addChild(photoSprite)
         peopleSprites.append(photoSprite)
         
         let photo2 = TextureHelper.getPortraitTexture(self.selectedPerson!)
         let photoSprite2 = SKSpriteNode(texture: photo2)
-        photoSprite2.position = CGPointMake(vanityTop!.position.x + mirrorWidth + 10 + photoSprite.size.width, vanityTop!.position.y)
+        photoSprite2.position = CGPointMake(vanityTop!.position.x + mirrorWidth + photoSprite.size.width, vanityTop!.position.y - 10)
         let pr2 = photo2!.size().width / photo2!.size().height
-        photoSprite2.size.width = vanityWidth * 0.15
-        photoSprite2.size.height = (vanityWidth * 0.15) / pr2
+        photoSprite2.size.width = photoWidth
+        photoSprite2.size.height = (photoWidth) / pr2
         photoSprite2.zPosition = 3
         self.addChild(photoSprite2)
         peopleSprites.append(photoSprite2)
+        
+        let wordRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: vanityTop!.position.y + vanityTop!.size.height / 3 - CGFloat(20), width: mirrorWidth, height: vanityTop!.size.height / 4)
+        stickerRects.append(wordRect)
+        let bottleRect = CGRect(x: vanityTop!.position.x + mirrorWidth / 2, y: vanityTop!.position.y + vanityTop!.size.height / 3 - CGFloat(20), width: mirrorWidth, height: vanityTop!.size.height/4)
+        stickerRects.append(bottleRect)
+        
+        var cx = vanityBottom!.position.x - vanityWidth / 12
+        var cy = vanityBottom!.position.y + 10 + vanityWidth / 4
+        for c in 1..<6 {
+            let cs = EventSprite(imageNamed: "stickers/cards/card\(c).png")
+            let cr = cs.size.width / cs.size.height
+            cs.size.width = vanityWidth / 6
+            cs.size.height = (vanityWidth / 6) / cr
+            cs.position = CGPointMake(vanityBottom!.position.x + vanityWidth / 4, vanityBottom!.position.y)
+            cs.zPosition = 3
+            cs.topic = BirthdayPeopleScene.TOPIC_CARD_SELECTED
+            cs.userInteractionEnabled = true
+            let act = SKAction.moveTo(CGPointMake(cx, cy), duration: 1.0)
+            cs.runAction(act)
+            self.addChild(cs)
+            onMirror.append(cs)
+            
+            cx = cx + cs.size.width + 10
+            if c == 2 {
+                cx = vanityBottom!.position.x + cs.size.width / 2 - vanityWidth / 3.5
+                cy = cy - cs.size.height - 10
+            }
+        }
+        
+        for r in stickerRects {
+            let t = SKShapeNode(rect: r)
+            t.zPosition = 20
+            self.addChild(t)
+        }
+    }
+    
+    func cardSelected(card:EventSprite) {
+        card.userInteractionEnabled = false
+        for cs in onMirror {
+            if cs != card {
+                cs.removeFromParent()
+            }
+        }
+        onMirror.removeAll()
+        cardSprite = card
+        let act1 = SKAction.moveTo(CGPointMake(self.vanityBottom!.position.x, self.vanityBottom!.position.y - 5), duration: 1.0)
+        let cr = card.size.height / card.size.width
+        let act2 = SKAction.resizeToWidth(vanityBottom!.size.width, height: vanityBottom!.size.width * cr, duration: 1.0)
+        let act3 = SKAction.group([act1, act2])
+        card.runAction(act3)
     }
 	
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -249,6 +305,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
                     self.setupVanity()
 				}
 			}
+            if !moved && cardSprite != nil {
+            }
             break
 		}
         moved = false

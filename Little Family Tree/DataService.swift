@@ -512,6 +512,10 @@ class DataService {
                             if person1changed {
                                 do {
                                     try self.dbHelper.persistLittlePerson(person1!)
+                                    if person == person1! {
+                                        person.age = person1!.age
+                                        person.treeLevel = person1!.treeLevel
+                                    }
                                 } catch let e as NSError {
                                     print(e)
                                 }
@@ -519,6 +523,10 @@ class DataService {
                             if person2changed {
                                 do {
                                     try self.dbHelper.persistLittlePerson(person2!)
+                                    if person == person2! {
+                                        person.age = person2!.age
+                                        person.treeLevel = person2!.treeLevel
+                                    }
                                 } catch let e as NSError {
                                     print(e)
                                 }

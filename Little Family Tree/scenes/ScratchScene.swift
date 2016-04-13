@@ -61,7 +61,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             }
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
-            var w = self.size.width
+            var w = self.size.width - 10
             var h = self.size.height - (topBar?.size.height)! * 3
             if ratio < 1.0 || w > h{
                 w = h * ratio

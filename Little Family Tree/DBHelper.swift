@@ -367,7 +367,8 @@ class DBHelper {
 	func getNextBirthdays(maxNumber:Int, maxLevel:Int) -> [LittlePerson] {
 		var people = [LittlePerson]()
         do {
-            let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(((strftime('%s','now') - (604800 + strftime('YYYY-MM-DDTHH:MM:SS', p.birthDate))) / 31557600) as int) as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) ) a order by strftime('YYYY-MM-DDTHH:MM:SS', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) LIMIT \(maxNumber)"
+            let sql = "select b.* from (select a.*, (strftime('%s', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel)) as aorder from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(((strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600) as int) as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) ) a ) b order by aorder LIMIT \(maxNumber)"
+            //let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(strftime('%s', p.birthDate) as int) as birthSecs,(strftime('%s', a.birthDate) + (cast(((strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600) as int) * 31557600)) as yeardiff from littleperson p ) a order by a.yeardiff + (86400 * 5 * a.treeLevel) LIMIT \(maxNumber)"
             
 		let stmt = try lftdb?.prepare( sql )
         print(stmt)
@@ -420,8 +421,8 @@ class DBHelper {
             person.updateAge()
 			people.append(person)
 		}
-        } catch {
-            print("Error getting next birthdays")
+        } catch let error as NSError {
+            print("Error getting next birthdays \(error)")
         }
 		return people
 	}
