@@ -37,8 +37,13 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	var birthdayPerson: LittlePerson?
     
     var stickerRects = [CGRect]()
+    var rectStickers = [Int:[SKTexture]]()
+    var mirrorWidth = CGFloat(0)
 	
 	var moved = false
+    var mirrorSprite = false
+    var overCard = false
+    var originalPosition = CGPointZero
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -182,7 +187,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - (vanityBottom!.size.height / 2) + 6)
         self.addChild(vanityBottom!)
         
-        let mirrorWidth = vanityTop!.size.width / 3
+        mirrorWidth = vanityTop!.size.width / 3
         let photoWidth = vanityWidth * 0.065
         
         let photo = TextureHelper.getPortraitTexture(self.birthdayPerson!)
@@ -205,10 +210,61 @@ class BirthdayPeopleScene: LittleFamilyScene {
         self.addChild(photoSprite2)
         peopleSprites.append(photoSprite2)
         
-        let wordRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: vanityTop!.position.y + vanityTop!.size.height / 3 - CGFloat(20), width: mirrorWidth, height: vanityTop!.size.height / 4)
+        let wordRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: vanityTop!.position.y + vanityTop!.size.height / 5 - CGFloat(20), width: mirrorWidth * 0.9, height: vanityTop!.size.height / 3.5)
         stickerRects.append(wordRect)
-        let bottleRect = CGRect(x: vanityTop!.position.x + mirrorWidth / 2, y: vanityTop!.position.y + vanityTop!.size.height / 3 - CGFloat(20), width: mirrorWidth, height: vanityTop!.size.height/4)
+        rectStickers[0] = [SKTexture(imageNamed: "stickers/words/word1.png"),
+                           SKTexture(imageNamed: "stickers/words/word2.png"),
+                           SKTexture(imageNamed: "stickers/words/word3.png"),
+                           SKTexture(imageNamed: "stickers/words/word4.png"),
+                           SKTexture(imageNamed: "stickers/words/word5.png")]
+        
+        let bottleRect = CGRect(x: vanityTop!.position.x + mirrorWidth * 0.75, y: vanityTop!.position.y + vanityTop!.size.height / 5 - CGFloat(20), width: mirrorWidth * 0.9, height: vanityTop!.size.height/3.5)
         stickerRects.append(bottleRect)
+        rectStickers[1] = [SKTexture(imageNamed: "stickers/confetti/confetti1.png"),
+                           SKTexture(imageNamed: "stickers/confetti/confetti2.png"),
+                           SKTexture(imageNamed: "stickers/confetti/confetti3.png"),
+                           SKTexture(imageNamed: "stickers/confetti/confetti4.png"),
+                           SKTexture(imageNamed: "stickers/confetti/confetti5.png")]
+        
+        let heartRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: wordRect.minY - wordRect.height, width: mirrorWidth * 0.6, height: vanityTop!.size.height / 3.5)
+        stickerRects.append(heartRect)
+        rectStickers[2] = [SKTexture(imageNamed: "stickers/hearts/heart1.png"),
+                           SKTexture(imageNamed: "stickers/hearts/heart2.png"),
+                           SKTexture(imageNamed: "stickers/hearts/heart3.png"),
+                           SKTexture(imageNamed: "stickers/hearts/heart4.png"),
+                           SKTexture(imageNamed: "stickers/hearts/heart5.png"),
+                           SKTexture(imageNamed: "stickers/hearts/heart6.png")]
+        
+        let peopleRect = CGRect(x: vanityTop!.position.x + mirrorWidth * 0.75, y: bottleRect.minY - wordRect.height, width: mirrorWidth * 0.9, height: vanityTop!.size.height/3.5)
+        stickerRects.append(peopleRect)
+        rectStickers[3] = [TextureHelper.getPortraitTexture(selectedPerson!)!,
+                           TextureHelper.getPortraitTexture(birthdayPerson!)!]
+        
+        let cakeRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: heartRect.minY - heartRect.height, width: mirrorWidth * 0.6, height: vanityTop!.size.height / 3.5)
+        stickerRects.append(cakeRect)
+        rectStickers[4] = [SKTexture(imageNamed: "stickers/cakes/cake1.png"),
+                           SKTexture(imageNamed: "stickers/cakes/cake2.png"),
+                           SKTexture(imageNamed: "stickers/cakes/cake3.png"),
+                           SKTexture(imageNamed: "stickers/cakes/cake4.png"),
+                           SKTexture(imageNamed: "stickers/cakes/cake5.png"),
+                           SKTexture(imageNamed: "stickers/cakes/cake6.png")]
+        
+        let balloonRect = CGRect(x: heartRect.maxX, y: wordRect.minY - wordRect.height * 2, width: mirrorWidth * 0.4, height: heartRect.height * 2)
+        stickerRects.append(balloonRect)
+        rectStickers[5] = [SKTexture(imageNamed: "stickers/balloons/balloons1.png"),
+                           SKTexture(imageNamed: "stickers/balloons/balloons2.png"),
+                           SKTexture(imageNamed: "stickers/balloons/balloons4.png"),
+                           SKTexture(imageNamed: "stickers/balloons/balloons3.png"),
+                           SKTexture(imageNamed: "stickers/balloons/balloons5.png")]
+        
+        let hatsRect = CGRect(x: vanityTop!.position.x + mirrorWidth * 0.75, y: peopleRect.minY - peopleRect.height, width: mirrorWidth * 0.9, height: vanityTop!.size.height/3.5)
+        stickerRects.append(hatsRect)
+        rectStickers[6] = [SKTexture(imageNamed: "stickers/hats/hat1.png"),
+                           SKTexture(imageNamed: "stickers/hats/hat2.png"),
+                           SKTexture(imageNamed: "stickers/hats/hat3.png"),
+                           SKTexture(imageNamed: "stickers/hats/hat4.png"),
+                           SKTexture(imageNamed: "stickers/hats/hat5.png"),
+                           SKTexture(imageNamed: "stickers/hats/hat6.png")]
         
         var cx = vanityBottom!.position.x - vanityWidth / 12
         var cy = vanityBottom!.position.y + 10 + vanityWidth / 4
@@ -233,11 +289,13 @@ class BirthdayPeopleScene: LittleFamilyScene {
             }
         }
         
+        /*
         for r in stickerRects {
             let t = SKShapeNode(rect: r)
             t.zPosition = 20
             self.addChild(t)
         }
+ */
     }
     
     func cardSelected(card:EventSprite) {
@@ -255,11 +313,71 @@ class BirthdayPeopleScene: LittleFamilyScene {
         let act3 = SKAction.group([act1, act2])
         card.runAction(act3)
     }
+    
+    func showStickers(r:Int, rect:CGRect) {
+        //-- clear old stickers
+        for s in onMirror {
+            s.removeFromParent()
+        }
+        onMirror.removeAll()
+        
+        let stickers = rectStickers[r]
+        var x = vanityTop!.position.x - mirrorWidth / 2.6
+        var y = vanityTop!.position.y + vanityTop!.size.height / 2.7
+        var prevHeight = CGFloat(0)
+        for texture in stickers! {
+            let sr = texture.size().width / texture.size().height
+            var sw = mirrorWidth / CGFloat(3)
+            var sh = sw / sr
+            if sr > 1.7 {
+                sw = mirrorWidth * 0.8
+                sh = sw / sr
+            }
+            if x + sw / 2 > vanityTop!.position.x + mirrorWidth / 2 {
+                x = vanityTop!.position.x - mirrorWidth / 2.6
+                y = y - prevHeight / 2 - CGFloat(5)
+                y -= sh / 2
+            }
+            x += sw / 2
+            if prevHeight == 0 {
+                y -= sh / 2
+            }
+            prevHeight = sh
+            let s = SKSpriteNode(texture: texture)
+            s.position = CGPointMake(rect.midX, rect.midY)
+            s.zPosition = 5
+            s.size.width = sw / 4
+            s.size.height = sh / 4
+            let act1 = SKAction.resizeToWidth(sw, height: sh, duration: 0.8)
+            let act2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.8)
+            let act3 = SKAction.group([act1, act2])
+            s.runAction(act3)
+            self.addChild(s)
+            onMirror.append(s)
+            
+            x += sw
+        }
+    }
 	
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         for touch in touches {
             lastPoint = touch.locationInNode(self)
+            if cardSprite != nil {
+                let node = nodeAtPoint(lastPoint!)
+                if node is SKSpriteNode {
+                    mirrorSprite = false
+                    if onMirror.contains(node as! SKSpriteNode) {
+                        movingSprite = node as? SKSpriteNode
+                        mirrorSprite = true
+                        originalPosition = movingSprite!.position
+                    }
+                    else if stickerSprites.contains(node as! SKSpriteNode) {
+                        movingSprite = node as? SKSpriteNode
+                        mirrorSprite = false
+                    }
+                }
+            }
             break
         }
     }
@@ -290,26 +408,76 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 }
             }
         }
+        if cardSprite != nil && movingSprite != nil {
+            movingSprite!.position.x += nextPoint.x - lastPoint.x
+            movingSprite!.position.y += nextPoint.y - lastPoint.y
+            moved = true
+            
+            if cardSprite!.frame.contains(movingSprite!.position) {
+                overCard = true
+                if mirrorSprite {
+                    movingSprite?.setScale(1.5)
+                }
+            } else {
+                overCard = false
+                if mirrorSprite {
+                    movingSprite?.setScale(1.0)
+                }
+            }
+        }
         lastPoint = nextPoint
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
 		for touch in touches {
-			lastPoint = touch.locationInNode(self)
+			let nextPoint = touch.locationInNode(self)
+            if moved && movingSprite != nil {
+                movingSprite!.position.x += nextPoint.x - lastPoint.x
+                movingSprite!.position.y += nextPoint.y - lastPoint.y
+                if cardSprite!.frame.contains(movingSprite!.position) {
+                    overCard = true
+                } else {
+                    overCard = false
+                }
+                if mirrorSprite {
+                    if !overCard {
+                        movingSprite!.runAction(SKAction.moveTo(originalPosition, duration: 0.6))
+                    } else {
+                        onMirror.removeObject(movingSprite!)
+                        stickerSprites.append(movingSprite!)
+                    }
+                } else {
+                    if !overCard {
+                        movingSprite!.removeFromParent()
+                        stickerSprites.removeObject(movingSprite!)
+                    }
+                }
+            }
+            
+            lastPoint = nextPoint
 			if !moved && birthdayPerson == nil {
 				let touchedNode = nodeAtPoint(lastPoint!)
-				if touchedNode.parent is CupcakeSprite {
+				if touchedNode is CupcakeSprite || touchedNode.parent is CupcakeSprite {
 					let cupcake = touchedNode.parent as! CupcakeSprite
 					self.birthdayPerson = cupcake.person
                     self.setupVanity()
 				}
 			}
             if !moved && cardSprite != nil {
+                var r = 0
+                for rect in stickerRects {
+                    if rect.contains(lastPoint) {
+                        showStickers(r, rect:rect)
+                        break
+                    }
+                    r += 1
+                }
             }
             break
 		}
         moved = false
+        movingSprite = nil
     }
     
     override func update(currentTime: NSTimeInterval) {
