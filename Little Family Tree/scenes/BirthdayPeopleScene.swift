@@ -112,6 +112,20 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	
 	func setupCupcakes() {
 		//TODO remove old sprites
+        if cardSprite != nil {
+            cardSprite!.removeFromParent()
+        }
+        cardSprite = nil
+        
+        for s in onMirror {
+            s.removeFromParent()
+        }
+        onMirror.removeAll()
+        
+        for s in stickerSprites {
+            s.removeFromParent()
+        }
+        stickerSprites.removeAll()
         
         self.birthdayPerson = nil
 		
@@ -239,6 +253,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
         stickerRects.append(peopleRect)
         rectStickers[3] = [TextureHelper.getPortraitTexture(selectedPerson!)!,
                            TextureHelper.getPortraitTexture(birthdayPerson!)!]
+        DataService.getInstance().getFamilyMembers(birthdayPerson!, loadSpouse: false, onCompletion: { family, err in
+            if family != nil {
+                var arr = self.rectStickers[3]!
+                for p in family! {
+                    arr.append(TextureHelper.getPortraitTexture(p)!)
+                }
+            }
+        })
         
         let cakeRect = CGRect(x: vanityTop!.position.x - mirrorWidth * 1.5, y: heartRect.minY - heartRect.height, width: mirrorWidth * 0.6, height: vanityTop!.size.height / 3.5)
         stickerRects.append(cakeRect)
@@ -345,7 +367,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             prevHeight = sh
             let s = SKSpriteNode(texture: texture)
             s.position = CGPointMake(rect.midX, rect.midY)
-            s.zPosition = 5
+            s.zPosition = CGFloat(5 + stickerSprites.count)
             s.size.width = sw / 4
             s.size.height = sh / 4
             let act1 = SKAction.resizeToWidth(sw, height: sh, duration: 0.8)
@@ -356,6 +378,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
             onMirror.append(s)
             
             x += sw
+        }
+    }
+    
+    func restackStickers() {
+        var z = CGFloat(5)
+        for s in stickerSprites {
+            s.zPosition = z
+            z += 1
         }
     }
 	
@@ -375,6 +405,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
                     else if stickerSprites.contains(node as! SKSpriteNode) {
                         movingSprite = node as? SKSpriteNode
                         mirrorSprite = false
+                        stickerSprites.removeObject(movingSprite!)
+                        stickerSprites.append(movingSprite!)
+                        restackStickers()
                     }
                 }
             }
