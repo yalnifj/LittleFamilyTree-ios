@@ -362,7 +362,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                 h = w / ratio
             }
 
-            logoMark = SKSpriteNode(imageNamed: "little_family_logo")
+            logoMark = SKSpriteNode(imageNamed: "logo")
             let lr = logoMark!.size.height / logoMark!.size.width
             logoMark?.zPosition = 10
             logoMark?.anchorPoint = CGPointZero

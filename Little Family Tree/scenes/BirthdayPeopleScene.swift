@@ -26,6 +26,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	var stickerSprites = [SKSpriteNode]()
 	var onMirror = [SKSpriteNode]()
 	var cardSprite: SKSpriteNode?
+	var cardBottomSprite:SKSpriteNode?
+	var cardBottomLogo:SKSpriteNode?
+	var cardBottomText:SKLabelNode?
 	var movingSprite: SKSpriteNode?
     var minY = CGFloat(0)
     var clipY = CGFloat(0)
@@ -44,6 +47,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
     var mirrorSprite = false
     var overCard = false
     var originalPosition = CGPointZero
+	
+	var previousScale:CGFloat? = nil
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -57,6 +62,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
         background.size.height = self.size.height
         background.zPosition = 0
         self.addChild(background)
+		
+		let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(BirthdayPeopleScene.pinched(_:)))
+        view.addGestureRecognizer(pinch)
         
         setupTopBar()
 		
@@ -114,8 +122,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		//TODO remove old sprites
         if cardSprite != nil {
             cardSprite!.removeFromParent()
+			cardBottomLogo!.removeFromParent()
+			cardBottomSprite!.removeFromParent()
+			cardBottomText!.removeFromParent()
         }
         cardSprite = nil
+		cardBottomLogo = nil
+		cardBottomSprite = nil
+		cardBottomText = nil
         
         for s in onMirror {
             s.removeFromParent()
@@ -298,6 +312,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             cs.position = CGPointMake(vanityBottom!.position.x + vanityWidth / 4, vanityBottom!.position.y)
             cs.zPosition = 3
             cs.topic = BirthdayPeopleScene.TOPIC_CARD_SELECTED
+			cs.userData.setValue(c, forKey: "cardNum")
             cs.userInteractionEnabled = true
             let act = SKAction.moveTo(CGPointMake(cx, cy), duration: 1.0)
             cs.runAction(act)
@@ -334,6 +349,33 @@ class BirthdayPeopleScene: LittleFamilyScene {
         let act2 = SKAction.resizeToWidth(vanityBottom!.size.width, height: vanityBottom!.size.width * cr, duration: 1.0)
         let act3 = SKAction.group([act1, act2])
         card.runAction(act3)
+		
+		var cardNum = card.userData["cardNum"]
+		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum)bottom.png")
+		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
+		cardBottomSprite!.size.width = vanityBottom!.size.width
+		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
+		cardBottomSprite!.position = CGPointMake(cardSprite!.position.x, cardSprite!.position.y + (cardSprite!.size.height / 2) + (cardBottomSprite!.size.height / 2))
+		cardBottomSprite!.zPosition = 500
+		cardBottomSprite!.hidden = true
+		self.addChild(cardBottomSprite!)
+		
+		cardBottomLogo = SKSpriteNode(imageNamed: "logo")
+		let cbl = cardBottomLogo!.size.width / cardBottomLogo!.size.height
+		cardBottomLogo!.size.height = cardBottomSprite!.size.height
+		cardBottomLogo!.size.width = cardBottomLogo!.size.height * cbl
+		cardBottomLogo!.position = CGPointMake(cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomLogo!.zPosition = cardBottomSprite!.zPosition + 1
+		cardBottomLogo!.hidden = true
+		self.addChild(cardBottomLogo!)
+		
+		let message = "Happy \(birthdayPerson!.age!) Birthday to \(birthdayPerson!.name!) on \(birthdayPerson!.birthDate)"
+		cardBottomText = SKLabelNode(text: message)
+		cardBottomText!.fontSize = cardBottomSprite!.size.height / 4
+		cardBottomText!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
+		cardBottomText!.hidden = true
+		self.addChild(cardBottomText!)
     }
     
     func showStickers(r:Int, rect:CGRect) {
@@ -512,12 +554,95 @@ class BirthdayPeopleScene: LittleFamilyScene {
         moved = false
         movingSprite = nil
     }
+	
+	func pinched(sender:UIPinchGestureRecognizer){
+		if movingSprite != nil {			
+			if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+				previousScale = nil
+			}
+			else if sender.state == UIGestureRecognizerState.Began {
+				previousScale = sender.scale
+			}
+			else if previousScale != nil {
+				if sender.scale != previousScale! {
+					var diff = (sender.scale - previousScale!) / 20
+					if diff > 0 {
+						diff = diff / 6
+					}
+					let w = movingSprite!.size.width
+					let dw  = w * diff
+					if w + dw > cardSprite!.size.width {
+						diff = (cardSprite!.size.width - w) / w
+					}
+					else if w + dw < cardSprite!.size.width * 0.05 {
+						diff = (cardSprite!.size.width * -0.05) / w
+					}
+					
+					let h = movingSprite!.size.height
+					let dh  = h * diff
+					if h + dh > cardSprite!.size.height {
+						diff = (cardSprite!.size.height - h) / h
+					}
+					else if h + dh < cardSprite!.size.height * 0.05 {
+						diff = (cardSprite!.size.height * -0.05) / h
+					}
+					
+					var xscale = movingSprite!.xScale
+					xscale += diff
+					
+					let zoomIn = SKAction.scaleTo(xscale, duration:0)
+					movingSprite?.runAction(zoomIn)
+				}
+			}
+		}
+    }
     
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
 	
     }
     
+	func showParentAuth() {
+        let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)
+        let subview = ParentLogin(frame: frame)
+        class ShareLoginListener : LoginCompleteListener {
+            var scene:ColoringScene
+            init(scene:ColoringScene) {
+                self.scene = scene
+            }
+            func LoginComplete() {
+                scene.showSharingPanel()
+            }
+            func LoginCanceled() {
+                
+            }
+        }
+        subview.loginListener = ShareLoginListener(scene: self)
+        self.view?.addSubview(subview)
+        self.speak("Ask an adult for help.")
+    }
+	
+	func showSharingPanel() {
+		cardBottomSprite!.hidden = false
+		cardBottomLogo!.hidden = false
+		cardBottomText!.hidden = false
+		
+		let cropRect = CGRectUnion(cardSprite!.frame, cardBottomSprite!.frame)
+		
+		let imageTexture = self.scene!.view!.textureFromNode(self, crop: cropRect)
+		let image = UIImage(CGImage: imageTexture!.CGImage())
+		
+		let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        if let wPPC = activityViewController!.popoverPresentationController {
+            wPPC.sourceView = self.view!
+            wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+        }
+		self.view!.window!.rootViewController!.presentViewController(activityViewController!, animated: true, completion: nil)
+		
+		cardBottomSprite!.hidden = true
+		cardBottomLogo!.hidden = true
+		cardBottomText!.hidden = true
+	}
 }
 
 
