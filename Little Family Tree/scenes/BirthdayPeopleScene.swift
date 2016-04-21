@@ -113,6 +113,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 cardSelected(data as! EventSprite)
             }
 		} else if topic == BirthdayPeopleScene.TOPIC_SHARE_IMAGE {
+			showParentAuth()
 		} else if topic == BirthdayPeopleScene.TOPIC_SHOW_CUPCAKES {
 			setupCupcakes()
 		}
