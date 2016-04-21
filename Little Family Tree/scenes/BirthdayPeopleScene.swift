@@ -534,11 +534,16 @@ class BirthdayPeopleScene: LittleFamilyScene {
             lastPoint = nextPoint
 			if !moved && birthdayPerson == nil {
 				let touchedNode = nodeAtPoint(lastPoint!)
-				if touchedNode is CupcakeSprite || touchedNode.parent is CupcakeSprite {
-					let cupcake = touchedNode.parent as! CupcakeSprite
+				if touchedNode is CupcakeSprite {
+					let cupcake = touchedNode as! CupcakeSprite
 					self.birthdayPerson = cupcake.person
                     self.setupVanity()
 				}
+                else if touchedNode.parent is CupcakeSprite {
+                    let cupcake = touchedNode.parent as! CupcakeSprite
+                    self.birthdayPerson = cupcake.person
+                    self.setupVanity()
+                }
 			}
             if !moved && cardSprite != nil {
                 var r = 0
