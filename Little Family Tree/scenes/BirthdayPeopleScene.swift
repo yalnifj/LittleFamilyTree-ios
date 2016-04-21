@@ -312,7 +312,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
             cs.position = CGPointMake(vanityBottom!.position.x + vanityWidth / 4, vanityBottom!.position.y)
             cs.zPosition = 3
             cs.topic = BirthdayPeopleScene.TOPIC_CARD_SELECTED
-			cs.userData.setValue(c, forKey: "cardNum")
+            cs.userData = NSMutableDictionary()
+			cs.userData!.setValue(c, forKey: "cardNum")
             cs.userInteractionEnabled = true
             let act = SKAction.moveTo(CGPointMake(cx, cy), duration: 1.0)
             cs.runAction(act)
@@ -350,7 +351,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         let act3 = SKAction.group([act1, act2])
         card.runAction(act3)
 		
-		var cardNum = card.userData["cardNum"]
+		let cardNum = card.userData!["cardNum"]
 		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum)bottom.png")
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
@@ -606,8 +607,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
         let frame = CGRect(x: self.size.width/2 - 150, y: self.size.height/2 - 200, width: 300, height: 400)
         let subview = ParentLogin(frame: frame)
         class ShareLoginListener : LoginCompleteListener {
-            var scene:ColoringScene
-            init(scene:ColoringScene) {
+            var scene:BirthdayPeopleScene
+            init(scene:BirthdayPeopleScene) {
                 self.scene = scene
             }
             func LoginComplete() {
@@ -633,11 +634,11 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		let image = UIImage(CGImage: imageTexture!.CGImage())
 		
 		let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        if let wPPC = activityViewController!.popoverPresentationController {
+        if let wPPC = activityViewController.popoverPresentationController {
             wPPC.sourceView = self.view!
             wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
         }
-		self.view!.window!.rootViewController!.presentViewController(activityViewController!, animated: true, completion: nil)
+		self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
 		
 		cardBottomSprite!.hidden = true
 		cardBottomLogo!.hidden = true

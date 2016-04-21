@@ -198,32 +198,34 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     
     func checkComplete() {
         var complete = false
-        let provider = CGImageGetDataProvider(image!.CGImage)
-        let providerData = CGDataProviderCopyData(provider)
-        let data = CFDataGetBytePtr(providerData)
-        
-        let numberOfComponents = Int(4)
-        var count:Float = 0
-        var passed:Float = 0
-        var y = (coverSprite?.size.height)! / 30
-        repeat {
-            var x = (coverSprite?.size.width)! / 30
+        if image != nil {
+            let provider = CGImageGetDataProvider(image!.CGImage)
+            let providerData = CGDataProviderCopyData(provider)
+            let data = CFDataGetBytePtr(providerData)
+            
+            let numberOfComponents = Int(4)
+            var count:Float = 0
+            var passed:Float = 0
+            var y = (coverSprite?.size.height)! / 30
             repeat {
-                let pixelData = Int(((coverSprite?.size.width)! * y) + x) * numberOfComponents
+                var x = (coverSprite?.size.width)! / 30
+                repeat {
+                    let pixelData = Int(((coverSprite?.size.width)! * y) + x) * numberOfComponents
 
-                    let a = data[pixelData + 3]
-                    if (a < 30) {
-                        passed += 1
-                    }
-                    count += 1
-                
-                x += (coverSprite?.size.width)! / 30
-            } while(x < coverSprite?.size.width)
-            y += (coverSprite?.size.height)! / 30
-        } while(y < (coverSprite?.size.height)!)
-        
-        if passed / count > 0.98 {
-            complete = true
+                        let a = data[pixelData + 3]
+                        if (a < 30) {
+                            passed += 1
+                        }
+                        count += 1
+                    
+                    x += (coverSprite?.size.width)! / 30
+                } while(x < coverSprite?.size.width)
+                y += (coverSprite?.size.height)! / 30
+            } while(y < (coverSprite?.size.height)!)
+            
+            if passed / count > 0.98 {
+                complete = true
+            }
         }
         
         if complete {
