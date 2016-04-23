@@ -2,7 +2,7 @@ import Foundation
 import SQLite
 
 class DBHelper {
-	static let VERSION:Int32? = 4
+	static let VERSION:Int32? = 5
 	static let UUID_PROPERTY = "UUID"
 	
 	let TABLE_LITTLE_PERSON = Table("littleperson")
@@ -11,6 +11,7 @@ class DBHelper {
 	let TABLE_TAGS = Table("tags")
     let TABLE_PROPERTIES = Table("properties")
 	let TABLE_SYNCQ = Table("syncq")
+	let TABLE_LOCAL_RESOURCES = Table("localresources")
 	
 	let COL_ID = Expression<Int64>("id")
 	let COL_NAME = Expression<String?>("name")
@@ -64,7 +65,7 @@ class DBHelper {
                 }
                 print("DBVersion is \(instance!.dbversion)")
             }
-            if ((instance?.dbversion == nil) || (instance!.dbversion < DBHelper.VERSION)) {
+            if ((instance?.dbversion == nil) || (instance!.dbversion < 4)) {
                 do {
                     try instance!.createTables()
                     instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
@@ -72,7 +73,14 @@ class DBHelper {
                 } catch let error as NSError {
                     print("Error creating tables \(error.localizedDescription)")
                 }
-            }
+            } else if instance!.dbversion < 5 {
+				do {
+                    try instance!.createTables()
+					instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
+                } catch let error as NSError {
+                    print("Error creating tables \(error.localizedDescription)")
+                }
+			}
 		}
 		return instance!
 	}
@@ -153,6 +161,18 @@ class DBHelper {
         try lftdb?.run(TABLE_SYNCQ.create(ifNotExists: true) { t in
             t.column(COL_ID)
         })
+
+		do {
+            try lftdb?.run(TABLE_LOCAL_RESOURCES.create(ifNotExists: true) { t in
+                t.column(COL_ID, primaryKey: true)
+                t.column(COL_PERSON_ID)
+                t.column(COL_TYPE)
+                t.column(COL_LOCAL_PATH)
+				t.foreignKey(COL_PERSON_ID, references: TABLE_LITTLE_PERSON, COL_ID)
+            })
+        } catch let error as NSError {
+            print("Error creating table localresources \(error)")
+        }
 	}
 	
 	func persistLittlePerson(person:LittlePerson) throws {
@@ -368,7 +388,7 @@ class DBHelper {
 		var people = [LittlePerson]()
         do {
             //let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(cast(((strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600) as int) as string) as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) ) a order by strftime('%s', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) LIMIT \(maxNumber)"
-            let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, cast(((strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600) as int) as yeardiff, strftime('%s', p.birthDate) from littleperson p where p.active='Y' ) a LIMIT \(maxNumber)"
+            let sql = "select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, (strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600 as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) order by strftime('%s', p.birthDate) + (yeardiff * 31557600) + (86400 * 5 * p.treeLevel) LIMIT \(maxNumber)"
             
 		let stmt = try lftdb?.prepare( sql )
         print(stmt)
@@ -773,6 +793,84 @@ class DBHelper {
             print("Error getting tag for person \(personId)")
         }
 		return tag
+	}
+	
+	func persistLocalResource(media:LocalResource) {
+		if media.id == nil || media.id == 0 {
+			let existing = getLocalResource(media.personId, media.type!)
+			if existing != nil {
+				media.id = existing!.id
+			} else {
+                do {
+					let rowid = try lftdb?.run(self.TABLE_MEDIA.insert(
+						self.COL_PERSON_ID <- media.personId,
+						self.COL_TYPE <- (media.type as String?),
+						self.COL_LOCAL_PATH <- (media.localPath as String?)
+					))
+					media.id = rowid
+                } catch {
+                    print("Unable to insert media")
+                }
+				return
+			}
+		}
+        
+		let mediaRow = TABLE_MEDIA.filter(COL_ID == media.id)
+		do {
+		try lftdb?.run(mediaRow.update(
+			COL_PERSON_ID <- media.personId,
+			COL_TYPE <- (media.type as String?),
+			COL_LOCAL_PATH <- (media.localPath as String?)
+		))
+		} catch {
+			print("Unable to update localresource with id \(media.id)")
+		}
+        
+	}
+	
+	func getLocalResource(personId:Int64, type:String) -> LocalResource? {
+		var lr:LocalResource? = nil
+        do {
+            let query = TABLE_LOCAL_RESOURCES.filter(COL_PERSON_ID == personId && COL_TYPE==type)
+            let stmt = try lftdb?.prepare(query)
+            for t in stmt! {
+                lr = LocalResource()
+                lr!.id = t[COL_ID]
+                lr!.personId = t[COL_PERSON_ID]!
+                lr!.type = t[COL_TYPE]
+                lr!.localPath = t[COL_LOCAL_PATH]
+            }
+        } catch {
+            print("Error getting local resource for person \(personId) \(type)")
+        }
+		return lr
+	}
+	
+	func getLocalResourcesForPerson(id:Int64) -> [LocalResource] {
+		var media = [LocalResource]()
+        do {
+            let query = TABLE_LOCAL_RESOURCES.filter(COL_PERSON_ID == id)
+            let stmt = try lftdb?.prepare(query)
+            for m in stmt! {
+                let med = LocalResource()
+                med.id = m[COL_ID]
+                med.type = m[COL_TYPE]
+                med.localPath = m[COL_LOCAL_PATH]
+                media.append(med)
+            }
+        } catch {
+            print ("Error getting localresources for person \(id)")
+        }
+		return media
+	}
+	
+	func deleteLocalResourceById(id:Int64) {
+		let mediaRow = TABLE_LOCAL_RESOURCES.filter(COL_ID == id)
+        do {
+            try lftdb?.run(mediaRow.delete())
+        } catch {
+            print("Error deleting Local Resource \(id)")
+        }
 	}
 	
 	func saveProperty(property:String, value:String) {
