@@ -48,6 +48,7 @@
 		A111A1071C91443500552AE6 /* media_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = A111A1051C91443500552AE6 /* media_pause.png */; };
 		A111A1081C91443500552AE6 /* media_play.png in Resources */ = {isa = PBXBuildFile; fileRef = A111A1061C91443500552AE6 /* media_play.png */; };
 		A111A10A1C914E0200552AE6 /* media_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = A111A1091C914E0100552AE6 /* media_reset.png */; };
+		A1140FB31CCC317E0005D4FC /* LocalResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1140FB21CCC317E0005D4FC /* LocalResource.swift */; };
 		A117C7491BA4AD0100964D50 /* Little_Family_TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A117C7481BA4AD0100964D50 /* Little_Family_TreeTests.swift */; };
 		A12444ED1CA6ED21000380A5 /* house_adult_vanity1.png in Resources */ = {isa = PBXBuildFile; fileRef = A12444E11CA6ED20000380A5 /* house_adult_vanity1.png */; };
 		A12444EE1CA6ED21000380A5 /* house_adult_vanity2.png in Resources */ = {isa = PBXBuildFile; fileRef = A12444E21CA6ED20000380A5 /* house_adult_vanity2.png */; };
@@ -719,6 +720,7 @@
 		A111A1051C91443500552AE6 /* media_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_pause.png; sourceTree = "<group>"; };
 		A111A1061C91443500552AE6 /* media_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_play.png; sourceTree = "<group>"; };
 		A111A1091C914E0100552AE6 /* media_reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_reset.png; sourceTree = "<group>"; };
+		A1140FB21CCC317E0005D4FC /* LocalResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalResource.swift; sourceTree = "<group>"; };
 		A117C7291BA4AD0000964D50 /* Little Family Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Little Family Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7421BA4AD0100964D50 /* Little Family TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Little Family TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A117C7471BA4AD0100964D50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1382,6 +1384,7 @@
 				A1F7CE2A1C8FBBD6006053A2 /* InitialDataLoader.swift */,
 				A1F7CE2B1C8FBBD6006053A2 /* LittlePerson.swift */,
 				A1F7CE2C1C8FBBD6006053A2 /* LocalRelationship.swift */,
+				A1140FB21CCC317E0005D4FC /* LocalResource.swift */,
 				A1F7CE2D1C8FBBD6006053A2 /* Media.swift */,
 				A1F7CE2E1C8FBBD6006053A2 /* PlaceHelper.swift */,
 				A1F7CE2F1C8FBBD6006053A2 /* RelationshipCalculator.swift */,
@@ -2732,6 +2735,7 @@
 				A1F7CED01C8FBBD6006053A2 /* NamePart.swift in Sources */,
 				A1F7CEF61C8FBBD6006053A2 /* LabelEventSprite.swift in Sources */,
 				A1F7CEA11C8FBBD6006053A2 /* HeritageCalculator.swift in Sources */,
+				A1140FB31CCC317E0005D4FC /* LocalResource.swift in Sources */,
 				A1F7CF0D1C8FBBD6006053A2 /* SearchPeople.swift in Sources */,
 				A1F7CEA41C8FBBD6006053A2 /* LittlePerson.swift in Sources */,
 				A1F7CF001C8FBBD6006053A2 /* SyncQ.swift in Sources */,

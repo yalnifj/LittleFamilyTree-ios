@@ -166,7 +166,7 @@ class DBHelper {
             try lftdb?.run(TABLE_LOCAL_RESOURCES.create(ifNotExists: true) { t in
                 t.column(COL_ID, primaryKey: true)
                 t.column(COL_PERSON_ID)
-                t.column(COL_TYPE)
+                t.column(COL_MEDIA_TYPE)
                 t.column(COL_LOCAL_PATH)
 				t.foreignKey(COL_PERSON_ID, references: TABLE_LITTLE_PERSON, COL_ID)
             })
@@ -388,12 +388,12 @@ class DBHelper {
 		var people = [LittlePerson]()
         do {
             //let sql = "select a.* from (select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, strftime('%s','now') as todaysecs, cast(cast(((strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600) as int) as string) as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) ) a order by strftime('%s', a.birthDate) + (a.yeardiff * 31557600) + (86400 * 5 * a.treeLevel) LIMIT \(maxNumber)"
-            let sql = "select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, (strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600 as yeardiff from littleperson p where p.active='Y' and p.birthDate is not null and p.treeLevel < \(maxLevel) order by strftime('%s', p.birthDate) + (yeardiff * 31557600) + (86400 * 5 * p.treeLevel) LIMIT \(maxNumber)"
+            let sql = "select p.id, p.birthDate, p.birthPlace, p.nationality, p.familySearchId, p.gender, p.age, p.givenName, p.name, p.photopath, p.last_sync, p.alive, p.active, p.hasParents, p.hasChildren, p.hasSpouses, p.hasMedia, p.treeLevel, p.occupation, (strftime('%s','now') - (604800 + strftime('%s', p.birthDate))) / 31557600 as yeardiff from littleperson p where p.active=1 and p.birthDate is not null and p.treeLevel < \(maxLevel) order by strftime('%s', p.birthDate) + (yeardiff * 31557600) + (86400 * 5 * p.treeLevel) LIMIT \(maxNumber)"
             
 		let stmt = try lftdb?.prepare( sql )
-        print(stmt)
+        print(sql)
 		for c in stmt! {
-            print("birth=\(c[1]) yeardiff=\(c[19]) birthsec=\(c[20])")
+            print("name=\(c[8]) birth=\(c[1]) yeardiff=\(c[19])")
             let person = LittlePerson()
             person.id = (c[0] as! Int64)
             if c[1] != nil {
@@ -442,8 +442,8 @@ class DBHelper {
             person.updateAge()
 			people.append(person)
 		}
-        } catch let e as NSError {
-            print("Error getting next birthdays \(e)")
+        } catch {
+            print("Error getting next birthdays")
         }
 		return people
 	}
@@ -797,14 +797,14 @@ class DBHelper {
 	
 	func persistLocalResource(media:LocalResource) {
 		if media.id == nil || media.id == 0 {
-			let existing = getLocalResource(media.personId, media.type!)
+			let existing = getLocalResource(media.personId, type: media.type! as String)
 			if existing != nil {
 				media.id = existing!.id
 			} else {
                 do {
 					let rowid = try lftdb?.run(self.TABLE_MEDIA.insert(
 						self.COL_PERSON_ID <- media.personId,
-						self.COL_TYPE <- (media.type as String?),
+						self.COL_MEDIA_TYPE <- (media.type as String?),
 						self.COL_LOCAL_PATH <- (media.localPath as String?)
 					))
 					media.id = rowid
@@ -819,7 +819,7 @@ class DBHelper {
 		do {
 		try lftdb?.run(mediaRow.update(
 			COL_PERSON_ID <- media.personId,
-			COL_TYPE <- (media.type as String?),
+			COL_MEDIA_TYPE <- (media.type as String?),
 			COL_LOCAL_PATH <- (media.localPath as String?)
 		))
 		} catch {
@@ -831,13 +831,13 @@ class DBHelper {
 	func getLocalResource(personId:Int64, type:String) -> LocalResource? {
 		var lr:LocalResource? = nil
         do {
-            let query = TABLE_LOCAL_RESOURCES.filter(COL_PERSON_ID == personId && COL_TYPE==type)
+            let query = TABLE_LOCAL_RESOURCES.filter(COL_PERSON_ID == personId && COL_MEDIA_TYPE==type)
             let stmt = try lftdb?.prepare(query)
             for t in stmt! {
                 lr = LocalResource()
                 lr!.id = t[COL_ID]
                 lr!.personId = t[COL_PERSON_ID]!
-                lr!.type = t[COL_TYPE]
+                lr!.type = t[COL_MEDIA_TYPE]
                 lr!.localPath = t[COL_LOCAL_PATH]
             }
         } catch {
@@ -854,7 +854,7 @@ class DBHelper {
             for m in stmt! {
                 let med = LocalResource()
                 med.id = m[COL_ID]
-                med.type = m[COL_TYPE]
+                med.type = m[COL_MEDIA_TYPE]
                 med.localPath = m[COL_LOCAL_PATH]
                 media.append(med)
             }

@@ -270,9 +270,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
                            TextureHelper.getPortraitTexture(birthdayPerson!)!]
         DataService.getInstance().getFamilyMembers(birthdayPerson!, loadSpouse: false, onCompletion: { family, err in
             if family != nil {
-                var arr = self.rectStickers[3]!
                 for p in family! {
-                    arr.append(TextureHelper.getPortraitTexture(p)!)
+                    if p != self.birthdayPerson! && p != self.selectedPerson! && self.rectStickers[3]?.count<10 {
+                        self.rectStickers[3]!.append(TextureHelper.getPortraitTexture(p)!)
+                    }
                 }
             }
         })
@@ -353,7 +354,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         card.runAction(act3)
 		
 		let cardNum = card.userData!["cardNum"]
-		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum)bottom.png")
+		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum!.description)bottom.png")
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
@@ -509,7 +510,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         super.touchesEnded(touches, withEvent: event)
 		for touch in touches {
 			let nextPoint = touch.locationInNode(self)
-            if moved && movingSprite != nil {
+            if cardSprite != nil && moved && movingSprite != nil {
                 movingSprite!.position.x += nextPoint.x - lastPoint.x
                 movingSprite!.position.y += nextPoint.y - lastPoint.y
                 if cardSprite!.frame.contains(movingSprite!.position) {
@@ -572,30 +573,16 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			}
 			else if previousScale != nil {
 				if sender.scale != previousScale! {
-					var diff = (sender.scale - previousScale!) / 20
-					if diff > 0 {
-						diff = diff / 6
-					}
-					let w = movingSprite!.size.width
-					let dw  = w * diff
-					if w + dw > cardSprite!.size.width {
-						diff = (cardSprite!.size.width - w) / w
-					}
-					else if w + dw < cardSprite!.size.width * 0.05 {
-						diff = (cardSprite!.size.width * -0.05) / w
-					}
-					
-					let h = movingSprite!.size.height
-					let dh  = h * diff
-					if h + dh > cardSprite!.size.height {
-						diff = (cardSprite!.size.height - h) / h
-					}
-					else if h + dh < cardSprite!.size.height * 0.05 {
-						diff = (cardSprite!.size.height * -0.05) / h
-					}
+					let diff = (sender.scale - previousScale!) / 16
 					
 					var xscale = movingSprite!.xScale
 					xscale += diff
+                    if xscale > 3.0 {
+                        xscale = 3.0
+                    }
+                    if xscale < 0.3 {
+                        xscale = 0.3
+                    }
 					
 					let zoomIn = SKAction.scaleTo(xscale, duration:0)
 					movingSprite?.runAction(zoomIn)

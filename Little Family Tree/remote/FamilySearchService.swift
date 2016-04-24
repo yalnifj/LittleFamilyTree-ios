@@ -289,7 +289,7 @@ class FamilySearchService : RemoteService {
     }
 	
     var lastRequestTime:NSDate = NSDate()
-    var requestDelay:NSTimeInterval = -0.5
+    var requestDelay:NSTimeInterval = -0.3
     func makeHTTPGetRequest(path: String, headers: [String: String], count: Int, onCompletion: ServiceResponse) {
         let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
         if timeSinceLastRequest > requestDelay {
