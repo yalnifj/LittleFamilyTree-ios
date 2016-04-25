@@ -18,6 +18,7 @@ class DataService {
     static let PROPERTY_SYNC_CELL = "syncCell"
     static let PROPERTY_SYNC_DELAY = "syncDelay"
     static let PROPERTY_SHOW_PARENTS_GUIDE = "showParentsGuide"
+	static let PROPERTY_REMEMBER_ME = "rememberMe"
 
 	var remoteService:RemoteService? = nil
 	var serviceType:NSString? = nil

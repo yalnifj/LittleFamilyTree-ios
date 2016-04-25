@@ -327,6 +327,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showParentLogin() {
+		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
+		if remember != nil {
+			let time = Double(remember)
+			let date = NSDate(timeIntervalSince1970: time)
+			if date.timeIntervalSinceNow > -60 * 20 {
+				showSettings()
+				return
+			}
+		}
         let frame = prepareDialogRect(300, height: 400)
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self

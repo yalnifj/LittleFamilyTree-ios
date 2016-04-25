@@ -20,6 +20,7 @@ class ParentLogin: UIView {
     @IBOutlet weak var txtPassword: UITextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var txtError: UILabel!
+	@IBOutlet weak var chkRemember: UISwitch!
 
     var view:UIView!
     
@@ -99,6 +100,12 @@ class ParentLogin: UIView {
             txtUsername.text = ""
             txtPassword.text = ""
             if self.loginListener != nil {
+				if chkRemember.on {
+					let now = NSDate()
+					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, now.timeIntervalSince1970.description)
+				} else {
+					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, "0")
+				}
                 self.view.removeFromSuperview()
                 self.loginListener?.LoginComplete()
             } else {
