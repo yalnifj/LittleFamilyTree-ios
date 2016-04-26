@@ -334,7 +334,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     func showParentAuth() {
 		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
 		if remember != nil {
-			let time = Double(remember)
+			let time = Double(remember!)
 			let date = NSDate(timeIntervalSince1970: time)
 			if date.timeIntervalSinceNow > -60 * 20 {
 				showSharingPanel()

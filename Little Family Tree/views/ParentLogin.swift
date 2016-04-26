@@ -102,9 +102,9 @@ class ParentLogin: UIView {
             if self.loginListener != nil {
 				if chkRemember.on {
 					let now = NSDate()
-					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, now.timeIntervalSince1970.description)
+					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: now.timeIntervalSince1970.description)
 				} else {
-					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, "0")
+					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: "0")
 				}
                 self.view.removeFromSuperview()
                 self.loginListener?.LoginComplete()
