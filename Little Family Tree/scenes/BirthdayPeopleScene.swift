@@ -270,7 +270,26 @@ class BirthdayPeopleScene: LittleFamilyScene {
                            TextureHelper.getPortraitTexture(birthdayPerson!)!]
         DataService.getInstance().getFamilyMembers(birthdayPerson!, loadSpouse: false, onCompletion: { family, err in
             if family != nil {
-                for p in family! {
+                //-- sort the people
+                var people = family!
+                people.sortInPlace({
+                    let ageComponents1 = NSCalendar.currentCalendar().components([.Month, .Day],
+                        fromDate: $0.birthDate!)
+                    let month1 = ageComponents1.month
+                    let day1 = ageComponents1.day
+                    
+                    let ageComponents2 = NSCalendar.currentCalendar().components([.Month, .Day],
+                        fromDate: $1.birthDate!)
+                    let month2 = ageComponents2.month
+                    let day2 = ageComponents2.day
+                    
+                    if month1 != month2 {
+                        return month1 < month2
+                    }
+                    return day1 < day2
+                })
+                
+                for p in people {
                     if p != self.birthdayPerson! && p != self.selectedPerson! && self.rectStickers[3]?.count<10 {
                         self.rectStickers[3]!.append(TextureHelper.getPortraitTexture(p)!)
                     }
@@ -360,7 +379,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
 		cardBottomSprite!.position = CGPointMake(cardSprite!.position.x, cardSprite!.position.y + (cardSprite!.size.height / 2) + (cardBottomSprite!.size.height / 2))
 		cardBottomSprite!.zPosition = 500
-		cardBottomSprite!.hidden = true
+		//cardBottomSprite!.hidden = true
 		self.addChild(cardBottomSprite!)
 		
 		cardBottomLogo = SKSpriteNode(imageNamed: "logo")
@@ -369,15 +388,34 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.size.width = cardBottomLogo!.size.height * cbl
 		cardBottomLogo!.position = CGPointMake(cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
 		cardBottomLogo!.zPosition = cardBottomSprite!.zPosition + 1
-		cardBottomLogo!.hidden = true
+		//cardBottomLogo!.hidden = true
 		self.addChild(cardBottomLogo!)
+        
+        let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                    fromDate: birthdayPerson!.birthDate!)
+        let month = ageComponents.month
+        let day = ageComponents.day
+        
+        let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                       fromDate: NSDate())
+        var age = birthdayPerson!.age!
+        let monthN = ageComponentsNow.month
+        let dayN = ageComponentsNow.day
+        if month < monthN || (month==monthN && day < dayN) {
+            age += 1
+        }
+
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMMM d"
+        let dateString = formatter.stringFromDate(birthdayPerson!.birthDate!)
 		
-		let message = "Happy \(birthdayPerson!.age!) Birthday to \(birthdayPerson!.name!) on \(birthdayPerson!.birthDate)"
+		let message = "Happy \(age) Birthday to \(birthdayPerson!.name!) on \(dateString)"
 		cardBottomText = SKLabelNode(text: message)
-		cardBottomText!.fontSize = cardBottomSprite!.size.height / 4
+		cardBottomText!.fontSize = cardBottomSprite!.size.height / 3
+        cardBottomText!.fontColor = UIColor.blackColor()
 		cardBottomText!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardBottomSprite!.position.y)
 		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
-		cardBottomText!.hidden = true
+		//cardBottomText!.hidden = true
 		self.addChild(cardBottomText!)
     }
     
@@ -630,7 +668,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.hidden = false
 		cardBottomText!.hidden = false
 		
-		let cropRect = CGRectUnion(cardSprite!.frame, cardBottomSprite!.frame)
+		let cropRect = CGRectMake(cardSprite!.frame.minX, cardSprite!.frame.minY, cardSprite!.frame.width, cardSprite!.frame.height + cardBottomSprite!.frame.height)
 		
 		let imageTexture = self.scene!.view!.textureFromNode(self, crop: cropRect)
 		let image = UIImage(CGImage: imageTexture!.CGImage())

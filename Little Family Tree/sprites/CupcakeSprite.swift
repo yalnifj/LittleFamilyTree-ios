@@ -24,12 +24,17 @@ class CupcakeSprite: SKSpriteNode {
             photoSprite?.zPosition = 2
             self.addChild(photoSprite!)
             
-            flame = SKSpriteNode(imageNamed: "flame1.png")
+            let num = 1 + arc4random_uniform(UInt32(3))
+            flame = SKSpriteNode(imageNamed: "flame\(num).png")
             flame?.position = CGPointMake(0, self.size.height/1.8)
             let fr = flame!.size.width / flame!.size.height
             flame?.size = CGSizeMake(self.size.width / 6, (self.size.width / 6) / fr)
             flame?.zPosition = 1
-            let action = SKAction.animateWithTextures([SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame3.png"), SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame1.png")], timePerFrame: 0.15)
+            var textures = [SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame3.png"), SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame1.png")]
+            for _ in 0..<num {
+                textures.append(textures.removeFirst())
+            }
+            let action = SKAction.animateWithTextures(textures, timePerFrame: 0.15)
             flame?.runAction(SKAction.repeatActionForever(action))
             self.addChild(flame!)
             
@@ -71,7 +76,22 @@ class CupcakeSprite: SKSpriteNode {
 		if ageLabel != nil {
             ageLabel?.removeFromParent()
         }
-        ageLabel = SKLabelNode(text: "Age \(person!.age!)")
+        
+        let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                     fromDate: person!.birthDate!)
+        let month = ageComponents.month
+        let day = ageComponents.day
+        
+        let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                    fromDate: NSDate())
+        var age = person!.age!
+        let monthN = ageComponentsNow.month
+        let dayN = ageComponentsNow.day
+        if month < monthN || (month==monthN && day < dayN) {
+            age += 1
+        }
+        
+        ageLabel = SKLabelNode(text: "Age \(age)")
         ageLabel?.fontSize = nameLabel!.fontSize
         ageLabel?.fontColor = UIColor.blackColor()
         ageLabel?.position = CGPointMake(0, ageLabel!.fontSize * -6)
