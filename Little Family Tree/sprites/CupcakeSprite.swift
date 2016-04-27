@@ -87,7 +87,7 @@ class CupcakeSprite: SKSpriteNode {
         var age = person!.age!
         let monthN = ageComponentsNow.month
         let dayN = ageComponentsNow.day
-        if month < monthN || (month==monthN && day < dayN) {
+        if month > monthN || (month==monthN && day > dayN) {
             age += 1
         }
         

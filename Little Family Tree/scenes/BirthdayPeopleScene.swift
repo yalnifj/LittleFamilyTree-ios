@@ -83,7 +83,24 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			birthdayPeople.append(selectedPerson!)
 		}
 		
-		//-- TODO sort by birth date
+        //-- sort the people by birth date
+        birthdayPeople.sortInPlace({
+            let ageComponents1 = NSCalendar.currentCalendar().components([.Month, .Day],
+                fromDate: $0.birthDate!)
+            let month1 = ageComponents1.month
+            let day1 = ageComponents1.day
+            
+            let ageComponents2 = NSCalendar.currentCalendar().components([.Month, .Day],
+                fromDate: $1.birthDate!)
+            let month2 = ageComponents2.month
+            let day2 = ageComponents2.day
+            
+            if month1 != month2 {
+                return month1 < month2
+            }
+            return day1 < day2
+        })
+
 		
 		setupCupcakes()
 		
@@ -271,26 +288,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
                            TextureHelper.getPortraitTexture(birthdayPerson!)!]
         DataService.getInstance().getFamilyMembers(birthdayPerson!, loadSpouse: false, onCompletion: { family, err in
             if family != nil {
-                //-- sort the people
-                var people = family!
-                people.sortInPlace({
-                    let ageComponents1 = NSCalendar.currentCalendar().components([.Month, .Day],
-                        fromDate: $0.birthDate!)
-                    let month1 = ageComponents1.month
-                    let day1 = ageComponents1.day
-                    
-                    let ageComponents2 = NSCalendar.currentCalendar().components([.Month, .Day],
-                        fromDate: $1.birthDate!)
-                    let month2 = ageComponents2.month
-                    let day2 = ageComponents2.day
-                    
-                    if month1 != month2 {
-                        return month1 < month2
-                    }
-                    return day1 < day2
-                })
-                
-                for p in people {
+                for p in family! {
                     if p != self.birthdayPerson! && p != self.selectedPerson! && self.rectStickers[3]?.count<10 {
                         self.rectStickers[3]!.append(TextureHelper.getPortraitTexture(p)!)
                     }
@@ -399,7 +397,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         var age = birthdayPerson!.age!
         let monthN = ageComponentsNow.month
         let dayN = ageComponentsNow.day
-        if month < monthN || (month==monthN && day > dayN) {
+        if month > monthN || (month==monthN && day > dayN) {
             age += 1
         }
 
@@ -666,10 +664,12 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.hidden = false
 		cardBottomText!.hidden = false
 		
-		let cropRect = CGRectMake(cardSprite!.frame.minX, cardSprite!.frame.minY, cardSprite!.frame.width, cardSprite!.frame.height + cardBottomSprite!.frame.height)
+        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height
+		let cropRect = CGRectMake(cardSprite!.frame.minX / cardSprite!.frame.width, cardBottomSprite!.frame.minY / self.size.height, cardSprite!.size.width / self.size.width, height / self.size.height)
 		
-		let imageTexture = self.scene!.view!.textureFromNode(self, crop: cropRect)
-		let image = UIImage(CGImage: imageTexture!.CGImage())
+		let imageTexture = self.scene!.view!.textureFromNode(self)
+        let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
+		let image = UIImage(CGImage: cropTexture.CGImage())
 		
 		let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         if let wPPC = activityViewController.popoverPresentationController {
