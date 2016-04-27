@@ -120,7 +120,6 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	}
 	
 	func setupCupcakes() {
-		//TODO remove old sprites
         if cardSprite != nil {
             cardSprite!.removeFromParent()
 			cardBottomLogo!.removeFromParent()
@@ -161,8 +160,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
         
 		//-- create cupcakes
 		var x = CGFloat(10 + cupcakeWidth / 2)
-		var y = self.size.height - cupcakeWidth
+		var y = self.size.height - topBar!.size.height - cupcakeWidth
 		for person in birthdayPeople {
+            DataService.getInstance().addToSyncQ(person)
 			let num = 1 + arc4random_uniform(UInt32(4))
 			let cupcake = CupcakeSprite(imageNamed: "cupcake\(num)")
 			let ratio = cupcake.size.width / cupcake.size.height
@@ -176,11 +176,12 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			x = x + cupcakeWidth + 10
 			if x > width {
 				x = CGFloat(10 + cupcakeWidth / 2)
-				y = y - 20 - cupcakeWidth / ratio
+				y = y - 30 - cupcakeWidth / ratio
 			}
 		}
-        minY = y
+        minY = y - cupcakeWidth / 2
         clipY = y
+        speak("Look who has birthdays coming up!")
 	}
 	
 	func setupVanity() {
@@ -348,13 +349,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             }
         }
         
-        /*
-        for r in stickerRects {
-            let t = SKShapeNode(rect: r)
-            t.zPosition = 20
-            self.addChild(t)
-        }
- */
+        speak("Choose a birthday card to decorate for \(birthdayPerson!.givenName!)!")
     }
     
     func cardSelected(card:EventSprite) {
@@ -370,25 +365,28 @@ class BirthdayPeopleScene: LittleFamilyScene {
         let cr = card.size.height / card.size.width
         let act2 = SKAction.resizeToWidth(vanityBottom!.size.width, height: vanityBottom!.size.width * cr, duration: 1.0)
         let act3 = SKAction.group([act1, act2])
-        card.runAction(act3)
-		
-		let cardNum = card.userData!["cardNum"]
+        card.runAction(act3) {
+            self.setupCardBottom()
+        }
+    }
+    func setupCardBottom() {
+		let cardNum = cardSprite!.userData!["cardNum"]
 		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum!.description)bottom.png")
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
-		cardBottomSprite!.position = CGPointMake(cardSprite!.position.x, cardSprite!.position.y + (cardSprite!.size.height / 2) + (cardBottomSprite!.size.height / 2))
+		cardBottomSprite!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardSprite!.position.y - (cardSprite!.size.height / 2) - (cardBottomSprite!.size.height / 2))
 		cardBottomSprite!.zPosition = 500
-		//cardBottomSprite!.hidden = true
+		cardBottomSprite!.hidden = true
 		self.addChild(cardBottomSprite!)
 		
 		cardBottomLogo = SKSpriteNode(imageNamed: "logo")
 		let cbl = cardBottomLogo!.size.width / cardBottomLogo!.size.height
 		cardBottomLogo!.size.height = cardBottomSprite!.size.height
 		cardBottomLogo!.size.width = cardBottomLogo!.size.height * cbl
-		cardBottomLogo!.position = CGPointMake(cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomLogo!.position = CGPointMake(CGFloat(10) + cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
 		cardBottomLogo!.zPosition = cardBottomSprite!.zPosition + 1
-		//cardBottomLogo!.hidden = true
+		cardBottomLogo!.hidden = true
 		self.addChild(cardBottomLogo!)
         
         let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
@@ -401,7 +399,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         var age = birthdayPerson!.age!
         let monthN = ageComponentsNow.month
         let dayN = ageComponentsNow.day
-        if month < monthN || (month==monthN && day < dayN) {
+        if month < monthN || (month==monthN && day > dayN) {
             age += 1
         }
 
@@ -415,7 +413,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         cardBottomText!.fontColor = UIColor.blackColor()
 		cardBottomText!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardBottomSprite!.position.y)
 		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
-		//cardBottomText!.hidden = true
+		cardBottomText!.hidden = true
 		self.addChild(cardBottomText!)
     }
     
@@ -518,7 +516,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 clipY = 0
                 dy = 0
             }
-            if dy > 1 {
+            if moved {
                 for cs in cupcakes {
                     cs.position.y += dy
                 }

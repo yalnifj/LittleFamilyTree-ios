@@ -35,7 +35,10 @@ class SyncQ : NSObject {
 	}
 	
 	func addToSyncQ(person:LittlePerson) {
-		let diff = person.lastSync!.timeIntervalSinceNow
+        var diff = Double(-3700)
+        if person.lastSync != nil {
+            diff = person.lastSync!.timeIntervalSinceNow
+        }
 		if diff < -3600 || person.hasParents == nil || person.treeLevel == nil || (person.treeLevel! <= 2 && person.hasChildren == nil) {
 			if !syncQ.contains(person) {
                 startCounter += 1

@@ -809,7 +809,7 @@ class DataService {
 		person.lastSync = NSDate()
 		
 		remoteService!.getPersonPortrait(person.familySearchId!, onCompletion: {link, err1 in
-			if link != nil {
+			if link != nil && link!.href != nil {
 				self.remoteService!.downloadImage(link!.href!, folderName: person.familySearchId!, fileName: self.lastPath(link!.href! as String), onCompletion: { path, err2 in
 					person.photoPath = path
 					onCompletion( person, err2)
