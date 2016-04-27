@@ -56,6 +56,7 @@ class TreeScene: LittleFamilyScene {
     var coloringButton:SKSpriteNode?
     var puzzleButton:SKSpriteNode?
     var songButton:SKSpriteNode?
+	var cardButton:SKSpriteNode?
 	
 	var dolls = DressUpDolls()
 	var dollConfig:DollConfig?
@@ -98,19 +99,19 @@ class TreeScene: LittleFamilyScene {
         matchButton!.anchorPoint = CGPointZero
         buttons.append(matchButton!)
         
-        scratchButton = SKSpriteNode(imageNamed: "house_chilldroom_desk19")
+        scratchButton = SKSpriteNode(imageNamed: "pencils")
         br = scratchButton!.size.width / scratchButton!.size.height
         scratchButton!.size = CGSizeMake(50 * br, 50)
         scratchButton!.anchorPoint = CGPointZero
         buttons.append(scratchButton!)
         
-        coloringButton = SKSpriteNode(imageNamed: "house_chilldroom_paint11")
+        coloringButton = SKSpriteNode(imageNamed: "painting")
         br = coloringButton!.size.width / coloringButton!.size.height
         coloringButton!.size = CGSizeMake(50 * br, 50)
         coloringButton!.anchorPoint = CGPointZero
         buttons.append(coloringButton!)
         
-        bubbleButton = SKSpriteNode(imageNamed: "bubbles1")
+        bubbleButton = SKSpriteNode(imageNamed: "bubble")
         br = bubbleButton!.size.width / bubbleButton!.size.height
         bubbleButton!.size = CGSizeMake(50 * br, 50)
         bubbleButton!.anchorPoint = CGPointZero
@@ -133,6 +134,12 @@ class TreeScene: LittleFamilyScene {
         songButton!.size = CGSizeMake(50 * br, 50)
         songButton!.anchorPoint = CGPointZero
         buttons.append(songButton!)
+		
+		cardButton = SKSpriteNode(imageNamed: "birthday_card_button")
+        br = cardButton!.size.width / cardButton!.size.height
+        cardButton!.size = CGSizeMake(50 * br, 50)
+        cardButton!.anchorPoint = CGPointZero
+        buttons.append(cardButton!)
         
         dispatch_group_enter(treeGroup)
 		let dataService = DataService.getInstance()
@@ -574,7 +581,10 @@ class TreeScene: LittleFamilyScene {
                     self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
 				}
                 else if touchedNode == songButton {
-                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_SONG)
+                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                }
+				else if touchedNode == cardButton {
+                    self.showCardGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
                 }
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()

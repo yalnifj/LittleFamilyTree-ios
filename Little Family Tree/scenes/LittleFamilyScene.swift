@@ -318,11 +318,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
         nextScene.scaleMode = .AspectFill
-        if person != nil {
-            nextScene.selectedPerson = person
-        } else {
-            nextScene.selectedPerson = selectedPerson
+        if person != nil && person != selectedPerson {
+            nextScene.birthdayPerson = person
         }
+        nextScene.selectedPerson = selectedPerson
+        
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
