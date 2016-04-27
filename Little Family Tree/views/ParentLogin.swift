@@ -48,9 +48,11 @@ class ParentLogin: UIView {
             txtUsername.text = username as String?
         }
         //txtPassword.text = "1234pass"
+		chkRemember.setOn(false, animated: false)
         txtError.hidden = true
         spinner.hidden = true
         spinner.stopAnimating()
+		
     }
     
     func loadViewFromNib() -> UIView {
