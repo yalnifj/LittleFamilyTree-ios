@@ -52,11 +52,22 @@ class CupcakeSprite: SKSpriteNode {
         if nameLabel != nil {
             nameLabel?.removeFromParent()
         }
-        nameLabel = SKLabelNode(text: person?.name as String?)
+        var name = person!.name as! String
+        let parts = name.split(" ")
+        if parts.count > 3 {
+            name = "\(parts[0])"
+            for n in parts.count - 2 ..< parts.count {
+                name = name + " \(parts[n])"
+            }
+        }
+        nameLabel = SKLabelNode(text: name)
         nameLabel?.fontSize = self.size.width / 10
         nameLabel?.fontColor = UIColor.blackColor()
         nameLabel?.position = CGPointMake(0, nameLabel!.fontSize * -4)
-        nameLabel?.zPosition = 2
+        if nameLabel?.frame.width > self.size.width * 1.1 {
+            nameLabel?.fontSize = nameLabel!.fontSize * 0.75
+        }
+        nameLabel?.zPosition = 3
         self.addChild(nameLabel!)
 		
 		if birthDateLabel != nil {
@@ -69,8 +80,8 @@ class CupcakeSprite: SKSpriteNode {
         birthDateLabel = SKLabelNode(text: dateString)
         birthDateLabel?.fontSize = nameLabel!.fontSize
         birthDateLabel?.fontColor = UIColor.blackColor()
-        birthDateLabel?.position = CGPointMake(0, birthDateLabel!.fontSize * -5)
-        birthDateLabel?.zPosition = 2
+        birthDateLabel?.position = CGPointMake(0, nameLabel!.position.y - birthDateLabel!.fontSize)
+        birthDateLabel?.zPosition = 3
         self.addChild(birthDateLabel!)
 		
 		if ageLabel != nil {
@@ -94,8 +105,8 @@ class CupcakeSprite: SKSpriteNode {
         ageLabel = SKLabelNode(text: "Age \(age)")
         ageLabel?.fontSize = nameLabel!.fontSize
         ageLabel?.fontColor = UIColor.blackColor()
-        ageLabel?.position = CGPointMake(0, ageLabel!.fontSize * -6)
-        ageLabel?.zPosition = 2
+        ageLabel?.position = CGPointMake(0, birthDateLabel!.position.y - ageLabel!.fontSize)
+        ageLabel?.zPosition = 3
         self.addChild(ageLabel!)
     }
     
