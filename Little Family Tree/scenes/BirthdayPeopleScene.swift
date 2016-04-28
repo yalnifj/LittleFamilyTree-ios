@@ -101,8 +101,11 @@ class BirthdayPeopleScene: LittleFamilyScene {
             return day1 < day2
         })
 
-		
-		setupCupcakes()
+		if birthdayPerson != nil {
+			setupCupcakes()
+		} else {
+			setupVanity()
+		}
 		
 		EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_PERSON_TOUCHED, listener: self)
         EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_BIRTHDAY_PERSON_SELECTED, listener: self)
