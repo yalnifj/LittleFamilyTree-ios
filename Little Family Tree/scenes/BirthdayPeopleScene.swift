@@ -101,7 +101,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             return day1 < day2
         })
 
-		if birthdayPerson != nil {
+		if birthdayPerson == nil {
 			setupCupcakes()
 		} else {
 			setupVanity()

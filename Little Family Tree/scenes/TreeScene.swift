@@ -640,8 +640,8 @@ class TreeScene: LittleFamilyScene {
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(250, height: 220, duration: 0.6)) {
-			let startX = CGFloat(-90)
+        self.buttonPanel?.runAction(SKAction.resizeToWidth(310, height: 220, duration: 0.6)) {
+			let startX = CGFloat(-125)
             var x = startX
 			var y = CGFloat(-73)
             var counter = 0

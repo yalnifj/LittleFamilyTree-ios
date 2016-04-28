@@ -99,9 +99,9 @@ class SyncQ : NSObject {
                     print("Sync queue disabled in settings")
                 }
             } else {
-                //-- if we are not authenticated try to authenticate again after 10 minutes
+                //-- if we are not authenticated try to authenticate again after 5 minutes
                 authCounter += 1
-                if authCounter > 60 {
+                if authCounter > 30 {
                     authCounter = 0
                     dataService.autoLogin()
                 }
