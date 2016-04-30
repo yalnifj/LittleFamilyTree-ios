@@ -20,6 +20,7 @@
                 <outlet property="livingLbl" destination="enf-2Y-11Z" id="3Fg-Xk-F9l"/>
                 <outlet property="nameLabel" destination="aLR-OG-7OZ" id="MXR-BO-QBU"/>
                 <outlet property="portraitImg" destination="5dN-hW-F82" id="yIf-06-1nA"/>
+                <outlet property="recordButton" destination="InW-jL-a5w" id="cTe-gp-XlT"/>
                 <outlet property="relationshipLbl" destination="tyT-JQ-YJr" id="yBs-KF-ng5"/>
                 <outlet property="remoteIdLbl" destination="kvI-WR-46q" id="uUf-L9-2IF"/>
                 <outlet property="spinner" destination="bTN-BX-kTX" id="T6J-Tm-rWQ"/>
@@ -256,11 +257,22 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bTN-BX-kTX">
                     <rect key="frame" x="204" y="141" width="20" height="20"/>
                 </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="InW-jL-a5w">
+                    <rect key="frame" x="197" y="176" width="44" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="6bE-Gk-d3S"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="mic_icon.png"/>
+                    <connections>
+                        <action selector="recordButtonClicked:" destination="-1" eventType="touchUpInside" id="uuk-1O-7Qj"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="5TG-lO-OWg" firstAttribute="top" secondItem="T9g-Df-rgt" secondAttribute="bottom" constant="8" symbolic="YES" id="16m-Su-DKf"/>
                 <constraint firstItem="UsJ-12-8Ng" firstAttribute="top" secondItem="Udf-Fo-yzy" secondAttribute="bottom" constant="8" symbolic="YES" id="1bU-VV-vzq"/>
+                <constraint firstItem="InW-jL-a5w" firstAttribute="leading" secondItem="Udf-Fo-yzy" secondAttribute="trailing" constant="95" id="3K7-Sh-ZCl"/>
                 <constraint firstItem="YUO-dR-Waf" firstAttribute="trailing" secondItem="8cN-G5-D3l" secondAttribute="trailing" id="3Oh-IZ-X6m"/>
                 <constraint firstItem="kvI-WR-46q" firstAttribute="trailing" secondItem="xA3-D3-35g" secondAttribute="trailing" id="3PX-63-P2x"/>
                 <constraint firstItem="enf-2Y-11Z" firstAttribute="leading" secondItem="8cN-G5-D3l" secondAttribute="leading" id="4MD-gY-6I0"/>
@@ -316,6 +328,7 @@
                 <constraint firstItem="HiV-4H-mZ4" firstAttribute="top" secondItem="mpL-XQ-gwc" secondAttribute="bottom" constant="8" symbolic="YES" id="gb0-La-1Bv"/>
                 <constraint firstItem="Li2-em-kKb" firstAttribute="leading" secondItem="5dN-hW-F82" secondAttribute="leading" id="h16-2O-vR8"/>
                 <constraint firstItem="LQP-g5-ALk" firstAttribute="baseline" secondItem="mpL-XQ-gwc" secondAttribute="baseline" id="hDJ-x3-oy7"/>
+                <constraint firstItem="InW-jL-a5w" firstAttribute="trailing" secondItem="ars-Gp-755" secondAttribute="trailing" id="hIa-ha-c6q"/>
                 <constraint firstItem="T9g-Df-rgt" firstAttribute="top" secondItem="lxd-SW-1VB" secondAttribute="bottom" constant="8" symbolic="YES" id="hLl-NQ-ick"/>
                 <constraint firstItem="hVT-cT-T3u" firstAttribute="baseline" secondItem="T9g-Df-rgt" secondAttribute="baseline" id="hQ8-A2-HUu"/>
                 <constraint firstItem="xA3-D3-35g" firstAttribute="top" secondItem="0ha-Cp-igE" secondAttribute="bottom" constant="17" id="ha5-lz-f73"/>
@@ -343,6 +356,7 @@
                 <constraint firstItem="enf-2Y-11Z" firstAttribute="trailing" secondItem="8cN-G5-D3l" secondAttribute="trailing" id="xhi-B0-ld3"/>
                 <constraint firstItem="zxn-Wi-CUC" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="xpe-p3-gA0"/>
                 <constraint firstItem="tyT-JQ-YJr" firstAttribute="leading" secondItem="xA3-D3-35g" secondAttribute="leading" id="ykb-wU-HWZ"/>
+                <constraint firstItem="InW-jL-a5w" firstAttribute="top" secondItem="ars-Gp-755" secondAttribute="bottom" constant="1" id="zgH-59-vUL"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
@@ -350,6 +364,7 @@
     <resources>
         <image name="boy.png" width="131" height="150"/>
         <image name="info.png" width="50" height="50"/>
+        <image name="mic_icon.png" width="21" height="50"/>
         <image name="refresh.png" width="50" height="50"/>
     </resources>
 </document>

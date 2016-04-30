@@ -31,6 +31,7 @@ class PersonDetailsView: UIView {
     @IBOutlet weak var lastSyncLbl: UILabel!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var syncButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
     
     var listener:PersonDetailsCloseListener?
     
@@ -211,6 +212,9 @@ class PersonDetailsView: UIView {
         } catch {
             print("Unable to persist person \(self.person!.id!)")
         }
+    }
+    
+    @IBAction func recordButtonClicked(sender: AnyObject) {
     }
 }
 

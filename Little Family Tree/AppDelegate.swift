@@ -18,6 +18,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         return true
     }
+    
+    func application(application:UIApplication, completionHandler: (UIBackgroundFetchResult) -> Void) {
+        let dbhelper = DBHelper.getInstance()
+        let lastRun = dbhelper.getProperty("last_birthday_check")
+        if lastRun != nil {
+            let time = Double(lastRun!)
+            let date = NSDate(timeIntervalSince1970: time!)
+            if date.timeIntervalSinceNow > -60 * 60 * 24 {
+                completionHandler(UIBackgroundFetchResult.NoData)
+                return
+            }
+        }
+        let people = dbhelper.getNextBirthdays(15, maxLevel: 4)
+        var hasData = false
+        if people.count > 0 {
+            let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                           fromDate: NSDate())
+            let monthN = ageComponentsNow.month
+            let dayN = ageComponentsNow.day
+            for person in people {
+                let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                            fromDate: person.birthDate!)
+                let month = ageComponents.month
+                let day = ageComponents.day
+                
+                if day == dayN && month == monthN {
+                    hasData = true
+                    setupNotificationReminder(person)
+                }
+            }
+        }
+        let now = NSDate()
+        dbhelper.saveProperty("last_birthday_check", value: now.timeIntervalSince1970.description)
+        if hasData {
+            completionHandler(UIBackgroundFetchResult.NewData)
+        } else {
+            completionHandler(UIBackgroundFetchResult.NoData)
+        }
+    }
+    
+    func setupNotificationReminder(person:LittlePerson) {
+        let title:String = "Today is \(person.name!)'s birthday! Decorate a birthday card for them in Little Family Tree."
+        
+        let calendar = NSCalendar.currentCalendar()
+        let calendarComponents = NSDateComponents()
+        calendarComponents.hour = 12
+        calendarComponents.second = 0
+        calendarComponents.minute = 30
+        calendar.timeZone = NSTimeZone.defaultTimeZone()
+        let dateToFire = calendar.dateFromComponents(calendarComponents)
+        
+        // create a corresponding local notification
+        let notification = UILocalNotification()
+        
+        let dict:NSDictionary = ["ID" : person.id!.description]
+        notification.userInfo = dict as! [String : String]
+        notification.alertBody = title
+        notification.alertAction = "Open"
+        notification.fireDate = dateToFire
+        notification.soundName = UILocalNotificationDefaultSoundName
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

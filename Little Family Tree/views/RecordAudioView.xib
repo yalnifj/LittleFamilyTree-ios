@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecordAudioView" customModule="Little_Family_Tree" customModuleProvider="target">
+            <connections>
+                <outlet property="backButton" destination="0eQ-eG-UCf" id="X48-mO-CST"/>
+                <outlet property="deleteButton" destination="kMC-qC-SQ6" id="pCo-ca-EWt"/>
+                <outlet property="nameLabel" destination="xHL-v6-IO6" id="onO-EC-DOK"/>
+                <outlet property="navBar" destination="yLa-Rm-adh" id="0wW-WL-MZu"/>
+                <outlet property="playButton" destination="moC-r9-T4o" id="35T-0K-QRI"/>
+                <outlet property="recordButton" destination="vb4-sv-wY9" id="2tY-I8-8N8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moC-r9-T4o">
+                    <rect key="frame" x="64" y="83" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="YMy-QU-W0y"/>
+                        <constraint firstAttribute="height" constant="50" id="ZiL-6h-Yv9"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="media_play.png"/>
+                    <connections>
+                        <action selector="PlayButtonClicked:" destination="-1" eventType="touchUpInside" id="6wM-HE-cgu"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb4-sv-wY9">
+                    <rect key="frame" x="122" y="83" width="46" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="DE1-p9-S09"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="mic_icon.png"/>
+                    <connections>
+                        <action selector="RecordButtonClicked:" destination="-1" eventType="touchUpInside" id="P7Q-w1-Stl"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMC-qC-SQ6">
+                    <rect key="frame" x="219" y="83" width="50" height="50"/>
+                    <state key="normal" title="Button" image="delete.png"/>
+                    <connections>
+                        <action selector="DeleteButtonClicked:" destination="-1" eventType="touchUpInside" id="cXJ-hE-nTC"/>
+                        <action selector="RecordButtonClicked:" destination="-1" eventType="touchUpInside" id="W0n-2Z-nvQ"/>
+                    </connections>
+                </button>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLa-Rm-adh">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="dbS-K9-zWc">
+                            <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="0eQ-eG-UCf">
+                                <connections>
+                                    <action selector="BackButtonClicked:" destination="-1" id="TRK-5x-83j"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xHL-v6-IO6">
+                    <rect key="frame" x="8" y="54" width="304" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="baseline" secondItem="moC-r9-T4o" secondAttribute="firstBaseline" id="1uZ-cc-Uwc"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="xHL-v6-IO6" secondAttribute="bottom" constant="8" symbolic="YES" id="3IT-xe-nou"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="vb4-sv-wY9" secondAttribute="top" id="4Xh-vd-viP"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="top" secondItem="kMC-qC-SQ6" secondAttribute="top" id="BSl-ft-UQr"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="centerX" secondItem="yLa-Rm-adh" secondAttribute="centerX" id="Kcb-4e-ujV"/>
+                <constraint firstItem="kMC-qC-SQ6" firstAttribute="leading" secondItem="vb4-sv-wY9" secondAttribute="trailing" constant="51" id="MYv-Tz-zkZ"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="Noe-Vf-edq"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="top" secondItem="yLa-Rm-adh" secondAttribute="bottom" constant="10" id="OiK-By-J25"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="leading" secondItem="moC-r9-T4o" secondAttribute="trailing" constant="8" symbolic="YES" id="ZZw-Pv-KOY"/>
+                <constraint firstItem="yLa-Rm-adh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aFI-fp-SoT"/>
+                <constraint firstAttribute="trailing" secondItem="yLa-Rm-adh" secondAttribute="trailing" id="apW-sz-QhN"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="bottom" secondItem="kMC-qC-SQ6" secondAttribute="bottom" id="c0t-vq-ysk"/>
+                <constraint firstItem="yLa-Rm-adh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cHz-HA-Par"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="baseline" secondItem="vb4-sv-wY9" secondAttribute="firstBaseline" id="d89-WC-Y5f"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="iAL-XW-ZuJ"/>
+                <constraint firstAttribute="trailing" secondItem="kMC-qC-SQ6" secondAttribute="trailing" constant="51" id="xHr-IB-5sU"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="396" y="263"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="delete.png" width="55" height="55"/>
+        <image name="media_play.png" width="50" height="50"/>
+        <image name="mic_icon.png" width="21" height="50"/>
+    </resources>
+</document>

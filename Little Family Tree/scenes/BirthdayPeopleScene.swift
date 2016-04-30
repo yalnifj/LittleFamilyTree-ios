@@ -31,6 +31,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	var cardBottomText:SKLabelNode?
 	var movingSprite: SKSpriteNode?
     var minY = CGFloat(0)
+    var maxY = CGFloat(0)
     var clipY = CGFloat(0)
 	
 	var shareButton :EventSprite?
@@ -194,12 +195,13 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			self.cupcakes.append(cupcake)
 			
 			x = x + cupcakeWidth + 10
-			if x > width {
+			if x > self.size.width {
 				x = CGFloat(10 + cupcakeWidth / 2)
-				y = y - 30 - cupcakeWidth / ratio
+				y = y - (60 + cupcakeWidth / ratio)
 			}
 		}
-        minY = y - cupcakeWidth / 2
+        minY = y - cupcakeWidth/2
+        maxY = abs(y)
         clipY = y
         speak("Look who has birthdays coming up!")
 	}
@@ -220,13 +222,13 @@ class BirthdayPeopleScene: LittleFamilyScene {
         
         var vanityWidth = width
         if !portrait {
-            vanityWidth = (width / 2) * ratio
+            vanityWidth = (width / 2.1) * ratio
         }
         
         vanityTop = SKSpriteNode(texture: vtTexture)
         vanityTop?.size = CGSizeMake(vanityWidth * 0.885, vanityWidth * 0.885 / ratio)
         vanityTop?.zPosition = 1
-        vanityTop?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) + vanityTop!.size.height / 2)
+        vanityTop?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - (vanityTop!.size.height / 2))
         self.addChild(vanityTop!)
         
         let vbTexture = SKTexture(imageNamed: "vanity_bottom")
@@ -234,7 +236,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         vanityBottom = SKSpriteNode(texture: vbTexture)
         vanityBottom?.size = CGSizeMake(vanityWidth, vanityWidth / ratio)
         vanityBottom?.zPosition = 2
-        vanityBottom?.position = CGPointMake(self.size.width / 2, ((self.size.height - topBar!.size.height) / 2) - (vanityBottom!.size.height / 2) + 6)
+        vanityBottom?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - vanityTop!.size.height - (vanityBottom!.size.height / 2) + 6)
         self.addChild(vanityBottom!)
         
         mirrorWidth = vanityTop!.size.width / 3
@@ -376,7 +378,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
-		cardBottomSprite!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardSprite!.position.y - (cardSprite!.size.height / 2) - (cardBottomSprite!.size.height / 2))
+		cardBottomSprite!.position = CGPointMake(cardSprite!.position.x, cardSprite!.position.y - (cardSprite!.size.height / 2) - (cardBottomSprite!.size.height / 2))
 		cardBottomSprite!.zPosition = 500
 		cardBottomSprite!.hidden = true
 		self.addChild(cardBottomSprite!)
@@ -385,7 +387,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		let cbl = cardBottomLogo!.size.width / cardBottomLogo!.size.height
 		cardBottomLogo!.size.height = cardBottomSprite!.size.height
 		cardBottomLogo!.size.width = cardBottomLogo!.size.height * cbl
-		cardBottomLogo!.position = CGPointMake(CGFloat(10) + cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomLogo!.position = CGPointMake(cardBottomSprite!.frame.minX + CGFloat(10) + cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
 		cardBottomLogo!.zPosition = cardBottomSprite!.zPosition + 1
 		cardBottomLogo!.hidden = true
 		self.addChild(cardBottomLogo!)
@@ -412,7 +414,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomText = SKLabelNode(text: message)
 		cardBottomText!.fontSize = cardBottomSprite!.size.height / 3
         cardBottomText!.fontColor = UIColor.blackColor()
-		cardBottomText!.position = CGPointMake(cardBottomSprite!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomText!.position = CGPointMake(cardBottomLogo!.frame.maxX + CGFloat(10) + cardBottomText!.frame.width / 2, cardBottomSprite!.position.y)
 		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
 		cardBottomText!.hidden = true
 		self.addChild(cardBottomText!)
@@ -513,9 +515,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 clipY = minY
                 dy = CGFloat(0)
             }
-            if clipY > 0 {
-                clipY = 0
-                dy = 0
+            if clipY > maxY {
+                clipY = maxY
+                dy = CGFloat(0)
             }
             if moved {
                 for cs in cupcakes {
@@ -667,20 +669,29 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.hidden = false
 		cardBottomText!.hidden = false
 		
-        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height
-		let cropRect = CGRectMake(cardSprite!.frame.minX / cardSprite!.frame.width, cardBottomSprite!.frame.minY / self.size.height, cardSprite!.size.width / self.size.width, height / self.size.height)
+        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height + CGFloat(10)
+		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY - CGFloat(5), cardSprite!.size.width, height)
 		
 		let imageTexture = self.scene!.view!.textureFromNode(self)
-        let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
-		let image = UIImage(CGImage: cropTexture.CGImage())
+        if imageTexture != nil {
+            //let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
+            let cgimage = imageTexture!.CGImage()
+            let cgCropped = CGImageCreateWithImageInRect(cgimage, cropRect)
+            let image = UIImage(CGImage: cgCropped!)
+            if image.size.width > 0 {
+                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                if let wPPC = activityViewController.popoverPresentationController {
+                    wPPC.sourceView = self.view!
+                    wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+                }
+                self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+            } else {
+                print("Unable to create UIImage")
+            }
 		
-		let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        if let wPPC = activityViewController.popoverPresentationController {
-            wPPC.sourceView = self.view!
-            wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+        } else {
+            print("Unable to generate image")
         }
-		self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
-		
 		cardBottomSprite!.hidden = true
 		cardBottomLogo!.hidden = true
 		cardBottomText!.hidden = true
