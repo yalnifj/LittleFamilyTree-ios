@@ -13,6 +13,7 @@ class PersonDetailsView: UIView {
     var view:UIView!
     var person:LittlePerson?
     var selectedPerson:LittlePerson?
+    var openingScene:LittleFamilyScene?
     
     @IBOutlet weak var portraitImg: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -215,6 +216,9 @@ class PersonDetailsView: UIView {
     }
     
     @IBAction func recordButtonClicked(sender: AnyObject) {
+        self.view?.removeFromSuperview()
+        
+        openingScene?.showRecordAudioDialog(person!, listener: listener!)
     }
 }
 

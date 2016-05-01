@@ -371,10 +371,20 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func showPersonDetails(person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
         let personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
         personDetailsView.listener = listener
+        personDetailsView.openingScene = self
         personDetailsView.selectedPerson = self.selectedPerson
         personDetailsView.showPerson(person)
         self.view?.addSubview(personDetailsView)
         return personDetailsView
+    }
+    
+    func showRecordAudioDialog(person:LittlePerson, listener:PersonDetailsCloseListener) -> RecordAudioView {
+        let recordAudioView = RecordAudioView(frame: (self.view?.bounds)!)
+        recordAudioView.openingScene = self
+        recordAudioView.listener = listener
+        recordAudioView.showPerson(person)
+        self.view?.addSubview(recordAudioView)
+        return recordAudioView
     }
     
     func showParentsGuide(listener:ParentsGuideCloseListener) {

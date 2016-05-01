@@ -23,6 +23,8 @@ class LittlePerson : NSObject {
 	var treeLevel : Int?
 	
 	var occupation: NSString?
+    
+    var givenNameAudioPath: NSString?
 	
 	func updateAge() {
 		if (birthDate != nil) {
