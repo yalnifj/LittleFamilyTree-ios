@@ -258,7 +258,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
                 self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
-                self.speak(self.randomMediaChooser.selectedPerson?.givenName as! String)
+                self.sayGivenName(self.randomMediaChooser.selectedPerson!)
                 let waitAction = SKAction.waitForDuration(2.5)
                 self.runAction(waitAction) {
                     self.showLoadingDialog()

@@ -451,7 +451,7 @@ class BubbleScene: LittleFamilyScene {
 							lastHighlightTime = 0
                         }
                     
-                        self.speak((child?.person?.givenName)! as String)
+                        self.sayGivenName(child!.person!)
                     } else {
                         let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
                         if quietMode == nil || quietMode == "false" {
@@ -489,7 +489,7 @@ class BubbleScene: LittleFamilyScene {
 							lastHighlightTime = 0
                         }
                         
-                        self.speak((mom?.person?.givenName)! as String)
+                        self.sayGivenName(mom!.person!)
                     } else {
                         let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
                         if quietMode == nil || quietMode == "false" {
@@ -527,7 +527,7 @@ class BubbleScene: LittleFamilyScene {
 							lastHighlightTime = 0
                         }
                         
-                        self.speak((dad?.person?.givenName)! as String)
+                        self.sayGivenName(dad!.person!)
                     } else {
                         let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
                         if quietMode == nil || quietMode == "false" {

@@ -442,6 +442,29 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             showFakeToasts([message])
         }
     }
+	
+	func sayGivenName(person:LittlePerson) {
+		if person.givenNameAudioPath != nil {
+			let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
+			if quietMode == nil || quietMode == "false" {
+				let fileManager = NSFileManager.defaultManager()
+				let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+				let soundFileUrl = url.URLByAppendingPathComponent(person.givenNameAudioPath!)
+				var error: NSError?
+				let audioPlayer = AVAudioPlayer(contentsOfURL: soundFileUrl, error: &error)
+				if let err = error {
+					print("audioPlayer error: \(err.localizedDescription)")
+					speak(person.givenName as! String)
+				} else {
+					audioPlayer?.play()
+				}
+			} else {
+				showFakeToasts([person.givenName as! String])
+			}
+		} else {
+			speak(person.givenName as! String)
+		}
+	}
     
     func showFakeToasts(messages:[String]) {
         for s in self.toasts {

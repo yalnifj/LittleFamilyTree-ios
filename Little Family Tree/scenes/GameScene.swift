@@ -916,7 +916,11 @@ class GameScene: LittleFamilyScene {
 		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SONG, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_CARD, listener: self)
-        self.speak("Hi, \(selectedPerson!.givenName!)")
+        self.speak("Hi")
+		let delayAction = SKAction.waitForDuration(0.5)
+        runAction(delayAction) {
+            self.sayGivenName(selectedPerson!)
+        }
     }
     
     override func willMoveFromView(view: SKView) {

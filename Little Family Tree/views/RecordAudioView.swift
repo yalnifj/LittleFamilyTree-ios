@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class RecordAudioView: UIView {
+class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 
 
     @IBOutlet weak var navBar: UINavigationBar!
@@ -32,6 +32,9 @@ class RecordAudioView: UIView {
     var openingScene:LittleFamilyScene?
     
     var listener:PersonDetailsCloseListener?
+	
+	var soundFileUrl: NSURL?
+	var localResource:LocalResource?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,15 +65,23 @@ class RecordAudioView: UIView {
         self.person = person
         navBar.topItem?.title = "Record Given Name Audio"
         nameLabel.text = person.name as String?
+		
+		localResource = DBHelper.getInstance().getLocalResource(person.id!, type: "givenName")
+		if localResource == nil {
+			localResource = LocalResource()
+			localResource!.personId = person.id!
+            localResource!.type = "givenName"
+            localResource!.localPath = "\(person.familySearchId!)/givenName.caf"
+		}
+		
         updateButtonStates()
+		prepareRecorder()
     }
     
     func updateButtonStates() {
         if person?.givenNameAudioPath != nil {
-            playButton.enabled = true
             deleteButton.hidden = false
         } else {
-            playButton.enabled = false
             deleteButton.hidden = true
         }
         
@@ -82,17 +93,35 @@ class RecordAudioView: UIView {
         
         if recording {
             recordButton.setImage(UIImage(named: "media_pause"), forState: .Normal)
+			if person?.givenNameAudioPath != nil {
+				playButton.enabled = false
+			}
         } else {
             recordButton.setImage(UIImage(named: "mic_icon"), forState: .Normal)
+			if person?.givenNameAudioPath != nil {
+				playButton.enabled = true
+			}
         }
     }
 
     @IBAction func PlayButtonClicked(sender: AnyObject) {
         if !recording {
             if playing {
+				audioPlayer?.stop()
                 playing = false
             } else {
                 playing = true
+				var error: NSError?
+
+				audioPlayer = AVAudioPlayer(contentsOfURL: soundFileUrl, error: &error)
+
+				audioPlayer?.delegate = self
+
+				if let err = error {
+					print("audioPlayer error: \(err.localizedDescription)")
+				} else {
+					audioPlayer?.play()
+				}
             }
             updateButtonStates()
         }
@@ -101,16 +130,69 @@ class RecordAudioView: UIView {
     @IBAction func RecordButtonClicked(sender: AnyObject) {
         if !playing {
             if recording {
+				audioRecorder?.stop()
+				do {
+					try DBHelper.getInstance().persistLocalResource(localResource!)
+				} catch {
+					print("Error persisting local resource \(localResource!.id)")
+				}
                 recording = false
             } else {
-                recording = true
+				if audioRecorder == nil {
+					prepareRecorder()
+				}
+				person?.givenNameAudioPath = localResource!.localPath
+				audioRecorder?.record()
+				recording = true
             }
             updateButtonStates()
         }
     }
+	
+	func prepareRecorder() {
+		let fileManager = NSFileManager.defaultManager()
+		let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+		let folderUrl = url.URLByAppendingPathComponent(person.familySearchId! as String)
+		soundFileUrl = folderUrl.URLByAppendingPathComponent("givenName.caf")
+		let recordSettings = 
+			[AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+					AVEncoderBitRateKey: 16,
+					AVNumberOfChannelsKey: 2,
+					AVSampleRateKey: 44100.0]
+
+		var error: NSError?
+
+		let audioSession = AVAudioSession.sharedInstance()
+		audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, 
+							error: &error)
+
+		if let err = error {
+			print("audioSession error: \(err.localizedDescription)")
+		}
+
+		audioRecorder = AVAudioRecorder(URL: soundFileURL, 
+					settings: recordSettings as [NSObject : AnyObject], error: &error)
+
+		if let err = error {
+			print("audioSession error: \(err.localizedDescription)")
+		} else {
+			audioRecorder?.prepareToRecord()
+		}
+	}
     
     @IBAction func DeleteButtonClicked(sender: AnyObject) {
-        
+        let fileManager = NSFileManager.defaultManager()
+		if soundFileURL != nil {
+			fileManager.removeItemAtURL(soundFileUrl!)
+		}
+		do {
+			try DBHelper.getInstance().deleteLocalResourceById(localResource!.id!)
+		} catch {
+			print("Error deleting local resource \(localResource!.id)")
+		}
+		localResource!.id = nil
+		person?.givenNameAudioPath = nil
+		updateButtonStates()
     }
     
     @IBAction func BackButtonClicked(sender: AnyObject) {
@@ -118,5 +200,31 @@ class RecordAudioView: UIView {
         openingScene!.showPersonDetails(person!, listener: listener!)
     }
     
+	func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+		playing = false
+		recording = false
+		updateButtonStates()
+	}
 
+	func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+		print("Audio Play Decode Error")
+		playing = false
+		recording = false
+		updateButtonStates()
+	}
+
+	func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+		playing = false
+		recording = false
+		updateButtonStates()
+	}
+
+	func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!, error: NSError!) {
+		print("Audio Record Encode Error")
+		playing = false
+		recording = false
+		updateButtonStates()
+	}
+	
+	
 }

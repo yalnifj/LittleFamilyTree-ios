@@ -52,7 +52,7 @@ class PersonMatchSprite: SKSpriteNode {
         if person?.matched == false {
             gameScene?.frameTouched(self)
         } else {
-            gameScene?.speak(person!.person.givenName as! String)
+            gameScene?.sayGivenName(person!)
         }
     }
     
