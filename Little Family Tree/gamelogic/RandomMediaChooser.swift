@@ -146,28 +146,35 @@ class RandomMediaChooser {
         let mediaCount = self.dataService.dbHelper.getMediaCount();
         if (mediaCount > 0) {
             self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia()
-            let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
-            var index = Int(arc4random_uniform(UInt32(media.count)))
-            let origIndex = index;
-            self.photo = media[index]
-            while (self.usedPhotos[self.photo!.id] != nil) {
-                index += 1;
-                if (index >= media.count) {
-                    index = 0;
-                }
+            if self.selectedPerson != nil {
+                let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
+                var index = Int(arc4random_uniform(UInt32(media.count)))
+                let origIndex = index;
                 self.photo = media[index]
-                //-- stop if we've used all of these images
-                if (index == origIndex) {
-                    break;
+                while (self.usedPhotos[self.photo!.id] != nil) {
+                    index += 1;
+                    if (index >= media.count) {
+                        index = 0;
+                    }
+                    self.photo = media[index]
+                    //-- stop if we've used all of these images
+                    if (index == origIndex) {
+                        break;
+                    }
                 }
+                if (self.usedPhotos.count >= self.maxUsed) {
+                    self.usedPhotos.dropFirst()
+                }
+                self.usedPhotos[self.photo!.id] = self.photo!
+                
+                self.counter = 0;
+                self.listener.onMediaLoaded(self.photo!)
             }
-            if (self.usedPhotos.count >= self.maxUsed) {
-                self.usedPhotos.dropFirst()
+            else {
+                self.usedPhotos.removeAll()
+                self.counter = 0
+                self.listener.onMediaLoaded(nil)
             }
-            self.usedPhotos[self.photo!.id] = self.photo!
-            
-            self.counter = 0;
-            self.listener.onMediaLoaded(self.photo!)
             
         } else {
             self.counter = 0
