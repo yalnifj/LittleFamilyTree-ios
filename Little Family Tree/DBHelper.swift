@@ -248,7 +248,7 @@ class DBHelper {
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
                 person = buildLittlePerson(c)
-                person.id = c[COL_ID]
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
                 return person
             }
         } catch {
@@ -265,7 +265,7 @@ class DBHelper {
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
                 person = buildLittlePerson(c)
-                person.id = c[COL_ID]
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
                 return person
             }
         } catch {
@@ -296,7 +296,7 @@ class DBHelper {
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
                 person = buildLittlePerson(c)
-                person.id = c[COL_ID]
+                person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
                 return person
             }
         } catch {
@@ -324,7 +324,7 @@ class DBHelper {
                 let stmt = try lftdb?.prepare(query)
                 for c in stmt! {
                     let person = buildLittlePerson(c)
-                    person.id = c[COL_ID]
+                    person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
                     people.append(person)
                 }
             } catch {

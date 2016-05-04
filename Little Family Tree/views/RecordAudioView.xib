@@ -25,22 +25,11 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moC-r9-T4o">
                     <rect key="frame" x="64" y="83" width="50" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="50" id="YMy-QU-W0y"/>
-                        <constraint firstAttribute="height" constant="50" id="ZiL-6h-Yv9"/>
+                        <constraint firstAttribute="height" constant="50" id="HR7-Jz-UrJ"/>
                     </constraints>
                     <state key="normal" title="Button" image="media_play.png"/>
                     <connections>
                         <action selector="PlayButtonClicked:" destination="-1" eventType="touchUpInside" id="6wM-HE-cgu"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb4-sv-wY9">
-                    <rect key="frame" x="122" y="83" width="46" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="DE1-p9-S09"/>
-                    </constraints>
-                    <state key="normal" title="Button" image="mic_icon.png"/>
-                    <connections>
-                        <action selector="RecordButtonClicked:" destination="-1" eventType="touchUpInside" id="P7Q-w1-Stl"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMC-qC-SQ6">
@@ -48,7 +37,6 @@
                     <state key="normal" title="Button" image="delete.png"/>
                     <connections>
                         <action selector="DeleteButtonClicked:" destination="-1" eventType="touchUpInside" id="cXJ-hE-nTC"/>
-                        <action selector="RecordButtonClicked:" destination="-1" eventType="touchUpInside" id="W0n-2Z-nvQ"/>
                     </connections>
                 </button>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLa-Rm-adh">
@@ -69,25 +57,36 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb4-sv-wY9">
+                    <rect key="frame" x="137" y="83" width="46" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="pIR-1h-BTw"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="mic_icon.png"/>
+                    <connections>
+                        <action selector="RecordButtonClicked:" destination="-1" eventType="touchUpInside" id="P7Q-w1-Stl"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="vb4-sv-wY9" firstAttribute="baseline" secondItem="moC-r9-T4o" secondAttribute="firstBaseline" id="1uZ-cc-Uwc"/>
-                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="xHL-v6-IO6" secondAttribute="bottom" constant="8" symbolic="YES" id="3IT-xe-nou"/>
-                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="vb4-sv-wY9" secondAttribute="top" id="4Xh-vd-viP"/>
-                <constraint firstItem="vb4-sv-wY9" firstAttribute="top" secondItem="kMC-qC-SQ6" secondAttribute="top" id="BSl-ft-UQr"/>
-                <constraint firstItem="xHL-v6-IO6" firstAttribute="centerX" secondItem="yLa-Rm-adh" secondAttribute="centerX" id="Kcb-4e-ujV"/>
-                <constraint firstItem="kMC-qC-SQ6" firstAttribute="leading" secondItem="vb4-sv-wY9" secondAttribute="trailing" constant="51" id="MYv-Tz-zkZ"/>
-                <constraint firstItem="moC-r9-T4o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="Noe-Vf-edq"/>
-                <constraint firstItem="xHL-v6-IO6" firstAttribute="top" secondItem="yLa-Rm-adh" secondAttribute="bottom" constant="10" id="OiK-By-J25"/>
-                <constraint firstItem="vb4-sv-wY9" firstAttribute="leading" secondItem="moC-r9-T4o" secondAttribute="trailing" constant="8" symbolic="YES" id="ZZw-Pv-KOY"/>
-                <constraint firstItem="yLa-Rm-adh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aFI-fp-SoT"/>
-                <constraint firstAttribute="trailing" secondItem="yLa-Rm-adh" secondAttribute="trailing" id="apW-sz-QhN"/>
-                <constraint firstItem="vb4-sv-wY9" firstAttribute="bottom" secondItem="kMC-qC-SQ6" secondAttribute="bottom" id="c0t-vq-ysk"/>
-                <constraint firstItem="yLa-Rm-adh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cHz-HA-Par"/>
-                <constraint firstItem="moC-r9-T4o" firstAttribute="baseline" secondItem="vb4-sv-wY9" secondAttribute="firstBaseline" id="d89-WC-Y5f"/>
-                <constraint firstItem="xHL-v6-IO6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="iAL-XW-ZuJ"/>
-                <constraint firstAttribute="trailing" secondItem="kMC-qC-SQ6" secondAttribute="trailing" constant="51" id="xHr-IB-5sU"/>
+                <constraint firstItem="yLa-Rm-adh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="3KB-bO-HJE"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="top" secondItem="yLa-Rm-adh" secondAttribute="bottom" constant="10" id="4gb-57-bcL"/>
+                <constraint firstItem="kMC-qC-SQ6" firstAttribute="leading" secondItem="vb4-sv-wY9" secondAttribute="trailing" constant="36" id="8TY-dn-Gov"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="baseline" secondItem="moC-r9-T4o" secondAttribute="firstBaseline" id="9RS-r1-I9j"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="bottom" secondItem="kMC-qC-SQ6" secondAttribute="bottom" id="Kyp-cy-27F"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="Nrn-2d-U7c"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="Wz8-MM-hll"/>
+                <constraint firstItem="yLa-Rm-adh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Xtg-N5-QYK"/>
+                <constraint firstAttribute="trailing" secondItem="kMC-qC-SQ6" secondAttribute="trailing" constant="51" id="YrS-Es-Ve1"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="baseline" secondItem="vb4-sv-wY9" secondAttribute="firstBaseline" id="ZOE-Ui-789"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="vb4-sv-wY9" secondAttribute="top" id="cdQ-Xj-ghW"/>
+                <constraint firstItem="moC-r9-T4o" firstAttribute="top" secondItem="xHL-v6-IO6" secondAttribute="bottom" constant="8" symbolic="YES" id="dyc-bT-MjX"/>
+                <constraint firstItem="xHL-v6-IO6" firstAttribute="centerX" secondItem="vb4-sv-wY9" secondAttribute="centerX" id="fwy-Ic-8zo"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="leading" secondItem="moC-r9-T4o" secondAttribute="trailing" constant="23" id="nTU-h0-ekk"/>
+                <constraint firstItem="vb4-sv-wY9" firstAttribute="top" secondItem="kMC-qC-SQ6" secondAttribute="top" id="rrt-dV-ZMY"/>
+                <constraint firstItem="yLa-Rm-adh" firstAttribute="centerX" secondItem="xHL-v6-IO6" secondAttribute="centerX" id="toL-Rs-Yr8"/>
+                <constraint firstAttribute="trailing" secondItem="yLa-Rm-adh" secondAttribute="trailing" id="zEu-zt-1ye"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="396" y="263"/>

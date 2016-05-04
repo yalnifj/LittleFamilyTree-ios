@@ -100,7 +100,9 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
             recordButton.setImage(UIImage(named: "mic_icon"), forState: .Normal)
 			if person?.givenNameAudioPath != nil {
 				playButton.enabled = true
-			}
+            } else {
+                playButton.enabled = false
+            }
         }
     }
 
@@ -113,6 +115,9 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
                 playing = true
 				
                 do {
+                    if audioRecorder == nil {
+                        prepareRecorder()
+                    }
                     try audioPlayer = AVAudioPlayer(contentsOfURL: soundFileURL!)
 
                     audioPlayer?.delegate = self
@@ -129,12 +134,24 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
         if !playing {
             if recording {
 				audioRecorder?.stop()
+                do {
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+                } catch {
+                    print("Error setting audio session category")
+                }
 				DBHelper.getInstance().persistLocalResource(localResource!)
                 recording = false
             } else {
 				if audioRecorder == nil {
 					prepareRecorder()
 				}
+                do {
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                } catch {
+                    print("Error setting audio session category")
+                }
 				person?.givenNameAudioPath = localResource!.localPath
 				audioRecorder?.record()
 				recording = true
@@ -155,9 +172,6 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 					AVSampleRateKey: 44100.0]
 
         do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-
             try audioRecorder = AVAudioRecorder(URL: soundFileURL!,
 					settings: recordSettings )
             audioRecorder?.prepareToRecord()

@@ -670,7 +670,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomText!.hidden = false
 		
         let height = cardSprite!.frame.height + cardBottomSprite!.frame.height + CGFloat(10)
-		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY - CGFloat(5), cardSprite!.size.width, height)
+		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY - CGFloat(10), cardSprite!.size.width, height)
 		
 		let imageTexture = self.scene!.view!.textureFromNode(self)
         if imageTexture != nil {

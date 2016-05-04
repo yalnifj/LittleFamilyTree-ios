@@ -165,6 +165,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ars-Gp-755">
                     <rect key="frame" x="187" y="125" width="54" height="50"/>
                     <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="gV8-Lc-CbP"/>
                         <constraint firstAttribute="width" constant="54" id="tTE-dj-NtK"/>
                     </constraints>
                     <state key="normal" title="Button" image="refresh.png"/>
