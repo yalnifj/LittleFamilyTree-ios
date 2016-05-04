@@ -43,12 +43,27 @@ class PersonNameSprite: SKSpriteNode {
         }
     }
     var topic:String?
+    var fullName = false {
+        didSet {
+            if nameLabel != nil && person != nil {
+                if fullName {
+                    nameLabel!.text = person!.name as String?
+                } else {
+                    nameLabel!.text = person!.givenName as String?
+                }
+            }
+        }
+    }
     
     func addLabel() {
         if nameLabel != nil {
             nameLabel?.removeFromParent()
         }
-        nameLabel = SKLabelNode(text: person?.givenName as String?)
+        if fullName {
+            nameLabel = SKLabelNode(text: person?.name as String?)
+        } else {
+            nameLabel = SKLabelNode(text: person?.givenName as String?)
+        }
         nameLabel?.fontSize = self.size.width / 10
         nameLabel?.fontColor = UIColor.blackColor()
         nameLabel?.position = CGPointMake(self.size.width/2, (nameLabel?.fontSize)! / 2)
