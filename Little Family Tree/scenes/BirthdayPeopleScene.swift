@@ -162,6 +162,11 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
         stickerSprites.removeAll()
         
+        for s in cupcakes {
+            s.removeFromParent()
+        }
+        cupcakes.removeAll()
+        
         self.birthdayPerson = nil
 		
 		if vanityTop != nil {
@@ -669,8 +674,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.hidden = false
 		cardBottomText!.hidden = false
 		
-        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height + CGFloat(10)
-		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY - CGFloat(10), cardSprite!.size.width, height)
+        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height
+		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY, cardSprite!.size.width, height)
 		
 		let imageTexture = self.scene!.view!.textureFromNode(self)
         if imageTexture != nil {
