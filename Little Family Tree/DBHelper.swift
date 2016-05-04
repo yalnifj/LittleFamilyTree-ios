@@ -243,7 +243,7 @@ class DBHelper {
 	func getPersonById(id:Int64) -> LittlePerson? {
 		var person:LittlePerson
         do {
-			let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+			let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
                 .filter(TABLE_LITTLE_PERSON[COL_ID] == id)
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
@@ -260,7 +260,7 @@ class DBHelper {
 	func getPersonByFamilySearchId(fsid:String) -> LittlePerson? {
 		var person:LittlePerson
         do {
-			let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+			let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
                 .filter(COL_FAMILY_SEARCH_ID == fsid)
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
@@ -291,7 +291,7 @@ class DBHelper {
 	func getFirstPerson() -> LittlePerson? {
 		var person:LittlePerson
         do {
-            let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+            let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 				.filter(COL_ACTIVE == true).order(COL_ID).limit(1)
             let stmt = try lftdb?.prepare(query)
             for c in stmt! {
@@ -310,7 +310,7 @@ class DBHelper {
         
         if given != nil || surname != nil || remoteid != nil {
             do {
-                var query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+                var query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 						.order(COL_NAME, COL_ID)
                 if given != nil {
                     query = query.filter(COL_GIVEN_NAME.like(given! + "%"))
@@ -454,7 +454,7 @@ class DBHelper {
             if c[16] != nil { person.hasMedia = (c[16] as! Int64 == 1) }
             if c[17] != nil { person.treeLevel = Int(c[17] as! Int64) }
 			if c[18] != nil { person.occupation = (c[18] as! String?) }
-			if c[19] != nil { person!.givenNameAudioPath = (c[19] as! String?) }
+			if c[19] != nil { person.givenNameAudioPath = (c[19] as! String?) }
             person.updateAge()
 			people.append(person)
 		}
@@ -467,7 +467,7 @@ class DBHelper {
 	func getRelativesForPerson(id:Int64, followSpouse:Bool) -> [LittlePerson]? {
         var persons = [LittlePerson]()
         do {
-            let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+            let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 				.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
                 .filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
@@ -499,7 +499,7 @@ class DBHelper {
 	}
 	
 	func getParentsForPerson(id:Int64) -> [LittlePerson]? {
-		let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+		let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1])
 			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
@@ -518,7 +518,7 @@ class DBHelper {
 	}
 	
 	func getChildrenForPerson(id:Int64) -> [LittlePerson]? {
-		let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+		let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
 			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
@@ -537,7 +537,7 @@ class DBHelper {
 	}
 	
 	func getSpousesForPerson(id:Int64) -> [LittlePerson]? {
-		let query = TABLE_LITTLE_PERSON.join("LEFT OUTER", TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
+		let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
 			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE.rawValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
@@ -599,7 +599,7 @@ class DBHelper {
         person.hasMedia = c[COL_HAS_MEDIA]
         person.treeLevel = c[COL_TREE_LEVEL]
 		person.occupation = c[COL_OCCUPATION]
-		person.givenNameAudioPath c[TABLE_LOCAL_RESOURCES[COL_LOCAL_PATH]]
+		person.givenNameAudioPath = c[TABLE_LOCAL_RESOURCES[COL_LOCAL_PATH]]
         person.updateAge()
 
         return person

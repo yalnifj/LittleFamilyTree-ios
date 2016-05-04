@@ -919,7 +919,7 @@ class GameScene: LittleFamilyScene {
         self.speak("Hi")
 		let delayAction = SKAction.waitForDuration(0.5)
         runAction(delayAction) {
-            self.sayGivenName(selectedPerson!)
+            self.sayGivenName(self.selectedPerson!)
         }
     }
     
