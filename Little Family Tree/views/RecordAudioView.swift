@@ -118,6 +118,10 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
                     if audioRecorder == nil {
                         prepareRecorder()
                     }
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+                    try audioSession.setActive(true)
+                    print(soundFileURL!.description)
                     try audioPlayer = AVAudioPlayer(contentsOfURL: soundFileURL!)
 
                     audioPlayer?.delegate = self
@@ -136,6 +140,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 				audioRecorder?.stop()
                 do {
                     let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setActive(true)
                     try audioSession.setCategory(AVAudioSessionCategoryPlayback)
                 } catch {
                     print("Error setting audio session category")
@@ -143,9 +148,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 				DBHelper.getInstance().persistLocalResource(localResource!)
                 recording = false
             } else {
-				if audioRecorder == nil {
-					prepareRecorder()
-				}
+				prepareRecorder()
                 do {
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -167,6 +170,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 		soundFileURL = folderUrl.URLByAppendingPathComponent("givenName.caf")
         let recordSettings:[String : AnyObject] =
 			[AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+                    AVFormatIDKey:Int(kAudioFormatAppleIMA4),
 					AVEncoderBitRateKey: 16,
 					AVNumberOfChannelsKey: 2,
 					AVSampleRateKey: 44100.0]

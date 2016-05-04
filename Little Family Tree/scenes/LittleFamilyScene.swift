@@ -452,6 +452,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 				let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
 				let soundFileUrl = url.URLByAppendingPathComponent(person.givenNameAudioPath! as String)
                 do {
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+                    try audioSession.setActive(true)
                     let audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl)
                     audioPlayer.play()
                 } catch {

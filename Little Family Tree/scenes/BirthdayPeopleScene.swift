@@ -222,24 +222,30 @@ class BirthdayPeopleScene: LittleFamilyScene {
             portrait = false
         }
         
-        let vtTexture = SKTexture(imageNamed: "vanity_top")
-        var ratio = vtTexture.size().width / vtTexture.size().height
-        
         var vanityWidth = width
-        if !portrait {
-            vanityWidth = (width / 2.1) * ratio
+        
+        let vtTexture = SKTexture(imageNamed: "vanity_top")
+        let ratio = vtTexture.size().width / vtTexture.size().height
+        var theight = vanityWidth * 0.885 / ratio
+        let vbTexture = SKTexture(imageNamed: "vanity_bottom")
+        let bratio = vbTexture.size().width / vbTexture.size().height
+        var bheight = vanityWidth / bratio
+        
+        if theight + bheight > self.size.height {
+            bheight = (self.size.height - (topBar!.size.height * 2)) / 2
+            vanityWidth = bheight * bratio
+            
+            theight = vanityWidth * 0.885 / ratio
         }
         
         vanityTop = SKSpriteNode(texture: vtTexture)
-        vanityTop?.size = CGSizeMake(vanityWidth * 0.885, vanityWidth * 0.885 / ratio)
+        vanityTop?.size = CGSizeMake(vanityWidth * 0.885, theight)
         vanityTop?.zPosition = 1
         vanityTop?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - (vanityTop!.size.height / 2))
         self.addChild(vanityTop!)
         
-        let vbTexture = SKTexture(imageNamed: "vanity_bottom")
-        ratio = vbTexture.size().width / vbTexture.size().height
         vanityBottom = SKSpriteNode(texture: vbTexture)
-        vanityBottom?.size = CGSizeMake(vanityWidth, vanityWidth / ratio)
+        vanityBottom?.size = CGSizeMake(vanityWidth, bheight)
         vanityBottom?.zPosition = 2
         vanityBottom?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - vanityTop!.size.height - (vanityBottom!.size.height / 2) + 6)
         self.addChild(vanityBottom!)
@@ -674,7 +680,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.hidden = false
 		cardBottomText!.hidden = false
 		
-        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height
+        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height + CGFloat(5)
 		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY, cardSprite!.size.width, height)
 		
 		let imageTexture = self.scene!.view!.textureFromNode(self)
