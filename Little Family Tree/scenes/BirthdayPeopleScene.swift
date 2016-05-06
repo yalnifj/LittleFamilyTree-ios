@@ -364,9 +364,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
         
         speak("Choose a birthday card to decorate for")
-        let delayAction = SKAction.waitForDuration(1.2)
+        let delayAction = SKAction.waitForDuration(1.4)
         runAction(delayAction) {
-            self.sayGivenName(self.selectedPerson!)
+            self.sayGivenName(self.birthdayPerson!)
         }
     }
     
