@@ -363,7 +363,11 @@ class BirthdayPeopleScene: LittleFamilyScene {
             }
         }
         
-        speak("Choose a birthday card to decorate for \(birthdayPerson!.givenName!)!")
+        speak("Choose a birthday card to decorate for")
+        let delayAction = SKAction.waitForDuration(1.2)
+        runAction(delayAction) {
+            self.sayGivenName(self.selectedPerson!)
+        }
     }
     
     func cardSelected(card:EventSprite) {
@@ -687,7 +691,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 let imageTexture = self.scene!.view!.textureFromNode(self)
                 if imageTexture != nil {
                     //let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
-                    let ratio = imageTexture!.size().width / self.size.width
+                    let ratio = UIScreen.mainScreen().scale
                     let cropRect = CGRectMake(self.cardSprite!.frame.minX * ratio, (self.size.height - self.cardSprite!.frame.maxY) * ratio, self.cardSprite!.frame.width * ratio, height * ratio)
                     let cgimage = imageTexture!.CGImage()
                     let cgCropped = CGImageCreateWithImageInRect(cgimage, cropRect)

@@ -85,7 +85,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     var wordPersonIndex = 0
     var wordSprites = [SKLabelNode]()
     var danceIndex = 0
-    var speakPersonIndex = 0
     var songTime:NSTimeInterval = 0
     var lastUpdateTime:NSTimeInterval = 0
     
@@ -480,7 +479,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                     let word = words[wordIndex]
                     print("songTime=\(songTime) wordIndex=\(wordIndex) word=\(word)")
                     if word.hasPrefix("_") {
-						if danceIndex > 0 && danceIndex - 1 < onStage.count && wordSprites[w].text == onStage[danceIndex-1].person!.givenName {
+						if danceIndex > 0 && danceIndex - 1 < onStage.count && wordSprites[w].text!.hasPrefix(onStage[danceIndex-1].person!.givenName as! String) {
 							sayGivenName(onStage[danceIndex-1].person!)
 						} else {
 							speak(wordSprites[w].text!)
@@ -669,7 +668,6 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         danceIndex = 0
         lastShownWordIndex = 0
         songTime = 0
-        speakPersonIndex = 0
         words = song!.words!.split(" ")
         playButton!.state = 0
         let drumTrackPath = NSBundle.mainBundle().pathForResource(song!.drumTrack!, ofType:nil)!

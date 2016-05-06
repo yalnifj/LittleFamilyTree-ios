@@ -75,7 +75,7 @@ class PersonMatchSprite: SKSpriteNode {
                 } else {
                     self.person?.flipped = true
                     self.photoSprite?.hidden = false
-                    self.gameScene?.speak(self.person!.person.givenName as! String)
+                    self.gameScene?.sayGivenName(self.person!.person)
                 }
                 self.runAction(secondHalfMove)
                 self.runAction(secondHalfFlip) {
