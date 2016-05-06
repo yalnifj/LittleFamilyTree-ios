@@ -29,6 +29,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var previousTopic:String?
     var graybox:SKSpriteNode?
     var toasts = [SKSpriteNode]()
+    var audioPlayer:AVAudioPlayer!
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -455,7 +456,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(AVAudioSessionCategoryPlayback)
                     try audioSession.setActive(true)
-                    let audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl)
+                    audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl)
+                    audioPlayer.prepareToPlay()
                     audioPlayer.play()
                 } catch {
 					print("audioPlayer error: ")

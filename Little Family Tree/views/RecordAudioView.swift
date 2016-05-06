@@ -125,6 +125,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
                     try audioPlayer = AVAudioPlayer(contentsOfURL: soundFileURL!)
 
                     audioPlayer?.delegate = self
+                    audioPlayer?.prepareToPlay()
                     audioPlayer?.play()
                 } catch {
 					print("audioPlayer error:")
@@ -169,10 +170,10 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 		let folderUrl = url.URLByAppendingPathComponent(person!.familySearchId! as String)
 		soundFileURL = folderUrl.URLByAppendingPathComponent("givenName.caf")
         let recordSettings:[String : AnyObject] =
-			[AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
+			[AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
                     AVFormatIDKey:Int(kAudioFormatAppleIMA4),
 					AVEncoderBitRateKey: 16,
-					AVNumberOfChannelsKey: 2,
+					AVNumberOfChannelsKey: 1,
 					AVSampleRateKey: 44100.0]
 
         do {

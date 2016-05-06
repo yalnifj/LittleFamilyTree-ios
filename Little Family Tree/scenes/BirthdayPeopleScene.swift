@@ -667,7 +667,6 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 scene.showSharingPanel()
             }
             func LoginCanceled() {
-                
             }
         }
         subview.loginListener = ShareLoginListener(scene: self)
@@ -676,36 +675,42 @@ class BirthdayPeopleScene: LittleFamilyScene {
     }
 	
 	func showSharingPanel() {
-		cardBottomSprite!.hidden = false
-		cardBottomLogo!.hidden = false
-		cardBottomText!.hidden = false
-		
-        let height = cardSprite!.frame.height + cardBottomSprite!.frame.height + CGFloat(5)
-		let cropRect = CGRectMake(cardSprite!.frame.minX, self.size.height - cardSprite!.frame.maxY, cardSprite!.size.width, height)
-		
-		let imageTexture = self.scene!.view!.textureFromNode(self)
-        if imageTexture != nil {
-            //let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
-            let cgimage = imageTexture!.CGImage()
-            let cgCropped = CGImageCreateWithImageInRect(cgimage, cropRect)
-            let image = UIImage(CGImage: cgCropped!)
-            if image.size.width > 0 {
-                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-                if let wPPC = activityViewController.popoverPresentationController {
-                    wPPC.sourceView = self.view!
-                    wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+        if cardBottomSprite != nil {
+            cardBottomSprite!.hidden = false
+            cardBottomLogo!.hidden = false
+            cardBottomText!.hidden = false
+            
+            dispatch_async(dispatch_get_main_queue(),{
+            
+                let height = self.cardSprite!.frame.height + self.cardBottomSprite!.frame.height + CGFloat(5)
+                
+                let imageTexture = self.scene!.view!.textureFromNode(self)
+                if imageTexture != nil {
+                    //let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
+                    let ratio = imageTexture!.size().width / self.size.width
+                    let cropRect = CGRectMake(self.cardSprite!.frame.minX * ratio, (self.size.height - self.cardSprite!.frame.maxY) * ratio, self.cardSprite!.frame.width * ratio, height * ratio)
+                    let cgimage = imageTexture!.CGImage()
+                    let cgCropped = CGImageCreateWithImageInRect(cgimage, cropRect)
+                    let image = UIImage(CGImage: cgCropped!)
+                    if image.size.width > 0 {
+                        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                        if let wPPC = activityViewController.popoverPresentationController {
+                            wPPC.sourceView = self.view!
+                            wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
+                        }
+                        self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+                    } else {
+                        print("Unable to create UIImage")
+                    }
+                
+                } else {
+                    print("Unable to generate image")
                 }
-                self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
-            } else {
-                print("Unable to create UIImage")
-            }
-		
-        } else {
-            print("Unable to generate image")
+                self.cardBottomSprite!.hidden = true
+                self.cardBottomLogo!.hidden = true
+                self.cardBottomText!.hidden = true
+            })
         }
-		cardBottomSprite!.hidden = true
-		cardBottomLogo!.hidden = true
-		cardBottomText!.hidden = true
 	}
 }
 
