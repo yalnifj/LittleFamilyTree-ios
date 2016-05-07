@@ -172,6 +172,7 @@ class SettingsView: UIView {
     @IBAction func backButtonAction(sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
+        openingScene?.paused = false
     }
     
     @IBAction func quietModeToggleAction(sender: UISwitch) {

@@ -19,6 +19,7 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     @IBOutlet weak var remoteIdTxt: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var resultsTable: UITableView!
+    @IBOutlet weak var showFamilyButton: UIButton!
     
     var selectedPerson:LittlePerson?
     var personDetailsView:PersonDetailsView?
@@ -68,9 +69,18 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
         let surname = lastNameTxt.text
         let remoteid = remoteIdTxt.text
         
-        self.results = dataService.dbHelper.search(given, surname: surname, remoteid: remoteid)
+        self.results = dataService.dbHelper.search(given?.trim(), surname: surname?.trim(), remoteid: remoteid)
         self.resultsTable.reloadData()
     }
+    
+    @IBAction func showFamilyAction(sender: AnyObject) {
+        let dataService = DataService.getInstance()
+        dataService.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
+            self.results = people!
+            self.resultsTable.reloadData()
+        })
+    }
+    
     
     func showResults(results:[LittlePerson]) {
         self.results = results
