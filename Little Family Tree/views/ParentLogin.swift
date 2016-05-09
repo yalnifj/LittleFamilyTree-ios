@@ -82,6 +82,8 @@ class ParentLogin: UIView {
     }
     
     func loginAction() {
+        spinner.hidden = false
+        spinner.startAnimating()
         let username = txtUsername.text
         let password = txtPassword.text
         
@@ -110,9 +112,9 @@ class ParentLogin: UIView {
 				}
                 self.view.removeFromSuperview()
                 self.loginListener?.LoginComplete()
-            } else {
-                showAlert("Unable to login")
             }
+        } else {
+            showAlert("Unable to authorize credentials.")
         }
     }
     
