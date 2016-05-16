@@ -18,6 +18,7 @@ class GameScene: LittleFamilyScene {
 	static var TOPIC_START_BUBBLES = "start_bubbles"
     static var TOPIC_START_SONG = "start_song"
     static var TOPIC_START_CARD = "start_card"
+    static var TOPIC_START_BIRD = "start_bird"
     
     var maxHeight : CGFloat!
     var lfScale : CGFloat = 1;
@@ -156,6 +157,16 @@ class GameScene: LittleFamilyScene {
 		DataService.getInstance().getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
 			self.personLeaves?.people = people
 		});
+        
+        let bird = BirdHomeSprite(imageNamed: "house_tree_bird")
+        bird.topic = GameScene.TOPIC_START_BIRD
+        bird.createActions()
+        bird.anchorPoint = CGPoint.zero
+        bird.position = CGPointMake(90, 455-(personLeaves?.size.height)!)
+        bird.zPosition = z++
+        touchableSprites.append(bird)
+        spriteContainer.addChild(bird)
+        starSprites.append(bird)
 		
         
         let tileY:CGFloat = 600
@@ -916,8 +927,9 @@ class GameScene: LittleFamilyScene {
 		EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_SONG, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_CARD, listener: self)
+        EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BIRD, listener: self)
         self.speak("Hi")
-		let delayAction = SKAction.waitForDuration(0.5)
+		let delayAction = SKAction.waitForDuration(0.35)
         runAction(delayAction) {
             self.sayGivenName(self.selectedPerson!)
         }
@@ -934,6 +946,7 @@ class GameScene: LittleFamilyScene {
 		EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BUBBLES, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_SONG, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_CARD, listener: self)
+        EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BIRD, listener: self)
     }
     
     func pinched(sender:UIPinchGestureRecognizer){

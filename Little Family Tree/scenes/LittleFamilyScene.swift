@@ -161,6 +161,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         else if topic == GameScene.TOPIC_START_CARD {
             self.showCardGame(nil, previousTopic: nil)
         }
+        else if topic == GameScene.TOPIC_START_BIRD {
+            self.showBirdGame(nil, previousTopic: nil)
+        }
     }
     
     func showHomeScreen() {
@@ -325,6 +328,20 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
         nextScene.selectedPerson = selectedPerson
         
+        scene?.view?.presentScene(nextScene, transition: transition)
+    }
+    
+    func showBirdGame(person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+        let nextScene = BirdScene(size: scene!.size)
+        nextScene.previousTopic = previousTopic
+        nextScene.chosenPlayer = self.chosenPlayer
+        nextScene.scaleMode = .AspectFill
+        if person != nil {
+            nextScene.selectedPerson = person
+        } else {
+            nextScene.selectedPerson = selectedPerson
+        }
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
