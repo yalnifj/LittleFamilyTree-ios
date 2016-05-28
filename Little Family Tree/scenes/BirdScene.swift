@@ -43,7 +43,7 @@ class BirdScene: LittleFamilyScene {
         let br2 = branch2.size.width / branch2.size.height
         let ratio = branch2.size.width / (self.size.width / 2)
         branch2.size.width = self.size.width / 2
-        branch2.size.height = self.size.width / br2
+        branch2.size.height = branch2.size.width / br2
         branch2.position = CGPointMake(branch2.size.width, branch2.size.height)
         branch2.zPosition = 1
         sprites.append(branch2)
