@@ -13,6 +13,8 @@ class BirdScene: LittleFamilyScene {
     var portrait = true
     
     var sprites = [SKNode]()
+	
+	var animator:SpriteAnimator?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -56,5 +58,14 @@ class BirdScene: LittleFamilyScene {
         branch1.zPosition = 2
         sprites.append(branch1)
         self.addChild(branch1)
+    }
+	
+	override func update(currentTime: CFTimeInterval) {
+        /* Called before each frame is rendered */
+        super.update(currentTime)
+
+		if animator != nil {
+			animator!.update(currentTime)
+		}
     }
 }
