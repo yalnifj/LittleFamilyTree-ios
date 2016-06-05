@@ -67,10 +67,10 @@ class AnimatedStateSprite: SKSpriteNode {
             addTexture(state, texture: self.texture!)
         }
 		
-		self.setState(nextState)
+		self.changeState(nextState)
 	}
 	
-	func setState(nextState:Int) {
+	func changeState(nextState:Int) {
         state = nextState;
         
         if (stateTextures[state] != nil) {
