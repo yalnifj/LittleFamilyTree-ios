@@ -71,6 +71,20 @@ class BirdScene: LittleFamilyScene {
         bird.size.width = branch1.size.width * 2
         bird.size.height = bird.size.width / br
         bird.position = CGPointMake(branch2.position.x, branch2.position.y + bird.size.height)
+        let action1 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird"),
+            SKTexture.init(imageNamed: "house_tree_bird1"),
+            SKTexture.init(imageNamed: "house_tree_bird2"),
+            SKTexture.init(imageNamed: "house_tree_bird1"),
+            SKTexture.init(imageNamed: "house_tree_bird")], timePerFrame: 0.1)
+        bird.addAction(1, action: action1)
+        let action2 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird3"),
+            SKTexture.init(imageNamed: "house_tree_bird4"),
+            SKTexture.init(imageNamed: "house_tree_bird5"),
+            SKTexture.init(imageNamed: "house_tree_bird6"),
+            SKTexture.init(imageNamed: "house_tree_bird7"),
+            SKTexture.init(imageNamed: "house_tree_bird")], timePerFrame: 0.1)
+        bird.addAction(2, action: action2)
+        bird.addSound(2, soundFile: "bird")
         self.addChild(bird)
         sprites.append(bird)
     }
