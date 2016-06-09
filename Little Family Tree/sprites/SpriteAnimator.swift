@@ -81,7 +81,6 @@ class SpriteActionTiming : AnimatorTiming {
 	}
 	
 	override func apply() {
-		sprite.removeAllActions()
 		sprite.runAction(action)
 	}
 }
