@@ -10,16 +10,37 @@ import Foundation
 import SpriteKit
 
 class BirdScene: LittleFamilyScene, TreeWalkerListener {
+	static var TOPIC_SKIP_CUTSCENE = "topicSkipCutScene"
+	
     var portrait = true
     
 	var family:[LittlePerson]?
 	
     var sprites = [SKNode]()
+	var peopleSprites = [PersonNameSprite]()
+	var nestSprites = [PersonNameSprite]()
+	var missedSprites = [PersonNameSprite]()
+	var backgoundTiles = [SKSpriteNode]()
 	
-	var animator:SpriteAnimator?
-	var treeWalker:TreeWalker?
+	var tiles = [SKTexture]()
+	var leaves = [SKTexture]()
+	
+	var cloud:AnimatedStateSprite!
+	var bird:AnimatedStateSprite!
+	var animator:SpriteAnimator!
+	var treeWalker:TreeWalker!
 	
 	var showingCutScene = true
+	var missed = 0
+	var gameOver = false
+	var spritesCreated = false
+	
+	var boardWidth = CGFloat(0)
+	
+	var tileOffset = CGFloat(0)
+	
+	var tileMove = CGFloat(1)
+	var timeStep = 0.2
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -38,6 +59,18 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		treeWalker = TreeWalker(self.selectedPerson!, listener: self, reusePeople: false)
         treeWalker!.loadFamilyMembers();
+		
+		let tile1 = SKTexture(imageNamed: "bird_tile1")
+		tiles.append(tile1)
+		tiles.append(tile1)
+		tiles.append(tile1)
+		tiles.append(tile1)
+		tiles.append(tile1)
+		tiles.append(tile1)
+		tiles.append(SKTexture(imageNamed: "bird_tile2"))
+		tiles.append(SKTexture(imageNamed: "bird_tile3"))
+		tiles.append(SKTexture(imageNamed: "bird_tile4"))
+		tiles.append(SKTexture(imageNamed: "bird_tile5"))
     }
 
     func showCutScene() {
@@ -51,6 +84,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         if width != self.size.width {
             portrait = false
         }
+		
+		let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
 		
 		animator = SpriteAnimator()
         
@@ -183,17 +218,198 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				animator.addTiming(SpriteActionTiming(11.5 + CGFloat(arc4random_uniform(100)/100.0), sprite: leaf1, action: lact1)
 			}
 			
+			cloud = AnimatedStateSprite(imageNamed: "cloud1")
+			let cr = cloud!.size.width / cloud.size.height
+			cloud.size.width = self.size.width * 1.60
+			cloud.size.height = cloud!.size.width / cr
+			cloud.position = CGPointMake(-cloud!.size.width / 2, branch1.position.y)
+			cloud.zPosition = 5
+			
+			let cact1 = SKAction.moveToX(self.size.width / 3, duration: 4)
+			animator.addTiming(SpriteActionTiming(1, sprite: cloud, action: cact1)
+			
+			cloud.addTexture(1, texture: SKTexture(imageNamed: "cloud2"))
+			animator.addTiming(SpriteStateTiming(7.5, sprite: cloud, state: 1))
+			if quietMode == nil || quietMode == "false" {
+				let cact1sound = SKAction.playSoundFileNamed("grumble", waitForCompletion: false)
+				animator.addTiming(SpriteActionTiming(7.5, sprite: cloud, action: cact1sound))
+			}
+			
+			let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
+				SKTexture(imageNamed: "cloud4"),
+				SKTexture(imageNamed: "cloud5"),
+				SKTexture(imageNamed: "cloud6"),
+				SKTexture(imageNamed: "cloud7"),
+				SKTexture(imageNamed: "cloud8"),
+				SKTexture(imageNamed: "cloud9"),
+				SKTexture(imageNamed: "cloud10"),
+				SKTexture(imageNamed: "cloud11"),
+				SKTexture(imageNamed: "cloud12")
+			], timePerFrame: 0.1)
+			animator.addTiming(SpriteActionTiming(10, sprite: cloud, action: cact2))
+			
+			if quietMode == nil || quietMode == "false" {
+				let cact2sound = SKAction.playSoundFileNamed("blowing", waitForCompletion: false)
+				animator.addTiming(SpriteActionTiming(10, sprite: cloud, action: cact2sound))
+			}
+			
+			cloud.addTexture(2, texture: SKTexture(imageNamed: "cloud11"))
+			cloud.addTexture(2, texture: SKTexture(imageNamed: "cloud12"))
+			animator.addTiming(SpriteStateTiming(10.9, sprite: cloud, state: 2))
+			
+			let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
+				SKTexture(imageNamed: "cloud14"),
+				SKTexture(imageNamed: "cloud15")
+			], timePerFrame: 0.1)
+			animator.addTiming(SpriteActionTiming(14, sprite: cloud, action: cact3))
+			
+			cloud.addTexture(3, texture: SKTexture(imageNamed: "cloud15"))
+			animator.addTiming(SpriteStateTiming(14.3, sprite: cloud, state: 3))
+			
+			cloud.addTexture(4, texture: SKTexture(imageNamed: "cloud16"))
+			animator.addTiming(SpriteStateTiming(15.5, sprite: cloud, state: 4))
+			if quietMode == nil || quietMode == "false" {
+				let cact4sound = SKAction.playSoundFileNamed("humph", waitForCompletion: false)
+				animator.addTiming(SpriteActionTiming(15.5, sprite: cloud, action: cact4sound))
+			}
+			animator.addTiming(SpriteStateTiming(15.8, sprite: cloud, state: 3))
+			let cact5 = SKAction.moveToX(self.size.width + cloud.size.width / 2, duration: 3)
+			animator.addTiming(SpriteActionTiming(15.9, sprite: cloud, action: cact5))
+			
+			animator.addTiming(SpriteStateTiming(22, sprite: cloud, state: 3))
+			
+			self.addChild(cloud)
+			sprites.append(cloud)
+			
+			let skipButton = EventSprite(imageNamed: "ff")
+			let sr = skipButton.size.width / skipButton.size.height
+			skipButton.size.width = min(self.size.width, self.size.height) / 5
+			skipButton.size.height = skipButton.size.width / sr
+			skipButton.position = CGPointMake(self.size.width - skipButton.size.width, skipButton.size.height)
+			skipButton.zPosition = 6
+			skipButton.topic = BirdScene.TOPIC_SKIP_CUTSCENE
+			skipButton.userInteractionEnabled = true
+			self.addChild(cloud)
+			sprites.append(cloud)
+			
 			animator.start()
 		}
     }
 	
+	func createSprites() {
+		for s in sprites {
+            s.removeFromParent()
+        }
+        sprites.removeAll()
+		
+		peopleSprites.removeAll()
+		nestSprites.removeAll()
+		missedSprites.removeAll()
+		backgroundTiles.removeAll()
+		
+		let height = self.size.height
+        var width = self.size.width
+		
+		if !portrait {
+			let wr = self.size.width / self.size.height
+			width = self.size.height / wr
+		}
+		
+		let basex = (self.size.width / 2) - (width / 2)
+		let tx = CGFloat(0)
+		let ty = self.size.height
+		while (ty > 0) {
+			let rt = arc4random_uniform(UInt32(tiles.count))
+			let bgSprite = SKSpriteNode(texture: tiles[r])
+			bgSprite.zPosition = 1
+			bgSprite.position = CGPointMake(basex + tx, ty)
+			backgoundTiles.append(bgSprite)
+			sprites.append(bgSprite)
+			self.addChild(bgSprite)
+			
+			tx = tx + bgSprite.size.width - 2
+			if tx >= width {
+				ty = ty - tiles[0].size().height - 2
+			}
+		}
+		
+		let titleSprite = SKSpriteNode(imageNamed: "rr_title")
+		let tr = titleSprite.size.width / titleSprite.size.height
+		titleSprite.size.width = width * 0.8
+		titleSprite.size.height = titleSprite.size.width / tr
+		titleSprite.zPosition = 2
+		titleSprite.position = CGPointMake(self.size.width / 2, (self.size.height / 2) + titleSprite.size.height)
+		let titleAct = SKAction.moveToY(0, duration: 2)
+		titleSprite.runAction(titleAct)
+		sprites.append(titleSprite)
+		self.addChild(titleSprite)
+		
+		bird = AnimatedStateSprite(imageNamed: "flying_bird1")
+		bird.zPosition = 3
+		bird.position = CGPointMake(self.size.width / 2, bird.size.height * 2)
+		bird.addTexture(0, SKTexture(imageNamed: "flying_bird2"))
+		bird.addTexture(0, SKTexture(imageNamed: "flying_bird3"))
+		sprites.append(bird)
+		self.addChild(bird)
+		
+		leaves.append(SKTexture(imageNamed: "leaf1"))
+		leaves.append(SKTexture(imageNamed: "leaf2"))
+		leaves.append(SKTexture(imageNamed: "leafb1"))
+		leaves.append(SKTexture(imageNamed: "leafb2"))
+		
+		boardWidth = width
+		
+		speak("Rescue your Relatives!")
+		spritesCreated = true
+	}
+	
+	func addTileRow() {
+		let tx = CGFloat(0)
+		let ty = self.size.height
+		let basex = (self.size.width / 2) - (width / 2)
+		while tx < boardWidth {
+			let rt = arc4random_uniform(UInt32(tiles.count))
+			let bgSprite = SKSpriteNode(texture: tiles[r])
+			bgSprite.zPosition = 1
+			bgSprite.position = CGPointMake(basex + tx, ty)
+			backgoundTiles.removeFirst()
+			backgoundTiles.append(bgSprite)
+			sprites.append(bgSprite)
+			self.addChild(bgSprite)
+			
+			tx = tx + bgSprite.size.width - 2
+		}
+	}
+	
+	var lastUpdate:CFTimeInterval = 0
 	override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         super.update(currentTime)
 
 		if animator != nil {
 			animator!.update(currentTime)
+			
+			if showingCutScene && animator.finished {
+				showCutScene = false
+				createSprites()
+			}
 		}
+		
+		if spritesCreated {
+			if currentTime - lastUpdate > timeStep {
+				lastUpdate = currentTime
+				tileOffset += tileMove
+				for bgs in backgroundTiles {
+					bgs.position.y -= tileMove
+				}
+				
+				if  tileOffset >= tiles[0].size().height -2 {
+					tileOffset = CGFloat(0)
+					addTileRow()
+				}
+			}
+		}
+		
     }
 	
 	override func onComplete(family:[LittlePerson]) {
