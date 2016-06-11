@@ -55,8 +55,9 @@ class SpriteStateTiming : AnimatorTiming {
 	var state:Int = 0
 	
 	init(time:NSTimeInterval, sprite:AnimatedStateSprite, state:Int) {
+        self.sprite = sprite
+        super.init()
 		self.time = time
-		self.sprite = sprite
 		self.state = state
 	}
 	
@@ -75,9 +76,10 @@ class SpriteActionTiming : AnimatorTiming {
 	var action:SKAction
 	
 	init(time:NSTimeInterval, sprite:SKNode, action:SKAction) {
+        self.sprite = sprite
+        self.action = action
+        super.init()
 		self.time = time
-		self.sprite = sprite
-		self.action = action
 	}
 	
 	override func apply() {

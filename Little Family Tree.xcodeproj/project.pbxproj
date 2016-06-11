@@ -84,6 +84,24 @@
 		A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B81CB02AA100B63D81 /* cupcake3.png */; };
 		A150A5BD1CB02AA100B63D81 /* cupcake4.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B91CB02AA100B63D81 /* cupcake4.png */; };
 		A150A5BF1CB02AC300B63D81 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5BE1CB02AC300B63D81 /* logo.png */; };
+		A158DB3F1D0CA7E60002F0A8 /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB2F1D0CA7E60002F0A8 /* cloud1.png */; };
+		A158DB401D0CA7E60002F0A8 /* cloud2.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB301D0CA7E60002F0A8 /* cloud2.png */; };
+		A158DB411D0CA7E60002F0A8 /* cloud3.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB311D0CA7E60002F0A8 /* cloud3.png */; };
+		A158DB421D0CA7E60002F0A8 /* cloud4.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB321D0CA7E60002F0A8 /* cloud4.png */; };
+		A158DB431D0CA7E60002F0A8 /* cloud5.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB331D0CA7E60002F0A8 /* cloud5.png */; };
+		A158DB441D0CA7E60002F0A8 /* cloud6.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB341D0CA7E60002F0A8 /* cloud6.png */; };
+		A158DB451D0CA7E60002F0A8 /* cloud7.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB351D0CA7E60002F0A8 /* cloud7.png */; };
+		A158DB461D0CA7E60002F0A8 /* cloud8.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB361D0CA7E60002F0A8 /* cloud8.png */; };
+		A158DB471D0CA7E60002F0A8 /* cloud9.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB371D0CA7E60002F0A8 /* cloud9.png */; };
+		A158DB481D0CA7E60002F0A8 /* cloud10.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB381D0CA7E60002F0A8 /* cloud10.png */; };
+		A158DB491D0CA7E60002F0A8 /* cloud11.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB391D0CA7E60002F0A8 /* cloud11.png */; };
+		A158DB4A1D0CA7E60002F0A8 /* cloud12.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3A1D0CA7E60002F0A8 /* cloud12.png */; };
+		A158DB4B1D0CA7E60002F0A8 /* cloud13.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3B1D0CA7E60002F0A8 /* cloud13.png */; };
+		A158DB4C1D0CA7E60002F0A8 /* cloud14.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3C1D0CA7E60002F0A8 /* cloud14.png */; };
+		A158DB4D1D0CA7E60002F0A8 /* cloud15.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3D1D0CA7E60002F0A8 /* cloud15.png */; };
+		A158DB4E1D0CA7E60002F0A8 /* cloud16.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3E1D0CA7E60002F0A8 /* cloud16.png */; };
+		A158DB531D0CAA100002F0A8 /* branch1.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB511D0CAA100002F0A8 /* branch1.png */; };
+		A158DB541D0CAA100002F0A8 /* branch2.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB521D0CAA100002F0A8 /* branch2.png */; };
 		A15A0F071CD4500B00471221 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F061CD4500A00471221 /* delete.png */; };
 		A15A0F091CD4525D00471221 /* mic_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F081CD4525D00471221 /* mic_icon.png */; };
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
@@ -98,20 +116,6 @@
 		A1743DC91CE7BF0E0066E964 /* bird_tile3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB01CE7BF0E0066E964 /* bird_tile3.png */; };
 		A1743DCA1CE7BF0E0066E964 /* bird_tile4.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB11CE7BF0E0066E964 /* bird_tile4.png */; };
 		A1743DCB1CE7BF0E0066E964 /* bird_tile5.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB21CE7BF0E0066E964 /* bird_tile5.png */; };
-		A1743DCC1CE7BF0E0066E964 /* branch1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB31CE7BF0E0066E964 /* branch1.png */; };
-		A1743DCD1CE7BF0E0066E964 /* branch2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB41CE7BF0E0066E964 /* branch2.png */; };
-		A1743DCE1CE7BF0E0066E964 /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB51CE7BF0E0066E964 /* cloud1.png */; };
-		A1743DCF1CE7BF0E0066E964 /* cloud10.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB61CE7BF0E0066E964 /* cloud10.png */; };
-		A1743DD01CE7BF0E0066E964 /* cloud11.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB71CE7BF0E0066E964 /* cloud11.png */; };
-		A1743DD11CE7BF0E0066E964 /* cloud12.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB81CE7BF0E0066E964 /* cloud12.png */; };
-		A1743DD21CE7BF0E0066E964 /* cloud2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DB91CE7BF0E0066E964 /* cloud2.png */; };
-		A1743DD31CE7BF0E0066E964 /* cloud3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBA1CE7BF0E0066E964 /* cloud3.png */; };
-		A1743DD41CE7BF0E0066E964 /* cloud4.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBB1CE7BF0E0066E964 /* cloud4.png */; };
-		A1743DD51CE7BF0E0066E964 /* cloud5.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBC1CE7BF0E0066E964 /* cloud5.png */; };
-		A1743DD61CE7BF0E0066E964 /* cloud6.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBD1CE7BF0E0066E964 /* cloud6.png */; };
-		A1743DD71CE7BF0E0066E964 /* cloud7.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBE1CE7BF0E0066E964 /* cloud7.png */; };
-		A1743DD81CE7BF0E0066E964 /* cloud8.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DBF1CE7BF0E0066E964 /* cloud8.png */; };
-		A1743DD91CE7BF0E0066E964 /* cloud9.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC01CE7BF0E0066E964 /* cloud9.png */; };
 		A1743DDA1CE7BF0E0066E964 /* flying_bird1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC11CE7BF0E0066E964 /* flying_bird1.png */; };
 		A1743DDB1CE7BF0E0066E964 /* flying_bird2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC21CE7BF0E0066E964 /* flying_bird2.png */; };
 		A1743DDC1CE7BF0E0066E964 /* flying_bird3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC31CE7BF0E0066E964 /* flying_bird3.png */; };
@@ -120,24 +124,6 @@
 		A1743DDF1CE7BF0E0066E964 /* leaf_stem.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC61CE7BF0E0066E964 /* leaf_stem.png */; };
 		A1A04D8E1CFA5AB000750FC2 /* SpriteAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */; };
 		A1A04DB11CFA5B2C00750FC2 /* blowing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */; };
-		A1A04DB21CFA5B2C00750FC2 /* branch1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D981CFA5B2C00750FC2 /* branch1.png */; };
-		A1A04DB31CFA5B2C00750FC2 /* branch2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D991CFA5B2C00750FC2 /* branch2.png */; };
-		A1A04DB41CFA5B2C00750FC2 /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9A1CFA5B2C00750FC2 /* cloud1.png */; };
-		A1A04DB51CFA5B2C00750FC2 /* cloud2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9B1CFA5B2C00750FC2 /* cloud2.png */; };
-		A1A04DB61CFA5B2C00750FC2 /* cloud3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9C1CFA5B2C00750FC2 /* cloud3.png */; };
-		A1A04DB71CFA5B2C00750FC2 /* cloud4.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9D1CFA5B2C00750FC2 /* cloud4.png */; };
-		A1A04DB81CFA5B2C00750FC2 /* cloud5.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9E1CFA5B2C00750FC2 /* cloud5.png */; };
-		A1A04DB91CFA5B2C00750FC2 /* cloud6.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D9F1CFA5B2C00750FC2 /* cloud6.png */; };
-		A1A04DBA1CFA5B2C00750FC2 /* cloud7.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA01CFA5B2C00750FC2 /* cloud7.png */; };
-		A1A04DBB1CFA5B2C00750FC2 /* cloud8.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA11CFA5B2C00750FC2 /* cloud8.png */; };
-		A1A04DBC1CFA5B2C00750FC2 /* cloud9.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA21CFA5B2C00750FC2 /* cloud9.png */; };
-		A1A04DBD1CFA5B2C00750FC2 /* cloud10.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA31CFA5B2C00750FC2 /* cloud10.png */; };
-		A1A04DBE1CFA5B2C00750FC2 /* cloud11.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA41CFA5B2C00750FC2 /* cloud11.png */; };
-		A1A04DBF1CFA5B2C00750FC2 /* cloud12.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA51CFA5B2C00750FC2 /* cloud12.png */; };
-		A1A04DC01CFA5B2C00750FC2 /* cloud13.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA61CFA5B2C00750FC2 /* cloud13.png */; };
-		A1A04DC11CFA5B2C00750FC2 /* cloud14.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA71CFA5B2C00750FC2 /* cloud14.png */; };
-		A1A04DC21CFA5B2C00750FC2 /* cloud15.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA81CFA5B2C00750FC2 /* cloud15.png */; };
-		A1A04DC31CFA5B2C00750FC2 /* cloud16.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DA91CFA5B2C00750FC2 /* cloud16.png */; };
 		A1A04DC41CFA5B2C00750FC2 /* grumble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */; };
 		A1A04DC51CFA5B2C00750FC2 /* humph.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DAB1CFA5B2C00750FC2 /* humph.mp3 */; };
 		A1A04DC61CFA5B2C00750FC2 /* leafb1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DAC1CFA5B2C00750FC2 /* leafb1.png */; };
@@ -821,6 +807,24 @@
 		A150A5B81CB02AA100B63D81 /* cupcake3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake3.png; sourceTree = "<group>"; };
 		A150A5B91CB02AA100B63D81 /* cupcake4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake4.png; sourceTree = "<group>"; };
 		A150A5BE1CB02AC300B63D81 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		A158DB2F1D0CA7E60002F0A8 /* cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud1.png; sourceTree = "<group>"; };
+		A158DB301D0CA7E60002F0A8 /* cloud2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud2.png; sourceTree = "<group>"; };
+		A158DB311D0CA7E60002F0A8 /* cloud3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud3.png; sourceTree = "<group>"; };
+		A158DB321D0CA7E60002F0A8 /* cloud4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud4.png; sourceTree = "<group>"; };
+		A158DB331D0CA7E60002F0A8 /* cloud5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud5.png; sourceTree = "<group>"; };
+		A158DB341D0CA7E60002F0A8 /* cloud6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud6.png; sourceTree = "<group>"; };
+		A158DB351D0CA7E60002F0A8 /* cloud7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud7.png; sourceTree = "<group>"; };
+		A158DB361D0CA7E60002F0A8 /* cloud8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud8.png; sourceTree = "<group>"; };
+		A158DB371D0CA7E60002F0A8 /* cloud9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud9.png; sourceTree = "<group>"; };
+		A158DB381D0CA7E60002F0A8 /* cloud10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud10.png; sourceTree = "<group>"; };
+		A158DB391D0CA7E60002F0A8 /* cloud11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud11.png; sourceTree = "<group>"; };
+		A158DB3A1D0CA7E60002F0A8 /* cloud12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud12.png; sourceTree = "<group>"; };
+		A158DB3B1D0CA7E60002F0A8 /* cloud13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud13.png; sourceTree = "<group>"; };
+		A158DB3C1D0CA7E60002F0A8 /* cloud14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud14.png; sourceTree = "<group>"; };
+		A158DB3D1D0CA7E60002F0A8 /* cloud15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud15.png; sourceTree = "<group>"; };
+		A158DB3E1D0CA7E60002F0A8 /* cloud16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud16.png; sourceTree = "<group>"; };
+		A158DB511D0CAA100002F0A8 /* branch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch1.png; sourceTree = "<group>"; };
+		A158DB521D0CAA100002F0A8 /* branch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch2.png; sourceTree = "<group>"; };
 		A15A0F061CD4500A00471221 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		A15A0F081CD4525D00471221 /* mic_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_icon.png; sourceTree = "<group>"; };
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
@@ -834,20 +838,6 @@
 		A1743DB01CE7BF0E0066E964 /* bird_tile3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bird_tile3.png; sourceTree = "<group>"; };
 		A1743DB11CE7BF0E0066E964 /* bird_tile4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bird_tile4.png; sourceTree = "<group>"; };
 		A1743DB21CE7BF0E0066E964 /* bird_tile5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bird_tile5.png; sourceTree = "<group>"; };
-		A1743DB31CE7BF0E0066E964 /* branch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch1.png; sourceTree = "<group>"; };
-		A1743DB41CE7BF0E0066E964 /* branch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch2.png; sourceTree = "<group>"; };
-		A1743DB51CE7BF0E0066E964 /* cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud1.png; sourceTree = "<group>"; };
-		A1743DB61CE7BF0E0066E964 /* cloud10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud10.png; sourceTree = "<group>"; };
-		A1743DB71CE7BF0E0066E964 /* cloud11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud11.png; sourceTree = "<group>"; };
-		A1743DB81CE7BF0E0066E964 /* cloud12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud12.png; sourceTree = "<group>"; };
-		A1743DB91CE7BF0E0066E964 /* cloud2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud2.png; sourceTree = "<group>"; };
-		A1743DBA1CE7BF0E0066E964 /* cloud3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud3.png; sourceTree = "<group>"; };
-		A1743DBB1CE7BF0E0066E964 /* cloud4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud4.png; sourceTree = "<group>"; };
-		A1743DBC1CE7BF0E0066E964 /* cloud5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud5.png; sourceTree = "<group>"; };
-		A1743DBD1CE7BF0E0066E964 /* cloud6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud6.png; sourceTree = "<group>"; };
-		A1743DBE1CE7BF0E0066E964 /* cloud7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud7.png; sourceTree = "<group>"; };
-		A1743DBF1CE7BF0E0066E964 /* cloud8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud8.png; sourceTree = "<group>"; };
-		A1743DC01CE7BF0E0066E964 /* cloud9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud9.png; sourceTree = "<group>"; };
 		A1743DC11CE7BF0E0066E964 /* flying_bird1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flying_bird1.png; sourceTree = "<group>"; };
 		A1743DC21CE7BF0E0066E964 /* flying_bird2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flying_bird2.png; sourceTree = "<group>"; };
 		A1743DC31CE7BF0E0066E964 /* flying_bird3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flying_bird3.png; sourceTree = "<group>"; };
@@ -856,24 +846,6 @@
 		A1743DC61CE7BF0E0066E964 /* leaf_stem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf_stem.png; sourceTree = "<group>"; };
 		A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteAnimator.swift; sourceTree = "<group>"; };
 		A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blowing.mp3; sourceTree = "<group>"; };
-		A1A04D981CFA5B2C00750FC2 /* branch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch1.png; sourceTree = "<group>"; };
-		A1A04D991CFA5B2C00750FC2 /* branch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch2.png; sourceTree = "<group>"; };
-		A1A04D9A1CFA5B2C00750FC2 /* cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud1.png; sourceTree = "<group>"; };
-		A1A04D9B1CFA5B2C00750FC2 /* cloud2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud2.png; sourceTree = "<group>"; };
-		A1A04D9C1CFA5B2C00750FC2 /* cloud3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud3.png; sourceTree = "<group>"; };
-		A1A04D9D1CFA5B2C00750FC2 /* cloud4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud4.png; sourceTree = "<group>"; };
-		A1A04D9E1CFA5B2C00750FC2 /* cloud5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud5.png; sourceTree = "<group>"; };
-		A1A04D9F1CFA5B2C00750FC2 /* cloud6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud6.png; sourceTree = "<group>"; };
-		A1A04DA01CFA5B2C00750FC2 /* cloud7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud7.png; sourceTree = "<group>"; };
-		A1A04DA11CFA5B2C00750FC2 /* cloud8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud8.png; sourceTree = "<group>"; };
-		A1A04DA21CFA5B2C00750FC2 /* cloud9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud9.png; sourceTree = "<group>"; };
-		A1A04DA31CFA5B2C00750FC2 /* cloud10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud10.png; sourceTree = "<group>"; };
-		A1A04DA41CFA5B2C00750FC2 /* cloud11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud11.png; sourceTree = "<group>"; };
-		A1A04DA51CFA5B2C00750FC2 /* cloud12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud12.png; sourceTree = "<group>"; };
-		A1A04DA61CFA5B2C00750FC2 /* cloud13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud13.png; sourceTree = "<group>"; };
-		A1A04DA71CFA5B2C00750FC2 /* cloud14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud14.png; sourceTree = "<group>"; };
-		A1A04DA81CFA5B2C00750FC2 /* cloud15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud15.png; sourceTree = "<group>"; };
-		A1A04DA91CFA5B2C00750FC2 /* cloud16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud16.png; sourceTree = "<group>"; };
 		A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = grumble.mp3; sourceTree = "<group>"; };
 		A1A04DAB1CFA5B2C00750FC2 /* humph.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = humph.mp3; sourceTree = "<group>"; };
 		A1A04DAC1CFA5B2C00750FC2 /* leafb1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leafb1.png; sourceTree = "<group>"; };
@@ -1490,25 +1462,25 @@
 				A1743DB01CE7BF0E0066E964 /* bird_tile3.png */,
 				A1743DB11CE7BF0E0066E964 /* bird_tile4.png */,
 				A1743DB21CE7BF0E0066E964 /* bird_tile5.png */,
+				A158DB511D0CAA100002F0A8 /* branch1.png */,
+				A158DB521D0CAA100002F0A8 /* branch2.png */,
 				A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */,
-				A1A04D981CFA5B2C00750FC2 /* branch1.png */,
-				A1743DB41CE7BF0E0066E964 /* branch2.png */,
-				A1A04D9A1CFA5B2C00750FC2 /* cloud1.png */,
-				A1743DB91CE7BF0E0066E964 /* cloud2.png */,
-				A1A04D9C1CFA5B2C00750FC2 /* cloud3.png */,
-				A1743DBB1CE7BF0E0066E964 /* cloud4.png */,
-				A1A04D9E1CFA5B2C00750FC2 /* cloud5.png */,
-				A1743DBD1CE7BF0E0066E964 /* cloud6.png */,
-				A1A04DA01CFA5B2C00750FC2 /* cloud7.png */,
-				A1743DBF1CE7BF0E0066E964 /* cloud8.png */,
-				A1A04DA21CFA5B2C00750FC2 /* cloud9.png */,
-				A1743DB61CE7BF0E0066E964 /* cloud10.png */,
-				A1A04DA41CFA5B2C00750FC2 /* cloud11.png */,
-				A1743DB81CE7BF0E0066E964 /* cloud12.png */,
-				A1A04DA61CFA5B2C00750FC2 /* cloud13.png */,
-				A1A04DA71CFA5B2C00750FC2 /* cloud14.png */,
-				A1A04DA81CFA5B2C00750FC2 /* cloud15.png */,
-				A1A04DA91CFA5B2C00750FC2 /* cloud16.png */,
+				A158DB2F1D0CA7E60002F0A8 /* cloud1.png */,
+				A158DB301D0CA7E60002F0A8 /* cloud2.png */,
+				A158DB311D0CA7E60002F0A8 /* cloud3.png */,
+				A158DB321D0CA7E60002F0A8 /* cloud4.png */,
+				A158DB331D0CA7E60002F0A8 /* cloud5.png */,
+				A158DB341D0CA7E60002F0A8 /* cloud6.png */,
+				A158DB351D0CA7E60002F0A8 /* cloud7.png */,
+				A158DB361D0CA7E60002F0A8 /* cloud8.png */,
+				A158DB371D0CA7E60002F0A8 /* cloud9.png */,
+				A158DB381D0CA7E60002F0A8 /* cloud10.png */,
+				A158DB391D0CA7E60002F0A8 /* cloud11.png */,
+				A158DB3A1D0CA7E60002F0A8 /* cloud12.png */,
+				A158DB3B1D0CA7E60002F0A8 /* cloud13.png */,
+				A158DB3C1D0CA7E60002F0A8 /* cloud14.png */,
+				A158DB3D1D0CA7E60002F0A8 /* cloud15.png */,
+				A158DB3E1D0CA7E60002F0A8 /* cloud16.png */,
 				A1743DC11CE7BF0E0066E964 /* flying_bird1.png */,
 				A1743DC21CE7BF0E0066E964 /* flying_bird2.png */,
 				A1743DC31CE7BF0E0066E964 /* flying_bird3.png */,
@@ -1522,20 +1494,6 @@
 				A1A04DAE1CFA5B2C00750FC2 /* rr_gameover.png */,
 				A1A04DAF1CFA5B2C00750FC2 /* rr_play.png */,
 				A1A04DB01CFA5B2C00750FC2 /* rr_title.png */,
-				A1743DB31CE7BF0E0066E964 /* branch1.png */,
-				A1743DB41CE7BF0E0066E964 /* branch2.png */,
-				A1743DB51CE7BF0E0066E964 /* cloud1.png */,
-				A1743DB61CE7BF0E0066E964 /* cloud10.png */,
-				A1743DB71CE7BF0E0066E964 /* cloud11.png */,
-				A1743DB81CE7BF0E0066E964 /* cloud12.png */,
-				A1743DB91CE7BF0E0066E964 /* cloud2.png */,
-				A1743DBA1CE7BF0E0066E964 /* cloud3.png */,
-				A1743DBB1CE7BF0E0066E964 /* cloud4.png */,
-				A1743DBC1CE7BF0E0066E964 /* cloud5.png */,
-				A1743DBD1CE7BF0E0066E964 /* cloud6.png */,
-				A1743DBE1CE7BF0E0066E964 /* cloud7.png */,
-				A1743DBF1CE7BF0E0066E964 /* cloud8.png */,
-				A1743DC01CE7BF0E0066E964 /* cloud9.png */,
 			);
 			path = bird;
 			sourceTree = "<group>";
@@ -2421,7 +2379,6 @@
 				A1F7D3531C8FBC12006053A2 /* house_rooms_2_0.png in Resources */,
 				A1F7D1A81C8FBC12006053A2 /* soap7.png in Resources */,
 				A1F7D32F1C8FBC12006053A2 /* house_toys_bat8.png in Resources */,
-				A1A04DC31CFA5B2C00750FC2 /* cloud16.png in Resources */,
 				A172F0231C926C55007346FD /* grandma_outline.png in Resources */,
 				A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */,
 				A1F7D2C61C8FBC12006053A2 /* house_familyroom_frame7.png in Resources */,
@@ -2429,7 +2386,7 @@
 				A1F7D1971C8FBC12006053A2 /* bubbles5.png in Resources */,
 				A1F7D2B31C8FBC12006053A2 /* house_familyroom_frame12.png in Resources */,
 				A1F7D2F11C8FBC12006053A2 /* house_light_b1.png in Resources */,
-				A1743DCC1CE7BF0E0066E964 /* branch1.png in Resources */,
+				A158DB431D0CA7E60002F0A8 /* cloud5.png in Resources */,
 				A1F7D3CD1C8FBC12006053A2 /* tree_logotype_1x.png in Resources */,
 				A111A0F61C91051700552AE6 /* house_music_piano2.png in Resources */,
 				A1F7CF141C8FBBF3006053A2 /* Main.storyboard in Resources */,
@@ -2453,12 +2410,10 @@
 				A1F7CE231C8FBBA4006053A2 /* Images.xcassets in Resources */,
 				A1F7D27E1C8FBC12006053A2 /* house_chilldroom_desk14.png in Resources */,
 				A1F7D3231C8FBC12006053A2 /* house_toys_bat17.png in Resources */,
-				A1A04DBC1CFA5B2C00750FC2 /* cloud9.png in Resources */,
 				A1F7D3521C8FBC12006053A2 /* house_rooms_1_4.png in Resources */,
 				A1F7D3AC1C8FBC12006053A2 /* squirt.mp3 in Resources */,
 				A1F7D35D1C8FBC12006053A2 /* house_rooms_4_1.png in Resources */,
 				A1F7D2F31C8FBC12006053A2 /* house_music_drums.png in Resources */,
-				A1743DD01CE7BF0E0066E964 /* cloud11.png in Resources */,
 				A1A04DCA1CFA5B2C00750FC2 /* rr_title.png in Resources */,
 				A1F7D29E1C8FBC12006053A2 /* house_chilldroom_teddy3.png in Resources */,
 				A1F7D18A1C8FBC12006053A2 /* bubble_pop2.png in Resources */,
@@ -2501,12 +2456,12 @@
 				A1F7D2A31C8FBC12006053A2 /* house_cloud1a.png in Resources */,
 				A10CC8B81C8FC807005B3233 /* piano_off.png in Resources */,
 				A1F7D3AF1C8FBC12006053A2 /* toaster2.wav in Resources */,
+				A158DB411D0CA7E60002F0A8 /* cloud3.png in Resources */,
 				A10CC8C21C8FC807005B3233 /* violin.png in Resources */,
 				A1F7D32D1C8FBC12006053A2 /* house_toys_bat6.png in Resources */,
 				A111A10A1C914E0200552AE6 /* media_reset.png in Resources */,
 				A1743DCA1CE7BF0E0066E964 /* bird_tile4.png in Resources */,
 				A1F7D35F1C8FBC12006053A2 /* house_rooms_4_3.png in Resources */,
-				A1743DD31CE7BF0E0066E964 /* cloud3.png in Resources */,
 				A1F7D2DD1C8FBC12006053A2 /* house_kitchen_fridge.png in Resources */,
 				A1F7D2B61C8FBC12006053A2 /* house_familyroom_frame15.png in Resources */,
 				A1F7D18B1C8FBC12006053A2 /* bubble_pop3.png in Resources */,
@@ -2522,6 +2477,7 @@
 				A1F7D1881C8FBC12006053A2 /* bubble.png in Resources */,
 				A1F7D3671C8FBC12006053A2 /* guide_full_tree.png in Resources */,
 				A1F7D2771C8FBC12006053A2 /* house_chilldroom_bed.png in Resources */,
+				A158DB471D0CA7E60002F0A8 /* cloud9.png in Resources */,
 				A12444EF1CA6ED21000380A5 /* house_adult_vanity3.png in Resources */,
 				A15A0F071CD4500B00471221 /* delete.png in Resources */,
 				A1F7D2D81C8FBC12006053A2 /* house_kitchen_freezer2.png in Resources */,
@@ -2544,7 +2500,6 @@
 				A1F7D18E1C8FBC12006053A2 /* bubble_spot.png in Resources */,
 				A10CC8BC1C8FC807005B3233 /* song2.png in Resources */,
 				A111A0F51C91051700552AE6 /* house_music_piano1.png in Resources */,
-				A1A04DB61CFA5B2C00750FC2 /* cloud3.png in Resources */,
 				A1F7D2E71C8FBC12006053A2 /* house_kitchen_kettle2.png in Resources */,
 				A1A04DB11CFA5B2C00750FC2 /* blowing.mp3 in Resources */,
 				A1F7D1911C8FBC12006053A2 /* bubble_spot_h.png in Resources */,
@@ -2552,12 +2507,13 @@
 				A1F7D3541C8FBC12006053A2 /* house_rooms_2_1.png in Resources */,
 				A1F7D3311C8FBC12006053A2 /* house_toys_blocks.png in Resources */,
 				A1F7D35B1C8FBC12006053A2 /* house_rooms_3_3.png in Resources */,
+				A158DB541D0CAA100002F0A8 /* branch2.png in Resources */,
+				A158DB491D0CA7E60002F0A8 /* cloud11.png in Resources */,
 				A1F7D27B1C8FBC12006053A2 /* house_chilldroom_desk11.png in Resources */,
 				A1F7D19F1C8FBC12006053A2 /* faucet5.png in Resources */,
 				A1F7D2B01C8FBC12006053A2 /* house_familyroom_frame1.png in Resources */,
 				A1F7D2E61C8FBC12006053A2 /* house_kitchen_kettle11.png in Resources */,
 				A1F7D2811C8FBC12006053A2 /* house_chilldroom_desk17.png in Resources */,
-				A1743DD71CE7BF0E0066E964 /* cloud7.png in Resources */,
 				A1F7D3C11C8FBC12006053A2 /* tree_search3.png in Resources */,
 				A1F7D2961C8FBC12006053A2 /* house_chilldroom_paint4.png in Resources */,
 				A1F7CEF51C8FBBD6006053A2 /* gradient.fsh in Resources */,
@@ -2567,16 +2523,15 @@
 				A1743DDC1CE7BF0E0066E964 /* flying_bird3.png in Resources */,
 				A1F7D2621C8FBC12006053A2 /* frame3.png in Resources */,
 				A1F7D2EF1C8FBC12006053A2 /* house_light_a1.png in Resources */,
-				A1A04DBD1CFA5B2C00750FC2 /* cloud10.png in Resources */,
 				A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */,
 				A150A5BD1CB02AA100B63D81 /* cupcake4.png in Resources */,
 				A1A04DC51CFA5B2C00750FC2 /* humph.mp3 in Resources */,
 				A1F7D3301C8FBC12006053A2 /* house_toys_bat9.png in Resources */,
-				A1A04DBA1CFA5B2C00750FC2 /* cloud7.png in Resources */,
 				A1F7D39F1C8FBC12006053A2 /* nopop.mp3 in Resources */,
 				A1F7D2C71C8FBC12006053A2 /* house_familyroom_frame8.png in Resources */,
 				A1F7D3921C8FBC12006053A2 /* drums.mp3 in Resources */,
 				A1F7D2C91C8FBC12006053A2 /* house_familyroom_lamp1.png in Resources */,
+				A158DB401D0CA7E60002F0A8 /* cloud2.png in Resources */,
 				A1F7D2A61C8FBC12006053A2 /* house_cloud1d.png in Resources */,
 				A1F7D2741C8FBC12006053A2 /* house_adult_wardrobe7.png in Resources */,
 				A1F7CF0A1C8FBBD6006053A2 /* PersonDetailsView.xib in Resources */,
@@ -2590,7 +2545,6 @@
 				A1F7D2F01C8FBC12006053A2 /* house_light_a2.png in Resources */,
 				A1F7D19E1C8FBC12006053A2 /* faucet4.png in Resources */,
 				A1F7D2D01C8FBC12006053A2 /* house_flowers_a5.png in Resources */,
-				A1A04DC21CFA5B2C00750FC2 /* cloud15.png in Resources */,
 				A1F7D2A81C8FBC12006053A2 /* house_cloud2.png in Resources */,
 				A1F7D2BF1C8FBC12006053A2 /* house_familyroom_frame23.png in Resources */,
 				A1F7D36F1C8FBC12006053A2 /* settings.png in Resources */,
@@ -2612,19 +2566,19 @@
 				A1F7D2FC1C8FBC12006053A2 /* house_music_guitar.png in Resources */,
 				A1F7D3A01C8FBC12006053A2 /* (null) in Resources */,
 				A1F7D2EC1C8FBC12006053A2 /* house_kitchen_kettle7.png in Resources */,
-				A1A04DBB1CFA5B2C00750FC2 /* cloud8.png in Resources */,
 				A1F7D2D61C8FBC12006053A2 /* house_kitchen_freezer.png in Resources */,
 				A1F7CF101C8FBBD6006053A2 /* SettingsView.xib in Resources */,
 				A1F7D1821C8FBC12006053A2 /* match_back.png in Resources */,
+				A158DB481D0CA7E60002F0A8 /* cloud10.png in Resources */,
 				A1F7D36A1C8FBC12006053A2 /* pgv_logo.png in Resources */,
 				A1F7D34F1C8FBC12006053A2 /* house_rooms_1_1.png in Resources */,
 				A1F7CF081C8FBBD6006053A2 /* ParentsGuide.xib in Resources */,
-				A1743DD81CE7BF0E0066E964 /* cloud8.png in Resources */,
 				A1F7D33D1C8FBC12006053A2 /* house_toys_horse3.png in Resources */,
 				A1F7D17F1C8FBC12006053A2 /* baby.png in Resources */,
 				A1F7D2B11C8FBC12006053A2 /* house_familyroom_frame10.png in Resources */,
 				A1F7D36E1C8FBC12006053A2 /* rw.png in Resources */,
 				A1F7D3AB1C8FBC12006053A2 /* spinning.mp3 in Resources */,
+				A158DB461D0CA7E60002F0A8 /* cloud8.png in Resources */,
 				A1F7D2891C8FBC12006053A2 /* house_chilldroom_desk7.png in Resources */,
 				A1F7D2B21C8FBC12006053A2 /* house_familyroom_frame11.png in Resources */,
 				A1F7CF0E1C8FBBD6006053A2 /* SearchPeople.xib in Resources */,
@@ -2637,12 +2591,9 @@
 				A1F7D3461C8FBC12006053A2 /* house_tree_bird4.png in Resources */,
 				A1F7D2A11C8FBC12006053A2 /* house_chilldroom_teddy6.png in Resources */,
 				A1F7D33E1C8FBC12006053A2 /* house_toys_horse4.png in Resources */,
-				A1743DD21CE7BF0E0066E964 /* cloud2.png in Resources */,
 				A10CC8C41C8FC807005B3233 /* voice_myhistory.mp3 in Resources */,
 				A1F7D2C21C8FBC12006053A2 /* house_familyroom_frame3.png in Resources */,
 				A1F7D19A1C8FBC12006053A2 /* bubbles8.png in Resources */,
-				A1743DD41CE7BF0E0066E964 /* cloud4.png in Resources */,
-				A1743DD51CE7BF0E0066E964 /* cloud5.png in Resources */,
 				A12444ED1CA6ED21000380A5 /* house_adult_vanity1.png in Resources */,
 				A10CC8B11C8FC807005B3233 /* flute_myhistory.mp3 in Resources */,
 				A1743DC81CE7BF0E0066E964 /* bird_tile2.png in Resources */,
@@ -2660,6 +2611,7 @@
 				A1F7D3641C8FBC12006053A2 /* mom.png in Resources */,
 				A1F7D3411C8FBC12006053A2 /* house_tree1.png in Resources */,
 				A1F7D2E51C8FBC12006053A2 /* house_kitchen_kettle10.png in Resources */,
+				A158DB4A1D0CA7E60002F0A8 /* cloud12.png in Resources */,
 				A10CC8BD1C8FC807005B3233 /* song3.png in Resources */,
 				A10CC8C11C8FC807005B3233 /* violin_off.png in Resources */,
 				A10CC8B01C8FC807005B3233 /* flute_allinourfamilytree.mp3 in Resources */,
@@ -2692,6 +2644,7 @@
 				A10CC8AA1C8FC807005B3233 /* clarinet.png in Resources */,
 				A1F7D2C11C8FBC12006053A2 /* house_familyroom_frame25.png in Resources */,
 				A1F7D3691C8FBC12006053A2 /* parentsguide.png in Resources */,
+				A158DB3F1D0CA7E60002F0A8 /* cloud1.png in Resources */,
 				A1F7D2DF1C8FBC12006053A2 /* house_kitchen_fridge2.png in Resources */,
 				A1F7D3331C8FBC12006053A2 /* house_toys_blocks2.png in Resources */,
 				A1F7D3131C8FBC12006053A2 /* house_toaster3.png in Resources */,
@@ -2706,6 +2659,7 @@
 				A1F7D38F1C8FBC12006053A2 /* baseball_bat.wav in Resources */,
 				A1F7D18F1C8FBC12006053A2 /* bubble_spot_down.png in Resources */,
 				A1F7D2CC1C8FBC12006053A2 /* house_flowers_a1.png in Resources */,
+				A158DB4E1D0CA7E60002F0A8 /* cloud16.png in Resources */,
 				A1F7D2B41C8FBC12006053A2 /* house_familyroom_frame13.png in Resources */,
 				A1F7D29F1C8FBC12006053A2 /* house_chilldroom_teddy4.png in Resources */,
 				A1F7D3CB1C8FBC12006053A2 /* vineh.png in Resources */,
@@ -2719,12 +2673,12 @@
 				A1F7D3171C8FBC12006053A2 /* house_toaster7.png in Resources */,
 				A1F7D26F1C8FBC12006053A2 /* house_adult_wardrobe2.png in Resources */,
 				A1F7D2611C8FBC12006053A2 /* frame2.png in Resources */,
-				A1743DD11CE7BF0E0066E964 /* cloud12.png in Resources */,
 				A1F7D2CA1C8FBC12006053A2 /* house_familyroom_lamp2.png in Resources */,
 				A1F7D3101C8FBC12006053A2 /* house_toaster2.png in Resources */,
 				A1F7D30B1C8FBC12006053A2 /* house_toaster15.png in Resources */,
 				A1F7CEFD1C8FBBD6006053A2 /* sobelAlphaShader.fsh in Resources */,
 				A1F7D2F61C8FBC12006053A2 /* house_music_drums3.png in Resources */,
+				A158DB451D0CA7E60002F0A8 /* cloud7.png in Resources */,
 				A1F7D1831C8FBC12006053A2 /* puzzle_background.png in Resources */,
 				A1F7D3561C8FBC12006053A2 /* house_rooms_2_3.png in Resources */,
 				A1F7D3221C8FBC12006053A2 /* house_toys_bat16.png in Resources */,
@@ -2747,6 +2701,7 @@
 				A1F7D2E01C8FBC12006053A2 /* house_kitchen_fridge3.png in Resources */,
 				A10CC8C51C8FC807005B3233 /* voice_thisismyfamily.mp3 in Resources */,
 				A1F7D39E1C8FBC12006053A2 /* kettle.mp3 in Resources */,
+				A158DB4C1D0CA7E60002F0A8 /* cloud14.png in Resources */,
 				A1F7D2A71C8FBC12006053A2 /* house_cloud1e.png in Resources */,
 				A1F7D2C51C8FBC12006053A2 /* house_familyroom_frame6.png in Resources */,
 				A1F7D26B1C8FBC12006053A2 /* house_adult_bed.png in Resources */,
@@ -2759,8 +2714,6 @@
 				A1F7D27D1C8FBC12006053A2 /* house_chilldroom_desk13.png in Resources */,
 				A12444F61CA6ED21000380A5 /* house_adult_vanity10.png in Resources */,
 				A1F7D1951C8FBC12006053A2 /* bubbles3.png in Resources */,
-				A1A04DB21CFA5B2C00750FC2 /* branch1.png in Resources */,
-				A1A04DC11CFA5B2C00750FC2 /* cloud14.png in Resources */,
 				A1F7D34D1C8FBC12006053A2 /* house_rooms_0_4.png in Resources */,
 				A1743DDD1CE7BF0E0066E964 /* leaf1.png in Resources */,
 				A1F7D19C1C8FBC12006053A2 /* faucet2.png in Resources */,
@@ -2769,6 +2722,7 @@
 				A1F7D3041C8FBC12006053A2 /* house_music_trumpet3.png in Resources */,
 				A1F7D2B51C8FBC12006053A2 /* house_familyroom_frame14.png in Resources */,
 				A1F7D28B1C8FBC12006053A2 /* house_chilldroom_desk9.png in Resources */,
+				A158DB4B1D0CA7E60002F0A8 /* cloud13.png in Resources */,
 				A1F7D2A91C8FBC12006053A2 /* house_familyroom_cat_a1.png in Resources */,
 				A1F7D2D11C8FBC12006053A2 /* house_kitchen_a.png in Resources */,
 				A1F7D2981C8FBC12006053A2 /* house_chilldroom_paint6.png in Resources */,
@@ -2776,16 +2730,13 @@
 				A1A04DC91CFA5B2C00750FC2 /* rr_play.png in Resources */,
 				A1F7D3441C8FBC12006053A2 /* house_tree_bird2.png in Resources */,
 				A1F7D3BD1C8FBC12006053A2 /* leaves_overlay6.png in Resources */,
-				A1A04DB81CFA5B2C00750FC2 /* cloud5.png in Resources */,
 				A1743DDB1CE7BF0E0066E964 /* flying_bird2.png in Resources */,
 				A1F7D2B71C8FBC12006053A2 /* house_familyroom_frame16.png in Resources */,
 				A1F7CF041C8FBBD6006053A2 /* FamilySearchLogin.xib in Resources */,
-				A1A04DBE1CFA5B2C00750FC2 /* cloud11.png in Resources */,
 				A1F7D2651C8FBC12006053A2 /* frame6.png in Resources */,
 				A1F7D2EB1C8FBC12006053A2 /* house_kitchen_kettle6.png in Resources */,
 				A1F7D3281C8FBC12006053A2 /* house_toys_bat21.png in Resources */,
 				A12444F81CA6ED21000380A5 /* house_adult_vanity12.png in Resources */,
-				A1A04DB31CFA5B2C00750FC2 /* branch2.png in Resources */,
 				A1F7D3A71C8FBC12006053A2 /* pushbuttonoff.wav in Resources */,
 				A1F7D3961C8FBC12006053A2 /* erasing.mp3 in Resources */,
 				A1F7D2BE1C8FBC12006053A2 /* house_familyroom_frame22.png in Resources */,
@@ -2803,35 +2754,31 @@
 				A1F7D2ED1C8FBC12006053A2 /* house_kitchen_kettle8.png in Resources */,
 				A1F7D2E41C8FBC12006053A2 /* house_kitchen_kettle.png in Resources */,
 				A1F7D2FE1C8FBC12006053A2 /* house_music_guitar2.png in Resources */,
-				A1A04DB51CFA5B2C00750FC2 /* cloud2.png in Resources */,
 				A111A0F71C91051700552AE6 /* house_music_piano3.png in Resources */,
 				A1F7D3BF1C8FBC12006053A2 /* tree_search1.png in Resources */,
 				A1F7D1A41C8FBC12006053A2 /* soap3.png in Resources */,
+				A158DB441D0CA7E60002F0A8 /* cloud6.png in Resources */,
 				A1F7D2661C8FBC12006053A2 /* frame7.png in Resources */,
 				A1F7D2D31C8FBC12006053A2 /* house_kitchen_c.png in Resources */,
 				A1F7D2C01C8FBC12006053A2 /* house_familyroom_frame24.png in Resources */,
+				A158DB531D0CAA100002F0A8 /* branch1.png in Resources */,
 				A1F7D3471C8FBC12006053A2 /* house_tree_bird5.png in Resources */,
 				A1F7D34C1C8FBC12006053A2 /* house_rooms_0_3.png in Resources */,
-				A1A04DB41CFA5B2C00750FC2 /* cloud1.png in Resources */,
 				A10CC8BF1C8FC807005B3233 /* violin_allinourfamilytree.mp3 in Resources */,
 				A1F7D3361C8FBC12006053A2 /* house_toys_blocks5.png in Resources */,
-				A1743DCF1CE7BF0E0066E964 /* cloud10.png in Resources */,
 				A1F7D3C71C8FBC12006053A2 /* vine.png in Resources */,
 				A1F7D3401C8FBC12006053A2 /* house_toys_horse6.png in Resources */,
 				A1F7D2871C8FBC12006053A2 /* house_chilldroom_desk5.png in Resources */,
+				A158DB421D0CA7E60002F0A8 /* cloud4.png in Resources */,
 				A1F7D1A21C8FBC12006053A2 /* soap1.png in Resources */,
 				A1F7D33F1C8FBC12006053A2 /* house_toys_horse5.png in Resources */,
 				A1F7D2941C8FBC12006053A2 /* house_chilldroom_paint2.png in Resources */,
 				A1F7D30F1C8FBC12006053A2 /* house_toaster19.png in Resources */,
-				A1A04DB91CFA5B2C00750FC2 /* cloud6.png in Resources */,
 				A143139C1CB846F900409DD3 /* flame1.png in Resources */,
 				A1F7D3591C8FBC12006053A2 /* house_rooms_3_1.png in Resources */,
 				A1F7D36D1C8FBC12006053A2 /* refresh.png in Resources */,
 				A1F7D3001C8FBC12006053A2 /* house_music_piano.png in Resources */,
 				A1F7D18D1C8FBC12006053A2 /* bubble_pop5.png in Resources */,
-				A1743DD91CE7BF0E0066E964 /* cloud9.png in Resources */,
-				A1743DD61CE7BF0E0066E964 /* cloud6.png in Resources */,
-				A1A04DBF1CFA5B2C00750FC2 /* cloud12.png in Resources */,
 				A1F7D2851C8FBC12006053A2 /* house_chilldroom_desk3.png in Resources */,
 				A1F7D3151C8FBC12006053A2 /* house_toaster5.png in Resources */,
 				A1F7D33C1C8FBC12006053A2 /* house_toys_horse2.png in Resources */,
@@ -2840,7 +2787,6 @@
 				A1F7D3611C8FBC12006053A2 /* ic_launcher-web.png in Resources */,
 				A1F7D27C1C8FBC12006053A2 /* house_chilldroom_desk12.png in Resources */,
 				A1F7D3991C8FBC12006053A2 /* glass_break.wav in Resources */,
-				A1743DCD1CE7BF0E0066E964 /* branch2.png in Resources */,
 				A1F7D28E1C8FBC12006053A2 /* house_chilldroom_paint10.png in Resources */,
 				A1F7D1A31C8FBC12006053A2 /* soap2.png in Resources */,
 				A1F7D2AD1C8FBC12006053A2 /* house_familyroom_cat_a5.png in Resources */,
@@ -2853,10 +2799,8 @@
 				A1F7D31C1C8FBC12006053A2 /* house_toys_bat10.png in Resources */,
 				A1F7D3631C8FBC12006053A2 /* loading.png in Resources */,
 				A1F7D2801C8FBC12006053A2 /* house_chilldroom_desk16.png in Resources */,
-				A1A04DB71CFA5B2C00750FC2 /* cloud4.png in Resources */,
 				A1F7D2631C8FBC12006053A2 /* frame4.png in Resources */,
 				A1F7D1921C8FBC12006053A2 /* bubbled_hi.png in Resources */,
-				A1A04DC01CFA5B2C00750FC2 /* cloud13.png in Resources */,
 				A1F7D29B1C8FBC12006053A2 /* house_chilldroom_paint9.png in Resources */,
 				A1F7D2AB1C8FBC12006053A2 /* house_familyroom_cat_a3.png in Resources */,
 				A1F7D3291C8FBC12006053A2 /* house_toys_bat22.png in Resources */,
@@ -2880,13 +2824,13 @@
 				A1F7D34A1C8FBC12006053A2 /* house_rooms_0_1.png in Resources */,
 				A10CC8C31C8FC807005B3233 /* voice_allinourfamilytree.mp3 in Resources */,
 				A143139D1CB846F900409DD3 /* flame2.png in Resources */,
+				A158DB4D1D0CA7E60002F0A8 /* cloud15.png in Resources */,
 				A1F7D31B1C8FBC12006053A2 /* house_toys_bat1.png in Resources */,
 				A1F7D2601C8FBC12006053A2 /* frame1.png in Resources */,
 				A1F7D2E91C8FBC12006053A2 /* house_kitchen_kettle4.png in Resources */,
 				A1F7D3241C8FBC12006053A2 /* house_toys_bat18.png in Resources */,
 				A1F7D2DB1C8FBC12006053A2 /* house_kitchen_freezer5.png in Resources */,
 				A1F7D1A11C8FBC12006053A2 /* sink.png in Resources */,
-				A1743DCE1CE7BF0E0066E964 /* cloud1.png in Resources */,
 				A1F7D2931C8FBC12006053A2 /* house_chilldroom_paint15.png in Resources */,
 				A1F7D1991C8FBC12006053A2 /* bubbles7.png in Resources */,
 				A150A5BB1CB02AA100B63D81 /* cupcake2.png in Resources */,
