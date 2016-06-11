@@ -44,7 +44,7 @@ class SpriteAnimator {
 }
 
 class AnimatorTiming {
-	var time:NSTimeInterval
+	var time:NSTimeInterval = 0.0
 	func apply() {
 		print("nothing to do in empty AnimatorTiming")
 	}
@@ -65,7 +65,7 @@ class SpriteStateTiming : AnimatorTiming {
 			sprite.removeMe = true
 		}
 		else {
-			sprite.setState(state)
+			sprite.changeState(state)
 		}
 	}
 }
