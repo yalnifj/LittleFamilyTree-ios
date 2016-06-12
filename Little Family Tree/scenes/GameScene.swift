@@ -160,10 +160,11 @@ class GameScene: LittleFamilyScene {
         
         let bird = BirdHomeSprite(imageNamed: "house_tree_bird")
         bird.topic = GameScene.TOPIC_START_BIRD
-        bird.createActions()
         bird.anchorPoint = CGPoint.zero
-        bird.position = CGPointMake(90, 455-(personLeaves?.size.height)!)
+        bird.position = CGPointMake(110, 445-(personLeaves?.size.height)!)
+        bird.oposition = CGFloat(110)
         bird.zPosition = z++
+        bird.createActions()
         touchableSprites.append(bird)
         spriteContainer.addChild(bird)
         starSprites.append(bird)

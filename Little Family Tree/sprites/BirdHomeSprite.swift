@@ -18,7 +18,6 @@ class BirdHomeSprite: EventSprite {
     
     func createActions() {
         if action1==nil {
-            oposition = self.position.x
             action1 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird"),
                 SKTexture.init(imageNamed: "house_tree_bird1"),
                 SKTexture.init(imageNamed: "house_tree_bird2"),
@@ -27,12 +26,15 @@ class BirdHomeSprite: EventSprite {
         }
         
         if action2==nil {
-            action2 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird3"),
-                SKTexture.init(imageNamed: "house_tree_bird4"),
-                SKTexture.init(imageNamed: "house_tree_bird5"),
-                SKTexture.init(imageNamed: "house_tree_bird6"),
-                SKTexture.init(imageNamed: "house_tree_bird7"),
-                SKTexture.init(imageNamed: "house_tree_bird")], timePerFrame: 0.1)
+            action2 = SKAction.group([
+                SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird3"),
+                    SKTexture.init(imageNamed: "house_tree_bird4"),
+                    SKTexture.init(imageNamed: "house_tree_bird5"),
+                    SKTexture.init(imageNamed: "house_tree_bird6"),
+                    SKTexture.init(imageNamed: "house_tree_bird7"),
+                    SKTexture.init(imageNamed: "house_tree_bird")], timePerFrame: 0.1),
+                SKAction.playSoundFileNamed("bird", waitForCompletion: false)
+            ])
         }
         
         if action3 == nil {

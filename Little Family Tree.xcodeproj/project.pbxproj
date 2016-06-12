@@ -102,6 +102,7 @@
 		A158DB4E1D0CA7E60002F0A8 /* cloud16.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB3E1D0CA7E60002F0A8 /* cloud16.png */; };
 		A158DB531D0CAA100002F0A8 /* branch1.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB511D0CAA100002F0A8 /* branch1.png */; };
 		A158DB541D0CAA100002F0A8 /* branch2.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB521D0CAA100002F0A8 /* branch2.png */; };
+		A158DB5E1D0CC7B50002F0A8 /* PersonLeafSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158DB5D1D0CC7B50002F0A8 /* PersonLeafSprite.swift */; };
 		A15A0F071CD4500B00471221 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F061CD4500A00471221 /* delete.png */; };
 		A15A0F091CD4525D00471221 /* mic_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F081CD4525D00471221 /* mic_icon.png */; };
 		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
@@ -825,6 +826,7 @@
 		A158DB3E1D0CA7E60002F0A8 /* cloud16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud16.png; sourceTree = "<group>"; };
 		A158DB511D0CAA100002F0A8 /* branch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch1.png; sourceTree = "<group>"; };
 		A158DB521D0CAA100002F0A8 /* branch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = branch2.png; sourceTree = "<group>"; };
+		A158DB5D1D0CC7B50002F0A8 /* PersonLeafSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonLeafSprite.swift; sourceTree = "<group>"; };
 		A15A0F061CD4500A00471221 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		A15A0F081CD4525D00471221 /* mic_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_icon.png; sourceTree = "<group>"; };
 		A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
@@ -1650,6 +1652,7 @@
 				A1F7CE8A1C8FBBD6006053A2 /* TopBar.swift */,
 				A1F7CE8B1C8FBBD6006053A2 /* TreePersonSprite.swift */,
 				A1CA32241CE2BD59005DB6B3 /* BirdHomeSprite.swift */,
+				A158DB5D1D0CC7B50002F0A8 /* PersonLeafSprite.swift */,
 			);
 			path = sprites;
 			sourceTree = "<group>";
@@ -2991,6 +2994,7 @@
 				A1F7CEC51C8FBBD6006053A2 /* EvidenceReference.swift in Sources */,
 				A1F7CECC1C8FBBD6006053A2 /* Identifier.swift in Sources */,
 				A1F7CEB51C8FBBD6006053A2 /* PuzzleGame.swift in Sources */,
+				A158DB5E1D0CC7B50002F0A8 /* PersonLeafSprite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,8 +14,6 @@ class SpriteAnimator {
 		timings.sortInPlace({
 			return $0.time < $1.time
 		})
-		let now = NSDate()
-		startTime = now.timeIntervalSince1970
 		currentTime = 0
 		currentPosition = 0
 		started = true
@@ -28,6 +26,9 @@ class SpriteAnimator {
 	
 	func update(currentTime: CFTimeInterval) {
 		if (started && !finished) {
+            if startTime == 0 {
+                startTime = currentTime
+            }
 			if currentPosition >= timings.count {
 				finished = true
 				started = false
