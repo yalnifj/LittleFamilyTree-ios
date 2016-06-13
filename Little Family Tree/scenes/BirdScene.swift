@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import CoreMotion
 
 class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	static var TOPIC_SKIP_CUTSCENE = "topicSkipCutScene"
@@ -41,6 +42,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var tileMove = CGFloat(2)
 	var timeStep = 0.1
+	
+	var motionManager: CMMotionManager!
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -73,11 +76,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		tiles.append(SKTexture(imageNamed: "bird_tile5"))
         
         EventHandler.getInstance().subscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
+		
+		motionManager = CMMotionManager()
+		motionManager.startAccelerometerUpdates()
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
+		
+		motionManager.stopAccelerometerUpdates()
     }
     
     override func onEvent(topic: String, data: NSObject?) {
@@ -356,6 +364,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			width = self.size.height / wr
 		}
 		
+		let birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+		let physicsBody = SKPhysicsBody (edgeLoopFromRect: birdBoundingRect)
+		self.physicsBody = physicsBody
+		
 		let basex = (self.size.width / 2) - (width / 2)
 		var tx = tiles[0].size().width / 2
 		var ty = CGFloat(0)
@@ -399,6 +411,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             SKTexture(imageNamed: "flying_bird1")], timePerFrame: 0.15))
         bird.addAction(0, action: flying)
         bird.runAction(flying)
+		bird.physicsBody = SKPhysicsBody(rectangleOfSize: bird.frame.size)
+		bird.physicsBody!.dynamic = true
+		bird.physicsBody!.affectedByGravity = false
+		bird.physicsBody!.mass = 0.02
 		sprites.append(bird)
 		self.addChild(bird)
 		
@@ -474,6 +490,12 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				if  tileOffset >= tiles[0].size().height - 2 {
 					tileOffset = CGFloat(0)
 					addTileRow()
+				}
+			}
+			
+			if let accData = motionManager.accelerometerData {
+				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 40.0 * CGFloat(data.acceleration.y)))
 				}
 			}
 		}
