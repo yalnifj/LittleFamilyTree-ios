@@ -28,6 +28,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var cloud:AnimatedStateSprite!
 	var bird:AnimatedStateSprite!
+	var playAgainButton:EventSprite!
 	var animator:SpriteAnimator!
 	var treeWalker:TreeWalker!
 	
@@ -42,6 +43,9 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var tileMove = CGFloat(2)
 	var timeStep = 0.1
+	
+	var addPersonDelay = 0.0
+	var lastAddPersonTime = 0.0
 	
 	var motionManager: CMMotionManager!
     
@@ -357,6 +361,9 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		missedSprites.removeAll()
 		backgroundTiles.removeAll()
 		
+		gameOver = false
+		lastAddPersonTime = 0.0
+		
         var width = self.size.width
 		
 		if !portrait {
@@ -396,7 +403,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		titleSprite.size.height = titleSprite.size.width / tr
 		titleSprite.zPosition = 3
 		titleSprite.position = CGPointMake(self.size.width / 2, (self.size.height / 2) + titleSprite.size.height / 2)
-		let titleAct = SKAction.moveToY(-titleSprite.size.height, duration: 3.5)
+		let titleAct = SKAction.moveToY(-titleSprite.size.height, duration: 4.0)
         titleSprite.runAction(titleAct) {
             titleSprite.removeFromParent()
         }
@@ -427,6 +434,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		speak("Rescue your Relatives!")
 		spritesCreated = true
+		
+		addPersonDelay = 6.0 + arc4random_uniform(UInt32(100)) / 60.0
 	}
 	
 	func addTileRow() {
@@ -460,10 +469,55 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
         personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
         personSprite.zPosition = 10
+		personSprite.person = 
+		
         self.addChild(personSprite)
         peopleSprites.append(personSprite)
         sprites.append(personSprite)
+		
+		let slowdown = arc4random_uniform(UInt32(100)) / 60.0
+		let action = SKAction.moveToY(0, duration: 5 + slowdown)
+		personSprite.runAction(action)
+		
+		addPersonDelay = 2.0 - (nestSprites.count / 10.0) + arc4random_uniform(UInt32(100)) / 50.0
     }
+	
+	func reorderNest() {
+		let basex = (self.size.width / 2) - (boardWidth / 2)
+		let nestWidth = self.size.height * 0.05
+		if nestSprites.count > 0 {
+            var dx = min(nestWidth, boardWidth / nestSprites.count)
+            var x = CGFloat(nestWidth / 2)
+            for s in nestSprites {
+                s.position.x = basex + x
+				s.position.y = nestWidth / 2
+				s.size.width = nestWidth
+				s.size.height = nestWidth
+                x += dx
+            }
+        }
+		if missedSprites.count > 0 {
+			var x = CGFloat(nestWidth / 2)
+            for s in missedSprites {
+				if (s.texture == leaves[0]) {
+					s.texture == leaves[2]
+				} else if (s.texture == leaves[1]) {
+					s.texture == leaves[3]
+				}
+                s.position.x = basex + x
+				s.position.y = nestWidth * CGFloat(1.5)
+				s.size.width = nestWidth
+				s.size.height = nestWidth
+                x += nestWidth
+            }
+		}
+	}
+	
+	func showGameOver() {
+		gameOver = true
+		
+		
+	}
 	
 	var lastUpdate:CFTimeInterval = 0
 	override func update(currentTime: CFTimeInterval) {
@@ -498,8 +552,44 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 40.0 * CGFloat(data.acceleration.y)))
 				}
 			}
+			
+			if !gameOver {
+				if lastAddPersonTime == 0 {
+					lastAddPersonTime = currentTime
+				}
+				if lastAddPersonTime - currentTime > addPersonDelay {
+					addRandomPerson()
+					lastAddPersonTime = currentTime
+				}
+				
+				var hit:PersonLeafSprite = nil
+				var missed:PersonLeafSprite = nil
+				for ps in peopleSprites {
+					if ps.contains(bird.position) {
+						hit = ps
+					} else if ps.position.y < self.size.height * 0.1 {
+						missed = ps
+					}
+				}
+				if hit != nil {
+					nestSprites.append(hit)
+					peopleSprites.removeObject(hit)
+					if missed == nil {
+						reorderNest()
+					}
+				}
+				if missed != nil {
+					missedSprites.append(missed)
+					peopleSprites.removeObject(missed)
+					reorderNest()
+				}
+				if missedSprites.count > 2 {
+					showGameOver()
+				}
+			} else {
+				//-- adjust play again button based on movement
+			}
 		}
-		
     }
 	
 	func onComplete(family:[LittlePerson]) {
