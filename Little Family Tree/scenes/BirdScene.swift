@@ -8,9 +8,12 @@
 
 import Foundation
 import SpriteKit
+import CoreMotion
+import AudioToolbox
 
 class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	static var TOPIC_SKIP_CUTSCENE = "topicSkipCutScene"
+	static var TOPIC_PLAY_AGAIN = "topicPlayAgain"
 	
     var portrait = true
     
@@ -27,6 +30,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var cloud:AnimatedStateSprite!
 	var bird:AnimatedStateSprite!
+	var playAgainButton:EventSprite!
+	var playAgainPosition:CGPoint!
 	var animator:SpriteAnimator!
 	var treeWalker:TreeWalker!
 	
@@ -41,6 +46,15 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var tileMove = CGFloat(2)
 	var timeStep = 0.1
+	
+	var addPersonDelay = 0.0
+	var lastAddPersonTime = 0.0
+	
+	var addCloudDelay = 0.0
+	var lastAddCloudTime = 0.0
+	let windPower = CGFloat(0)
+	
+	var motionManager: CMMotionManager!
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -73,11 +87,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		tiles.append(SKTexture(imageNamed: "bird_tile5"))
         
         EventHandler.getInstance().subscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
+		
+		motionManager = CMMotionManager()
+		motionManager.startAccelerometerUpdates()
     }
     
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
+		
+		motionManager.stopAccelerometerUpdates()
     }
     
     override func onEvent(topic: String, data: NSObject?) {
@@ -349,12 +368,19 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		missedSprites.removeAll()
 		backgroundTiles.removeAll()
 		
+		gameOver = false
+		lastAddPersonTime = 0.0
+		
         var width = self.size.width
 		
 		if !portrait {
 			let wr = self.size.width / self.size.height
 			width = self.size.height / wr
 		}
+		
+		let birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+		let physicsBody = SKPhysicsBody (edgeLoopFromRect: birdBoundingRect)
+		self.physicsBody = physicsBody
 		
 		let basex = (self.size.width / 2) - (width / 2)
 		var tx = tiles[0].size().width / 2
@@ -384,7 +410,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		titleSprite.size.height = titleSprite.size.width / tr
 		titleSprite.zPosition = 3
 		titleSprite.position = CGPointMake(self.size.width / 2, (self.size.height / 2) + titleSprite.size.height / 2)
-		let titleAct = SKAction.moveToY(-titleSprite.size.height, duration: 3.5)
+		let titleAct = SKAction.moveToY(-titleSprite.size.height, duration: 4.0)
         titleSprite.runAction(titleAct) {
             titleSprite.removeFromParent()
         }
@@ -399,6 +425,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             SKTexture(imageNamed: "flying_bird1")], timePerFrame: 0.15))
         bird.addAction(0, action: flying)
         bird.runAction(flying)
+		bird.physicsBody = SKPhysicsBody(rectangleOfSize: bird.frame.size)
+		bird.physicsBody!.dynamic = true
+		bird.physicsBody!.affectedByGravity = false
+		bird.physicsBody!.mass = 0.02
 		sprites.append(bird)
 		self.addChild(bird)
 		
@@ -409,8 +439,30 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		boardWidth = width
 		
+		//-- hide offscreen clouds behind a background image
+		if !portrait {
+			let background1 = SKSpriteNode(imageNamed: "tree_background")
+			background1.position = CGPointMake((self.size.width - width)/2, self.size.height/2)
+			background1.size.width = self.size.width - width
+			background1.size.height = self.size.height
+			background1.zPosition = 6
+			self.addChild(background1)
+			sprites.append(background1)
+			
+			let background2 = SKSpriteNode(imageNamed: "tree_background")
+			background2.position = CGPointMake(width + (self.size.width - width)/2, self.size.height/2)
+			background2.size.width = self.size.width - width
+			background2.size.height = self.size.height
+			background2.zPosition = 6
+			self.addChild(background2)
+			sprites.append(background2)
+		}
+		
 		speak("Rescue your Relatives!")
 		spritesCreated = true
+		
+		addPersonDelay = 6.0 + arc4random_uniform(UInt32(100)) / 60.0
+		addCloudDelay = 10.0 + arc4random_uniform(UInt32(100)) / 60.0
 	}
 	
 	func addTileRow() {
@@ -444,10 +496,157 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
         personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
         personSprite.zPosition = 10
+		personSprite.person = 
+		
         self.addChild(personSprite)
         peopleSprites.append(personSprite)
         sprites.append(personSprite)
+		
+		let slowdown = arc4random_uniform(UInt32(100)) / 60.0
+		let action = SKAction.moveToY(0, duration: 5 + slowdown)
+		personSprite.runAction(action)
+		
+		addPersonDelay = 2.0 - (nestSprites.count / 10.0) + arc4random_uniform(UInt32(100)) / 50.0
     }
+	
+	func addRandomCloud() {
+		let basex = (self.size.width / 2) - (boardWidth / 2)
+		cloud.position.y = bird.position.y
+		cloud.setState(0)
+		let cr = cloud.size.width / cloud.size.height
+		cloud.size.width = bird.size.width * 2
+		cloud.size.height = cloud.size.width / cr
+		cloud.zPosition = 4
+		
+		windPower = 5.0 + arc4random_uniform(UInt32(300)) / 100.0
+		
+		var cact1 = SKAction.moveToX(basex + cloud.size.width / 3, duration: 1)
+		if drand48() > 0.5 {
+			cloud.xScale = -1.0
+			cloud.position.x = -basex - boardWidth - cloud.size.width / 2	
+			cact1 = SKAction.moveToX(-basex -boardWidth + cloud.size.width / 3, duration: 1)
+		} else {
+			cloud.xScale = 1.0
+			cloud.position.x = basex - cloud.size.width / 2	
+		}
+		
+		animator = SpriteAnimator()
+		
+        animator.addTiming(SpriteActionTiming(time: 0.5, sprite: cloud, action: cact1))
+		animator.addTiming(SpriteStateTiming(time: 2, sprite: cloud, state: 1))
+		let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
+			SKTexture(imageNamed: "cloud4"),
+			SKTexture(imageNamed: "cloud5"),
+			SKTexture(imageNamed: "cloud6"),
+			SKTexture(imageNamed: "cloud7"),
+			SKTexture(imageNamed: "cloud8"),
+			SKTexture(imageNamed: "cloud9"),
+			SKTexture(imageNamed: "cloud10"),
+			SKTexture(imageNamed: "cloud11"),
+			SKTexture(imageNamed: "cloud12")
+		], timePerFrame: 0.1)
+		animator.addTiming(SpriteActionTiming(time: 3, sprite: cloud, action: cact2))
+		
+		if quietMode == nil || quietMode == "false" {
+			let cact2sound = SKAction.playSoundFileNamed("blowing", waitForCompletion: false)
+			animator.addTiming(SpriteActionTiming(time: 3.5, sprite: cloud, action: cact2sound))
+		}
+		
+		let cactr2 = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
+		animator.addTiming(SpriteActionTiming(time: 3.9, sprite: cloud, action: cactr2))
+		
+		let blowtime = 1.0 + arc4random_uniform(UInt32(200)) / 100.0
+		let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
+			SKTexture(imageNamed: "cloud14"),
+			SKTexture(imageNamed: "cloud15")
+		], timePerFrame: 0.1)
+		animator.addTiming(SpriteActionTiming(time: 4.0 + blowtime, sprite: cloud, action: cact3))
+		animator.addTiming(SpriteStateTiming(time: 5.3 + blowtime, sprite: cloud, state: 3))
+		let cact5 = SKAction.removeFromParent()
+		animator.addTiming(SpriteActionTiming(time: 6.0 + blowtime, sprite: cloud, action: cact5))
+			
+		sprites.append(cloud)
+		self.addChild(cloud)
+		
+		animator.start()
+	
+		addCloudDelay = 4.0 - (nestSprites.count / 10.0) + arc4random_uniform(UInt32(100)) / 50.0
+	}
+	
+	func reorderNest() {
+		let basex = (self.size.width / 2) - (boardWidth / 2)
+		let nestWidth = self.size.height * 0.05
+		if nestSprites.count > 0 {
+            var dx = min(nestWidth, boardWidth / nestSprites.count)
+            var x = CGFloat(nestWidth / 2)
+            for s in nestSprites {
+                s.position.x = basex + x
+				s.position.y = nestWidth / 2
+				s.size.width = nestWidth
+				s.size.height = nestWidth
+                x += dx
+            }
+        }
+		if missedSprites.count > 0 {
+			var x = CGFloat(nestWidth / 2)
+            for s in missedSprites {
+				if (s.texture == leaves[0]) {
+					s.texture == leaves[2]
+				} else if (s.texture == leaves[1]) {
+					s.texture == leaves[3]
+				}
+                s.position.x = basex + x
+				s.position.y = nestWidth * CGFloat(1.5)
+				s.size.width = nestWidth
+				s.size.height = nestWidth
+                x += nestWidth
+            }
+		}
+	}
+	
+	func showGameOver() {
+		gameOver = true
+		
+		for s in peopleSprites {
+            s.removeFromParent()
+			sprites.removeObject(s)
+        }
+		peopleSprites.removeAll()
+		
+		let gameOverCloud = SKSpriteNode(imageNamed: "rr_gameover")
+		let tr = gameOverCloud.size.width / gameOverCloud.size.height
+		gameOverCloud.size.width = boardWidth * 0.9
+		gameOverCloud.size.height = gameOverCloud.size.width / tr
+		gameOverCloud.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+		gameOverCloud.zPosition = 4
+		sprites.append(gameOverCloud)
+		self.addChild(gameOverCloud)
+		
+		let text = "You rescued \(nestSprites.count) relatives!"
+		let message = SKLabelNode(text: text);
+        message.fontSize = gameOverCloud.size.height / 10
+        if message.frame.size.width > gameOverCloud.size.width * 0.80 {
+            message.fontSize = message.fontSize * 0.75
+        }
+        message.fontColor = UIColor.blackColor()
+        message.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+        message.zPosition = 5
+		sprites.append(message)
+		self.addChild(message)
+		self.speak(text)
+		
+		playAgainButton = EventSprite(imageNamed: "rr_play")
+		let pr = playAgainButton.size.width / playAgainButton.size.height
+		playAgainButton.size.width = gameOverCloud.size.width * 0.3
+		playAgainButton.size.height = playAgainButton.size.width / pr
+		playAgainButton.position = CGPointMake(self.size.width / 2 + playAgainButton.size.width / 2, gameOverCloud.position.y + gameOverCloud.size.height/2)
+		playAgainButton.zPosition = 6
+		playAgainButton.userInteractionEnabled = true
+		playAgainButton.topic = BirdScene.TOPIC_PLAY_AGAIN
+		playAgainPosition = CGPointMake(self.size.width / 2 + playAgainButton.size.width / 2, gameOverCloud.position.y + gameOverCloud.size.height/2)
+		sprites.append(playAgainButton)
+		self.addChild(playAgainButton)
+	}
 	
 	var lastUpdate:CFTimeInterval = 0
 	override func update(currentTime: CFTimeInterval) {
@@ -476,8 +675,64 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					addTileRow()
 				}
 			}
+			
+			if let accData = motionManager.accelerometerData {
+				if !animator.finished && animator.currentPosition > 3 {
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 * windPower, 0.0))
+				}
+				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 40.0 * CGFloat(data.acceleration.y)))
+				}
+			}
+			
+			if !gameOver {
+				if lastAddPersonTime == 0 {
+					lastAddPersonTime = currentTime
+				}
+				if lastAddPersonTime - currentTime > addPersonDelay {
+					addRandomPerson()
+					lastAddPersonTime = currentTime
+				}
+				
+				if lastAddCloudTime == 0 {
+					lastAddCloudTime = currentTime
+				}
+				if  lastAddCloudTime - currentTime > addCloudDelay {
+					addRandomCloud()
+					lastAddCloudTime = currentTime
+				}
+				
+				var hit:PersonLeafSprite = nil
+				var missed:PersonLeafSprite = nil
+				for ps in peopleSprites {
+					if ps.contains(bird.position) {
+						hit = ps
+					} else if ps.position.y < self.size.height * 0.1 {
+						missed = ps
+					}
+				}
+				if hit != nil {
+					nestSprites.append(hit)
+					peopleSprites.removeObject(hit)
+					if missed == nil {
+						reorderNest()
+					}
+				}
+				if missed != nil {
+					missedSprites.append(missed)
+					peopleSprites.removeObject(missed)
+					AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+					reorderNest()
+				}
+				if missedSprites.count > 2 {
+					showGameOver()
+				}
+			} else {
+				//-- adjust play again button based on movement
+				playAgainButton.position.x = playAgainPosition.x + (2 * data.acceleration.x)
+				playAgainButton.position.y = playAgainPosition.y + (2 * data.acceleration.y)
+			}
 		}
-		
     }
 	
 	func onComplete(family:[LittlePerson]) {
