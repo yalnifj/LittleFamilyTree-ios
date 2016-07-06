@@ -123,6 +123,8 @@
 		A1743DDD1CE7BF0E0066E964 /* leaf1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC41CE7BF0E0066E964 /* leaf1.png */; };
 		A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC51CE7BF0E0066E964 /* leaf2.png */; };
 		A1743DDF1CE7BF0E0066E964 /* leaf_stem.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC61CE7BF0E0066E964 /* leaf_stem.png */; };
+		A17917111D2D401900AA8E70 /* MyHeritageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17917101D2D401900AA8E70 /* MyHeritageService.swift */; };
+		A17917261D2D43FF00AA8E70 /* libfamilygraph_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */; };
 		A1A04D8E1CFA5AB000750FC2 /* SpriteAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */; };
 		A1A04DB11CFA5B2C00750FC2 /* blowing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */; };
 		A1A04DC41CFA5B2C00750FC2 /* grumble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */; };
@@ -682,6 +684,13 @@
 			remoteGlobalIDString = 03A65E631C6BB0F60062603F;
 			remoteInfo = "SQLiteTests tvOS";
 		};
+		A179171E1D2D432A00AA8E70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = "familygraph-ios-sdk";
+		};
 		A1C0A9931C081CC0006804BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
@@ -846,6 +855,8 @@
 		A1743DC41CE7BF0E0066E964 /* leaf1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf1.png; sourceTree = "<group>"; };
 		A1743DC51CE7BF0E0066E964 /* leaf2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf2.png; sourceTree = "<group>"; };
 		A1743DC61CE7BF0E0066E964 /* leaf_stem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf_stem.png; sourceTree = "<group>"; };
+		A17917101D2D401900AA8E70 /* MyHeritageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageService.swift; sourceTree = "<group>"; };
+		A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "familygraph-ios-sdk.xcodeproj"; path = "../familygraph-ios/src/familygraph-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteAnimator.swift; sourceTree = "<group>"; };
 		A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blowing.mp3; sourceTree = "<group>"; };
 		A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = grumble.mp3; sourceTree = "<group>"; };
@@ -1352,6 +1363,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A17917261D2D43FF00AA8E70 /* libfamilygraph_ios_sdk.a in Frameworks */,
 				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 				A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */,
@@ -1376,6 +1388,7 @@
 				A117C72B1BA4AD0000964D50 /* Little Family Tree */,
 				A117C7451BA4AD0100964D50 /* Little Family TreeTests */,
 				A117C72A1BA4AD0000964D50 /* Products */,
+				A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */,
 				A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */,
 				A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */,
 			);
@@ -1500,6 +1513,14 @@
 			path = bird;
 			sourceTree = "<group>";
 		};
+		A179171B1D2D432900AA8E70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A1D2A2831BE1B5D5007F0F64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1561,6 +1582,7 @@
 			children = (
 				A1F7CE481C8FBBD6006053A2 /* data */,
 				A1F7CE661C8FBBD6006053A2 /* FamilySearchService.swift */,
+				A17917101D2D401900AA8E70 /* MyHeritageService.swift */,
 				A1F7CE671C8FBBD6006053A2 /* GedcomParser.swift */,
 				A1F7CE681C8FBBD6006053A2 /* PGVService.swift */,
 				A1F7CE691C8FBBD6006053A2 /* RemoteService.swift */,
@@ -2281,6 +2303,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = A179171B1D2D432900AA8E70 /* Products */;
+					ProjectRef = A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */;
+				},
+				{
 					ProductGroup = A15B0AD01C59BF65000B6B33 /* Products */;
 					ProjectRef = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
 				},
@@ -2338,6 +2364,13 @@
 			fileType = wrapper.cfbundle;
 			path = "SQLiteTests tvOS.xctest";
 			remoteRef = A15BD09B1C716DD100830742 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfamilygraph_ios_sdk.a;
+			remoteRef = A179171E1D2D432A00AA8E70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A1C1BFA01CB5EB9F001A9A83 /* SQLite.framework */ = {
@@ -2883,6 +2916,7 @@
 			files = (
 				A1F7CED91C8FBBD6006053A2 /* SourceReference.swift in Sources */,
 				A1F7CEB11C8FBBD6006053A2 /* DollConfig.swift in Sources */,
+				A17917111D2D401900AA8E70 /* MyHeritageService.swift in Sources */,
 				A1F7CEE21C8FBBD6006053A2 /* ChooseCultureScene.swift in Sources */,
 				A1F7CF031C8FBBD6006053A2 /* FamilySearchLogin.swift in Sources */,
 				A1F7CEEE1C8FBBD6006053A2 /* TreeScene.swift in Sources */,

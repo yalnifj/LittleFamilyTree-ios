@@ -52,7 +52,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var addCloudDelay = 0.0
 	var lastAddCloudTime = 0.0
-	let windPower = CGFloat(0)
+	var windPower = CGFloat(0)
 	
 	var motionManager: CMMotionManager!
     
@@ -461,8 +461,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		speak("Rescue your Relatives!")
 		spritesCreated = true
 		
-		addPersonDelay = 6.0 + arc4random_uniform(UInt32(100)) / 60.0
-		addCloudDelay = 10.0 + arc4random_uniform(UInt32(100)) / 60.0
+		addPersonDelay = 6.0 + Double(arc4random_uniform(UInt32(100))) / 60.0
+		addCloudDelay = 10.0 + Double(arc4random_uniform(UInt32(100))) / 60.0
 	}
 	
 	func addTileRow() {
@@ -487,44 +487,49 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	}
     
     func addRandomPerson() {
-        let l = Int(arc4random_uniform(2))
-        let basex = (self.size.width / 2) - (boardWidth / 2)
-        let personSprite = PersonLeafSprite(texture: leaves[l])
-        let br = personSprite.size.width / personSprite.size.height
-        personSprite.size.width = bird.size.width / 2
-        personSprite.size.height = personSprite.size.width / br
-        let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
-        personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
-        personSprite.zPosition = 10
-		personSprite.person = 
-		
-        self.addChild(personSprite)
-        peopleSprites.append(personSprite)
-        sprites.append(personSprite)
-		
-		let slowdown = arc4random_uniform(UInt32(100)) / 60.0
-		let action = SKAction.moveToY(0, duration: 5 + slowdown)
-		personSprite.runAction(action)
-		
-		addPersonDelay = 2.0 - (nestSprites.count / 10.0) + arc4random_uniform(UInt32(100)) / 50.0
+        if family?.count > 0 {
+            let l = Int(arc4random_uniform(2))
+            let basex = (self.size.width / 2) - (boardWidth / 2)
+            let personSprite = PersonLeafSprite(texture: leaves[l])
+            let br = personSprite.size.width / personSprite.size.height
+            personSprite.size.width = bird.size.width / 2
+            personSprite.size.height = personSprite.size.width / br
+            let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
+            personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
+            personSprite.zPosition = 10
+            let p = Int(arc4random_uniform(UInt32(family!.count)))
+            personSprite.person = family![p]
+            
+            self.addChild(personSprite)
+            peopleSprites.append(personSprite)
+            sprites.append(personSprite)
+            
+            let slowdown = Double(arc4random_uniform(UInt32(100))) / 60.0
+            let action = SKAction.moveToY(0, duration: 5 + slowdown)
+            personSprite.runAction(action)
+        }
+        if family?.count < 2 {
+            treeWalker.loadMorePeople()
+        }
+		addPersonDelay = 2.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
     }
 	
 	func addRandomCloud() {
 		let basex = (self.size.width / 2) - (boardWidth / 2)
 		cloud.position.y = bird.position.y
-		cloud.setState(0)
+		cloud.changeState(0)
 		let cr = cloud.size.width / cloud.size.height
 		cloud.size.width = bird.size.width * 2
 		cloud.size.height = cloud.size.width / cr
 		cloud.zPosition = 4
 		
-		windPower = 5.0 + arc4random_uniform(UInt32(300)) / 100.0
+		windPower = 5.0 + CGFloat(arc4random_uniform(UInt32(300))) / 100.0
 		
 		var cact1 = SKAction.moveToX(basex + cloud.size.width / 3, duration: 1)
 		if drand48() > 0.5 {
 			cloud.xScale = -1.0
 			cloud.position.x = -basex - boardWidth - cloud.size.width / 2	
-			cact1 = SKAction.moveToX(-basex -boardWidth + cloud.size.width / 3, duration: 1)
+			cact1 = SKAction.moveToX(-basex - boardWidth + cloud.size.width / 3, duration: 1)
 		} else {
 			cloud.xScale = 1.0
 			cloud.position.x = basex - cloud.size.width / 2	
@@ -547,6 +552,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		], timePerFrame: 0.1)
 		animator.addTiming(SpriteActionTiming(time: 3, sprite: cloud, action: cact2))
 		
+        let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
 		if quietMode == nil || quietMode == "false" {
 			let cact2sound = SKAction.playSoundFileNamed("blowing", waitForCompletion: false)
 			animator.addTiming(SpriteActionTiming(time: 3.5, sprite: cloud, action: cact2sound))
@@ -555,7 +561,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let cactr2 = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
 		animator.addTiming(SpriteActionTiming(time: 3.9, sprite: cloud, action: cactr2))
 		
-		let blowtime = 1.0 + arc4random_uniform(UInt32(200)) / 100.0
+		let blowtime = 1.0 + Double(arc4random_uniform(UInt32(200))) / 100.0
 		let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
 			SKTexture(imageNamed: "cloud14"),
 			SKTexture(imageNamed: "cloud15")
@@ -570,14 +576,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		animator.start()
 	
-		addCloudDelay = 4.0 - (nestSprites.count / 10.0) + arc4random_uniform(UInt32(100)) / 50.0
+		addCloudDelay = 4.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
 	}
 	
 	func reorderNest() {
 		let basex = (self.size.width / 2) - (boardWidth / 2)
 		let nestWidth = self.size.height * 0.05
 		if nestSprites.count > 0 {
-            var dx = min(nestWidth, boardWidth / nestSprites.count)
+            let dx = min(nestWidth, boardWidth / CGFloat(nestSprites.count))
             var x = CGFloat(nestWidth / 2)
             for s in nestSprites {
                 s.position.x = basex + x
@@ -591,9 +597,9 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			var x = CGFloat(nestWidth / 2)
             for s in missedSprites {
 				if (s.texture == leaves[0]) {
-					s.texture == leaves[2]
+					s.texture = leaves[2]
 				} else if (s.texture == leaves[1]) {
-					s.texture == leaves[3]
+					s.texture = leaves[3]
 				}
                 s.position.x = basex + x
 				s.position.y = nestWidth * CGFloat(1.5)
@@ -681,8 +687,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					bird.physicsBody!.applyForce(CGVectorMake(40.0 * windPower, 0.0))
 				}
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
-					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 40.0 * CGFloat(data.acceleration.y)))
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(accData.acceleration.x), 40.0 * CGFloat(accData.acceleration.y)))
 				}
+                
+                if gameOver {
+                    //-- adjust play again button based on movement
+                    playAgainButton.position.x = playAgainPosition.x + (2 * CGFloat(accData.acceleration.x))
+                    playAgainButton.position.y = playAgainPosition.y + (2 * CGFloat(accData.acceleration.y))
+                }
 			}
 			
 			if !gameOver {
@@ -702,35 +714,31 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					lastAddCloudTime = currentTime
 				}
 				
-				var hit:PersonLeafSprite = nil
-				var missed:PersonLeafSprite = nil
+				var hit:PersonLeafSprite? = nil
+				var missed:PersonLeafSprite? = nil
 				for ps in peopleSprites {
-					if ps.contains(bird.position) {
+					if ps.frame.contains(bird.position) {
 						hit = ps
 					} else if ps.position.y < self.size.height * 0.1 {
 						missed = ps
 					}
 				}
 				if hit != nil {
-					nestSprites.append(hit)
-					peopleSprites.removeObject(hit)
+					nestSprites.append(hit!)
+					peopleSprites.removeObject(hit!)
 					if missed == nil {
 						reorderNest()
 					}
 				}
 				if missed != nil {
-					missedSprites.append(missed)
-					peopleSprites.removeObject(missed)
+					missedSprites.append(missed!)
+					peopleSprites.removeObject(missed!)
 					AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 					reorderNest()
 				}
 				if missedSprites.count > 2 {
 					showGameOver()
 				}
-			} else {
-				//-- adjust play again button based on movement
-				playAgainButton.position.x = playAgainPosition.x + (2 * data.acceleration.x)
-				playAgainButton.position.y = playAgainPosition.y + (2 * data.acceleration.y)
 			}
 		}
     }
