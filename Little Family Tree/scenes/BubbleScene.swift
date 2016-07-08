@@ -186,7 +186,12 @@ class BubbleScene: LittleFamilyScene {
         }
         tracker.addPerson(person)
         
-        dataService.getFamilyMembers(person, loadSpouse: true, onCompletion: {people, err in
+		var loadSpouse = true
+		let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+        if showStepChildren != nil && showStepChildren == "false" {
+			loadSpouse = false
+		}
+        dataService.getFamilyMembers(person, loadSpouse: loadSpouse, onCompletion: {people, err in
             if people != nil {
                 for p in people! {
                     self.queue.append(p)

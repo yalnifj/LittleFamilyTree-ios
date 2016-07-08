@@ -27,6 +27,7 @@ class SettingsView: UIView {
     @IBOutlet weak var syncDelaySlider: UISlider!
     @IBOutlet weak var syncDelayLabel: UILabel!
     @IBOutlet weak var quietModeSwitch: UISwitch!
+	@IBOutlet weak var showStepChildrenSwitch: UISwitch!
     
     @IBOutlet weak var versionLabel: UILabel!
     
@@ -97,6 +98,13 @@ class SettingsView: UIView {
             quietModeSwitch.setOn(false, animated: false)
         } else {
             quietModeSwitch.setOn(true, animated: false)
+        }
+		
+		let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+        if showStepChildren == nil || showStepChildren == "true" {
+            showStepChildrenSwitch.setOn(true, animated: false)
+        } else {
+            showStepChildrenSwitch.setOn(false, animated: false)
         }
         
         syncDelaySlider.minimumValue = 0
@@ -181,6 +189,15 @@ class SettingsView: UIView {
             dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "true")
         } else {
             dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
+        }
+    }
+	
+	@IBAction func showStepChildrenToggleAction(sender: UISwitch) {
+        let dataService = DataService.getInstance()
+        if sender.on {
+            dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "true")
+        } else {
+            dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "false")
         }
     }
 }

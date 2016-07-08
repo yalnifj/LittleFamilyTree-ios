@@ -49,7 +49,12 @@ class MatchGameScene: LittleFamilyScene {
             self.people = [LittlePerson]()
             self.people!.append(selectedPerson!)
         }
-        self.dataService?.getFamilyMembers(people![loadIndex], loadSpouse: true, onCompletion: { family, err in
+		var loadSpouse = true
+		let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+        if showStepChildren != nil && showStepChildren == "false" {
+			loadSpouse = false
+		}
+        self.dataService?.getFamilyMembers(people![loadIndex], loadSpouse: loadSpouse, onCompletion: { family, err in
             self.loadIndex += 1
             if family != nil {
                 for p in family! {

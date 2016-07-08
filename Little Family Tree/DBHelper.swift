@@ -464,7 +464,7 @@ class DBHelper {
 		return people
 	}
 
-	func getRelativesForPerson(id:Int64, followSpouse:Bool) -> [LittlePerson]? {
+	func getRelativesForPerson(id:Int64) -> [LittlePerson]? {
         var persons = [LittlePerson]()
         do {
             let query = TABLE_LITTLE_PERSON.join(.LeftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
@@ -477,18 +477,6 @@ class DBHelper {
                 person.id = c[TABLE_LITTLE_PERSON[COL_ID]]
                 if !persons.contains(person) {
                     persons.append(person)
-                }
-            }
-            
-            if followSpouse {
-                let spouses = getSpousesForPerson(id)
-                for spouse in spouses! {
-                    let speople = getRelativesForPerson(spouse.id!, followSpouse: false)
-                    for sp in speople! {
-                        if !persons.contains(sp) {
-                            persons.append(sp)
-                        }
-                    }
                 }
             }
         } catch {

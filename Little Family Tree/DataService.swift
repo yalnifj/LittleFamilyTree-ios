@@ -18,6 +18,7 @@ class DataService {
     static let PROPERTY_SYNC_CELL = "syncCell"
     static let PROPERTY_SYNC_DELAY = "syncDelay"
     static let PROPERTY_SHOW_PARENTS_GUIDE = "showParentsGuide"
+	static let PROPERTY_SHOW_STEP_CHILDREN = "showStepChildren"
 	static let PROPERTY_REMEMBER_ME = "rememberMe"
 
 	var remoteService:RemoteService? = nil
@@ -172,19 +173,54 @@ class DataService {
 	}
 	
 	func getFamilyMembers(person:LittlePerson, loadSpouse: Bool, onCompletion: PeopleResponse) {
-		let family = dbHelper.getRelativesForPerson(person.id!, followSpouse: loadSpouse)
+		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+		let group = dispatch_group_create()
+		
+		var family = dbHelper.getRelativesForPerson(person.id!)
 		if family == nil || person.hasSpouses == nil || person.hasParents == nil || person.hasChildren == nil {
-			getFamilyMembersFromRemoteService(person, loadSpouse: loadSpouse, onCompletion: { people, err in 
-				self.addFamilyToSyncQ(people!)
-				onCompletion(people, err)
+			family = [LittlePerson]()
+			dispatch_group_enter(group)
+			getFamilyMembersFromRemoteService(person, onCompletion: { people, err in 
+				for p in people {
+					family.append(p)
+				}
+				dispatch_group_leave(group)
 			})
-		} else {
-			addFamilyToSyncQ(family!)
+		}
+		
+		if loadSpouse {
+			dispatch_group_enter(group)
+			self.getSpouses(person, onCompletion: { spouses, err in 
+				for spouse in spouses {
+					if !family.contains(spouse) {
+						family.append(spouse)
+					}
+					
+					if person.treeLevel != nil && person.treeLevel! < 2 {
+						dispatch_group_enter(group)
+						self.getChildren(spouse, onCompletion: { stepChildren, err in {
+							if stepChildren != nil {
+								for sc in stepChildren {
+									if !family.contains(sc) {
+										family.append(sc)
+									}
+								}
+							}
+							dispatch_group_leave(group)
+						})
+					}
+				}
+				dispatch_group_leave(group)
+			})
+		}
+		
+		dispatch_group_notify(group, queue) {
+			self.addFamilyToSyncQ(family!)
 			onCompletion(family, nil)
 		}
 	}
 	
-	func getFamilyMembersFromRemoteService(person:LittlePerson, loadSpouse:Bool, onCompletion: PeopleResponse) {
+	func getFamilyMembersFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
         let family = [LittlePerson]()
         if person.name != nil {
             fireStatusUpdate("Loading close family members of \(person.name!)")
@@ -195,19 +231,6 @@ class DataService {
                     for r in closeRelatives! {
                         if r.type == "http://gedcomx.org/Couple" {
                             person.hasSpouses = true
-                            if loadSpouse {
-                                var spouse:LittlePerson?
-                                if r.person1?.resourceId == person.familySearchId {
-                                    spouse = self.dbHelper.getPersonByFamilySearchId(r.person2?.resourceId as! String)
-                                } else {
-                                    spouse = self.dbHelper.getPersonByFamilySearchId(r.person1?.resourceId as! String)
-                                }
-                                if spouse != nil {
-                                    self.getParents(spouse!, onCompletion: { sp, err in
-                                        print(sp)
-                                    })
-                                }
-                            }
                         }
                         else {
                             if r.person1?.resourceId == person.familySearchId {

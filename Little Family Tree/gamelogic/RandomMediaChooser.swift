@@ -103,7 +103,12 @@ class RandomMediaChooser {
             counter += 1;
             selectedPerson = familyLoaderQueue.removeFirst()
             if (selectedPerson != nil) {
-                dataService.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: {peeps, err in
+				var loadSpouse = true
+				let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+				if showStepChildren != nil && showStepChildren == "false" {
+					loadSpouse = false
+				}
+                dataService.getFamilyMembers(selectedPerson!, loadSpouse: loadSpouse, onCompletion: {peeps, err in
                     if (peeps != nil) {
                         var c = 0
                         for p in peeps! {

@@ -58,7 +58,7 @@ class RelationshipCalculator {
                 return ""
             }
             if (p!.treeLevel! == me!.treeLevel! - 1) {
-                let myFamily = dataService.dbHelper.getRelativesForPerson(me!.id!, followSpouse: false)
+                let myFamily = dataService.dbHelper.getRelativesForPerson(me!.id!)
                 if myFamily != nil {
                     if (myFamily!.contains(p!)) {
                         if (p!.gender == GenderType.FEMALE) {
