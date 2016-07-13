@@ -180,36 +180,40 @@ class DataService {
 		if family == nil || person.hasSpouses == nil || person.hasParents == nil || person.hasChildren == nil {
 			family = [LittlePerson]()
 			dispatch_group_enter(group)
-			getFamilyMembersFromRemoteService(person, onCompletion: { people, err in 
-				for p in people {
-					family.append(p)
-				}
+			getFamilyMembersFromRemoteService(person, onCompletion: { people, err in
+                if people != nil {
+                    for p in people! {
+                        family!.append(p)
+                    }
+                }
 				dispatch_group_leave(group)
 			})
 		}
 		
 		if loadSpouse {
 			dispatch_group_enter(group)
-			self.getSpouses(person, onCompletion: { spouses, err in 
-				for spouse in spouses {
-					if !family.contains(spouse) {
-						family.append(spouse)
-					}
-					
-					if person.treeLevel != nil && person.treeLevel! < 2 {
-						dispatch_group_enter(group)
-						self.getChildren(spouse, onCompletion: { stepChildren, err in {
-							if stepChildren != nil {
-								for sc in stepChildren {
-									if !family.contains(sc) {
-										family.append(sc)
-									}
-								}
-							}
-							dispatch_group_leave(group)
-						})
-					}
-				}
+			self.getSpouses(person, onCompletion: { spouses, err in
+                if spouses != nil {
+                    for spouse in spouses! {
+                        if !family!.contains(spouse) {
+                            family!.append(spouse)
+                        }
+                        
+                        if person.treeLevel != nil && person.treeLevel! < 2 {
+                            dispatch_group_enter(group)
+                            self.getChildren(spouse, onCompletion: { stepChildren, err in
+                                if stepChildren != nil {
+                                    for sc in stepChildren! {
+                                        if !family!.contains(sc) {
+                                            family!.append(sc)
+                                        }
+                                    }
+                                }
+                                dispatch_group_leave(group)
+                            })
+                        }
+                    }
+                }
 				dispatch_group_leave(group)
 			})
 		}
