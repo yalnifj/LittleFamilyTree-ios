@@ -124,7 +124,6 @@
 		A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC51CE7BF0E0066E964 /* leaf2.png */; };
 		A1743DDF1CE7BF0E0066E964 /* leaf_stem.png in Resources */ = {isa = PBXBuildFile; fileRef = A1743DC61CE7BF0E0066E964 /* leaf_stem.png */; };
 		A17917111D2D401900AA8E70 /* MyHeritageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17917101D2D401900AA8E70 /* MyHeritageService.swift */; };
-		A17917261D2D43FF00AA8E70 /* libfamilygraph_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */; };
 		A1A04D8E1CFA5AB000750FC2 /* SpriteAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */; };
 		A1A04DB11CFA5B2C00750FC2 /* blowing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */; };
 		A1A04DC41CFA5B2C00750FC2 /* grumble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */; };
@@ -137,6 +136,7 @@
 		A1A22D8E1C97B2F6003E6A53 /* PersonGalleryAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A22D8D1C97B2F6003E6A53 /* PersonGalleryAdapter.swift */; };
 		A1C0A9961C081D01006804BB /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1C1BF961CB5EB9F001A9A83 /* CupcakeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C1BF951CB5EB9F001A9A83 /* CupcakeSprite.swift */; };
+		A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C57BA61D48EABC00BB1AED /* StoreKit.framework */; };
 		A1CA32251CE2BD5A005DB6B3 /* BirdHomeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CA32241CE2BD59005DB6B3 /* BirdHomeSprite.swift */; };
 		A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D2A28F1BE1B5D5007F0F64 /* SQLite.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A1F7CE231C8FBBA4006053A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7CE221C8FBBA4006053A2 /* Images.xcassets */; };
@@ -684,13 +684,6 @@
 			remoteGlobalIDString = 03A65E631C6BB0F60062603F;
 			remoteInfo = "SQLiteTests tvOS";
 		};
-		A179171E1D2D432A00AA8E70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = "familygraph-ios-sdk";
-		};
 		A1C0A9931C081CC0006804BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */;
@@ -856,7 +849,6 @@
 		A1743DC51CE7BF0E0066E964 /* leaf2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf2.png; sourceTree = "<group>"; };
 		A1743DC61CE7BF0E0066E964 /* leaf_stem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaf_stem.png; sourceTree = "<group>"; };
 		A17917101D2D401900AA8E70 /* MyHeritageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageService.swift; sourceTree = "<group>"; };
-		A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "familygraph-ios-sdk.xcodeproj"; path = "../familygraph-ios/src/familygraph-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		A1A04D8D1CFA5AB000750FC2 /* SpriteAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteAnimator.swift; sourceTree = "<group>"; };
 		A1A04D971CFA5B2C00750FC2 /* blowing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blowing.mp3; sourceTree = "<group>"; };
 		A1A04DAA1CFA5B2C00750FC2 /* grumble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = grumble.mp3; sourceTree = "<group>"; };
@@ -868,6 +860,7 @@
 		A1A04DB01CFA5B2C00750FC2 /* rr_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rr_title.png; sourceTree = "<group>"; };
 		A1A22D8D1C97B2F6003E6A53 /* PersonGalleryAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonGalleryAdapter.swift; sourceTree = "<group>"; };
 		A1C1BF951CB5EB9F001A9A83 /* CupcakeSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CupcakeSprite.swift; sourceTree = "<group>"; };
+		A1C57BA61D48EABC00BB1AED /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A1CA32241CE2BD59005DB6B3 /* BirdHomeSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdHomeSprite.swift; sourceTree = "<group>"; };
 		A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		A1F7CE221C8FBBA4006053A2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1363,8 +1356,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A17917261D2D43FF00AA8E70 /* libfamilygraph_ios_sdk.a in Frameworks */,
 				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
+				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 				A1D2A29E1BE1B776007F0F64 /* SQLite.framework in Frameworks */,
 			);
@@ -1383,12 +1376,12 @@
 		A117C7201BA4AD0000964D50 = {
 			isa = PBXGroup;
 			children = (
+				A1C57BA61D48EABC00BB1AED /* StoreKit.framework */,
 				A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */,
 				A149A9601C49A3CF00367342 /* Security.framework */,
 				A117C72B1BA4AD0000964D50 /* Little Family Tree */,
 				A117C7451BA4AD0100964D50 /* Little Family TreeTests */,
 				A117C72A1BA4AD0000964D50 /* Products */,
-				A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */,
 				A1D2A2821BE1B5D5007F0F64 /* SQLite.xcodeproj */,
 				A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */,
 			);
@@ -1511,14 +1504,6 @@
 				A1A04DB01CFA5B2C00750FC2 /* rr_title.png */,
 			);
 			path = bird;
-			sourceTree = "<group>";
-		};
-		A179171B1D2D432900AA8E70 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A1D2A2831BE1B5D5007F0F64 /* Products */ = {
@@ -2282,6 +2267,9 @@
 							com.apple.DataProtection = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 						};
 					};
 					A117C7411BA4AD0100964D50 = {
@@ -2302,10 +2290,6 @@
 			productRefGroup = A117C72A1BA4AD0000964D50 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = A179171B1D2D432900AA8E70 /* Products */;
-					ProjectRef = A179171A1D2D432900AA8E70 /* familygraph-ios-sdk.xcodeproj */;
-				},
 				{
 					ProductGroup = A15B0AD01C59BF65000B6B33 /* Products */;
 					ProjectRef = A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */;
@@ -2364,13 +2348,6 @@
 			fileType = wrapper.cfbundle;
 			path = "SQLiteTests tvOS.xctest";
 			remoteRef = A15BD09B1C716DD100830742 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A179171F1D2D432A00AA8E70 /* libfamilygraph_ios_sdk.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libfamilygraph_ios_sdk.a;
-			remoteRef = A179171E1D2D432A00AA8E70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A1C1BFA01CB5EB9F001A9A83 /* SQLite.framework */ = {
@@ -3098,9 +3075,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3137,8 +3114,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

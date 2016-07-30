@@ -128,7 +128,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             if person != nil {
                 self.people.append(person!)
-				let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+				let showStepChildren = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
                 self.dataService?.getSpouses(person!, onCompletion: { spouses, err in
                     if spouses != nil {
                         for s in spouses! {

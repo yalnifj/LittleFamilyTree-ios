@@ -50,7 +50,7 @@ class MatchGameScene: LittleFamilyScene {
             self.people!.append(selectedPerson!)
         }
 		var loadSpouse = true
-		let showStepChildren = dataService.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+		let showStepChildren = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
         if showStepChildren != nil && showStepChildren == "false" {
 			loadSpouse = false
 		}
