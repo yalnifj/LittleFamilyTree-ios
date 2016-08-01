@@ -8,11 +8,16 @@
 
 import Foundation
 
-class MyHeritageService: RemoteService {
+class MyHeritageService: NSObject, RemoteService, FGSessionDelegate {
     var sessionId: NSString?
     
+    var familyGraph:FamilyGraph?
+    var clientId = ""
+    
     func authenticate(username: String, password: String, onCompletion: StringResponse) {
-        
+        familyGraph = FamilyGraph(clientId: self.clientId, andDelegate: self)
+        let perms:[AnyObject] = []
+        familyGraph?.authorize(perms)
     }
     
     func getCurrentPerson(onCompletion: PersonResponse) {
@@ -57,5 +62,17 @@ class MyHeritageService: RemoteService {
     
     func getPersonUrl(personId: NSString) -> NSString {
         return ""
+    }
+    
+    func fgDidLogin() {
+        print("User logged into MyHeritage")
+    }
+    
+    func fgDidNotLogin(cancelled:Bool) {
+        print("User did not finish logging into MyHeritage")
+    }
+    
+    func fgSessionInvalidated() {
+        print("FG Sessions invalidated")
     }
 }
