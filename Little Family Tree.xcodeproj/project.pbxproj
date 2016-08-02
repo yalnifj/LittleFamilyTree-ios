@@ -82,6 +82,17 @@
 		A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B81CB02AA100B63D81 /* cupcake3.png */; };
 		A150A5BD1CB02AA100B63D81 /* cupcake4.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5B91CB02AA100B63D81 /* cupcake4.png */; };
 		A150A5BF1CB02AC300B63D81 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A150A5BE1CB02AC300B63D81 /* logo.png */; };
+		A15585891D4D28E100AD7E9E /* FamilyGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585721D4D28E100AD7E9E /* FamilyGraph.m */; };
+		A155858A1D4D28E100AD7E9E /* FGDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A15585741D4D28E100AD7E9E /* FGDialog.bundle */; };
+		A155858B1D4D28E100AD7E9E /* FGDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585761D4D28E100AD7E9E /* FGDialog.m */; };
+		A155858C1D4D28E100AD7E9E /* FGLoginDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585781D4D28E100AD7E9E /* FGLoginDialog.m */; };
+		A155858D1D4D28E100AD7E9E /* FGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = A155857A1D4D28E100AD7E9E /* FGRequest.m */; };
+		A155858E1D4D28E100AD7E9E /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A155857E1D4D28E100AD7E9E /* NSObject+SBJSON.m */; };
+		A155858F1D4D28E100AD7E9E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585801D4D28E100AD7E9E /* NSString+SBJSON.m */; };
+		A15585901D4D28E100AD7E9E /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585821D4D28E100AD7E9E /* SBJSON.m */; };
+		A15585911D4D28E100AD7E9E /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585841D4D28E100AD7E9E /* SBJsonBase.m */; };
+		A15585921D4D28E100AD7E9E /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585861D4D28E100AD7E9E /* SBJsonParser.m */; };
+		A15585931D4D28E100AD7E9E /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A15585881D4D28E100AD7E9E /* SBJsonWriter.m */; };
 		A158DB3F1D0CA7E60002F0A8 /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB2F1D0CA7E60002F0A8 /* cloud1.png */; };
 		A158DB401D0CA7E60002F0A8 /* cloud2.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB301D0CA7E60002F0A8 /* cloud2.png */; };
 		A158DB411D0CA7E60002F0A8 /* cloud3.png in Resources */ = {isa = PBXBuildFile; fileRef = A158DB311D0CA7E60002F0A8 /* cloud3.png */; };
@@ -797,6 +808,29 @@
 		A150A5B81CB02AA100B63D81 /* cupcake3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake3.png; sourceTree = "<group>"; };
 		A150A5B91CB02AA100B63D81 /* cupcake4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake4.png; sourceTree = "<group>"; };
 		A150A5BE1CB02AC300B63D81 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		A15585711D4D28E100AD7E9E /* FamilyGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FamilyGraph.h; path = FamilyGraph/FamilyGraph.h; sourceTree = "<group>"; };
+		A15585721D4D28E100AD7E9E /* FamilyGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FamilyGraph.m; path = FamilyGraph/FamilyGraph.m; sourceTree = "<group>"; };
+		A15585731D4D28E100AD7E9E /* FamilyGraphHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FamilyGraphHeaders.h; path = FamilyGraph/FamilyGraphHeaders.h; sourceTree = "<group>"; };
+		A15585741D4D28E100AD7E9E /* FGDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FGDialog.bundle; path = FamilyGraph/FGDialog.bundle; sourceTree = "<group>"; };
+		A15585751D4D28E100AD7E9E /* FGDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGDialog.h; path = FamilyGraph/FGDialog.h; sourceTree = "<group>"; };
+		A15585761D4D28E100AD7E9E /* FGDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGDialog.m; path = FamilyGraph/FGDialog.m; sourceTree = "<group>"; };
+		A15585771D4D28E100AD7E9E /* FGLoginDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGLoginDialog.h; path = FamilyGraph/FGLoginDialog.h; sourceTree = "<group>"; };
+		A15585781D4D28E100AD7E9E /* FGLoginDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGLoginDialog.m; path = FamilyGraph/FGLoginDialog.m; sourceTree = "<group>"; };
+		A15585791D4D28E100AD7E9E /* FGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGRequest.h; path = FamilyGraph/FGRequest.h; sourceTree = "<group>"; };
+		A155857A1D4D28E100AD7E9E /* FGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGRequest.m; path = FamilyGraph/FGRequest.m; sourceTree = "<group>"; };
+		A155857C1D4D28E100AD7E9E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		A155857D1D4D28E100AD7E9E /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		A155857E1D4D28E100AD7E9E /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		A155857F1D4D28E100AD7E9E /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		A15585801D4D28E100AD7E9E /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		A15585811D4D28E100AD7E9E /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		A15585821D4D28E100AD7E9E /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
+		A15585831D4D28E100AD7E9E /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		A15585841D4D28E100AD7E9E /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		A15585851D4D28E100AD7E9E /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		A15585861D4D28E100AD7E9E /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		A15585871D4D28E100AD7E9E /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		A15585881D4D28E100AD7E9E /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		A158DB2F1D0CA7E60002F0A8 /* cloud1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud1.png; sourceTree = "<group>"; };
 		A158DB301D0CA7E60002F0A8 /* cloud2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud2.png; sourceTree = "<group>"; };
 		A158DB311D0CA7E60002F0A8 /* cloud3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud3.png; sourceTree = "<group>"; };
@@ -1452,6 +1486,46 @@
 			path = birthdaycard;
 			sourceTree = "<group>";
 		};
+		A15585681D4D285700AD7E9E /* FamilyGraph */ = {
+			isa = PBXGroup;
+			children = (
+				A15585711D4D28E100AD7E9E /* FamilyGraph.h */,
+				A15585721D4D28E100AD7E9E /* FamilyGraph.m */,
+				A15585731D4D28E100AD7E9E /* FamilyGraphHeaders.h */,
+				A15585741D4D28E100AD7E9E /* FGDialog.bundle */,
+				A15585751D4D28E100AD7E9E /* FGDialog.h */,
+				A15585761D4D28E100AD7E9E /* FGDialog.m */,
+				A15585771D4D28E100AD7E9E /* FGLoginDialog.h */,
+				A15585781D4D28E100AD7E9E /* FGLoginDialog.m */,
+				A15585791D4D28E100AD7E9E /* FGRequest.h */,
+				A155857A1D4D28E100AD7E9E /* FGRequest.m */,
+				A155857B1D4D28E100AD7E9E /* JSON */,
+			);
+			name = FamilyGraph;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		A155857B1D4D28E100AD7E9E /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				A155857C1D4D28E100AD7E9E /* JSON.h */,
+				A155857D1D4D28E100AD7E9E /* NSObject+SBJSON.h */,
+				A155857E1D4D28E100AD7E9E /* NSObject+SBJSON.m */,
+				A155857F1D4D28E100AD7E9E /* NSString+SBJSON.h */,
+				A15585801D4D28E100AD7E9E /* NSString+SBJSON.m */,
+				A15585811D4D28E100AD7E9E /* SBJSON.h */,
+				A15585821D4D28E100AD7E9E /* SBJSON.m */,
+				A15585831D4D28E100AD7E9E /* SBJsonBase.h */,
+				A15585841D4D28E100AD7E9E /* SBJsonBase.m */,
+				A15585851D4D28E100AD7E9E /* SBJsonParser.h */,
+				A15585861D4D28E100AD7E9E /* SBJsonParser.m */,
+				A15585871D4D28E100AD7E9E /* SBJsonWriter.h */,
+				A15585881D4D28E100AD7E9E /* SBJsonWriter.m */,
+			);
+			name = JSON;
+			path = FamilyGraph/JSON;
+			sourceTree = "<group>";
+		};
 		A15B0AD01C59BF65000B6B33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1550,6 +1624,7 @@
 		A1F7CE471C8FBBD6006053A2 /* remote */ = {
 			isa = PBXGroup;
 			children = (
+				A15585681D4D285700AD7E9E /* FamilyGraph */,
 				A1F7CE481C8FBBD6006053A2 /* data */,
 				A1F7CE661C8FBBD6006053A2 /* FamilySearchService.swift */,
 				A17917101D2D401900AA8E70 /* MyHeritageService.swift */,
@@ -2668,6 +2743,7 @@
 				A1F7D26F1C8FBC12006053A2 /* house_adult_wardrobe2.png in Resources */,
 				A1F7D2611C8FBC12006053A2 /* frame2.png in Resources */,
 				A1F7D2CA1C8FBC12006053A2 /* house_familyroom_lamp2.png in Resources */,
+				A155858A1D4D28E100AD7E9E /* FGDialog.bundle in Resources */,
 				A1F7D3101C8FBC12006053A2 /* house_toaster2.png in Resources */,
 				A1F7D30B1C8FBC12006053A2 /* house_toaster15.png in Resources */,
 				A1F7CEFD1C8FBBD6006053A2 /* sobelAlphaShader.fsh in Resources */,
@@ -2888,9 +2964,12 @@
 				A1F7CEAA1C8FBBD6006053A2 /* StatusListener.swift in Sources */,
 				A1F7CEBA1C8FBBD6006053A2 /* SongPersonAttributes.swift in Sources */,
 				A1F7CECE1C8FBBD6006053A2 /* Name.swift in Sources */,
+				A15585891D4D28E100AD7E9E /* FamilyGraph.m in Sources */,
 				A1F7CEED1C8FBBD6006053A2 /* SplashScene.swift in Sources */,
 				A1F7CEB21C8FBBD6006053A2 /* DressUpDolls.swift in Sources */,
 				A1F7CEFA1C8FBBD6006053A2 /* PersonMatchSprite.swift in Sources */,
+				A15585901D4D28E100AD7E9E /* SBJSON.m in Sources */,
+				A15585931D4D28E100AD7E9E /* SBJsonWriter.m in Sources */,
 				A1F7CF091C8FBBD6006053A2 /* PersonDetailsView.swift in Sources */,
 				A1F7CEF21C8FBBD6006053A2 /* BrushSizeSprite.swift in Sources */,
 				A1F7CEB31C8FBBD6006053A2 /* MatchingGame.swift in Sources */,
@@ -2915,8 +2994,10 @@
 				A172F02E1C927E57007346FD /* SimpleDialogView.swift in Sources */,
 				A1F7CEBD1C8FBBD6006053A2 /* GameViewController.swift in Sources */,
 				A1F7CEEA1C8FBBD6006053A2 /* ScratchScene.swift in Sources */,
+				A155858B1D4D28E100AD7E9E /* FGDialog.m in Sources */,
 				A1F7CEA71C8FBBD6006053A2 /* PlaceHelper.swift in Sources */,
 				A1F7CF0F1C8FBBD6006053A2 /* SettingsView.swift in Sources */,
+				A155858D1D4D28E100AD7E9E /* FGRequest.m in Sources */,
 				A1F7CEE81C8FBBD6006053A2 /* MatchGameScene.swift in Sources */,
 				A1F7CECD1C8FBBD6006053A2 /* Link.swift in Sources */,
 				A1A04D8E1CFA5AB000750FC2 /* SpriteAnimator.swift in Sources */,
@@ -2939,6 +3020,7 @@
 				A1F7CED71C8FBBD6006053A2 /* SourceCitation.swift in Sources */,
 				A1F7CEDF1C8FBBD6006053A2 /* RemoteService.swift in Sources */,
 				A1F7CEF71C8FBBD6006053A2 /* MovingAnimatedStateSprite.swift in Sources */,
+				A155858E1D4D28E100AD7E9E /* NSObject+SBJSON.m in Sources */,
 				A1F7CEE11C8FBBD6006053A2 /* BubbleScene.swift in Sources */,
 				A1F7CEA01C8FBBD6006053A2 /* GenderType.swift in Sources */,
 				A1F7CEF91C8FBBD6006053A2 /* PersonLeavesButton.swift in Sources */,
@@ -2958,11 +3040,14 @@
 				A1F7CEA91C8FBBD6006053A2 /* RelationshipType.swift in Sources */,
 				A1F7CEAF1C8FBBD6006053A2 /* DBHelper.swift in Sources */,
 				A1F7CF051C8FBBD6006053A2 /* ParentLogin.swift in Sources */,
+				A155858C1D4D28E100AD7E9E /* FGLoginDialog.m in Sources */,
 				A172F0301C94B675007346FD /* Gallery.swift in Sources */,
 				A1F7CEDC1C8FBBD6006053A2 /* FamilySearchService.swift in Sources */,
 				A14938B61C97DCA1006F1DC9 /* SearchPersonTableCell.swift in Sources */,
 				A1F7CEBB1C8FBBD6006053A2 /* TreeSearchGame.swift in Sources */,
 				A1F7CED61C8FBBD6006053A2 /* ResourceReference.swift in Sources */,
+				A15585921D4D28E100AD7E9E /* SBJsonParser.m in Sources */,
+				A15585911D4D28E100AD7E9E /* SBJsonBase.m in Sources */,
 				A1F7CEBC1C8FBBD6006053A2 /* TreeWalker.swift in Sources */,
 				A1F7CED11C8FBBD6006053A2 /* Note.swift in Sources */,
 				A1F7CEC71C8FBBD6006053A2 /* Fact.swift in Sources */,
@@ -2987,6 +3072,7 @@
 				A1F7CECC1C8FBBD6006053A2 /* Identifier.swift in Sources */,
 				A1F7CEB51C8FBBD6006053A2 /* PuzzleGame.swift in Sources */,
 				A158DB5E1D0CC7B50002F0A8 /* PersonLeafSprite.swift in Sources */,
+				A155858F1D4D28E100AD7E9E /* NSString+SBJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
