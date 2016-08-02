@@ -26,4 +26,12 @@ class PersonLeafSprite: SKSpriteNode {
         }
     }
     var photoSprite:SKSpriteNode? = nil
+    
+    func resizePhoto() {
+        if photoSprite != nil {
+            let ratio = (photoSprite?.size.width)! / (photoSprite?.size.height)!
+            photoSprite?.size.width = self.size.width * 0.5
+            photoSprite?.size.height = (self.size.width * 0.5) / ratio
+        }
+    }
 }

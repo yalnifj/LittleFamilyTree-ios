@@ -747,9 +747,13 @@ class DBHelper {
 	}
 	
 	func getMediaCount() -> Int64 {
-		let countm = lftdb?.scalar(TABLE_MEDIA.count)
-		let countp = lftdb?.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
-		return Int64(countm! + countp!)
+        do {
+            let countm = try lftdb?.scalar(TABLE_MEDIA.count)
+            let countp = try lftdb?.scalar(TABLE_LITTLE_PERSON.filter(COL_PHOTO_PATH != nil).count)
+            return Int64(countm! + countp!)
+        } catch {
+            return 0
+        }
 	}
 	
 	func persistTag(tag:Tag) throws {
@@ -919,26 +923,26 @@ class DBHelper {
 	
 	func addToSyncQ(id:Int64) {
 		let query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = lftdb?.scalar(query.count)
-		if count==0 {
-            do {
+        do {
+            let count = try lftdb?.scalar(query.count)
+            if count==0 {
                 try lftdb?.run(TABLE_SYNCQ.insert(COL_ID <- id))
-            } catch {
-                print("Unable to add to syncq table \(id)")
             }
-		}
+        } catch {
+            print("Unable to add to syncq table \(id)")
+        }
 	}
 	
 	func removeFromSyncQ(id:Int64) {
 		let query = TABLE_SYNCQ.filter(COL_ID == id)
-		let count = lftdb?.scalar(query.count)
-		if count > 0 {
-            do {
+        do {
+            let count = try lftdb?.scalar(query.count)
+            if count > 0 {
                 try lftdb?.run(query.delete())
-            } catch {
-                print("Unable to remove from syncq table \(id)")
             }
-		}
+        } catch {
+            print("Unable to remove from syncq table \(id)")
+        }
 	}
 	
 	func getSyncQ() -> [Int64] {
@@ -955,12 +959,16 @@ class DBHelper {
 	}
     
     func tableExists(tableName: String) -> Bool {
-        let val = lftdb?.scalar(
-            "SELECT EXISTS (SELECT * FROM sqlite_master WHERE type = 'table' AND name = ?)",
-            tableName
-            ) as! Int64
-        if val > 0 {
-            return true
+        do {
+            let val = try lftdb?.scalar(
+                "SELECT EXISTS (SELECT * FROM sqlite_master WHERE type = 'table' AND name = ?)",
+                tableName
+                ) as! Int64
+            if val > 0 {
+                return true
+            }
+        } catch {
+            print("error checking db")
         }
         return false
     }

@@ -44,8 +44,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var tileOffset = CGFloat(0)
 	
-	var tileMove = CGFloat(2)
-	var timeStep = 0.1
+	var tileMove = CGFloat(1)
+	var timeStep = 0.05
 	
 	var addPersonDelay = 0.0
 	var lastAddPersonTime = 0.0
@@ -257,7 +257,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			for f in 0..<smallleaves.count {
 				var person:LittlePerson? = nil
 				let r = arc4random_uniform(UInt32(3))
-				if r > 0 && f < family!.count {
+				if r > 0 && p < family!.count {
 					person = family![p]
 					p += 1
 				}
@@ -398,7 +398,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			self.addChild(bgSprite)
 			
 			tx = tx + bgSprite.size.width - 2
-			if tx >= width {
+			if tx - (tiles[0].size().width / 2) >= width {
                 tx = tiles[0].size().width / 2
 				ty = ty + (tiles[0].size().height - 2)
 			}
@@ -442,16 +442,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		//-- hide offscreen clouds behind a background image
 		if !portrait {
 			let background1 = SKSpriteNode(imageNamed: "tree_background")
-			background1.position = CGPointMake((self.size.width - width)/2, self.size.height/2)
-			background1.size.width = self.size.width - width
+			background1.position = CGPointMake((self.size.width - width)/4, self.size.height/2)
+			background1.size.width = (self.size.width - width)/2
 			background1.size.height = self.size.height
 			background1.zPosition = 6
 			self.addChild(background1)
 			sprites.append(background1)
 			
 			let background2 = SKSpriteNode(imageNamed: "tree_background")
-			background2.position = CGPointMake(width + (self.size.width - width)/2, self.size.height/2)
-			background2.size.width = self.size.width - width
+			background2.position = CGPointMake(3*(self.size.width - width)/4 + width, self.size.height/2)
+			background2.size.width = (self.size.width - width)/2
 			background2.size.height = self.size.height
 			background2.zPosition = 6
 			self.addChild(background2)
@@ -462,14 +462,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		spritesCreated = true
 		
 		addPersonDelay = 6.0 + Double(arc4random_uniform(UInt32(100))) / 60.0
-		addCloudDelay = 10.0 + Double(arc4random_uniform(UInt32(100))) / 60.0
+		addCloudDelay = 15.0 + Double(arc4random_uniform(UInt32(100))) / 60.0
 	}
 	
 	func addTileRow() {
 		var tx = tiles[0].size().width / 2
-		let ty = self.size.height
+		let ty = self.size.height + tiles[0].size().height / 2
 		let basex = (self.size.width / 2) - (boardWidth / 2)
-		while tx < boardWidth {
+		while tx - (tiles[0].size().width / 2) < boardWidth {
 			let rt = Int(arc4random_uniform(UInt32(tiles.count)))
 			let bgSprite = SKSpriteNode(texture: tiles[rt])
 			bgSprite.zPosition = 1
@@ -477,13 +477,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                 bgSprite.zPosition = 2
             }
 			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
-			backgroundTiles.removeFirst().removeFromParent()
 			backgroundTiles.append(bgSprite)
 			sprites.append(bgSprite)
 			self.addChild(bgSprite)
 			
 			tx = tx + bgSprite.size.width - 2
 		}
+        
+        while backgroundTiles.first?.position.y < 0 {
+            backgroundTiles.removeFirst().removeFromParent()
+        }
 	}
     
     func addRandomPerson() {
@@ -492,7 +495,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             let basex = (self.size.width / 2) - (boardWidth / 2)
             let personSprite = PersonLeafSprite(texture: leaves[l])
             let br = personSprite.size.width / personSprite.size.height
-            personSprite.size.width = bird.size.width / 2
+            personSprite.size.width = bird.size.width / 1.5
             personSprite.size.height = personSprite.size.width / br
             let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
             personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
@@ -505,13 +508,13 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             sprites.append(personSprite)
             
             let slowdown = Double(arc4random_uniform(UInt32(100))) / 60.0
-            let action = SKAction.moveToY(0, duration: 5 + slowdown)
+            let action = SKAction.moveToY(0, duration: 8 + slowdown)
             personSprite.runAction(action)
         }
         if family?.count < 2 {
             treeWalker.loadMorePeople()
         }
-		addPersonDelay = 2.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
+		addPersonDelay = 3.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
     }
 	
 	func addRandomCloud() {
@@ -571,12 +574,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let cact5 = SKAction.removeFromParent()
 		animator.addTiming(SpriteActionTiming(time: 6.0 + blowtime, sprite: cloud, action: cact5))
 			
+        cloud.removeFromParent()
+        
 		sprites.append(cloud)
 		self.addChild(cloud)
 		
 		animator.start()
 	
-		addCloudDelay = 4.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
+		addCloudDelay = 6.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
 	}
 	
 	func reorderNest() {
@@ -590,6 +595,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				s.position.y = nestWidth / 2
 				s.size.width = nestWidth
 				s.size.height = nestWidth
+                s.resizePhoto()
                 x += dx
             }
         }
@@ -605,6 +611,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				s.position.y = nestWidth * CGFloat(1.5)
 				s.size.width = nestWidth
 				s.size.height = nestWidth
+                s.resizePhoto()
                 x += nestWidth
             }
 		}
@@ -635,7 +642,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             message.fontSize = message.fontSize * 0.75
         }
         message.fontColor = UIColor.blackColor()
-        message.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+        message.position = CGPointMake(self.size.width / 2, (self.size.height / 2) - message.fontSize * 2)
         message.zPosition = 5
 		sprites.append(message)
 		self.addChild(message)
@@ -645,11 +652,11 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let pr = playAgainButton.size.width / playAgainButton.size.height
 		playAgainButton.size.width = gameOverCloud.size.width * 0.3
 		playAgainButton.size.height = playAgainButton.size.width / pr
-		playAgainButton.position = CGPointMake(self.size.width / 2 + playAgainButton.size.width / 2, gameOverCloud.position.y + gameOverCloud.size.height/2)
+		playAgainButton.position = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
 		playAgainButton.zPosition = 6
 		playAgainButton.userInteractionEnabled = true
 		playAgainButton.topic = BirdScene.TOPIC_PLAY_AGAIN
-		playAgainPosition = CGPointMake(self.size.width / 2 + playAgainButton.size.width / 2, gameOverCloud.position.y + gameOverCloud.size.height/2)
+		playAgainPosition = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
 		sprites.append(playAgainButton)
 		self.addChild(playAgainButton)
 	}
@@ -701,7 +708,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				if lastAddPersonTime == 0 {
 					lastAddPersonTime = currentTime
 				}
-				if lastAddPersonTime - currentTime > addPersonDelay {
+				if currentTime - lastAddPersonTime > addPersonDelay {
 					addRandomPerson()
 					lastAddPersonTime = currentTime
 				}
@@ -709,7 +716,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				if lastAddCloudTime == 0 {
 					lastAddCloudTime = currentTime
 				}
-				if  lastAddCloudTime - currentTime > addCloudDelay {
+				if  currentTime - lastAddCloudTime > addCloudDelay {
 					addRandomCloud()
 					lastAddCloudTime = currentTime
 				}
@@ -724,6 +731,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					}
 				}
 				if hit != nil {
+                    hit?.removeAllActions()
 					nestSprites.append(hit!)
 					peopleSprites.removeObject(hit!)
 					if missed == nil {
@@ -731,8 +739,11 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					}
 				}
 				if missed != nil {
+                    missed?.removeAllActions()
 					missedSprites.append(missed!)
 					peopleSprites.removeObject(missed!)
+                    let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: false)
+                    self.runAction(soundAction)
 					AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 					reorderNest()
 				}
