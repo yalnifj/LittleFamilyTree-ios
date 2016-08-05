@@ -87,7 +87,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		tiles.append(SKTexture(imageNamed: "bird_tile5"))
         
         EventHandler.getInstance().subscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
-		
+		EventHandler.getInstance().subscribe(BirdScene.TOPIC_PLAY_AGAIN, listener: self)
+        
 		motionManager = CMMotionManager()
 		motionManager.startAccelerometerUpdates()
     }
@@ -95,6 +96,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
     override func willMoveFromView(view: SKView) {
         super.willMoveFromView(view)
         EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
+        EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_PLAY_AGAIN, listener: self)
 		
 		motionManager.stopAccelerometerUpdates()
     }
@@ -105,6 +107,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             if (animator != nil) {
                 animator.finished = true
             }
+        } else if (topic==BirdScene.TOPIC_PLAY_AGAIN) {
+            createSprites()
         }
     }
 
@@ -370,6 +374,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		gameOver = false
 		lastAddPersonTime = 0.0
+        lastAddCloudTime = 0.0
 		
         var width = self.size.width
 		
@@ -378,7 +383,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			width = self.size.height / wr
 		}
 		
-		let birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+		var birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+        if !portrait {
+            birdBoundingRect = CGRectMake((self.size.width - width)/2, CGFloat(self.size.height * 0.1), (self.size.width - width)/2 + width, self.size.height * 0.25)
+        }
 		let physicsBody = SKPhysicsBody (edgeLoopFromRect: birdBoundingRect)
 		self.physicsBody = physicsBody
 		
@@ -575,6 +583,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		animator.addTiming(SpriteActionTiming(time: 6.0 + blowtime, sprite: cloud, action: cact5))
 			
         cloud.removeFromParent()
+        sprites.removeObject(cloud)
         
 		sprites.append(cloud)
 		self.addChild(cloud)
@@ -691,10 +700,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			
 			if let accData = motionManager.accelerometerData {
 				if !animator.finished && animator.currentPosition > 3 {
-					bird.physicsBody!.applyForce(CGVectorMake(40.0 * windPower, 0.0))
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 + windPower, 0.0))
 				}
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
-					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(accData.acceleration.x), 40.0 * CGFloat(accData.acceleration.y)))
+					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(accData.acceleration.y), 40.0 * CGFloat(accData.acceleration.x)))
 				}
                 
                 if gameOver {
