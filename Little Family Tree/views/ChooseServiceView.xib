@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A254g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseServiceView" customModule="Little_Family_Tree" customModuleProvider="target">
             <connections>
                 <outlet property="FSButton" destination="GQi-R1-Ai7" id="lAe-uX-7oW"/>
+                <outlet property="MyHeritageButton" destination="kUx-Bt-dNx" id="dEg-sQ-M1e"/>
                 <outlet property="PGVButton" destination="II9-DR-pEt" id="2vA-Jz-Gkt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="397" height="426"/>
+            <rect key="frame" x="0.0" y="0.0" width="397" height="531"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3h-8l-pW1">
                     <rect key="frame" x="0.0" y="0.0" width="397" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="jGt-UX-8o3"/>
+                    </constraints>
                     <items>
                         <navigationItem title="Choose your online Family Tree Service:" id="cCy-ob-cs9"/>
                     </items>
@@ -51,10 +55,21 @@
                         <action selector="FSButtonClicked:" destination="-1" eventType="touchUpInside" id="Lb9-t8-zp0"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="II9-DR-pEt">
-                    <rect key="frame" x="8" y="290" width="381" height="76"/>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUx-Bt-dNx">
+                    <rect key="frame" x="8" y="278" width="381" height="79"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="76" id="4oq-Je-qf0"/>
+                        <constraint firstAttribute="height" constant="79" id="3M0-Rv-EQO"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="myheritage_logo.png"/>
+                    <connections>
+                        <action selector="MyHeritageButtonClicked:" destination="-1" eventType="touchUpInside" id="O5c-fk-eye"/>
+                        <action selector="PGVButtonClicked:" destination="-1" eventType="touchUpInside" id="flN-Bt-OfJ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="II9-DR-pEt">
+                    <rect key="frame" x="8" y="365" width="381" height="79"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="79" id="uob-U0-RUM"/>
                     </constraints>
                     <state key="normal" title="Button" image="pgv_logo.png"/>
                     <connections>
@@ -68,25 +83,30 @@
                 <constraint firstItem="1Yz-tQ-oBw" firstAttribute="top" secondItem="S3h-8l-pW1" secondAttribute="bottom" id="4PR-Z1-seW"/>
                 <constraint firstItem="1Yz-tQ-oBw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="69E-bg-VV1"/>
                 <constraint firstItem="vmA-72-eRl" firstAttribute="trailing" secondItem="1Yz-tQ-oBw" secondAttribute="trailing" id="6JK-KS-Qk0"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="leading" secondItem="II9-DR-pEt" secondAttribute="leading" id="8mY-Fe-TWU"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="vmA-72-eRl" secondAttribute="trailing" id="Axt-K0-p97"/>
                 <constraint firstItem="GQi-R1-Ai7" firstAttribute="top" secondItem="vmA-72-eRl" secondAttribute="bottom" constant="26" id="CLq-hv-AFU"/>
                 <constraint firstItem="vmA-72-eRl" firstAttribute="top" secondItem="1Yz-tQ-oBw" secondAttribute="bottom" constant="3" id="LTd-qK-weN"/>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Wbl-b1-Fur"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" id="XgJ-GS-EaN"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="top" secondItem="GQi-R1-Ai7" secondAttribute="bottom" constant="8" symbolic="YES" id="cha-ni-Gig"/>
                 <constraint firstItem="vmA-72-eRl" firstAttribute="leading" secondItem="1Yz-tQ-oBw" secondAttribute="leading" id="dwf-2l-1RF"/>
-                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="centerX" secondItem="S3h-8l-pW1" secondAttribute="centerX" id="fmQ-Lw-I2n"/>
                 <constraint firstItem="S3h-8l-pW1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="h3B-xN-bEN"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="leading" secondItem="GQi-R1-Ai7" secondAttribute="leading" id="j6x-vy-UPy"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" id="miN-By-cdE"/>
                 <constraint firstAttribute="trailing" secondItem="S3h-8l-pW1" secondAttribute="trailing" id="mp4-5Q-EcI"/>
                 <constraint firstItem="S3h-8l-pW1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pWx-9l-DX0"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="top" secondItem="GQi-R1-Ai7" secondAttribute="bottom" constant="20" id="t7S-Ce-uQo"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="vmA-72-eRl" secondAttribute="trailing" id="tHQ-SX-rFp"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="trailing" secondItem="II9-DR-pEt" secondAttribute="trailing" id="qvc-x6-wW8"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="top" secondItem="kUx-Bt-dNx" secondAttribute="bottom" constant="8" id="xBB-hw-arH"/>
+                <constraint firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" constant="8" id="xnT-UW-Poo"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="leading" secondItem="GQi-R1-Ai7" secondAttribute="leading" id="ylV-I8-Ia7"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="209.5" y="190"/>
+            <point key="canvasLocation" x="209.5" y="242.5"/>
         </view>
     </objects>
     <resources>
+        <image name="myheritage_logo.png" width="200" height="50"/>
         <image name="pgv_logo.png" width="194" height="44"/>
-        <image name="tree_logotype_1x.png" width="164" height="44"/>
+        <image name="tree_logotype_1x.png" width="200" height="54"/>
     </resources>
 </document>

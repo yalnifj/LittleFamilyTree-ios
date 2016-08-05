@@ -11,6 +11,7 @@ import UIKit
 @IBDesignable class ChooseServiceView: UIView {
     @IBOutlet weak var FSButton: UIButton!
     @IBOutlet weak var PGVButton: UIButton!
+    @IBOutlet weak var MyHeritageButton: UIButton!
 
     var view:UIView!
     
@@ -57,6 +58,15 @@ import UIKit
         let superview = self.view.superview
         self.view.removeFromSuperview()
         let subview = PGVLogin(frame: (self.view?.bounds)!)
+        subview.loginListener = self.loginListener
+        superview?.addSubview(subview)
+    }
+    
+    @IBAction func MyHeritageButtonClicked(sender: UIButton) {
+        print("MyHeritage Button Clicked")
+        let superview = self.view.superview
+        self.view.removeFromSuperview()
+        let subview = MyHeritageLogin(frame: (self.view?.bounds)!)
         subview.loginListener = self.loginListener
         superview?.addSubview(subview)
     }

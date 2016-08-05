@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A254g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyHeritageLogin" customModule="Little_Family_Tree" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NHo-Eu-tZG">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem id="TZL-Ja-0i1">
+                            <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="hQV-9t-khr"/>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myheritage_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="DDj-GJ-nZg">
+                    <rect key="frame" x="40" y="44" width="240" height="49"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="3gq-dn-q4d"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="DDj-GJ-nZg" firstAttribute="centerX" secondItem="NHo-Eu-tZG" secondAttribute="centerX" id="6hQ-y9-W2Z"/>
+                <constraint firstItem="DDj-GJ-nZg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="GRP-wD-G6g"/>
+                <constraint firstItem="DDj-GJ-nZg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="Hta-HN-R3k"/>
+                <constraint firstItem="DDj-GJ-nZg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="bkf-st-0L9"/>
+                <constraint firstItem="DDj-GJ-nZg" firstAttribute="top" secondItem="NHo-Eu-tZG" secondAttribute="bottom" id="kMW-qx-r6I"/>
+                <constraint firstItem="NHo-Eu-tZG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lLk-ce-S6a"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="myheritage_logo.png" width="200" height="50"/>
+    </resources>
+</document>

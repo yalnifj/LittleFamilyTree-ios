@@ -9,6 +9,7 @@ class DataService {
 	static let SERVICE_TYPE = "service_type"
     static let SERVICE_TYPE_PHPGEDVIEW = "PGVService"
     static let SERVICE_TYPE_FAMILYSEARCH = "FamilySearchService"
+    static let SERVICE_TYPE_MYHERITAGE = "MyHeritageService"
     static let SERVICE_TOKEN = "Token"
     static let SERVICE_BASEURL = "BaseUrl"
     static let SERVICE_DEFAULTPERSONID = "DefaultPersonId"

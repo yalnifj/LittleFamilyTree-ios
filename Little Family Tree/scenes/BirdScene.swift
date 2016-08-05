@@ -495,7 +495,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             let basex = (self.size.width / 2) - (boardWidth / 2)
             let personSprite = PersonLeafSprite(texture: leaves[l])
             let br = personSprite.size.width / personSprite.size.height
-            personSprite.size.width = bird.size.width / 1.5
+            personSprite.size.width = bird.size.width
             personSprite.size.height = personSprite.size.width / br
             let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
             personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
@@ -522,7 +522,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		cloud.position.y = bird.position.y
 		cloud.changeState(0)
 		let cr = cloud.size.width / cloud.size.height
-		cloud.size.width = bird.size.width * 2
+		cloud.size.width = bird.size.width * 2.5
 		cloud.size.height = cloud.size.width / cr
 		cloud.zPosition = 4
 		
@@ -734,6 +734,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                     hit?.removeAllActions()
 					nestSprites.append(hit!)
 					peopleSprites.removeObject(hit!)
+                    self.sayGivenName(hit!.person!)
 					if missed == nil {
 						reorderNest()
 					}

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
+		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
+		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
 		A10CC8A91C8FC807005B3233 /* clarinet_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC88A1C8FC806005B3233 /* clarinet_off.png */; };
@@ -728,6 +731,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		930574B11D537A4100A99066 /* myheritage_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myheritage_logo.png; sourceTree = "<group>"; };
+		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
+		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
 		936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite/SQLite.xcodeproj; sourceTree = "<group>"; };
 		A10CC8881C8FC806005B3233 /* bass_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass_off.png; sourceTree = "<group>"; };
 		A10CC8891C8FC806005B3233 /* bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass.png; sourceTree = "<group>"; };
@@ -1751,6 +1757,8 @@
 				A14938B51C97DCA1006F1DC9 /* SearchPersonTableCell.swift */,
 				A12AA8061CD1A5390001A1D5 /* RecordAudioView.swift */,
 				A12AA8081CD1A6BE0001A1D5 /* RecordAudioView.xib */,
+				930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */,
+				930574BE1D537E2500A99066 /* MyHeritageLogin.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -1792,6 +1800,7 @@
 				A111A1061C91443500552AE6 /* media_play.png */,
 				A111A1091C914E0100552AE6 /* media_reset.png */,
 				A15A0F081CD4525D00471221 /* mic_icon.png */,
+				930574B11D537A4100A99066 /* myheritage_logo.png */,
 				A1F7D1181C8FBC11006053A2 /* pgv_logo.png */,
 				A1F7D1191C8FBC11006053A2 /* quiet_mode_off.png */,
 				A1F7D11A1C8FBC12006053A2 /* quiet_mode_on.png */,
@@ -2729,6 +2738,7 @@
 				A1F7D18F1C8FBC12006053A2 /* bubble_spot_down.png in Resources */,
 				A1F7D2CC1C8FBC12006053A2 /* house_flowers_a1.png in Resources */,
 				A158DB4E1D0CA7E60002F0A8 /* cloud16.png in Resources */,
+				930574B21D537A4100A99066 /* myheritage_logo.png in Resources */,
 				A1F7D2B41C8FBC12006053A2 /* house_familyroom_frame13.png in Resources */,
 				A1F7D29F1C8FBC12006053A2 /* house_chilldroom_teddy4.png in Resources */,
 				A1F7D3CB1C8FBC12006053A2 /* vineh.png in Resources */,
@@ -2813,6 +2823,7 @@
 				A1F7D3181C8FBC12006053A2 /* house_toaster8.png in Resources */,
 				A1F7D1961C8FBC12006053A2 /* bubbles4.png in Resources */,
 				A1F7D3AD1C8FBC12006053A2 /* switch_on.m4a in Resources */,
+				930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */,
 				A1F7CEEC1C8FBBD6006053A2 /* SplashScene.sks in Resources */,
 				A1F7D2EA1C8FBC12006053A2 /* house_kitchen_kettle5.png in Resources */,
 				A1F7D3451C8FBC12006053A2 /* house_tree_bird3.png in Resources */,
@@ -3046,6 +3057,7 @@
 				A14938B61C97DCA1006F1DC9 /* SearchPersonTableCell.swift in Sources */,
 				A1F7CEBB1C8FBBD6006053A2 /* TreeSearchGame.swift in Sources */,
 				A1F7CED61C8FBBD6006053A2 /* ResourceReference.swift in Sources */,
+				930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */,
 				A15585921D4D28E100AD7E9E /* SBJsonParser.m in Sources */,
 				A15585911D4D28E100AD7E9E /* SBJsonBase.m in Sources */,
 				A1F7CEBC1C8FBBD6006053A2 /* TreeWalker.swift in Sources */,
