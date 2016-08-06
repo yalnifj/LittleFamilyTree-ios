@@ -10,6 +10,8 @@
 		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
 		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
+		930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; };
+		930574C11D54CFDE00A99066 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
 		A10CC8A91C8FC807005B3233 /* clarinet_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC88A1C8FC806005B3233 /* clarinet_off.png */; };
@@ -638,6 +640,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		930574C21D54CFDE00A99066 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EE247AD21C3F04ED00AE3E12;
+			remoteInfo = "SQLite iOS";
+		};
 		936F77741D4D2E7C0079CC4E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */;
@@ -724,6 +733,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				930574C11D54CFDE00A99066 /* SQLite.framework in CopyFiles */,
 				A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1384,6 +1394,7 @@
 			files = (
 				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
+				930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2289,6 +2300,7 @@
 			);
 			dependencies = (
 				A15B0AE01C59BFD7000B6B33 /* PBXTargetDependency */,
+				930574C31D54CFDE00A99066 /* PBXTargetDependency */,
 			);
 			name = "Little Family Tree";
 			productName = "Little Family Tree";
@@ -3099,6 +3111,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		930574C31D54CFDE00A99066 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SQLite iOS";
+			targetProxy = 930574C21D54CFDE00A99066 /* PBXContainerItemProxy */;
+		};
 		A117C7441BA4AD0100964D50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A117C7281BA4AD0000964D50 /* Little Family Tree */;

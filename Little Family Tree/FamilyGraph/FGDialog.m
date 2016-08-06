@@ -162,7 +162,7 @@ params   = _params;
         self.transform = CGAffineTransformIdentity;
     }
     
-    CGRect frame = [UIScreen bounds];//.applicationFrame;
+    CGRect frame = [[UIScreen mainScreen] bounds];
     CGPoint center = CGPointMake(
                                  frame.origin.x + ceil(frame.size.width/2),
                                  frame.origin.y + ceil(frame.size.height/2));

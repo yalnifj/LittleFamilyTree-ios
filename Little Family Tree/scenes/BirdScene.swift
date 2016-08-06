@@ -385,7 +385,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		var birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
         if !portrait {
-            birdBoundingRect = CGRectMake((self.size.width - width)/2, CGFloat(self.size.height * 0.1), (self.size.width - width)/2 + width, self.size.height * 0.25)
+            birdBoundingRect = CGRectMake((self.size.width - width)/2, CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
         }
 		let physicsBody = SKPhysicsBody (edgeLoopFromRect: birdBoundingRect)
 		self.physicsBody = physicsBody
@@ -700,10 +700,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			
 			if let accData = motionManager.accelerometerData {
 				if !animator.finished && animator.currentPosition > 3 {
-					bird.physicsBody!.applyForce(CGVectorMake(40.0 + windPower, 0.0))
+					bird.physicsBody!.applyForce(CGVectorMake(20.0 + windPower, 0.0))
 				}
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
-					bird.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(accData.acceleration.y), 40.0 * CGFloat(accData.acceleration.x)))
+					bird.physicsBody!.applyForce(CGVectorMake(20.0 * CGFloat(accData.acceleration.y), 20.0 * CGFloat(accData.acceleration.x)))
 				}
                 
                 if gameOver {
