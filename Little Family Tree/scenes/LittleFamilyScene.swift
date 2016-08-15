@@ -9,12 +9,15 @@
 import Foundation
 import SpriteKit
 import AVFoundation
+import Firebase
+import FirebaseDatabase
 
 class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDialogCloseListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
 	static var TOPIC_START_SETTINGS = "start_settings"
     static var TOPIC_TOGGLE_QUIET = "toggle_quiet"
+    static var PROP_HAS_PREMIUM = "has_premium"
     var topBar:TopBar?
     var addingStars = false
     var starRect:CGRect?
@@ -665,5 +668,41 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func clearDialogRect() {
         graybox!.removeFromParent()
+    }
+    
+    func userHasPremium(onCompletion: (Bool) -> Void) {
+        let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
+        if premiumStr == nil {
+            let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
+            if username != nil {
+                let ref = FIRDatabase.database().reference()
+                ref.child("users").child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    print(snap)
+                    // Get user value
+                    if snap.exists() && snap.hasChild("iosPremium") {
+                        let vals = snap.value as! NSDictionary
+                        if vals["iosPremium"] != nil {
+                            let pval = vals["ioPremium"] as! Bool
+                            if pval {
+                                DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+                                onCompletion(pval)
+                                return
+                            }
+                        }
+                        onCompletion(false)
+                    }
+                }) { (error) in
+                    print(error.localizedDescription)
+                    onCompletion(false)
+                }
+            }
+        } else {
+            if premiumStr == "true" {
+                onCompletion(true)
+            } else {
+                onCompletion(false)
+            }
+        }
+        
     }
 }

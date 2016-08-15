@@ -1,8 +1,10 @@
 import Foundation
 import SQLite
+import Firebase
+import FirebaseDatabase
 
 class DBHelper {
-	static let VERSION:Int32? = 5
+	static let VERSION:Int32? = 6
 	static let UUID_PROPERTY = "UUID"
 	
 	let TABLE_LITTLE_PERSON = Table("littleperson")
@@ -68,6 +70,10 @@ class DBHelper {
             if ((instance?.dbversion == nil) || (instance!.dbversion < 4)) {
                 do {
                     try instance!.createTables()
+                    if instance?.dbversion != nil {
+                        instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+                        instance?.fireCreateOrUpdateUser()
+                    }
                     instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
                     instance!.saveProperty(DBHelper.UUID_PROPERTY, value: NSUUID().UUIDString)
                 } catch let error as NSError {
@@ -76,11 +82,17 @@ class DBHelper {
             } else if instance!.dbversion < 5 {
 				do {
                     try instance!.createTables()
+                    instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
 					instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
+                    instance?.fireCreateOrUpdateUser()
                 } catch let error as NSError {
                     print("Error creating tables \(error.localizedDescription)")
                 }
-			}
+            } else if instance!.dbversion < 6 {
+                instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+                instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
+                instance?.fireCreateOrUpdateUser()
+            }
 		}
 		return instance!
 	}
@@ -174,6 +186,38 @@ class DBHelper {
             print("Error creating table localresources \(error)")
         }
 	}
+    
+    func fireCreateOrUpdateUser() {
+        let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
+        if username != nil {
+            let ref = FIRDatabase.database().reference()
+            ref.child("users").child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                print(snap)
+                // Get user value
+                if snap.exists() {
+                    let serviceType = self.getProperty(DataService.SERVICE_TYPE)
+                    let vals = snap.value as! NSDictionary
+                    let serviceTypes = vals["serviceTypes"] as! NSArray
+                    if !serviceTypes.containsObject(serviceType!) {
+                        let sta = serviceTypes.arrayByAddingObject(serviceType!)
+                        ref.child("users/\(username!)/serviceTypes").setValue(sta)
+                    }
+                    let platforms = vals["platforms"] as! NSArray
+                    if !platforms.containsObject("ios") {
+                        let plats = platforms.arrayByAddingObject("ios")
+                        ref.child("users/\(username!)/platforms").setValue(plats)
+                    }
+                } else {
+                    let serviceType = self.getProperty(DataService.SERVICE_TYPE)
+                    let user = ["username": username!, "serviceTypes": [serviceType!], "platforms": ["ios"] ]
+                    ref.child("users").child(username!).setValue(user as AnyObject)
+                }
+            })
+            
+        } else {
+            print("No username!")
+        }
+    }
 	
 	func persistLittlePerson(person:LittlePerson) throws {
 		if person.id == nil || person.id == 0 {

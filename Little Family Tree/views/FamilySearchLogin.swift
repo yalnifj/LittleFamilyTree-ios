@@ -103,6 +103,8 @@ class FamilySearchLogin: UIView, StatusListener {
                 dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: username!);
                 dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_FAMILYSEARCH + DataService.SERVICE_TOKEN, value: password!);
                 
+                dataService.dbHelper.fireCreateOrUpdateUser()
+                
                 dataService.addStatusListener(self)
                 dataService.getDefaultPerson(true, onCompletion: { person, err in
                     if person != nil {

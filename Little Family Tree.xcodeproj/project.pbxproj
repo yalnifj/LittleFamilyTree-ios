@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40C1C616386FAC67DE84B9A8 /* Pods_Little_Family_Tree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */; };
 		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
 		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
 		930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; };
 		930574C11D54CFDE00A99066 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
 		A10CC8A91C8FC807005B3233 /* clarinet_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC88A1C8FC806005B3233 /* clarinet_off.png */; };
@@ -637,6 +639,7 @@
 		A1F7D3CC1C8FBC12006053A2 /* vineh2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D17D1C8FBC12006053A2 /* vineh2.png */; };
 		A1F7D3CD1C8FBC12006053A2 /* tree_logotype_1x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */; };
 		A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D3CE1C8FBC2B006053A2 /* dolls */; };
+		A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -741,10 +744,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Little_Family_Tree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		40870E555A25583F1B787B50 /* Pods-Little Family Tree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family Tree.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family Tree/Pods-Little Family Tree.debug.xcconfig"; sourceTree = "<group>"; };
+		55B95D9AEAD4E569B0B2A1AB /* Pods-Little Family Tree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family Tree.release.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family Tree/Pods-Little Family Tree.release.xcconfig"; sourceTree = "<group>"; };
+		6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Little_Family_TreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		730348FB1401D081E28A3917 /* Pods-Little Family TreeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family TreeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7FAD3011BDC9B8EF3EBEE21C /* Pods-Little Family TreeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family TreeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests.release.xcconfig"; sourceTree = "<group>"; };
 		930574B11D537A4100A99066 /* myheritage_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myheritage_logo.png; sourceTree = "<group>"; };
 		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
 		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
 		936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite/SQLite.xcodeproj; sourceTree = "<group>"; };
+		93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A10CC8881C8FC806005B3233 /* bass_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass_off.png; sourceTree = "<group>"; };
 		A10CC8891C8FC806005B3233 /* bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass.png; sourceTree = "<group>"; };
 		A10CC88A1C8FC806005B3233 /* clarinet_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clarinet_off.png; sourceTree = "<group>"; };
@@ -1396,6 +1406,7 @@
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
 				930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
+				40C1C616386FAC67DE84B9A8 /* Pods_Little_Family_Tree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1403,12 +1414,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F9E3CD24D8AAB7C54B474A7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				40870E555A25583F1B787B50 /* Pods-Little Family Tree.debug.xcconfig */,
+				55B95D9AEAD4E569B0B2A1AB /* Pods-Little Family Tree.release.xcconfig */,
+				730348FB1401D081E28A3917 /* Pods-Little Family TreeTests.debug.xcconfig */,
+				7FAD3011BDC9B8EF3EBEE21C /* Pods-Little Family TreeTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		936F776B1D4D2E7C0079CC4E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1434,6 +1457,8 @@
 				A117C72A1BA4AD0000964D50 /* Products */,
 				936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */,
 				A15B0ACF1C59BF65000B6B33 /* GPUImage.xcodeproj */,
+				3F9E3CD24D8AAB7C54B474A7 /* Pods */,
+				C678DF7154F80A1F8F697189 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1458,6 +1483,7 @@
 				A1F7CE371C8FBBD6006053A2 /* EventHandler.swift */,
 				A1F7CE381C8FBBD6006053A2 /* gamelogic */,
 				A1F7CE451C8FBBD6006053A2 /* GameViewController.swift */,
+				93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */,
 				A1F7CE461C8FBBD6006053A2 /* Info.plist */,
 				A1F7CE471C8FBBD6006053A2 /* remote */,
 				A1F7CE6B1C8FBBD6006053A2 /* scenes */,
@@ -2284,6 +2310,15 @@
 			path = tree;
 			sourceTree = "<group>";
 		};
+		C678DF7154F80A1F8F697189 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */,
+				6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2291,10 +2326,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A117C74C1BA4AD0100964D50 /* Build configuration list for PBXNativeTarget "Little Family Tree" */;
 			buildPhases = (
+				E5F9C346C74C70CEF1194031 /* 📦 Check Pods Manifest.lock */,
 				A117C7251BA4AD0000964D50 /* Sources */,
 				A117C7261BA4AD0000964D50 /* Frameworks */,
 				A117C7271BA4AD0000964D50 /* Resources */,
 				A1C0A9951C081CCA006804BB /* CopyFiles */,
+				10A1C9159A6767467ABA0617 /* 📦 Embed Pods Frameworks */,
+				DF4BC19FD5942610792923DA /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2311,9 +2349,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A117C74F1BA4AD0100964D50 /* Build configuration list for PBXNativeTarget "Little Family TreeTests" */;
 			buildPhases = (
+				DCF3F5048CD43B8E20600E41 /* 📦 Check Pods Manifest.lock */,
 				A117C73E1BA4AD0100964D50 /* Sources */,
 				A117C73F1BA4AD0100964D50 /* Frameworks */,
 				A117C7401BA4AD0100964D50 /* Resources */,
+				6FFC7E5F603BA69A0A575711 /* 📦 Embed Pods Frameworks */,
+				C21A704F7AAB5F0BBCE8B26A /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2618,6 +2659,7 @@
 				A1A04DC51CFA5B2C00750FC2 /* humph.mp3 in Resources */,
 				A1F7D3301C8FBC12006053A2 /* house_toys_bat9.png in Resources */,
 				A1F7D39F1C8FBC12006053A2 /* nopop.mp3 in Resources */,
+				93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */,
 				A1F7D2C71C8FBC12006053A2 /* house_familyroom_frame8.png in Resources */,
 				A1F7D3921C8FBC12006053A2 /* drums.mp3 in Resources */,
 				A1F7D2C91C8FBC12006053A2 /* house_familyroom_lamp1.png in Resources */,
@@ -2966,6 +3008,99 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10A1C9159A6767467ABA0617 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family Tree/Pods-Little Family Tree-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FFC7E5F603BA69A0A575711 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C21A704F7AAB5F0BBCE8B26A /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DCF3F5048CD43B8E20600E41 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DF4BC19FD5942610792923DA /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family Tree/Pods-Little Family Tree-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5F9C346C74C70CEF1194031 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A117C7251BA4AD0000964D50 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -3216,6 +3351,7 @@
 		};
 		A117C74D1BA4AD0100964D50 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40870E555A25583F1B787B50 /* Pods-Little Family Tree.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3234,6 +3370,7 @@
 		};
 		A117C74E1BA4AD0100964D50 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55B95D9AEAD4E569B0B2A1AB /* Pods-Little Family Tree.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3252,6 +3389,7 @@
 		};
 		A117C7501BA4AD0100964D50 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 730348FB1401D081E28A3917 /* Pods-Little Family TreeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3272,6 +3410,7 @@
 		};
 		A117C7511BA4AD0100964D50 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7FAD3011BDC9B8EF3EBEE21C /* Pods-Little Family TreeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

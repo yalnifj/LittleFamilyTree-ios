@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Firebase
 
 extension RangeReplaceableCollectionType where Generator.Element : Equatable {
     mutating func removeObject(object:Self.Generator.Element) {
