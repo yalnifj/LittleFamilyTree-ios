@@ -72,7 +72,7 @@ class DBHelper {
                     try instance!.createTables()
                     if instance?.dbversion != nil {
                         instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
-                        instance?.fireCreateOrUpdateUser()
+                        instance?.fireCreateOrUpdateUser(true)
                     }
                     instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
                     instance!.saveProperty(DBHelper.UUID_PROPERTY, value: NSUUID().UUIDString)
@@ -84,14 +84,14 @@ class DBHelper {
                     try instance!.createTables()
                     instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
 					instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-                    instance?.fireCreateOrUpdateUser()
+                    instance?.fireCreateOrUpdateUser(true)
                 } catch let error as NSError {
                     print("Error creating tables \(error.localizedDescription)")
                 }
             } else if instance!.dbversion < 6 {
                 instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
                 instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-                instance?.fireCreateOrUpdateUser()
+                instance?.fireCreateOrUpdateUser(true)
             }
 		}
 		return instance!
@@ -187,7 +187,7 @@ class DBHelper {
         }
 	}
     
-    func fireCreateOrUpdateUser() {
+    func fireCreateOrUpdateUser(hasPremium:Bool) {
         let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
         if username != nil {
             let ref = FIRDatabase.database().reference()
@@ -207,9 +207,11 @@ class DBHelper {
                         let plats = platforms.arrayByAddingObject("ios")
                         ref.child("users/\(username!)/platforms").setValue(plats)
                     }
+                    ref.child("users/\(username!)/iosPremium").setValue(hasPremium)
+                    
                 } else {
                     let serviceType = self.getProperty(DataService.SERVICE_TYPE)
-                    let user = ["username": username!, "serviceTypes": [serviceType!], "platforms": ["ios"] ]
+                    let user = ["username": username!, "serviceTypes": [serviceType!], "platforms": ["ios"], "iosPremium": hasPremium ]
                     ref.child("users").child(username!).setValue(user as AnyObject)
                 }
             })

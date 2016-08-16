@@ -145,7 +145,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
                         dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_PHPGEDVIEW + DataService.SERVICE_TOKEN, value: password!);
                         dataService.dbHelper.saveProperty(DataService.SERVICE_DEFAULTPERSONID, value: defaultPersonId!);
                         
-                        dataService.dbHelper.fireCreateOrUpdateUser()
+                        dataService.dbHelper.fireCreateOrUpdateUser(false)
                         
                         dataService.addStatusListener(self)
                         dataService.getDefaultPerson(true, onCompletion: { person, err in

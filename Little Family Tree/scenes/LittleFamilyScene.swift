@@ -682,7 +682,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     if snap.exists() && snap.hasChild("iosPremium") {
                         let vals = snap.value as! NSDictionary
                         if vals["iosPremium"] != nil {
-                            let pval = vals["ioPremium"] as! Bool
+                            let pval = vals["iosPremium"] as! Bool
                             if pval {
                                 DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
                                 onCompletion(pval)
