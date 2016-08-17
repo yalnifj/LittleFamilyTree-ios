@@ -25,14 +25,21 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var starsInRect = false
     var starDelayCount = 2
     var starDelay = 2
+    var redStarRect:CGRect?
+    var redStarCount = 0
+    var redStarsInRect = false
+    var redStarDelayCount = 2
+    var redStarDelay = 2
     var loadingDialog:SKSpriteNode?
     var selectedPerson:LittlePerson?
     var chosenPlayer:LittlePerson?
     var starContainer:SKNode?
+    var redStarContainer:SKNode?
     var previousTopic:String?
     var graybox:SKSpriteNode?
     var toasts = [SKSpriteNode]()
     var audioPlayer:AVAudioPlayer!
+    var hasPremium:Bool!
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -40,6 +47,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
+        
+        self.userHasPremium({ premium in
+          self.hasPremium = premium
+        })
     }
     
     override func willMoveFromView(view: SKView) {
@@ -101,6 +112,63 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 }
             } else {
                 starDelayCount -= 1;
+            }
+        }
+
+        if (redStarCount > 0) {
+            if (redStarDelayCount <= 0) {
+                redStarDelayCount = redStarDelay
+                redStarCount -= 1;
+                for _ in 0..<4 {
+                    if (redStarRect != nil) {
+                        var redStarFile = "redStar1"
+                        if hasPremium! {
+                            redStarFile = "star1"
+                        }
+                        let star = SKSpriteNode(imageNamed: redStarFile)
+                        var x = CGFloat(0)
+                        var y = CGFloat(0)
+                        if (redStarsInRect) {
+                            x = (redStarRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.width)!)))
+                            y = (redStarRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.height)!)))
+                        } else {
+                            let side = arc4random_uniform(4)
+                            switch (side) {
+                            case 0:
+                                x = (redStarRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.width)!)))
+                                y = (redStarRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32(star.size.height)))
+                                break
+                            case 1:
+                                x = (redStarRect?.origin.x)! + (redStarRect?.width)! - CGFloat(arc4random_uniform(UInt32(star.size.width)))
+                                y = (redStarRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.height)!)))
+                                break
+                            case 2:
+                                x = (redStarRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.width)!)))
+                                y = (redStarRect?.origin.y)! + (starRect?.height)! - CGFloat(arc4random_uniform(UInt32(star.size.height)))
+                                break
+                            default:
+                                x = (redStarRect?.origin.x)! + CGFloat(arc4random_uniform(UInt32(star.size.width)))
+                                y = (redStarRect?.origin.y)! + CGFloat(arc4random_uniform(UInt32((redStarRect?.height)!)))
+                                break
+                            }
+                        }
+                        star.position.x = x
+                        star.position.y = y
+                        star.zPosition = 100
+                        star.setScale(0.1)
+                        let growAction = SKAction.scaleTo(1.0, duration: 1.5)
+                        let shrinkAction = SKAction.scaleTo(0.0, duration: 1.5)
+                        let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
+                        star.runAction(doubleAction)
+                        if self.redStarContainer == nil {
+                            self.addChild(star)
+                        } else {
+                            self.redStarContainer?.addChild(star)
+                        }
+                    }
+                }
+            } else {
+                redStarDelayCount -= 1;
             }
         }
 
@@ -578,6 +646,14 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         self.starCount = count
         self.starContainer = container
         self.starDelayCount = 0
+    }
+    
+    func showRedStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
+        self.redStarRect = rect
+        self.redStarsInRect = starsInRect
+        self.redStarCount = count
+        self.redStarContainer = container
+        self.redStarDelayCount = 0
     }
     
     func showLoadingDialog() {

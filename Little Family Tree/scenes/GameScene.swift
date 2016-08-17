@@ -35,11 +35,13 @@ class GameScene: LittleFamilyScene {
 	var updateSprites = [AnimatedStateSprite]()
     var touchableSprites = [SKNode]()
 	var starSprites = [SKSpriteNode]()
+    var premiumSprites = [SKSpriteNode]()
     var minScale : CGFloat = 0.5
     var maxScale : CGFloat = 2.0
     var moved = false
 	
 	var starWait = 100
+    var pStarWait = 200
     
     var previousScale:CGFloat? = nil
     
@@ -167,7 +169,7 @@ class GameScene: LittleFamilyScene {
         bird.createActions()
         touchableSprites.append(bird)
         spriteContainer.addChild(bird)
-        starSprites.append(bird)
+        premiumSprites.append(bird)
 		
         
         let tileY:CGFloat = 600
@@ -422,7 +424,7 @@ class GameScene: LittleFamilyScene {
         childPaint.addClick(1, val: false)
 		childPaint.addEvent(0, topic: GameScene.TOPIC_START_COLORING)
         spriteContainer.addChild(childPaint)
-		starSprites.append(childPaint)
+		premiumSprites.append(childPaint)
         
         let childDesk = AnimatedStateSprite(imageNamed: "house_chilldroom_desk")
         childDesk.anchorPoint = CGPoint.zero
@@ -686,7 +688,7 @@ class GameScene: LittleFamilyScene {
         adultVanity.addEvent(0, topic: GameScene.TOPIC_START_CARD)
  
         spriteContainer.addChild(adultVanity)
-        starSprites.append(adultVanity)
+        premiumSprites.append(adultVanity)
         
         let wardrobe = AnimatedStateSprite(imageNamed: "house_adult_wardrobe")
         wardrobe.anchorPoint = CGPoint.zero
@@ -708,7 +710,7 @@ class GameScene: LittleFamilyScene {
         wardrobe.addClick(1, val: false)
         wardrobe.addEvent(0, topic: GameScene.TOPIC_START_DRESSUP)
         spriteContainer.addChild(wardrobe)
-		starSprites.append(wardrobe)
+		premiumSprites.append(wardrobe)
         
         let lightA = AnimatedStateSprite(imageNamed: "house_light_a1")
         lightA.anchorPoint = CGPoint.zero
@@ -839,7 +841,7 @@ class GameScene: LittleFamilyScene {
         piano.addClick(1, val: false)
         piano.addSound(1, soundFile: "piano")
         piano.addEvent(0, topic: GameScene.TOPIC_START_SONG)
-        starSprites.append(piano)
+        premiumSprites.append(piano)
         spriteContainer.addChild(piano)
         
         let trumpet = AnimatedStateSprite(imageNamed: "house_music_trumpet")
@@ -1071,6 +1073,15 @@ class GameScene: LittleFamilyScene {
 			let sprite = starSprites[s]
             showStars(sprite.frame, starsInRect: true, count: 2, container: spriteContainer)
 		}
+        
+        if pStarWait > 0 {
+            pStarWait -= 1
+        } else {
+            pStarWait = 70 + Int(arc4random_uniform(70))
+            let s = Int(arc4random_uniform(UInt32(premiumSprites.count)))
+            let sprite = premiumSprites[s]
+            showRedStars(sprite.frame, starsInRect: true, count: 2, container: spriteContainer)
+        }
     }
     
     override func onEvent(topic: String, data: NSObject?) {
