@@ -18,6 +18,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 	static var TOPIC_START_SETTINGS = "start_settings"
     static var TOPIC_TOGGLE_QUIET = "toggle_quiet"
     static var PROP_HAS_PREMIUM = "has_premium"
+    static var TOPIC_BUY_PRESSED = "buy_button_pressed"
+    static var TOPIC_TRY_PRESSED = "try_button_pressed"
+
     var topBar:TopBar?
     var addingStars = false
     var starRect:CGRect?
@@ -31,6 +34,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var redStarDelayCount = 2
     var redStarDelay = 2
     var loadingDialog:SKSpriteNode?
+    var lockDialog:SKSpriteNode?
     var selectedPerson:LittlePerson?
     var chosenPlayer:LittlePerson?
     var starContainer:SKNode?
@@ -47,6 +51,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_BUY_PRESSED, listener: self)
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_TRY_PRESSED, listener: self)
         
         self.userHasPremium({ premium in
           self.hasPremium = premium
@@ -59,6 +65,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_BUY_PRESSED, listener: self)
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TRY_PRESSED, listener: self)
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -121,7 +129,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 redStarCount -= 1;
                 for _ in 0..<4 {
                     if (redStarRect != nil) {
-                        var redStarFile = "redStar1"
+                        var redStarFile = "redstar1"
                         if hasPremium! {
                             redStarFile = "star1"
                         }
@@ -205,6 +213,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
         else if topic == LittleFamilyScene.TOPIC_TOGGLE_QUIET {
             toggleQuietMode()
+        } else if topic == LittleFamilyScene.TOPIC_TRY_PRESSED {
+            hideLockDialog()
+        } else if topic == LittleFamilyScene.TOPIC_BUY_PRESSED {
+            hideLockDialog()
         } else if topic == GameScene.TOPIC_START_MATCH {
             self.showMatchGame(nil, previousTopic: nil)
         }
@@ -697,6 +709,73 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func hideLoadingDialog() {
         if loadingDialog != nil {
             loadingDialog?.hidden = true
+        }
+    }
+    
+    func getTryCount(tryProperty:String) -> Int {
+        let tryCountStr = DataService.getInstance().dbHelper.getProperty(tryProperty)
+        var tryCount = 1
+        if tryCountStr != nil {
+            tryCount = Int(tryCountStr!)! + 1
+        }
+        return tryCount
+    }
+    
+    func showLockDialog(tryAvailable:Bool) {
+        self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
+        
+        lockDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(270, 350))
+        lockDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
+        lockDialog?.zPosition = 1500
+        
+        let lock = SKSpriteNode(imageNamed: "lock")
+        let ratio2 = lock.size.height / lock.size.width
+        lock.size.width = (lockDialog?.size.width)! - 20
+        lock.size.height = ((lockDialog?.size.width)! - 20) * ratio2
+        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height)
+        lockDialog?.addChild(lock)
+        
+        let backButton = LabelEventSprite(text: "< Back")
+        backButton.topic = LittleFamilyScene.TOPIC_START_HOME
+        backButton.fontColor = UIColor.blueColor()
+        backButton.position = CGPointMake(backButton.frame.width / 2 - lockDialog!.size.width / 2, lockDialog!.size.height / 2 - backButton.frame.height / 2)
+        lockDialog?.addChild(backButton)
+        
+        let label = SKLabelNode(text: "This is a premium game.")
+        label.fontSize = lockDialog!.size.width / 10
+        label.position = CGPointMake(0, lock.position.y - label.fontSize)
+        lockDialog?.addChild(label)
+        if (!tryAvailable) {
+            let label2 = SKLabelNode(text: "Upgrade to play again.")
+            label2.fontSize = lockDialog!.size.width / 10
+            label2.position = CGPointMake(0, label.position.y - label2.fontSize)
+            lockDialog?.addChild(label2)
+            
+            let buyButton = EventSprite(imageNamed: "buyButton")
+            buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
+            buyButton.position = CGPointMake(0, label2.position.y - buyButton.size.height * 2)
+            lockDialog?.addChild(buyButton)
+        } else {
+            let tryButton = EventSprite(imageNamed: "tryButton")
+            tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
+            tryButton.position = CGPointMake(-tryButton.size.width, label.position.y - tryButton.size.height * 2)
+            lockDialog?.addChild(tryButton)
+            
+            let buyButton = EventSprite(imageNamed: "buyButton")
+            buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
+            buyButton.position = CGPointMake(buyButton.size.width, label.position.y - buyButton.size.height * 2)
+            lockDialog?.addChild(buyButton)
+        }
+
+        self.addChild(lockDialog!)
+
+    }
+    
+    func hideLockDialog() {
+        clearDialogRect()
+        if lockDialog != nil {
+            lockDialog?.removeFromParent()
+            lockDialog = nil
         }
     }
     

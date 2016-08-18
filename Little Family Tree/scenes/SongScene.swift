@@ -404,6 +404,17 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         if count < 4 {
             self.treeWalker?.loadMorePeople()
         }
+        
+        if !self.hasPremium {
+            let tryCount = getTryCount("try_song_count")
+            
+            var tryAvailable = true
+            if tryCount > 1 {
+                tryAvailable = false
+            }
+            
+            self.showLockDialog(tryAvailable)
+        }
 	}
     
     override func update(currentTime: NSTimeInterval) {
@@ -909,7 +920,11 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 					gPiano!.state = 1
 				}
 			}
-		}
+        } else if topic == LittleFamilyScene.TOPIC_TRY_PRESSED {
+            let tryCount = getTryCount("try_song_count")
+
+            DataService.getInstance().dbHelper.saveProperty("try_song_count", value: "\(tryCount)")
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

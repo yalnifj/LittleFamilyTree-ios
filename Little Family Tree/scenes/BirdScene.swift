@@ -109,6 +109,12 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             }
         } else if (topic==BirdScene.TOPIC_PLAY_AGAIN) {
             createSprites()
+        } else if topic == LittleFamilyScene.TOPIC_TRY_PRESSED {
+            let tryCount = getTryCount("try_bird_count")
+            DataService.getInstance().dbHelper.saveProperty("try_bird_count", value: "\(tryCount)")
+            if animator != nil {
+                animator.start()
+            }
         }
     }
 
@@ -355,7 +361,18 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			self.addChild(skipButton)
 			sprites.append(skipButton)
 			
-			animator.start()
+            if !self.hasPremium {
+                let tryCount = getTryCount("try_song_count")
+                
+                var tryAvailable = true
+                if tryCount > 1 {
+                    tryAvailable = false
+                }
+                
+                self.showLockDialog(tryAvailable)
+            } else {
+                animator.start()
+            }
 		}
     }
 	

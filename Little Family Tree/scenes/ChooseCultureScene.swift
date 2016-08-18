@@ -201,9 +201,25 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 y += height
             }
             
+            let tryCount = self.getTryCount("try_heritage_count")
+            
+            var littleData = false
             if count > 0 && count < 3 && self.calculator!.paths.count < 10 {
                 SyncQ.getInstance().start()
-                self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
+                if tryCount <= 3 {
+                    self.showSimpleDialog("Loading Data", message:"The game is still loading data.  As more data is loaded, the calculations will get more accurate.  Please try again in a few minutes.  You may continue to play while more data is loaded in the background.");
+                }
+                littleData = true
+            }
+            
+            if !self.hasPremium {
+                var tryAvailable = true
+                if (littleData && tryCount > 3) || tryCount > 1 {
+                    tryAvailable = false
+                }
+                if !littleData || !tryAvailable {
+                    self.showLockDialog(tryAvailable)
+                }
             }
             
             if count > 0 {
@@ -270,6 +286,9 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         if topic == ChooseCultureScene.TOPIC_PERSON_TOUCHED {
             let person = data as! LittlePerson
             self.speakDetails(person)
+        } else if topic == LittleFamilyScene.TOPIC_TRY_PRESSED {
+            let tryCount = getTryCount("try_heritage_count")
+            DataService.getInstance().dbHelper.saveProperty("try_heritage_count", value: "\(tryCount)")
         }
     }
     

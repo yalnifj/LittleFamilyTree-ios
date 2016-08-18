@@ -220,6 +220,17 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             
             hideLoadingDialog()
             
+            if !self.hasPremium {
+                let tryCount = getTryCount("try_coloring_count")
+                
+                var tryAvailable = true
+                if tryCount > 1 {
+                    tryAvailable = false
+                }
+                
+                self.showLockDialog(tryAvailable)
+            }
+            
         } else {
             randomMediaChooser.loadMoreFamilyMembers()
         }
@@ -273,6 +284,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             //-- launch sharing options
             print("Share me")
             showParentAuth()
+        } else if topic == LittleFamilyScene.TOPIC_TRY_PRESSED {
+            let tryCount = getTryCount("try_coloring_count")
+            DataService.getInstance().dbHelper.saveProperty("try_coloring_count", value: "\(tryCount)")
         }
     }
     

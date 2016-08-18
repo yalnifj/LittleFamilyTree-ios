@@ -13,6 +13,10 @@
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
 		930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; };
 		930574C11D54CFDE00A99066 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AAD1D653A8B000AD078 /* redstar1.png */; };
+		93A82AB81D653D3C000AD078 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB71D653D3C000AD078 /* lock.png */; };
+		93A82ABA1D655573000AD078 /* buyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB91D655573000AD078 /* buyButton.png */; };
+		93A82ABC1D65557E000AD078 /* tryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82ABB1D65557E000AD078 /* tryButton.png */; };
 		93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
@@ -754,6 +758,10 @@
 		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
 		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
 		936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite/SQLite.xcodeproj; sourceTree = "<group>"; };
+		93A82AAD1D653A8B000AD078 /* redstar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redstar1.png; sourceTree = "<group>"; };
+		93A82AB71D653D3C000AD078 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		93A82AB91D655573000AD078 /* buyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buyButton.png; sourceTree = "<group>"; };
+		93A82ABB1D65557E000AD078 /* tryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryButton.png; sourceTree = "<group>"; };
 		93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A10CC8881C8FC806005B3233 /* bass_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass_off.png; sourceTree = "<group>"; };
 		A10CC8891C8FC806005B3233 /* bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass.png; sourceTree = "<group>"; };
@@ -1803,12 +1811,15 @@
 		A1F7CF151C8FBC0F006053A2 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				93A82ABB1D65557E000AD078 /* tryButton.png */,
+				93A82AB91D655573000AD078 /* buyButton.png */,
+				93A82AB71D653D3C000AD078 /* lock.png */,
 				A1F7CF161C8FBC0F006053A2 /* baby.png */,
 				A1F7CF171C8FBC0F006053A2 /* backgrounds */,
-				A1F7CF1F1C8FBC0F006053A2 /* boy.png */,
 				A1743DAD1CE7BF0D0066E964 /* bird */,
 				A12AA8001CD1913F0001A1D5 /* birthday_card_button.png */,
 				A12445021CA966DA000380A5 /* birthdaycard */,
+				A1F7CF1F1C8FBC0F006053A2 /* boy.png */,
 				A1F7CF201C8FBC0F006053A2 /* bubbles */,
 				A1F7CF421C8FBC0F006053A2 /* camera.png */,
 				A1F7CF431C8FBC0F006053A2 /* colors.png */,
@@ -1827,20 +1838,21 @@
 				A1F7D10F1C8FBC11006053A2 /* info.png */,
 				A1F7D1101C8FBC11006053A2 /* loading.png */,
 				A150A5BE1CB02AC300B63D81 /* logo.png */,
-				A1F7D1111C8FBC11006053A2 /* mom.png */,
-				A1F7D1121C8FBC11006053A2 /* paintbrush.png */,
-				A12AA8021CD191700001A1D5 /* painting.png */,
-				A12AA8031CD191700001A1D5 /* pencils.png */,
-				A1F7D1131C8FBC11006053A2 /* parentsguide */,
-				A1F7D1171C8FBC11006053A2 /* parentsguide.png */,
 				A111A1051C91443500552AE6 /* media_pause.png */,
 				A111A1061C91443500552AE6 /* media_play.png */,
 				A111A1091C914E0100552AE6 /* media_reset.png */,
 				A15A0F081CD4525D00471221 /* mic_icon.png */,
+				A1F7D1111C8FBC11006053A2 /* mom.png */,
 				930574B11D537A4100A99066 /* myheritage_logo.png */,
+				A1F7D1121C8FBC11006053A2 /* paintbrush.png */,
+				A12AA8021CD191700001A1D5 /* painting.png */,
+				A1F7D1131C8FBC11006053A2 /* parentsguide */,
+				A1F7D1171C8FBC11006053A2 /* parentsguide.png */,
+				A12AA8031CD191700001A1D5 /* pencils.png */,
 				A1F7D1181C8FBC11006053A2 /* pgv_logo.png */,
 				A1F7D1191C8FBC11006053A2 /* quiet_mode_off.png */,
 				A1F7D11A1C8FBC12006053A2 /* quiet_mode_on.png */,
+				93A82AAD1D653A8B000AD078 /* redstar1.png */,
 				A1F7D11B1C8FBC12006053A2 /* refresh.png */,
 				A1F7D11C1C8FBC12006053A2 /* rw.png */,
 				A1F7D11D1C8FBC12006053A2 /* settings.png */,
@@ -2512,6 +2524,7 @@
 				A1F7D1A81C8FBC12006053A2 /* soap7.png in Resources */,
 				A1F7D32F1C8FBC12006053A2 /* house_toys_bat8.png in Resources */,
 				A172F0231C926C55007346FD /* grandma_outline.png in Resources */,
+				93A82ABA1D655573000AD078 /* buyButton.png in Resources */,
 				A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */,
 				A1F7D2C61C8FBC12006053A2 /* house_familyroom_frame7.png in Resources */,
 				A1F7D29C1C8FBC12006053A2 /* house_chilldroom_teddy.png in Resources */,
@@ -2691,6 +2704,7 @@
 				A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */,
 				A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */,
 				A1F7D28D1C8FBC12006053A2 /* house_chilldroom_paint1.png in Resources */,
+				93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */,
 				A10CC8B41C8FC807005B3233 /* guitar_thisismyfamily.mp3 in Resources */,
 				A1F7D2DA1C8FBC12006053A2 /* house_kitchen_freezer4.png in Resources */,
 				A1F7D2AF1C8FBC12006053A2 /* house_familyroom_frame.png in Resources */,
@@ -2893,6 +2907,7 @@
 				A1F7D3BF1C8FBC12006053A2 /* tree_search1.png in Resources */,
 				A1F7D1A41C8FBC12006053A2 /* soap3.png in Resources */,
 				A158DB441D0CA7E60002F0A8 /* cloud6.png in Resources */,
+				93A82AB81D653D3C000AD078 /* lock.png in Resources */,
 				A1F7D2661C8FBC12006053A2 /* frame7.png in Resources */,
 				A1F7D2D31C8FBC12006053A2 /* house_kitchen_c.png in Resources */,
 				A1F7D2C01C8FBC12006053A2 /* house_familyroom_frame24.png in Resources */,
@@ -2956,6 +2971,7 @@
 				A1F7D1901C8FBC12006053A2 /* bubble_spot_down_h.png in Resources */,
 				A1A04DC41CFA5B2C00750FC2 /* grumble.mp3 in Resources */,
 				A1F7D3011C8FBC12006053A2 /* house_music_trumpet.png in Resources */,
+				93A82ABC1D65557E000AD078 /* tryButton.png in Resources */,
 				A1F7D34A1C8FBC12006053A2 /* house_rooms_0_1.png in Resources */,
 				A10CC8C31C8FC807005B3233 /* voice_allinourfamilytree.mp3 in Resources */,
 				A143139D1CB846F900409DD3 /* flame2.png in Resources */,
