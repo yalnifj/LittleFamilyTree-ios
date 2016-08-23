@@ -363,7 +363,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			
             self.userHasPremium({ premium in
                 if !premium {
-                    let tryCount = self.getTryCount("try_song_count")
+                    let tryCount = self.getTryCount("try_bird_count")
                     
                     var tryAvailable = true
                     if tryCount > 1 {
@@ -502,7 +502,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			let bgSprite = SKSpriteNode(texture: tiles[rt])
 			bgSprite.zPosition = 1
             if (rt==8) {
-                bgSprite.zPosition = backgroundTiles[backgroundTiles.count - tc].zPosition + 1
+                bgSprite.zPosition = 2
+                if backgroundTiles[backgroundTiles.count - tc].zPosition > 1 {
+                    backgroundTiles[backgroundTiles.count - tc].zPosition += 1
+                }
             }
 			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
 			backgroundTiles.append(bgSprite)

@@ -747,7 +747,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         
         let lock = SKSpriteNode(imageNamed: "lock")
         let ratio2 = lock.size.height / lock.size.width
-        lock.size.width = lockDialog!.size.width * 0.70
+        lock.size.width = lockDialog!.size.width * 0.65
         lock.size.height = lock.size.width * ratio2
         lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height * 1.5)
         lockDialog?.addChild(lock)
@@ -775,7 +775,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
             buyButton.userInteractionEnabled = true
-            buyButton.position = CGPointMake(0, label2.position.y - buyButton.size.height / 2)
+            buyButton.position = CGPointMake(0, label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         } else {
             let tryButton = EventSprite(imageNamed: "tryButton")
