@@ -563,28 +563,44 @@ class TreeScene: LittleFamilyScene {
             if moved == false {
                 let touchedNode = nodeAtPoint(lastPoint)
                 if touchedNode == bubbleButton {
-                    self.showBubbleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showBubbleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
                 }
 				else if touchedNode == matchButton {
-					self.showMatchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showMatchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
 				}
 				else if touchedNode == scratchButton {
-					self.showScratchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showScratchGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
 				}
 				else if touchedNode == puzzleButton {
-					self.showPuzzleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showPuzzleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
 				}
 				else if touchedNode == coloringButton {
-					self.showColoringGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showColoringGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
 				}
 				else if touchedNode == dressupButton {
-                    self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showDressupGame(dollConfig!, person: panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
 				}
                 else if touchedNode == songButton {
-                    self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showSongGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
                 }
 				else if touchedNode == cardButton {
-                    self.showCardGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    if panelPerson != nil {
+                        self.showCardGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
+                    }
                 }
                 else if touchedNode == treeSearchButton {
                     self.hideButtonPanel()

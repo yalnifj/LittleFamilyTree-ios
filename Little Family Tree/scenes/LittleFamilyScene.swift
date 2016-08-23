@@ -11,8 +11,9 @@ import SpriteKit
 import AVFoundation
 import Firebase
 import FirebaseDatabase
+import StoreKit
 
-class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDialogCloseListener {
+class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDialogCloseListener, IAPHelperListener {
     static var TOPIC_START_HOME = "start_home"
     static var TOPIC_START_CHOOSE = "start_choose"
 	static var TOPIC_START_SETTINGS = "start_settings"
@@ -44,6 +45,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var toasts = [SKSpriteNode]()
     var audioPlayer:AVAudioPlayer!
     var hasPremium:Bool!
+    var loginForPurchase = false
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -217,6 +219,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             hideLockDialog()
         } else if topic == LittleFamilyScene.TOPIC_BUY_PRESSED {
             hideLockDialog()
+            loginForPurchase = true
+            showParentLoginDialog()
         } else if topic == GameScene.TOPIC_START_MATCH {
             self.showMatchGame(nil, previousTopic: nil)
         }
@@ -429,6 +433,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showParentLogin() {
+        loginForPurchase = false
 		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
 		if remember != nil {
 			let time = Double(remember!)
@@ -438,6 +443,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 				return
 			}
 		}
+        showParentLoginDialog()
+    }
+    
+    func showParentLoginDialog() {
         let frame = prepareDialogRect(300, height: 400)
         let subview = ParentLogin(frame: frame)
         subview.loginListener = self
@@ -447,11 +456,18 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func LoginComplete() {
         clearDialogRect()
-        showSettings()
+        if loginForPurchase {
+            buyPremium()
+        } else {
+            showSettings()
+        }
     }
     
     func LoginCanceled() {
         clearDialogRect()
+        if loginForPurchase {
+            showHomeScreen()
+        }
     }
     
     func showSettings() -> SettingsView {
@@ -858,6 +874,26 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 onCompletion(false)
             }
         }
-        
+    }
+    
+    var iapHelper:IAPHelper?
+    func onProductsReady(productsArray: [SKProduct]) {
+        iapHelper!.buyProduct(0)
+    }
+    func onTransactionComplete() {
+        DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+        DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
+        hideLoadingDialog()
+    }
+    func onError(error:String) {
+        print(error)
+        hideLoadingDialog()
+        showSimpleDialog("Error", message: "An error occurred communicating with the iTunes App Store")
+    }
+    
+    func buyPremium() {
+        showLoadingDialog()
+        iapHelper = IAPHelper(listener: self)
+        iapHelper?.requestProductInfo()
     }
 }
