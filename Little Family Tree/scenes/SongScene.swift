@@ -405,16 +405,18 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             self.treeWalker?.loadMorePeople()
         }
         
-        if !self.hasPremium {
-            let tryCount = getTryCount("try_song_count")
-            
-            var tryAvailable = true
-            if tryCount > 1 {
-                tryAvailable = false
+        self.userHasPremium({ premium in
+            if !premium {
+                let tryCount = self.getTryCount("try_song_count")
+                
+                var tryAvailable = true
+                if tryCount > 1 {
+                    tryAvailable = false
+                }
+                
+                self.showLockDialog(tryAvailable)
             }
-            
-            self.showLockDialog(tryAvailable)
-        }
+        })
 	}
     
     override func update(currentTime: NSTimeInterval) {

@@ -128,18 +128,20 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		super.onEvent(topic, data: data)
         if topic == BirthdayPeopleScene.TOPIC_PERSON_TOUCHED {
 		} else if topic == BirthdayPeopleScene.TOPIC_BIRTHDAY_PERSON_SELECTED {
-            if !self.hasPremium {
-                let tryCount = getTryCount("try_birthday_count")
-                
-                var tryAvailable = true
-                if tryCount > 1 {
-                    tryAvailable = false
+            self.userHasPremium({ premium in
+                if !premium {
+                    let tryCount = self.getTryCount("try_birthday_count")
+                    
+                    var tryAvailable = true
+                    if tryCount > 1 {
+                        tryAvailable = false
+                    }
+                    
+                    self.showLockDialog(tryAvailable)
+                } else {
+                    self.setupVanity()
                 }
-                
-                self.showLockDialog(tryAvailable)
-            } else {
-                setupVanity()
-            }
+            })
 		} else if topic == BirthdayPeopleScene.TOPIC_CARD_SELECTED {
             if data is EventSprite {
                 cardSelected(data as! EventSprite)

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40C1C616386FAC67DE84B9A8 /* Pods_Little_Family_Tree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */; };
 		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
 		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
@@ -1416,7 +1415,6 @@
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
 				930574C01D54CFDE00A99066 /* SQLite.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
-				40C1C616386FAC67DE84B9A8 /* Pods_Little_Family_Tree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

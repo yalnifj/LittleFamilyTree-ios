@@ -740,46 +740,54 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func showLockDialog(tryAvailable:Bool) {
         self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
         
-        lockDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(270, 350))
+        lockDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(350, 420))
         lockDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
         lockDialog?.zPosition = 1500
+        lockDialog?.userInteractionEnabled = true
         
         let lock = SKSpriteNode(imageNamed: "lock")
         let ratio2 = lock.size.height / lock.size.width
-        lock.size.width = (lockDialog?.size.width)! - 20
-        lock.size.height = ((lockDialog?.size.width)! - 20) * ratio2
-        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height)
+        lock.size.width = lockDialog!.size.width * 0.70
+        lock.size.height = lock.size.width * ratio2
+        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height * 1.5)
         lockDialog?.addChild(lock)
         
         let backButton = LabelEventSprite(text: "< Back")
         backButton.topic = LittleFamilyScene.TOPIC_START_HOME
+        backButton.userInteractionEnabled = true
         backButton.fontColor = UIColor.blueColor()
-        backButton.position = CGPointMake(backButton.frame.width / 2 - lockDialog!.size.width / 2, lockDialog!.size.height / 2 - backButton.frame.height / 2)
+        backButton.fontSize = lockDialog!.size.width / 14
+        backButton.position = CGPointMake(5 + backButton.frame.width / 2 - lockDialog!.size.width / 2, lockDialog!.size.height / 2 - backButton.frame.height - 5)
         lockDialog?.addChild(backButton)
         
         let label = SKLabelNode(text: "This is a premium game.")
-        label.fontSize = lockDialog!.size.width / 10
-        label.position = CGPointMake(0, lock.position.y - label.fontSize)
+        label.fontColor = UIColor.blackColor()
+        label.fontSize = lockDialog!.size.width / 12
+        label.position = CGPointMake(0, lock.position.y - (lock.size.height/2 + label.fontSize))
         lockDialog?.addChild(label)
         if (!tryAvailable) {
             let label2 = SKLabelNode(text: "Upgrade to play again.")
-            label2.fontSize = lockDialog!.size.width / 10
+            label2.fontSize = lockDialog!.size.width / 12
+            label2.fontColor = UIColor.blackColor()
             label2.position = CGPointMake(0, label.position.y - label2.fontSize)
             lockDialog?.addChild(label2)
             
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-            buyButton.position = CGPointMake(0, label2.position.y - buyButton.size.height * 2)
+            buyButton.userInteractionEnabled = true
+            buyButton.position = CGPointMake(0, label2.position.y - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         } else {
             let tryButton = EventSprite(imageNamed: "tryButton")
             tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
-            tryButton.position = CGPointMake(-tryButton.size.width, label.position.y - tryButton.size.height * 2)
+            tryButton.userInteractionEnabled = true
+            tryButton.position = CGPointMake(-tryButton.size.width / 2, label.position.y - label.frame.height / 2 - tryButton.size.height / 2)
             lockDialog?.addChild(tryButton)
             
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-            buyButton.position = CGPointMake(buyButton.size.width, label.position.y - buyButton.size.height * 2)
+            buyButton.userInteractionEnabled = true
+            buyButton.position = CGPointMake(buyButton.size.width / 2, label.position.y - label.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         }
 

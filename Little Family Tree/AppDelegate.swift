@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         FIRAuth.auth()?.signInWithEmail("service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
             // nohting to do
+            print(user)
+            print(error)
         }
         return true
     }

@@ -212,15 +212,17 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 littleData = true
             }
             
-            if !self.hasPremium {
-                var tryAvailable = true
-                if (littleData && tryCount > 3) || tryCount > 1 {
-                    tryAvailable = false
+            self.userHasPremium({ premium in
+                if !premium {
+                    var tryAvailable = true
+                    if (littleData && tryCount > 3) || tryCount > 1 {
+                        tryAvailable = false
+                    }
+                    if !littleData || !tryAvailable {
+                        self.showLockDialog(tryAvailable)
+                    }
                 }
-                if !littleData || !tryAvailable {
-                    self.showLockDialog(tryAvailable)
-                }
-            }
+            })
             
             if count > 0 {
                self.setSelectedPath(self.calculator!.uniquePaths[0]) 
