@@ -412,13 +412,15 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let basex = (self.size.width / 2) - (width / 2)
 		var tx = tiles[0].size().width / 2
 		var ty = CGFloat(0)
+		var num = 0.05
+		let rowCount = width / tiles[0].size().width
 		while (ty < self.size.height + tiles[0].size().height) {
 			let rt = Int(arc4random_uniform(UInt32(tiles.count)))
 			let bgSprite = SKSpriteNode(texture: tiles[rt])
             bgSprite.userData = ["rt": rt]
 			bgSprite.zPosition = 1
             if (rt==8) {
-                bgSprite.zPosition = 2
+                bgSprite.zPosition = 3 - num
             }
 			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
 			backgroundTiles.append(bgSprite)
@@ -429,7 +431,9 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			if tx - (tiles[0].size().width / 2) >= width {
                 tx = tiles[0].size().width / 2
 				ty = ty + (tiles[0].size().height - 2)
+				num = num - 0.05
 			}
+			num += 1
 		}
 		
 		let titleSprite = SKSpriteNode(imageNamed: "rr_title")
@@ -527,7 +531,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             for i in 0..<backgroundTiles.count - ct {
                 let rt = backgroundTiles[i].userData!["rt"] as! Int
                 if  rt == 8 {
-                    backgroundTiles[i].zPosition += 1
+                    backgroundTiles[i].zPosition += CGFloat(0.05)
                 }
             }
         }
@@ -678,7 +682,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		gameOverCloud.size.width = boardWidth * 0.9
 		gameOverCloud.size.height = gameOverCloud.size.width / tr
 		gameOverCloud.position = CGPointMake(self.size.width / 2, self.size.height / 2)
-		gameOverCloud.zPosition = 4
+		gameOverCloud.zPosition = 5
 		sprites.append(gameOverCloud)
 		self.addChild(gameOverCloud)
 		
@@ -690,7 +694,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         }
         message.fontColor = UIColor.blackColor()
         message.position = CGPointMake(self.size.width / 2, (self.size.height / 2) - message.fontSize * 2)
-        message.zPosition = 5
+        message.zPosition = 6
 		sprites.append(message)
 		self.addChild(message)
 		self.speak(text)
@@ -700,7 +704,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		playAgainButton.size.width = gameOverCloud.size.width * 0.3
 		playAgainButton.size.height = playAgainButton.size.width / pr
 		playAgainButton.position = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
-		playAgainButton.zPosition = 6
+		playAgainButton.zPosition = 7
 		playAgainButton.userInteractionEnabled = true
 		playAgainButton.topic = BirdScene.TOPIC_PLAY_AGAIN
 		playAgainPosition = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
@@ -738,7 +742,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			
 			if let accData = motionManager.accelerometerData {
 				if !animator.finished && animator.currentPosition > 3 {
-					bird.physicsBody!.applyForce(CGVectorMake(20.0 + windPower, 0.0))
+					bird.physicsBody!.applyForce(CGVectorMake(10.0 + windPower, 0.0))
 				}
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
 					bird.physicsBody!.applyForce(CGVectorMake(20.0 * CGFloat(accData.acceleration.y), 20.0 * CGFloat(accData.acceleration.x)))

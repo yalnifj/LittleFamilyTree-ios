@@ -72,7 +72,9 @@ class DBHelper {
                     try instance!.createTables()
                     if instance?.dbversion != nil {
                         instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
-                        instance?.fireCreateOrUpdateUser(true)
+						FIRAuth.auth()?.signInWithEmail("service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+							instance?.fireCreateOrUpdateUser(true)
+						}
                     }
                     instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
                     instance!.saveProperty(DBHelper.UUID_PROPERTY, value: NSUUID().UUIDString)
@@ -84,14 +86,18 @@ class DBHelper {
                     try instance!.createTables()
                     instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
 					instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-                    instance?.fireCreateOrUpdateUser(true)
+					FIRAuth.auth()?.signInWithEmail("service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+						instance?.fireCreateOrUpdateUser(true)
+					}
                 } catch let error as NSError {
                     print("Error creating tables \(error.localizedDescription)")
                 }
             } else if instance!.dbversion < 6 {
                 instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
                 instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-                instance?.fireCreateOrUpdateUser(true)
+				FIRAuth.auth()?.signInWithEmail("service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+					instance?.fireCreateOrUpdateUser(true)
+				}
             }
 		}
 		return instance!
@@ -189,30 +195,24 @@ class DBHelper {
     
     func fireCreateOrUpdateUser(hasPremium:Bool) {
         let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
+		let serviceType = self.getProperty(DataService.SERVICE_TYPE)
         if username != nil {
             let ref = FIRDatabase.database().reference()
-            ref.child("users").child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 print(snap)
                 // Get user value
                 if snap.exists() {
-                    let serviceType = self.getProperty(DataService.SERVICE_TYPE)
                     let vals = snap.value as! NSDictionary
-                    let serviceTypes = vals["serviceTypes"] as! NSArray
-                    if !serviceTypes.containsObject(serviceType!) {
-                        let sta = serviceTypes.arrayByAddingObject(serviceType!)
-                        ref.child("users/\(username!)/serviceTypes").setValue(sta)
-                    }
                     let platforms = vals["platforms"] as! NSArray
                     if !platforms.containsObject("ios") {
                         let plats = platforms.arrayByAddingObject("ios")
-                        ref.child("users/\(username!)/platforms").setValue(plats)
+                        ref.child("users/\(serviceType!)\(username!)/platforms").setValue(plats)
                     }
-                    ref.child("users/\(username!)/iosPremium").setValue(hasPremium)
+                    ref.child("users/\(serviceType!)\(username!)/iosPremium").setValue(hasPremium)
                     
                 } else {
-                    let serviceType = self.getProperty(DataService.SERVICE_TYPE)
-                    let user = ["username": username!, "serviceTypes": [serviceType!], "platforms": ["ios"], "iosPremium": hasPremium ]
-                    ref.child("users").child(username!).setValue(user as AnyObject)
+                    let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium ]
+                    ref.child("users").child(serviceType!).child(username!).setValue(user as AnyObject)
                 }
             })
             
