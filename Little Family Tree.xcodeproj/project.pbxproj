@@ -14,6 +14,7 @@
 		930574C11D54CFDE00A99066 /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 936F77751D4D2E7C0079CC4E /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		938A9E521D6D26190013BFA7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E501D6D26190013BFA7 /* Podfile */; };
 		938A9E531D6D26190013BFA7 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E511D6D26190013BFA7 /* Podfile.lock */; };
+		938A9E5D1D6D3A580013BFA7 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E5C1D6D3A580013BFA7 /* drums.png */; };
 		93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AAD1D653A8B000AD078 /* redstar1.png */; };
 		93A82AB81D653D3C000AD078 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB71D653D3C000AD078 /* lock.png */; };
 		93A82ABA1D655573000AD078 /* buyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB91D655573000AD078 /* buyButton.png */; };
@@ -762,6 +763,7 @@
 		936F776A1D4D2E7C0079CC4E /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite/SQLite.xcodeproj; sourceTree = "<group>"; };
 		938A9E501D6D26190013BFA7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		938A9E511D6D26190013BFA7 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
+		938A9E5C1D6D3A580013BFA7 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
 		93A82AAD1D653A8B000AD078 /* redstar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redstar1.png; sourceTree = "<group>"; };
 		93A82AB71D653D3C000AD078 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		93A82AB91D655573000AD078 /* buyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buyButton.png; sourceTree = "<group>"; };
@@ -2231,6 +2233,7 @@
 		A1F7D11E1C8FBC12006053A2 /* song */ = {
 			isa = PBXGroup;
 			children = (
+				938A9E5C1D6D3A580013BFA7 /* drums.png */,
 				A10CC8881C8FC806005B3233 /* bass_off.png */,
 				A10CC8891C8FC806005B3233 /* bass.png */,
 				A10CC88A1C8FC806005B3233 /* clarinet_off.png */,
@@ -2549,6 +2552,7 @@
 				A1F7D3021C8FBC12006053A2 /* house_music_trumpet1.png in Resources */,
 				A1F7D3321C8FBC12006053A2 /* house_toys_blocks1.png in Resources */,
 				A1F7D3081C8FBC12006053A2 /* house_toaster12.png in Resources */,
+				938A9E5D1D6D3A580013BFA7 /* drums.png in Resources */,
 				A1F7D3071C8FBC12006053A2 /* house_toaster11.png in Resources */,
 				A1F7D2D71C8FBC12006053A2 /* house_kitchen_freezer1.png in Resources */,
 				A1F7D3431C8FBC12006053A2 /* house_tree_bird1.png in Resources */,
