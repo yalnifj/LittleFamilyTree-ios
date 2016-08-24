@@ -749,7 +749,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         let ratio2 = lock.size.height / lock.size.width
         lock.size.width = lockDialog!.size.width * 0.65
         lock.size.height = lock.size.width * ratio2
-        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height * 1.5)
+        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height * 1.6)
         lockDialog?.addChild(lock)
         
         let backButton = LabelEventSprite(text: "< Back")

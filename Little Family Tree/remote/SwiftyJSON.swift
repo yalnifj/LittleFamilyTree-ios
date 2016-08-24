@@ -66,7 +66,7 @@ public struct JSON {
     */
     public init(data:NSData, options opt: NSJSONReadingOptions = .AllowFragments, error: NSErrorPointer = nil) {
         do {
-            let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: opt)
+            let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: opt) as! [String: AnyObject]
             self.init(object)
         } catch let aError as NSError {
             if error != nil {

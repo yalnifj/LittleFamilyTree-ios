@@ -415,6 +415,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		while (ty < self.size.height + tiles[0].size().height) {
 			let rt = Int(arc4random_uniform(UInt32(tiles.count)))
 			let bgSprite = SKSpriteNode(texture: tiles[rt])
+            bgSprite.userData = ["rt": rt]
 			bgSprite.zPosition = 1
             if (rt==8) {
                 bgSprite.zPosition = 2
@@ -496,16 +497,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		var tx = tiles[0].size().width / 2
 		let ty = self.size.height - 2 + tiles[0].size().height / 2
 		let basex = (self.size.width / 2) - (boardWidth / 2)
-        let tc = Int(boardWidth / (tiles[0].size().width - 2))
+        var has8 = false
+        var ct = 0
 		while tx - (tiles[0].size().width / 2) < boardWidth {
 			let rt = Int(arc4random_uniform(UInt32(tiles.count)))
 			let bgSprite = SKSpriteNode(texture: tiles[rt])
+            bgSprite.userData = ["rt": rt]
 			bgSprite.zPosition = 1
             if (rt==8) {
                 bgSprite.zPosition = 2
-                if backgroundTiles[backgroundTiles.count - tc].zPosition > 1 {
-                    backgroundTiles[backgroundTiles.count - tc].zPosition += 1
-                }
+                has8 = true
             }
 			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
 			backgroundTiles.append(bgSprite)
@@ -513,12 +514,22 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			self.addChild(bgSprite)
 			
 			tx = tx + bgSprite.size.width - 2
+            ct += 1
 		}
         
         while backgroundTiles.first?.position.y < 0 {
             let tile = backgroundTiles.removeFirst()
             tile.removeFromParent()
             sprites.removeObject(tile)
+        }
+        
+        if has8 {
+            for i in 0..<backgroundTiles.count - ct {
+                let rt = backgroundTiles[i].userData!["rt"] as! Int
+                if  rt == 8 {
+                    backgroundTiles[i].zPosition += 1
+                }
+            }
         }
 	}
     

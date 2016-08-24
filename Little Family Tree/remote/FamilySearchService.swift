@@ -371,7 +371,7 @@ class FamilySearchService : RemoteService {
             // Set the POST body for the request
             let options = NSJSONWritingOptions()
             print("makeHTTPPostJSONRequest: \(request)")
-            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: options)
+            request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(body, options: options)
             let session = NSURLSession.sharedSession()
             session.configuration.HTTPMaximumConnectionsPerHost = 5
 	 
