@@ -225,7 +225,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                     let tryCount = self.getTryCount("try_coloring_count")
                     
                     var tryAvailable = true
-                    if tryCount > 1 {
+                    if tryCount > 3 {
                         tryAvailable = false
                     }
                     

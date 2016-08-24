@@ -410,7 +410,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                 let tryCount = self.getTryCount("try_song_count")
                 
                 var tryAvailable = true
-                if tryCount > 1 {
+                if tryCount > 3 {
                     tryAvailable = false
                 }
                 

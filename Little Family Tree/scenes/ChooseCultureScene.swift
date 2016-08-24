@@ -215,7 +215,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             self.userHasPremium({ premium in
                 if !premium {
                     var tryAvailable = true
-                    if (littleData && tryCount > 3) || tryCount > 1 {
+                    if (littleData && tryCount > 5) || tryCount > 3 {
                         tryAvailable = false
                     }
                     if !littleData || !tryAvailable {
