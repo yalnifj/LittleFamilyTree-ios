@@ -229,7 +229,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                         tryAvailable = false
                     }
                     
-                    self.showLockDialog(tryAvailable)
+                    self.showLockDialog(tryAvailable,  tries: LittleFamilyScene.FREE_TRIES - (tryCount - 1))
                 }
             })
             

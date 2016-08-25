@@ -219,7 +219,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                         tryAvailable = false
                     }
                     if !littleData || !tryAvailable {
-                        self.showLockDialog(tryAvailable)
+                        self.showLockDialog(tryAvailable,  tries: LittleFamilyScene.FREE_TRIES - (tryCount-1))
                     }
                 }
             })

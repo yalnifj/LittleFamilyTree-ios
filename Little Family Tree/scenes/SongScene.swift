@@ -365,6 +365,11 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
 		EventHandler.getInstance().unSubscribe(SongScene.TOPIC_CHOOSE_SONG2, listener: self)
 		EventHandler.getInstance().unSubscribe(SongScene.TOPIC_CHOOSE_SONG3, listener: self)
     }
+    
+    override func stopAllSounds() {
+        pauseSong()
+        super.stopAllSounds()
+    }
 	
 	func onComplete(family:[LittlePerson]) {
         var oldPeople = [LittlePerson]()
@@ -414,7 +419,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                     tryAvailable = false
                 }
                 
-                self.showLockDialog(tryAvailable)
+                self.showLockDialog(tryAvailable,  tries: LittleFamilyScene.FREE_TRIES - (tryCount - 1))
             }
         })
 	}

@@ -21,6 +21,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     static var PROP_HAS_PREMIUM = "has_premium"
     static var TOPIC_BUY_PRESSED = "buy_button_pressed"
     static var TOPIC_TRY_PRESSED = "try_button_pressed"
+    static var FREE_TRIES = 3
 
     var topBar:TopBar?
     var addingStars = false
@@ -69,6 +70,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TOGGLE_QUIET, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_BUY_PRESSED, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TRY_PRESSED, listener: self)
+        
+        stopAllSounds()
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -132,7 +135,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 for _ in 0..<4 {
                     if (redStarRect != nil) {
                         var redStarFile = "redstar1"
-                        if hasPremium! {
+                        if hasPremium != nil && hasPremium! {
                             redStarFile = "star1"
                         }
                         let star = SKSpriteNode(imageNamed: redStarFile)
@@ -596,6 +599,14 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		}
 	}
     
+    func stopAllSounds() {
+        if audioPlayer != nil {
+            audioPlayer.stop()
+        }
+        
+        SpeechHelper.getInstance().stop()
+    }
+    
     func showFakeToasts(messages:[String]) {
         for s in self.toasts {
             s.removeFromParent()
@@ -737,7 +748,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return tryCount
     }
     
-    func showLockDialog(tryAvailable:Bool) {
+    func showLockDialog(tryAvailable:Bool, tries:Int) {
         self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
         
         lockDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(350, 420))
@@ -778,16 +789,25 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             buyButton.position = CGPointMake(0, label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         } else {
+            let label2 = SKLabelNode(text: "You have \(tries) tries left.")
+            if tries == 1 {
+                label2.text = "You have 1 try left."
+            }
+            label2.fontSize = lockDialog!.size.width / 12
+            label2.fontColor = UIColor.blackColor()
+            label2.position = CGPointMake(0, label.position.y - label2.fontSize)
+            lockDialog?.addChild(label2)
+            
             let tryButton = EventSprite(imageNamed: "tryButton")
             tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
             tryButton.userInteractionEnabled = true
-            tryButton.position = CGPointMake(-tryButton.size.width / 2, label.position.y - label.frame.height / 2 - tryButton.size.height / 2)
+            tryButton.position = CGPointMake(-tryButton.size.width / 2, label2.position.y - label2.frame.height / 2 - tryButton.size.height / 2)
             lockDialog?.addChild(tryButton)
             
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
             buyButton.userInteractionEnabled = true
-            buyButton.position = CGPointMake(buyButton.size.width / 2, label.position.y - label.frame.height / 2 - buyButton.size.height / 2)
+            buyButton.position = CGPointMake(buyButton.size.width / 2, label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         }
 
@@ -868,8 +888,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                                 return
                             }
                         }
-                        onCompletion(false)
                     }
+                    onCompletion(false)
                 }) { (error) in
                     print(error.localizedDescription)
                     onCompletion(false)

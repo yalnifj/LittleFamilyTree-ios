@@ -33,4 +33,8 @@ class SpeechHelper {
             speechSynthesizer.speakUtterance(speechUtterance)
         }
     }
+    
+    func stop() {
+        speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Immediate)
+    }
 }
