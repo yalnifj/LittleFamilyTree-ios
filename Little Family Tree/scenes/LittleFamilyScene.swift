@@ -871,7 +871,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func userHasPremium(onCompletion: (Bool) -> Void) {
         let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
-        if premiumStr == nil {
+        if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
             if username != nil {
                 let ref = FIRDatabase.database().reference()

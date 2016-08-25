@@ -208,7 +208,9 @@ class DBHelper {
                         let plats = platforms.arrayByAddingObject("ios")
                         ref.child("users/\(serviceType!)\(username!)/platforms").setValue(plats)
                     }
-                    ref.child("users/\(serviceType!)\(username!)/iosPremium").setValue(hasPremium)
+                    if hasPremium {
+                        ref.child("users/\(serviceType!)\(username!)/iosPremium").setValue(hasPremium)
+                    }
                     
                 } else {
                     let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium ]
