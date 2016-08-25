@@ -79,7 +79,7 @@ class TreeWalker {
 		dataService.getChildren(selectedPerson, onCompletion: {children, err in
 			if children != nil && children!.count > 0 {
 				for child in children! {
-					if (self.resusePeople && !self.people.contains(child)) || self.usedPeople[child.id!] == nil {
+					if self.usedPeople[child.id!] == nil || (self.resusePeople && !self.people.contains(child)) {
 						self.people.append(child)
 						self.usedPeople[child.id!] = child
 						self.loadQueue.append(child)

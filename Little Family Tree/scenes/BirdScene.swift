@@ -204,9 +204,9 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			var leaves = [
 				[0.86, 1.37, 45*0.0174],
 				[1.05, 1.37, -55*0.01745],
-				[0.85, 1.27, 40*0.0174],
+				[0.86, 1.27, 40*0.0174],
 				[1.06, 1.26, -35*0.0174],
-				[0.79, 1.12, 75*0.0174],
+				[0.86, 1.12, 75*0.0174],
 				[1.085, 1.11, -60*0.0174],
 				[1.085, 0.95, -90*0.0174]
 			]
@@ -394,6 +394,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		gameOver = false
 		lastAddPersonTime = 0.0
         lastAddCloudTime = 0.0
+        tileMove = CGFloat(1)
 		
         var width = self.size.width
 		
@@ -519,7 +520,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             ct += 1
 		}
         
-        while backgroundTiles.first?.position.y < 0 {
+        while (backgroundTiles.first!.position.y + backgroundTiles.first!.size.height / 2) < 0 {
             let tile = backgroundTiles.removeFirst()
             tile.removeFromParent()
             sprites.removeObject(tile)
@@ -543,24 +544,25 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             let br = personSprite.size.width / personSprite.size.height
             personSprite.size.width = bird.size.width
             personSprite.size.height = personSprite.size.width / br
-            let x = CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width/2)))
+            let x = personSprite.size.width/2 + CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width)))
             personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
             personSprite.zPosition = 10
             let p = Int(arc4random_uniform(UInt32(family!.count)))
             personSprite.person = family![p]
+            family?.removeAtIndex(p)
             
             self.addChild(personSprite)
             peopleSprites.append(personSprite)
             sprites.append(personSprite)
             
-            let slowdown = Double(arc4random_uniform(UInt32(100))) / 60.0
+            let slowdown = (Double(arc4random_uniform(UInt32(100))) / 60.0)  - (Double(nestSprites.count) / 20.0)
             let action = SKAction.moveToY(0, duration: 8 + slowdown)
             personSprite.runAction(action)
         }
         if family?.count < 2 {
             treeWalker.loadMorePeople()
         }
-		addPersonDelay = 3.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
+		addPersonDelay = 3.0 - (Double(nestSprites.count) / 20.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
     }
 	
 	func addRandomCloud() {
@@ -572,13 +574,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		cloud.size.height = cloud.size.width / cr
 		cloud.zPosition = 4
 		
-		windPower = 5.0 + CGFloat(arc4random_uniform(UInt32(300))) / 100.0
+		windPower = 7.0 + CGFloat(Double(nestSprites.count) / 15.0) + CGFloat(arc4random_uniform(UInt32(300))) / 100.0
 		
 		var cact1 = SKAction.moveToX(basex + cloud.size.width / 3, duration: 1)
 		if drand48() > 0.5 {
 			cloud.xScale = -1.0
-			cloud.position.x = -basex - boardWidth - cloud.size.width / 2	
-			cact1 = SKAction.moveToX(-basex - boardWidth + cloud.size.width / 3, duration: 1)
+			cloud.position.x = basex + boardWidth + cloud.size.width / 2
+            windPower = windPower * -1
+			cact1 = SKAction.moveToX(basex + boardWidth - cloud.size.width / 3, duration: 1)
 		} else {
 			cloud.xScale = 1.0
 			cloud.position.x = basex - cloud.size.width / 2	
@@ -586,8 +589,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		animator = SpriteAnimator()
 		
+        animator.addTiming(SpriteStateTiming(time: 0.01, sprite: cloud, state: 1))
         animator.addTiming(SpriteActionTiming(time: 0.5, sprite: cloud, action: cact1))
-		animator.addTiming(SpriteStateTiming(time: 2, sprite: cloud, state: 1))
 		let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
 			SKTexture(imageNamed: "cloud4"),
 			SKTexture(imageNamed: "cloud5"),
@@ -630,14 +633,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         
 		animator.start()
 	
-		addCloudDelay = 6.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
+		addCloudDelay = 10.0 - (Double(nestSprites.count) / 10.0) + Double(arc4random_uniform(UInt32(100))) / 30.0
 	}
 	
 	func reorderNest() {
 		let basex = (self.size.width / 2) - (boardWidth / 2)
 		let nestWidth = self.size.height * 0.05
 		if nestSprites.count > 0 {
-            tileMove = 1 + CGFloat(nestSprites.count) / 10
+            tileMove = 1 + round(CGFloat(nestSprites.count) / 10)
             let dx = min(nestWidth, boardWidth / CGFloat(nestSprites.count))
             var x = CGFloat(nestWidth / 2)
             for s in nestSprites {
@@ -739,12 +742,30 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				}
 			}
 			
+            if !animator.finished && animator.currentPosition > 3 {
+                bird.physicsBody!.applyForce(CGVectorMake(windPower, 0.0))
+            }
 			if let accData = motionManager.accelerometerData {
-				if !animator.finished && animator.currentPosition > 3 {
-					bird.physicsBody!.applyForce(CGVectorMake(10.0 + windPower, 0.0))
-				}
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
-					bird.physicsBody!.applyForce(CGVectorMake(20.0 * CGFloat(accData.acceleration.y), 20.0 * CGFloat(accData.acceleration.x)))
+                    if portrait {
+                        var ax = 40.0 * CGFloat(accData.acceleration.x)
+                        if ax > 60 {
+                            ax = 60
+                        }
+                        if ax < -60 {
+                            ax = -60
+                        }
+                        bird.physicsBody!.applyForce(CGVectorMake(ax, 20 + 50.0 * CGFloat(accData.acceleration.y)))
+                    } else {
+                        var ax = 40.0 * CGFloat(accData.acceleration.y)
+                        if ax > 60 {
+                            ax = 60
+                        }
+                        if ax < -60 {
+                            ax = -60
+                        }
+                        bird.physicsBody!.applyForce(CGVectorMake(ax, 20 + 50.0 * CGFloat(accData.acceleration.x)))
+                    }
 				}
                 
                 if gameOver {
