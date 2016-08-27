@@ -21,6 +21,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     static var PROP_HAS_PREMIUM = "has_premium"
     static var TOPIC_BUY_PRESSED = "buy_button_pressed"
     static var TOPIC_TRY_PRESSED = "try_button_pressed"
+    static var PROP_FIRST_RUN = "firstRunPassed"
     static var FREE_TRIES = 3
 
     var topBar:TopBar?
@@ -60,6 +61,14 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         self.userHasPremium({ premium in
           self.hasPremium = premium
         })
+        
+        let firstRunPassed = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_FIRST_RUN)
+        if firstRunPassed == nil {
+            iapHelper = IAPHelper(listener: self)
+            iapHelper?.restorePurchases()
+        }
+        
+        DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_FIRST_RUN, value: "true")
     }
     
     override func willMoveFromView(view: SKView) {
@@ -460,7 +469,14 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func LoginComplete() {
         clearDialogRect()
         if loginForPurchase {
-            buyPremium()
+            if iapHelper == nil {
+                iapHelper = IAPHelper(listener: self)
+            }
+            if iapHelper!.canMakePayents() {
+                buyPremium()
+            } else {
+                showSimpleDialog("Unable to Purchase", message: "This device does not have permissions to make purchases.")
+            }
         } else {
             showSettings()
         }

@@ -21,6 +21,11 @@ import StoreKit
         SKPaymentQueue.defaultQueue().addTransactionObserver(self)
         requestProductInfo()
     }
+    
+    func restorePurchases() {
+        transactionInProgress = true
+        SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
+    }
  
     func requestProductInfo() {
         if SKPaymentQueue.canMakePayments() {
@@ -42,6 +47,7 @@ import StoreKit
         if response.products.count != 0 {
             for product in response.products {
                 productsArray.append(product)
+                
             }
             listener.onProductsReady(productsArray)
         }
@@ -53,6 +59,10 @@ import StoreKit
             print(response.invalidProductIdentifiers.description)
             listener.onError(response.invalidProductIdentifiers.description)
         }
+    }
+    
+    func canMakePayents() -> Bool {
+        return SKPaymentQueue.canMakePayments()
     }
     
     func buyProduct(productIndex:Int) {
@@ -73,13 +83,26 @@ import StoreKit
                 print("Transaction completed successfully.")
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 transactionInProgress = false
-                listener.onTransactionComplete()
+                let productIdentifier = transaction.originalTransaction?.payment.productIdentifier
+                if productIdentifier != nil && productIdentifier == productIDs[0] {
+                    listener.onTransactionComplete()
+                }
                 break
             case SKPaymentTransactionState.Failed:
-                print("Transaction Failed");
+                print("Transaction Failed")
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 transactionInProgress = false
                 listener.onError("Transaction Failed")
+                break
+            case SKPaymentTransactionState.Restored:
+                print("Transaction Restored")
+                transactionInProgress = false
+                let productIdentifier = transaction.originalTransaction?.payment.productIdentifier
+                if productIdentifier != nil && productIdentifier == productIDs[0] {
+                    listener.onTransactionComplete()
+                }
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                break
             default:
                 print(transaction.transactionState.rawValue)
             }

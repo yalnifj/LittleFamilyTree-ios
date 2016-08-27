@@ -757,7 +757,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                         }
                         bird.physicsBody!.applyForce(CGVectorMake(ax, 20 + 50.0 * CGFloat(accData.acceleration.y)))
                     } else {
-                        var ax = 40.0 * CGFloat(accData.acceleration.y)
+                        var ax = -40.0 * CGFloat(accData.acceleration.y)
                         if ax > 60 {
                             ax = 60
                         }
@@ -770,8 +770,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                 
                 if gameOver {
                     //-- adjust play again button based on movement
-                    playAgainButton.position.x = playAgainPosition.x + (2 * CGFloat(accData.acceleration.x))
-                    playAgainButton.position.y = playAgainPosition.y + (2 * CGFloat(accData.acceleration.y))
+                    playAgainButton.position.x = playAgainPosition.x + (20 * CGFloat(accData.acceleration.x))
+                    playAgainButton.position.y = playAgainPosition.y + (20 * CGFloat(accData.acceleration.y))
                 }
 			}
 			
