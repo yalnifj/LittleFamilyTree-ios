@@ -76,8 +76,10 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     @IBAction func showFamilyAction(sender: AnyObject) {
         let dataService = DataService.getInstance()
         dataService.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
-            self.results = people!
-            self.resultsTable.reloadData()
+            dispatch_async(dispatch_get_main_queue()) {
+                self.results = people!
+                self.resultsTable.reloadData()
+            }
         })
     }
     

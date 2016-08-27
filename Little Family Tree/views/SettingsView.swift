@@ -23,6 +23,7 @@ class SettingsView: UIView {
     @IBOutlet weak var view8: UIView!
     @IBOutlet weak var view9: UIView!
     @IBOutlet weak var view10: UIView!
+    @IBOutlet weak var view11: UIView!
     @IBOutlet weak var remoteTreeType: UILabel!
     @IBOutlet weak var syncInBackgroundSwitch: UISwitch!
     @IBOutlet weak var syncUsingCellSwitch: UISwitch!
@@ -79,6 +80,8 @@ class SettingsView: UIView {
         view9.layer.borderWidth = 0.5
         view10.layer.borderColor = color.CGColor
         view10.layer.borderWidth = 0.5
+        view11.layer.borderColor = color.CGColor
+        view11.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
         let treeType = dataService.dbHelper.getProperty(DataService.SERVICE_TYPE)
@@ -236,6 +239,7 @@ class SettingsView: UIView {
             DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
         }
         func onError(error:String) {
+            print(error)
             view.showError(error)
         }
     }
