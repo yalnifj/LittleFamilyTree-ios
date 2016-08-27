@@ -62,12 +62,6 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
           self.hasPremium = premium
         })
         
-        let firstRunPassed = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_FIRST_RUN)
-        if firstRunPassed == nil {
-            iapHelper = IAPHelper(listener: self)
-            iapHelper?.restorePurchases()
-        }
-        
         DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_FIRST_RUN, value: "true")
     }
     
@@ -932,7 +926,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func onError(error:String) {
         print(error)
         hideLoadingDialog()
-        showSimpleDialog("Error", message: "An error occurred communicating with the iTunes App Store")
+        showSimpleDialog("Error", message: error)
     }
     
     func buyPremium() {

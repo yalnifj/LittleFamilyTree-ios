@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 class SettingsView: UIView {
 
@@ -21,6 +22,7 @@ class SettingsView: UIView {
     @IBOutlet weak var view7: UIView!
     @IBOutlet weak var view8: UIView!
     @IBOutlet weak var view9: UIView!
+    @IBOutlet weak var view10: UIView!
     @IBOutlet weak var remoteTreeType: UILabel!
     @IBOutlet weak var syncInBackgroundSwitch: UISwitch!
     @IBOutlet weak var syncUsingCellSwitch: UISwitch!
@@ -28,6 +30,7 @@ class SettingsView: UIView {
     @IBOutlet weak var syncDelayLabel: UILabel!
     @IBOutlet weak var quietModeSwitch: UISwitch!
 	@IBOutlet weak var showStepChildrenSwitch: UISwitch!
+    @IBOutlet weak var restoreButton: UIButton!
     
     @IBOutlet weak var versionLabel: UILabel!
     
@@ -74,6 +77,8 @@ class SettingsView: UIView {
         view8.layer.borderWidth = 0.5
         view9.layer.borderColor = color.CGColor
         view9.layer.borderWidth = 0.5
+        view10.layer.borderColor = color.CGColor
+        view10.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
         let treeType = dataService.dbHelper.getProperty(DataService.SERVICE_TYPE)
@@ -198,6 +203,40 @@ class SettingsView: UIView {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "true")
         } else {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "false")
+        }
+    }
+    
+    var iapHelper:IAPHelper?
+    @IBAction func restorePurchases(sender: AnyObject) {
+        iapHelper = IAPHelper(listener: restoreListener(view: self))
+        iapHelper?.restorePurchases()
+
+    }
+    
+    func showError(error:String) {
+        print(error)
+        let x = Int((self.frame.width - 300) / 2)
+        let y = 50
+        let rect = CGRect(x: x, y: y, width: 300, height: 300)
+        let subview = SimpleDialogView(frame: rect)
+        subview.setMessage("Error", message: error)
+        self.view?.addSubview(subview)
+    }
+    
+    class restoreListener: IAPHelperListener {
+        var view:SettingsView
+        init(view:SettingsView) {
+            self.view = view
+        }
+        func onProductsReady(productsArray: [SKProduct]) {
+            
+        }
+        func onTransactionComplete() {
+            DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+            DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
+        }
+        func onError(error:String) {
+            view.showError(error)
         }
     }
 }

@@ -89,10 +89,14 @@ import StoreKit
                 }
                 break
             case SKPaymentTransactionState.Failed:
-                print("Transaction Failed")
+                print("Transaction Failed \(transaction.error)")
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 transactionInProgress = false
-                listener.onError("Transaction Failed")
+                if transaction.error != nil {
+                    listener.onError("Transaction Failed \(transaction.error!)")
+                } else {
+                    listener.onError("Transaction Failed")
+                }
                 break
             case SKPaymentTransactionState.Restored:
                 print("Transaction Restored")
@@ -100,6 +104,8 @@ import StoreKit
                 let productIdentifier = transaction.originalTransaction?.payment.productIdentifier
                 if productIdentifier != nil && productIdentifier == productIDs[0] {
                     listener.onTransactionComplete()
+                } else {
+                    listener.onError("Unable to find previous purchase.")
                 }
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 break
