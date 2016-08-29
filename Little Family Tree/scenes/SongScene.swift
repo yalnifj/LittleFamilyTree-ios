@@ -390,6 +390,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
             if self.usedPeople[person.id!] == nil {
                 oldPeople.append(person)
                 self.usedPeople[person.id!] = person
+                treeWalker?.usePerson(person)
             }
         }
         for person in oldPeople {

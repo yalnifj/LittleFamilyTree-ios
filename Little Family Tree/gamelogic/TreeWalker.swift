@@ -35,7 +35,6 @@ class TreeWalker {
 				for parent in parents! {
 					if (self.resusePeople && !self.people.contains(parent)) || self.usedPeople[parent.id!] == nil {
 						self.people.append(parent)
-						self.usedPeople[parent.id!] = parent
 						self.loadQueue.append(parent)
 						
 						//-- siblings
@@ -45,7 +44,6 @@ class TreeWalker {
 								for child in children! {
 									if (self.resusePeople && !self.people.contains(child)) || self.usedPeople[child.id!] == nil {
 										self.people.append(child)
-										self.usedPeople[child.id!] = child
 										self.loadQueue.append(child)
 									}
 								}
@@ -58,7 +56,6 @@ class TreeWalker {
 									for parent in parents2! {
 										if (self.resusePeople && !self.people.contains(parent)) || self.usedPeople[parent.id!] == nil {
 											self.people.append(parent)
-											self.usedPeople[parent.id!] = parent
 											self.loadQueue.append(parent)
 										}
 									}
@@ -81,7 +78,6 @@ class TreeWalker {
 				for child in children! {
 					if self.usedPeople[child.id!] == nil || (self.resusePeople && !self.people.contains(child)) {
 						self.people.append(child)
-						self.usedPeople[child.id!] = child
 						self.loadQueue.append(child)
 					}
 				}
@@ -113,7 +109,6 @@ class TreeWalker {
 						for child in children! {
 							if (self.resusePeople && !self.people.contains(child)) || self.usedPeople[child.id!] == nil {
 								self.people.append(child)
-								self.usedPeople[child.id!] = child
 								self.loadQueue.append(child)
 							}
 						}
@@ -128,7 +123,6 @@ class TreeWalker {
 					for parent in parents2! {
 						if (self.resusePeople && !self.people.contains(parent)) || self.usedPeople[parent.id!] == nil {
 							self.people.append(parent)
-							self.usedPeople[parent.id!] = parent
 							self.loadQueue.append(parent)
 						}
 					}
@@ -149,6 +143,11 @@ class TreeWalker {
 			usedPeople.removeAll()
 			loadFamilyMembers()
 		}
+    }
+    
+    func usePerson(person:LittlePerson) {
+        self.usedPeople[person.id!] = person
+        self.people.removeObject(person)
     }
 }
 

@@ -17,7 +17,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
     var portrait = true
     
-	var family:[LittlePerson]?
+	var family = [LittlePerson]()
 	
     var sprites = [SKNode]()
 	var peopleSprites = [PersonLeafSprite]()
@@ -200,7 +200,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let leafHeight = bird.size.width * 0.7
         let lact1 = SKAction.moveToX(self.size.width + leafWidth, duration: 1.0)
         
-		if family != nil && family!.count > 0 {
+		if family.count > 0 {
 			var leaves = [
 				[0.86, 1.37, 45*0.0174],
 				[1.05, 1.37, -55*0.01745],
@@ -227,8 +227,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			for f in 0..<leaves.count {
 				var person:LittlePerson? = nil
 				let r = arc4random_uniform(UInt32(6))
-				if r > 0 && f < family!.count {
-					person = family![p]
+				if r > 0 && f < family.count {
+					person = family[p]
 					p += 1
 				}
 				
@@ -267,8 +267,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			for f in 0..<smallleaves.count {
 				var person:LittlePerson? = nil
 				let r = arc4random_uniform(UInt32(3))
-				if r > 0 && p < family!.count {
-					person = family![p]
+				if r > 0 && p < family.count {
+					person = family[p]
 					p += 1
 				}
 				
@@ -537,7 +537,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	}
     
     func addRandomPerson() {
-        if family?.count > 0 {
+        if family.count > 0 {
             let l = Int(arc4random_uniform(2))
             let basex = (self.size.width / 2) - (boardWidth / 2)
             let personSprite = PersonLeafSprite(texture: leaves[l])
@@ -547,9 +547,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             let x = personSprite.size.width/2 + CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width)))
             personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
             personSprite.zPosition = 10
-            let p = Int(arc4random_uniform(UInt32(family!.count)))
-            personSprite.person = family![p]
-            family?.removeAtIndex(p)
+            let p = Int(arc4random_uniform(UInt32(family.count)))
+            personSprite.person = family[p]
+            treeWalker.usePerson(family[p])
+            family.removeAtIndex(p)
             
             self.addChild(personSprite)
             peopleSprites.append(personSprite)
@@ -559,7 +560,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             let action = SKAction.moveToY(0, duration: 8 + slowdown)
             personSprite.runAction(action)
         }
-        if family?.count < 2 {
+        if family.count < 2 {
             treeWalker.loadMorePeople()
         }
 		addPersonDelay = 3.0 - (Double(nestSprites.count) / 20.0) + Double(arc4random_uniform(UInt32(100))) / 50.0
@@ -827,7 +828,11 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func onComplete(family:[LittlePerson]) {
-		self.family = family
+		self.family.appendContentsOf(family)
+        
+        if family.count < 2 {
+            treeWalker.loadMorePeople()
+        }
 		
 		if showingCutScene {
 			showCutScene()
