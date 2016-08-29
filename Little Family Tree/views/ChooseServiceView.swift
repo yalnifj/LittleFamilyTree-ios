@@ -33,6 +33,8 @@ import UIKit
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         addSubview(view)
         PGVButton.hidden = false
+        //-- hide myheritage until it is ready
+        MyHeritageButton.hidden = true
     }
     
     func loadViewFromNib() -> UIView {
