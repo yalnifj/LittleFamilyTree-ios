@@ -883,9 +883,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
         if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
+			let serviceType = self.getProperty(DataService.SERVICE_TYPE)
             if username != nil {
                 let ref = FIRDatabase.database().reference()
-                ref.child("users").child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
                     print(snap)
                     // Get user value
                     if snap.exists() && snap.hasChild("iosPremium") {
