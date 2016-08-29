@@ -828,9 +828,13 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
     }
 	
 	func onComplete(family:[LittlePerson]) {
-		self.family.appendContentsOf(family)
+        for person in family {
+            if !self.family.contains(person) {
+                self.family.append(person)
+            }
+        }
         
-        if family.count < 2 {
+        if self.family.count < 3 {
             treeWalker.loadMorePeople()
         }
 		
