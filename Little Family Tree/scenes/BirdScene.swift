@@ -571,7 +571,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		cloud.position.y = bird.position.y
 		cloud.changeState(0)
 		let cr = cloud.size.width / cloud.size.height
-		cloud.size.width = bird.size.width * 2.5
+		cloud.size.width = bird.size.width * 3.5
 		cloud.size.height = cloud.size.width / cr
 		cloud.zPosition = 4
 		
