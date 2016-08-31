@@ -33,27 +33,8 @@ class MyHeritageService: RemoteService {
     }
     
     func getCurrentUser() {
-        class CurrentUserDelegate : NSObject, FGRequestDelegate {
-            @objc func request(request: FGRequest!, didLoad result: AnyObject!) {
-                
-            }
-            
-            @objc func request(request: FGRequest!, didFailWithError error: NSError!) {
-                
-            }
-            
-            @objc func request(request: FGRequest!, didLoadRawResponse data: NSData!) {
-            
-            }
-            
-            @objc func request(request: FGRequest!, didReceiveResponse response: NSURLResponse!) {
-            }
-            
-            @objc func requestLoading(request: FGRequest!) {
-            }
-        }
         
-        familyGraph.requestWithGraphPath("me", andDelegate: CurrentUserDelegate())
+        
     }
     
     func getCurrentPerson(onCompletion: PersonResponse) {
@@ -100,102 +81,37 @@ class MyHeritageService: RemoteService {
         return ""
     }
     
-    func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
-        self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
+    func getData(path:String, onCompletion:(AnyObject?, NSError?) -> Void) {
+        
+        
+        familyGraph.requestWithGraphPath("me", andDelegate: GetDataDelegate(onCompletion: onCompletion))
     }
     
-    var lastRequestTime:NSDate = NSDate()
-    var requestDelay:NSTimeInterval = -0.3
-    func makeHTTPGetRequest(path: String, headers: [String: String], count: Int, onCompletion: ServiceResponse) {
-        let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
-        if timeSinceLastRequest > requestDelay {
-            self.throttled(0 - requestDelay, closure: {
-                self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
-            })
-            return
-        }
-        lastRequestTime = NSDate()
-        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
-        let myDelegate = RedirectSessionDelegate(headers: headers)
-        // too many requests coming where are they coming from?
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
-        session.configuration.HTTPMaximumConnectionsPerHost = 2
-        
-        // Set the headers
-        for(field, value) in headers {
-            request.setValue(value, forHTTPHeaderField: field);
-            //print("Header \(field):\(value)")
-        }
-        
-        print("makeHTTPGetRequest: \(request)")
-        print(request.valueForHTTPHeaderField("Authorization"))
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            if error != nil {
-                print(error!.description)
-            }
-            if response == nil {
-                onCompletion(nil, error)
-                return
-            }
-            let httpResponse = response as! NSHTTPURLResponse
-            if httpResponse.statusCode != 200 && httpResponse.statusCode != 204 {
-                print(response)
-            }
-            if httpResponse.statusCode == 429 {
-                //-- connection was throttled, try again after 10 seconds
-                if count < 4 {
-                    SyncQ.getInstance().pauseForTime(60)
-                    print("Connection throttled... delaying 20 seconds")
-                    self.throttled(20, closure: {
-                        self.makeHTTPGetRequest(path, headers: headers, count: count+1, onCompletion: onCompletion)
-                    })
-                } else {
-                    let error = NSError(domain: "FamilySearchService", code: 204, userInfo: ["message":"Connection throttled"])
-                    print("Failed connection throttled 3 times... giving up")
-                    onCompletion(nil, error)
-                }
-                return
-            }
-            if data != nil {
-                if httpResponse.statusCode != 200 {
-                    print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-                }
-                let json:JSON = JSON(data: data!)
-                onCompletion(json, error)
-            }
-            else {
-                onCompletion(nil, error)
-            }
-        })
-        task.resume()
-    }
+}
 
-    func throttled(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+class GetDataDelegate : NSObject, FGRequestDelegate {
+    var handler:(AnyObject?, NSError?) -> Void
+    init(onCompletion:(AnyObject?, NSError?) -> Void) {
+        self.handler = onCompletion
     }
     
-    class RedirectSessionDelegate : NSObject, NSURLSessionDelegate {
-        var headers:[String: String]
+    @objc func request(request: FGRequest!, didLoad result: AnyObject!) {
+        handler(result, nil)
+    }
+    
+    @objc func request(request: FGRequest!, didFailWithError error: NSError!) {
+        print(error)
+        handler(nil, error)
+    }
+    
+    @objc func request(request: FGRequest!, didLoadRawResponse data: NSData!) {
         
-        init(headers:[String: String]) {
-            self.headers = headers
-            super.init()
-        }
-        
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest!) -> Void)
-        {
-            let newRequest = NSMutableURLRequest(URL: request.URL!)
-            // Set the headers
-            for(field, value) in headers {
-                newRequest.setValue(value, forHTTPHeaderField: field)
-            }
-            completionHandler(newRequest)
-        }
+    }
+    
+    @objc func request(request: FGRequest!, didReceiveResponse response: NSURLResponse!) {
+    }
+    
+    @objc func requestLoading(request: FGRequest!) {
     }
 }
 
