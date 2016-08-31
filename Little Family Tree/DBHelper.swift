@@ -223,6 +223,33 @@ class DBHelper {
         }
     }
 	
+	func validateCode(code:String, onCompletion: (Bool) -> Void) {
+		let ref = FIRDatabase.database().reference()
+		ref.child("codes").child(code).observeSingleEventOfType(.Value, withBlock: { (snap) in
+			print(snap)
+			// Get user value
+			if snap.exists() {
+				let vals = snap.value as! NSDictionary
+				let redeemed = vals["redeemed"] as Bool
+				let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
+				if redeemed {
+					let redeemUser = vals["user"] as String?
+					if redeemUser != nil && redeemUser!==username! {
+						onCompletion(true)
+						return
+					}
+				}
+				else {
+					ref.child("codes/\(code)/redeemed").setValue(true)
+					ref.child("codes/\(code)/user").setValue(username!)
+					onCompletion(true)
+					return
+				}
+			}
+			onCompletion(false)
+		})
+	}
+	
 	func persistLittlePerson(person:LittlePerson) throws {
 		if person.id == nil || person.id == 0 {
 			let existing = self.getPersonByFamilySearchId(person.familySearchId as! String)
