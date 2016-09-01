@@ -230,11 +230,11 @@ class DBHelper {
 			// Get user value
 			if snap.exists() {
 				let vals = snap.value as! NSDictionary
-				let redeemed = vals["redeemed"] as Bool
+				let redeemed = vals["redeemed"] as! Bool
 				let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 				if redeemed {
-					let redeemUser = vals["user"] as String?
-					if redeemUser != nil && redeemUser!==username! {
+					let redeemUser = vals["user"] as! String?
+					if redeemUser != nil && redeemUser! == username! {
 						onCompletion(true)
 						return
 					}

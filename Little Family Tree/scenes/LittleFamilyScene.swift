@@ -519,6 +519,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return recordAudioView
     }
     
+    func showRedeemCode() -> RedeemCode {
+        let subview = RedeemCode(frame: (self.view?.bounds)!)
+        subview.openingScene = self
+        self.view?.addSubview(subview)
+        return subview
+    }
+    
     func showParentsGuide(listener:ParentsGuideCloseListener) {
         let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
         let subview = ParentsGuide(frame: rect)
@@ -883,7 +890,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
         if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
-			let serviceType = self.getProperty(DataService.SERVICE_TYPE)
+			let serviceType = DataService.getInstance().dbHelper.getProperty(DataService.SERVICE_TYPE)
             if username != nil {
                 let ref = FIRDatabase.database().reference()
                 ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in

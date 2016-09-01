@@ -15,6 +15,8 @@
 		938A9E521D6D26190013BFA7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E501D6D26190013BFA7 /* Podfile */; };
 		938A9E531D6D26190013BFA7 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E511D6D26190013BFA7 /* Podfile.lock */; };
 		938A9E5D1D6D3A580013BFA7 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E5C1D6D3A580013BFA7 /* drums.png */; };
+		938A9E5F1D77AE590013BFA7 /* RedeemCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */; };
+		938A9E611D77AE6C0013BFA7 /* RedeemCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */; };
 		93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AAD1D653A8B000AD078 /* redstar1.png */; };
 		93A82AB81D653D3C000AD078 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB71D653D3C000AD078 /* lock.png */; };
 		93A82ABA1D655573000AD078 /* buyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB91D655573000AD078 /* buyButton.png */; };
@@ -764,6 +766,8 @@
 		938A9E501D6D26190013BFA7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		938A9E511D6D26190013BFA7 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		938A9E5C1D6D3A580013BFA7 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
+		938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedeemCode.xib; sourceTree = "<group>"; };
+		938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemCode.swift; sourceTree = "<group>"; };
 		93A82AAD1D653A8B000AD078 /* redstar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redstar1.png; sourceTree = "<group>"; };
 		93A82AB71D653D3C000AD078 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		93A82AB91D655573000AD078 /* buyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buyButton.png; sourceTree = "<group>"; };
@@ -1801,6 +1805,8 @@
 				A1F7CE971C8FBBD6006053A2 /* PersonDetailsView.xib */,
 				A1F7CE981C8FBBD6006053A2 /* PGVLogin.swift */,
 				A1F7CE991C8FBBD6006053A2 /* PGVLogin.xib */,
+				938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */,
+				938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */,
 				A1F7CE9A1C8FBBD6006053A2 /* SearchPeople.swift */,
 				A1F7CE9B1C8FBBD6006053A2 /* SearchPeople.xib */,
 				A1F7CE9C1C8FBBD6006053A2 /* SettingsView.swift */,
@@ -2715,6 +2721,7 @@
 				A12AA8091CD1A6BF0001A1D5 /* RecordAudioView.xib in Resources */,
 				A1F7D3BB1C8FBC12006053A2 /* leaves_overlay4.png in Resources */,
 				A10CC8B51C8FC807005B3233 /* guitar.png in Resources */,
+				938A9E5F1D77AE590013BFA7 /* RedeemCode.xib in Resources */,
 				A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */,
 				A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */,
 				A1F7D28D1C8FBC12006053A2 /* house_chilldroom_paint1.png in Resources */,
@@ -3194,6 +3201,7 @@
 				A1F7CE9E1C8FBBD6006053A2 /* AppDelegate.swift in Sources */,
 				A1F7CED81C8FBBD6006053A2 /* SourceDescription.swift in Sources */,
 				A1F7CECF1C8FBBD6006053A2 /* NameForm.swift in Sources */,
+				938A9E611D77AE6C0013BFA7 /* RedeemCode.swift in Sources */,
 				A1F7CEDB1C8FBBD6006053A2 /* TextValue.swift in Sources */,
 				A1F7CEE71C8FBBD6006053A2 /* LittleFamilyScene.swift in Sources */,
 				A1F7CED01C8FBBD6006053A2 /* NamePart.swift in Sources */,
