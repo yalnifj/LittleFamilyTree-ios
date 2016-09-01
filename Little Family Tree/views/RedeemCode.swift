@@ -13,6 +13,7 @@ class RedeemCode: UIView {
     
     var view:UIView!
     
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var codeTxt: UITextField!
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var spinner: UIActivityIndicatorView!

@@ -7,9 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RedeemCode" customModule="Little_Family_Tree" customModuleProvider="target">
             <connections>
-                <outlet property="backButton" destination="n3Q-Ai-YoP" id="fIS-zo-oDV"/>
+                <outlet property="backButton" destination="n3Q-Ai-YoP" id="T3Z-id-GuX"/>
                 <outlet property="codeTxt" destination="Ibw-sd-9na" id="JnX-Xv-sUh"/>
-                <outlet property="firstNameTxt" destination="Ibw-sd-9na" id="gfC-bi-yhT"/>
                 <outlet property="spinner" destination="fZX-us-UBZ" id="Mo4-42-Mv1"/>
                 <outlet property="statusLbl" destination="J0H-bk-Pe2" id="mTa-CW-a6P"/>
             </connections>
@@ -25,7 +24,7 @@
                         <navigationItem title="Validate Code" id="mQL-DZ-LJ8">
                             <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="n3Q-Ai-YoP">
                                 <connections>
-                                    <action selector="backButtonAction:" destination="-1" id="i4m-om-qHQ"/>
+                                    <action selector="backButtonAction:" destination="-1" id="b38-hB-B7q"/>
                                 </connections>
                             </barButtonItem>
                         </navigationItem>
