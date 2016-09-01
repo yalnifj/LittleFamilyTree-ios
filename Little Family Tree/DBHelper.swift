@@ -206,10 +206,10 @@ class DBHelper {
                     let platforms = vals["platforms"] as! NSArray
                     if !platforms.containsObject("ios") {
                         let plats = platforms.arrayByAddingObject("ios")
-                        ref.child("users/\(serviceType!)\(username!)/platforms").setValue(plats)
+                        ref.child("users/\(serviceType!)/\(username!)/platforms").setValue(plats)
                     }
                     if hasPremium {
-                        ref.child("users/\(serviceType!)\(username!)/iosPremium").setValue(hasPremium)
+                        ref.child("users/\(serviceType!)/\(username!)/iosPremium").setValue(hasPremium)
                     }
                     
                 } else {
