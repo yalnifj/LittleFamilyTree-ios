@@ -17,8 +17,20 @@ class RedeemCode: UIView {
     @IBOutlet weak var codeTxt: UITextField!
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var enterLbl: UILabel!
+    @IBOutlet weak var validateButton: UIButton!
     
-    var openingScene:LittleFamilyScene?
+    var openingScene:LittleFamilyScene? {
+        didSet {
+            openingScene?.userHasPremium({premium in
+                if premium {
+                    self.enterLbl.text = "You already have a premium upgrade."
+                    self.codeTxt.hidden = true
+                    self.validateButton.hidden = true
+                }
+            })
+        }
+    }
 
     
     override init(frame: CGRect) {
@@ -53,8 +65,8 @@ class RedeemCode: UIView {
     }
     
     @IBAction func validateButtonAction(sender: AnyObject) {
-        statusLbl.text = "Validating code..."
         statusLbl.hidden = false
+        statusLbl.text = "Validating code..."
         spinner.startAnimating()
         DataService.getInstance().dbHelper.validateCode(codeTxt.text!, onCompletion: { valid in
             self.spinner.stopAnimating()

@@ -9,8 +9,10 @@
             <connections>
                 <outlet property="backButton" destination="n3Q-Ai-YoP" id="T3Z-id-GuX"/>
                 <outlet property="codeTxt" destination="Ibw-sd-9na" id="JnX-Xv-sUh"/>
+                <outlet property="enterLbl" destination="mdu-Ua-nUz" id="Yjl-v7-rbu"/>
                 <outlet property="spinner" destination="fZX-us-UBZ" id="Mo4-42-Mv1"/>
                 <outlet property="statusLbl" destination="J0H-bk-Pe2" id="mTa-CW-a6P"/>
+                <outlet property="validateButton" destination="flI-hT-ZAA" id="7n5-hG-op3"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
