@@ -29,14 +29,16 @@ import StoreKit
  
     func requestProductInfo() {
         if SKPaymentQueue.canMakePayments() {
-            var productIdentifiers = Set<String>()
-            for id in productIDs {
-                productIdentifiers.insert(id)
-            }
-            let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
-            
-            productRequest.delegate = self
-            productRequest.start()
+            dispatch_async(dispatch_get_main_queue(), {
+                var productIdentifiers = Set<String>()
+                for id in self.productIDs {
+                    productIdentifiers.insert(id)
+                }
+                let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
+                
+                productRequest.delegate = self
+                productRequest.start()
+            })
         }
         else {
             print("Cannot perform In App Purchases.")
