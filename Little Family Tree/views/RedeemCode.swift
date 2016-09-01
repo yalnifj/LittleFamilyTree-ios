@@ -54,6 +54,7 @@ class RedeemCode: UIView {
     
     @IBAction func validateButtonAction(sender: AnyObject) {
         statusLbl.text = "Validating code..."
+        statusLbl.hidden = false
         spinner.startAnimating()
         DataService.getInstance().dbHelper.validateCode(codeTxt.text!, onCompletion: { valid in
             self.spinner.stopAnimating()
