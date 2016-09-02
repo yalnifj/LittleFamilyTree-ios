@@ -498,7 +498,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	func addTileRow() {
 		var tx = tiles[0].size().width / 2
-		let ty = self.size.height - 2 + tiles[0].size().height / 2
+		//let ty = self.size.height - 2 + tiles[0].size().height / 2
+		let ty = tiles.last!.position.y - 2 + tiles[0].size().height
 		let basex = (self.size.width / 2) - (boardWidth / 2)
         var has8 = false
         var ct = 0
