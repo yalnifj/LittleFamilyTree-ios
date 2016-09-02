@@ -51,6 +51,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
+        stopAllSpeaking()
+        
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
@@ -616,12 +618,14 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		}
 	}
     
+    func stopAllSpeaking() {
+        SpeechHelper.getInstance().stop()
+    }
+    
     func stopAllSounds() {
         if audioPlayer != nil {
             audioPlayer.stop()
         }
-        
-        SpeechHelper.getInstance().stop()
     }
     
     func showFakeToasts(messages:[String]) {

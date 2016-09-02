@@ -69,12 +69,14 @@ import StoreKit
     
     func buyProduct(productIndex:Int) {
         if !self.transactionInProgress {
-            let payment = SKPayment(product: self.productsArray[productIndex] as SKProduct)
-            SKPaymentQueue.defaultQueue().addPayment(payment)
-            self.transactionInProgress = true
+            dispatch_async(dispatch_get_main_queue(), {
+                let payment = SKPayment(product: self.productsArray[productIndex] as SKProduct)
+                SKPaymentQueue.defaultQueue().addPayment(payment)
+                self.transactionInProgress = true
+            })
         } else {
             print("Only 1 transaction at a time.")
-            listener.onError("Only 1 transaction at a time.")
+            //listener.onError("Only 1 transaction at a time.")
         }
     }
     

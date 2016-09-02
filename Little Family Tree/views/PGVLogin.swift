@@ -97,6 +97,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
     }
     
     func loginAction() {
+        view.endEditing(true)
         let url = txtUrl.text
         let username = txtUsername.text
         let password = txtPassword.text

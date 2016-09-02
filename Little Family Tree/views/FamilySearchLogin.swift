@@ -76,6 +76,7 @@ class FamilySearchLogin: UIView, StatusListener {
     }
     
     func loginAction() {
+        view.endEditing(true)
         let username = txtUsername.text
         let password = txtPassword.text
         

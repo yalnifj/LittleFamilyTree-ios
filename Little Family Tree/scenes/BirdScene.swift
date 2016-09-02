@@ -181,14 +181,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         self.addChild(bird)
         sprites.append(bird)
 		
-		animator.addTiming(SpriteStateTiming(time: 2, sprite: bird, state: 1))
-		animator.addTiming(SpriteStateTiming(time: 2.5, sprite: bird, state: 0))
-		animator.addTiming(SpriteStateTiming(time: 5, sprite: bird, state: 1))
-		animator.addTiming(SpriteStateTiming(time: 5.5, sprite: bird, state: 0))
-		animator.addTiming(SpriteStateTiming(time: 6, sprite: bird, state: 2))
-		animator.addTiming(SpriteStateTiming(time: 7, sprite: bird, state: 0))
-		animator.addTiming(SpriteStateTiming(time: 15, sprite: bird, state: 1))
-		animator.addTiming(SpriteStateTiming(time: 15.5, sprite: bird, state: 0))
+		animator.addTiming(SpriteStateTiming(time: 1, sprite: bird, state: 1))
+		animator.addTiming(SpriteStateTiming(time: 1.5, sprite: bird, state: 0))
+		animator.addTiming(SpriteStateTiming(time: 3, sprite: bird, state: 1))
+		animator.addTiming(SpriteStateTiming(time: 3.5, sprite: bird, state: 0))
+		animator.addTiming(SpriteStateTiming(time: 4, sprite: bird, state: 2))
+		animator.addTiming(SpriteStateTiming(time: 5, sprite: bird, state: 0))
+		animator.addTiming(SpriteStateTiming(time: 13, sprite: bird, state: 1))
+		animator.addTiming(SpriteStateTiming(time: 13.5, sprite: bird, state: 0))
 		
 		let shake1 = SKAction.rotateByAngle(0.15, duration: 0.3)
 		let shake2 = SKAction.rotateByAngle(-0.15, duration: 0.3)
@@ -244,8 +244,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				self.addChild(leaf1)
 				sprites.append(leaf1)
 				
-				animator.addTiming(SpriteActionTiming(time: 11.5, sprite: leaf1, action: shake3))
-				animator.addTiming(SpriteActionTiming(time: 13.3 + Double(arc4random_uniform(150)) / 100.0, sprite: leaf1, action: lact1))
+				animator.addTiming(SpriteActionTiming(time: 9.5, sprite: leaf1, action: shake3))
+				animator.addTiming(SpriteActionTiming(time: 11.3 + Double(arc4random_uniform(150)) / 100.0, sprite: leaf1, action: lact1))
 			}
 			
 			var smallleaves = [
@@ -284,8 +284,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				self.addChild(leaf1)
 				sprites.append(leaf1)
 				
-                animator.addTiming(SpriteActionTiming(time: 11, sprite: leaf1, action: shake3))
-                animator.addTiming(SpriteActionTiming(time: 12.5 + Double(arc4random_uniform(150))/100.0, sprite: leaf1, action: lact1))
+                animator.addTiming(SpriteActionTiming(time: 9, sprite: leaf1, action: shake3))
+                animator.addTiming(SpriteActionTiming(time: 10.5 + Double(arc4random_uniform(150))/100.0, sprite: leaf1, action: lact1))
 			}
 			
 			cloud = AnimatedStateSprite(imageNamed: "cloud1")
@@ -296,13 +296,13 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			cloud.zPosition = 16
 			
 			let cact1 = SKAction.moveToX(self.size.width / 3, duration: 4)
-            animator.addTiming(SpriteActionTiming(time: 1, sprite: cloud, action: cact1))
+            animator.addTiming(SpriteActionTiming(time: 0.1, sprite: cloud, action: cact1))
 			
 			cloud.addTexture(1, texture: SKTexture(imageNamed: "cloud2"))
-            animator.addTiming(SpriteStateTiming(time: 8, sprite: cloud, state: 1))
+            animator.addTiming(SpriteStateTiming(time: 6, sprite: cloud, state: 1))
 			if quietMode == nil || quietMode == "false" {
 				let cact1sound = SKAction.playSoundFileNamed("grumble.mp3", waitForCompletion: false)
-                animator.addTiming(SpriteActionTiming(time: 8, sprite: self, action: cact1sound))
+                animator.addTiming(SpriteActionTiming(time: 6, sprite: self, action: cact1sound))
 			}
 			
 			let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
@@ -316,36 +316,36 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				SKTexture(imageNamed: "cloud11"),
 				SKTexture(imageNamed: "cloud12")
 			], timePerFrame: 0.1)
-            animator.addTiming(SpriteActionTiming(time: 10.5, sprite: cloud, action: cact2))
+            animator.addTiming(SpriteActionTiming(time: 8.5, sprite: cloud, action: cact2))
 			
 			if quietMode == nil || quietMode == "false" {
 				let cact2sound = SKAction.playSoundFileNamed("blowing", waitForCompletion: false)
-				animator.addTiming(SpriteActionTiming(time: 11, sprite: cloud, action: cact2sound))
+				animator.addTiming(SpriteActionTiming(time: 8.7, sprite: cloud, action: cact2sound))
 			}
 			
             let cactr2 = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
-            animator.addTiming(SpriteActionTiming(time: 11.0, sprite: cloud, action: cactr2))
+            animator.addTiming(SpriteActionTiming(time: 9.0, sprite: cloud, action: cactr2))
 			
 			let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
 				SKTexture(imageNamed: "cloud14"),
 				SKTexture(imageNamed: "cloud15")
 			], timePerFrame: 0.1)
-			animator.addTiming(SpriteActionTiming(time: 15, sprite: cloud, action: cact3))
+			animator.addTiming(SpriteActionTiming(time: 13, sprite: cloud, action: cact3))
 			
 			cloud.addTexture(3, texture: SKTexture(imageNamed: "cloud15"))
-			animator.addTiming(SpriteStateTiming(time: 15.5, sprite: cloud, state: 3))
+			animator.addTiming(SpriteStateTiming(time: 13.5, sprite: cloud, state: 3))
 			
 			cloud.addTexture(4, texture: SKTexture(imageNamed: "cloud16"))
-			animator.addTiming(SpriteStateTiming(time: 17, sprite: cloud, state: 4))
+			animator.addTiming(SpriteStateTiming(time: 15, sprite: cloud, state: 4))
 			if quietMode == nil || quietMode == "false" {
 				let cact4sound = SKAction.playSoundFileNamed("humph", waitForCompletion: false)
-				animator.addTiming(SpriteActionTiming(time: 17, sprite: cloud, action: cact4sound))
+				animator.addTiming(SpriteActionTiming(time: 15, sprite: cloud, action: cact4sound))
 			}
-			animator.addTiming(SpriteStateTiming(time: 17.3, sprite: cloud, state: 3))
+			animator.addTiming(SpriteStateTiming(time: 15.3, sprite: cloud, state: 3))
 			let cact5 = SKAction.moveToX(self.size.width + cloud.size.width / 2, duration: 3)
-			animator.addTiming(SpriteActionTiming(time: 17.4, sprite: cloud, action: cact5))
+			animator.addTiming(SpriteActionTiming(time: 15.4, sprite: cloud, action: cact5))
 			
-			animator.addTiming(SpriteStateTiming(time: 22, sprite: cloud, state: 3))
+			animator.addTiming(SpriteStateTiming(time: 19, sprite: cloud, state: 3))
 			
 			self.addChild(cloud)
 			sprites.append(cloud)
@@ -499,7 +499,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	func addTileRow() {
 		var tx = tiles[0].size().width / 2
 		//let ty = self.size.height - 2 + tiles[0].size().height / 2
-		let ty = tiles.last!.position.y - 2 + tiles[0].size().height
+		let ty = (backgroundTiles.last!.position.y - 2) + tiles[0].size().height - (backgroundTiles.last!.size.height - tiles[0].size().height)
 		let basex = (self.size.width / 2) - (boardWidth / 2)
         var has8 = false
         var ct = 0

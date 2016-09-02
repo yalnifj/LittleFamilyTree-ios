@@ -71,6 +71,7 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
         
         self.results = dataService.dbHelper.search(given?.trim(), surname: surname?.trim(), remoteid: remoteid)
         self.resultsTable.reloadData()
+        view.endEditing(true)
     }
     
     @IBAction func showFamilyAction(sender: AnyObject) {
