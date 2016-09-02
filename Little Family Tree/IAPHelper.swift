@@ -47,11 +47,13 @@ import StoreKit
     
     @objc func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
         if response.products.count != 0 {
-            for product in response.products {
-                productsArray.append(product)
-                
+            if productsArray.count == 0 {
+                for product in response.products {
+                    productsArray.append(product)
+                    
+                }
+                listener.onProductsReady(productsArray)
             }
-            listener.onProductsReady(productsArray)
         }
         else {
             print("There are no products.")

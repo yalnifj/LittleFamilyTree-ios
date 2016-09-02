@@ -48,6 +48,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var audioPlayer:AVAudioPlayer!
     var hasPremium:Bool!
     var loginForPurchase = false
+    var buyError = false
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -549,6 +550,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func onDialogClose() {
         self.clearDialogRect()
+        if buyError {
+            self.showHomeScreen()
+        }
     }
     
     func playSuccessSound(wait:Double, onCompletion: () -> Void) {
@@ -929,6 +933,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var iapHelper:IAPHelper?
     func onProductsReady(productsArray: [SKProduct]) {
         iapHelper!.buyProduct(0)
+        buyError = false
     }
     func onTransactionComplete() {
         DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
@@ -938,6 +943,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func onError(error:String) {
         print(error)
         hideLoadingDialog()
+        buyError = true
         showSimpleDialog("Error", message: error)
     }
     
