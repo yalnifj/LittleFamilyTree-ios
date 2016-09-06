@@ -49,6 +49,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var hasPremium:Bool!
     var loginForPurchase = false
     var buyError = false
+    var loginForParentsGuide = false
+    var pgListener:ParentsGuideCloseListener?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -474,6 +476,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             } else {
                 showSimpleDialog("Unable to Purchase", message: "This device does not have permissions to make purchases.")
             }
+        } else if loginForParentsGuide {
+            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+            let subview = ParentsGuide(frame: rect)
+            subview.listener = pgListener
+            self.view?.addSubview(subview)
         } else {
             showSettings()
         }
@@ -530,10 +537,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showParentsGuide(listener:ParentsGuideCloseListener) {
-        let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
-        let subview = ParentsGuide(frame: rect)
-        subview.listener = listener
-        self.view?.addSubview(subview)
+        loginForParentsGuide = true
+        pgListener = listener
+        showParentLogin()
     }
     
     func hideParentsGuide() {

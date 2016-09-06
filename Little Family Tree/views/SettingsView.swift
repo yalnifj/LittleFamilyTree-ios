@@ -24,7 +24,6 @@ class SettingsView: UIView {
     @IBOutlet weak var view9: UIView!
     @IBOutlet weak var view10: UIView!
     @IBOutlet weak var view11: UIView!
-    @IBOutlet weak var view12: UIView!
     @IBOutlet weak var remoteTreeType: UILabel!
     @IBOutlet weak var syncInBackgroundSwitch: UISwitch!
     @IBOutlet weak var syncUsingCellSwitch: UISwitch!
@@ -33,7 +32,6 @@ class SettingsView: UIView {
     @IBOutlet weak var quietModeSwitch: UISwitch!
 	@IBOutlet weak var showStepChildrenSwitch: UISwitch!
     @IBOutlet weak var restoreButton: UIButton!
-    @IBOutlet weak var redeemButton: UIButton!
     
     @IBOutlet weak var versionLabel: UILabel!
     
@@ -84,8 +82,6 @@ class SettingsView: UIView {
         view10.layer.borderWidth = 0.5
         view11.layer.borderColor = color.CGColor
         view11.layer.borderWidth = 0.5
-        view12.layer.borderColor = color.CGColor
-        view12.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
         let treeType = dataService.dbHelper.getProperty(DataService.SERVICE_TYPE)
@@ -218,11 +214,6 @@ class SettingsView: UIView {
         iapHelper = IAPHelper(listener: restoreListener(view: self))
         iapHelper?.restorePurchases()
 
-    }
-    
-    @IBAction func redeemCode(sender: AnyObject) {
-        self.view.removeFromSuperview()
-        openingScene?.showRedeemCode()
     }
     
     func showError(error:String) {
