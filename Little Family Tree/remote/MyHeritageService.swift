@@ -16,6 +16,10 @@ class MyHeritageService: RemoteService {
     var clientId = "0d9d29c39d0ded7bd6a9e334e5f673a7"
     var clientSecret = "9021b2dcdb4834bd12a491349f61cb27"
     var sessionDelegate:SessionDelegate!
+	
+	var userId:String?
+	
+	var personCache = [String: Person]()
     
     init() {
         sessionDelegate = SessionDelegate()
@@ -32,49 +36,101 @@ class MyHeritageService: RemoteService {
         familyGraph.authorize(perms)
     }
     
-    func getCurrentUser() {
-        
-        
+    func getCurrentUser(onCompletion: (NSDictionary?, NSError?) -> Void) {
+        getData("me", onCompletion: { data, err in
+			if data != nil {
+				let userData = data as NSDictionary
+				userId = data["id"] as String
+			}
+			onCompletion(data, err)
+		})
     }
     
     func getCurrentPerson(onCompletion: PersonResponse) {
-        
+        if sessionId != nil {
+			getCurrentUser(onCompletion: { userData, err in 
+				if userData != nil {
+					let indi = userData["default_individual"] as NSDictionary
+					let indiId = indi["id"] as String
+					getPerson(indiId, ignoreCache: false, onCompletion: onCompletion)
+				} else {
+					onCompletion(nil, err)
+				}
+			})
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getPerson(personId: NSString, ignoreCache: Bool, onCompletion: PersonResponse) {
-        
+        if sessionId != nil {
+			if !ignoreCache {
+                if personCache[personId as String] != nil {
+                    onCompletion(personCache[personId as String], nil)
+                    return
+                }
+            }
+			
+			
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getParents(personId: NSString, onCompletion: RelationshipsResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getChildren(personId: NSString, onCompletion: RelationshipsResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getSpouses(personId: NSString, onCompletion: RelationshipsResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse) {
-        
+        if sessionId != nil {
+		} else {
+			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
+		}
     }
     
     func getPersonUrl(personId: NSString) -> NSString {
@@ -84,7 +140,7 @@ class MyHeritageService: RemoteService {
     func getData(path:String, onCompletion:(AnyObject?, NSError?) -> Void) {
         
         
-        familyGraph.requestWithGraphPath("me", andDelegate: GetDataDelegate(onCompletion: onCompletion))
+        familyGraph.requestWithGraphPath(path, andDelegate: GetDataDelegate(onCompletion: onCompletion))
     }
     
 }
