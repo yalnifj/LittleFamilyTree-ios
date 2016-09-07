@@ -47,8 +47,16 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     
     func onMediaLoaded(media:Media?) {
         if media == nil {
-            randomMediaChooser.loadMoreFamilyMembers()
-            return
+            if randomMediaChooser.counter < randomMediaChooser.maxTries {
+                randomMediaChooser.loadMoreFamilyMembers()
+                return
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.hideLoadingDialog()
+                    self.showSimpleDialog("No Pictures Found", message: "There are not many pictures in your family tree. This activity requires pictures. Please add more pictures to your online family tree.")
+                }
+                return
+            }
         }
         
         let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
