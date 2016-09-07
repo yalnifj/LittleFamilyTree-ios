@@ -76,7 +76,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         
         let showGuide = dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE)
         if showGuide == nil || showGuide! == "true" {
-            self.showParentsGuide(self)
+            self.showParentsGuide(self, skipGate: true)
         }
     }
     
@@ -113,7 +113,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                 self.view!.addSubview(subview)
             }
         } else if topic == ChoosePlayerScene.TOPIC_PARENTS_GUIDE {
-			self.showParentsGuide(self)
+			self.showParentsGuide(self, skipGate: false)
 		}
     }
     
@@ -192,6 +192,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                             }
                                             self.addSprites()
                                         })
+                                    } else {
+                                        self.addSprites()
                                     }
                                 } else {
                                     // add grandchildren
@@ -214,6 +216,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                         self.addSprites()
                                     }
                                 }
+                            } else {
+                                self.addSprites()
                             }
                         })
                     })
@@ -310,7 +314,11 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 	}
     
     override func LoginComplete() {
-        
-        loadPeople()
+        if loginForParentsGuide {
+            self.showParentsGuide(pgListener!, skipGate: true)
+            loginForParentsGuide = false
+        } else {
+            loadPeople()
+        }
     }
 }

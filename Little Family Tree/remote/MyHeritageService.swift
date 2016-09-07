@@ -39,20 +39,23 @@ class MyHeritageService: RemoteService {
     func getCurrentUser(onCompletion: (NSDictionary?, NSError?) -> Void) {
         getData("me", onCompletion: { data, err in
 			if data != nil {
-				let userData = data as NSDictionary
-				userId = data["id"] as String
+				let userData = data as! NSDictionary
+				self.userId = userData["id"] as! String?
+                onCompletion(userData, err)
 			}
-			onCompletion(data, err)
+            else {
+                onCompletion(nil, err)
+            }
 		})
     }
     
     func getCurrentPerson(onCompletion: PersonResponse) {
         if sessionId != nil {
-			getCurrentUser(onCompletion: { userData, err in 
+			getCurrentUser({ userData, err in
 				if userData != nil {
-					let indi = userData["default_individual"] as NSDictionary
-					let indiId = indi["id"] as String
-					getPerson(indiId, ignoreCache: false, onCompletion: onCompletion)
+					let indi = userData!["default_individual"] as! NSDictionary
+					let indiId = indi["id"] as! String
+					self.getPerson(indiId, ignoreCache: false, onCompletion: onCompletion)
 				} else {
 					onCompletion(nil, err)
 				}

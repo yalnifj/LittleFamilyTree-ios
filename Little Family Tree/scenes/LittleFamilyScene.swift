@@ -80,6 +80,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_TRY_PRESSED, listener: self)
         
         stopAllSounds()
+        
+        if iapHelper != nil {
+            iapHelper!.cleanup()
+        }
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -477,10 +481,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 showSimpleDialog("Unable to Purchase", message: "This device does not have permissions to make purchases.")
             }
         } else if loginForParentsGuide {
-            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
-            let subview = ParentsGuide(frame: rect)
-            subview.listener = pgListener
-            self.view?.addSubview(subview)
+            self.showParentsGuide(pgListener!, skipGate: true)
         } else {
             showSettings()
         }
@@ -536,10 +537,18 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return subview
     }
     
-    func showParentsGuide(listener:ParentsGuideCloseListener) {
-        loginForParentsGuide = true
-        pgListener = listener
-        showParentLogin()
+    func showParentsGuide(listener:ParentsGuideCloseListener, skipGate:Bool) {
+        if skipGate {
+            clearDialogRect()
+            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+            let subview = ParentsGuide(frame: rect)
+            subview.listener = listener
+            self.view?.addSubview(subview)
+        } else {
+            loginForParentsGuide = true
+            pgListener = listener
+            showParentLogin()
+        }
     }
     
     func hideParentsGuide() {
@@ -955,7 +964,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func buyPremium() {
         showLoadingDialog()
-        iapHelper = IAPHelper(listener: self)
+        if iapHelper == nil {
+            iapHelper = IAPHelper(listener: self)
+        }
         iapHelper?.requestProductInfo()
     }
 }

@@ -177,7 +177,7 @@ class SettingsView: UIView {
     
     @IBAction func parentsGuideAction(sender: UIButton) {
         self.view.removeFromSuperview()
-        openingScene?.showParentsGuide(SettingsPGCloseListener(os: openingScene!))
+        openingScene?.showParentsGuide(SettingsPGCloseListener(os: openingScene!), skipGate: true)
     }
 
     @IBAction func visitWebsiteAction(sender: AnyObject) {

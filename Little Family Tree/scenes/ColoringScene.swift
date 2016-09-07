@@ -132,8 +132,14 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     
     func onMediaLoaded(media:Media?) {
         if media == nil {
-            randomMediaChooser.loadMoreFamilyMembers()
-            return
+            if randomMediaChooser.counter < randomMediaChooser.maxTries {
+                randomMediaChooser.loadMoreFamilyMembers()
+                return
+            } else {
+                hideLoadingDialog()
+                self.showSimpleDialog("No Pictures Found", message: "There are not many pictures in your family tree. This activity requires pictures. Please add more pictures to your online family tree.")
+                return
+            }
         }
         
         if showOutline == false {

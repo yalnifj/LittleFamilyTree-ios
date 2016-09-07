@@ -182,8 +182,8 @@ class RandomMediaChooser {
             }
             
         } else {
-            self.counter = 0
             self.listener.onMediaLoaded(nil)
+            self.counter = 0
         }
     }
 }

@@ -22,6 +22,10 @@ import StoreKit
         requestProductInfo()
     }
     
+    func cleanup() {
+        SKPaymentQueue.defaultQueue().removeTransactionObserver(self)
+    }
+    
     func restorePurchases() {
         transactionInProgress = true
         SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
