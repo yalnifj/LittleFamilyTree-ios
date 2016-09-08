@@ -906,7 +906,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func clearDialogRect() {
-        graybox!.removeFromParent()
+        if graybox != nil {
+            graybox!.removeFromParent()
+        }
     }
     
     func userHasPremium(onCompletion: (Bool) -> Void) {
