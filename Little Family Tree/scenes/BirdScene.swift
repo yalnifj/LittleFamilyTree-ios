@@ -843,4 +843,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			showCutScene()
 		}
 	}
+    
+    override func onTransactionComplete() {
+        super.onTransactionComplete()
+        animator.start()
+    }
+    
 }
