@@ -135,6 +135,11 @@ class SettingsView: UIView {
         
         //Then just cast the object as a String, but be careful, you may want to double check for nil
         let version = nsObject as! String
+		
+		let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
+        if premiumStr != nil && premiumStr == "true" {
+			version = "\(version) Premium"
+		}
 
         versionLabel.text = version
     }
