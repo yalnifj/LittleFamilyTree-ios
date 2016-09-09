@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A313a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -362,10 +362,10 @@
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star1.png" translatesAutoresizingMaskIntoConstraints="NO" id="w5S-sk-1za">
                     <rect key="frame" x="347" y="133" width="45" height="41"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star1.png" translatesAutoresizingMaskIntoConstraints="NO" id="9IG-gJ-yEA">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redstar1.png" translatesAutoresizingMaskIntoConstraints="NO" id="9IG-gJ-yEA">
                     <rect key="frame" x="272" y="221" width="45" height="41"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star1.png" translatesAutoresizingMaskIntoConstraints="NO" id="gLA-B0-jl2">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redstar1.png" translatesAutoresizingMaskIntoConstraints="NO" id="gLA-B0-jl2">
                     <rect key="frame" x="338" y="249" width="45" height="41"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star1.png" translatesAutoresizingMaskIntoConstraints="NO" id="au8-CM-c7i">
@@ -377,7 +377,7 @@
                         <constraint firstAttribute="width" constant="45" id="6rl-bk-Nbk"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star1.png" translatesAutoresizingMaskIntoConstraints="NO" id="6de-04-poG">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redstar1.png" translatesAutoresizingMaskIntoConstraints="NO" id="6de-04-poG">
                     <rect key="frame" x="325" y="187" width="45" height="41"/>
                 </imageView>
             </subviews>
@@ -517,6 +517,7 @@
         <image name="kidsheritage_logo.jpg" width="306" height="407"/>
         <image name="parentsguide.png" width="252" height="28"/>
         <image name="play_together.png" width="200" height="200"/>
+        <image name="redstar1.png" width="40" height="41"/>
         <image name="rw.png" width="65" height="50"/>
         <image name="scratch_background.png" width="130" height="130"/>
         <image name="settings.png" width="50" height="50"/>

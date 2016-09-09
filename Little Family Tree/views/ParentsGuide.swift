@@ -89,7 +89,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         homeActivityText.numberOfLines = 0
         homeActivityText.sizeToFit()
         
-        starsText.text = "Special games and activities are highlighted by stars on the home screen.  Follow the stars to interact in fun and unique ways with your relatives."
+        starsText.text = "Portals to special games and activities are highlighted by stars on the home screen. Tap the items behind the stars to start those activities. Yellow stars highlight free activities, and red stars highlight premium activities.  You may try a premium activity up to 3 times after which a premium upgrade will be required to continue playing that activity. A one-time premium upgrade may be purchased at anytime."
         starsText.numberOfLines = 0
         starsText.sizeToFit()
         
@@ -112,8 +112,8 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         let y = CGFloat(0)
         let w = view.frame.width - 20
         var h = pagedScrollView.frame.height - 20
-        if h > 400 {
-            h = CGFloat(400)
+        if h > 450 {
+            h = CGFloat(450)
         }
         
         pageWidth = view.frame.width

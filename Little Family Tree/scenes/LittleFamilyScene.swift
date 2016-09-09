@@ -540,7 +540,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func showParentsGuide(listener:ParentsGuideCloseListener, skipGate:Bool) {
         if skipGate {
             clearDialogRect()
-            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(400))
+            let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(450))
             let subview = ParentsGuide(frame: rect)
             subview.listener = listener
             self.view?.addSubview(subview)
