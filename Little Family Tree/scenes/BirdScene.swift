@@ -491,6 +491,19 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			self.addChild(background2)
 			sprites.append(background2)
 		}
+        
+        let exampleSprite = SKSpriteNode(imageNamed: "device1")
+        exampleSprite.position = CGPointMake(self.size.width / 2, 10 + exampleSprite.size.height / 2)
+        exampleSprite.zPosition = 10
+        exampleSprite.alpha = 0.6
+        let eact = SKAction.animateWithTextures([SKTexture(imageNamed: "device1"),
+            SKTexture(imageNamed: "device2"),
+            SKTexture(imageNamed: "device1"),
+            SKTexture(imageNamed: "device3"),
+            SKTexture(imageNamed: "device1")], timePerFrame: 0.4)
+        let eact2 = SKAction.sequence([eact, eact, eact, SKAction.removeFromParent()])
+        exampleSprite.runAction(eact2)
+        self.addChild(exampleSprite)
 		
 		speak("Rescue your Relatives!")
 		spritesCreated = true

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9303034D1D8796C000ED7FDC /* device1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034A1D8796C000ED7FDC /* device1.png */; };
+		9303034E1D8796C000ED7FDC /* device2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034B1D8796C000ED7FDC /* device2.png */; };
+		9303034F1D8796C000ED7FDC /* device3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034C1D8796C000ED7FDC /* device3.png */; };
 		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
 		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
@@ -759,6 +762,9 @@
 		6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Little_Family_TreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		730348FB1401D081E28A3917 /* Pods-Little Family TreeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family TreeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7FAD3011BDC9B8EF3EBEE21C /* Pods-Little Family TreeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Little Family TreeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests.release.xcconfig"; sourceTree = "<group>"; };
+		9303034A1D8796C000ED7FDC /* device1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = device1.png; sourceTree = "<group>"; };
+		9303034B1D8796C000ED7FDC /* device2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = device2.png; sourceTree = "<group>"; };
+		9303034C1D8796C000ED7FDC /* device3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = device3.png; sourceTree = "<group>"; };
 		930574B11D537A4100A99066 /* myheritage_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myheritage_logo.png; sourceTree = "<group>"; };
 		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
 		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
@@ -1626,6 +1632,9 @@
 				A158DB3C1D0CA7E60002F0A8 /* cloud14.png */,
 				A158DB3D1D0CA7E60002F0A8 /* cloud15.png */,
 				A158DB3E1D0CA7E60002F0A8 /* cloud16.png */,
+				9303034A1D8796C000ED7FDC /* device1.png */,
+				9303034B1D8796C000ED7FDC /* device2.png */,
+				9303034C1D8796C000ED7FDC /* device3.png */,
 				A1743DC11CE7BF0E0066E964 /* flying_bird1.png */,
 				A1743DC21CE7BF0E0066E964 /* flying_bird2.png */,
 				A1743DC31CE7BF0E0066E964 /* flying_bird3.png */,
@@ -2546,6 +2555,7 @@
 				93A82ABA1D655573000AD078 /* buyButton.png in Resources */,
 				A150A5BC1CB02AA100B63D81 /* cupcake3.png in Resources */,
 				A1F7D2C61C8FBC12006053A2 /* house_familyroom_frame7.png in Resources */,
+				9303034F1D8796C000ED7FDC /* device3.png in Resources */,
 				A1F7D29C1C8FBC12006053A2 /* house_chilldroom_teddy.png in Resources */,
 				A1F7D1971C8FBC12006053A2 /* bubbles5.png in Resources */,
 				A1F7D2B31C8FBC12006053A2 /* house_familyroom_frame12.png in Resources */,
@@ -2685,6 +2695,7 @@
 				A1F7D2911C8FBC12006053A2 /* house_chilldroom_paint13.png in Resources */,
 				A1F7D2E31C8FBC12006053A2 /* house_kitchen_fridge6.png in Resources */,
 				A1743DDC1CE7BF0E0066E964 /* flying_bird3.png in Resources */,
+				9303034D1D8796C000ED7FDC /* device1.png in Resources */,
 				A1F7D2621C8FBC12006053A2 /* frame3.png in Resources */,
 				A1F7D2EF1C8FBC12006053A2 /* house_light_a1.png in Resources */,
 				A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */,
@@ -2856,6 +2867,7 @@
 				A1F7D2CF1C8FBC12006053A2 /* house_flowers_a4.png in Resources */,
 				A143139E1CB846F900409DD3 /* flame3.png in Resources */,
 				A1F7D31A1C8FBC12006053A2 /* house_toys_bat.png in Resources */,
+				9303034E1D8796C000ED7FDC /* device2.png in Resources */,
 				A1F7D2B91C8FBC12006053A2 /* house_familyroom_frame18.png in Resources */,
 				A1F7D2951C8FBC12006053A2 /* house_chilldroom_paint3.png in Resources */,
 				A1F7D34E1C8FBC12006053A2 /* house_rooms_1_0.png in Resources */,

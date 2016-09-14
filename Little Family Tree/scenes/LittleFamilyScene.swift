@@ -12,6 +12,7 @@ import AVFoundation
 import Firebase
 import FirebaseDatabase
 import StoreKit
+import SystemConfiguration
 
 class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDialogCloseListener, IAPHelperListener {
     static var TOPIC_START_HOME = "start_home"
@@ -917,24 +918,29 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 			let serviceType = DataService.getInstance().dbHelper.getProperty(DataService.SERVICE_TYPE)
             if username != nil {
-                let ref = FIRDatabase.database().reference()
-                ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    print(snap)
-                    // Get user value
-                    if snap.exists() && snap.hasChild("iosPremium") {
-                        let vals = snap.value as! NSDictionary
-                        if vals["iosPremium"] != nil {
-                            let pval = vals["iosPremium"] as! Bool
-                            if pval {
-                                DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
-                                onCompletion(pval)
-                                return
+                if connectedToNetwork() {
+                    let ref = FIRDatabase.database().reference()
+                    ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        print(snap)
+                        // Get user value
+                        if snap.exists() && snap.hasChild("iosPremium") {
+                            let vals = snap.value as! NSDictionary
+                            if vals["iosPremium"] != nil {
+                                let pval = vals["iosPremium"] as! Bool
+                                if pval {
+                                    DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
+                                    onCompletion(pval)
+                                    return
+                                }
                             }
                         }
+                        onCompletion(false)
+                    }) { (error) in
+                        print(error.localizedDescription)
+                        onCompletion(false)
                     }
-                    onCompletion(false)
-                }) { (error) in
-                    print(error.localizedDescription)
+                } else {
+                    print("No internet connection")
                     onCompletion(false)
                 }
             }
@@ -970,5 +976,28 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             iapHelper = IAPHelper(listener: self)
         }
         iapHelper?.requestProductInfo()
+    }
+    
+    func connectedToNetwork() -> Bool {
+        
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(&zeroAddress, {
+            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        }) else {
+            return false
+        }
+        
+        var flags : SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = flags.contains(.Reachable)
+        let needsConnection = flags.contains(.ConnectionRequired)
+        
+        return (isReachable && !needsConnection)
     }
 }
