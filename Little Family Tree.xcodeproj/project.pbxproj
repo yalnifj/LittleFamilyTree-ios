@@ -25,6 +25,7 @@
 		93A82ABA1D655573000AD078 /* buyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB91D655573000AD078 /* buyButton.png */; };
 		93A82ABC1D65557E000AD078 /* tryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82ABB1D65557E000AD078 /* tryButton.png */; };
 		93BE10B31D65F3E60014B4FE /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BE10B21D65F3E60014B4FE /* IAPHelper.swift */; };
+		93D6E0721D9235AE001AFA34 /* FamilyGraphJsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */; };
 		93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
@@ -779,6 +780,7 @@
 		93A82AB91D655573000AD078 /* buyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buyButton.png; sourceTree = "<group>"; };
 		93A82ABB1D65557E000AD078 /* tryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryButton.png; sourceTree = "<group>"; };
 		93BE10B21D65F3E60014B4FE /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyGraphJsonConverter.swift; sourceTree = "<group>"; };
 		93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A10CC8881C8FC806005B3233 /* bass_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass_off.png; sourceTree = "<group>"; };
 		A10CC8891C8FC806005B3233 /* bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass.png; sourceTree = "<group>"; };
@@ -1705,6 +1707,7 @@
 				A1F7CE681C8FBBD6006053A2 /* PGVService.swift */,
 				A1F7CE691C8FBBD6006053A2 /* RemoteService.swift */,
 				A1F7CE6A1C8FBBD6006053A2 /* SwiftyJSON.swift */,
+				93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */,
 			);
 			path = remote;
 			sourceTree = "<group>";
@@ -3240,6 +3243,7 @@
 				A1F7CED31C8FBBD6006053A2 /* PlaceReference.swift in Sources */,
 				A1F7CEF81C8FBBD6006053A2 /* PersonBubbleSprite.swift in Sources */,
 				A1F7CEEF1C8FBBD6006053A2 /* SpeechHelper.swift in Sources */,
+				93D6E0721D9235AE001AFA34 /* FamilyGraphJsonConverter.swift in Sources */,
 				A1F7CEA61C8FBBD6006053A2 /* Media.swift in Sources */,
 				A1F7CEDE1C8FBBD6006053A2 /* PGVService.swift in Sources */,
 				A1F7CEA21C8FBBD6006053A2 /* HeritagePath.swift in Sources */,

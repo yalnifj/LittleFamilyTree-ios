@@ -16,6 +16,7 @@ class MyHeritageService: RemoteService {
     var clientId = "0d9d29c39d0ded7bd6a9e334e5f673a7"
     var clientSecret = "9021b2dcdb4834bd12a491349f61cb27"
     var sessionDelegate:SessionDelegate!
+    var jsonConverter:FamilyGraphJsonConverter!
 	
 	var userId:String?
 	
@@ -24,6 +25,7 @@ class MyHeritageService: RemoteService {
     init() {
         sessionDelegate = SessionDelegate()
         familyGraph = FamilyGraph(clientId: self.clientId, andDelegate: sessionDelegate)
+        jsonConverter = FamilyGraphJsonConverter()
     }
     
     func authenticate(username: String, password: String, onCompletion: StringResponse) {
@@ -74,6 +76,24 @@ class MyHeritageService: RemoteService {
                 }
             }
 			
+            getData(personId as String, onCompletion: {data, err in
+                if data != nil {
+                    let person = self.jsonConverter.createJsonPerson(data as! NSDictionary)
+                    
+                    self.getData("\(personId)/events", onCompletion: {eventData, err in
+                        if eventData != nil {
+                            self.jsonConverter.processEvents(eventData as! NSDictionary, person: person)
+                        }
+                        
+                        self.personCache[personId as String] = person
+                        onCompletion(person, err)
+                    })
+                }
+                else {
+                    onCompletion(nil, err)
+                }
+            })
+            
 			
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
@@ -82,6 +102,8 @@ class MyHeritageService: RemoteService {
     
     func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse) {
         if sessionId != nil {
+            // TODO
+            onCompletion(nil, nil)
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -89,6 +111,47 @@ class MyHeritageService: RemoteService {
     
     func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {
         if sessionId != nil {
+            var portrait:Link? = nil
+            var err:NSError? = nil
+            
+            let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+            let group = dispatch_group_create()
+            dispatch_group_enter(group)
+            self.getPerson(personId, ignoreCache: false, onCompletion: {person, err1 in
+                err = err1
+                if person != nil {
+                    let media = person?.media
+                    if media != nil {
+                        for sr in media! {
+                            for link1 in sr.links {
+                                let objeId = link1.href
+                                if objeId != nil {
+                                    dispatch_group_enter(group)
+                                    self.getData(objeId as! String, onCompletion: {data, err2 in
+                                        err = err2
+                                        if data != nil {
+                                            let sd = self.jsonConverter.convertMedia(data as! NSDictionary)
+                                            for link2 in sd.links {
+                                                if link2.rel != nil && link2.rel! == "image" {
+                                                    if portrait == nil || (sd.sortKey != nil && sd.sortKey! == "1") {
+                                                        portrait = link2
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        dispatch_group_leave(group)
+                                    })
+                                }
+                            }
+                        }
+                    }
+                }
+                dispatch_group_leave(group)
+            })
+            
+            dispatch_group_notify(group, queue) {
+                onCompletion(portrait, err)
+            }
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -96,6 +159,7 @@ class MyHeritageService: RemoteService {
     
     func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
         if sessionId != nil {
+            
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
