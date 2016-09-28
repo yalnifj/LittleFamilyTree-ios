@@ -612,7 +612,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 				let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
 				let soundFileUrl = url.URLByAppendingPathComponent(person.givenNameAudioPath! as String)
                 do {
-                    let fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(soundFileUrl.path!)
+                    let fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(soundFileUrl!.path!)
                     let fileSize = fileAttributes[NSFileSize]
                     print("fileSize=\(fileSize)")
                 } catch {
@@ -622,7 +622,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(AVAudioSessionCategoryPlayback)
                     try audioSession.setActive(true)
-                    audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl)
+                    audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl!)
                     audioPlayer.volume = 1.5
                     audioPlayer.prepareToPlay()
                     audioPlayer.play()

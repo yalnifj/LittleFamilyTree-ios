@@ -166,7 +166,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
         let fileManager = NSFileManager.defaultManager()
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         let folderUrl = url.URLByAppendingPathComponent(person!.familySearchId! as String)
-        soundFileURL = folderUrl.URLByAppendingPathComponent("givenName.caf")
+        soundFileURL = folderUrl!.URLByAppendingPathComponent("givenName.caf")
         do {
             let fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(soundFileURL!.path!)
             let fileSize = fileAttributes[NSFileSize]

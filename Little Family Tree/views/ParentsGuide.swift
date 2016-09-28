@@ -68,8 +68,11 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         
         welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)  Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
         welcomeText.numberOfLines = 0
+        welcomeText.sizeThatFits(CGSize(width: view.frame.width/2, height: view.frame.height * 0.66))
         welcomeImage.frame.size.width = view.frame.width / 2.5
-        welcomeText.sizeToFit()
+        if welcomeImage.frame.size.width < 100 {
+            welcomeImage.frame.size.width = 100
+        }
         photoText.text = "The more information--especially photos--that you add to your online family tree, the more fun Little Family Tree will be for your child!"
         photoText.numberOfLines = 0
         photosImage.frame.size.width = view.frame.width / 2.5
@@ -77,8 +80,12 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         
         playTogetherText.text = "Playing with your child will give you the opportunity to strengthen family associations and enhance the experience through your personal memories and stories."
         playTogetherText.numberOfLines = 0
+        //playTogetherText.sizeToFit()
+        playTogetherText.sizeThatFits(CGSize(width: view.frame.width/2, height: view.frame.height))
         playImage.frame.size.width = view.frame.width / 2.5
-        playTogetherText.sizeToFit()
+        if playImage.frame.size.width < 100 {
+            playImage.frame.size.width = 100
+        }
         
         choosePlayerText.text = "The games and activities in Little Family Tree are centered around the person who is playing.  You may choose a different person by using the back button or tapping the profile picture on the activity screens."
         choosePlayerText.numberOfLines = 0

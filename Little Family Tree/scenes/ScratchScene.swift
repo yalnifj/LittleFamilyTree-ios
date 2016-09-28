@@ -59,7 +59,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             }
         }
         
-        let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
+        let texture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width * 0.66, height: self.size.height * 0.66))
         if texture != nil {
             if photoSprite != nil {
                 photoSprite?.removeFromParent()
@@ -188,15 +188,15 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         
         image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context!, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context!, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
         
-        CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextSetLineWidth(context, self.size.width/9)
-        CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0)
-        CGContextSetBlendMode(context, CGBlendMode.Clear)
+        CGContextSetLineCap(context!, CGLineCap.Round)
+        CGContextSetLineWidth(context!, self.size.width/9)
+        CGContextSetRGBStrokeColor(context!, 0, 0, 0, 1.0)
+        CGContextSetBlendMode(context!, CGBlendMode.Clear)
         
-        CGContextStrokePath(context)
+        CGContextStrokePath(context!)
         
         image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -207,8 +207,8 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     func checkComplete() {
         var complete = false
         if image != nil {
-            let provider = CGImageGetDataProvider(image!.CGImage)
-            let providerData = CGDataProviderCopyData(provider)
+            let provider = CGImageGetDataProvider(image!.CGImage!)
+            let providerData = CGDataProviderCopyData(provider!)
             let data = CFDataGetBytePtr(providerData)
             
             let numberOfComponents = Int(4)

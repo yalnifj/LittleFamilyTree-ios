@@ -4,7 +4,7 @@ class HypermediaEnabledData : ExtensibleData {
 	var links = [Link]()
 	
 	func addLink(rel:String, href:String) {
-		var link = Link()
+		let link = Link()
 		link.rel = rel
 		link.href = href
 		links.append(link)

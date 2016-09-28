@@ -257,12 +257,12 @@ class FamilySearchService : RemoteService {
 			if data != nil && UIImage(data: data!) != nil {
                 do {
                     let folderUrl = url.URLByAppendingPathComponent(folderName as String)
-                    if !fileManager.fileExistsAtPath(folderUrl.path!) {
-                        try fileManager.createDirectoryAtURL(folderUrl, withIntermediateDirectories: true, attributes: nil)
+                    if !fileManager.fileExistsAtPath(folderUrl!.path!) {
+                        try fileManager.createDirectoryAtURL(folderUrl!, withIntermediateDirectories: true, attributes: nil)
                     }
 				
-                    let imagePath = folderUrl.URLByAppendingPathComponent(fileName as String)
-                    if data!.writeToURL(imagePath, atomically: true) {
+                    let imagePath = folderUrl!.URLByAppendingPathComponent(fileName as String)
+                    if data!.writeToURL(imagePath!, atomically: true) {
                         let returnPath = "\(folderName)/\(fileName)"
                         onCompletion(returnPath, error)
                     } else {

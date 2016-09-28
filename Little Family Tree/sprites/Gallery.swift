@@ -196,7 +196,7 @@ class Gallery : SKSpriteNode {
         for node in visibleNodes {
             node.removeAllActions()
             let oldx = node.position.x
-            var newx = node.position.x + xdiff
+            let newx = node.position.x + xdiff
             
             if newx < 0 {
                 node.zPosition = CGFloat(c)

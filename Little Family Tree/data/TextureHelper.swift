@@ -24,14 +24,14 @@ class TextureHelper {
             return getDefaultPortrait(person)
         }
         let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
-        if !fileManager.fileExistsAtPath(photoUrl.path!) {
+        if !fileManager.fileExistsAtPath(photoUrl!.path!) {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
             }
             return getDefaultPortrait(person)
         }
         
-        let data = NSData(contentsOfURL: photoUrl)
+        let data = NSData(contentsOfURL: photoUrl!)
         if data != nil {
             let uiImage = UIImage(data: data!)
             if uiImage != nil {
@@ -83,14 +83,14 @@ class TextureHelper {
             return getDefaultPortraitImage(person)
         }
         let photoUrl = url.URLByAppendingPathComponent(person.photoPath as! String)
-        if !fileManager.fileExistsAtPath(photoUrl.path!) {
+        if !fileManager.fileExistsAtPath(photoUrl!.path!) {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
             }
             return getDefaultPortraitImage(person)
         }
         
-        let data = NSData(contentsOfURL: photoUrl)
+        let data = NSData(contentsOfURL: photoUrl!)
         if data != nil {
             let uiImage = UIImage(data: data!)
             if uiImage != nil {
@@ -134,9 +134,9 @@ class TextureHelper {
         let fileManager = NSFileManager.defaultManager()
         let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         let photoUrl = url.URLByAppendingPathComponent(media.localPath as! String)
-        if fileManager.fileExistsAtPath(photoUrl.path!) {
+        if fileManager.fileExistsAtPath(photoUrl!.path!) {
             print("reading file \(photoUrl)")
-            let data = NSData(contentsOfURL: photoUrl)
+            let data = NSData(contentsOfURL: photoUrl!)
             if data != nil {
                 let uiImage = UIImage(data: data!)
                 if uiImage != nil {
@@ -146,7 +146,7 @@ class TextureHelper {
                             kCGImageSourceCreateThumbnailFromImageAlways: true
                         ]
                         
-                        let imageSource = CGImageSourceCreateWithURL(photoUrl, nil)
+                        let imageSource = CGImageSourceCreateWithURL(photoUrl!, nil)
                         let scaledImage = CGImageSourceCreateThumbnailAtIndex(imageSource!, 0, options)
                         let texture = SKTexture(CGImage: scaledImage!)
                         return texture

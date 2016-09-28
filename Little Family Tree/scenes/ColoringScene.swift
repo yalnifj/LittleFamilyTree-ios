@@ -148,7 +148,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             toggleOutline()
         }
         
-        let texture = TextureHelper.getTextureForMedia(media!, size: self.size)
+        let texture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width * 0.66, height: self.size.height * 0.66))
         if texture != nil {
             if photoSprite != nil {
                 photoSprite?.removeFromParent()
@@ -316,14 +316,14 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         //CGContextMoveToPoint(context, 0, 0)
         //CGContextAddLineToPoint(context, 0, 50)
         
-        CGContextMoveToPoint(context, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        CGContextMoveToPoint(context!, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
+        CGContextAddLineToPoint(context!, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
         
-        CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextSetLineWidth(context, brushSize)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextSetBlendMode(context, CGBlendMode.Copy)
-        CGContextStrokePath(context)
+        CGContextSetLineCap(context!, CGLineCap.Round)
+        CGContextSetLineWidth(context!, brushSize)
+        CGContextSetStrokeColorWithColor(context!, color.CGColor)
+        CGContextSetBlendMode(context!, CGBlendMode.Copy)
+        CGContextStrokePath(context!)
         
         image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

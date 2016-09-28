@@ -183,7 +183,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesCancelled(touches, withEvent: event)
         hintSprite?.hidden = true
         print("cancelled \(lastPoint)")
