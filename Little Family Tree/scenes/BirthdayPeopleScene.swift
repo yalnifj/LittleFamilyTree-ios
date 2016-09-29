@@ -83,17 +83,27 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		if birthdayPeople.count == 0 {
 			birthdayPeople.append(selectedPerson!)
 		}
-		
+        
+        let todayComponents = NSCalendar.currentCalendar().components([.Month, .Day],
+                                                                     fromDate: NSDate())
+        let month = todayComponents.month
+        
         //-- sort the people by birth date
         birthdayPeople.sortInPlace({
             let ageComponents1 = NSCalendar.currentCalendar().components([.Month, .Day],
                 fromDate: $0.birthDate!)
-            let month1 = ageComponents1.month
+            var month1 = ageComponents1.month
+            if month1 < month {
+                month1 = month1 + 12
+            }
             let day1 = ageComponents1.day
             
             let ageComponents2 = NSCalendar.currentCalendar().components([.Month, .Day],
                 fromDate: $1.birthDate!)
-            let month2 = ageComponents2.month
+            var month2 = ageComponents2.month
+            if month2 < month {
+                month2 = month2 + 12
+            }
             let day2 = ageComponents2.day
             
             if month1 != month2 {
