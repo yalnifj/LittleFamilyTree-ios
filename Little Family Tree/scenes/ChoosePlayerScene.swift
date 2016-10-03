@@ -125,10 +125,15 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     
     func loadPeople() {
         self.people = [LittlePerson]()
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let group = dispatch_group_create()
+        dispatch_group_enter(group)
+        var haschildren = false
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             if person != nil {
                 self.people.append(person!)
 				let showStepChildren = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
+                dispatch_group_enter(group)
                 self.dataService?.getSpouses(person!, onCompletion: { spouses, err in
                     if spouses != nil {
                         for s in spouses! {
@@ -136,21 +141,24 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 self.people.append(s)
 								
 								if showStepChildren == nil || showStepChildren == "true" {
+                                    dispatch_group_enter(group)
 									self.dataService?.getChildren(s, onCompletion: {children, err in
 										if children != nil {
 											for c in children! {
 												if !self.people.contains(c) {
 													self.people.append(c)
+                                                    haschildren = true
 												}
 											}
 										}
+                                        dispatch_group_leave(group)
 									})
 								}
                             }
                         }
                     }
                     
-                    var haschildren = false
+                    dispatch_group_enter(group)
                     self.dataService?.getChildren(person!, onCompletion: {children, err in
                         if children != nil {
                             for c in children! {
@@ -161,6 +169,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                             }
                         }
                         
+                        dispatch_group_enter(group)
                         self.dataService?.getParents(person!, onCompletion: {parents, err in
                             if parents != nil {
                                 for p in parents! {
@@ -171,6 +180,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 
                                 if !haschildren {
                                     if parents!.count > 1 {
+                                        dispatch_group_enter(group)
                                         self.dataService?.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
                                                 for gc in grandchildren! {
@@ -180,8 +190,10 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                 }
                                             }
                                             self.addSprites()
+                                            dispatch_group_leave(group)
                                         })
                                     } else if parents!.count > 0 {
+                                        dispatch_group_enter(group)
                                         self.dataService?.getChildren(parents![0], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
                                                 for gc in grandchildren! {
@@ -191,14 +203,13 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                 }
                                             }
                                             self.addSprites()
+                                            dispatch_group_leave(group)
                                         })
                                     } else {
                                         self.addSprites()
                                     }
                                 } else {
                                     // add grandchildren
-                                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                                    let group = dispatch_group_create()
                                     for c in children! {
                                         dispatch_group_enter(group)
                                         self.dataService?.getChildren(c, onCompletion: {grandchildren, err in
@@ -212,49 +223,22 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                             dispatch_group_leave(group)
                                         })
                                     }
-                                    dispatch_group_notify(group, queue) {
-                                        self.addSprites()
-                                    }
                                 }
                             } else {
                                 self.addSprites()
                             }
-                        })
-                    })
-                    
-                })
-            }
-            
-            /*
-            self.dataService?.getFamilyMembers(person!, loadSpouse: false, onCompletion: { family, err in
-                if family != nil && family!.count > 0 {
-                    self.people = [LittlePerson]()
-                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                    let group = dispatch_group_create()
-                    for p in family! {
-                        if self.people.contains(p) == false {
-                            self.people.append(p)
-                        }
-                        dispatch_group_enter(group)
-                        self.dataService?.getChildren(p, onCompletion: { grandchildren, err in
-                            if grandchildren != nil && grandchildren!.count > 0 {
-                                for gc in grandchildren! {
-                                    if self.people.contains(gc) == false {
-                                        self.people.append(gc)
-                                    }
-                                }
-                            }
                             dispatch_group_leave(group)
                         })
-                    }
-                    
-                    dispatch_group_notify(group, queue) {
-                        self.addSprites()
-                    }
-                }
-            })
-            */
+                        dispatch_group_leave(group)
+                    })
+                    dispatch_group_leave(group)
+                })
+            }
+            dispatch_group_leave(group)
         })
+        dispatch_group_notify(group, queue) {
+            self.addSprites()
+        }
     }
     
     func addSprites() {
