@@ -159,7 +159,60 @@ class MyHeritageService: RemoteService {
     
     func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
         if sessionId != nil {
-            
+            getData("\(personId)/immediate_family", onCompletion: { data, err in
+                if data != nil {
+                    var family = [Relationship]()
+                    let json = data as! NSDictionary
+                    let peopleArray = json["data"] as? NSArray
+                    if peopleArray != nil {
+                        for rel in peopleArray! {
+                            let type = rel["relationship_type"] as! String
+                            if type == "wife" || type == "husband" {
+                                let relationship = Relationship()
+                                relationship.type = "http://gedcomx.org/Couple"
+                                let rr = ResourceReference()
+                                let indi = rel["individual"] as! NSDictionary
+                                rr.resourceId = indi["id"] as! String
+                                relationship.person1 = rr
+                                let rr2 = ResourceReference()
+                                rr2.resourceId = personId
+                                relationship.person2 = rr2
+                                family.append(relationship)
+                            }
+                            
+                            if type == "mother" || type == "father" {
+                                let relationship = Relationship()
+                                relationship.type = "http://gedcomx.org/ParentChild"
+                                let rr = ResourceReference()
+                                let indi = rel["individual"] as! NSDictionary
+                                rr.resourceId = indi["id"] as! String
+                                relationship.person1 = rr
+                                let rr2 = ResourceReference()
+                                rr2.resourceId = personId
+                                relationship.person2 = rr2
+                                family.append(relationship)
+                            }
+                            
+                            if type == "daughter" || type == "son" {
+                                let relationship = Relationship()
+                                relationship.type = "http://gedcomx.org/ParentChild"
+                                let rr = ResourceReference()
+                                let indi = rel["individual"] as! NSDictionary
+                                rr.resourceId = personId
+                                relationship.person1 = rr
+                                let rr2 = ResourceReference()
+                                rr2.resourceId = indi["id"] as! String
+                                relationship.person2 = rr2
+                                family.append(relationship)
+                            }
+                        }
+                    }
+                    
+                    onCompletion(family, err)
+                } else {
+                    onCompletion(nil, err)
+                }
+            })
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -167,6 +220,51 @@ class MyHeritageService: RemoteService {
     
     func getParents(personId: NSString, onCompletion: RelationshipsResponse) {
         if sessionId != nil {
+            getData("\(personId)/child_in_families_connection", onCompletion: {data, err in
+                if data != nil {
+                    var family = [Relationship]()
+                    let json = data as! NSDictionary
+                    let fams = json["data"] as? NSArray
+                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                    let group = dispatch_group_create()
+                    
+                    if fams != nil {
+                        for fam in fams! {
+                            dispatch_group_enter(group)
+                            let famjson = fam["family"] as! NSDictionary
+                            let famid = famjson["id"] as! String
+                            self.getData(famid, onCompletion: {famData, err in
+                                if famData != nil {
+                                    let famj = famData as! NSDictionary
+                                    let fh = self.jsonConverter.convertFamily(famj)
+                                    for link in fh.parents {
+                                        let relId = link.href
+                                        if relId != personId {
+                                            let relationship = Relationship()
+                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            let rr = ResourceReference()
+                                            rr.resourceId = relId
+                                            relationship.person1 = rr
+                                            let rr2 = ResourceReference()
+                                            rr2.resourceId = personId
+                                            relationship.person2 = rr2
+                                            family.append(relationship)
+                                        }
+                                    }
+                                }
+                                dispatch_group_leave(group)
+                            })
+                        }
+                    }
+                    
+                    dispatch_group_notify(group, queue) {
+                        onCompletion(family, err)
+                    }
+                } else {
+                    onCompletion(nil, err)
+                }
+            })
+            
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -174,6 +272,50 @@ class MyHeritageService: RemoteService {
     
     func getChildren(personId: NSString, onCompletion: RelationshipsResponse) {
         if sessionId != nil {
+            getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
+                if data != nil {
+                    var family = [Relationship]()
+                    let json = data as! NSDictionary
+                    let fams = json["data"] as? NSArray
+                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                    let group = dispatch_group_create()
+                    
+                    if fams != nil {
+                        for fam in fams! {
+                            dispatch_group_enter(group)
+                            let famjson = fam["family"] as! NSDictionary
+                            let famid = famjson["id"] as! String
+                            self.getData(famid, onCompletion: {famData, err in
+                                if famData != nil {
+                                    let famj = famData as! NSDictionary
+                                    let fh = self.jsonConverter.convertFamily(famj)
+                                    for link in fh.children {
+                                        let relId = link.href
+                                        if relId != personId {
+                                            let relationship = Relationship()
+                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            let rr = ResourceReference()
+                                            rr.resourceId = personId
+                                            relationship.person1 = rr
+                                            let rr2 = ResourceReference()
+                                            rr2.resourceId = relId
+                                            relationship.person2 = rr2
+                                            family.append(relationship)
+                                        }
+                                    }
+                                }
+                                dispatch_group_leave(group)
+                            })
+                        }
+                    }
+                    
+                    dispatch_group_notify(group, queue) {
+                        onCompletion(family, err)
+                    }
+                } else {
+                    onCompletion(nil, err)
+                }
+            })
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -181,13 +323,104 @@ class MyHeritageService: RemoteService {
     
     func getSpouses(personId: NSString, onCompletion: RelationshipsResponse) {
         if sessionId != nil {
+            getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
+                if data != nil {
+                    var family = [Relationship]()
+                    let json = data as! NSDictionary
+                    let fams = json["data"] as? NSArray
+                    let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                    let group = dispatch_group_create()
+                    
+                    if fams != nil {
+                        for fam in fams! {
+                            dispatch_group_enter(group)
+                            let famjson = fam["family"] as! NSDictionary
+                            let famid = famjson["id"] as! String
+                            self.getData(famid, onCompletion: {famData, err in
+                                if famData != nil {
+                                    let famj = famData as! NSDictionary
+                                    let fh = self.jsonConverter.convertFamily(famj)
+                                    for link in fh.parents {
+                                        let relId = link.href
+                                        if relId != personId {
+                                            let relationship = Relationship()
+                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            let rr = ResourceReference()
+                                            rr.resourceId = relId
+                                            relationship.person1 = rr
+                                            let rr2 = ResourceReference()
+                                            rr2.resourceId = personId
+                                            relationship.person2 = rr2
+                                            family.append(relationship)
+                                        }
+                                    }
+                                }
+                                dispatch_group_leave(group)
+                            })
+                        }
+                    }
+                    dispatch_group_notify(group, queue) {
+                        onCompletion(family, err)
+                    }
+                } else {
+                    onCompletion(nil, err)
+                }
+            })
+
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
     }
     
+    func getPagedMemories(path: String, onCompletion: SourceDescriptionsResponse) {
+        var media = [SourceDescription]()
+        getData(path, onCompletion: {data, err in
+            if data != nil {
+                let json = data as! NSDictionary
+                let allMed = json["data"] as? NSArray
+                if allMed != nil {
+                    for med in allMed! {
+                        let sd = self.jsonConverter.convertMedia(med as! NSDictionary)
+                        media.append(sd)
+                    }
+                }
+                
+                let paging = json["paging"] as? NSDictionary
+                if paging != nil {
+                    let next = paging!["next"] as? String
+                    if next != nil {
+                        self.getPagedMemories(next!, onCompletion: {page, err2 in
+                            if page != nil {
+                                media.appendContentsOf(page!)
+                            }
+                            onCompletion(media, err2)
+                        })
+                    } else {
+                        onCompletion(media, err)
+                    }
+                } else {
+                    onCompletion(media, err)
+                }
+            } else {
+                onCompletion(media, err)
+            }
+
+        })
+
+    }
+    
     func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse) {
         if sessionId != nil {
+            var media = [SourceDescription]()
+            
+            let path = "\(personId)/media"
+            getPagedMemories(path, onCompletion: {mediaList, err in
+                if mediaList != nil {
+                    media.appendContentsOf(mediaList!)
+                }
+                onCompletion(media, nil)
+            })
+            
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
@@ -201,7 +434,10 @@ class MyHeritageService: RemoteService {
     }
     
     func getPersonUrl(personId: NSString) -> NSString {
-        return ""
+        var url = "http://www.myheritage.com"
+        self.getPerson(personId, ignoreCache: false, onCompletion: {person, err in
+        })
+        return url
     }
     
     func getData(path:String, onCompletion:(AnyObject?, NSError?) -> Void) {

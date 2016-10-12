@@ -136,10 +136,10 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                 randomMediaChooser.loadMoreFamilyMembers()
                 return
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                //dispatch_async(dispatch_get_main_queue()) {
                     self.hideLoadingDialog()
                     self.showSimpleDialog("No Pictures Found", message: "There are not many pictures in your family tree. This activity requires pictures. Please add more pictures to your online family tree.")
-                }
+                //}
                 return
             }
         }

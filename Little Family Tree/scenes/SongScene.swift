@@ -427,16 +427,18 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
     
     override func update(currentTime: NSTimeInterval) {
         super.update(currentTime)
-        if dropReady {
-            selPerson1!.setScale(1.1)
-            selPerson2!.setScale(1.1)
-            selPerson3!.setScale(1.1)
-            selPerson4!.setScale(1.1)
-        } else {
-            selPerson1!.setScale(1.0)
-            selPerson2!.setScale(1.0)
-            selPerson3!.setScale(1.0)
-            selPerson4!.setScale(1.0)
+        if selPerson1 != nil {
+            if dropReady {
+                selPerson1!.setScale(1.1)
+                selPerson2!.setScale(1.1)
+                selPerson3!.setScale(1.1)
+                selPerson4!.setScale(1.1)
+            } else {
+                selPerson1!.setScale(1.0)
+                selPerson2!.setScale(1.0)
+                selPerson3!.setScale(1.0)
+                selPerson4!.setScale(1.0)
+            }
         }
         if songPlaying && !songPaused {
             songTime = songTime + (currentTime - lastUpdateTime) * 1000
