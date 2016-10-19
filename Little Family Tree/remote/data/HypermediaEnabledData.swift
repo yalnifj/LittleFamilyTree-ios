@@ -3,17 +3,17 @@ import Foundation
 class HypermediaEnabledData : ExtensibleData {
 	var links = [Link]()
 	
-	func addLink(rel:String, href:String) {
+	func addLink(_ rel:String, href:String) {
 		let link = Link()
-		link.rel = rel
-		link.href = href
+		link.rel = rel as NSString?
+		link.href = href as NSString?
 		links.append(link)
 	}
 	
-	func addLinksFromJson(json:JSON) {
-		if json["links"] != nil && json["links"].count > 0 {
+	func addLinksFromJson(_ json:JSON) {
+		if json["links"] != JSON.null && json["links"].count > 0 {
 			for (rel, lson) in json["links"] {
-				let link = Link.convertJsonToLink(rel, lson: lson);
+				let link = Link.convertJsonToLink(rel as NSString, lson: lson);
 				self.links.append(link)
 			}
 		}

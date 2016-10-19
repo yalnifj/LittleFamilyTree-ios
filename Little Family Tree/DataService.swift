@@ -1,4 +1,24 @@
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 typealias LittlePersonResponse = (LittlePerson?, NSError?) -> Void
 typealias PeopleResponse = ([LittlePerson]?, NSError?) -> Void
@@ -28,7 +48,7 @@ class DataService {
 	var authenticating:Bool = false
     var listeners = [StatusListener]()
 
-	private static var instance:DataService?
+	fileprivate static var instance:DataService?
 	
 	static func getInstance() -> DataService {
 		if DataService.instance == nil {
@@ -37,7 +57,7 @@ class DataService {
 		return DataService.instance!
 	}
 	
-	private init() {
+	fileprivate init() {
 		dbHelper = DBHelper.getInstance()
 		self.serviceType = dbHelper.getProperty(DataService.SERVICE_TYPE)
 		if serviceType != nil {
@@ -59,7 +79,7 @@ class DataService {
 		}
 	}
 	
-	func setRemoteService(type:NSString, service:RemoteService) {
+	func setRemoteService(_ type:NSString, service:RemoteService) {
 		self.serviceType = type
 		self.remoteService = service
 	}
@@ -78,17 +98,17 @@ class DataService {
 		}
 	}
 	
-	func addToSyncQ(person:LittlePerson) {
+	func addToSyncQ(_ person:LittlePerson) {
 		SyncQ.getInstance().addToSyncQ(person)
 	}
 	
-	func addFamilyToSyncQ(people:[LittlePerson]) {
+	func addFamilyToSyncQ(_ people:[LittlePerson]) {
 		for person in people {
 			addToSyncQ(person)
 		}
 	}
 	
-	func getDefaultPerson(ignoreLocal:Bool, onCompletion:LittlePersonResponse) {
+	func getDefaultPerson(_ ignoreLocal:Bool, onCompletion:@escaping LittlePersonResponse) {
 		var person:LittlePerson?
 		if !ignoreLocal {
 			let idStr = dbHelper.getProperty(DataService.ROOT_PERSON_ID)
@@ -138,7 +158,7 @@ class DataService {
         }
 	}
 	
-	func getPersonById(id:Int64) -> LittlePerson? {
+	func getPersonById(_ id:Int64) -> LittlePerson? {
 		let person = dbHelper.getPersonById(id)
 		if person != nil {
 			addToSyncQ(person!)
@@ -146,7 +166,7 @@ class DataService {
 		return person
 	}
 	
-	func getPersonByRemoteId(fsid:NSString, onCompletion:LittlePersonResponse) {
+	func getPersonByRemoteId(_ fsid:NSString, onCompletion:@escaping LittlePersonResponse) {
 		let person = dbHelper.getPersonByFamilySearchId(fsid as String)
 		if (person != nil) {
 			addToSyncQ(person!)
@@ -173,26 +193,26 @@ class DataService {
 		}
 	}
 	
-	func getFamilyMembers(person:LittlePerson, loadSpouse: Bool, onCompletion: PeopleResponse) {
-		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-		let group = dispatch_group_create()
+	func getFamilyMembers(_ person:LittlePerson, loadSpouse: Bool, onCompletion: @escaping PeopleResponse) {
+		let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+		let group = DispatchGroup()
 		
 		var family = dbHelper.getRelativesForPerson(person.id!)
 		if family == nil || person.hasSpouses == nil || person.hasParents == nil || person.hasChildren == nil {
 			family = [LittlePerson]()
-			dispatch_group_enter(group)
+			group.enter()
 			getFamilyMembersFromRemoteService(person, onCompletion: { people, err in
                 if people != nil {
                     for p in people! {
                         family!.append(p)
                     }
                 }
-				dispatch_group_leave(group)
+				group.leave()
 			})
 		}
 		
 		if loadSpouse {
-			dispatch_group_enter(group)
+			group.enter()
 			self.getSpouses(person, onCompletion: { spouses, err in
                 if spouses != nil {
                     for spouse in spouses! {
@@ -201,7 +221,7 @@ class DataService {
                         }
                         
                         if person.treeLevel != nil && person.treeLevel! < 2 {
-                            dispatch_group_enter(group)
+                            group.enter()
                             self.getChildren(spouse, onCompletion: { stepChildren, err in
                                 if stepChildren != nil {
                                     for sc in stepChildren! {
@@ -210,22 +230,22 @@ class DataService {
                                         }
                                     }
                                 }
-                                dispatch_group_leave(group)
+                                group.leave()
                             })
                         }
                     }
                 }
-				dispatch_group_leave(group)
+				group.leave()
 			})
 		}
 		
-		dispatch_group_notify(group, queue) {
+		group.notify(queue: queue) {
 			self.addFamilyToSyncQ(family!)
 			onCompletion(family, nil)
 		}
 	}
 	
-	func getFamilyMembersFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+	func getFamilyMembersFromRemoteService(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let family = [LittlePerson]()
         if person.name != nil {
             fireStatusUpdate("Loading close family members of \(person.name!)")
@@ -258,7 +278,7 @@ class DataService {
         })
     }
     
-    func getParentsFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getParentsFromRemoteService(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let family = [LittlePerson]()
         if person.name != nil {
             fireStatusUpdate("Loading parents of \(person.name!)")
@@ -274,7 +294,7 @@ class DataService {
         })
     }
     
-    func getChildrenFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getChildrenFromRemoteService(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let family = [LittlePerson]()
         if person.name != nil {
             fireStatusUpdate("Loading children of \(person.name!)")
@@ -290,7 +310,7 @@ class DataService {
         })
     }
     
-    func getSpousesFromRemoteService(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getSpousesFromRemoteService(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let family = [LittlePerson]()
         if person.name != nil {
             fireStatusUpdate("Loading spouses of \(person.name!)")
@@ -306,7 +326,7 @@ class DataService {
         })
     }
     
-    func getParents(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getParents(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let parents = dbHelper.getParentsForPerson(person.id!)
         if person.hasParents == nil && (parents == nil || parents!.count == 0) {
             getParentsFromRemoteService(person, onCompletion: { people, err in
@@ -349,7 +369,7 @@ class DataService {
         }
     }
     
-    func getParentCouple(child:LittlePerson, inParent:LittlePerson?, onCompletion: PeopleResponse) {
+    func getParentCouple(_ child:LittlePerson, inParent:LittlePerson?, onCompletion: @escaping PeopleResponse) {
         self.getParents(child, onCompletion: { parents, err in
             if parents != nil && parents!.count > 0 {
                 var parent = inParent
@@ -378,7 +398,7 @@ class DataService {
         })
     }
     
-    func getSpouses(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getSpouses(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let spouses = dbHelper.getSpousesForPerson(person.id!)
         if person.hasSpouses == nil && (spouses == nil || spouses!.count == 0) {
             getSpousesFromRemoteService(person, onCompletion: { people, err in
@@ -421,7 +441,7 @@ class DataService {
         }
     }
     
-    func getChildren(person:LittlePerson, onCompletion: PeopleResponse) {
+    func getChildren(_ person:LittlePerson, onCompletion: @escaping PeopleResponse) {
         let children = dbHelper.getChildrenForPerson(person.id!)
         if person.hasChildren == nil && (children == nil || children!.count == 0) {
             getChildrenFromRemoteService(person, onCompletion: { people, err in
@@ -464,7 +484,7 @@ class DataService {
         }
     }
     
-    func getChildrenForCouple(person1:LittlePerson, person2:LittlePerson, onCompletion: PeopleResponse) {
+    func getChildrenForCouple(_ person1:LittlePerson, person2:LittlePerson, onCompletion: @escaping PeopleResponse) {
         self.getChildren(person1, onCompletion: { children1, err in
             self.getChildren(person2, onCompletion: { children2, err in
                 var children = [LittlePerson]()
@@ -483,12 +503,12 @@ class DataService {
         })
     }
     
-    func processRelatives(closeRelatives:[Relationship], person:LittlePerson, onCompletion:PeopleResponse) {
+    func processRelatives(_ closeRelatives:[Relationship], person:LittlePerson, onCompletion:@escaping PeopleResponse) {
         var family = [LittlePerson]()
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        let group = dispatch_group_create()
+        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let group = DispatchGroup()
         for r in closeRelatives {
-            dispatch_group_enter(group)
+            group.enter()
             getPersonByRemoteId(r.person1!.resourceId!, onCompletion: { person1, err in
                 if person1 != nil {
                     self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: { person2, err in
@@ -499,7 +519,7 @@ class DataService {
                             var person1changed = false
                             var person2changed = false
                             if r.type == "http://gedcomx.org/Couple" {
-                                lr.type = RelationshipType.SPOUSE
+                                lr.type = RelationshipType.spouse
                                 if person2?.treeLevel == nil && person1?.treeLevel != nil {
                                     person2?.treeLevel = person1?.treeLevel
                                     person2changed = true
@@ -518,7 +538,7 @@ class DataService {
                                 }
 
                             } else {
-                                lr.type = RelationshipType.PARENTCHILD
+                                lr.type = RelationshipType.parentchild
                                 if person2?.treeLevel == nil && person1?.treeLevel != nil {
                                     person2?.treeLevel = (person1?.treeLevel)! - 1
                                     person2changed = true
@@ -568,27 +588,27 @@ class DataService {
                                 family.append(person2!)
                             }
                         }
-                        dispatch_group_leave(group)
+                        group.leave()
                     })
                 } else {
-                    dispatch_group_leave(group)
+                    group.leave()
                 }
             })
         }
         
-        dispatch_group_notify(group, queue) {
+        group.notify(queue: queue) {
             onCompletion(family, nil)
         }
     }
     
-    func getMediaForPerson(person:LittlePerson, onCompletion:MediaResponse) {
+    func getMediaForPerson(_ person:LittlePerson, onCompletion:@escaping MediaResponse) {
         var media = [Media]()
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        let group = dispatch_group_create()
+        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let group = DispatchGroup()
         
         var mediaFound = false;
         if (person.hasMedia == nil) {
-            dispatch_group_enter(group)
+            group.enter()
             self.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
                 if sds != nil {
                     for sd in sds! {
@@ -602,7 +622,7 @@ class DataService {
                                         med?.type = "photo"
                                         med?.familySearchId = sd.id
                                         
-                                        dispatch_group_enter(group)
+                                        group.enter()
                                         let oname = self.lastPath(link.href! as String)
                                         let fileName = "\(sd.id!)-\(oname)"
                                         self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: fileName, onCompletion: { localPath, err2 in
@@ -621,7 +641,7 @@ class DataService {
                                                     print("Error saving tag")
                                                 }
                                             }
-                                            dispatch_group_leave(group)
+                                            group.leave()
                                         })
                                     }
                                 }
@@ -631,14 +651,14 @@ class DataService {
                         }
                     }
                 }
-                dispatch_group_leave(group)
+                group.leave()
             })
 
         } else {
             media = dbHelper.getMediaForPerson(person.id!)
         }
         
-        dispatch_group_notify(group, queue) {
+        group.notify(queue: queue) {
             if person.hasMedia == nil {
                 if (mediaFound) {
                     person.hasMedia = true
@@ -657,7 +677,7 @@ class DataService {
     }
     
 	
-	func getEncryptedProperty(property:String) -> String? {
+	func getEncryptedProperty(_ property:String) -> String? {
 		let base64 = dbHelper.getProperty(property as String)
         if base64 == nil {
             return nil
@@ -666,15 +686,15 @@ class DataService {
         return value
 	}
 	
-	func saveEncryptedProperty(property:String, value:String) {
+	func saveEncryptedProperty(_ property:String, value:String) {
         let enc = AES128Encryption(value)
         dbHelper.saveProperty(property, value: enc!)
 	}
     
-    func addStatusListener(listener:StatusListener) {
+    func addStatusListener(_ listener:StatusListener) {
         var found = false
         for l in listeners {
-            if (l as! AnyObject) === (listener as! AnyObject) {
+            if (l as AnyObject) === (listener as AnyObject) {
                 found = true
                 break
             }
@@ -684,29 +704,29 @@ class DataService {
         }
     }
     
-    func removeStatusListener(listener:StatusListener) {
+    func removeStatusListener(_ listener:StatusListener) {
         var index = -1
         var i = -1
         for l in listeners {
             i += 1
-            if (l as! AnyObject) === (listener as! AnyObject) {
+            if (l as AnyObject) === (listener as AnyObject) {
                 index = i
                 break
             }
         }
         
         if index >= 0 {
-            listeners.removeAtIndex(index)
+            listeners.remove(at: index)
         }
     }
     
-    func fireStatusUpdate(message:String) {
+    func fireStatusUpdate(_ message:String) {
         for l in listeners {
             l.statusChanged(message)
         }
     }
 	
-	func buildLittlePerson(fsPerson:Person, onCompletion: LittlePersonResponse ) {
+	func buildLittlePerson(_ fsPerson:Person, onCompletion: @escaping LittlePersonResponse ) {
 		let person = LittlePerson()
 		person.name = fsPerson.getFullName()
 		person.familySearchId = fsPerson.id
@@ -743,7 +763,7 @@ class DataService {
                     person.givenName = p.value
                     let gparts = (person.givenName as! String).characters.split{$0 == " "}.map(String.init)
                     if gparts.count > 1 {
-                        person.givenName = gparts[0]
+                        person.givenName = gparts[0] as NSString?
                     }
                     break
                 }
@@ -752,7 +772,7 @@ class DataService {
 		
 		if person.givenName == nil && person.name != nil {
 			let parts = (person.name as! String).characters.split{$0 == " "}.map(String.init)
-			person.givenName = parts[0]
+			person.givenName = parts[0] as NSString?
 		}
 		
 		let facts = fsPerson.facts
@@ -792,25 +812,25 @@ class DataService {
 					birthDateStr = birth!.date!.original
 				}
 				if birthDateStr != nil {
-					let dateFormatter = NSDateFormatter()
+					let dateFormatter = DateFormatter()
 					dateFormatter.dateFormat = "dd MMM yyyy"
-					person.birthDate = dateFormatter.dateFromString(birthDateStr as! String)
+					person.birthDate = dateFormatter.date(from: birthDateStr as String)
 					if person.birthDate == nil {
-						let df2 = NSDateFormatter()
+						let df2 = DateFormatter()
 						df2.dateFormat = "+yyyy-MM-dd"
-						person.birthDate = df2.dateFromString(birthDateStr as! String)
+						person.birthDate = df2.date(from: birthDateStr as String)
 						if person.birthDate == nil {
 							let regex = try? NSRegularExpression(pattern: "[0-9]{4}", options: [])
-							let results = regex!.firstMatchInString(birthDateStr as! String, options:[], range: NSMakeRange(0, birthDateStr!.length))
+							let results = regex!.firstMatch(in: birthDateStr as! String, options:[], range: NSMakeRange(0, birthDateStr!.length))
                             if results != nil {
-                                let yearStr = birthDateStr!.substringWithRange(results!.range)
+                                let yearStr = birthDateStr!.substring(with: results!.range)
                                 let year = Int(yearStr)
-                                let todayDate = NSDate()
-                                let currYear = NSCalendar.currentCalendar().component(.Year, fromDate: todayDate)
+                                let todayDate = Foundation.Date()
+                                let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
                                 person.age = currYear - year!
-                                let df3 = NSDateFormatter()
+                                let df3 = DateFormatter()
                                 df3.dateFormat = "yyyy"
-                                person.birthDate = df3.dateFromString(yearStr)
+                                person.birthDate = df3.date(from: yearStr)
                             }
 						} else {
 							person.updateAge()
@@ -834,7 +854,7 @@ class DataService {
 		
 		person.active = true
 		
-		person.lastSync = NSDate()
+		person.lastSync = Foundation.Date()
 		
 		remoteService!.getPersonPortrait(person.familySearchId!, onCompletion: {link, err1 in
 			if link != nil && link!.href != nil {
@@ -848,38 +868,38 @@ class DataService {
 		})
 	}
 	
-	func lastPath(href:String) -> NSString {
+	func lastPath(_ href:String) -> NSString {
 		let parts = href.characters.split{$0 == "/"}.map(String.init)
 		var i = parts.count - 1
 		repeat {
             let part = NSString(string: parts[i])
             if part.length > 0 {
                 var filePath = parts[i]
-				if let idx = filePath.characters.indexOf("?") {
-                    filePath = filePath.substringToIndex(idx);
+				if let idx = filePath.characters.index(of: "?") {
+                    filePath = filePath.substring(to: idx);
                 }
                 return NSString(string: filePath);
             }
 			i -= 1
         } while i >= 0
-        return href;
+        return href as NSString;
     }
     
-    func AES128Encryption(message:String) -> String?
+    func AES128Encryption(_ message:String) -> String?
     {
         let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
-        let keyString        = uuid?.substringToIndex(uuid!.startIndex.advancedBy(32))
-        let keyData: NSData! = (keyString! as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
-        let keyBytes         = UnsafeMutablePointer<Void>(keyData.bytes)
-        print("keyLength   = \(keyData.length), keyData   = \(keyData)")
+        let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
+        let keyData: Data! = (keyString! as NSString).data(using: String.Encoding.utf8) as Data!
+        let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
+        print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
-        let data: NSData! = (message as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
-        let dataLength    = size_t(data.length)
-        let dataBytes     = UnsafeMutablePointer<Void>(data.bytes)
+        let data: Data! = (message as NSString).data(using: String.Encoding.utf8.rawValue) as Data!
+        let dataLength    = size_t(data.count)
+        let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
         print("dataLength  = \(dataLength), data      = \(data)")
         
         let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
-        let cryptPointer = UnsafeMutablePointer<Void>(cryptData!.mutableBytes)
+        let cryptPointer = cryptData!.mutableBytes
         let cryptLength  = size_t(cryptData!.length)
         
         let keyLength              = size_t(kCCKeySizeAES256)
@@ -904,7 +924,7 @@ class DataService {
             print("cryptLength = \(numBytesEncrypted), cryptData = \(cryptData)")
             
             // Not all data is a UTF-8 string so Base64 is used
-            let base64cryptString = cryptData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            let base64cryptString = cryptData!.base64EncodedString(options: .lineLength64Characters)
             print("base64cryptString = \(base64cryptString)")
             
             return base64cryptString
@@ -914,22 +934,22 @@ class DataService {
         return nil
     }
     
-    func AES128Decryption(enc:String) -> String? //data = cryptData
+    func AES128Decryption(_ enc:String) -> String? //data = cryptData
     {
         let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
-        let keyString        = uuid?.substringToIndex(uuid!.startIndex.advancedBy(32))
-        let keyData: NSData! = (keyString! as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
-        let keyBytes         = UnsafeMutablePointer<Void>(keyData.bytes)
-        print("keyLength   = \(keyData.length), keyData   = \(keyData)")
+        let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
+        let keyData: Data! = (keyString! as NSString).data(using: String.Encoding.utf8) as Data!
+        let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
+        print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
-        let data: NSData! = NSData(base64EncodedString: enc, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        let data: Data! = Data(base64Encoded: enc, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)
         //let data: NSData! = (enc as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
-        let dataLength    = size_t(data.length)
-        let dataBytes     = UnsafeMutablePointer<Void>(data.bytes)
+        let dataLength    = size_t(data.count)
+        let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
         print("dataLength  = \(dataLength), data      = \(data)")
         
         let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
-        let cryptPointer = UnsafeMutablePointer<Void>(cryptData!.mutableBytes)
+        let cryptPointer = cryptData!.mutableBytes
         let cryptLength  = size_t(cryptData!.length)
         
         let keyLength              = size_t(kCCKeySizeAES256)
@@ -954,9 +974,9 @@ class DataService {
             print("DecryptcryptLength = \(numBytesEncrypted), Decrypt = \(cryptData)")
             
             // Not all data is a UTF-8 string so Base64 is used
-            let base64cryptString = cryptData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            let base64cryptString = cryptData!.base64EncodedString(options: .lineLength64Characters)
             print("base64DecryptString = \(base64cryptString)")
-            let value = NSString(data: cryptData!, encoding: NSUTF8StringEncoding)
+            let value = NSString(data: cryptData! as Data, encoding: String.Encoding.utf8.rawValue)
             //print( "utf8 actual string = \(value)");
             return value as String?
         } else {

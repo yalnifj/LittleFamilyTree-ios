@@ -55,32 +55,32 @@ class SettingsView: UIView {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        let color:UIColor = UIColor.lightGrayColor()
+        let color:UIColor = UIColor.lightGray
         
-        view1.layer.borderColor = color.CGColor
+        view1.layer.borderColor = color.cgColor
         view1.layer.borderWidth = 0.5
-        view2.layer.borderColor = color.CGColor
+        view2.layer.borderColor = color.cgColor
         view2.layer.borderWidth = 0.5
-        view3.layer.borderColor = color.CGColor
+        view3.layer.borderColor = color.cgColor
         view3.layer.borderWidth = 0.5
-        view4.layer.borderColor = color.CGColor
+        view4.layer.borderColor = color.cgColor
         view4.layer.borderWidth = 0.5
-        view5.layer.borderColor = color.CGColor
+        view5.layer.borderColor = color.cgColor
         view5.layer.borderWidth = 0.5
-        view6.layer.borderColor = color.CGColor
+        view6.layer.borderColor = color.cgColor
         view6.layer.borderWidth = 0.5
-        view7.layer.borderColor = color.CGColor
+        view7.layer.borderColor = color.cgColor
         view7.layer.borderWidth = 0.5
-        view8.layer.borderColor = color.CGColor
+        view8.layer.borderColor = color.cgColor
         view8.layer.borderWidth = 0.5
-        view9.layer.borderColor = color.CGColor
+        view9.layer.borderColor = color.cgColor
         view9.layer.borderWidth = 0.5
-        view10.layer.borderColor = color.CGColor
+        view10.layer.borderColor = color.cgColor
         view10.layer.borderWidth = 0.5
-        view11.layer.borderColor = color.CGColor
+        view11.layer.borderColor = color.cgColor
         view11.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
@@ -117,21 +117,21 @@ class SettingsView: UIView {
         
         syncDelaySlider.minimumValue = 0
         syncDelaySlider.maximumValue = Float(delays.count-1)
-        syncDelaySlider.continuous = true
+        syncDelaySlider.isContinuous = true
         
         let syncDelay = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_DELAY)
         var delay = 1
         if syncDelay != nil {
             delay = Int(syncDelay!)!
         }
-        var delayIndex = delays.indexOf(delay)
+        var delayIndex = delays.index(of: delay)
         if delayIndex == nil {
             delayIndex = 0
         }
         syncDelaySlider.setValue(Float(delayIndex!), animated: false)
         
         //First get the nsObject by defining as an optional anyObject
-        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
         
         //Then just cast the object as a String, but be careful, you may want to double check for nil
         var version = nsObject as! String
@@ -145,29 +145,29 @@ class SettingsView: UIView {
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "SettingsView", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
-    @IBAction func syncBackgroundAction(sender: UISwitch) {
+    @IBAction func syncBackgroundAction(_ sender: UISwitch) {
         let dataService = DataService.getInstance()
-        if sender.on {
+        if sender.isOn {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SYNC_BACKGROUND, value: "true")
         } else {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SYNC_BACKGROUND, value: "false")
         }
     }
-    @IBAction func syncCellAction(sender: UISwitch) {
+    @IBAction func syncCellAction(_ sender: UISwitch) {
         let dataService = DataService.getInstance()
-        if sender.on {
+        if sender.isOn {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SYNC_CELL, value: "true")
         } else {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SYNC_CELL, value: "false")
         }
     }
-    @IBAction func syncDelaySliderAction(sender: UISlider) {
+    @IBAction func syncDelaySliderAction(_ sender: UISlider) {
         let index = Int(round(syncDelaySlider.value))
         let delay = delays[index]
         syncDelaySlider.setValue(Float(index), animated: false)
@@ -175,39 +175,39 @@ class SettingsView: UIView {
         DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SYNC_DELAY, value: String(delay))
     }
 
-    @IBAction func ManagePeopleAction(sender: UIButton) {
+    @IBAction func ManagePeopleAction(_ sender: UIButton) {
         self.view.removeFromSuperview()
         openingScene?.showManagePeople()
     }
     
-    @IBAction func parentsGuideAction(sender: UIButton) {
+    @IBAction func parentsGuideAction(_ sender: UIButton) {
         self.view.removeFromSuperview()
         openingScene?.showParentsGuide(SettingsPGCloseListener(os: openingScene!), skipGate: true)
     }
 
-    @IBAction func visitWebsiteAction(sender: AnyObject) {
+    @IBAction func visitWebsiteAction(_ sender: AnyObject) {
         print("Visit website")
-        UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
+        UIApplication.shared.openURL(URL(string:"http://www.littlefamilytree.com")!)
     }
     
-    @IBAction func backButtonAction(sender: UIBarButtonItem) {
+    @IBAction func backButtonAction(_ sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
-        openingScene?.paused = false
+        openingScene?.isPaused = false
     }
     
-    @IBAction func quietModeToggleAction(sender: UISwitch) {
+    @IBAction func quietModeToggleAction(_ sender: UISwitch) {
         let dataService = DataService.getInstance()
-        if sender.on {
+        if sender.isOn {
             dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "true")
         } else {
             dataService.dbHelper.saveProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET, value: "false")
         }
     }
 	
-	@IBAction func showStepChildrenToggleAction(sender: UISwitch) {
+	@IBAction func showStepChildrenToggleAction(_ sender: UISwitch) {
         let dataService = DataService.getInstance()
-        if sender.on {
+        if sender.isOn {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "true")
         } else {
             dataService.dbHelper.saveProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN, value: "false")
@@ -215,13 +215,13 @@ class SettingsView: UIView {
     }
     
     var iapHelper:IAPHelper?
-    @IBAction func restorePurchases(sender: AnyObject) {
+    @IBAction func restorePurchases(_ sender: AnyObject) {
         iapHelper = IAPHelper(listener: restoreListener(view: self))
         iapHelper?.restorePurchases()
 
     }
     
-    func showError(error:String) {
+    func showError(_ error:String) {
         print(error)
         let x = Int((self.frame.width - 300) / 2)
         let y = 50
@@ -236,14 +236,14 @@ class SettingsView: UIView {
         init(view:SettingsView) {
             self.view = view
         }
-        func onProductsReady(productsArray: [SKProduct]) {
+        func onProductsReady(_ productsArray: [SKProduct]) {
             
         }
         func onTransactionComplete() {
             DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
             DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
         }
-        func onError(error:String) {
+        func onError(_ error:String) {
             print(error)
             view.showError(error)
         }

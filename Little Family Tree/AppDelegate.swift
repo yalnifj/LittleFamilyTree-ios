@@ -15,10 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FIRApp.configure()
-        FIRAuth.auth()?.signInWithEmail("service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+        FIRAuth.auth()?.signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
             // nohting to do
             print(user)
             print(error)
@@ -26,27 +26,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(application:UIApplication, completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application:UIApplication, completionHandler: (UIBackgroundFetchResult) -> Void) {
         let dbhelper = DBHelper.getInstance()
         let lastRun = dbhelper.getProperty("last_birthday_check")
         if lastRun != nil {
             let time = Double(lastRun!)
-            let date = NSDate(timeIntervalSince1970: time!)
+            let date = Foundation.Date(timeIntervalSince1970: time!)
             if date.timeIntervalSinceNow > -60 * 60 * 24 {
-                completionHandler(UIBackgroundFetchResult.NoData)
+                completionHandler(UIBackgroundFetchResult.noData)
                 return
             }
         }
         let people = dbhelper.getNextBirthdays(15, maxLevel: 4)
         var hasData = false
         if people.count > 0 {
-            let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                           fromDate: NSDate())
+            let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                           from: Foundation.Date())
             let monthN = ageComponentsNow.month
             let dayN = ageComponentsNow.day
             for person in people {
-                let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                            fromDate: person.birthDate!)
+                let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                            from: person.birthDate!)
                 let month = ageComponents.month
                 let day = ageComponents.day
                 
@@ -56,25 +56,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        let now = NSDate()
+        let now = Foundation.Date()
         dbhelper.saveProperty("last_birthday_check", value: now.timeIntervalSince1970.description)
         if hasData {
-            completionHandler(UIBackgroundFetchResult.NewData)
+            completionHandler(UIBackgroundFetchResult.newData)
         } else {
-            completionHandler(UIBackgroundFetchResult.NoData)
+            completionHandler(UIBackgroundFetchResult.noData)
         }
     }
     
-    func setupNotificationReminder(person:LittlePerson) {
+    func setupNotificationReminder(_ person:LittlePerson) {
         let title:String = "Today is \(person.name!)'s birthday! Decorate a birthday card for them in Little Family Tree."
         
-        let calendar = NSCalendar.currentCalendar()
-        let calendarComponents = NSDateComponents()
+        var calendar = Calendar.current
+        var calendarComponents = DateComponents()
         calendarComponents.hour = 12
         calendarComponents.second = 0
         calendarComponents.minute = 30
-        calendar.timeZone = NSTimeZone.defaultTimeZone()
-        let dateToFire = calendar.dateFromComponents(calendarComponents)
+        calendar.timeZone = TimeZone.current
+        let dateToFire = calendar.date(from: calendarComponents)
         
         // create a corresponding local notification
         let notification = UILocalNotification()
@@ -85,28 +85,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notification.alertAction = "Open"
         notification.fireDate = dateToFire
         notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        UIApplication.shared.scheduleLocalNotification(notification)
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 

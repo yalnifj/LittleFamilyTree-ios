@@ -32,9 +32,9 @@ class Gallery : SKSpriteNode {
             print("n=\(n) x=\(x)")
             if n >= 0 && n < adapter!.size() {
                 let node = setupNode(n, x: x, y: y)
-                node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
-                node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
-                node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*0.6))), duration: 0.0))
+                node.run(SKAction.scaleX(to: 1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                node.run(SKAction.scaleY(to: 1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                node.run(SKAction.fadeAlpha(to: 1 - (abs(x) / (xspace*CGFloat(Double(distance)*0.6))), duration: 0.0))
                 visibleNodes.append(node)
                 self.addChild(node)
             }
@@ -43,9 +43,9 @@ class Gallery : SKSpriteNode {
 
     }
     
-    func setupNode(n:Int, x:CGFloat, y:CGFloat) -> SKSpriteNode {
+    func setupNode(_ n:Int, x:CGFloat, y:CGFloat) -> SKSpriteNode {
         let node = adapter!.getNodeAtPosition(n)
-        node.position = CGPointMake(x, y)
+        node.position = CGPoint(x: x, y: y)
         if n < currentNode {
             node.zPosition = CGFloat(adapter!.size() - (currentNode - n))
         } else if n > currentNode {
@@ -58,20 +58,20 @@ class Gallery : SKSpriteNode {
         
     }
 	
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             lastNodePosition = visibleNodes[0].position
             break
         }
         moved = false
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         for touch in touches {
-            let nextPoint = touch.locationInNode(self)
+            let nextPoint = touch.location(in: self)
             if abs(nextPoint.x - lastPoint!.x) > 8 {
                 moved = true
                 slide(lastPoint!, newPoint: nextPoint)
@@ -81,16 +81,16 @@ class Gallery : SKSpriteNode {
         }
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             if !moved {
-                let node = nodeAtPoint(lastPoint!)
+                let node = atPoint(lastPoint!)
                 if visibleNodes.contains(node) {
-                    node.touchesEnded(touches, withEvent: event)
+                    node.touchesEnded(touches, with: event)
                 } else if visibleNodes.contains(node.parent!) {
-                    node.parent!.touchesEnded(touches, withEvent: event)
+                    node.parent!.touchesEnded(touches, with: event)
                 }
             }
             /*
@@ -181,7 +181,7 @@ class Gallery : SKSpriteNode {
         moved = false
     }
     
-    func slide(oldPoint:CGPoint, newPoint:CGPoint) {
+    func slide(_ oldPoint:CGPoint, newPoint:CGPoint) {
         var xdiff = CGFloat(1) * (newPoint.x - oldPoint.x)
         let xspace = self.size.width / CGFloat(2)
         
@@ -207,13 +207,13 @@ class Gallery : SKSpriteNode {
             }
 
             let scaleX = 1 - (abs(newx) / (xspace*CGFloat(distance*2)))
-            node.runAction(SKAction.scaleXTo(scaleX, duration: 0.0))
-            node.runAction(SKAction.scaleYTo(1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.0))
-            node.runAction(SKAction.fadeAlphaTo(1 - (abs(newx) / (xspace*CGFloat(distance)*0.6)), duration: 0.0))
+            node.run(SKAction.scaleX(to: scaleX, duration: 0.0))
+            node.run(SKAction.scaleY(to: 1 - (abs(newx) / (xspace*CGFloat(distance*4))), duration: 0.0))
+            node.run(SKAction.fadeAlpha(to: 1 - (abs(newx) / (xspace*CGFloat(distance)*0.6)), duration: 0.0))
             if (newx < 0) {
                 //newx = oldx + (xdiff * scaleX / 3)
             }
-            node.runAction(SKAction.moveToX(newx, duration: 0.0))
+            node.run(SKAction.moveTo(x: newx, duration: 0.0))
             c += 1
         }
         if visibleNodes.last!.position.x < xspace  {
@@ -222,9 +222,9 @@ class Gallery : SKSpriteNode {
                 let x = visibleNodes.last!.position.x + xspace
                 let y = visibleNodes.last!.position.y
                 let node = setupNode(endNode, x: x, y: y)
-                node.runAction(SKAction.scaleXTo(1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
-                node.runAction(SKAction.scaleYTo(1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
-                node.runAction(SKAction.fadeAlphaTo(1 - (abs(x) / (xspace*CGFloat(Double(distance)*0.6))), duration: 0.0))
+                node.run(SKAction.scaleX(to: 1 - (abs(x) / (xspace*CGFloat(distance*2))), duration: 0.0))
+                node.run(SKAction.scaleY(to: 1 - (abs(x) / (xspace*CGFloat(distance*4))), duration: 0.0))
+                node.run(SKAction.fadeAlpha(to: 1 - (abs(x) / (xspace*CGFloat(Double(distance)*0.6))), duration: 0.0))
                 visibleNodes.append(node)
                 self.addChild(node)
             }
@@ -233,7 +233,7 @@ class Gallery : SKSpriteNode {
 }
 
 protocol GalleryPageAdapter : class {
-    func setGallery(gallery:Gallery)
+    func setGallery(_ gallery:Gallery)
     func size() -> Int
-    func getNodeAtPosition(position:Int) -> SKSpriteNode
+    func getNodeAtPosition(_ position:Int) -> SKSpriteNode
 }

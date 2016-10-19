@@ -12,10 +12,10 @@ import SpriteKit
 class LabelEventSprite: SKLabelNode {
     var topic: String?
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         if topic != nil {
-            EventHandler.getInstance().publish(topic!, data: self.text)
+            EventHandler.getInstance().publish(topic!, data: self.text as NSObject?)
         }
     }
 }

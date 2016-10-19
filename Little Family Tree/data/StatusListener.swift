@@ -9,5 +9,5 @@
 import Foundation
 
 protocol StatusListener {
-    func statusChanged(message:String)
+    func statusChanged(_ message:String)
 }

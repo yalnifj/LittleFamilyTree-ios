@@ -6,13 +6,13 @@ class Name : Conclusion {
   var nameForms = [NameForm]()
   var preferred:Bool?
   
-  static func convertJsonToName(json:JSON) -> Name {
+  static func convertJsonToName(_ json:JSON) -> Name {
 	let name = Name()
-	name.id = json["id"].description
+	name.id = json["id"].description as NSString?
 	name.addLinksFromJson(json)
 	name.addAttributionFromJson(json)
-	name.type = json["type"].description
-	if json["nameForms"] != nil {
+	name.type = json["type"].description as NSString?
+	if json["nameForms"] != JSON.null {
 		for nson in json["nameForms"].array! {
 			let nameForm = NameForm.convertJsonToNameForm(nson)
 			name.nameForms.append(nameForm)

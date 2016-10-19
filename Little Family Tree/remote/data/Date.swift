@@ -6,7 +6,7 @@ class Date {
   var normalized = [TextValue]()
   var fields = [Field]()
   
-  static func convertJsonToDate(json:JSON) -> Date {
+  static func convertJsonToDate(_ json:JSON) -> Date {
 	let date = Date()
 	date.original = json["original"].description
 	date.formal = json["formal"].description

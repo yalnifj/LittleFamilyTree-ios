@@ -22,7 +22,7 @@ class TopBar: SKSpriteNode {
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.height = self.size.height - 5
             photoSprite?.size.width = (self.size.height - 5) * ratio
-            photoSprite?.position = CGPointMake(((photoSprite?.size.width)! / 2) + 5 - self.size.width/2, 0)
+            photoSprite?.position = CGPoint(x: ((photoSprite?.size.width)! / 2) + 5 - self.size.width/2, y: 0)
             photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
         }
@@ -34,20 +34,20 @@ class TopBar: SKSpriteNode {
             let ratio = (homeTexture?.size().width)! / (homeTexture?.size().height)!
             homeSprite?.size.height = self.size.height - 5
             homeSprite?.size.width = (self.size.height - 5) * ratio
-            homeSprite?.position = CGPointMake(self.size.width/2 - (5 + self.size.height/2), 0)
+            homeSprite?.position = CGPoint(x: self.size.width/2 - (5 + self.size.height/2), y: 0)
             homeSprite?.zPosition = 1
             self.addChild(homeSprite!)
 
 			settingsSprite = SKSpriteNode(imageNamed: "settings")
 			settingsSprite?.size.height = self.size.height - 5
 			settingsSprite?.size.width = self.size.height - 5
-			settingsSprite?.position = CGPointMake(0, 0)
+			settingsSprite?.position = CGPoint(x: 0, y: 0)
 			settingsSprite?.zPosition = 1
 			self.addChild(settingsSprite!)
         }
     }
     
-    func addCustomSprite(sprite:SKSpriteNode) {
+    func addCustomSprite(_ sprite:SKSpriteNode) {
         customSprites.append(sprite)
         let ratio = sprite.size.height / sprite.size.width
         sprite.size.height = self.size.height - 5
@@ -57,18 +57,18 @@ class TopBar: SKSpriteNode {
         settingsSprite?.position.x = photoSprite!.position.x + (photoSprite!.size.width / 2) + (bwidth / 2)
         var x = settingsSprite!.position.x + bwidth
         for s in customSprites {
-            s.position = CGPointMake(x, 0)
+            s.position = CGPoint(x: x, y: 0)
             x = x + bwidth
         }
         
         self.addChild(sprite)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let touchedNode = atPoint(location)
             if touchedNode == homeSprite {
                 EventHandler.getInstance().publish(LittleFamilyScene.TOPIC_START_HOME, data: person)
             }
@@ -81,7 +81,7 @@ class TopBar: SKSpriteNode {
             else {
                 for sprite in customSprites {
                     if touchedNode == sprite || touchedNode.parent == sprite || sprite.children.contains(touchedNode) {
-                        sprite.touchesEnded(touches, withEvent: event)
+                        sprite.touchesEnded(touches, with: event)
                     }
                 }
             }

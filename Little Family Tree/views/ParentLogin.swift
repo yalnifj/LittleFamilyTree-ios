@@ -39,7 +39,7 @@ class ParentLogin: UIView {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
         let dataService = DataService.getInstance()
@@ -49,21 +49,21 @@ class ParentLogin: UIView {
         }
         //txtPassword.text = "1234pass"
 		chkRemember.setOn(false, animated: false)
-        txtError.hidden = true
-        spinner.hidden = true
+        txtError.isHidden = true
+        spinner.isHidden = true
         spinner.stopAnimating()
 		
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "ParentLogin", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    @IBAction func BackButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func BackButtonClicked(_ sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
         if self.loginListener != nil {
@@ -71,18 +71,18 @@ class ParentLogin: UIView {
         }
     }
 
-    @IBAction func SignInButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func SignInButtonClicked(_ sender: UIBarButtonItem) {
         print("SignIn Button clicked")
         loginAction()
     }
     
-    @IBAction func SignInButton2Clicked(sender: UIButton) {
+    @IBAction func SignInButton2Clicked(_ sender: UIButton) {
         print("SignIn2 Button clicked")
         loginAction()
     }
     
     func loginAction() {
-        spinner.hidden = false
+        spinner.isHidden = false
         spinner.startAnimating()
         let username = txtUsername.text
         let password = txtPassword.text
@@ -104,8 +104,8 @@ class ParentLogin: UIView {
             txtUsername.text = ""
             txtPassword.text = ""
             if self.loginListener != nil {
-				if chkRemember.on {
-					let now = NSDate()
+				if chkRemember.isOn {
+					let now = Foundation.Date()
 					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: now.timeIntervalSince1970.description)
 				} else {
 					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: "0")
@@ -118,28 +118,28 @@ class ParentLogin: UIView {
         }
     }
     
-    func showAlert(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.txtError.hidden = false
+    func showAlert(_ message:String) {
+        DispatchQueue.main.async {
+            self.txtError.isHidden = false
             self.txtError.text = message
-            self.txtError.textColor = UIColor.redColor()
-            self.spinner.hidden = true
+            self.txtError.textColor = UIColor.red
+            self.spinner.isHidden = true
             print(message)
         }
     }
     
-    func showInfoMsg(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func showInfoMsg(_ message:String) {
+        DispatchQueue.main.async {
             if message.isEmpty {
-                self.spinner.hidden = true
+                self.spinner.isHidden = true
                 self.spinner.stopAnimating()
-                self.txtError.hidden = true
+                self.txtError.isHidden = true
             } else {
-                self.spinner.hidden = false
+                self.spinner.isHidden = false
                 self.spinner.startAnimating()
-                self.txtError.hidden = false
+                self.txtError.isHidden = false
                 self.txtError.text = message
-                self.txtError.textColor = UIColor.blackColor()
+                self.txtError.textColor = UIColor.black
                 print(message)
             }
         }

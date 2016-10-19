@@ -9,6 +9,26 @@
 import Foundation
 
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class AnimatedStateSprite: SKSpriteNode {
     var stateTextures = [Int : [SKTexture]]()
@@ -22,33 +42,33 @@ class AnimatedStateSprite: SKSpriteNode {
 	var removeMe:Bool = false
     var lastPoint:CGPoint?
     
-    func addTexture(st:Int, texture:SKTexture) {
+    func addTexture(_ st:Int, texture:SKTexture) {
         if (stateTextures[st] == nil) {
             stateTextures[st] = [SKTexture]()
         }
         stateTextures[st]?.append(texture)
     }
     
-    func addAction(st:Int, action:SKAction) {
+    func addAction(_ st:Int, action:SKAction) {
 		if (stateActions[st] == nil) {
             stateActions[st] = [SKAction]()
         }
         stateActions[st]?.append(action)
     }
     
-    func addSound(st:Int, action:SKAction) {
+    func addSound(_ st:Int, action:SKAction) {
         stateSounds[st] = action
     }
     
-    func addSound(st:Int, soundFile:String) {
+    func addSound(_ st:Int, soundFile:String) {
         stateSounds[st] = SKAction.playSoundFileNamed(soundFile, waitForCompletion: true);
     }
     
-    func addClick(st:Int, val:Bool) {
+    func addClick(_ st:Int, val:Bool) {
         clickStates[st] = val
     }
     
-    func addEvent(st:Int, topic:String) {
+    func addEvent(_ st:Int, topic:String) {
         stateEvents[st] = topic
     }
     
@@ -70,7 +90,7 @@ class AnimatedStateSprite: SKSpriteNode {
 		self.changeState(nextState)
 	}
 	
-	func changeState(nextState:Int) {
+	func changeState(_ nextState:Int) {
         state = nextState;
         
         if (stateTextures[state] != nil) {
@@ -80,23 +100,23 @@ class AnimatedStateSprite: SKSpriteNode {
         if (stateSounds[state] != nil) {
             let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
             if quietMode == nil || quietMode == "false" {
-                runAction(stateSounds[state]!)
+                run(stateSounds[state]!)
             }
         }
 		if (moveAction != nil) {
-			runAction(moveAction!)
+			run(moveAction!)
 		}
         if (stateActions[state] != nil) {
 			for action in stateActions[state]! {
-				runAction(action, completion: {() -> Void in
+				run(action, completion: {() -> Void in
 					self.nextState()
 					})
 			}
         } else {
             if stateTextures[nextState]?.count > 1 {
-                let action = SKAction.repeatActionForever(SKAction.animateWithTextures(stateTextures[nextState]!, timePerFrame: 0.06, resize: false, restore: true))
+                let action = SKAction.repeatForever(SKAction.animate(with: stateTextures[nextState]!, timePerFrame: 0.06, resize: false, restore: true))
                 addAction(state, action: action)
-                runAction(action)
+                run(action)
             }
         }
         if stateEvents[state] != nil {
@@ -104,14 +124,14 @@ class AnimatedStateSprite: SKSpriteNode {
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        lastPoint = touches.first?.locationInNode(self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        lastPoint = touches.first?.location(in: self)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
-        let nextPoint = touches.first?.locationInNode(self)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let nextPoint = touches.first?.location(in: self)
         if nextPoint != nil && lastPoint != nil {
             if abs(nextPoint!.x - lastPoint!.x) > 8 || abs(nextPoint!.y - lastPoint!.y) > 8 {
                 moved = true
@@ -119,8 +139,8 @@ class AnimatedStateSprite: SKSpriteNode {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         if (!moved) {
             if (clickStates[state] == nil || clickStates[state]==true) {
                 nextState()

@@ -24,20 +24,20 @@ class InitialDataLoader {
         self.dataService = DataService.getInstance()
     }
     
-    func execute(onCompletion:PeopleResponse) {
+    func execute(_ onCompletion:@escaping PeopleResponse) {
         print("Starting InitialDataLoader \(self)")
         self.onCompletion = onCompletion
         dataService.getFamilyMembers(self.person, loadSpouse: true, onCompletion: self.familyCallback)
     }
     
-    func familyCallback(people:[LittlePerson]?, err: NSError?) {
+    func familyCallback(_ people:[LittlePerson]?, err: NSError?) {
         print("InitialDataLoader onComplete callback")
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        let downloadGroup = dispatch_group_create()
-        let downloadGroup2 = dispatch_group_create()
-        let downloadGroup3 = dispatch_group_create()
+        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let downloadGroup = DispatchGroup()
+        let downloadGroup2 = DispatchGroup()
+        let downloadGroup3 = DispatchGroup()
         
-        dispatch_group_enter(downloadGroup)
+        downloadGroup.enter()
         
         familyMembers.append(self.person)
         if people != nil {
@@ -58,7 +58,7 @@ class InitialDataLoader {
             print("loop \(i)")
             let p = copy[i]
             if p != self.person {
-                dispatch_group_enter(downloadGroup2)
+                downloadGroup2.enter()
                 dataService.getParents(p, onCompletion: { parents, err in
                     if parents != nil {
                         for parent in parents! {
@@ -69,33 +69,33 @@ class InitialDataLoader {
                         }
                         for parent in parents! {
                             if (!self.familyMembers.contains(parent) && !self.grandParents.contains(parent)) {
-                                dispatch_group_enter(downloadGroup2)
+                                downloadGroup2.enter()
                                 self.dataService.getParents(parent, onCompletion: { parents2, err in
                                     if parents2 != nil {
                                         for parent2 in parents2! {
                                             self.dataService.addToSyncQ(parent2)
-                                            dispatch_group_enter(downloadGroup2)
+                                            downloadGroup2.enter()
                                             self.dataService.getParents(parent2, onCompletion: { parents3, err in
                                                 if parents3 != nil {
                                                     for parent3 in parents3! {
                                                         self.dataService.addToSyncQ(parent3)
                                                     }
                                                 }
-                                                dispatch_group_leave(downloadGroup2)
+                                                downloadGroup2.leave()
                                             })
                                         }
                                     }
-                                    dispatch_group_leave(downloadGroup2)
+                                    downloadGroup2.leave()
                                 })
                             }
                         }
                     }
-                    dispatch_group_leave(downloadGroup2)
+                    downloadGroup2.leave()
                 })
             }
         }
         
-        dispatch_group_notify(downloadGroup2, queue) {
+        downloadGroup2.notify(queue: queue) {
             var copy = [LittlePerson]()
             for p in self.familyMembers {
                 copy.append(p)
@@ -105,7 +105,7 @@ class InitialDataLoader {
                 print("loop2 \(i)")
                 let p = copy[i]
                 if p != self.person {
-                    dispatch_group_enter(downloadGroup3)
+                    downloadGroup3.enter()
                     self.dataService.getChildren(p, onCompletion: { children, err in
                         if children != nil {
                             for child in children! {
@@ -116,7 +116,7 @@ class InitialDataLoader {
                             }
                             for child in children! {
                                 if (!self.familyMembers.contains(child) && !self.grandChildren.contains(child)) {
-                                    dispatch_group_enter(downloadGroup3)
+                                    downloadGroup3.enter()
                                     self.dataService.getChildren(child, onCompletion: {children2, err2 in
                                         if children2 != nil {
                                             for child2 in children2! {
@@ -126,22 +126,22 @@ class InitialDataLoader {
                                                 }
                                             }
                                         }
-                                        dispatch_group_leave(downloadGroup3)
+                                        downloadGroup3.leave()
                                     })
                                 }
                             }
                         }
-                        dispatch_group_leave(downloadGroup3)
+                        downloadGroup3.leave()
                     })
                 }
             }
         }
         
-        dispatch_group_notify(downloadGroup3, queue) {
-            dispatch_group_leave(downloadGroup)
+        downloadGroup3.notify(queue: queue) {
+            downloadGroup.leave()
         }
         
-        dispatch_group_notify(downloadGroup, queue) {
+        downloadGroup.notify(queue: queue) {
             for p in self.grandChildren {
                 if (!self.familyMembers.contains(p)) {
                     self.familyMembers.append(p)

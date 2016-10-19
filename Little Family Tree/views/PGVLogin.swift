@@ -40,7 +40,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
         let dataService = DataService.getInstance()
@@ -58,8 +58,8 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
         if defaultId != nil {
             txtDefaultId.text = defaultId as String?
         }
-        txtError.hidden = true
-        spinner.hidden = true
+        txtError.isHidden = true
+        spinner.isHidden = true
         spinner.stopAnimating()
         
         self.txtUrl.delegate = self
@@ -71,26 +71,26 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "PGVLogin", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    @IBAction func BackButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func BackButtonClicked(_ sender: UIBarButtonItem) {
         print("Back Button clicked")
         deregisterFromKeyboardNotifications()
         self.view.removeFromSuperview()
     }
 
-    @IBAction func SignInButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func SignInButtonClicked(_ sender: UIBarButtonItem) {
         print("SignIn Button clicked")
         view.endEditing(true)
         loginAction()
     }
     
-    @IBAction func SignInButton2Clicked(sender: UIButton) {
+    @IBAction func SignInButton2Clicked(_ sender: UIButton) {
         print("SignIn2 Button clicked")
         view.endEditing(true)
         loginAction()
@@ -126,7 +126,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
         
         let dataService = DataService.getInstance()
         let remoteService = PGVService(base: url!, defaultPersonId: defaultPersonId!)
-        dataService.serviceType = DataService.SERVICE_TYPE_PHPGEDVIEW
+        dataService.serviceType = DataService.SERVICE_TYPE_PHPGEDVIEW as NSString?
         dataService.remoteService = remoteService
         
         remoteService.getVersion({ version, err in
@@ -155,11 +155,11 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
                                 let task = InitialDataLoader(person: person!, listener: self)
                                 task.execute({people, err in
                                     self.spinner.stopAnimating()
-                                    self.spinner.hidden = true
-                                    self.txtError.hidden = true
+                                    self.spinner.isHidden = true
+                                    self.txtError.isHidden = true
                                     print(people?.count)
                                     dataService.removeStatusListener(self)
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    DispatchQueue.main.async {
                                         self.removeFromSuperview()
                                     }
                                     if self.loginListener != nil {
@@ -180,32 +180,32 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
         })
     }
     
-    func statusChanged(message: String) {
+    func statusChanged(_ message: String) {
         showInfoMsg(message)
     }
     
-    func showAlert(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.txtError.hidden = false
+    func showAlert(_ message:String) {
+        DispatchQueue.main.async {
+            self.txtError.isHidden = false
             self.txtError.text = message
-            self.txtError.textColor = UIColor.redColor()
-            self.spinner.hidden = true
+            self.txtError.textColor = UIColor.red
+            self.spinner.isHidden = true
             print(message)
         }
     }
     
-    func showInfoMsg(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func showInfoMsg(_ message:String) {
+        DispatchQueue.main.async {
             if message.isEmpty {
-                self.spinner.hidden = true
+                self.spinner.isHidden = true
                 self.spinner.stopAnimating()
-                self.txtError.hidden = true
+                self.txtError.isHidden = true
             } else {
-                self.spinner.hidden = false
+                self.spinner.isHidden = false
                 self.spinner.startAnimating()
-                self.txtError.hidden = false
+                self.txtError.isHidden = false
                 self.txtError.text = message
-                self.txtError.textColor = UIColor.blackColor()
+                self.txtError.textColor = UIColor.black
                 print(message)
             }
         }
@@ -214,24 +214,24 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
     func registerForKeyboardNotifications()
     {
         //Adding notifies on keyboard appearing
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PGVLogin.keyboardWasShown(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PGVLogin.keyboardWillBeHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PGVLogin.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PGVLogin.keyboardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     
     func deregisterFromKeyboardNotifications()
     {
         //Removing notifies on keyboard appearing
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWasShown(notification: NSNotification)
+    func keyboardWasShown(_ notification: Notification)
     {
         //Need to calculate keyboard exact size due to Apple suggestions
-        self.scrollView.scrollEnabled = true
-        let info : NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+        self.scrollView.isScrollEnabled = true
+        let info : NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
         let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
         
         self.scrollView.contentInset = contentInsets
@@ -241,7 +241,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
         aRect.size.height -= keyboardSize!.height
         if let _ = activeField
         {
-            if (!CGRectContainsPoint(aRect, activeField!.frame.origin))
+            if (!aRect.contains(activeField!.frame.origin))
             {
                 self.scrollView.scrollRectToVisible(activeField!.frame, animated: true)
             }
@@ -251,25 +251,25 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
     }
     
     
-    func keyboardWillBeHidden(notification: NSNotification)
+    func keyboardWillBeHidden(_ notification: Notification)
     {
         //Once keyboard disappears, restore original positions
-        let info : NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+        let info : NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
         let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
         self.scrollView.contentInset = contentInsets
         self.scrollView.scrollIndicatorInsets = contentInsets
         self.view.endEditing(true)
-        self.scrollView.scrollEnabled = false
+        self.scrollView.isScrollEnabled = false
         
     }
     
-    func textFieldDidBeginEditing(textField: UITextField)
+    func textFieldDidBeginEditing(_ textField: UITextField)
     {
         activeField = textField
     }
     
-    func textFieldDidEndEditing(textField: UITextField)
+    func textFieldDidEndEditing(_ textField: UITextField)
     {
         activeField = nil
     }

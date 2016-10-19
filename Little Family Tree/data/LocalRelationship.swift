@@ -6,7 +6,7 @@ class LocalRelationship : NSObject {
 	var id2 : Int64!
 	var type : RelationshipType!
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         if let rel = object as? LocalRelationship {
             return rel.id == self.id
         }

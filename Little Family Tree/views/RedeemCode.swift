@@ -25,8 +25,8 @@ class RedeemCode: UIView {
             openingScene?.userHasPremium({premium in
                 if premium {
                     self.enterLbl.text = "You already have a premium upgrade."
-                    self.codeTxt.hidden = true
-                    self.validateButton.hidden = true
+                    self.codeTxt.isHidden = true
+                    self.validateButton.isHidden = true
                 }
             })
         }
@@ -46,26 +46,26 @@ class RedeemCode: UIView {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "RedeemCode", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
     
-    @IBAction func backButtonAction(sender: AnyObject) {
+    @IBAction func backButtonAction(_ sender: AnyObject) {
         print("Back Button Clicked")
         self.view.removeFromSuperview()
         openingScene?.showSettings()
     }
     
-    @IBAction func validateButtonAction(sender: AnyObject) {
-        statusLbl.hidden = false
+    @IBAction func validateButtonAction(_ sender: AnyObject) {
+        statusLbl.isHidden = false
         statusLbl.text = "Validating code..."
         spinner.startAnimating()
         DataService.getInstance().dbHelper.validateCode(codeTxt.text!, onCompletion: { valid in

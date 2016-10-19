@@ -10,7 +10,7 @@ import Foundation
 
 class EventHandler {
     
-    private static var instance:EventHandler?
+    fileprivate static var instance:EventHandler?
     
     static func getInstance() -> EventHandler {
         if EventHandler.instance == nil {
@@ -22,7 +22,7 @@ class EventHandler {
     var subscribers = [String: [Int : EventListener]]()
     var counter = 1
     
-    func subscribe(topic:String, listener:EventListener) {
+    func subscribe(_ topic:String, listener:EventListener) {
         var listeners = subscribers[topic]
         if (listeners == nil) {
             listeners = [Int : EventListener]()
@@ -35,15 +35,15 @@ class EventHandler {
         subscribers[topic] = listeners
     }
     
-    func unSubscribe(topic:String, listener:EventListener) {
+    func unSubscribe(_ topic:String, listener:EventListener) {
         var listeners = subscribers[topic]
         if (listeners != nil && listener.listenerIndex != nil) {
-            listeners!.removeValueForKey(listener.listenerIndex!)
+            listeners!.removeValue(forKey: listener.listenerIndex!)
             subscribers[topic] = listeners
         }
     }
     
-    func publish(topic:String, data:NSObject?) {
+    func publish(_ topic:String, data:NSObject?) {
         let listeners = subscribers[topic];
         if (listeners != nil) {
             for l in listeners!.values {
@@ -56,6 +56,6 @@ class EventHandler {
 
 protocol EventListener {
     var listenerIndex:Int? { get set }
-    func setListenerIndex(index:Int)
-    func onEvent(topic:String, data:NSObject?)
+    func setListenerIndex(_ index:Int)
+    func onEvent(_ topic:String, data:NSObject?)
 }

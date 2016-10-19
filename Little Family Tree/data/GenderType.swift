@@ -1,3 +1,3 @@
 enum GenderType {
-	case MALE, FEMALE, OTHER, UNKNOWN
+	case male, female, other, unknown
 }

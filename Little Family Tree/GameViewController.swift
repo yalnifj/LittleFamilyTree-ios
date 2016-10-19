@@ -10,47 +10,47 @@ import UIKit
 import SpriteKit
 import Firebase
 
-extension RangeReplaceableCollectionType where Generator.Element : Equatable {
-    mutating func removeObject(object:Self.Generator.Element) {
-        if let found = self.indexOf(object) {
-            self.removeAtIndex(found)
+extension RangeReplaceableCollection where Iterator.Element : Equatable {
+    mutating func removeObject(_ object:Self.Iterator.Element) {
+        if let found = self.index(of: object) {
+            self.remove(at: found)
         }
     }
 }
 
 extension String {
-    func split(splitter: String) -> Array<String> {
+    func split(_ splitter: String) -> Array<String> {
         let regEx = try? NSRegularExpression(pattern: splitter, options: [])
         let stop = "-=-=-"
-        let modifiedString = regEx!.stringByReplacingMatchesInString(self, options: NSMatchingOptions(),
+        let modifiedString = regEx!.stringByReplacingMatches(in: self, options: NSRegularExpression.MatchingOptions(),
             range: NSMakeRange(0, self.characters.count),
             withTemplate:stop)
-        return modifiedString.componentsSeparatedByString(stop)
+        return modifiedString.components(separatedBy: stop)
     }
     
-    func replaceAll(regex:String, replace:String) -> String {
+    func replaceAll(_ regex:String, replace:String) -> String {
         let regEx = try? NSRegularExpression(pattern: regex, options: [])
-        let modifiedString = regEx!.stringByReplacingMatchesInString(self, options: NSMatchingOptions(),
+        let modifiedString = regEx!.stringByReplacingMatches(in: self, options: NSRegularExpression.MatchingOptions(),
             range: NSMakeRange(0, self.characters.count),
             withTemplate:replace)
         return modifiedString
     }
     
     func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
 }
 
 extension SKNode {
-    class func unarchiveFromFile(file : String) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
+    class func unarchiveFromFile(_ file : String) -> SKNode? {
+        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
             do {
-                let sceneData = try NSData(contentsOfFile: path, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                let sceneData = try Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe)
                 //var sceneData = NSData(contentsOfFile: path, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: nil)!
-                let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+                let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
             
                 archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-                let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! SplashScene
+                let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! SplashScene
                 archiver.finishDecoding()
                 return scene
             } catch _ as NSError {
@@ -66,14 +66,14 @@ extension UIColor {
         let r, g, b, a: CGFloat
         
         if hexString.hasPrefix("#") {
-            let start = hexString.startIndex.advancedBy(1)
-            let hexColor = hexString.substringFromIndex(start)
+            let start = hexString.characters.index(hexString.startIndex, offsetBy: 1)
+            let hexColor = hexString.substring(from: start)
             
             if hexColor.characters.count == 8 {
-                let scanner = NSScanner(string: hexColor)
+                let scanner = Scanner(string: hexColor)
                 var hexNumber: UInt64 = 0
                 
-                if scanner.scanHexLongLong(&hexNumber) {
+                if scanner.scanHexInt64(&hexNumber) {
                     r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
                     g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
                     b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
@@ -104,18 +104,18 @@ class GameViewController: UIViewController {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
             skView.presentScene(scene)
         }
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return false
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask(rawValue: UIInterfaceOrientationMask.allButUpsideDown.rawValue)
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,7 +123,7 @@ class GameViewController: UIViewController {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }

@@ -6,7 +6,7 @@ class Media : NSObject {
 	var localPath : NSString?
 	var type : NSString?
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         if let media = object as? Media {
             return media.id == self.id
         }

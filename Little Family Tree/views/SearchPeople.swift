@@ -41,29 +41,29 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
         let nib = UINib(nibName: "SearchPersonTableCell", bundle: nil)
-        self.resultsTable.registerNib(nib, forCellReuseIdentifier: "SearchPersonTableCell")
+        self.resultsTable.register(nib, forCellReuseIdentifier: "SearchPersonTableCell")
         self.resultsTable.rowHeight = 60
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "SearchPeople", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
     
-    @IBAction func backButtonAction(sender: AnyObject) {
+    @IBAction func backButtonAction(_ sender: AnyObject) {
         print("Back Button Clicked")
         self.view.removeFromSuperview()
         openingScene?.showSettings()
     }
     
-    @IBAction func searchButtonAction(sender: AnyObject) {
+    @IBAction func searchButtonAction(_ sender: AnyObject) {
         let dataService = DataService.getInstance()
         let given = firstNameTxt.text
         let surname = lastNameTxt.text
@@ -74,10 +74,10 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
         view.endEditing(true)
     }
     
-    @IBAction func showFamilyAction(sender: AnyObject) {
+    @IBAction func showFamilyAction(_ sender: AnyObject) {
         let dataService = DataService.getInstance()
         dataService.getFamilyMembers(selectedPerson!, loadSpouse: true, onCompletion: { people, err in
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.results = people!
                 self.resultsTable.reloadData()
             }
@@ -85,25 +85,25 @@ class SearchPeople: UIView,UITableViewDelegate,UITableViewDataSource {
     }
     
     
-    func showResults(results:[LittlePerson]) {
+    func showResults(_ results:[LittlePerson]) {
         self.results = results
         self.resultsTable.reloadData()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.results.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:SearchPersonTableCell = self.resultsTable.dequeueReusableCellWithIdentifier("SearchPersonTableCell")! as! SearchPersonTableCell
-        let person = self.results[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:SearchPersonTableCell = self.resultsTable.dequeueReusableCell(withIdentifier: "SearchPersonTableCell")! as! SearchPersonTableCell
+        let person = self.results[(indexPath as NSIndexPath).row]
         cell.setValues(person)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("You selected cell #\(indexPath.row)!")
-        let person = results[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected cell #\((indexPath as NSIndexPath).row)!")
+        let person = results[(indexPath as NSIndexPath).row]
         
         self.view?.removeFromSuperview()
         

@@ -10,7 +10,7 @@ import Foundation
 import StoreKit
 
 @objc class IAPHelper: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    var productIDs: Array<String!> = ["LFTPremium"]
+    var productIDs: Array<String?> = ["LFTPremium"]
     var productsArray =  [SKProduct]()
     var transactionInProgress = false
     var listener:IAPHelperListener
@@ -18,25 +18,25 @@ import StoreKit
     init(listener:IAPHelperListener) {
         self.listener = listener
         super.init()
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        SKPaymentQueue.default().add(self)
         requestProductInfo()
     }
     
     func cleanup() {
-        SKPaymentQueue.defaultQueue().removeTransactionObserver(self)
+        SKPaymentQueue.default().remove(self)
     }
     
     func restorePurchases() {
         transactionInProgress = true
-        SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
+        SKPaymentQueue.default().restoreCompletedTransactions()
     }
  
     func requestProductInfo() {
         if SKPaymentQueue.canMakePayments() {
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 var productIdentifiers = Set<String>()
                 for id in self.productIDs {
-                    productIdentifiers.insert(id)
+                    productIdentifiers.insert(id!)
                 }
                 let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
                 
@@ -49,7 +49,7 @@ import StoreKit
         }
     }
     
-    @objc func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+    @objc func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count != 0 {
             if productsArray.count == 0 {
                 for product in response.products {
@@ -73,11 +73,11 @@ import StoreKit
         return SKPaymentQueue.canMakePayments()
     }
     
-    func buyProduct(productIndex:Int) {
+    func buyProduct(_ productIndex:Int) {
         if !self.transactionInProgress {
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 let payment = SKPayment(product: self.productsArray[productIndex] as SKProduct)
-                SKPaymentQueue.defaultQueue().addPayment(payment)
+                SKPaymentQueue.default().add(payment)
                 self.transactionInProgress = true
             })
         } else {
@@ -86,21 +86,21 @@ import StoreKit
         }
     }
     
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
-            case SKPaymentTransactionState.Purchased:
+            case SKPaymentTransactionState.purchased:
                 print("Transaction completed successfully.")
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                SKPaymentQueue.default().finishTransaction(transaction)
                 transactionInProgress = false
-                let productIdentifier = transaction.originalTransaction?.payment.productIdentifier
+                let productIdentifier = transaction.original?.payment.productIdentifier
                 if productIdentifier != nil && productIdentifier == productIDs[0] {
                     listener.onTransactionComplete()
                 }
                 break
-            case SKPaymentTransactionState.Failed:
+            case SKPaymentTransactionState.failed:
                 print("Transaction Failed \(transaction.error)")
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                SKPaymentQueue.default().finishTransaction(transaction)
                 transactionInProgress = false
                 if transaction.error != nil {
                     listener.onError("Transaction Failed \(transaction.error!)")
@@ -108,16 +108,16 @@ import StoreKit
                     listener.onError("Transaction Failed")
                 }
                 break
-            case SKPaymentTransactionState.Restored:
+            case SKPaymentTransactionState.restored:
                 print("Transaction Restored")
                 transactionInProgress = false
-                let productIdentifier = transaction.originalTransaction?.payment.productIdentifier
+                let productIdentifier = transaction.original?.payment.productIdentifier
                 if productIdentifier != nil && productIdentifier == productIDs[0] {
                     listener.onTransactionComplete()
                 } else {
                     listener.onError("Unable to find previous purchase.")
                 }
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                SKPaymentQueue.default().finishTransaction(transaction)
                 break
             default:
                 print(transaction.transactionState.rawValue)
@@ -127,7 +127,7 @@ import StoreKit
 }
 
 protocol IAPHelperListener {
-    func onProductsReady(productsArray: [SKProduct])
+    func onProductsReady(_ productsArray: [SKProduct])
     func onTransactionComplete()
-    func onError(error:String)
+    func onError(_ error:String)
 }

@@ -8,6 +8,17 @@
 
 import SpriteKit
 import CoreImage
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     static var TOPIC_CHOOSE_PERSON = "choose_person"
@@ -18,26 +29,26 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     var peopleSprites = [PersonNameSprite]()
     var people = [LittlePerson]()
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "scratch_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
         self.addChild(background)
         
-        let titleSize = CGSizeMake(self.size.width, self.size.height / 15)
-        titleBar = SKSpriteNode(color: UIColor.grayColor(), size: titleSize)
-        titleBar?.position = CGPointMake(self.size.width/2, (self.size.height - titleBar!.size.height))
+        let titleSize = CGSize(width: self.size.width, height: self.size.height / 15)
+        titleBar = SKSpriteNode(color: UIColor.gray, size: titleSize)
+        titleBar?.position = CGPoint(x: self.size.width/2, y: (self.size.height - titleBar!.size.height))
         self.addChild(titleBar!)
         
-        let titleBackground = SKSpriteNode(color: UIColor.whiteColor(), size: titleSize)
+        let titleBackground = SKSpriteNode(color: UIColor.white, size: titleSize)
         titleBackground.zPosition = 1
-        titleBackground.position = CGPointMake(0,titleSize.height / 2)
+        titleBackground.position = CGPoint(x: 0,y: titleSize.height / 2)
         titleBar!.addChild(titleBackground)
         
         let titleLabel = SKLabelNode(text: "Who is playing today?")
@@ -45,26 +56,26 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         if titleLabel.frame.size.width > titleBar!.size.width * 0.60 {
             titleLabel.fontSize = titleLabel.fontSize * 0.75
         }
-        titleLabel.fontColor = UIColor.blackColor()
-        titleLabel.position = CGPointMake(0, titleLabel.fontSize / 2)
+        titleLabel.fontColor = UIColor.black
+        titleLabel.position = CGPoint(x: 0, y: titleLabel.fontSize / 2)
         titleLabel.zPosition = 2
         titleBar!.addChild(titleLabel)
         
         let signInLabel = LabelEventSprite(text: "Sign In")
-        signInLabel.fontColor = UIColor.blueColor()
+        signInLabel.fontColor = UIColor.blue
         signInLabel.fontSize = titleLabel.fontSize / 1.6
-        signInLabel.position = CGPointMake((titleSize.width / 2) - (5 + signInLabel.frame.size.width / 2), signInLabel.fontSize)
+        signInLabel.position = CGPoint(x: (titleSize.width / 2) - (5 + signInLabel.frame.size.width / 2), y: signInLabel.fontSize)
         signInLabel.zPosition = 3
-        signInLabel.userInteractionEnabled = true
+        signInLabel.isUserInteractionEnabled = true
         signInLabel.topic = ChoosePlayerScene.TOPIC_SIGN_IN
         titleBar!.addChild(signInLabel)
 		
 		let parentsGuideLabel = LabelEventSprite(text: "Parent's Guide")
-        parentsGuideLabel.fontColor = UIColor.blueColor()
+        parentsGuideLabel.fontColor = UIColor.blue
         parentsGuideLabel.fontSize = titleLabel.fontSize / 1.6
-        parentsGuideLabel.position = CGPointMake((5 + parentsGuideLabel.frame.size.width / 2) - (titleSize.width / 2), parentsGuideLabel.fontSize)
+        parentsGuideLabel.position = CGPoint(x: (5 + parentsGuideLabel.frame.size.width / 2) - (titleSize.width / 2), y: parentsGuideLabel.fontSize)
         parentsGuideLabel.zPosition = 3
-        parentsGuideLabel.userInteractionEnabled = true
+        parentsGuideLabel.isUserInteractionEnabled = true
         parentsGuideLabel.topic = ChoosePlayerScene.TOPIC_PARENTS_GUIDE
         titleBar!.addChild(parentsGuideLabel)
         
@@ -80,34 +91,34 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         }
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_CHOOSE_PERSON, listener: self)
         EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_SIGN_IN, listener: self)
 		EventHandler.getInstance().unSubscribe(ChoosePlayerScene.TOPIC_PARENTS_GUIDE, listener: self)
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
     }
 
-    override func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(_ topic: String, data: NSObject?) {
         if topic == ChoosePlayerScene.TOPIC_CHOOSE_PERSON {
             let person = data as! LittlePerson?
-            let transition = SKTransition.revealWithDirection(.Down, duration: 0.5)
+            let transition = SKTransition.reveal(with: .down, duration: 0.5)
             
             let nextScene = GameScene(size: scene!.size)
-            nextScene.scaleMode = .AspectFill
+            nextScene.scaleMode = .aspectFill
             nextScene.chosenPlayer = person
             nextScene.selectedPerson = person
             scene?.view?.presentScene(nextScene, transition: transition)
         }
         else if topic == ChoosePlayerScene.TOPIC_SIGN_IN {
-            if dataService?.serviceType == DataService.SERVICE_TYPE_FAMILYSEARCH {
+            if dataService?.serviceType as String? == DataService.SERVICE_TYPE_FAMILYSEARCH {
                 let subview = FamilySearchLogin(frame: (self.view?.bounds)!)
                 subview.loginListener = self
                 self.view!.addSubview(subview)
-            } else if dataService?.serviceType == DataService.SERVICE_TYPE_PHPGEDVIEW {
+            } else if dataService?.serviceType as String? == DataService.SERVICE_TYPE_PHPGEDVIEW {
                 let subview = PGVLogin(frame: (self.view?.bounds)!)
                 subview.loginListener = self
                 self.view!.addSubview(subview)
@@ -125,15 +136,15 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
     
     func loadPeople() {
         self.people = [LittlePerson]()
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        let group = dispatch_group_create()
-        dispatch_group_enter(group)
+        let queue = DispatchQueue.global()
+        let group = DispatchGroup()
+        group.enter()
         var haschildren = false
         dataService?.getDefaultPerson(false, onCompletion: { person, err in
             if person != nil {
                 self.people.append(person!)
 				let showStepChildren = self.dataService!.dbHelper.getProperty(DataService.PROPERTY_SHOW_STEP_CHILDREN)
-                dispatch_group_enter(group)
+                group.enter()
                 self.dataService?.getSpouses(person!, onCompletion: { spouses, err in
                     if spouses != nil {
                         for s in spouses! {
@@ -141,7 +152,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 self.people.append(s)
 								
 								if showStepChildren == nil || showStepChildren == "true" {
-                                    dispatch_group_enter(group)
+                                    group.enter()
 									self.dataService?.getChildren(s, onCompletion: {children, err in
 										if children != nil {
 											for c in children! {
@@ -151,14 +162,14 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
 												}
 											}
 										}
-                                        dispatch_group_leave(group)
+                                        group.leave()
 									})
 								}
                             }
                         }
                     }
                     
-                    dispatch_group_enter(group)
+                    group.enter()
                     self.dataService?.getChildren(person!, onCompletion: {children, err in
                         if children != nil {
                             for c in children! {
@@ -169,7 +180,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                             }
                         }
                         
-                        dispatch_group_enter(group)
+                        group.enter()
                         self.dataService?.getParents(person!, onCompletion: {parents, err in
                             if parents != nil {
                                 for p in parents! {
@@ -180,7 +191,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 
                                 if !haschildren {
                                     if parents!.count > 1 {
-                                        dispatch_group_enter(group)
+                                        group.enter()
                                         self.dataService?.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
                                                 for gc in grandchildren! {
@@ -190,10 +201,10 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                 }
                                             }
                                             self.addSprites()
-                                            dispatch_group_leave(group)
+                                            group.leave()
                                         })
                                     } else if parents!.count > 0 {
-                                        dispatch_group_enter(group)
+                                        group.enter()
                                         self.dataService?.getChildren(parents![0], onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
                                                 for gc in grandchildren! {
@@ -203,7 +214,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                 }
                                             }
                                             self.addSprites()
-                                            dispatch_group_leave(group)
+                                            group.leave()
                                         })
                                     } else {
                                         self.addSprites()
@@ -211,7 +222,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                 } else {
                                     // add grandchildren
                                     for c in children! {
-                                        dispatch_group_enter(group)
+                                        group.enter()
                                         self.dataService?.getChildren(c, onCompletion: {grandchildren, err in
                                             if grandchildren != nil {
                                                 for gc in grandchildren! {
@@ -220,23 +231,23 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                     }
                                                 }
                                             }
-                                            dispatch_group_leave(group)
+                                            group.leave()
                                         })
                                     }
                                 }
                             } else {
                                 self.addSprites()
                             }
-                            dispatch_group_leave(group)
+                            group.leave()
                         })
-                        dispatch_group_leave(group)
+                        group.leave()
                     })
-                    dispatch_group_leave(group)
+                    group.leave()
                 })
             }
-            dispatch_group_leave(group)
+            group.leave()
         })
-        dispatch_group_notify(group, queue) {
+        group.notify(queue: queue) {
             self.addSprites()
         }
     }
@@ -260,7 +271,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         width = (self.view!.bounds.width / cols)
         
         //-- sort the people
-        self.people.sortInPlace({ $0.age < $1.age })
+        self.people.sort(by: { $0.age < $1.age })
         
         //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
         var x = CGFloat(0.0)
@@ -268,8 +279,8 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
         for p in self.people {
             print("\(p.name!) (\(x),\(y))")
             let sprite = PersonNameSprite()
-            sprite.userInteractionEnabled = true
-            sprite.position = CGPointMake(x, y)
+            sprite.isUserInteractionEnabled = true
+            sprite.position = CGPoint(x: x, y: y)
             sprite.size.width = width
             sprite.size.height = width
             sprite.person = p

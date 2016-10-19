@@ -8,6 +8,17 @@
 
 import Foundation
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class ScratchScene: LittleFamilyScene, RandomMediaListener {
     var randomMediaChooser = RandomMediaChooser.getInstance()
@@ -19,14 +30,14 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     var scratching = false
     var completed = false
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "scratch_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -41,17 +52,17 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         randomMediaChooser.loadMoreFamilyMembers()
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
     }
     
-    func onMediaLoaded(media:Media?) {
+    func onMediaLoaded(_ media:Media?) {
         if media == nil {
             if randomMediaChooser.counter < randomMediaChooser.maxTries {
                 randomMediaChooser.loadMoreFamilyMembers()
                 return
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.hideLoadingDialog()
                     self.showSimpleDialog("No Pictures Found", message: "There are not many pictures in your family tree. This activity requires pictures. Please add more pictures to your online family tree.")
                 }
@@ -79,9 +90,9 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             
             let ypos = 30 + (self.size.height / 2) - (topBar?.size.height)!
             
-            photoSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
+            photoSprite = SKSpriteNode(texture: texture, size: CGSize(width: w, height: h))
             photoSprite?.zPosition = 2
-            photoSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            photoSprite?.position = CGPoint(x: self.size.width / 2, y: ypos)
             photoSprite?.size.width = w
             photoSprite?.size.height = h
             self.addChild(photoSprite!)
@@ -101,7 +112,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             })
             */
             
-            let rect = CGRectMake(0, 0, (photoSprite?.size.width)!, (photoSprite?.size.height)!)
+            let rect = CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!)
             UIGraphicsBeginImageContextWithOptions((photoSprite?.size)!, false, 0)
             let color = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
             color.setFill()
@@ -112,7 +123,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             let coverTexture = SKTexture(image: image!)
             coverSprite = SKSpriteNode(texture: coverTexture)
             coverSprite?.zPosition = 3
-            coverSprite?.position = CGPointMake(self.size.width / 2, ypos)
+            coverSprite?.position = CGPoint(x: self.size.width / 2, y: ypos)
             coverSprite?.size.width = w
             coverSprite?.size.height = h
             self.addChild(coverSprite!)
@@ -126,50 +137,50 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(lastPoint)
+            lastPoint = touch.location(in: self)
+            let touchedNode = atPoint(lastPoint)
             if touchedNode == coverSprite {
                 scratching = true
                 let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
                 if quietMode == nil || quietMode == "false" {
                     let sound = SKAction.playSoundFileNamed("erasing", waitForCompletion: true)
-                    let repeatSound = SKAction.repeatActionForever(sound)
-                    self.runAction(repeatSound)
+                    let repeatSound = SKAction.repeatForever(sound)
+                    self.run(repeatSound)
                 }
             }
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
             if scratching {
                 drawLineFrom(lastPoint, toPoint: nextPoint)
                 
                 let r = CGFloat(1 + arc4random_uniform(3))
                 let bit = SKShapeNode(circleOfRadius: r)
-                bit.strokeColor = UIColor.grayColor()
-                bit.fillColor = UIColor.grayColor()
+                bit.strokeColor = UIColor.gray
+                bit.fillColor = UIColor.gray
                 bit.position = nextPoint
                 bit.zPosition = 10
                 self.addChild(bit)
                 
-                let move = SKAction.moveByX((nextPoint.x - lastPoint.x) * 2.5, y: (nextPoint.y - lastPoint.y) * 2.5, duration: 0.7)
+                let move = SKAction.moveBy(x: (nextPoint.x - lastPoint.x) * 2.5, y: (nextPoint.y - lastPoint.y) * 2.5, duration: 0.7)
                 let actions = SKAction.sequence([move, SKAction.removeFromParent()])
-                bit.runAction(actions)
+                bit.run(actions)
             }
         }
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
 
         }
         self.removeAllActions()
@@ -179,24 +190,24 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         scratching = false
     }
     
-    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+    func drawLineFrom(_ fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContext((image?.size)!)
         let context = UIGraphicsGetCurrentContext()
         
         let oy = (photoSprite?.position.y)! - (photoSprite?.size.height)!/2
         let ox = (photoSprite?.position.x)! - (photoSprite?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
+        image?.draw(in: CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
-        CGContextMoveToPoint(context!, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context!, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        context!.move(to: CGPoint(x: fromPoint.x - ox, y: (photoSprite?.size.height)! - (fromPoint.y - oy)))
+        context!.addLine(to: CGPoint(x: toPoint.x - ox, y: (photoSprite?.size.height)! - (toPoint.y - oy)))
         
-        CGContextSetLineCap(context!, CGLineCap.Round)
-        CGContextSetLineWidth(context!, self.size.width/9)
-        CGContextSetRGBStrokeColor(context!, 0, 0, 0, 1.0)
-        CGContextSetBlendMode(context!, CGBlendMode.Clear)
+        context!.setLineCap(CGLineCap.round)
+        context!.setLineWidth(self.size.width/9)
+        context!.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+        context!.setBlendMode(CGBlendMode.clear)
         
-        CGContextStrokePath(context!)
+        context!.strokePath()
         
         image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -207,8 +218,8 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
     func checkComplete() {
         var complete = false
         if image != nil {
-            let provider = CGImageGetDataProvider(image!.CGImage!)
-            let providerData = CGDataProviderCopyData(provider!)
+            let provider = image!.cgImage!.dataProvider
+            let providerData = provider!.data
             let data = CFDataGetBytePtr(providerData)
             
             let numberOfComponents = Int(4)
@@ -220,7 +231,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
                 repeat {
                     let pixelData = Int(((coverSprite?.size.width)! * y) + x) * numberOfComponents
 
-                        let a = data[pixelData + 3]
+                        let a = data?[pixelData + 3]
                         if (a < 30) {
                             passed += 1
                         }
@@ -237,19 +248,19 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         }
         
         if complete {
-            coverSprite?.hidden = true
+            coverSprite?.isHidden = true
             self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: 5, container: self)
             self.playSuccessSound(1.0, onCompletion: {
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
                 self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
                 
                 self.sayGivenName(self.randomMediaChooser.selectedPerson!)
-                let waitAction = SKAction.waitForDuration(2.5)
-                self.runAction(waitAction) {
+                let waitAction = SKAction.wait(forDuration: 2.5)
+                self.run(waitAction, completion: {
                     self.showLoadingDialog()
                     self.randomMediaChooser.loadRandomImage()
                     self.completed = true
-                }
+                }) 
             })
 
         }

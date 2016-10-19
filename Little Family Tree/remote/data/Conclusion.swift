@@ -8,7 +8,7 @@ class Conclusion : HypermediaEnabledData {
 	var attribution:Attribution?
 	var analysis:ResourceReference?
 	
-	func addAttributionFromJson(json:JSON) {
+	func addAttributionFromJson(_ json:JSON) {
 		if json["attribution"] != nil {
 			self.attribution = Attribution.convertJsonToAttribution(json["attribution"])
 		}

@@ -28,22 +28,22 @@ class HeritageCalculator {
         self.listener = listener
     }
     
-    func canEndPath(path:HeritagePath, origin:String) -> Bool {
+    func canEndPath(_ path:HeritagePath, origin:String) -> Bool {
         if (path.treePath.count >= HeritageCalculator.MAX_PATHS) { return true; }
         if (path.place == origin) { return false; }
         if (path.place == PlaceHelper.UNKNOWN) { return false; }
         if (path.treePath.count <= 2) { return false; }
-        if (origin.caseInsensitiveCompare("united states") == NSComparisonResult.OrderedSame && path.place.caseInsensitiveCompare("canada") == NSComparisonResult.OrderedSame) {
+        if (origin.caseInsensitiveCompare("united states") == ComparisonResult.orderedSame && path.place.caseInsensitiveCompare("canada") == ComparisonResult.orderedSame) {
             return false;
         }
-        if (origin.caseInsensitiveCompare("canada") == NSComparisonResult.OrderedSame && path.place.caseInsensitiveCompare("united states") == NSComparisonResult.OrderedSame) {
+        if (origin.caseInsensitiveCompare("canada") == ComparisonResult.orderedSame && path.place.caseInsensitiveCompare("united states") == ComparisonResult.orderedSame) {
             return false;
         }
         return true;
     }
     
-    func execute(person:LittlePerson) {
-        let startdate = NSDate()
+    func execute(_ person:LittlePerson) {
+        let startdate = Foundation.Date()
         self.paths = [HeritagePath]()
         workingPaths = [HeritagePath]()
         var origin = PlaceHelper.getPlaceCountry(person.birthPlace as String?)
@@ -66,7 +66,7 @@ class HeritageCalculator {
                         let place = PlaceHelper.getPersonCountry(parent)
                         let ppath = HeritagePath(place: place)
                         ppath.percent = path.percent / Double(parents!.count)
-                        ppath.treePath.appendContentsOf(path.treePath)
+                        ppath.treePath.append(contentsOf: path.treePath)
                         ppath.treePath.append(parent)
                         self.workingPaths.append(ppath)
                         if (origin == PlaceHelper.UNKNOWN && ppath.place != PlaceHelper.UNKNOWN) {
@@ -99,7 +99,7 @@ class HeritageCalculator {
     
     func mapPaths() {
         for path in self.paths {
-            let place = path.place.lowercaseString
+            let place = path.place.lowercased()
             if (cultures[place] == nil) {
                 cultures[place] = path
                 var pl = [LittlePerson]()
@@ -113,15 +113,15 @@ class HeritageCalculator {
                 } else {
                     path.percent = percent
                     cultures[place] = path
-                    culturePeople[place]?.insert(path.treePath.last!, atIndex: 0)
+                    culturePeople[place]?.insert(path.treePath.last!, at: 0)
                 }
             }
         }
         
-        uniquePaths.appendContentsOf(cultures.values)
-        uniquePaths.sortInPlace()
+        uniquePaths.append(contentsOf: cultures.values)
+        uniquePaths.sort()
         if (uniquePaths.count > 13) {
-            uniquePaths.removeRange(14..<uniquePaths.count)
+            uniquePaths.removeSubrange(14..<uniquePaths.count)
         }
         for path in uniquePaths {
             let lastInPath = path.treePath.last

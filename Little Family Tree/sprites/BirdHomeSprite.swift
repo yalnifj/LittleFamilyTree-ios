@@ -18,7 +18,7 @@ class BirdHomeSprite: EventSprite {
     
     func createActions() {
         if action1==nil {
-            action1 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird"),
+            action1 = SKAction.animate(with: [ SKTexture.init(imageNamed: "house_tree_bird"),
                 SKTexture.init(imageNamed: "house_tree_bird1"),
                 SKTexture.init(imageNamed: "house_tree_bird2"),
                 SKTexture.init(imageNamed: "house_tree_bird1"),
@@ -27,7 +27,7 @@ class BirdHomeSprite: EventSprite {
         
         if action2==nil {
             action2 = SKAction.group([
-                SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird3"),
+                SKAction.animate(with: [ SKTexture.init(imageNamed: "house_tree_bird3"),
                     SKTexture.init(imageNamed: "house_tree_bird4"),
                     SKTexture.init(imageNamed: "house_tree_bird5"),
                     SKTexture.init(imageNamed: "house_tree_bird6"),
@@ -38,7 +38,7 @@ class BirdHomeSprite: EventSprite {
         }
         
         if action3 == nil {
-            action3 = SKAction.waitForDuration(1.0)
+            action3 = SKAction.wait(forDuration: 1.0)
         }
         
         let f = arc4random_uniform(2)
@@ -62,14 +62,14 @@ class BirdHomeSprite: EventSprite {
         if a > 0 {
             act = action3
         }
-        runAction(act!) {
+        run(act!, completion: {
             self.createActions()
-        }
+        }) 
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        runAction(action2!) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        run(action2!, completion: {
             EventHandler.getInstance().publish(GameScene.TOPIC_START_BIRD, data: self)
-        }
+        }) 
     }
 }

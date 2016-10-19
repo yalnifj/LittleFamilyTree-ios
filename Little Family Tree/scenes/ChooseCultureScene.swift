@@ -19,10 +19,10 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     //var pathPerson:PersonNameSprite?
     var doll:AnimatedStateSprite?
     var countryLabel:SKLabelNode?
-    var startTime:NSDate?
+    var startTime:Foundation.Date?
     var calculator:HeritageCalculator?
-    var colors = [UIColor.blueColor(), UIColor.redColor(), UIColor.purpleColor(), UIColor.orangeColor(),
-        UIColor.greenColor(), UIColor.yellowColor(), UIColor.grayColor(), UIColor.cyanColor(), UIColor.magentaColor()]
+    var colors = [UIColor.blue, UIColor.red, UIColor.purple, UIColor.orange,
+        UIColor.green, UIColor.yellow, UIColor.gray, UIColor.cyan, UIColor.magenta]
     
     var selectedPath:HeritagePath?
     var dolls = DressUpDolls()
@@ -30,8 +30,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     
     var portrait = true
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -39,7 +39,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         self.portrait = self.size.height > self.size.width
         
         let background = SKSpriteNode(imageNamed: "dressup_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -48,22 +48,22 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         setupTopBar()
         
         titleLabel = SKLabelNode(text: "Calculating your heritage. Please wait...")
-        titleLabel?.fontColor = UIColor.blackColor()
+        titleLabel?.fontColor = UIColor.black
         titleLabel?.fontSize = min(self.size.width, self.size.height) / 25
         titleLabel?.zPosition = 1
-        titleLabel?.position = CGPointMake(self.size.width/2, topBar!.position.y - (5 + topBar!.size.height))
+        titleLabel?.position = CGPoint(x: self.size.width/2, y: topBar!.position.y - (5 + topBar!.size.height))
         self.addChild(titleLabel!)
         
         var height = self.size.height * 0.5
         if !portrait {
             height = (self.size.height - self.topBar!.size.height) * 0.90
         }
-        whiteBackground = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(self.size.width, self.size.height * 0.5))
+        whiteBackground = SKSpriteNode(color: UIColor.white, size: CGSize(width: self.size.width, height: self.size.height * 0.5))
         if !portrait {
             whiteBackground?.size.height = height
             whiteBackground?.size.width = self.size.width * 0.66
         }
-        whiteBackground?.position = CGPointMake(self.size.width/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        whiteBackground?.position = CGPoint(x: self.size.width/2, y: (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         if !portrait {
             whiteBackground?.position.x = self.size.width * 0.66 / 2
         }
@@ -71,7 +71,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         self.addChild(whiteBackground!)
         
         var outline = "boyoutline"
-        if selectedPerson?.gender == GenderType.FEMALE {
+        if selectedPerson?.gender == GenderType.female {
             outline = "girloutline"
         }
         let outlineTexture = SKTexture(imageNamed: "dolls/\(outline)")
@@ -83,7 +83,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             outlineSprite?.size.width = whiteBackground!.size.width / 2
             outlineSprite?.size.height = (whiteBackground!.size.width / 2) / ratio
         }
-        outlineSprite?.position = CGPointMake(30 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
+        outlineSprite?.position = CGPoint(x: 30 + whiteBackground!.position.x - (outlineSprite?.size.width)!/2, y: (titleLabel?.position.y)! - ((titleLabel?.fontSize)!/2 + height/2))
         outlineSprite?.zPosition = 3
         let shader = SKShader(fileNamed: "gradient.fsh")
         outlineSprite?.shader = shader
@@ -94,42 +94,42 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         pathPerson = Gallery()
         pathPerson?.size.width = self.size.width/2
         pathPerson?.size.height = self.size.height - ((outlineSprite?.size.height)! + 20 + (topBar?.size.height)!)
-        pathPerson?.position = CGPointMake(0, 20)
+        pathPerson?.position = CGPoint(x: 0, y: 20)
         if !portrait {
-            pathPerson?.position = CGPointMake(self.size.width * 0.76, height / 1.7)
+            pathPerson?.position = CGPoint(x: self.size.width * 0.76, y: height / 1.7)
             pathPerson?.size.width = self.size.width / 4.5
             pathPerson?.size.height = height / 2.3
         }
         pathPerson?.zPosition = 3
-        pathPerson?.hidden = true
-        pathPerson?.userInteractionEnabled = true
+        pathPerson?.isHidden = true
+        pathPerson?.isUserInteractionEnabled = true
         pathPerson?.adapter = galleryAdapter
         self.addChild(pathPerson!)
         
         doll = AnimatedStateSprite()
         doll?.size.width = self.size.width/3
         doll?.size.height = self.size.width/3
-        doll?.position = CGPointMake(self.size.width*0.75, 70 + doll!.size.height / 2)
+        doll?.position = CGPoint(x: self.size.width*0.75, y: 70 + doll!.size.height / 2)
         if !portrait {
             doll?.size.width = self.size.width/4
             doll?.size.height = self.size.width/4
-            doll?.position = CGPointMake(self.size.width*0.82, 70 + doll!.size.height / 2)
+            doll?.position = CGPoint(x: self.size.width*0.82, y: 70 + doll!.size.height / 2)
         }
         doll?.zPosition = 3
-        doll?.hidden = true
+        doll?.isHidden = true
         self.addChild(doll!)
         
         countryLabel = SKLabelNode(text: "country")
-        countryLabel?.fontColor = UIColor.blackColor()
+        countryLabel?.fontColor = UIColor.black
         countryLabel?.fontSize = 11
         countryLabel?.zPosition = 4
-        countryLabel?.position = CGPointMake((doll?.position.x)!, 30)
-        countryLabel?.hidden = true
+        countryLabel?.position = CGPoint(x: (doll?.position.x)!, y: 30)
+        countryLabel?.isHidden = true
         self.addChild(countryLabel!)
 
-        self.startTime = NSDate()
-        let operationQueue = NSOperationQueue()
-        let operation1 : NSBlockOperation = NSBlockOperation (block: {
+        self.startTime = Foundation.Date()
+        let operationQueue = OperationQueue()
+        let operation1 : BlockOperation = BlockOperation (block: {
             self.calculator = HeritageCalculator(listener: self)
             self.calculator!.execute(self.selectedPerson!)
         })
@@ -139,8 +139,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         EventHandler.getInstance().subscribe(ChooseCultureScene.TOPIC_PERSON_TOUCHED, listener: self)
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(ChooseCultureScene.TOPIC_PERSON_TOUCHED, listener: self)
     }
     
@@ -149,15 +149,15 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         if diff < 0 {
             diff = 0
         }
-        let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), diff * Int64(NSEC_PER_SEC))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(diff * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.calculator?.mapPaths()
             
             self.outlineSprite?.shader = nil
             
             var c = 0
             var y:CGFloat = self.outlineSprite!.position.y - (self.outlineSprite!.size.height / 2)
-            let rpaths = self.calculator!.uniquePaths.reverse()
+            let rpaths = self.calculator!.uniquePaths.reversed()
             var theight = CGFloat(0)
             var tpercent = Double(0)
             var count = 0
@@ -173,26 +173,29 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                 tpercent += path.percent
                 theight += height
                 count += 1
-                let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSizeMake((self.outlineSprite?.size.width)!, height))
+                let pathColor = SKSpriteNode(color: self.colors[c % self.colors.count], size: CGSize(width: (self.outlineSprite?.size.width)!, height: height))
                 pathColor.zPosition = 2
-                pathColor.position = CGPointMake((self.outlineSprite?.position.x)!, y + height/2)
+                pathColor.position = CGPoint(x: (self.outlineSprite?.position.x)!, y: y + height/2)
                 self.addChild(pathColor)
                 
                 let pathTitle = SKLabelNode(text: "\(path.place) " + String(format: "%.1f", path.percent*100) + "%")
-                pathTitle.fontColor = UIColor.blackColor()
+                pathTitle.fontColor = UIColor.black
                 pathTitle.fontSize = self.outlineSprite!.size.height / 20
                 pathTitle.zPosition = 4
-                pathTitle.position = CGPointMake(self.whiteBackground!.size.width*0.75, y + height/3)
+                pathTitle.position = CGPoint(x: self.whiteBackground!.size.width*0.75, y: y + height/3)
                 self.addChild(pathTitle)
                 print(pathTitle.text)
                 
-                let linePath = CGPathCreateMutable()
-                CGPathMoveToPoint(linePath, nil, pathColor.position.x+20, pathColor.position.y)
-                CGPathAddLineToPoint(linePath, nil, pathColor.position.x + pathColor.size.width/2, pathTitle.position.y-2)
-                CGPathAddLineToPoint(linePath, nil, self.whiteBackground!.size.width - 10, pathTitle.position.y-2)
+                let linePath = CGMutablePath()
+                linePath.move(to: CGPoint(x: pathColor.position.x+20, y: pathColor.position.y))
+                //CGPathMoveToPoint(linePath, nil, pathColor.position.x+20, pathColor.position.y)
+                linePath.addLine(to: CGPoint(x: pathColor.position.x + pathColor.size.width/2, y: pathTitle.position.y-2))
+                //CGPathAddLineToPoint(linePath, nil, pathColor.position.x + pathColor.size.width/2, pathTitle.position.y-2)
+                linePath.addLine(to: CGPoint(x: self.whiteBackground!.size.width - 10, y: pathTitle.position.y-2))
+                //CGPathAddLineToPoint(linePath, nil, self.whiteBackground!.size.width - 10, pathTitle.position.y-2)
                 let line = SKShapeNode()
                 line.path = linePath
-                line.strokeColor = UIColor.blackColor()
+                line.strokeColor = UIColor.black
                 line.lineWidth = 1
                 line.zPosition = 4
                 self.addChild(line)
@@ -230,16 +233,16 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         }
     }
     
-    func speakDetails(relative:LittlePerson) {
+    func speakDetails(_ relative:LittlePerson) {
         let relationship = RelationshipCalculator.getAncestralRelationship(selectedPath!.treePath.count, p: relative, me: selectedPerson!, isRoot: false, isChild: false, isInLaw: false);
         
-        relative.relationship = relationship
+        relative.relationship = relationship as NSString?
         let percString = String(format: "%.1f", selectedPath!.percent*100)
         var text = "You are \(percString) percent from \(selectedPath!.place) from your \(relationship). "
         if (relative.birthDate != nil) {
-            let df = NSDateFormatter()
-            df.dateStyle = .LongStyle
-            let dateText = df.stringFromDate(relative.birthDate!)
+            let df = DateFormatter()
+            df.dateStyle = .long
+            let dateText = df.string(from: relative.birthDate!)
             if (relative.birthPlace != nil ) {
                 text += " \(relative.name!) was born in \(relative.birthPlace!) on \(dateText)"
             } else {
@@ -256,14 +259,14 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     }
 
     
-    func setSelectedPath(path:HeritagePath) {
+    func setSelectedPath(_ path:HeritagePath) {
         self.selectedPath = path
         
         titleLabel?.text = "Choose a country"
 
         //pathPerson?.person = self.calculator!.culturePeople[path.place.lowercaseString]![0]
-        galleryAdapter?.people = self.calculator!.culturePeople[path.place.lowercaseString]!
-        pathPerson?.hidden = false
+        galleryAdapter?.people = self.calculator!.culturePeople[path.place.lowercased()]!
+        pathPerson?.isHidden = false
         
         dollConfig = self.dolls.getDollConfig(path.place, person: selectedPerson!)
 
@@ -271,19 +274,19 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         let ratio = texture.size().width / texture.size().height
         doll?.size.width = (doll?.size.height)! * ratio
         doll?.texture = texture
-        doll?.hidden = false
+        doll?.isHidden = false
         
         let personNode = pathPerson!.visibleNodes[0] as! PersonNameSprite
         
         countryLabel?.text = path.place
         countryLabel?.fontSize = personNode.nameLabel!.fontSize
-        countryLabel?.hidden = false
+        countryLabel?.isHidden = false
         
         speakDetails(personNode.person!)
         //speakDetails(pathPerson!.person!)
     }
     
-    override func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if topic == ChooseCultureScene.TOPIC_PERSON_TOUCHED {
             let person = data as! LittlePerson
@@ -294,27 +297,27 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         }
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             checkForPath(touch)
             break
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             checkForPath(touch)
             break
         }
     }
 
-    func checkForPath(touch:UITouch) {
-        let location = touch.locationInNode(self)
-        let touchedNode = nodeAtPoint(location)
+    func checkForPath(_ touch:UITouch) {
+        let location = touch.location(in: self)
+        let touchedNode = atPoint(location)
         
         if touchedNode == self.doll || touchedNode == self.countryLabel {
             if dollConfig != nil {
@@ -325,12 +328,12 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         
         var y:CGFloat = self.outlineSprite!.position.y - self.outlineSprite!.size.height / 2
         let x:CGFloat = self.whiteBackground!.position.x + self.whiteBackground!.size.width / 2
-        let ty = self.size.height - touch.locationInView(self.view).y
-        let tx = touch.locationInView(self.view).x
+        let ty = self.size.height - touch.location(in: self.view).y
+        let tx = touch.location(in: self.view).x
         if tx > x {
             return
         }
-        let rpaths = self.calculator!.uniquePaths.reverse()
+        let rpaths = self.calculator!.uniquePaths.reversed()
         var theight = CGFloat(0)
         for path in rpaths {
             var height = self.outlineSprite!.size.height * CGFloat(path.percent)

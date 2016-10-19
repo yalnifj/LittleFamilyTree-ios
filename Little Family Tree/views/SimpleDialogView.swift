@@ -32,19 +32,19 @@ class SimpleDialogView: UIView {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "SimpleDialogView", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    func setMessage(title:String, message:String) {
+    func setMessage(_ title:String, message:String) {
         titleBar.topItem?.title = title
         
         messageLabel.text = message
@@ -52,7 +52,7 @@ class SimpleDialogView: UIView {
         messageLabel.sizeToFit()
     }
     
-    @IBAction func closeButtonClicked(sender: AnyObject) {
+    @IBAction func closeButtonClicked(_ sender: AnyObject) {
         self.removeFromSuperview()
         if listener != nil {
             listener!.onDialogClose()

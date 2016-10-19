@@ -22,14 +22,14 @@ class SearchPersonTableCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func setValues(person:LittlePerson) {
-        if person.gender == GenderType.MALE {
+    func setValues(_ person:LittlePerson) {
+        if person.gender == GenderType.male {
             genderLbl.text = "M"
-        } else if person.gender == GenderType.FEMALE {
+        } else if person.gender == GenderType.female {
             genderLbl.text = "F"
         } else {
             genderLbl.text = "U"
@@ -39,9 +39,9 @@ class SearchPersonTableCell: UITableViewCell {
         remoteIdLbl.text = person.familySearchId as String?
         birthPlaceLbl.text = person.birthPlace as String?
         if person.birthDate != nil {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "MMM d, yyyy"
-            let dateString = formatter.stringFromDate(person.birthDate!)
+            let dateString = formatter.string(from: person.birthDate! as Date)
             birthDateLbl.text = dateString
         } else {
             birthDateLbl.text = "Unknown"

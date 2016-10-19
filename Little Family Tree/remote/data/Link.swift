@@ -10,10 +10,10 @@ class Link {
 	var hreflang : NSString?
 	var title : NSString?
 	
-	static func convertJsonToLink(rel : NSString, lson : JSON) -> Link {
+	static func convertJsonToLink(_ rel : NSString, lson : JSON) -> Link {
 		let link = Link()
 		link.rel = rel
-		link.href = lson["href"].description
+		link.href = lson["href"].description as NSString?
 		return link
 	}
 }

@@ -37,14 +37,14 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
     
     var showOutline = true
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "scratch_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -55,9 +55,9 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         palette = ColorPaletteSprite()
         palette?.size.width = self.size.width * 0.60
         palette?.size.height = self.size.height / 8
-        palette?.position = CGPointMake(0, 0)
+        palette?.position = CGPoint(x: 0, y: 0)
         palette?.zPosition = 10
-        palette?.userInteractionEnabled = true
+        palette?.isUserInteractionEnabled = true
         palette?.listener = self
         self.addChild(palette!)
         
@@ -69,13 +69,13 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         
         brushSize = min(self.size.width, self.size.height)/16
         brushSizer = BrushSizeSprite()
-        brushSizer?.size = CGSizeMake((palette?.size.height)!, (palette?.size.height)!)
-        brushSizer?.position = CGPointMake((palette?.size.width)!, 0)
+        brushSizer?.size = CGSize(width: (palette?.size.height)!, height: (palette?.size.height)!)
+        brushSizer?.position = CGPoint(x: (palette?.size.width)!, y: 0)
         brushSizer?.zPosition = 10
         brushSizer?.maxSize = min(brushSizer!.size.width, brushSizer!.size.height)
         brushSizer?.minSize = max(brushSize/6, 10)
         brushSizer?.brushSize = brushSize
-        brushSizer?.userInteractionEnabled = true
+        brushSizer?.isUserInteractionEnabled = true
         brushSizer?.listener = self
         self.addChild(brushSizer!)
         
@@ -84,7 +84,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let h = (palette?.size.height)! / 2
         outlineButton?.size.height = h
         outlineButton?.size.width = h * r1
-        outlineButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h)
+        outlineButton?.position = CGPoint(x: (brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, y: (palette?.size.height)! - h)
         outlineButton?.zPosition = 10
         self.addChild(outlineButton!)
 
@@ -94,7 +94,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let h2 = (palette?.size.height)! / 3
         nextButton?.size.height = h2
         nextButton?.size.width = h2 * r3
-        nextButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, (palette?.size.height)! - h2)
+        nextButton?.position = CGPoint(x: (brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, y: (palette?.size.height)! - h2)
         nextButton?.zPosition = 10
         nextButton?.topic = ColoringScene.TOPIC_NEXT_IMAGE
         topBar!.addCustomSprite(nextButton!)
@@ -104,7 +104,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let r2 = (shareButton?.size.width)! / (shareButton?.size.height)!
         shareButton?.size.height = h2
         shareButton?.size.width = h2 * r2
-        shareButton?.position = CGPointMake((brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, h2)
+        shareButton?.position = CGPoint(x: (brushSizer?.position.x)! + (brushSizer?.size.width)! + 20, y: h2)
         shareButton?.zPosition = 10
         shareButton?.topic = ColoringScene.TOPIC_SHARE_IMAGE
         //self.addChild(shareButton!)
@@ -120,17 +120,17 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         EventHandler.getInstance().subscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(ColoringScene.TOPIC_NEXT_IMAGE, listener: self)
         EventHandler.getInstance().unSubscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         
     }
     
-    func onMediaLoaded(media:Media?) {
+    func onMediaLoaded(_ media:Media?) {
         if media == nil {
             if randomMediaChooser.counter < randomMediaChooser.maxTries {
                 randomMediaChooser.loadMoreFamilyMembers()
@@ -173,19 +173,19 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 			
 			fullImageHolder = SKSpriteNode()
 			fullImageHolder?.zPosition = 2
-			fullImageHolder?.position = CGPointMake(self.size.width / 2, ypos)
+			fullImageHolder?.position = CGPoint(x: self.size.width / 2, y: ypos)
 			fullImageHolder?.size.width = w
 			fullImageHolder?.size.height = h
 			self.addChild(fullImageHolder!)
             
-            photoSprite = SKSpriteNode(texture: texture, size: CGSizeMake(w, h))
+            photoSprite = SKSpriteNode(texture: texture, size: CGSize(width: w, height: h))
             photoSprite?.zPosition = 2
-            photoSprite?.position = CGPointMake(0, 0)
+            photoSprite?.position = CGPoint(x: 0, y: 0)
             photoSprite?.size.width = w
             photoSprite?.size.height = h
             fullImageHolder!.addChild(photoSprite!)
             
-            let rect = CGRectMake(0, 0, (photoSprite?.size.width)!, (photoSprite?.size.height)!)
+            let rect = CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!)
             UIGraphicsBeginImageContextWithOptions((photoSprite?.size)!, false, 0)
             let color = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             color.setFill()
@@ -196,7 +196,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             let coverTexture = SKTexture(image: image!)
             coverSprite = SKSpriteNode(texture: coverTexture)
             coverSprite?.zPosition = 3
-            coverSprite?.position = CGPointMake(0, 0)
+            coverSprite?.position = CGPoint(x: 0, y: 0)
             coverSprite?.size.width = w
             coverSprite?.size.height = h
             fullImageHolder!.addChild(coverSprite!)
@@ -204,24 +204,24 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             let filter:CIFilter? = CIFilter(name: "CILineOverlay")!
             let os = SKEffectNode()
             os.zPosition = 4
-            os.position = CGPointMake(0, 0)
+            os.position = CGPoint(x: 0, y: 0)
             os.filter = filter
             
-            let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSizeMake(self.size.width/2, self.size.height/2))
+            let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width/2, height: self.size.height/2))
             if smalltexture != nil {
-                photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSizeMake(w, h))
+                photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSize(width: w, height: h))
                 photoCopySprite?.zPosition = 2
-                photoCopySprite?.position = CGPointMake(0, 0)
+                photoCopySprite?.position = CGPoint(x: 0, y: 0)
                 photoCopySprite?.size.width = w
                 photoCopySprite?.size.height = h
                 os.addChild(photoCopySprite!)
             
-                let imageTexture = self.scene!.view!.textureFromNode(os)
+                let imageTexture = self.scene!.view!.texture(from: os)
                 if imageTexture != nil {
                     outlineSprite = SKSpriteNode(texture: imageTexture)
                     outlineSprite!.zPosition = 4
-                    outlineSprite!.position = CGPointMake(0, 0)
-                    outlineSprite?.hidden = !showOutline
+                    outlineSprite!.position = CGPoint(x: 0, y: 0)
+                    outlineSprite?.isHidden = !showOutline
                     fullImageHolder!.addChild(outlineSprite!)
                 }
             }
@@ -246,21 +246,21 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(lastPoint)
+            lastPoint = touch.location(in: self)
+            let touchedNode = atPoint(lastPoint)
             if (outlineSprite != nil && touchedNode == outlineSprite!) || (coverSprite != nil && touchedNode == coverSprite!) {
                 coloring = true
             }
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
             if coloring {
                 drawLineFrom(lastPoint, toPoint: nextPoint)
             }
@@ -268,12 +268,12 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             if coloring == false {
-                let touchedNode = nodeAtPoint(lastPoint)
+                let touchedNode = atPoint(lastPoint)
                 if touchedNode == outlineButton {
                     toggleOutline()
                 }
@@ -284,7 +284,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         coloring = false
     }
     
-    override func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if topic == ColoringScene.TOPIC_NEXT_IMAGE {
             showLoadingDialog()
@@ -300,7 +300,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         }
     }
     
-    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+    func drawLineFrom(_ fromPoint: CGPoint, toPoint: CGPoint) {
         if fullImageHolder == nil || photoSprite == nil || coverSprite == nil {
             return
         }
@@ -311,19 +311,19 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         let oy = (fullImageHolder?.position.y)! - (fullImageHolder?.size.height)!/2
         let ox = (fullImageHolder?.position.x)! - (fullImageHolder?.size.width)!/2
         
-        image?.drawInRect(CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
+        image?.draw(in: CGRect(x: 0, y: 0, width: (image?.size.width)!, height: (image?.size.height)!))
         
         //CGContextMoveToPoint(context, 0, 0)
         //CGContextAddLineToPoint(context, 0, 50)
         
-        CGContextMoveToPoint(context!, fromPoint.x - ox, (photoSprite?.size.height)! - (fromPoint.y - oy))
-        CGContextAddLineToPoint(context!, toPoint.x - ox, (photoSprite?.size.height)! - (toPoint.y - oy))
+        context!.move(to: CGPoint(x: fromPoint.x - ox, y: (photoSprite?.size.height)! - (fromPoint.y - oy)))
+        context!.addLine(to: CGPoint(x: toPoint.x - ox, y: (photoSprite?.size.height)! - (toPoint.y - oy)))
         
-        CGContextSetLineCap(context!, CGLineCap.Round)
-        CGContextSetLineWidth(context!, brushSize)
-        CGContextSetStrokeColorWithColor(context!, color.CGColor)
-        CGContextSetBlendMode(context!, CGBlendMode.Copy)
-        CGContextStrokePath(context!)
+        context!.setLineCap(CGLineCap.round)
+        context!.setLineWidth(brushSize)
+        context!.setStrokeColor(color.cgColor)
+        context!.setBlendMode(CGBlendMode.copy)
+        context!.strokePath()
         
         image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -337,21 +337,21 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         if showOutline {
             outlineButton?.texture = SKTexture(imageNamed: "grandma_outline")
             if outlineSprite != nil {
-                outlineSprite?.hidden = false
+                outlineSprite?.isHidden = false
             }
         } else {
             outlineButton?.texture = SKTexture(imageNamed: "grandma")
             if outlineSprite != nil {
-                outlineSprite?.hidden = true
+                outlineSprite?.isHidden = true
             }
         }
     }
     
-    func onColorChange(color: UIColor) {
+    func onColorChange(_ color: UIColor) {
         self.color = color
         brushSizer?.brushColor = color
     }
-    func onBrushSizeChange(size:CGFloat) {
+    func onBrushSizeChange(_ size:CGFloat) {
         self.brushSize = size
     }
     
@@ -359,7 +359,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
 		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
 		if remember != nil {
 			let time = Double(remember!)
-			let date = NSDate(timeIntervalSince1970: time!)
+			let date = Foundation.Date(timeIntervalSince1970: time!)
 			if date.timeIntervalSinceNow > -60 * 20 {
 				showSharingPanel()
 				return
@@ -398,8 +398,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             logoMark = SKSpriteNode(imageNamed: "logo")
             let lr = logoMark!.size.height / logoMark!.size.width
             logoMark?.zPosition = 10
-            logoMark?.anchorPoint = CGPointZero
-            logoMark?.position = CGPointMake(w / -2, h / -2)
+            logoMark?.anchorPoint = CGPoint.zero
+            logoMark?.position = CGPoint(x: w / -2, y: h / -2)
             if w > h {
                 logoMark?.size.width = h * CGFloat(0.4) / lr
                 logoMark?.size.height = h * CGFloat(0.4)
@@ -409,8 +409,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             }
             fullImageHolder!.addChild(logoMark!)
             
-			let imageTexture = self.scene!.view!.textureFromNode(fullImageHolder!)
-			let image = UIImage(CGImage: imageTexture!.CGImage())
+			let imageTexture = self.scene!.view!.texture(from: fullImageHolder!)
+			let image = UIImage(cgImage: imageTexture!.cgImage())
             logoMark?.removeFromParent()
             
 			activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -418,7 +418,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                 wPPC.sourceView = self.view!
                 wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
             }
-			self.view!.window!.rootViewController!.presentViewController(activityViewController!, animated: true, completion: nil)
+			self.view!.window!.rootViewController!.present(activityViewController!, animated: true, completion: nil)
 		}
 	}
 }

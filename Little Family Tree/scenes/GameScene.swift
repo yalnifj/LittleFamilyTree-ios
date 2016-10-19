@@ -7,6 +7,26 @@
 //
 
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class GameScene: LittleFamilyScene {
     static var TOPIC_START_MATCH = "start_match"
@@ -47,8 +67,8 @@ class GameScene: LittleFamilyScene {
     
     var personLeaves : PersonLeavesButton?
     
-    override func didMoveToView(view: SKView) {
-		super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+		super.didMove(to: view)
         let pinch:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GameScene.pinched(_:)))
         view.addGestureRecognizer(pinch)
         
@@ -71,19 +91,19 @@ class GameScene: LittleFamilyScene {
         maxScale = lfScale * 2.5
         minScale = self.size.height / oHeight
         diffY = maxHeight - self.size.height
-        background.size = CGSizeMake(self.size.width * 3, maxHeight);
+        background.size = CGSize(width: self.size.width * 3, height: maxHeight);
         self.addChild(background);
         
         spriteContainer = SKSpriteNode()
         spriteContainer.anchorPoint = CGPoint.zero
-        spriteContainer.position = CGPointMake(clipX, minY)
+        spriteContainer.position = CGPoint(x: clipX, y: minY)
         spriteContainer.setScale(lfScale)
         spriteContainer.zPosition = z++
         self.addChild(spriteContainer)
         
         let cloud1 = MovingAnimatedStateSprite(imageNamed: "house_cloud1")
         cloud1.anchorPoint = CGPoint.zero
-        cloud1.position = CGPointMake(0, oHeight - cloud1.size.height - 25)
+        cloud1.position = CGPoint(x: 0, y: oHeight - cloud1.size.height - 25)
         cloud1.zPosition = z++
         touchableSprites.append(cloud1)
         cloud1.addTexture(1, texture: SKTexture(imageNamed: "house_cloud1a"))
@@ -93,36 +113,36 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_cloud1d"),
             SKTexture(imageNamed: "house_cloud1e")
         ]
-        let rainAction = SKAction.repeatAction(SKAction.animateWithTextures(cloudrain, timePerFrame: 0.06, resize: false, restore: false), count: 20)
+        let rainAction = SKAction.repeat(SKAction.animate(with: cloudrain, timePerFrame: 0.06, resize: false, restore: false), count: 20)
         cloud1.addAction(4, action: rainAction)
         cloud1.addSound(4, soundFile: "rain")
-		cloud1.moveAction = SKAction.repeatActionForever(SKAction.moveByX(5, y:0, duration: 1))
+		cloud1.moveAction = SKAction.repeatForever(SKAction.moveBy(x: 5, y:0, duration: 1))
 		cloud1.maxX = oWidth
 		cloud1.maxY = oHeight
         spriteContainer.addChild(cloud1)
 		updateSprites.append(cloud1)
-		cloud1.runAction(cloud1.moveAction!)
+		cloud1.run(cloud1.moveAction!)
         
         let cloud2 = MovingAnimatedStateSprite(imageNamed: "house_cloud2")
         cloud2.anchorPoint = CGPoint.zero
-        cloud2.position = CGPointMake(minY + oWidth*0.75, oHeight - cloud1.size.height - 15)
+        cloud2.position = CGPoint(x: minY + oWidth*0.75, y: oHeight - cloud1.size.height - 15)
         cloud2.zPosition = z++
-		cloud2.moveAction = SKAction.repeatActionForever(SKAction.moveByX(5, y:0, duration: 1))
+		cloud2.moveAction = SKAction.repeatForever(SKAction.moveBy(x: 5, y:0, duration: 1))
 		cloud2.maxX = oWidth
 		cloud2.maxY = oHeight
         spriteContainer.addChild(cloud2)
 		updateSprites.append(cloud2)
-		cloud2.runAction(cloud2.moveAction!)
+		cloud2.run(cloud2.moveAction!)
         
         let tree = SKSpriteNode(imageNamed: "house_tree1")
         tree.anchorPoint = CGPoint.zero
-        tree.position = CGPointMake(50, oHeight - tree.size.height - 250)
+        tree.position = CGPoint(x: 50, y: oHeight - tree.size.height - 250)
         tree.zPosition = z++
         spriteContainer.addChild(tree)
         
         let flowers1 = AnimatedStateSprite(imageNamed: "house_flowers_a1")
         flowers1.anchorPoint = CGPoint.zero
-        flowers1.position = CGPointMake(90+flowers1.size.width, 200-flowers1.size.height)
+        flowers1.position = CGPoint(x: 90+flowers1.size.width, y: 200-flowers1.size.height)
         flowers1.xScale = flowers1.xScale * -1
         flowers1.zPosition = z++
         touchableSprites.append(flowers1)
@@ -132,14 +152,14 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_flowers_a4"),
             SKTexture(imageNamed: "house_flowers_a5")
         ]
-        let spinAction = SKAction.repeatAction(SKAction.animateWithTextures(flowersSpin, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        let spinAction = SKAction.repeat(SKAction.animate(with: flowersSpin, timePerFrame: 0.06, resize: false, restore: false), count: 3)
         flowers1.addAction(1, action: spinAction)
         flowers1.addSound(1, soundFile: "spinning")
         spriteContainer.addChild(flowers1)
         
         let flowers2 = AnimatedStateSprite(imageNamed: "house_flowers_a1")
         flowers2.anchorPoint = CGPoint.zero
-        flowers2.position = CGPointMake(265, 200-flowers2.size.height)
+        flowers2.position = CGPoint(x: 265, y: 200-flowers2.size.height)
         flowers2.zPosition = z++
         touchableSprites.append(flowers2)
         flowers2.addAction(1, action: spinAction)
@@ -150,7 +170,7 @@ class GameScene: LittleFamilyScene {
 		personLeaves?.anchorPoint = CGPoint.zero
 		personLeaves?.size.width = 65
 		personLeaves?.size.height = 65
-		personLeaves?.position = CGPointMake(245, 455-(personLeaves?.size.height)!)
+		personLeaves?.position = CGPoint(x: 245, y: 455-(personLeaves?.size.height)!)
 		personLeaves?.zPosition = z++
 		touchableSprites.append(personLeaves!)
 		spriteContainer.addChild(personLeaves!)
@@ -163,7 +183,7 @@ class GameScene: LittleFamilyScene {
         let bird = BirdHomeSprite(imageNamed: "house_tree_bird")
         bird.topic = GameScene.TOPIC_START_BIRD
         bird.anchorPoint = CGPoint.zero
-        bird.position = CGPointMake(110, 445-(personLeaves?.size.height)!)
+        bird.position = CGPoint(x: 110, y: 445-(personLeaves?.size.height)!)
         bird.oposition = CGFloat(110)
         bird.zPosition = z++
         bird.createActions()
@@ -175,167 +195,167 @@ class GameScene: LittleFamilyScene {
         let tileY:CGFloat = 600
         let tile01 = SKSpriteNode(imageNamed: "house_rooms_0_1")
         tile01.anchorPoint = CGPoint.zero
-        tile01.position = CGPointMake(450, tileY - tile01.size.height)
+        tile01.position = CGPoint(x: 450, y: tileY - tile01.size.height)
         tile01.zPosition = z++
         spriteContainer.addChild(tile01)
         
         let tile02 = SKSpriteNode(imageNamed: "house_rooms_0_2")
         tile02.anchorPoint = CGPoint.zero
-        tile02.position = CGPointMake(450, tileY - (tile01.size.height*2))
+        tile02.position = CGPoint(x: 450, y: tileY - (tile01.size.height*2))
         tile02.zPosition = z++
         spriteContainer.addChild(tile02)
         
         let tile03 = SKSpriteNode(imageNamed: "house_rooms_0_3")
         tile03.anchorPoint = CGPoint.zero
-        tile03.position = CGPointMake(450, tileY - (tile01.size.height*3))
+        tile03.position = CGPoint(x: 450, y: tileY - (tile01.size.height*3))
         tile03.zPosition = z++
         spriteContainer.addChild(tile03)
         
         let tile04 = SKSpriteNode(imageNamed: "house_rooms_0_4")
         tile04.anchorPoint = CGPoint.zero
-        tile04.position = CGPointMake(450, tileY - (tile01.size.height*4))
+        tile04.position = CGPoint(x: 450, y: tileY - (tile01.size.height*4))
         tile04.zPosition = z++
         spriteContainer.addChild(tile04)
         
         
         let tile10 = SKSpriteNode(imageNamed: "house_rooms_1_0")
         tile10.anchorPoint = CGPoint.zero
-        tile10.position = CGPointMake(450 + tile10.size.width, tileY)
+        tile10.position = CGPoint(x: 450 + tile10.size.width, y: tileY)
         tile10.zPosition = z++
         spriteContainer.addChild(tile10)
         
         let tile11 = SKSpriteNode(imageNamed: "house_rooms_1_1")
         tile11.anchorPoint = CGPoint.zero
-        tile11.position = CGPointMake(450 + tile10.size.width, tileY - tile11.size.height)
+        tile11.position = CGPoint(x: 450 + tile10.size.width, y: tileY - tile11.size.height)
         tile11.zPosition = z++
         spriteContainer.addChild(tile11)
         
         let tile12 = SKSpriteNode(imageNamed: "house_rooms_1_2")
         tile12.anchorPoint = CGPoint.zero
-        tile12.position = CGPointMake(450 + tile10.size.width, tileY - (tile12.size.height*2))
+        tile12.position = CGPoint(x: 450 + tile10.size.width, y: tileY - (tile12.size.height*2))
         tile12.zPosition = z++
         spriteContainer.addChild(tile12)
         
         let tile13 = SKSpriteNode(imageNamed: "house_rooms_1_3")
         tile13.anchorPoint = CGPoint.zero
-        tile13.position = CGPointMake(450 + tile10.size.width, tileY - (tile13.size.height*3))
+        tile13.position = CGPoint(x: 450 + tile10.size.width, y: tileY - (tile13.size.height*3))
         tile13.zPosition = z++
         spriteContainer.addChild(tile13)
         
         let tile14 = SKSpriteNode(imageNamed: "house_rooms_1_4")
         tile14.anchorPoint = CGPoint.zero
-        tile14.position = CGPointMake(450 + tile10.size.width, tileY - (tile14.size.height*4))
+        tile14.position = CGPoint(x: 450 + tile10.size.width, y: tileY - (tile14.size.height*4))
         tile14.zPosition = z++
         spriteContainer.addChild(tile14)
         
         
         let tile20 = SKSpriteNode(imageNamed: "house_rooms_2_0")
         tile20.anchorPoint = CGPoint.zero
-        tile20.position = CGPointMake(450 + (tile20.size.width*2), tileY)
+        tile20.position = CGPoint(x: 450 + (tile20.size.width*2), y: tileY)
         tile20.zPosition = z++
         spriteContainer.addChild(tile20)
         
         let tile21 = SKSpriteNode(imageNamed: "house_rooms_2_1")
         tile21.anchorPoint = CGPoint.zero
-        tile21.position = CGPointMake(450 + (tile20.size.width*2), tileY - tile21.size.height)
+        tile21.position = CGPoint(x: 450 + (tile20.size.width*2), y: tileY - tile21.size.height)
         tile21.zPosition = z++
         spriteContainer.addChild(tile21)
         
         let tile22 = SKSpriteNode(imageNamed: "house_rooms_2_2")
         tile22.anchorPoint = CGPoint.zero
-        tile22.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile22.size.height*2))
+        tile22.position = CGPoint(x: 450 + (tile20.size.width*2), y: tileY - (tile22.size.height*2))
         tile22.zPosition = z++
         spriteContainer.addChild(tile22)
         
         let tile23 = SKSpriteNode(imageNamed: "house_rooms_2_3")
         tile23.anchorPoint = CGPoint.zero
-        tile23.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile23.size.height*3))
+        tile23.position = CGPoint(x: 450 + (tile20.size.width*2), y: tileY - (tile23.size.height*3))
         tile23.zPosition = z++
         spriteContainer.addChild(tile23)
         
         let tile24 = SKSpriteNode(imageNamed: "house_rooms_2_4")
         tile24.anchorPoint = CGPoint.zero
-        tile24.position = CGPointMake(450 + (tile20.size.width*2), tileY - (tile24.size.height*4))
+        tile24.position = CGPoint(x: 450 + (tile20.size.width*2), y: tileY - (tile24.size.height*4))
         tile24.zPosition = z++
         spriteContainer.addChild(tile24)
         
         let tile30 = SKSpriteNode(imageNamed: "house_rooms_3_0")
         tile30.anchorPoint = CGPoint.zero
-        tile30.position = CGPointMake(450 + (tile30.size.width*3), tileY)
+        tile30.position = CGPoint(x: 450 + (tile30.size.width*3), y: tileY)
         tile30.zPosition = z++
         spriteContainer.addChild(tile30)
         
         let tile31 = SKSpriteNode(imageNamed: "house_rooms_3_1")
         tile31.anchorPoint = CGPoint.zero
-        tile31.position = CGPointMake(450 + (tile30.size.width*3), tileY - tile31.size.height)
+        tile31.position = CGPoint(x: 450 + (tile30.size.width*3), y: tileY - tile31.size.height)
         tile31.zPosition = z++
         spriteContainer.addChild(tile31)
         
         let tile32 = SKSpriteNode(imageNamed: "house_rooms_3_2")
         tile32.anchorPoint = CGPoint.zero
-        tile32.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile32.size.height*2))
+        tile32.position = CGPoint(x: 450 + (tile30.size.width*3), y: tileY - (tile32.size.height*2))
         tile32.zPosition = z++
         spriteContainer.addChild(tile32)
         
         let tile33 = SKSpriteNode(imageNamed: "house_rooms_3_3")
         tile33.anchorPoint = CGPoint.zero
-        tile33.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile33.size.height*3))
+        tile33.position = CGPoint(x: 450 + (tile30.size.width*3), y: tileY - (tile33.size.height*3))
         tile33.zPosition = z++
         spriteContainer.addChild(tile33)
         
         let tile34 = SKSpriteNode(imageNamed: "house_rooms_3_4")
         tile34.anchorPoint = CGPoint.zero
-        tile34.position = CGPointMake(450 + (tile30.size.width*3), tileY - (tile34.size.height*4))
+        tile34.position = CGPoint(x: 450 + (tile30.size.width*3), y: tileY - (tile34.size.height*4))
         tile34.zPosition = z++
         spriteContainer.addChild(tile34)
 
         
         let tile41 = SKSpriteNode(imageNamed: "house_rooms_4_1")
         tile41.anchorPoint = CGPoint.zero
-        tile41.position = CGPointMake(450 + (tile41.size.width*4), tileY - tile41.size.height)
+        tile41.position = CGPoint(x: 450 + (tile41.size.width*4), y: tileY - tile41.size.height)
         tile41.zPosition = z++
         spriteContainer.addChild(tile41)
         
         let tile42 = SKSpriteNode(imageNamed: "house_rooms_4_2")
         tile42.anchorPoint = CGPoint.zero
-        tile42.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile42.size.height*2))
+        tile42.position = CGPoint(x: 450 + (tile41.size.width*4), y: tileY - (tile42.size.height*2))
         tile42.zPosition = z++
         spriteContainer.addChild(tile42)
         
         let tile43 = SKSpriteNode(imageNamed: "house_rooms_4_3")
         tile43.anchorPoint = CGPoint.zero
-        tile43.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile43.size.height*3))
+        tile43.position = CGPoint(x: 450 + (tile41.size.width*4), y: tileY - (tile43.size.height*3))
         tile43.zPosition = z++
         spriteContainer.addChild(tile43)
         
         let tile44 = SKSpriteNode(imageNamed: "house_rooms_4_4")
         tile44.anchorPoint = CGPoint.zero
-        tile44.position = CGPointMake(450 + (tile41.size.width*4), tileY - (tile44.size.height*4))
+        tile44.position = CGPoint(x: 450 + (tile41.size.width*4), y: tileY - (tile44.size.height*4))
         tile44.zPosition = z++
         spriteContainer.addChild(tile44)
 
 
         let couch = SKSpriteNode(imageNamed: "house_familyroom_couch")
         couch.anchorPoint = CGPoint.zero
-        couch.position = CGPointMake(555, 140)
+        couch.position = CGPoint(x: 555, y: 140)
         couch.zPosition = z++
         spriteContainer.addChild(couch)
         
         let table1 = SKSpriteNode(imageNamed: "house_familyroom_table")
         table1.anchorPoint = CGPoint.zero
-        table1.position = CGPointMake(491, 140)
+        table1.position = CGPoint(x: 491, y: 140)
         table1.zPosition = z++
         spriteContainer.addChild(table1)
         
         let table2 = SKSpriteNode(imageNamed: "house_familyroom_table")
         table2.anchorPoint = CGPoint.zero
-        table2.position = CGPointMake(735, 140)
+        table2.position = CGPoint(x: 735, y: 140)
         table2.zPosition = z++
         spriteContainer.addChild(table2)
         
         let lamp1 = AnimatedStateSprite(imageNamed: "house_familyroom_lamp1")
         lamp1.anchorPoint = CGPoint.zero
-        lamp1.position = CGPointMake(482, 170)
+        lamp1.position = CGPoint(x: 482, y: 170)
         lamp1.zPosition = z++
         touchableSprites.append(lamp1)
         lamp1.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
@@ -345,7 +365,7 @@ class GameScene: LittleFamilyScene {
         
         let lamp2 = AnimatedStateSprite(imageNamed: "house_familyroom_lamp1")
         lamp2.anchorPoint = CGPoint.zero
-        lamp2.position = CGPointMake(725, 170)
+        lamp2.position = CGPoint(x: 725, y: 170)
         lamp2.zPosition = z++
         touchableSprites.append(lamp2)
         lamp2.addTexture(1, texture: SKTexture(imageNamed: "house_familyroom_lamp2"))
@@ -355,7 +375,7 @@ class GameScene: LittleFamilyScene {
         
         let frame = AnimatedStateSprite(imageNamed: "house_familyroom_frame")
         frame.anchorPoint = CGPoint.zero
-        frame.position = CGPointMake(612, 225)
+        frame.position = CGPoint(x: 612, y: 225)
         frame.zPosition = z++
 		touchableSprites.append(frame)
         let jumping:[SKTexture] = [
@@ -384,7 +404,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_familyroom_frame24"),
             SKTexture(imageNamed: "house_familyroom_frame25")
         ]
-        let jumpAction = SKAction.repeatAction(SKAction.animateWithTextures(jumping, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let jumpAction = SKAction.repeat(SKAction.animate(with: jumping, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         frame.addAction(1, action: jumpAction)
         frame.addClick(1, val: false)
         frame.addEvent(0, topic: GameScene.TOPIC_START_MATCH)
@@ -393,13 +413,13 @@ class GameScene: LittleFamilyScene {
         
         let childBed = SKSpriteNode(imageNamed: "house_chilldroom_bed")
         childBed.anchorPoint = CGPoint.zero
-        childBed.position = CGPointMake(827, 307)
+        childBed.position = CGPoint(x: 827, y: 307)
         childBed.zPosition = z++
         spriteContainer.addChild(childBed)
         
         let childPaint = AnimatedStateSprite(imageNamed: "house_chilldroom_paint")
         childPaint.anchorPoint = CGPoint.zero
-        childPaint.position = CGPointMake(1000, 312)
+        childPaint.position = CGPoint(x: 1000, y: 312)
         childPaint.zPosition = z++
 		touchableSprites.append(childPaint)
         let painting:[SKTexture] = [
@@ -419,7 +439,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_chilldroom_paint14"),
 			SKTexture(imageNamed: "house_chilldroom_paint15")
         ]
-        let paintAction = SKAction.repeatAction(SKAction.animateWithTextures(painting, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let paintAction = SKAction.repeat(SKAction.animate(with: painting, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         childPaint.addAction(1, action: paintAction)
         childPaint.addClick(1, val: false)
 		childPaint.addEvent(0, topic: GameScene.TOPIC_START_COLORING)
@@ -428,7 +448,7 @@ class GameScene: LittleFamilyScene {
         
         let childDesk = AnimatedStateSprite(imageNamed: "house_chilldroom_desk")
         childDesk.anchorPoint = CGPoint.zero
-        childDesk.position = CGPointMake(1065, 312)
+        childDesk.position = CGPoint(x: 1065, y: 312)
         childDesk.zPosition = z++
 		touchableSprites.append(childDesk)
         let erasing:[SKTexture] = [
@@ -452,7 +472,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_chilldroom_desk18"),
 			SKTexture(imageNamed: "house_chilldroom_desk19")
         ]
-        let eraseAction = SKAction.repeatAction(SKAction.animateWithTextures(erasing, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let eraseAction = SKAction.repeat(SKAction.animate(with: erasing, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         childDesk.addAction(1, action: eraseAction)
         childDesk.addClick(1, val: false)
 		childDesk.addEvent(0, topic: GameScene.TOPIC_START_SCRATCH)
@@ -462,7 +482,7 @@ class GameScene: LittleFamilyScene {
         
         let teddy = AnimatedStateSprite(imageNamed: "house_chilldroom_teddy")
         teddy.anchorPoint = CGPoint.zero
-        teddy.position = CGPointMake(928, 310)
+        teddy.position = CGPoint(x: 928, y: 310)
         teddy.zPosition = z++
         touchableSprites.append(teddy)
         let teddyfalling:[SKTexture] = [
@@ -472,11 +492,11 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_chilldroom_teddy5"),
             SKTexture(imageNamed: "house_chilldroom_teddy6")
         ]
-        let fallaction = SKAction.repeatAction(SKAction.animateWithTextures(teddyfalling, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let fallaction = SKAction.repeat(SKAction.animate(with: teddyfalling, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         teddy.addAction(1, action: fallaction)
         teddy.addClick(1, val: false)
         teddy.addSound(1, soundFile: "slide_whistle_down01")
-        let riseaction = SKAction.reversedAction(fallaction)()
+        let riseaction = SKAction.reversed(fallaction)()
         teddy.addAction(3, action: riseaction)
         teddy.addSound(3, soundFile: "slide_whistle_up04")
         teddy.addClick(2, val: true)
@@ -486,51 +506,51 @@ class GameScene: LittleFamilyScene {
         
         let kitchenA = SKSpriteNode(imageNamed: "house_kitchen_a")
         kitchenA.anchorPoint = CGPoint.zero
-        kitchenA.position = CGPointMake(840, 140)
+        kitchenA.position = CGPoint(x: 840, y: 140)
         kitchenA.zPosition = z++
         spriteContainer.addChild(kitchenA)
         
         let kitchenB = SKSpriteNode(imageNamed: "house_kitchen_b")
         kitchenB.anchorPoint = CGPoint.zero
-        kitchenB.position = CGPointMake(kitchenA.position.x+kitchenA.size.width, 140)
+        kitchenB.position = CGPoint(x: kitchenA.position.x+kitchenA.size.width, y: 140)
         kitchenB.zPosition = z++
         spriteContainer.addChild(kitchenB)
         
         let kitchenC = SKSpriteNode(imageNamed: "house_kitchen_c")
         kitchenC.anchorPoint = CGPoint.zero
-        kitchenC.position = CGPointMake(kitchenB.position.x+kitchenB.size.width, 140)
+        kitchenC.position = CGPoint(x: kitchenB.position.x+kitchenB.size.width, y: 140)
         kitchenC.zPosition = z++
         spriteContainer.addChild(kitchenC)
         
         let kitchenD = SKSpriteNode(imageNamed: "house_kitchen_d")
         kitchenD.anchorPoint = CGPoint.zero
-        kitchenD.position = CGPointMake(kitchenC.position.x+kitchenC.size.width, 265)
+        kitchenD.position = CGPoint(x: kitchenC.position.x+kitchenC.size.width, y: 265)
         kitchenD.zPosition = z++
         spriteContainer.addChild(kitchenD)
         
         let kitchenE = SKSpriteNode(imageNamed: "house_kitchen_e")
         kitchenE.anchorPoint = CGPoint.zero
-        kitchenE.position = CGPointMake(kitchenD.position.x+kitchenD.size.width, 140)
+        kitchenE.position = CGPoint(x: kitchenD.position.x+kitchenD.size.width, y: 140)
         kitchenE.zPosition = z++
         spriteContainer.addChild(kitchenE)
         
         let toaster = AnimatedStateSprite(imageNamed: "house_toaster1")
         toaster.anchorPoint = CGPoint.zero
-        toaster.position = CGPointMake(1085, 195)
+        toaster.position = CGPoint(x: 1085, y: 195)
         toaster.zPosition = z++
 		touchableSprites.append(toaster)
         let toastDown:[SKTexture] = [
             SKTexture(imageNamed: "house_toaster2"),
             SKTexture(imageNamed: "house_toaster3")
         ]
-        let toastDownAction = SKAction.repeatAction(SKAction.animateWithTextures(toastDown, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let toastDownAction = SKAction.repeat(SKAction.animate(with: toastDown, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         toaster.addAction(1, action: toastDownAction)
         toaster.addClick(1, val: false)
 		let toastIn:[SKTexture] = [
             SKTexture(imageNamed: "house_toaster4"),
             SKTexture(imageNamed: "house_toaster4")
         ]
-        let toastInAction = SKAction.repeatAction(SKAction.animateWithTextures(toastIn, timePerFrame: 0.06, resize: false, restore: false), count: 10)
+        let toastInAction = SKAction.repeat(SKAction.animate(with: toastIn, timePerFrame: 0.06, resize: false, restore: false), count: 10)
         toaster.addAction(2, action: toastInAction)
         toaster.addClick(2, val: false)
 		let toastUp:[SKTexture] = [
@@ -552,7 +572,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toaster20"),
             SKTexture(imageNamed: "house_toaster21")
         ]
-        let toastUpAction = SKAction.repeatAction(SKAction.animateWithTextures(toastUp, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let toastUpAction = SKAction.repeat(SKAction.animate(with: toastUp, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         toaster.addAction(3, action: toastUpAction)
         toaster.addClick(3, val: false)
 		toaster.addSound(1, soundFile: "toaster1")
@@ -561,7 +581,7 @@ class GameScene: LittleFamilyScene {
         
         let kettle = AnimatedStateSprite(imageNamed: "house_kitchen_kettle")
         kettle.anchorPoint = CGPoint.zero
-        kettle.position = CGPointMake(1120, 203)
+        kettle.position = CGPoint(x: 1120, y: 203)
         kettle.zPosition = z++
 		touchableSprites.append(kettle)
         let warming:[SKTexture] = [
@@ -571,7 +591,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_kitchen_kettle5"),
             SKTexture(imageNamed: "house_kitchen_kettle6")
         ]
-        let warmingAction = SKAction.repeatAction(SKAction.animateWithTextures(warming, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        let warmingAction = SKAction.repeat(SKAction.animate(with: warming, timePerFrame: 0.06, resize: false, restore: false), count: 3)
         kettle.addAction(1, action: warmingAction)
         kettle.addClick(1, val: false)
         let steaming:[SKTexture] = [
@@ -581,7 +601,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_kitchen_kettle10"),
             SKTexture(imageNamed: "house_kitchen_kettle11")
         ]
-        let steamingAction = SKAction.repeatAction(SKAction.animateWithTextures(steaming, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        let steamingAction = SKAction.repeat(SKAction.animate(with: steaming, timePerFrame: 0.06, resize: false, restore: false), count: 3)
         kettle.addAction(2, action: steamingAction)
         kettle.addClick(2, val: false)
 		kettle.addSound(1, soundFile: "kettle")
@@ -589,7 +609,7 @@ class GameScene: LittleFamilyScene {
         
         let freezer = AnimatedStateSprite(imageNamed: "house_kitchen_freezer")
         freezer.anchorPoint = CGPoint.zero
-        freezer.position = CGPointMake(1043, 212)
+        freezer.position = CGPoint(x: 1043, y: 212)
         freezer.zPosition = z++
 		touchableSprites.append(freezer)
         let freezerOpening:[SKTexture] = [
@@ -600,10 +620,10 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_kitchen_freezer5"),
             SKTexture(imageNamed: "house_kitchen_freezer6")
         ]
-        let openingAction = SKAction.repeatAction(SKAction.animateWithTextures(freezerOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let openingAction = SKAction.repeat(SKAction.animate(with: freezerOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         freezer.addAction(1, action: openingAction)
         freezer.addClick(1, val: false)
-        let closeAction = SKAction.reversedAction(openingAction)()
+        let closeAction = SKAction.reversed(openingAction)()
         freezer.addAction(3, action: closeAction)
         freezer.addClick(2, val: true)
         freezer.addClick(3, val: false)
@@ -611,7 +631,7 @@ class GameScene: LittleFamilyScene {
         
         let fridge = AnimatedStateSprite(imageNamed: "house_kitchen_fridge")
         fridge.anchorPoint = CGPoint.zero
-        fridge.position = CGPointMake(1043, 140)
+        fridge.position = CGPoint(x: 1043, y: 140)
         fridge.zPosition = z++
 		touchableSprites.append(fridge)
         let fridgeOpening:[SKTexture] = [
@@ -622,10 +642,10 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_kitchen_fridge5"),
             SKTexture(imageNamed: "house_kitchen_fridge6")
         ]
-        let openingAction2 = SKAction.repeatAction(SKAction.animateWithTextures(fridgeOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let openingAction2 = SKAction.repeat(SKAction.animate(with: fridgeOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         fridge.addAction(1, action: openingAction2)
         fridge.addClick(1, val: false)
-        let closeAction2 = SKAction.reversedAction(openingAction2)()
+        let closeAction2 = SKAction.reversed(openingAction2)()
         fridge.addAction(3, action: closeAction2)
         fridge.addClick(2, val: true)
         fridge.addClick(3, val: false)
@@ -633,7 +653,7 @@ class GameScene: LittleFamilyScene {
 		
 		let bubbles = AnimatedStateSprite(imageNamed: "bubbles1")
 		bubbles.anchorPoint = CGPoint.zero
-		bubbles.position = CGPointMake(916, 205)
+		bubbles.position = CGPoint(x: 916, y: 205)
 		bubbles.zPosition = z++
 		touchableSprites.append(bubbles)
 		let bubbleTextures:[SKTexture] = [
@@ -646,23 +666,23 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "bubbles7"),
             SKTexture(imageNamed: "bubbles8")
 		]
-		let bubbleAction = SKAction.repeatActionForever(SKAction.animateWithTextures(bubbleTextures, timePerFrame: 0.08, resize: false, restore: false))
+		let bubbleAction = SKAction.repeatForever(SKAction.animate(with: bubbleTextures, timePerFrame: 0.08, resize: false, restore: false))
 		bubbles.addAction(0, action: bubbleAction)
 		bubbles.addAction(1, action: bubbleAction)
 		bubbles.addEvent(1, topic: GameScene.TOPIC_START_BUBBLES)
-        bubbles.runAction(bubbleAction)
+        bubbles.run(bubbleAction)
 		spriteContainer.addChild(bubbles)
 		starSprites.append(bubbles)
         
         let adultBed = SKSpriteNode(imageNamed: "house_adult_bed")
         adultBed.anchorPoint = CGPoint.zero
-        adultBed.position = CGPointMake(487, 312)
+        adultBed.position = CGPoint(x: 487, y: 312)
         adultBed.zPosition = z++
         spriteContainer.addChild(adultBed)
         
         let adultVanity = AnimatedStateSprite(imageNamed: "house_adult_vanity")
         adultVanity.anchorPoint = CGPoint.zero
-        adultVanity.position = CGPointMake(673, 312)
+        adultVanity.position = CGPoint(x: 673, y: 312)
         adultVanity.zPosition = z++
         
         touchableSprites.append(adultVanity)
@@ -682,7 +702,7 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_adult_vanity12"),
             SKTexture(imageNamed: "house_adult_vanity12")
         ]
-        let vanityAction3 = SKAction.repeatAction(SKAction.animateWithTextures(vanityAction, timePerFrame: 0.12, resize: false, restore: false), count: 1)
+        let vanityAction3 = SKAction.repeat(SKAction.animate(with: vanityAction, timePerFrame: 0.12, resize: false, restore: false), count: 1)
         adultVanity.addAction(1, action: vanityAction3)
         adultVanity.addClick(1, val: false)
         adultVanity.addEvent(0, topic: GameScene.TOPIC_START_CARD)
@@ -692,7 +712,7 @@ class GameScene: LittleFamilyScene {
         
         let wardrobe = AnimatedStateSprite(imageNamed: "house_adult_wardrobe")
         wardrobe.anchorPoint = CGPoint.zero
-        wardrobe.position = CGPointMake(747, 312)
+        wardrobe.position = CGPoint(x: 747, y: 312)
         wardrobe.zPosition = z++
 		touchableSprites.append(wardrobe)
         let wardrobeOpening:[SKTexture] = [
@@ -705,7 +725,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_adult_wardrobe7"),
             SKTexture(imageNamed: "house_adult_wardrobe8")
         ]
-        let openingAction3 = SKAction.repeatAction(SKAction.animateWithTextures(wardrobeOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let openingAction3 = SKAction.repeat(SKAction.animate(with: wardrobeOpening, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         wardrobe.addAction(1, action: openingAction3)
         wardrobe.addClick(1, val: false)
         wardrobe.addEvent(0, topic: GameScene.TOPIC_START_DRESSUP)
@@ -714,7 +734,7 @@ class GameScene: LittleFamilyScene {
         
         let lightA = AnimatedStateSprite(imageNamed: "house_light_a1")
         lightA.anchorPoint = CGPoint.zero
-        lightA.position = CGPointMake(670, 401)
+        lightA.position = CGPoint(x: 670, y: 401)
         lightA.zPosition = z++
 		touchableSprites.append(lightA)
         lightA.addTexture(1, texture: SKTexture(imageNamed: "house_light_a2"))
@@ -724,7 +744,7 @@ class GameScene: LittleFamilyScene {
         
         let lightB = AnimatedStateSprite(imageNamed: "house_light_b1")
         lightB.anchorPoint = CGPoint.zero
-        lightB.position = CGPointMake(522, 418)
+        lightB.position = CGPoint(x: 522, y: 418)
         lightB.zPosition = z++
 		touchableSprites.append(lightB)
         lightB.addTexture(1, texture: SKTexture(imageNamed: "house_light_b2"))
@@ -734,7 +754,7 @@ class GameScene: LittleFamilyScene {
         
         let blocks = AnimatedStateSprite(imageNamed: "house_toys_blocks")
         blocks.anchorPoint = CGPoint.zero
-        blocks.position = CGPointMake(1020, 490)
+        blocks.position = CGPoint(x: 1020, y: 490)
         blocks.zPosition = z++
 		touchableSprites.append(blocks)
         let blocksAnim:[SKTexture] = [
@@ -747,7 +767,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toys_blocks7"),
             SKTexture(imageNamed: "house_toys_blocks8")
         ]
-        let blocksAction = SKAction.repeatAction(SKAction.animateWithTextures(blocksAnim, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let blocksAction = SKAction.repeat(SKAction.animate(with: blocksAnim, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         blocks.addAction(1, action: blocksAction)
         blocks.addClick(1, val: false)
         blocks.addEvent(0, topic: GameScene.TOPIC_START_PUZZLE)
@@ -756,7 +776,7 @@ class GameScene: LittleFamilyScene {
         
         let horse = AnimatedStateSprite(imageNamed: "house_toys_horse")
         horse.anchorPoint = CGPoint.zero
-        horse.position = CGPointMake(925, 490)
+        horse.position = CGPoint(x: 925, y: 490)
         horse.zPosition = z++
 		touchableSprites.append(horse)
         let horseAnim:[SKTexture] = [
@@ -772,14 +792,14 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toys_horse5"),
 			SKTexture(imageNamed: "house_toys_horse4")
         ]
-        let horseAction = SKAction.repeatAction(SKAction.animateWithTextures(horseAnim, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        let horseAction = SKAction.repeat(SKAction.animate(with: horseAnim, timePerFrame: 0.06, resize: false, restore: false), count: 3)
         horse.addAction(1, action: horseAction)
         horse.addClick(1, val: false)
         spriteContainer.addChild(horse)
         
         let bat = AnimatedStateSprite(imageNamed: "house_toys_bat")
         bat.anchorPoint = CGPoint.zero
-        bat.position = CGPointMake(802, 490)
+        bat.position = CGPoint(x: 802, y: 490)
         bat.zPosition = z++
 		touchableSprites.append(bat)
         let batAnim:[SKTexture] = [
@@ -792,7 +812,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toys_bat7"),
 			SKTexture(imageNamed: "house_toys_bat8")
         ]
-        let batAction = SKAction.repeatAction(SKAction.animateWithTextures(batAnim, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let batAction = SKAction.repeat(SKAction.animate(with: batAnim, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         bat.addAction(1, action: batAction)
         bat.addClick(1, val: false)
 		let batAnim2:[SKTexture] = [
@@ -803,7 +823,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toys_bat13"),
 			SKTexture(imageNamed: "house_toys_bat14")
         ]
-        let batAction2 = SKAction.repeatAction(SKAction.animateWithTextures(batAnim2, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let batAction2 = SKAction.repeat(SKAction.animate(with: batAnim2, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         bat.addAction(2, action: batAction2)
         bat.addClick(2, val: false)
 		bat.addSound(2, soundFile: "baseball_bat")
@@ -817,7 +837,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_toys_bat21"),
 			SKTexture(imageNamed: "house_toys_bat22")
         ]
-        let batAction3 = SKAction.repeatAction(SKAction.animateWithTextures(batAnim3, timePerFrame: 0.06, resize: false, restore: false), count: 1)
+        let batAction3 = SKAction.repeat(SKAction.animate(with: batAnim3, timePerFrame: 0.06, resize: false, restore: false), count: 1)
         bat.addAction(3, action: batAction3)
         bat.addClick(3, val: false)
 		bat.addSound(3, soundFile: "glass_break")
@@ -825,7 +845,7 @@ class GameScene: LittleFamilyScene {
         
         let piano = AnimatedStateSprite(imageNamed: "house_music_piano")
         piano.anchorPoint = CGPoint.zero
-        piano.position = CGPointMake(625, 490)
+        piano.position = CGPoint(x: 625, y: 490)
         piano.zPosition = z++
         touchableSprites.append(piano)
 		let pianoAnim:[SKTexture] = [
@@ -833,10 +853,10 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_music_piano2"),
             SKTexture(imageNamed: "house_music_piano3")
         ]
-        let pianoAction = SKAction.animateWithTextures(pianoAnim, timePerFrame: 0.12, resize: false, restore: false)
-		let pianoReverse = SKAction.reversedAction(pianoAction)()
+        let pianoAction = SKAction.animate(with: pianoAnim, timePerFrame: 0.12, resize: false, restore: false)
+		let pianoReverse = SKAction.reversed(pianoAction)()
 		let pianoSeqAction = SKAction.sequence([pianoAction, pianoReverse])
-		let pianoRepeatAction = SKAction.repeatAction(pianoSeqAction, count: 4)
+		let pianoRepeatAction = SKAction.repeat(pianoSeqAction, count: 4)
         piano.addAction(1, action: pianoRepeatAction)
         piano.addClick(1, val: false)
         piano.addSound(1, soundFile: "piano")
@@ -846,7 +866,7 @@ class GameScene: LittleFamilyScene {
         
         let trumpet = AnimatedStateSprite(imageNamed: "house_music_trumpet")
         trumpet.anchorPoint = CGPoint.zero
-        trumpet.position = CGPointMake(660, 574)
+        trumpet.position = CGPoint(x: 660, y: 574)
         trumpet.zPosition = z++
 		touchableSprites.append(trumpet)
         let trumpetAnim:[SKTexture] = [
@@ -855,7 +875,7 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_music_trumpet3"),
             SKTexture(imageNamed: "house_music_trumpet2")
         ]
-        let trumpetAction = SKAction.repeatAction(SKAction.animateWithTextures(trumpetAnim, timePerFrame: 0.06, resize: false, restore: false), count: 5)
+        let trumpetAction = SKAction.repeat(SKAction.animate(with: trumpetAnim, timePerFrame: 0.06, resize: false, restore: false), count: 5)
         trumpet.addAction(1, action: trumpetAction)
         trumpet.addClick(1, val: false)
 		trumpet.addSound(1, soundFile: "trumpet")
@@ -863,7 +883,7 @@ class GameScene: LittleFamilyScene {
         
         let drums = AnimatedStateSprite(imageNamed: "house_music_drums")
         drums.anchorPoint = CGPoint.zero
-        drums.position = CGPointMake(585, 490)
+        drums.position = CGPoint(x: 585, y: 490)
         drums.zPosition = z++
 		touchableSprites.append(drums)
         let drumsAnim:[SKTexture] = [
@@ -876,7 +896,7 @@ class GameScene: LittleFamilyScene {
 			SKTexture(imageNamed: "house_music_drums7"),
             SKTexture(imageNamed: "house_music_drums8")
         ]
-        let drumsAction = SKAction.repeatAction(SKAction.animateWithTextures(drumsAnim, timePerFrame: 0.06, resize: false, restore: false), count: 3)
+        let drumsAction = SKAction.repeat(SKAction.animate(with: drumsAnim, timePerFrame: 0.06, resize: false, restore: false), count: 3)
         drums.addAction(1, action: drumsAction)
         drums.addClick(1, val: false)
 		drums.addSound(1, soundFile: "drums")
@@ -884,7 +904,7 @@ class GameScene: LittleFamilyScene {
         
         let guitar = AnimatedStateSprite(imageNamed: "house_music_guitar")
         guitar.anchorPoint = CGPoint.zero
-        guitar.position = CGPointMake(700, 490)
+        guitar.position = CGPoint(x: 700, y: 490)
         guitar.zPosition = z++
 		touchableSprites.append(guitar)
         let guitarAnim:[SKTexture] = [
@@ -893,7 +913,7 @@ class GameScene: LittleFamilyScene {
             SKTexture(imageNamed: "house_music_guitar3"),
 			SKTexture(imageNamed: "house_music_guitar2")
         ]
-        let guitarAction = SKAction.repeatAction(SKAction.animateWithTextures(guitarAnim, timePerFrame: 0.06, resize: false, restore: false), count: 5)
+        let guitarAction = SKAction.repeat(SKAction.animate(with: guitarAnim, timePerFrame: 0.06, resize: false, restore: false), count: 5)
         guitar.addAction(1, action: guitarAction)
         guitar.addClick(1, val: false)
 		guitar.addSound(1, soundFile: "guitar")
@@ -901,7 +921,7 @@ class GameScene: LittleFamilyScene {
         
         let personSprite = PersonNameSprite()
         touchableSprites.append(personSprite)
-        personSprite.position = CGPointMake(self.size.width - (100 * lfScale), 10)
+        personSprite.position = CGPoint(x: self.size.width - (100 * lfScale), y: 10)
         personSprite.zPosition = z++
         personSprite.size.width = 50 * lfScale
         personSprite.size.height = 50 * lfScale
@@ -913,7 +933,7 @@ class GameScene: LittleFamilyScene {
 		let settingsSprite = AnimatedStateSprite(imageNamed: "settings")
 		settingsSprite.size.height = 30 * lfScale
 		settingsSprite.size.width = 30 * lfScale
-		settingsSprite.position = CGPointMake(self.size.width - settingsSprite.size.width, settingsSprite.size.height + 8)
+		settingsSprite.position = CGPoint(x: self.size.width - settingsSprite.size.width, y: settingsSprite.size.height + 8)
 		settingsSprite.zPosition = z++
 		settingsSprite.addEvent(0, topic: LittleFamilyScene.TOPIC_START_SETTINGS)
 		touchableSprites.append(settingsSprite)
@@ -932,14 +952,14 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_CARD, listener: self)
         EventHandler.getInstance().subscribe(GameScene.TOPIC_START_BIRD, listener: self)
         self.speak("Hi")
-		let delayAction = SKAction.waitForDuration(0.35)
-        runAction(delayAction) {
+		let delayAction = SKAction.wait(forDuration: 0.35)
+        run(delayAction, completion: {
             self.sayGivenName(self.selectedPerson!)
-        }
+        }) 
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_MATCH, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_DRESSUP, listener: self)
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_PUZZLE, listener: self)
@@ -952,11 +972,11 @@ class GameScene: LittleFamilyScene {
         EventHandler.getInstance().unSubscribe(GameScene.TOPIC_START_BIRD, listener: self)
     }
     
-    func pinched(sender:UIPinchGestureRecognizer){
-        if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+    func pinched(_ sender:UIPinchGestureRecognizer){
+        if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
             previousScale = nil
         }
-        else if sender.state == UIGestureRecognizerState.Began {
+        else if sender.state == UIGestureRecognizerState.began {
             previousScale = sender.scale
         }
         else if previousScale != nil {
@@ -973,27 +993,27 @@ class GameScene: LittleFamilyScene {
                 if lfScale > maxScale {
                     lfScale = maxScale
                 }
-                let zoomIn = SKAction.scaleTo(lfScale, duration:0)
-                spriteContainer.runAction(zoomIn)
+                let zoomIn = SKAction.scale(to: lfScale, duration:0)
+                spriteContainer.run(zoomIn)
                 
-                let zoomIn2 = SKAction.scaleTo(lfScale, duration:0)
-                background.runAction(zoomIn2)
+                let zoomIn2 = SKAction.scale(to: lfScale, duration:0)
+                background.run(zoomIn2)
             }
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
         }
         
         clipX = nextPoint.x - lastPoint.x;
@@ -1030,27 +1050,27 @@ class GameScene: LittleFamilyScene {
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         previousScale = nil
         if !moved {
             for touch in touches {
-                lastPoint = touch.locationInNode(self)
-                let touchedNode = nodeAtPoint(lastPoint)
+                lastPoint = touch.location(in: self)
+                let touchedNode = atPoint(lastPoint)
                 if self.touchableSprites.contains(touchedNode) {
-                    touchedNode.touchesEnded(touches, withEvent: event)
+                    touchedNode.touchesEnded(touches, with: event)
                 }
 				else if touchedNode.parent != nil && self.touchableSprites.contains(touchedNode.parent!) {
-					touchedNode.parent!.touchesEnded(touches, withEvent: event)
+					touchedNode.parent!.touchesEnded(touches, with: event)
 				}
                 else if personLeaves!.children.contains(touchedNode) == true {
-                    personLeaves!.touchesEnded(touches, withEvent: event)
+                    personLeaves!.touchesEnded(touches, with: event)
                 }
             }
         }
         moved = false
     }
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         super.update(currentTime)
 		var notRemoving = [AnimatedStateSprite]()
@@ -1084,7 +1104,7 @@ class GameScene: LittleFamilyScene {
         }
     }
     
-    override func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
     }
 

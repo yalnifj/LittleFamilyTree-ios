@@ -8,7 +8,7 @@ class Person : Subject {
   var names = [Name]()
   var facts = [Fact]()
   var display:DisplayProperties?
-  var lastChange:NSDate?
+  var lastChange:Foundation.Date?
   
   func getFullName() -> NSString? {
     if (display != nil && display!.name != nil) {
@@ -20,7 +20,7 @@ class Person : Subject {
     return nil;
   }
   
-  static func convertJsonToPersons(json:JSON) -> [Person] {
+  static func convertJsonToPersons(_ json:JSON) -> [Person] {
 		var persons = [Person]()
     
     if json["persons"].array == nil {
@@ -29,41 +29,41 @@ class Person : Subject {
 		
 		for pson in json["persons"].array! {
 			let person = Person()
-			person.id = pson["id"].description
+			person.id = pson["id"].description as NSString?
 			person.addLinksFromJson(pson)
 			person.addAttributionFromJson(pson)
 			person.addIdentifiersFromJson(pson)
 			
 			person.living = pson["living"].bool
 			
-			if pson["gender"] != nil {
+			if pson["gender"] != JSON.null {
 				if pson["gender"]["type"] == "http://gedcomx.org/Male" {
-					person.gender = GenderType.MALE
+					person.gender = GenderType.male
 				}
 				else if pson["gender"]["type"] == "http://gedcomx.org/Female" {
-					person.gender = GenderType.FEMALE
+					person.gender = GenderType.female
 				}
 				else if pson["gender"]["type"] == "http://gedcomx.org/Other" {
-					person.gender = GenderType.OTHER
+					person.gender = GenderType.other
 				}
 				else {
-					person.gender = GenderType.UNKNOWN
+					person.gender = GenderType.unknown
 				}
 			}
 			
-			if pson["names"] != nil {
+			if pson["names"] != JSON.null {
 				for name in pson["names"].array! {
 					person.names.append(Name.convertJsonToName(name))
 				}
 			}
 			
-			if pson["facts"] != nil {
+			if pson["facts"] != JSON.null {
 				for fact in pson["facts"].array! {
 					person.facts.append(Fact.convertJsonToFact(fact))
 				}
 			}
 			
-			if pson["display"] != nil {
+			if pson["display"] != JSON.null {
 				person.display = DisplayProperties.convertJsonToDisplayProperties(pson["display"])
 			}
 			

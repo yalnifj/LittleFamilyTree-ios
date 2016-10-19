@@ -8,6 +8,26 @@
 
 import Foundation
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class CupcakeSprite: SKSpriteNode {
     var person:LittlePerson? {
@@ -17,7 +37,7 @@ class CupcakeSprite: SKSpriteNode {
             }
             let photo = TextureHelper.getPortraitTexture(self.person!)
             photoSprite = SKSpriteNode(texture: photo)
-            photoSprite?.position = CGPointMake(0, 0)
+            photoSprite?.position = CGPoint(x: 0, y: 0)
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.width = self.size.width / 2.0
             photoSprite?.size.height = (self.size.width / 2.0) / ratio
@@ -26,16 +46,16 @@ class CupcakeSprite: SKSpriteNode {
             
             let num = 1 + arc4random_uniform(UInt32(3))
             flame = SKSpriteNode(imageNamed: "flame\(num).png")
-            flame?.position = CGPointMake(0, self.size.height/1.8)
+            flame?.position = CGPoint(x: 0, y: self.size.height/1.8)
             let fr = flame!.size.width / flame!.size.height
-            flame?.size = CGSizeMake(self.size.width / 6, (self.size.width / 6) / fr)
+            flame?.size = CGSize(width: self.size.width / 6, height: (self.size.width / 6) / fr)
             flame?.zPosition = 1
             var textures = [SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame3.png"), SKTexture(imageNamed: "flame2.png"), SKTexture(imageNamed: "flame1.png")]
             for _ in 0..<num {
                 textures.append(textures.removeFirst())
             }
-            let action = SKAction.animateWithTextures(textures, timePerFrame: 0.15)
-            flame?.runAction(SKAction.repeatActionForever(action))
+            let action = SKAction.animate(with: textures, timePerFrame: 0.15)
+            flame?.run(SKAction.repeatForever(action))
             self.addChild(flame!)
             
             addLabels()
@@ -62,8 +82,8 @@ class CupcakeSprite: SKSpriteNode {
         }
         nameLabel = SKLabelNode(text: name)
         nameLabel?.fontSize = self.size.width / 10
-        nameLabel?.fontColor = UIColor.blackColor()
-        nameLabel?.position = CGPointMake(0, nameLabel!.fontSize * -4)
+        nameLabel?.fontColor = UIColor.black
+        nameLabel?.position = CGPoint(x: 0, y: nameLabel!.fontSize * -4)
         if nameLabel?.frame.width > self.size.width * 1.1 {
             nameLabel?.fontSize = nameLabel!.fontSize * 0.75
         }
@@ -73,14 +93,14 @@ class CupcakeSprite: SKSpriteNode {
 		if birthDateLabel != nil {
             birthDateLabel?.removeFromParent()
         }
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d, yyyy"
-        let dateString = formatter.stringFromDate(person!.birthDate!)
+        let dateString = formatter.string(from: person!.birthDate! as Date)
 
         birthDateLabel = SKLabelNode(text: dateString)
         birthDateLabel?.fontSize = nameLabel!.fontSize
-        birthDateLabel?.fontColor = UIColor.blackColor()
-        birthDateLabel?.position = CGPointMake(0, nameLabel!.position.y - birthDateLabel!.fontSize)
+        birthDateLabel?.fontColor = UIColor.black
+        birthDateLabel?.position = CGPoint(x: 0, y: nameLabel!.position.y - birthDateLabel!.fontSize)
         birthDateLabel?.zPosition = 3
         self.addChild(birthDateLabel!)
 		
@@ -88,13 +108,13 @@ class CupcakeSprite: SKSpriteNode {
             ageLabel?.removeFromParent()
         }
         
-        let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                     fromDate: person!.birthDate!)
+        let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                     from: person!.birthDate! as Date)
         let month = ageComponents.month
         let day = ageComponents.day
         
-        let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                    fromDate: NSDate())
+        let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                    from: Foundation.Date())
         var age = person!.age!
         let monthN = ageComponentsNow.month
         let dayN = ageComponentsNow.day
@@ -104,14 +124,14 @@ class CupcakeSprite: SKSpriteNode {
         
         ageLabel = SKLabelNode(text: "Age \(age)")
         ageLabel?.fontSize = nameLabel!.fontSize
-        ageLabel?.fontColor = UIColor.blackColor()
-        ageLabel?.position = CGPointMake(0, birthDateLabel!.position.y - ageLabel!.fontSize)
+        ageLabel?.fontColor = UIColor.black
+        ageLabel?.position = CGPoint(x: 0, y: birthDateLabel!.position.y - ageLabel!.fontSize)
         ageLabel?.zPosition = 3
         self.addChild(ageLabel!)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         if topic != nil {
             EventHandler.getInstance().publish(topic!, data: person)
         }

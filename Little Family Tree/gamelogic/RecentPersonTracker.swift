@@ -13,7 +13,7 @@ class RecentPersonTracker
     var recentPersonIds = [Int64]()
     var maxRecent:Int = 16
     
-    private static var instance:RecentPersonTracker?
+    fileprivate static var instance:RecentPersonTracker?
     
     static func getInstance() -> RecentPersonTracker {
         if (instance == nil) {
@@ -23,7 +23,7 @@ class RecentPersonTracker
         return instance!
     }
     
-    func addPerson(person:LittlePerson) {
+    func addPerson(_ person:LittlePerson) {
         recentPersonIds.removeObject(person.id!)
         recentPersonIds.append(person.id!);
         if (recentPersonIds.count > maxRecent) {
@@ -31,7 +31,7 @@ class RecentPersonTracker
         }
     }
     
-    func personRecentlyUsed(person:LittlePerson) -> Bool {
+    func personRecentlyUsed(_ person:LittlePerson) -> Bool {
         if recentPersonIds.contains(person.id!) {
             return true
         }

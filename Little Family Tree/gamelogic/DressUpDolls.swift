@@ -36,10 +36,10 @@ class DressUpDolls {
         countryMappings["philippines"] = "philippines"
     }
     
-    func getDollConfig(place:String?, person:LittlePerson) -> DollConfig {
+    func getDollConfig(_ place:String?, person:LittlePerson) -> DollConfig {
         var folder:String? = nil
         if (place != nil) {
-            folder = countryMappings[place!.lowercaseString]
+            folder = countryMappings[place!.lowercased()]
         }
         if (folder == nil) {
             folder = countryMappings["unknown"]
@@ -47,7 +47,7 @@ class DressUpDolls {
         
         let dc = DollConfig();
         dc.folderName = folder
-        if (person.gender == GenderType.FEMALE) {
+        if (person.gender == GenderType.female) {
             dc.boygirl = "girl"
         } else {
             dc.boygirl = "boy"

@@ -4,14 +4,14 @@ import SpriteKit
 
 class SpriteAnimator {
 	var timings = [AnimatorTiming]()
-	var startTime:NSTimeInterval = 0
-	var currentTime:NSTimeInterval = 0
+	var startTime:TimeInterval = 0
+	var currentTime:TimeInterval = 0
 	var currentPosition:Int = 0
 	var started = false
 	var finished = false
 	
 	func start() {
-		timings.sortInPlace({
+		timings.sort(by: {
 			return $0.time < $1.time
 		})
 		currentTime = 0
@@ -20,11 +20,11 @@ class SpriteAnimator {
 		finished = false
 	}
 	
-	func addTiming(timing:AnimatorTiming) {
+	func addTiming(_ timing:AnimatorTiming) {
 		timings.append(timing)
 	}
 	
-	func update(currentTime: CFTimeInterval) {
+	func update(_ currentTime: CFTimeInterval) {
 		if (started && !finished) {
             if startTime == 0 {
                 startTime = currentTime
@@ -45,7 +45,7 @@ class SpriteAnimator {
 }
 
 class AnimatorTiming {
-	var time:NSTimeInterval = 0.0
+	var time:TimeInterval = 0.0
 	func apply() {
 		print("nothing to do in empty AnimatorTiming")
 	}
@@ -55,7 +55,7 @@ class SpriteStateTiming : AnimatorTiming {
 	var sprite:AnimatedStateSprite
 	var state:Int = 0
 	
-	init(time:NSTimeInterval, sprite:AnimatedStateSprite, state:Int) {
+	init(time:TimeInterval, sprite:AnimatedStateSprite, state:Int) {
         self.sprite = sprite
         super.init()
 		self.time = time
@@ -76,7 +76,7 @@ class SpriteActionTiming : AnimatorTiming {
 	var sprite:SKNode
 	var action:SKAction
 	
-	init(time:NSTimeInterval, sprite:SKNode, action:SKAction) {
+	init(time:TimeInterval, sprite:SKNode, action:SKAction) {
         self.sprite = sprite
         self.action = action
         super.init()
@@ -84,6 +84,6 @@ class SpriteActionTiming : AnimatorTiming {
 	}
 	
 	override func apply() {
-		sprite.runAction(action)
+		sprite.run(action)
 	}
 }

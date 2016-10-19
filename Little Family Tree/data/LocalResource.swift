@@ -6,7 +6,7 @@ class LocalResource : NSObject {
 	var localPath : NSString?
 	var type : NSString?
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         if let media = object as? LocalResource {
 			if media.id > 0 && self.id > 0 {
 				return media.id == self.id

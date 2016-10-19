@@ -31,23 +31,23 @@ class MyHeritageLogin: UIView, StatusListener {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
         
         service = MyHeritageService()
-        dataService.serviceType = DataService.SERVICE_TYPE_MYHERITAGE
+        dataService.serviceType = DataService.SERVICE_TYPE_MYHERITAGE as NSString?
         dataService.remoteService = service
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "MyHeritageLogin", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    func statusChanged(message: String) {
+    func statusChanged(_ message: String) {
     }
 }

@@ -5,7 +5,7 @@ class Identifier {
 	var value:NSString?
 	var type:NSString?
 	
-	static func convertJsonToIdentifier(type:NSString, json:JSON) -> [Identifier] {
+	static func convertJsonToIdentifier(_ type:NSString, json:JSON) -> [Identifier] {
 		var ids = [Identifier]()
         let stype = type as String
         if json[stype] != nil {

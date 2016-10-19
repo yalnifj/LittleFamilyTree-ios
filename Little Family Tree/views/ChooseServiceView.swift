@@ -30,22 +30,22 @@ import UIKit
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
-        PGVButton.hidden = false
+        PGVButton.isHidden = false
         //-- hide myheritage until it is ready
-        MyHeritageButton.hidden = true
+        MyHeritageButton.isHidden = true
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "ChooseServiceView", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
     
-    @IBAction func FSButtonClicked(sender: UIButton) {
+    @IBAction func FSButtonClicked(_ sender: UIButton) {
         print("FSButton clicked")
         let superview = self.view.superview
         self.view.removeFromSuperview()
@@ -55,7 +55,7 @@ import UIKit
     }
     
 
-    @IBAction func PGVButtonClicked(sender: UIButton) {
+    @IBAction func PGVButtonClicked(_ sender: UIButton) {
         print("PGVButton clicked")
         let superview = self.view.superview
         self.view.removeFromSuperview()
@@ -64,7 +64,7 @@ import UIKit
         superview?.addSubview(subview)
     }
     
-    @IBAction func MyHeritageButtonClicked(sender: UIButton) {
+    @IBAction func MyHeritageButtonClicked(_ sender: UIButton) {
         print("MyHeritage Button Clicked")
         let superview = self.view.superview
         self.view.removeFromSuperview()

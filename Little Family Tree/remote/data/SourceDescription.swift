@@ -21,16 +21,16 @@ class SourceDescription : HypermediaEnabledData {
 	var repository:ResourceReference?
 	var descriptorRef:ResourceReference?
 	
-	static func convertJsonToSourceDescriptions(json:JSON) -> [SourceDescription] {
+	static func convertJsonToSourceDescriptions(_ json:JSON) -> [SourceDescription] {
 		var sds = [SourceDescription]()
 		
-        if json["sourceDescriptions"] != nil {
+        if json["sourceDescriptions"] != JSON.null {
             for sson in json["sourceDescriptions"].array! {
                 let sd = SourceDescription()
-                sd.id = sson["id"].description
-                sd.mediaType = sson["mediaType"].description
-                sd.about = sson["about"].description
-                sd.resourceType = sson["resourceType"].description
+                sd.id = sson["id"].description as NSString?
+                sd.mediaType = sson["mediaType"].description as NSString?
+                sd.about = sson["about"].description as NSString?
+                sd.resourceType = sson["resourceType"].description as NSString?
                 sd.addLinksFromJson(sson)
                 
                 // -- TODO add other attributes for non-media sourceDescriptions

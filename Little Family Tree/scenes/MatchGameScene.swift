@@ -20,14 +20,14 @@ class MatchGameScene: LittleFamilyScene {
     var flip1:PersonMatchSprite?
     var flip2:PersonMatchSprite?
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "match_back")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -109,7 +109,7 @@ class MatchGameScene: LittleFamilyScene {
             let sprite = PersonMatchSprite()
             sprite.size.width = width
             sprite.size.height = width
-            sprite.userInteractionEnabled = true
+            sprite.isUserInteractionEnabled = true
             var x = 10 + ((10 + width) * CGFloat(c))
 			if x + width > self.size.width {
 				r += 1
@@ -117,7 +117,7 @@ class MatchGameScene: LittleFamilyScene {
 				c = 0
 			}
             let y = (self.size.height - topBar!.size.height) - ((10 + width) * CGFloat(r+1))
-            sprite.position = CGPointMake(x, y)
+            sprite.position = CGPoint(x: x, y: y)
             sprite.gameScene = self
             sprite.person = mp
             self.addChild(sprite)
@@ -126,15 +126,15 @@ class MatchGameScene: LittleFamilyScene {
         }
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
     }
 
-    func frameTouched(sprite:PersonMatchSprite) {
+    func frameTouched(_ sprite:PersonMatchSprite) {
         if sprite.person?.flipped == false {
             if flipCount >= 2 {
                 for s in matchSprites {
@@ -161,7 +161,7 @@ class MatchGameScene: LittleFamilyScene {
                         flip2?.person?.matched = true
                         
                         if game?.allMatched() == true {
-                            self.showStars(CGRectMake(self.size.width * 0.1, self.size.height * 0.1, self.size.width * 0.8, self.size.height * 0.8), starsInRect: true, count: 10, container: self)
+                            self.showStars(CGRect(x: self.size.width * 0.1, y: self.size.height * 0.1, width: self.size.width * 0.8, height: self.size.height * 0.8), starsInRect: true, count: 10, container: self)
                             self.playSuccessSound(2.0, onCompletion: { () in
                                 self.loadMorePeople()
                             })

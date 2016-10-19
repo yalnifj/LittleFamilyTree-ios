@@ -1,4 +1,24 @@
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class TreeSearchGame {
     var rootPerson:LittlePerson?
@@ -21,7 +41,7 @@ class TreeSearchGame {
         clues.append(RelationshipTreeClue(me: me))
     }
    
-    func findRandomPerson(root:TreeNode) {
+    func findRandomPerson(_ root:TreeNode) {
         rootNode = root
         rootPerson = root.leftPerson
         targetPerson = nil
@@ -115,7 +135,7 @@ class TreeSearchGame {
 		}
     }
 
-    func isMatch(person:LittlePerson) -> Bool {
+    func isMatch(_ person:LittlePerson) -> Bool {
         let clue = clues[clueNumber]
         let ret = clue.isMatch(person, targetPerson: targetPerson!)
         if (ret) {
@@ -130,21 +150,21 @@ class TreeSearchGame {
 }
 
 protocol TreeClue {
-	func getClueText(targetPerson:LittlePerson) -> String
-    func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool
+	func getClueText(_ targetPerson:LittlePerson) -> String
+    func isMatch(_ person:LittlePerson, targetPerson:LittlePerson) -> Bool
 }
 
 class NameTreeClue : TreeClue {
-    func getClueText(targetPerson:LittlePerson) -> String {
+    func getClueText(_ targetPerson:LittlePerson) -> String {
 		let clue = "I spy in your family tree, someone named, \(targetPerson.givenName!)"
 		return clue
 	}
 
-    func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+    func isMatch(_ person:LittlePerson, targetPerson:LittlePerson) -> Bool {
         if (person == targetPerson) {
             return true
         }
-        if person.givenName?.lowercaseString == targetPerson.givenName?.lowercaseString {
+        if person.givenName?.lowercased == targetPerson.givenName?.lowercased {
             return true
         }
 		return false
@@ -153,16 +173,16 @@ class NameTreeClue : TreeClue {
 
 class FullNameTreeClue : TreeClue {
 	
-	func getClueText(targetPerson:LittlePerson) -> String {
+	func getClueText(_ targetPerson:LittlePerson) -> String {
 		let clue = "I spy in your family tree, someone named, \(targetPerson.name!)"
 		return clue
 	}
 
-	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+	func isMatch(_ person:LittlePerson, targetPerson:LittlePerson) -> Bool {
         if (person == targetPerson) {
             return true
         }
-        if person.name?.lowercaseString == targetPerson.name?.lowercaseString {
+        if person.name?.lowercased == targetPerson.name?.lowercased {
             return true
         }
 		return false
@@ -175,13 +195,13 @@ class RelationshipTreeClue : TreeClue {
         self.me = me
     }
 
-	func getClueText(targetPerson:LittlePerson) -> String {
+	func getClueText(_ targetPerson:LittlePerson) -> String {
         let relationship = RelationshipCalculator.getRelationship(me, p: targetPerson)
 		let clue = "I spy in your family tree, someone who is your, \(relationship)"
 		return clue
 	}
 
-	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+	func isMatch(_ person:LittlePerson, targetPerson:LittlePerson) -> Bool {
         if (person == targetPerson) {
             return true
         }
@@ -197,16 +217,16 @@ class RelationshipTreeClue : TreeClue {
 
 class GenderTreeClue : TreeClue {
 
-	func getClueText(targetPerson:LittlePerson) -> String {
+	func getClueText(_ targetPerson:LittlePerson) -> String {
 		var genderType = "boy"
-		if (targetPerson.gender == GenderType.FEMALE) {
+		if (targetPerson.gender == GenderType.female) {
 			genderType = "girl"
 		}
 		let clue = "I spy in your family tree, someone who is a, \(genderType)"
 		return clue
 	}
 
-	func isMatch(person:LittlePerson, targetPerson:LittlePerson) -> Bool {
+	func isMatch(_ person:LittlePerson, targetPerson:LittlePerson) -> Bool {
         if (person == targetPerson) {
             return true
         }

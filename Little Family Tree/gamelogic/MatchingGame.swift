@@ -47,7 +47,7 @@ class MatchingGame {
         }
     }
     
-    func isMatch(pos1:Int, pos2:Int) -> Bool {
+    func isMatch(_ pos1:Int, pos2:Int) -> Bool {
         if (pos1 != pos2 && pos1 >= 0 && pos2 >= 0 && pos1 < board!.count && pos2 < board!.count) {
             let p1 = board![pos1]
             let p2 = board![pos2]

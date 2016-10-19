@@ -8,11 +8,11 @@ class LittlePerson : NSObject {
 	var relationship : NSString?
 	var familySearchId : NSString?
 	var photoPath : NSString?
-	var birthDate : NSDate?
+	var birthDate : Foundation.Date?
 	var birthPlace : NSString?
 	var age : Int?
 	var alive : Bool?
-	var lastSync : NSDate?
+	var lastSync : Foundation.Date?
 	var active : Bool = true;
 	var nationality : NSString?
 	
@@ -28,16 +28,16 @@ class LittlePerson : NSObject {
 	
 	func updateAge() {
 		if (birthDate != nil) {
-			let todayDate = NSDate()
-			let ageComponents = NSCalendar.currentCalendar().components(.Year,
-				fromDate: birthDate!,
-				toDate: todayDate,
+			let todayDate = Foundation.Date()
+			let ageComponents = (Calendar.current as NSCalendar).components(.year,
+				from: birthDate!,
+				to: todayDate,
 				options: [])
 			age = ageComponents.year
 		}
 	}
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         if let person = object as? LittlePerson {
             return person.id == self.id
         }

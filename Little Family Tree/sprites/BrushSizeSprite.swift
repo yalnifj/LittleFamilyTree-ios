@@ -15,7 +15,7 @@ class BrushSizeSprite : SKSpriteNode {
     var maxSize:CGFloat = 30
     var minSize:CGFloat = 5
     var brushSize:CGFloat = 15
-    var brushColor:UIColor = UIColor.blueColor() {
+    var brushColor:UIColor = UIColor.blue {
         didSet {
             if preview != nil {
                 preview?.fillColor = brushColor
@@ -26,26 +26,26 @@ class BrushSizeSprite : SKSpriteNode {
     var listener : BrushSizeListener? {
         didSet {
             preview = SKShapeNode(circleOfRadius: maxSize/2)
-            preview?.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+            preview?.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
             preview?.fillColor = color
-            preview?.strokeColor = UIColor.blackColor()
+            preview?.strokeColor = UIColor.black
             preview?.glowWidth = 2.0
             preview?.setScale(brushSize/maxSize)
             self.addChild(preview!)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
             if lastPoint != nil {
                 let dx = nextPoint.x - (lastPoint?.x)!
                 let dy = nextPoint.y - (lastPoint?.y)!
@@ -62,15 +62,15 @@ class BrushSizeSprite : SKSpriteNode {
                     brushSize = maxSize
                 }
                 let scale = brushSize / maxSize
-                let scaleAction = SKAction.scaleTo(scale, duration: 0)
-                preview?.runAction(scaleAction)
+                let scaleAction = SKAction.scale(to: scale, duration: 0)
+                preview?.run(scaleAction)
             }
         }
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         lastPoint = nil
         if listener != nil {
             listener?.onBrushSizeChange(brushSize)
@@ -80,5 +80,5 @@ class BrushSizeSprite : SKSpriteNode {
 }
 
 protocol BrushSizeListener {
-    func onBrushSizeChange(size:CGFloat)
+    func onBrushSizeChange(_ size:CGFloat)
 }

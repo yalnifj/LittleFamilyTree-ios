@@ -7,9 +7,29 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 class RelationshipCalculator {
-    static func getRelationship(me:LittlePerson?, p:LittlePerson?) -> String {
+    static func getRelationship(_ me:LittlePerson?, p:LittlePerson?) -> String {
         if (me == nil || p == nil) { return "" }
         if (me == p) { return "You" }
         if (p!.treeLevel != nil && me!.treeLevel != nil) {
@@ -17,7 +37,7 @@ class RelationshipCalculator {
             if (p!.treeLevel == me!.treeLevel) {
                 let spouses = dataService.dbHelper.getSpousesForPerson(me!.id!)
                 if (spouses != nil && spouses!.contains(p!)) {
-                    if (p!.gender == GenderType.FEMALE) {
+                    if (p!.gender == GenderType.female) {
                         return "Wife"
                     } else {
                         return "Husband"
@@ -29,7 +49,7 @@ class RelationshipCalculator {
                         let myFamily = dataService.dbHelper.getChildrenForPerson(parent.id!)
                         if myFamily != nil {
                             if (myFamily!.contains(p!)) {
-                                if (p!.gender == GenderType.FEMALE) {
+                                if (p!.gender == GenderType.female) {
                                     return "Sister"
                                 } else {
                                     return "Brother"
@@ -41,7 +61,7 @@ class RelationshipCalculator {
                                 if (bs.treeLevel != nil && bs.treeLevel == me!.treeLevel) {
                                     let bsspouses = dataService.dbHelper.getSpousesForPerson(bs.id!)
                                     if (bsspouses != nil && bsspouses!.contains(p!)) {
-                                        if (p!.gender == GenderType.FEMALE) {
+                                        if (p!.gender == GenderType.female) {
                                             return "Sister in-law"
                                         } else {
                                             return "Brother in-law"
@@ -61,7 +81,7 @@ class RelationshipCalculator {
                 let myFamily = dataService.dbHelper.getRelativesForPerson(me!.id!)
                 if myFamily != nil {
                     if (myFamily!.contains(p!)) {
-                        if (p!.gender == GenderType.FEMALE) {
+                        if (p!.gender == GenderType.female) {
                             return "Daughter"
                         } else {
                             return "Son"
@@ -71,7 +91,7 @@ class RelationshipCalculator {
                             if (c.treeLevel == p!.treeLevel) {
                                 let cspouses = dataService.dbHelper.getSpousesForPerson(c.id!)
                                 if (cspouses != nil && cspouses!.contains(p!)) {
-                                    if (p!.gender == GenderType.FEMALE) {
+                                    if (p!.gender == GenderType.female) {
                                         return "Daughter in-law"
                                     } else {
                                         return "Son in-law"
@@ -79,7 +99,7 @@ class RelationshipCalculator {
                                 }
                             }
                         }
-                        if (p!.gender == GenderType.FEMALE) {
+                        if (p!.gender == GenderType.female) {
                             return "Niece"
                         } else {
                             return "Nephew"
@@ -96,14 +116,14 @@ class RelationshipCalculator {
                 var inLaws = [LittlePerson]()
                 let spouses = dataService.dbHelper.getSpousesForPerson(me!.id!)
                 if spouses != nil {
-                    inLaws.appendContentsOf(spouses!)
+                    inLaws.append(contentsOf: spouses!)
                 }
                 repeat {
                     var nextLevel = [LittlePerson]()
                     for pp in levelPeople {
                         let parents = dataService.dbHelper.getParentsForPerson(pp.id!)
                         if parents != nil {
-                            nextLevel.appendContentsOf(parents!)
+                            nextLevel.append(contentsOf: parents!)
                         }
                     }
                     levelPeople = nextLevel;
@@ -112,7 +132,7 @@ class RelationshipCalculator {
                     for pp in inLaws {
                         let parents = dataService.dbHelper.getParentsForPerson(pp.id!)
                         if parents != nil {
-                            nextInLaw.appendContentsOf(parents!)
+                            nextInLaw.append(contentsOf: parents!)
                         }
                     }
                     inLaws = nextInLaw
@@ -121,14 +141,14 @@ class RelationshipCalculator {
                 } while(d < distance)
     
                 if (levelPeople.contains(p!)) {
-                    if (p!.gender == GenderType.FEMALE) {
+                    if (p!.gender == GenderType.female) {
                         rel += "Mother"
                     } else {
                         rel += "Father"
                     }
                 }
                 else if (inLaws.contains(p!)) {
-                    if (p!.gender == GenderType.FEMALE) {
+                    if (p!.gender == GenderType.female) {
                         rel += "Mother"
                     } else {
                         rel += "Father"
@@ -137,7 +157,7 @@ class RelationshipCalculator {
                 }
                 else {
                     rel = rel.replaceAll("Grand", replace: "Great");
-                    if (p!.gender == GenderType.FEMALE) {
+                    if (p!.gender == GenderType.female) {
                         rel += "Aunt"
                     } else {
                         rel += "Uncle"
@@ -148,7 +168,7 @@ class RelationshipCalculator {
             if (p!.treeLevel! < me!.treeLevel! - 1) {
                 let distance = abs(p!.treeLevel! - me!.treeLevel!)
                 var rel = getGreatness(distance)
-                if (p!.gender == GenderType.FEMALE) {
+                if (p!.gender == GenderType.female) {
                     rel += "Daughter"
                 } else {
                     rel += "Son"
@@ -159,7 +179,7 @@ class RelationshipCalculator {
         return ""
     }
     
-    static func getGreatness(depth:Int) -> String {
+    static func getGreatness(_ depth:Int) -> String {
         var rel = "";
         if (depth > 4) {
             var great = "\(depth - 2)th"
@@ -216,10 +236,10 @@ class RelationshipCalculator {
         return rel
     }
     
-    static func getAncestralRelationship(depth:Int, p:LittlePerson, me:LittlePerson, isRoot:Bool, isChild:Bool, isInLaw:Bool) -> String {
+    static func getAncestralRelationship(_ depth:Int, p:LittlePerson, me:LittlePerson, isRoot:Bool, isChild:Bool, isInLaw:Bool) -> String {
         var rel = getGreatness(depth)
     
-        if (p.gender == GenderType.FEMALE) {
+        if (p.gender == GenderType.female) {
             if (depth==0) {
                 if (isRoot) {
                     if (p==me) { rel = "You" }
@@ -232,7 +252,7 @@ class RelationshipCalculator {
                 rel += "Mother"
             }
         }
-        else if (p.gender == GenderType.MALE) {
+        else if (p.gender == GenderType.male) {
             if (depth==0) {
                 if (isRoot) {
                     if (p==me) { rel = "You" }

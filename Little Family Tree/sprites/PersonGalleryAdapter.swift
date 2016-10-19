@@ -25,7 +25,7 @@ class PersonGalleryAdapter: GalleryPageAdapter {
         self.nodeTopic = topic
     }
     
-    func setGallery(gallery: Gallery) {
+    func setGallery(_ gallery: Gallery) {
         self.gallery = gallery
     }
     
@@ -33,11 +33,11 @@ class PersonGalleryAdapter: GalleryPageAdapter {
         return people.count
     }
     
-    func getNodeAtPosition(position:Int) -> SKSpriteNode {
+    func getNodeAtPosition(_ position:Int) -> SKSpriteNode {
         let person = people[position]
         let node = PersonNameSprite()
         node.fullName = true
-        node.size = CGSizeMake(gallery!.size.height * 0.75, gallery!.size.height * 0.75)
+        node.size = CGSize(width: gallery!.size.height * 0.75, height: gallery!.size.height * 0.75)
         node.person = person
         node.topic = nodeTopic
         return node

@@ -2,13 +2,13 @@ import Foundation
 
 class Attribution {
 	var contributor:ResourceReference?
-	var modified:NSDate?
+	var modified:Foundation.Date?
 	var changeMessage:NSString?
 	
-	static func convertJsonToAttribution(json:JSON) -> Attribution {
+	static func convertJsonToAttribution(_ json:JSON) -> Attribution {
 		let attr = Attribution()
-		attr.changeMessage = json["changeMessage"].description
-		if json["contributor"] != nil {
+		attr.changeMessage = json["changeMessage"].description as NSString?
+		if json["contributor"] != JSON.null {
 			attr.contributor = ResourceReference.convertJsonToResourceReference(json["contributor"])
 		}
 		

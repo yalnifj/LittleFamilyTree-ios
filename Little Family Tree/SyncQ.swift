@@ -1,18 +1,29 @@
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class SyncQ : NSObject {
 	var syncQ:[LittlePerson]
 	var dataService:DataService
 	var dbHelper:DBHelper
-	var timer:NSTimer?
+	var timer:Timer?
     var started = false
     var paused = false
     var pauseDelay = Double(0)
     var authCounter = 0
     var startCounter = 0
-    var lastRunTime:NSDate? = nil
-	lazy var queue:NSOperationQueue = {
-		var queue = NSOperationQueue()
+    var lastRunTime:Foundation.Date? = nil
+	lazy var queue:OperationQueue = {
+		var queue = OperationQueue()
 		queue.name = "Sync queue"
 		queue.maxConcurrentOperationCount = 1
 		return queue
@@ -27,14 +38,14 @@ class SyncQ : NSObject {
 		return instance!
 	}
 	
-	private override init() {
+	fileprivate override init() {
 		syncQ = [LittlePerson]()
 		dataService = DataService.getInstance()
 		dbHelper = DBHelper.getInstance()
         super.init()
 	}
 	
-	func addToSyncQ(person:LittlePerson) {
+	func addToSyncQ(_ person:LittlePerson) {
         var diff = Double(-3700)
         if person.lastSync != nil {
             diff = person.lastSync!.timeIntervalSinceNow
@@ -55,7 +66,7 @@ class SyncQ : NSObject {
 						}
 					}
 					if index < syncQ.count-1 {
-						syncQ.insert(person, atIndex:index)
+						syncQ.insert(person, at:index)
 					} else {
 						syncQ.append(person)
 					}
@@ -71,23 +82,23 @@ class SyncQ : NSObject {
         if self.timer != nil {
             self.timer!.invalidate()
         }
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(SyncQ.processNextInQ), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(SyncQ.processNextInQ), userInfo: nil, repeats: true)
         started = true
         startCounter = 0
-        lastRunTime = NSDate()
+        lastRunTime = Foundation.Date()
         print("SyncQ Timer started")
     }
     
-    func pauseForTime(delay:Double) {
+    func pauseForTime(_ delay:Double) {
         paused = true
         pauseDelay = pauseDelay + delay
     }
 	
 	func processNextInQ() {
-        lastRunTime = NSDate()
+        lastRunTime = Foundation.Date()
         if !paused {
             startCounter -= 2
-            let date = NSDate()
+            let date = Foundation.Date()
             print("\(date) Sync Q has \(syncQ.count) people in it.");
             if dataService.remoteService != nil && dataService.remoteService!.sessionId != nil && syncQ.count > 0 {
                 let backSync = dataService.dbHelper.getProperty(DataService.PROPERTY_SYNC_BACKGROUND)
@@ -112,7 +123,7 @@ class SyncQ : NSObject {
         }
 	}
 	
-	func syncPerson(person:LittlePerson, onCompletion: LittlePersonResponse) {
+	func syncPerson(_ person:LittlePerson, onCompletion: @escaping LittlePersonResponse) {
         self.dataService.remoteService!.getPerson(person.familySearchId!, ignoreCache: true, onCompletion: { fsPerson, err in
             if (fsPerson == nil && err == nil) { //TODO || fsPerson.transientProperty["deleted"] != nil {
                 try! self.dbHelper.deletePersonById(person.id!)
@@ -134,34 +145,34 @@ class SyncQ : NSObject {
                         person.nationality = updated!.nationality
                         person.updateAge()
                         
-                        let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-                        let group = dispatch_group_create()
+                        let dqueue = DispatchQueue.global()
+                        let group = DispatchGroup()
                         
-                        dispatch_group_enter(group)
+                        group.enter()
                         //-- sync close relatives
                         self.dataService.remoteService!.getCloseRelatives(person.familySearchId!, onCompletion: { closeRelatives, err in
                             if (closeRelatives != nil && closeRelatives!.count > 0) {
-                                let dqueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-                                let group2 = dispatch_group_create()
+                                let dqueue2 = DispatchQueue.global()
+                                let group2 = DispatchGroup()
                                 let oldRelations = self.dbHelper.getRelationshipsForPerson(person.id!)
                                 var newRelations = [LocalRelationship]()
                                 for r in closeRelatives! {
-                                    var type = RelationshipType.PARENTCHILD
+                                    var type = RelationshipType.parentchild
                                     if r.type == "http://gedcomx.org/Couple" {
-                                        type = RelationshipType.SPOUSE
+                                        type = RelationshipType.spouse
                                     }
-                                    dispatch_group_enter(group2)
+                                    group2.enter()
                                     self.syncRelationship(r.person1!.resourceId as! String, fsid2: r.person2!.resourceId as! String, type: type, onCompletion: { rels, err in
                                         if (rels != nil && rels!.count > 0) {
                                             for rel in rels! {
                                                 newRelations.append(rel)
                                             }
                                         }
-                                        dispatch_group_leave(group2)
+                                        group2.leave()
                                     })
                                 }
                                 
-                                dispatch_group_notify(group2, dqueue2) {
+                                group2.notify(queue: dqueue2) {
                                     for rel in oldRelations! {
                                         if !newRelations.contains(rel) {
                                             self.dataService.dbHelper.deleteRelationshipById(rel.id);
@@ -185,18 +196,18 @@ class SyncQ : NSObject {
                                     print("Error persisting little person")
                                 }
                             }
-                            dispatch_group_leave(group)
+                            group.leave()
                         })
                         
                         //-- sync memories
-                        dispatch_group_enter(group)
+                        group.enter()
                         self.dataService.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
                             var mediaFound = false
                             if sds != nil {
                                 let oldMedia = self.dbHelper.getMediaForPerson(person.id!);
                                 var allMedia = [Media]()
-                                let dqueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-                                let group2 = dispatch_group_create()
+                                let dqueue2 = DispatchQueue.global()
+                                let group2 = DispatchGroup()
                                 for sd in sds! {
                                     var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
                                     if med == nil {
@@ -208,7 +219,7 @@ class SyncQ : NSObject {
                                                     med?.type = "photo"
                                                     med?.familySearchId = sd.id
                                                     
-                                                    dispatch_group_enter(group2)
+                                                    group2.enter()
                                                     self.dataService.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: self.dataService.lastPath(link.href! as String), onCompletion: { path, err2 in
                                                         if path != nil {
                                                             med?.localPath = path
@@ -223,7 +234,7 @@ class SyncQ : NSObject {
                                                                 print("Error saving tag")
                                                             }
                                                         }
-                                                        dispatch_group_leave(group2)
+                                                        group2.leave()
                                                     })
                                                 }
                                             }
@@ -234,7 +245,7 @@ class SyncQ : NSObject {
                                     }
                                 }
                                 
-                                dispatch_group_notify(group2, dqueue2) {
+                                group2.notify(queue: dqueue2) {
                                     for m in oldMedia {
                                         if !allMedia.contains(m) {
                                             self.dbHelper.deleteMediaById(m.id)
@@ -262,10 +273,10 @@ class SyncQ : NSObject {
                                     }
                                 }
                             }
-                            dispatch_group_leave(group)
+                            group.leave()
                         })
                         
-                        dispatch_group_notify(group, dqueue) {
+                        group.notify(queue: dqueue) {
                             onCompletion(person, err2)
                         }
                     }
@@ -276,9 +287,9 @@ class SyncQ : NSObject {
         })
     }
 	
-	func syncRelationship(fsid1:String, fsid2:String, type:RelationshipType, onCompletion: LocalRelationshipResponse) {
-		dataService.getPersonByRemoteId(fsid1, onCompletion: { person, err in 
-			self.dataService.getPersonByRemoteId(fsid2, onCompletion: { relative, err in 
+	func syncRelationship(_ fsid1:String, fsid2:String, type:RelationshipType, onCompletion: @escaping LocalRelationshipResponse) {
+		dataService.getPersonByRemoteId(fsid1 as NSString, onCompletion: { person, err in 
+			self.dataService.getPersonByRemoteId(fsid2 as NSString, onCompletion: { relative, err in 
 				if (person != nil && relative != nil) {
 					var personChanged = false;
 					var relativeChanged = false;
@@ -291,7 +302,7 @@ class SyncQ : NSObject {
 						self.dbHelper.persistRelationship(rel!);
 					}
 
-					if (rel!.type == RelationshipType.SPOUSE) {
+					if (rel!.type == RelationshipType.spouse) {
 						if (person!.hasSpouses == nil || person!.hasSpouses == false) {
 							person!.hasSpouses = true
 							personChanged = true
@@ -367,7 +378,7 @@ class SyncQ : NSObject {
 	
 }
 
-class SyncOperation : NSOperation {
+class SyncOperation : Operation {
     var person:LittlePerson
     var dataService:DataService
 	var syncQ:SyncQ
@@ -379,7 +390,7 @@ class SyncOperation : NSOperation {
     }
     
     override func main() {
-        if self.cancelled {
+        if self.isCancelled {
             return
         }
         
@@ -392,7 +403,7 @@ class SyncOperation : NSOperation {
             if err != nil && err?.code == 401 {
                 if self.dataService.remoteService != nil && self.dataService.remoteService!.sessionId != nil {
                     self.dataService.autoLogin()
-                    self.syncQ.syncQ.insert(self.person, atIndex: 0)
+                    self.syncQ.syncQ.insert(self.person, at: 0)
                 }
                 return
             }
@@ -404,7 +415,7 @@ class SyncOperation : NSOperation {
                 self.syncQ.syncPerson(self.person, onCompletion: {updatedPerson, err in
                     //-- update person's lastsync date
                     if updatedPerson != nil {
-                        updatedPerson!.lastSync = NSDate()
+                        updatedPerson!.lastSync = Foundation.Date()
                         do {
                             try dbHelper.persistLittlePerson(updatedPerson!)
                         } catch {
@@ -413,7 +424,7 @@ class SyncOperation : NSOperation {
                     }
                 })
             } else {
-                self.person.lastSync = NSDate()
+                self.person.lastSync = Foundation.Date()
                 do {
                     try dbHelper.persistLittlePerson(self.person)
                 } catch {

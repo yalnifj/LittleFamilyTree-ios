@@ -37,7 +37,7 @@ class FamilySearchLogin: UIView, StatusListener {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
         let dataService = DataService.getInstance()
@@ -47,30 +47,30 @@ class FamilySearchLogin: UIView, StatusListener {
         }
         //txtUsername.text = "tum000205905"
         //txtPassword.text = "1234pass"
-        txtError.hidden = true
-        spinner.hidden = true
+        txtError.isHidden = true
+        spinner.isHidden = true
         spinner.stopAnimating()
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "FamilySearchLogin", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    @IBAction func BackButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func BackButtonClicked(_ sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
     }
 
-    @IBAction func SignInButtonClicked(sender: UIBarButtonItem) {
+    @IBAction func SignInButtonClicked(_ sender: UIBarButtonItem) {
         print("SignIn Button clicked")
         loginAction()
     }
     
-    @IBAction func SignInButton2Clicked(sender: UIButton) {
+    @IBAction func SignInButton2Clicked(_ sender: UIButton) {
         print("SignIn2 Button clicked")
         loginAction()
     }
@@ -94,7 +94,7 @@ class FamilySearchLogin: UIView, StatusListener {
         
         let dataService = DataService.getInstance()
         let remoteService = FamilySearchService.sharedInstance
-        dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH
+        dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH as NSString?
         dataService.remoteService = remoteService
         
         remoteService.authenticate(username!, password: password!, onCompletion: { sessionId, err in
@@ -113,11 +113,11 @@ class FamilySearchLogin: UIView, StatusListener {
                         let task = InitialDataLoader(person: person!, listener: self)
                         task.execute({people, err in
                             self.spinner.stopAnimating()
-                            self.spinner.hidden = true
-                            self.txtError.hidden = true
+                            self.spinner.isHidden = true
+                            self.txtError.isHidden = true
                             print(people?.count)
                             dataService.removeStatusListener(self)
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 self.removeFromSuperview()
                             }
                             if self.loginListener != nil {
@@ -135,32 +135,32 @@ class FamilySearchLogin: UIView, StatusListener {
         })
     }
     
-    func statusChanged(message: String) {
+    func statusChanged(_ message: String) {
         showInfoMsg(message)
     }
     
-    func showAlert(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.txtError.hidden = false
+    func showAlert(_ message:String) {
+        DispatchQueue.main.async {
+            self.txtError.isHidden = false
             self.txtError.text = message
-            self.txtError.textColor = UIColor.redColor()
-            self.spinner.hidden = true
+            self.txtError.textColor = UIColor.red
+            self.spinner.isHidden = true
             print(message)
         }
     }
     
-    func showInfoMsg(message:String) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func showInfoMsg(_ message:String) {
+        DispatchQueue.main.async {
             if message.isEmpty {
-                self.spinner.hidden = true
+                self.spinner.isHidden = true
                 self.spinner.stopAnimating()
-                self.txtError.hidden = true
+                self.txtError.isHidden = true
             } else {
-                self.spinner.hidden = false
+                self.spinner.isHidden = false
                 self.spinner.startAnimating()
-                self.txtError.hidden = false
+                self.txtError.isHidden = false
                 self.txtError.text = message
-                self.txtError.textColor = UIColor.blackColor()
+                self.txtError.textColor = UIColor.black
                 print(message)
             }
         }

@@ -6,10 +6,10 @@ class Subject : Conclusion {
 	var media = [SourceReference]()
 	var evidence = [EvidenceReference]()
 	
-    func addIdentifiersFromJson(pson:JSON) {
-		if pson["identifiers"] != nil {
+    func addIdentifiersFromJson(_ pson:JSON) {
+		if pson["identifiers"] != JSON.null {
 			for (type, ids) in pson["identifiers"] {
-				let typeIds = Identifier.convertJsonToIdentifier(type, json: ids)
+				let typeIds = Identifier.convertJsonToIdentifier(type as NSString, json: ids)
 				for id in typeIds {
 					self.identifiers.append(id)
 				}

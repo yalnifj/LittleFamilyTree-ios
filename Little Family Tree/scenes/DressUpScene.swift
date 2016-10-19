@@ -9,6 +9,44 @@
 import Foundation
 import SpriteKit
 import GPUImage
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 class DressUpScene: LittleFamilyScene {
     var dolls = DressUpDolls()
@@ -29,8 +67,8 @@ class DressUpScene: LittleFamilyScene {
     var snapTolerance = CGFloat(10)
     var outlines = [SKSpriteNode : SKSpriteNode]()
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -38,7 +76,7 @@ class DressUpScene: LittleFamilyScene {
         snapTolerance = self.size.width / 25
         
         let background = SKSpriteNode(imageNamed: "dressup_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -46,7 +84,7 @@ class DressUpScene: LittleFamilyScene {
         
         setupTopBar()
         var boygirl = "boy"
-        if (selectedPerson!.gender == GenderType.FEMALE) {
+        if (selectedPerson!.gender == GenderType.female) {
             boygirl = "girl"
         }
 
@@ -55,7 +93,7 @@ class DressUpScene: LittleFamilyScene {
         doll?.zPosition = 2
         scale = (self.size.height * 0.6) / (doll?.size.height)!
         doll?.setScale(scale)
-        doll?.position = CGPointMake(self.size.width/2, self.size.height - (10 + (topBar?.size.height)! + (doll?.size.height)! / 2))
+        doll?.position = CGPoint(x: self.size.width/2, y: self.size.height - (10 + (topBar?.size.height)! + (doll?.size.height)! / 2))
         self.addChild(doll!)
         
         setupSprites()
@@ -63,18 +101,18 @@ class DressUpScene: LittleFamilyScene {
         var places = dolls.getDollPlaces()
         let color = UIColor(colorLiteralRed: 0.8, green: 0.8, blue: 0.8, alpha: 0.3)
         let height = (countryLabel?.position.y)! - 10
-        dollHolder = SKSpriteNode(color: color, size: CGSizeMake(CGFloat(places.count+1) * (5 + height * 0.7), height))
-        dollHolder?.position = CGPointMake((dollHolder?.size.width)!/2, (dollHolder?.size.height)! / 2)
+        dollHolder = SKSpriteNode(color: color, size: CGSize(width: CGFloat(places.count+1) * (5 + height * 0.7), height: height))
+        dollHolder?.position = CGPoint(x: (dollHolder?.size.width)!/2, y: (dollHolder?.size.height)! / 2)
         dollHolder?.zPosition = 2
-        dollHolder?.hidden = true
+        dollHolder?.isHidden = true
         self.addChild(dollHolder!)
         
-        places.sortInPlace()
+        places.sort()
         var dx = ((dollHolder?.size.height)! * 0.3) + CGFloat(-1 * (dollHolder?.size.width)! / 2)
         for place in places {
             let dc = dolls.getDollConfig(place, person: selectedPerson!)
             let thumb = SKSpriteNode(imageNamed: dc.getThumbnail())
-            thumb.position = CGPointMake(dx, 14)
+            thumb.position = CGPoint(x: dx, y: 14)
             let ratio = (thumb.texture?.size().width)! / (thumb.texture?.size().height)!
             thumb.size.height = (dollHolder?.size.height)! * 0.7
             thumb.size.width = thumb.size.height * ratio
@@ -83,8 +121,8 @@ class DressUpScene: LittleFamilyScene {
             
             let pl = SKLabelNode(text: dc.originalPlace)
             pl.fontSize = thumb.size.height / 7
-            pl.fontColor = UIColor.blackColor()
-            pl.position = CGPointMake(dx, thumb.size.height * -0.6)
+            pl.fontColor = UIColor.black
+            pl.position = CGPoint(x: dx, y: thumb.size.height * -0.6)
             dollHolder?.addChild(pl)
             thumbSpriteMap[pl] = place
             
@@ -99,8 +137,8 @@ class DressUpScene: LittleFamilyScene {
         }
         countryLabel = SKLabelNode(text: dollConfig?.originalPlace!)
         countryLabel?.fontSize = (topBar?.size.height)!
-        countryLabel?.fontColor = UIColor.blackColor()
-        countryLabel?.position = CGPointMake(self.size.width / 2, (doll?.position.y)! - ((countryLabel?.fontSize)! + (doll?.size.height)! / 2))
+        countryLabel?.fontColor = UIColor.black
+        countryLabel?.position = CGPoint(x: self.size.width / 2, y: (doll?.position.y)! - ((countryLabel?.fontSize)! + (doll?.size.height)! / 2))
         countryLabel?.zPosition = 2
         self.addChild(countryLabel!)
         
@@ -119,7 +157,7 @@ class DressUpScene: LittleFamilyScene {
         let groupFilter = GPUImageFilterGroup()
         groupFilter.addFilter(alphaMaskFilter)
         groupFilter.addFilter(sobelFilter)
-        alphaMaskFilter.addTarget(sobelFilter)
+        alphaMaskFilter?.addTarget(sobelFilter)
         groupFilter.initialFilters = [ alphaMaskFilter ]
         groupFilter.terminalFilter = sobelFilter
         
@@ -130,7 +168,7 @@ class DressUpScene: LittleFamilyScene {
             var z = CGFloat(3)
             for cloth in clothing! {
                 let clothSprite = SKSpriteNode(imageNamed: cloth.filename)
-                clothSprite.zPosition = z++
+                clothSprite.zPosition = z.advanced(by: 1)
                 clothSprite.setScale(scale)
                 if x > self.size.width - clothSprite.size.width/2 {
                     x = CGFloat(0)
@@ -139,7 +177,7 @@ class DressUpScene: LittleFamilyScene {
                 if x == 0 {
                     x = 10 + clothSprite.size.width / 2
                 }
-                clothSprite.position = CGPointMake(x, y + clothSprite.size.height / 2)
+                clothSprite.position = CGPoint(x: x, y: y + clothSprite.size.height / 2)
                 self.addChild(clothSprite)
                 x = x + clothSprite.size.width + 20
                 clotheSprites.append(clothSprite)
@@ -147,45 +185,45 @@ class DressUpScene: LittleFamilyScene {
                 
                 let outlineImage = UIImage(named: cloth.filename)
                 print("outlineImage size: \(outlineImage!.size)")
-                let outputImage = groupFilter.imageByFilteringImage(outlineImage!)
+                let outputImage = groupFilter.image(byFilteringImage: outlineImage!)
                 //let outputImage = alphaMaskFilter.imageByFilteringImage(outlineImage!)
-                let outlineTexture = SKTexture(image: outputImage)
+                let outlineTexture = SKTexture(image: outputImage!)
                 
                 let outlineSprite = SKSpriteNode(texture: outlineTexture)
                 outlineSprite.zPosition = (doll?.zPosition)! + 1
                 outlineSprite.setScale(scale)
                 outlineSprite.position = getSnap(cloth, sprite:clothSprite)
-                outlineSprite.hidden = true
+                outlineSprite.isHidden = true
                 self.addChild(outlineSprite)
                 outlines[clothSprite] = outlineSprite
             }
         }
     }
     
-    func getSnap(clothing:DollClothing, sprite:SKSpriteNode) -> CGPoint {
+    func getSnap(_ clothing:DollClothing, sprite:SKSpriteNode) -> CGPoint {
         let offsetX = (self.size.width - (doll?.size.width)!) / 2
         let snapX = offsetX + scale * CGFloat(clothing.snapX) + sprite.size.width / 2
         let cgSnapY = scale * CGFloat(clothing.snapY)
         let h2 = sprite.size.height / 2
         let top = (doll?.position.y)! + (1 * (doll?.size.height)!/2)
         let snapY = top - (cgSnapY + h2)
-        let snap = CGPointMake(snapX, snapY)
+        let snap = CGPoint(x: snapX, y: snapY)
         return snap
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         movingSprite = nil
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(lastPoint)
+            lastPoint = touch.location(in: self)
+            let touchedNode = atPoint(lastPoint)
             if touchedNode is SKSpriteNode {
                 let clothSprite = touchedNode as! SKSpriteNode
                 if clothingMap[clothSprite] != nil {
                     movingSprite = clothSprite
                     let outlineSprite = outlines[clothSprite]
                     if outlineSprite != nil {
-                        outlineSprite?.hidden = false
+                        outlineSprite?.isHidden = false
                     }
                     
                     /*
@@ -204,10 +242,10 @@ class DressUpScene: LittleFamilyScene {
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
             if movingSprite != nil {
                 let dx = lastPoint.x - nextPoint.x
                 let dy = lastPoint.y - nextPoint.y
@@ -231,8 +269,8 @@ class DressUpScene: LittleFamilyScene {
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         if movingSprite != nil {
             let clothing = clothingMap[movingSprite!]
             let snapPoint = getSnap(clothing!, sprite:movingSprite!)
@@ -246,7 +284,7 @@ class DressUpScene: LittleFamilyScene {
             }
             let outlineSprite = outlines[movingSprite!]
             if outlineSprite != nil {
-                outlineSprite?.hidden = true
+                outlineSprite?.isHidden = true
             }
             movingSprite = nil
             
@@ -258,12 +296,12 @@ class DressUpScene: LittleFamilyScene {
                 }
             }
             if allPlaced == true {
-                self.showStars(CGRectMake((self.doll?.position.x)! / 2, (self.doll?.position.y)! / 2, (self.doll?.size.width)!, (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 25, container: nil)
+                self.showStars(CGRect(x: (self.doll?.position.x)! / 2, y: (self.doll?.position.y)! / 2, width: (self.doll?.size.width)!, height: (self.doll?.size.height)!), starsInRect: true, count: Int((self.doll?.size.width)!) / 25, container: nil)
                 self.playSuccessSound(0.5, onCompletion: { () in
-                    self.dollHolder?.hidden = false
+                    self.dollHolder?.isHidden = false
                 })
             } else {
-                dollHolder?.hidden = true
+                dollHolder?.isHidden = true
             }
         }
         /*
@@ -274,13 +312,13 @@ class DressUpScene: LittleFamilyScene {
 */
         if scrolling == false {
             for touch in touches {
-                lastPoint = touch.locationInNode(self)
-                let touchedNode = nodeAtPoint(lastPoint)
+                lastPoint = touch.location(in: self)
+                let touchedNode = atPoint(lastPoint)
                 if thumbSpriteMap[touchedNode] != nil {
                     let place = thumbSpriteMap[touchedNode]
                     self.dollConfig = self.dolls.getDollConfig(place, person: self.selectedPerson!)
                     self.setupSprites()
-                    self.dollHolder?.hidden = true
+                    self.dollHolder?.isHidden = true
                 }
             }
         }
@@ -288,7 +326,7 @@ class DressUpScene: LittleFamilyScene {
         scrolling = false
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
     }
     
@@ -296,9 +334,9 @@ class DressUpScene: LittleFamilyScene {
 
 class GPUImageAlphaSobelEdgeDetectionFilter : GPUImageSobelEdgeDetectionFilter {
     override init!(fragmentShaderFromFile fragmentShaderFilename: String!) {
-        let fragmentShaderPathname = NSBundle.mainBundle().pathForResource(fragmentShaderFilename, ofType: "fsh")
+        let fragmentShaderPathname = Bundle.main.path(forResource: fragmentShaderFilename, ofType: "fsh")
         //let fragmentShaderPathname = [[NSBundle mainBundle] pathForResource:fragmentShaderFilename ofType:@"fsh"];
-        let shaderString = try! NSString(contentsOfFile: fragmentShaderPathname!, encoding: NSUTF8StringEncoding)
-        super.init(fragmentShaderFromString: shaderString as String)
+        let shaderString = try! NSString(contentsOfFile: fragmentShaderPathname!, encoding: String.Encoding.utf8.rawValue)
+        super.init(fragmentShaderFrom: shaderString as String)
     }
 }

@@ -14,7 +14,7 @@ class DollConfig {
     var originalPlace:String? {
         didSet {
             if self.originalPlace != nil {
-                self.originalPlace = self.originalPlace!.capitalizedString
+                self.originalPlace = self.originalPlace!.capitalized
             }
         }
     }
@@ -31,11 +31,11 @@ class DollConfig {
     
     func getClothing() -> [DollClothing]? {
         if (boyclothing == nil) {
-            guard let path = NSBundle.mainBundle().pathForResource("dolls/\(folderName!)/clothing.dat", ofType: nil) else {
+            guard let path = Bundle.main.path(forResource: "dolls/\(folderName!)/clothing.dat", ofType: nil) else {
                 return nil
             }
             do {
-                let content = try String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+                let content = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 let parts = content.split("\\s")
                 let boycount =  Int(parts[0])
                 boyclothing = [DollClothing]()

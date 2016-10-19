@@ -9,7 +9,7 @@
 import Foundation
 
 class RandomMediaChooser {
-    private static var instance:RandomMediaChooser?
+    fileprivate static var instance:RandomMediaChooser?
     
     static func getInstance() -> RandomMediaChooser {
         if instance == nil {
@@ -31,7 +31,7 @@ class RandomMediaChooser {
     var maxUsed = 20
     var listener:RandomMediaListener!
     
-    private init() {
+    fileprivate init() {
         self.dataService = DataService.getInstance()
         self.people = [LittlePerson]()
         self.familyLoaderQueue = [LittlePerson]()
@@ -39,7 +39,7 @@ class RandomMediaChooser {
         self.noPhotos = [LittlePerson]()
     }
     
-    func addPeople(people:[LittlePerson]) {
+    func addPeople(_ people:[LittlePerson]) {
         for person in people {
             if (!self.people.contains(person)) {
                 if (person.hasMedia != nil && person.hasMedia == false) {
@@ -189,5 +189,5 @@ class RandomMediaChooser {
 }
 
 protocol RandomMediaListener {
-    func onMediaLoaded(media:Media?)
+    func onMediaLoaded(_ media:Media?)
 }

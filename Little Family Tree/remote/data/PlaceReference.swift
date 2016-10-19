@@ -6,16 +6,16 @@ class PlaceReference {
 	var fields = [Field]()
 	var normalized = [TextValue]()
 	
-	static func convertJsonToPlaceReference(json:JSON) -> PlaceReference {
+	static func convertJsonToPlaceReference(_ json:JSON) -> PlaceReference {
 		let place = PlaceReference()
-		place.original = json["original"].description
-		place.descriptionRef = json["descriptionRef"].description
-		if json["fields"] != nil {
+		place.original = json["original"].description as NSString?
+		place.descriptionRef = json["descriptionRef"].description as NSString?
+		if json["fields"] != JSON.null {
 			for field in json["fields"].array! {
 				place.fields.append(Field.convertJsonToField(field))
 			}
 		}
-		if json["normalized"] != nil {
+		if json["normalized"] != JSON.null {
 			for tv in json["normalized"].array! {
 				place.normalized.append(TextValue.convertJsonToTextValue(tv))
 			}

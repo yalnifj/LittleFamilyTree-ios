@@ -9,6 +9,17 @@
 import Foundation
 import SpriteKit
 import GPUImage
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class BirthdayPeopleScene: LittleFamilyScene {
 	static var TOPIC_PERSON_TOUCHED = "personTouched"
@@ -47,18 +58,18 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	var moved = false
     var mirrorSprite = false
     var overCard = false
-    var originalPosition = CGPointZero
+    var originalPosition = CGPoint.zero
 	
 	var previousScale:CGFloat? = nil
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "dressup_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -84,22 +95,22 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			birthdayPeople.append(selectedPerson!)
 		}
         
-        let todayComponents = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                     fromDate: NSDate())
+        let todayComponents = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                     from: Foundation.Date())
         let month = todayComponents.month
         
         //-- sort the people by birth date
-        birthdayPeople.sortInPlace({
-            let ageComponents1 = NSCalendar.currentCalendar().components([.Month, .Day],
-                fromDate: $0.birthDate!)
+        birthdayPeople.sort(by: {
+            let ageComponents1 = (Calendar.current as NSCalendar).components([.month, .day],
+                from: $0.birthDate! as Date)
             var month1 = ageComponents1.month
             if month1 < month {
                 month1 = month1 + 12
             }
             let day1 = ageComponents1.day
             
-            let ageComponents2 = NSCalendar.currentCalendar().components([.Month, .Day],
-                fromDate: $1.birthDate!)
+            let ageComponents2 = (Calendar.current as NSCalendar).components([.month, .day],
+                from: $1.birthDate! as Date)
             var month2 = ageComponents2.month
             if month2 < month {
                 month2 = month2 + 12
@@ -125,8 +136,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_SHOW_CUPCAKES, listener: self)
     }
 	
-	override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+	override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(BirthdayPeopleScene.TOPIC_PERSON_TOUCHED, listener: self)
         EventHandler.getInstance().unSubscribe(BirthdayPeopleScene.TOPIC_BIRTHDAY_PERSON_SELECTED, listener: self)
 		EventHandler.getInstance().unSubscribe(BirthdayPeopleScene.TOPIC_CARD_SELECTED, listener: self)
@@ -134,7 +145,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		EventHandler.getInstance().unSubscribe(BirthdayPeopleScene.TOPIC_SHOW_CUPCAKES, listener: self)
     }
 	
-	override func onEvent(topic: String, data: NSObject?) {
+	override func onEvent(_ topic: String, data: NSObject?) {
 		super.onEvent(topic, data: data)
         if topic == BirthdayPeopleScene.TOPIC_PERSON_TOUCHED {
 		} else if topic == BirthdayPeopleScene.TOPIC_BIRTHDAY_PERSON_SELECTED {
@@ -205,8 +216,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 			let num = 1 + arc4random_uniform(UInt32(4))
 			let cupcake = CupcakeSprite(imageNamed: "cupcake\(num)")
 			let ratio = cupcake.size.width / cupcake.size.height
-			cupcake.size = CGSizeMake(cupcakeWidth, cupcakeWidth / ratio)
-			cupcake.position = CGPointMake(x, y)
+			cupcake.size = CGSize(width: cupcakeWidth, height: cupcakeWidth / ratio)
+			cupcake.position = CGPoint(x: x, y: y)
 			cupcake.zPosition = 3
 			cupcake.person = person
 			self.addChild(cupcake)
@@ -252,15 +263,15 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
         
         vanityTop = SKSpriteNode(texture: vtTexture)
-        vanityTop?.size = CGSizeMake(vanityWidth * 0.885, theight)
+        vanityTop?.size = CGSize(width: vanityWidth * 0.885, height: theight)
         vanityTop?.zPosition = 1
-        vanityTop?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - (vanityTop!.size.height / 2))
+        vanityTop?.position = CGPoint(x: self.size.width / 2, y: self.size.height - (topBar!.size.height + 10) - (vanityTop!.size.height / 2))
         self.addChild(vanityTop!)
         
         vanityBottom = SKSpriteNode(texture: vbTexture)
-        vanityBottom?.size = CGSizeMake(vanityWidth, bheight)
+        vanityBottom?.size = CGSize(width: vanityWidth, height: bheight)
         vanityBottom?.zPosition = 2
-        vanityBottom?.position = CGPointMake(self.size.width / 2, self.size.height - (topBar!.size.height + 10) - vanityTop!.size.height - (vanityBottom!.size.height / 2) + 6)
+        vanityBottom?.position = CGPoint(x: self.size.width / 2, y: self.size.height - (topBar!.size.height + 10) - vanityTop!.size.height - (vanityBottom!.size.height / 2) + 6)
         self.addChild(vanityBottom!)
         
         mirrorWidth = vanityTop!.size.width / 3
@@ -268,7 +279,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         
         let photo = TextureHelper.getPortraitTexture(self.birthdayPerson!)
         let photoSprite = SKSpriteNode(texture: photo)
-        photoSprite.position = CGPointMake(vanityTop!.position.x + mirrorWidth - 3, vanityTop!.position.y - 10)
+        photoSprite.position = CGPoint(x: vanityTop!.position.x + mirrorWidth - 3, y: vanityTop!.position.y - 10)
         let pr = photo!.size().width / photo!.size().height
         photoSprite.size.width = photoWidth
         photoSprite.size.height = (photoWidth) / pr
@@ -278,7 +289,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         
         let photo2 = TextureHelper.getPortraitTexture(self.selectedPerson!)
         let photoSprite2 = SKSpriteNode(texture: photo2)
-        photoSprite2.position = CGPointMake(vanityTop!.position.x + mirrorWidth + photoSprite.size.width, vanityTop!.position.y - 10)
+        photoSprite2.position = CGPoint(x: vanityTop!.position.x + mirrorWidth + photoSprite.size.width, y: vanityTop!.position.y - 10)
         let pr2 = photo2!.size().width / photo2!.size().height
         photoSprite2.size.width = photoWidth
         photoSprite2.size.height = (photoWidth) / pr2
@@ -358,14 +369,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
             let cr = cs.size.width / cs.size.height
             cs.size.width = vanityWidth / 6
             cs.size.height = (vanityWidth / 6) / cr
-            cs.position = CGPointMake(vanityBottom!.position.x + vanityWidth / 4, vanityBottom!.position.y)
+            cs.position = CGPoint(x: vanityBottom!.position.x + vanityWidth / 4, y: vanityBottom!.position.y)
             cs.zPosition = 3
             cs.topic = BirthdayPeopleScene.TOPIC_CARD_SELECTED
             cs.userData = NSMutableDictionary()
 			cs.userData!.setValue(c, forKey: "cardNum")
-            cs.userInteractionEnabled = true
-            let act = SKAction.moveTo(CGPointMake(cx, cy), duration: 1.0)
-            cs.runAction(act)
+            cs.isUserInteractionEnabled = true
+            let act = SKAction.move(to: CGPoint(x: cx, y: cy), duration: 1.0)
+            cs.run(act)
             self.addChild(cs)
             onMirror.append(cs)
             
@@ -377,10 +388,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
         
         speak("Choose a birthday card to decorate for")
-        let delayAction = SKAction.waitForDuration(1.4)
-        runAction(delayAction) {
+        let delayAction = SKAction.wait(forDuration: 1.4)
+        run(delayAction, completion: {
             self.sayGivenName(self.birthdayPerson!)
-        }
+        }) 
 		
 		self.userHasPremium({ premium in
 			if !premium {
@@ -396,8 +407,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		})
     }
     
-    func cardSelected(card:EventSprite) {
-        card.userInteractionEnabled = false
+    func cardSelected(_ card:EventSprite) {
+        card.isUserInteractionEnabled = false
         for cs in onMirror {
             if cs != card {
                 cs.removeFromParent()
@@ -405,41 +416,41 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
         onMirror.removeAll()
         cardSprite = card
-        let act1 = SKAction.moveTo(CGPointMake(self.vanityBottom!.position.x, self.vanityBottom!.position.y - 5), duration: 1.0)
+        let act1 = SKAction.move(to: CGPoint(x: self.vanityBottom!.position.x, y: self.vanityBottom!.position.y - 5), duration: 1.0)
         let cr = card.size.height / card.size.width
-        let act2 = SKAction.resizeToWidth(vanityBottom!.size.width, height: vanityBottom!.size.width * cr, duration: 1.0)
+        let act2 = SKAction.resize(toWidth: vanityBottom!.size.width, height: vanityBottom!.size.width * cr, duration: 1.0)
         let act3 = SKAction.group([act1, act2])
-        card.runAction(act3) {
+        card.run(act3, completion: {
             self.setupCardBottom()
-        }
+        }) 
     }
     func setupCardBottom() {
 		let cardNum = cardSprite!.userData!["cardNum"]
-		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum!.description)bottom.png")
+		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\((cardNum! as AnyObject).description)bottom.png")
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
-		cardBottomSprite!.position = CGPointMake(cardSprite!.position.x, cardSprite!.position.y - (cardSprite!.size.height / 2) - (cardBottomSprite!.size.height / 2))
+		cardBottomSprite!.position = CGPoint(x: cardSprite!.position.x, y: cardSprite!.position.y - (cardSprite!.size.height / 2) - (cardBottomSprite!.size.height / 2))
 		cardBottomSprite!.zPosition = 500
-		cardBottomSprite!.hidden = true
+		cardBottomSprite!.isHidden = true
 		self.addChild(cardBottomSprite!)
 		
 		cardBottomLogo = SKSpriteNode(imageNamed: "logo")
 		let cbl = cardBottomLogo!.size.width / cardBottomLogo!.size.height
 		cardBottomLogo!.size.height = cardBottomSprite!.size.height
 		cardBottomLogo!.size.width = cardBottomLogo!.size.height * cbl
-		cardBottomLogo!.position = CGPointMake(cardBottomSprite!.frame.minX + CGFloat(10) + cardBottomLogo!.size.width / 2, cardBottomSprite!.position.y)
+		cardBottomLogo!.position = CGPoint(x: cardBottomSprite!.frame.minX + CGFloat(10) + cardBottomLogo!.size.width / 2, y: cardBottomSprite!.position.y)
 		cardBottomLogo!.zPosition = cardBottomSprite!.zPosition + 1
-		cardBottomLogo!.hidden = true
+		cardBottomLogo!.isHidden = true
 		self.addChild(cardBottomLogo!)
         
-        let ageComponents = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                    fromDate: birthdayPerson!.birthDate!)
+        let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                    from: birthdayPerson!.birthDate! as Date)
         let month = ageComponents.month
         let day = ageComponents.day
         
-        let ageComponentsNow = NSCalendar.currentCalendar().components([.Month, .Day],
-                                                                       fromDate: NSDate())
+        let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                       from: Foundation.Date())
         var age = birthdayPerson!.age!
         let monthN = ageComponentsNow.month
         let dayN = ageComponentsNow.day
@@ -447,21 +458,21 @@ class BirthdayPeopleScene: LittleFamilyScene {
             age += 1
         }
 
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d"
-        let dateString = formatter.stringFromDate(birthdayPerson!.birthDate!)
+        let dateString = formatter.string(from: birthdayPerson!.birthDate! as Date)
 		
 		let message = "Happy \(age) Birthday to \(birthdayPerson!.name!) on \(dateString)"
 		cardBottomText = SKLabelNode(text: message)
 		cardBottomText!.fontSize = cardBottomSprite!.size.height / 3
-        cardBottomText!.fontColor = UIColor.blackColor()
-		cardBottomText!.position = CGPointMake(cardBottomLogo!.frame.maxX + CGFloat(10) + cardBottomText!.frame.width / 2, cardBottomSprite!.position.y)
+        cardBottomText!.fontColor = UIColor.black
+		cardBottomText!.position = CGPoint(x: cardBottomLogo!.frame.maxX + CGFloat(10) + cardBottomText!.frame.width / 2, y: cardBottomSprite!.position.y)
 		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
-		cardBottomText!.hidden = true
+		cardBottomText!.isHidden = true
 		self.addChild(cardBottomText!)
     }
     
-    func showStickers(r:Int, rect:CGRect) {
+    func showStickers(_ r:Int, rect:CGRect) {
         //-- clear old stickers
         for s in onMirror {
             s.removeFromParent()
@@ -491,14 +502,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
             }
             prevHeight = sh
             let s = SKSpriteNode(texture: texture)
-            s.position = CGPointMake(rect.midX, rect.midY)
+            s.position = CGPoint(x: rect.midX, y: rect.midY)
             s.zPosition = CGFloat(5 + stickerSprites.count)
             s.size.width = sw / 4
             s.size.height = sh / 4
-            let act1 = SKAction.resizeToWidth(sw, height: sh, duration: 0.8)
-            let act2 = SKAction.moveTo(CGPointMake(x, y), duration: 0.8)
+            let act1 = SKAction.resize(toWidth: sw, height: sh, duration: 0.8)
+            let act2 = SKAction.move(to: CGPoint(x: x, y: y), duration: 0.8)
             let act3 = SKAction.group([act1, act2])
-            s.runAction(act3)
+            s.run(act3)
             self.addChild(s)
             onMirror.append(s)
             
@@ -514,12 +525,12 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
     }
 	
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             if cardSprite != nil {
-                let node = nodeAtPoint(lastPoint!)
+                let node = atPoint(lastPoint!)
                 if node is SKSpriteNode {
                     mirrorSprite = false
                     if onMirror.contains(node as! SKSpriteNode) {
@@ -540,10 +551,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
 			break
         }
         if self.birthdayPerson == nil {
@@ -586,10 +597,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
 		for touch in touches {
-			let nextPoint = touch.locationInNode(self)
+			let nextPoint = touch.location(in: self)
             if cardSprite != nil && moved && movingSprite != nil {
                 movingSprite!.position.x += nextPoint.x - lastPoint.x
                 movingSprite!.position.y += nextPoint.y - lastPoint.y
@@ -600,7 +611,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 }
                 if mirrorSprite {
                     if !overCard {
-                        movingSprite!.runAction(SKAction.moveTo(originalPosition, duration: 0.6))
+                        movingSprite!.run(SKAction.move(to: originalPosition, duration: 0.6))
                     } else {
                         onMirror.removeObject(movingSprite!)
                         stickerSprites.append(movingSprite!)
@@ -615,7 +626,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             
             lastPoint = nextPoint
 			if !moved && birthdayPerson == nil {
-				let touchedNode = nodeAtPoint(lastPoint!)
+				let touchedNode = atPoint(lastPoint!)
 				if touchedNode is CupcakeSprite {
 					let cupcake = touchedNode as! CupcakeSprite
 					self.birthdayPerson = cupcake.person
@@ -643,12 +654,12 @@ class BirthdayPeopleScene: LittleFamilyScene {
         movingSprite = nil
     }
 	
-	func pinched(sender:UIPinchGestureRecognizer){
+	func pinched(_ sender:UIPinchGestureRecognizer){
 		if movingSprite != nil {			
-			if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+			if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
 				previousScale = nil
 			}
-			else if sender.state == UIGestureRecognizerState.Began {
+			else if sender.state == UIGestureRecognizerState.began {
 				previousScale = sender.scale
 			}
 			else if previousScale != nil {
@@ -664,14 +675,14 @@ class BirthdayPeopleScene: LittleFamilyScene {
                         xscale = 0.3
                     }
 					
-					let zoomIn = SKAction.scaleTo(xscale, duration:0)
-					movingSprite?.runAction(zoomIn)
+					let zoomIn = SKAction.scale(to: xscale, duration:0)
+					movingSprite?.run(zoomIn)
 				}
 			}
 		}
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
 	
     }
@@ -680,7 +691,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
 		if remember != nil {
 			let time = Double(remember!)
-			let date = NSDate(timeIntervalSince1970: time!)
+			let date = Foundation.Date(timeIntervalSince1970: time!)
 			if date.timeIntervalSinceNow > -60 * 20 {
 				showSharingPanel()
 				return
@@ -706,29 +717,29 @@ class BirthdayPeopleScene: LittleFamilyScene {
 	
 	func showSharingPanel() {
         if cardBottomSprite != nil {
-            cardBottomSprite!.hidden = false
-            cardBottomLogo!.hidden = false
-            cardBottomText!.hidden = false
+            cardBottomSprite!.isHidden = false
+            cardBottomLogo!.isHidden = false
+            cardBottomText!.isHidden = false
             
-            dispatch_async(dispatch_get_main_queue(),{
+            DispatchQueue.main.async(execute: {
             
                 let height = self.cardSprite!.frame.height + self.cardBottomSprite!.frame.height + CGFloat(5)
                 
-                let imageTexture = self.scene!.view!.textureFromNode(self)
+                let imageTexture = self.scene!.view!.texture(from: self)
                 if imageTexture != nil {
                     //let cropTexture = SKTexture(rect: cropRect, inTexture: imageTexture!)
-                    let ratio = UIScreen.mainScreen().scale
-                    let cropRect = CGRectMake(self.cardSprite!.frame.minX * ratio, (self.size.height - self.cardSprite!.frame.maxY) * ratio, self.cardSprite!.frame.width * ratio, height * ratio)
-                    let cgimage = imageTexture!.CGImage()
-                    let cgCropped = CGImageCreateWithImageInRect(cgimage, cropRect)
-                    let image = UIImage(CGImage: cgCropped!)
+                    let ratio = UIScreen.main.scale
+                    let cropRect = CGRect(x: self.cardSprite!.frame.minX * ratio, y: (self.size.height - self.cardSprite!.frame.maxY) * ratio, width: self.cardSprite!.frame.width * ratio, height: height * ratio)
+                    let cgimage = imageTexture!.cgImage()
+                    let cgCropped = cgimage.cropping(to: cropRect)
+                    let image = UIImage(cgImage: cgCropped!)
                     if image.size.width > 0 {
                         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
                         if let wPPC = activityViewController.popoverPresentationController {
                             wPPC.sourceView = self.view!
                             wPPC.sourceRect = CGRect(x: self.size.width/4, y: self.size.height/2, width: self.size.width/2, height: self.size.height/2)
                         }
-                        self.view!.window!.rootViewController!.presentViewController(activityViewController, animated: true, completion: nil)
+                        self.view!.window!.rootViewController!.present(activityViewController, animated: true, completion: nil)
                     } else {
                         print("Unable to create UIImage")
                     }
@@ -736,9 +747,9 @@ class BirthdayPeopleScene: LittleFamilyScene {
                 } else {
                     print("Unable to generate image")
                 }
-                self.cardBottomSprite!.hidden = true
-                self.cardBottomLogo!.hidden = true
-                self.cardBottomText!.hidden = true
+                self.cardBottomSprite!.isHidden = true
+                self.cardBottomLogo!.isHidden = true
+                self.cardBottomText!.isHidden = true
             })
         }
 	}

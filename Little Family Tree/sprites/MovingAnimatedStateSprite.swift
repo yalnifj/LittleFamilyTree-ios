@@ -1,6 +1,26 @@
 import Foundation
 
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MovingAnimatedStateSprite: AnimatedStateSprite {
 	var maxX:CGFloat?
@@ -15,7 +35,7 @@ class MovingAnimatedStateSprite: AnimatedStateSprite {
 			if bounce == true {
 				
 			} else if wrap == true {
-				position = CGPointMake(0 - size.width*0.8, position.y)
+				position = CGPoint(x: 0 - size.width*0.8, y: position.y)
 			}
 			else {
 				removeMe = true
@@ -25,7 +45,7 @@ class MovingAnimatedStateSprite: AnimatedStateSprite {
 			if bounce == true {
 			}
 			else if wrap == true {
-				position = CGPointMake(maxX! - size.width*0.8, position.y)
+				position = CGPoint(x: maxX! - size.width*0.8, y: position.y)
 			}
 			else {
 				removeMe = true
@@ -35,7 +55,7 @@ class MovingAnimatedStateSprite: AnimatedStateSprite {
 			if bounce == true {
 				
 			} else if wrap == true {
-				position = CGPointMake(position.x, 0 - size.height*0.8)
+				position = CGPoint(x: position.x, y: 0 - size.height*0.8)
 			}
 			else {
 				removeMe = true
@@ -45,7 +65,7 @@ class MovingAnimatedStateSprite: AnimatedStateSprite {
 			if bounce == true {
 			}
 			else if wrap == true {
-				position = CGPointMake(position.x, maxY! - size.height*0.8)
+				position = CGPoint(x: position.x, y: maxY! - size.height*0.8)
 			}
 			else {
 				removeMe = true

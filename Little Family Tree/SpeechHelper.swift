@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 class SpeechHelper {
-    private static var instance = SpeechHelper()
+    fileprivate static var instance = SpeechHelper()
     
     static func getInstance() -> SpeechHelper {
         return instance
@@ -18,23 +18,23 @@ class SpeechHelper {
     
     var speechSynthesizer:AVSpeechSynthesizer
     
-    private init() {
+    fileprivate init() {
         speechSynthesizer = AVSpeechSynthesizer()
     }
     
-    func speak(message:String) {
+    func speak(_ message:String) {
         let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
         if quietMode == nil || quietMode == "false" {
-            if speechSynthesizer.speaking {
-                speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Word)
+            if speechSynthesizer.isSpeaking {
+                speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.word)
             }
             let speechUtterance = AVSpeechUtterance(string: message)
             
-            speechSynthesizer.speakUtterance(speechUtterance)
+            speechSynthesizer.speak(speechUtterance)
         }
     }
     
     func stop() {
-        speechSynthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.Immediate)
+        speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
     }
 }

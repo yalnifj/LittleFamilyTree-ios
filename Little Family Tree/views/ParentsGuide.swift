@@ -60,11 +60,11 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
         
-        closeButton.enabled      = false
-        closeButton.tintColor    = UIColor.clearColor()
+        closeButton.isEnabled      = false
+        closeButton.tintColor    = UIColor.clear
         
         welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)  Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
         welcomeText.numberOfLines = 0
@@ -108,7 +108,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         moreText3.numberOfLines = 0
         moreText3.sizeToFit()
         
-        kidHeritageButton.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
+        kidHeritageButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
         
         moreText.text = "Teach your children more about their heritage with their own personal heritage book. Use coupon code LTFAMTR316 for free shipping!"
         moreText.numberOfLines = 0
@@ -168,23 +168,23 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         pagedScrollView.addSubview(KidHeritageView)
         scrolledViews.append(KidHeritageView)
         
-        pagedScrollView.contentSize = CGSizeMake(x + w + 10, h)
-        pagedScrollView.pagingEnabled = true
+        pagedScrollView.contentSize = CGSize(width: x + w + 10, height: h)
+        pagedScrollView.isPagingEnabled = true
         pagedScrollView.delegate = self
         
-        nextButton.hidden = false
-        prevButton.hidden = true
+        nextButton.isHidden = false
+        prevButton.isHidden = true
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "ParentsGuide", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    @IBAction func pageChanged(sender: UIPageControl) {
+    @IBAction func pageChanged(_ sender: UIPageControl) {
         print("Page changed to \(sender.currentPage)")
         
         if scrolledViews.count > sender.currentPage {
@@ -193,7 +193,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         }
     }
     
-    @IBAction func doneAction(sender: UIBarButtonItem) {
+    @IBAction func doneAction(_ sender: UIBarButtonItem) {
         self.removeFromSuperview()
         if listener != nil {
             listener!.onClose()
@@ -201,21 +201,21 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SHOW_PARENTS_GUIDE, value: "false")
     }
     
-    @IBAction func nextButtonClicked(sender: AnyObject) {
+    @IBAction func nextButtonClicked(_ sender: AnyObject) {
         if (currentPage < scrolledViews.count - 1) {
             currentPage += 1
             let rect = scrolledViews[currentPage].frame
             let pageRect = CGRect(x: rect.origin.x+10, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
             pagedScrollView.scrollRectToVisible(pageRect, animated: true)
-            prevButton.hidden = false
+            prevButton.isHidden = false
         }
         if currentPage == scrolledViews.count-1 {
-            closeButton.enabled      = true
+            closeButton.isEnabled      = true
             closeButton.tintColor    = nil
         }
     }
 
-    @IBAction func prevButtonClicked(sender: AnyObject) {
+    @IBAction func prevButtonClicked(_ sender: AnyObject) {
         if (currentPage > 0) {
             currentPage -= 1
             let rect = scrolledViews[currentPage].frame
@@ -224,30 +224,30 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(scrollView:UIScrollView ) {
+    func scrollViewDidScroll(_ scrollView:UIScrollView ) {
         // Load the pages which are now on screen
         currentPage = NSInteger(floor((self.pagedScrollView.contentOffset.x * 2.0 + pageWidth) / (pageWidth * 2.0)));
         if currentPage > 0  {
-            prevButton.hidden = false
+            prevButton.isHidden = false
         } else {
-            prevButton.hidden = true
+            prevButton.isHidden = true
         }
         if currentPage < scrolledViews.count-1 {
-            nextButton.hidden = false
+            nextButton.isHidden = false
         } else {
-            nextButton.hidden = true
+            nextButton.isHidden = true
         }
         if currentPage == scrolledViews.count-1 {
-            closeButton.enabled      = true
+            closeButton.isEnabled      = true
             closeButton.tintColor    = nil
         }
     }
     
-    @IBAction func websiteButtonClicked(sender: AnyObject) {
-		UIApplication.sharedApplication().openURL(NSURL(string:"http://www.littlefamilytree.com")!)
+    @IBAction func websiteButtonClicked(_ sender: AnyObject) {
+		UIApplication.shared.openURL(URL(string:"http://www.littlefamilytree.com")!)
     }
-    @IBAction func kidHeritageClicked(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"http://www.myheritagebook.com")!)
+    @IBAction func kidHeritageClicked(_ sender: AnyObject) {
+        UIApplication.shared.openURL(URL(string:"http://www.myheritagebook.com")!)
     }
 }
 

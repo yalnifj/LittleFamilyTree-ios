@@ -9,23 +9,23 @@
 import Foundation
 
 protocol SongPersonAttribute {
-    func getAttributeFromPerson(person:LittlePerson, number:Int) -> String?
+    func getAttributeFromPerson(_ person:LittlePerson, number:Int) -> String?
 }
 
 class SongNameAttributor : SongPersonAttribute {
-    func getAttributeFromPerson(person:LittlePerson, number:Int) -> String? {
+    func getAttributeFromPerson(_ person:LittlePerson, number:Int) -> String? {
         return person.givenName as String?
     }
 }
 
 class SongDatePlaceAttributor : SongPersonAttribute {
-    func getAttributeFromPerson(person:LittlePerson, number:Int) -> String? {
+    func getAttributeFromPerson(_ person:LittlePerson, number:Int) -> String? {
         if (number % 2 == 0) {
             //-- date
             if (person.birthDate != nil) {
-                let formatter = NSDateFormatter()
+                let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy"
-                let dateString = formatter.stringFromDate(person.birthDate!)
+                let dateString = formatter.string(from: person.birthDate!)
                 return dateString
             } else {
                 return "some time";
@@ -57,7 +57,7 @@ class SongRelationshipAttributor : SongPersonAttribute {
         self.me = me;
     }
 
-    func getAttributeFromPerson(person:LittlePerson, number:Int) -> String? {
+    func getAttributeFromPerson(_ person:LittlePerson, number:Int) -> String? {
         if me == person {
             return "Self"
         }

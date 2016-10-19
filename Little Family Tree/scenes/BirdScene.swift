@@ -56,14 +56,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	
 	var motionManager: CMMotionManager!
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let background = SKSpriteNode(imageNamed: "tree_background")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -93,15 +93,15 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		motionManager.startAccelerometerUpdates()
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_SKIP_CUTSCENE, listener: self)
         EventHandler.getInstance().unSubscribe(BirdScene.TOPIC_PLAY_AGAIN, listener: self)
 		
 		motionManager.stopAccelerometerUpdates()
     }
     
-    override func onEvent(topic: String, data: NSObject?) {
+    override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if (topic==BirdScene.TOPIC_SKIP_CUTSCENE) {
             if (animator != nil) {
@@ -141,7 +141,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             branch2.size.width = self.size.width * 0.5
         }
         branch2.size.height = branch2.size.width / br2
-        branch2.position = CGPointMake(self.size.width - branch2.size.width / 2, self.size.height / 2)
+        branch2.position = CGPoint(x: self.size.width - branch2.size.width / 2, y: self.size.height / 2)
         branch2.zPosition = 1
         sprites.append(branch2)
         self.addChild(branch2)
@@ -151,7 +151,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         let br1 = branch1.size.width / branch1.size.height
         branch1.size.height = branch2.size.width * 0.8
         branch1.size.width = branch1.size.height * br1
-        branch1.position = CGPointMake(self.size.width - branch1.size.width, self.size.height / 2 + branch1.size.height *
+        branch1.position = CGPoint(x: self.size.width - branch1.size.width, y: self.size.height / 2 + branch1.size.height *
          0.2)
         branch1.zPosition = 2
         sprites.append(branch1)
@@ -163,14 +163,14 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         bird.size.width = branch1.size.width * 1.8
         bird.size.height = bird.size.width / br
 		bird.zPosition = 15
-        bird.position = CGPointMake(branch2.position.x, branch2.position.y - bird.size.height * 0.1)
-        let action1 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird"),
+        bird.position = CGPoint(x: branch2.position.x, y: branch2.position.y - bird.size.height * 0.1)
+        let action1 = SKAction.animate(with: [ SKTexture.init(imageNamed: "house_tree_bird"),
             SKTexture.init(imageNamed: "house_tree_bird1"),
             SKTexture.init(imageNamed: "house_tree_bird2"),
             SKTexture.init(imageNamed: "house_tree_bird1"),
             SKTexture.init(imageNamed: "house_tree_bird")], timePerFrame: 0.1)
         bird.addAction(1, action: action1)
-        let action2 = SKAction.animateWithTextures([ SKTexture.init(imageNamed: "house_tree_bird3"),
+        let action2 = SKAction.animate(with: [ SKTexture.init(imageNamed: "house_tree_bird3"),
             SKTexture.init(imageNamed: "house_tree_bird4"),
             SKTexture.init(imageNamed: "house_tree_bird5"),
             SKTexture.init(imageNamed: "house_tree_bird6"),
@@ -190,37 +190,34 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		animator.addTiming(SpriteStateTiming(time: 10.5, sprite: bird, state: 1))
 		animator.addTiming(SpriteStateTiming(time: 11, sprite: bird, state: 0))
 		
-		let shake1 = SKAction.rotateByAngle(0.15, duration: 0.3)
-		let shake2 = SKAction.rotateByAngle(-0.15, duration: 0.3)
+		let shake1 = SKAction.rotate(byAngle: 0.15, duration: 0.3)
+		let shake2 = SKAction.rotate(byAngle: -0.15, duration: 0.3)
 		let shakeGroup = SKAction.sequence([shake1, shake2])
-		let shake3 = SKAction.repeatActionForever(shakeGroup)
+		let shake3 = SKAction.repeatForever(shakeGroup)
 		
 		let leaf = SKTexture(imageNamed: "leaf_stem")
 		let leafWidth = bird.size.width * 0.7
 		let leafHeight = bird.size.width * 0.7
-        let lact1 = SKAction.moveToX(self.size.width + leafWidth, duration: 1.0)
+        let lact1 = SKAction.moveTo(x: self.size.width + leafWidth, duration: 1.0)
         
 		if family.count > 0 {
-			var leaves = [
-				[0.86, 1.37, 45*0.0174],
-				[1.05, 1.37, -55*0.01745],
-				[0.86, 1.27, 40*0.0174],
-				[1.06, 1.26, -35*0.0174],
-				[0.86, 1.12, 75*0.0174],
-				[1.085, 1.11, -60*0.0174],
-				[1.085, 0.95, -90*0.0174]
-			]
-            
-            if !portrait {
-                leaves = [
-                    [0.94, 1.47, 45*0.0174],
-                    [1.05, 1.47, -55*0.01745],
-                    [0.94, 1.37, 40*0.0174],
-                    [1.05, 1.36, -35*0.0174],
-                    [0.93, 1.22, 75*0.0174],
-                    [1.05, 1.21, -60*0.0174],
-                    [1.065, 0.95, -90*0.0174]
-                ]
+			var leaves = [[Float]]()
+            if portrait {
+                leaves.append([0.86, 1.37, 45*0.0174])
+                leaves.append([1.05, 1.37, -55*0.01745])
+                leaves.append([0.86, 1.27, 40*0.0174])
+                leaves.append([1.06, 1.26, -35*0.0174])
+                leaves.append([0.86, 1.12, 75*0.0174])
+                leaves.append([1.085, 1.11, -60*0.0174])
+                leaves.append([1.085, 0.95, -90*0.0174])
+            } else {
+                leaves.append([0.94, 1.47, 45*0.0174])
+                leaves.append([1.05, 1.47, -55*0.01745])
+                leaves.append([0.94, 1.37, 40*0.0174])
+                leaves.append([1.05, 1.36, -35*0.0174])
+                leaves.append([0.93, 1.22, 75*0.0174])
+                leaves.append([1.05, 1.21, -60*0.0174])
+                leaves.append([1.065, 0.95, -90*0.0174])
             }
 			
 			var p = 0
@@ -233,7 +230,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				}
 				
 				let leaf1 = PersonLeafSprite(texture: leaf)
-				leaf1.position = CGPointMake( branch1.position.x * CGFloat(leaves[f][0]), branch1.position.y * CGFloat(leaves[f][1]))
+				leaf1.position = CGPoint( x: branch1.position.x * CGFloat(leaves[f][0]), y: branch1.position.y * CGFloat(leaves[f][1]))
 				leaf1.size.width = leafWidth
 				leaf1.size.height = leafHeight
 				leaf1.zRotation = CGFloat(leaves[f][2])
@@ -248,20 +245,17 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				animator.addTiming(SpriteActionTiming(time: 8.8 + Double(arc4random_uniform(150)) / 100.0, sprite: leaf1, action: lact1))
 			}
 			
-			var smallleaves = [
-				[0.44, 1.108, 45*0.0174],
-				[0.55, 1.102, -55*0.0174],
-				[0.34, 1.0, 15*0.0174],
-				[0.45, 0.99, -15*0.0174]
-			]
-            
-            if !portrait {
-                smallleaves = [
-                    [0.65, 1.108, 45*0.0174],
-                    [0.71, 1.102, -55*0.0174],
-                    [0.57, 1.0, 15*0.0174],
-                    [0.65, 0.98, -15*0.0174]
-                ]
+			var smallleaves = [[Float]]()
+            if portrait {
+				smallleaves.append([0.44, 1.108, 45*0.0174])
+				smallleaves.append([0.55, 1.102, -55*0.0174])
+				smallleaves.append([0.34, 1.0, 15*0.0174])
+				smallleaves.append([0.45, 0.99, -15*0.0174])
+            } else {
+                smallleaves.append([0.65, 1.108, 45*0.0174])
+                smallleaves.append([0.71, 1.102, -55*0.0174])
+                smallleaves.append([0.57, 1.0, 15*0.0174])
+                smallleaves.append([0.65, 0.98, -15*0.0174])
             }
 			
 			for f in 0..<smallleaves.count {
@@ -275,7 +269,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				let leaf1 = PersonLeafSprite(texture: leaf)
 				leaf1.size.width = leafWidth * 0.6
 				leaf1.size.height = leafHeight * 0.6
-				leaf1.position = CGPointMake( branch1.position.x * CGFloat(smallleaves[f][0]), branch1.position.y * CGFloat(smallleaves[f][1]))
+				leaf1.position = CGPoint( x: branch1.position.x * CGFloat(smallleaves[f][0]), y: branch1.position.y * CGFloat(smallleaves[f][1]))
 				leaf1.zRotation = CGFloat(smallleaves[f][2])
 				leaf1.zPosition = 4 + CGFloat(f)
 				if person != nil {
@@ -292,10 +286,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			let cr = cloud!.size.width / cloud.size.height
 			cloud.size.width = branch2.size.width * 2
 			cloud.size.height = cloud!.size.width / cr
-			cloud.position = CGPointMake(-cloud!.size.width / 2, branch1.position.y)
+			cloud.position = CGPoint(x: -cloud!.size.width / 2, y: branch1.position.y)
 			cloud.zPosition = 16
 			
-			let cact1 = SKAction.moveToX(self.size.width / 3, duration: 2.5)
+			let cact1 = SKAction.moveTo(x: self.size.width / 3, duration: 2.5)
             animator.addTiming(SpriteActionTiming(time: 0.1, sprite: cloud, action: cact1))
 			
 			cloud.addTexture(1, texture: SKTexture(imageNamed: "cloud2"))
@@ -305,7 +299,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                 animator.addTiming(SpriteActionTiming(time: 3.5, sprite: self, action: cact1sound))
 			}
 			
-			let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
+			let cact2 = SKAction.animate(with: [ SKTexture(imageNamed: "cloud3"),
 				SKTexture(imageNamed: "cloud4"),
 				SKTexture(imageNamed: "cloud5"),
 				SKTexture(imageNamed: "cloud6"),
@@ -323,13 +317,13 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				animator.addTiming(SpriteActionTiming(time: 6.2, sprite: cloud, action: cact2sound))
 			}
 			
-            let cactr2 = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
+            let cactr2 = SKAction.repeatForever(SKAction.animate(with: [SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
             animator.addTiming(SpriteActionTiming(time: 7.5, sprite: cloud, action: cactr2))
 			
-            let cstop = SKAction.runBlock({ self.cloud.removeAllActions() })
+            let cstop = SKAction.run({ self.cloud.removeAllActions() })
             animator.addTiming(SpriteActionTiming(time: 10.8, sprite: cloud, action: cstop))
             
-			let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
+			let cact3 = SKAction.animate(with: [ SKTexture(imageNamed: "cloud13"),
 				SKTexture(imageNamed: "cloud14"),
 				SKTexture(imageNamed: "cloud15")
 			], timePerFrame: 0.1)
@@ -345,7 +339,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 				animator.addTiming(SpriteActionTiming(time: 12.5, sprite: cloud, action: cact4sound))
 			}
 			animator.addTiming(SpriteStateTiming(time: 12.8, sprite: cloud, state: 3))
-			let cact5 = SKAction.moveToX(self.size.width + cloud.size.width / 2, duration: 2)
+			let cact5 = SKAction.moveTo(x: self.size.width + cloud.size.width / 2, duration: 2)
 			animator.addTiming(SpriteActionTiming(time: 12.9, sprite: cloud, action: cact5))
 			
 			animator.addTiming(SpriteStateTiming(time: 16, sprite: cloud, state: 3))
@@ -357,10 +351,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			let sr = skipButton.size.width / skipButton.size.height
 			skipButton.size.width = min(self.size.width, self.size.height) / 5
 			skipButton.size.height = skipButton.size.width / sr
-			skipButton.position = CGPointMake(self.size.width - skipButton.size.width/2, skipButton.size.height/2)
+			skipButton.position = CGPoint(x: self.size.width - skipButton.size.width/2, y: skipButton.size.height/2)
 			skipButton.zPosition = 6
 			skipButton.topic = BirdScene.TOPIC_SKIP_CUTSCENE
-			skipButton.userInteractionEnabled = true
+			skipButton.isUserInteractionEnabled = true
 			self.addChild(skipButton)
 			sprites.append(skipButton)
 			
@@ -406,11 +400,11 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			width = self.size.height / wr
 		}
 		
-		var birdBoundingRect = CGRectMake(CGFloat(0), CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+		var birdBoundingRect = CGRect(x: CGFloat(0), y: CGFloat(self.size.height * 0.1), width: width, height: self.size.height * 0.25)
         if !portrait {
-            birdBoundingRect = CGRectMake((self.size.width - width)/2, CGFloat(self.size.height * 0.1), width, self.size.height * 0.25)
+            birdBoundingRect = CGRect(x: (self.size.width - width)/2, y: CGFloat(self.size.height * 0.1), width: width, height: self.size.height * 0.25)
         }
-		let physicsBody = SKPhysicsBody (edgeLoopFromRect: birdBoundingRect)
+		let physicsBody = SKPhysicsBody (edgeLoopFrom: birdBoundingRect)
 		self.physicsBody = physicsBody
 		
 		let basex = (self.size.width / 2) - (width / 2)
@@ -425,7 +419,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             if (rt==8) {
                 bgSprite.zPosition = 3 - num
             }
-			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
+			bgSprite.position = CGPoint(x: basex + tx, y: ty + (bgSprite.size.height - tiles[0].size().height)/2)
 			backgroundTiles.append(bgSprite)
 			sprites.append(bgSprite)
 			self.addChild(bgSprite)
@@ -443,24 +437,24 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		titleSprite.size.width = width * 0.8
 		titleSprite.size.height = titleSprite.size.width / tr
 		titleSprite.zPosition = 4
-		titleSprite.position = CGPointMake(self.size.width / 2, (self.size.height / 2) + titleSprite.size.height / 2)
-		let titleAct = SKAction.moveToY(-titleSprite.size.height, duration: 4.0)
-        titleSprite.runAction(titleAct) {
+		titleSprite.position = CGPoint(x: self.size.width / 2, y: (self.size.height / 2) + titleSprite.size.height / 2)
+		let titleAct = SKAction.moveTo(y: -titleSprite.size.height, duration: 4.0)
+        titleSprite.run(titleAct, completion: {
             titleSprite.removeFromParent()
-        }
+        }) 
 		sprites.append(titleSprite)
 		self.addChild(titleSprite)
 		
 		bird = AnimatedStateSprite(imageNamed: "flying_bird1")
 		bird.zPosition = 5
-		bird.position = CGPointMake(self.size.width / 2, bird.size.height * 2)
-        let flying = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "flying_bird2"),
+		bird.position = CGPoint(x: self.size.width / 2, y: bird.size.height * 2)
+        let flying = SKAction.repeatForever(SKAction.animate(with: [SKTexture(imageNamed: "flying_bird2"),
             SKTexture(imageNamed: "flying_bird3"),
             SKTexture(imageNamed: "flying_bird1")], timePerFrame: 0.15))
         bird.addAction(0, action: flying)
-        bird.runAction(flying)
-		bird.physicsBody = SKPhysicsBody(rectangleOfSize: bird.frame.size)
-		bird.physicsBody!.dynamic = true
+        bird.run(flying)
+		bird.physicsBody = SKPhysicsBody(rectangleOf: bird.frame.size)
+		bird.physicsBody!.isDynamic = true
 		bird.physicsBody!.affectedByGravity = false
 		bird.physicsBody!.mass = 0.02
 		sprites.append(bird)
@@ -476,7 +470,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		//-- hide offscreen clouds behind a background image
 		if !portrait {
 			let background1 = SKSpriteNode(imageNamed: "tree_background")
-			background1.position = CGPointMake((self.size.width - width)/4, self.size.height/2)
+			background1.position = CGPoint(x: (self.size.width - width)/4, y: self.size.height/2)
 			background1.size.width = (self.size.width - width)/2
 			background1.size.height = self.size.height
 			background1.zPosition = 6
@@ -484,7 +478,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			sprites.append(background1)
 			
 			let background2 = SKSpriteNode(imageNamed: "tree_background")
-			background2.position = CGPointMake(3*(self.size.width - width)/4 + width, self.size.height/2)
+			background2.position = CGPoint(x: 3*(self.size.width - width)/4 + width, y: self.size.height/2)
 			background2.size.width = (self.size.width - width)/2
 			background2.size.height = self.size.height
 			background2.zPosition = 6
@@ -493,16 +487,16 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		}
         
         let exampleSprite = SKSpriteNode(imageNamed: "device1")
-        exampleSprite.position = CGPointMake(self.size.width / 2, 10 + exampleSprite.size.height / 2)
+        exampleSprite.position = CGPoint(x: self.size.width / 2, y: 10 + exampleSprite.size.height / 2)
         exampleSprite.zPosition = 10
         exampleSprite.alpha = 0.6
-        let eact = SKAction.animateWithTextures([SKTexture(imageNamed: "device1"),
+        let eact = SKAction.animate(with: [SKTexture(imageNamed: "device1"),
             SKTexture(imageNamed: "device2"),
             SKTexture(imageNamed: "device1"),
             SKTexture(imageNamed: "device3"),
             SKTexture(imageNamed: "device1")], timePerFrame: 0.4)
         let eact2 = SKAction.sequence([eact, eact, eact, SKAction.removeFromParent()])
-        exampleSprite.runAction(eact2)
+        exampleSprite.run(eact2)
         self.addChild(exampleSprite)
 		
 		speak("Rescue your Relatives!")
@@ -528,7 +522,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                 bgSprite.zPosition = 2
                 has8 = true
             }
-			bgSprite.position = CGPointMake(basex + tx, ty + (bgSprite.size.height - tiles[0].size().height)/2)
+			bgSprite.position = CGPoint(x: basex + tx, y: ty + (bgSprite.size.height - tiles[0].size().height)/2)
 			backgroundTiles.append(bgSprite)
 			sprites.append(bgSprite)
 			self.addChild(bgSprite)
@@ -562,20 +556,20 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
             personSprite.size.width = bird.size.width
             personSprite.size.height = personSprite.size.width / br
             let x = personSprite.size.width/2 + CGFloat(arc4random_uniform(UInt32(boardWidth - personSprite.size.width)))
-            personSprite.position = CGPointMake(basex + x, self.size.height - personSprite.size.height/2)
+            personSprite.position = CGPoint(x: basex + x, y: self.size.height - personSprite.size.height/2)
             personSprite.zPosition = 10
             let p = Int(arc4random_uniform(UInt32(family.count)))
             personSprite.person = family[p]
             treeWalker.usePerson(family[p])
-            family.removeAtIndex(p)
+            family.remove(at: p)
             
             self.addChild(personSprite)
             peopleSprites.append(personSprite)
             sprites.append(personSprite)
             
             let slowdown = (Double(arc4random_uniform(UInt32(100))) / 60.0)  - (Double(nestSprites.count) / 20.0)
-            let action = SKAction.moveToY(0, duration: 8 + slowdown)
-            personSprite.runAction(action)
+            let action = SKAction.moveTo(y: 0, duration: 8 + slowdown)
+            personSprite.run(action)
         }
         if family.count < 2 {
             treeWalker.loadMorePeople()
@@ -594,12 +588,12 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
 		windPower = 7.0 + CGFloat(Double(nestSprites.count) / 15.0) + CGFloat(arc4random_uniform(UInt32(300))) / 100.0
 		
-		var cact1 = SKAction.moveToX(basex + cloud.size.width / 3, duration: 1)
+		var cact1 = SKAction.moveTo(x: basex + cloud.size.width / 3, duration: 1)
 		if drand48() > 0.5 {
 			cloud.xScale = -1.0
 			cloud.position.x = basex + boardWidth + cloud.size.width / 2
             windPower = windPower * -1
-			cact1 = SKAction.moveToX(basex + boardWidth - cloud.size.width / 3, duration: 1)
+			cact1 = SKAction.moveTo(x: basex + boardWidth - cloud.size.width / 3, duration: 1)
 		} else {
 			cloud.xScale = 1.0
 			cloud.position.x = basex - cloud.size.width / 2	
@@ -609,7 +603,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		
         animator.addTiming(SpriteStateTiming(time: 0.01, sprite: cloud, state: 1))
         animator.addTiming(SpriteActionTiming(time: 0.5, sprite: cloud, action: cact1))
-		let cact2 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud3"),
+		let cact2 = SKAction.animate(with: [ SKTexture(imageNamed: "cloud3"),
 			SKTexture(imageNamed: "cloud4"),
 			SKTexture(imageNamed: "cloud5"),
 			SKTexture(imageNamed: "cloud6"),
@@ -628,17 +622,17 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			animator.addTiming(SpriteActionTiming(time: 3.5, sprite: cloud, action: cact2sound))
 		}
 		
-		let cactr2 = SKAction.repeatActionForever(SKAction.animateWithTextures([SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
+		let cactr2 = SKAction.repeatForever(SKAction.animate(with: [SKTexture(imageNamed: "cloud11"),SKTexture(imageNamed: "cloud12")], timePerFrame: 0.2))
 		animator.addTiming(SpriteActionTiming(time: 3.9, sprite: cloud, action: cactr2))
 		
 		let blowtime = 1.0 + Double(arc4random_uniform(UInt32(200))) / 100.0
-		let cact3 = SKAction.animateWithTextures([ SKTexture(imageNamed: "cloud13"),
+		let cact3 = SKAction.animate(with: [ SKTexture(imageNamed: "cloud13"),
 			SKTexture(imageNamed: "cloud14"),
 			SKTexture(imageNamed: "cloud15")
 		], timePerFrame: 0.1)
 		animator.addTiming(SpriteActionTiming(time: 4.5 + blowtime, sprite: cloud, action: cact3))
 		//animator.addTiming(SpriteStateTiming(time: 5.3 + blowtime, sprite: cloud, state: 3))
-        let cstop = SKAction.runBlock({ self.cloud.removeAllActions() })
+        let cstop = SKAction.run({ self.cloud.removeAllActions() })
         animator.addTiming(SpriteActionTiming(time: 5.5, sprite: cloud, action: cstop))
 		let cact5 = SKAction.removeFromParent()
 		animator.addTiming(SpriteActionTiming(time: 6.0 + blowtime, sprite: cloud, action: cact5))
@@ -703,7 +697,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let tr = gameOverCloud.size.width / gameOverCloud.size.height
 		gameOverCloud.size.width = boardWidth * 0.9
 		gameOverCloud.size.height = gameOverCloud.size.width / tr
-		gameOverCloud.position = CGPointMake(self.size.width / 2, self.size.height / 2)
+		gameOverCloud.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
 		gameOverCloud.zPosition = 5
 		sprites.append(gameOverCloud)
 		self.addChild(gameOverCloud)
@@ -714,8 +708,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         if message.frame.size.width > gameOverCloud.size.width * 0.80 {
             message.fontSize = message.fontSize * 0.75
         }
-        message.fontColor = UIColor.blackColor()
-        message.position = CGPointMake(self.size.width / 2, (self.size.height / 2) - message.fontSize * 2)
+        message.fontColor = UIColor.black
+        message.position = CGPoint(x: self.size.width / 2, y: (self.size.height / 2) - message.fontSize * 2)
         message.zPosition = 6
 		sprites.append(message)
 		self.addChild(message)
@@ -725,17 +719,17 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		let pr = playAgainButton.size.width / playAgainButton.size.height
 		playAgainButton.size.width = gameOverCloud.size.width * 0.3
 		playAgainButton.size.height = playAgainButton.size.width / pr
-		playAgainButton.position = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
+		playAgainButton.position = CGPoint(x: self.size.width / 2 + playAgainButton.size.width, y: gameOverCloud.position.y - gameOverCloud.size.height/2.5)
 		playAgainButton.zPosition = 7
-		playAgainButton.userInteractionEnabled = true
+		playAgainButton.isUserInteractionEnabled = true
 		playAgainButton.topic = BirdScene.TOPIC_PLAY_AGAIN
-		playAgainPosition = CGPointMake(self.size.width / 2 + playAgainButton.size.width, gameOverCloud.position.y - gameOverCloud.size.height/2.5)
+		playAgainPosition = CGPoint(x: self.size.width / 2 + playAgainButton.size.width, y: gameOverCloud.position.y - gameOverCloud.size.height/2.5)
 		sprites.append(playAgainButton)
 		self.addChild(playAgainButton)
 	}
 	
 	var lastUpdate:CFTimeInterval = 0
-	override func update(currentTime: CFTimeInterval) {
+	override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         super.update(currentTime)
 
@@ -766,7 +760,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			}
 			
             if !animator.finished && animator.currentPosition > 3 {
-                bird.physicsBody!.applyForce(CGVectorMake(windPower, 0.0))
+                bird.physicsBody!.applyForce(CGVector(dx: windPower, dy: 0.0))
             }
 			if let accData = motionManager.accelerometerData {
 				if fabs(accData.acceleration.x) > 0.2 || fabs(accData.acceleration.y) > 0.2 {
@@ -778,7 +772,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                         if ax < -60 {
                             ax = -60
                         }
-                        bird.physicsBody!.applyForce(CGVectorMake(ax, 20 + 50.0 * CGFloat(accData.acceleration.y)))
+                        bird.physicsBody!.applyForce(CGVector(dx: ax, dy: 20 + 50.0 * CGFloat(accData.acceleration.y)))
                     } else {
                         var ax = -40.0 * CGFloat(accData.acceleration.y)
                         if ax > 60 {
@@ -787,7 +781,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
                         if ax < -60 {
                             ax = -60
                         }
-                        bird.physicsBody!.applyForce(CGVectorMake(ax, 20 + 50.0 * CGFloat(accData.acceleration.x)))
+                        bird.physicsBody!.applyForce(CGVector(dx: ax, dy: 20 + 50.0 * CGFloat(accData.acceleration.x)))
                     }
 				}
                 
@@ -838,7 +832,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 					missedSprites.append(missed!)
 					peopleSprites.removeObject(missed!)
                     let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: false)
-                    self.runAction(soundAction)
+                    self.run(soundAction)
 					AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 					reorderNest()
 				}
@@ -849,7 +843,7 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		}
     }
 	
-	func onComplete(family:[LittlePerson]) {
+	func onComplete(_ family:[LittlePerson]) {
         for person in family {
             if !self.family.contains(person) {
                 self.family.append(person)

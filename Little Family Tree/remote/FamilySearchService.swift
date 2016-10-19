@@ -12,19 +12,19 @@ class FamilySearchService : RemoteService {
 	let FS_OAUTH2_PATH_PROD = "https://ident.familysearch.org/cis-web/oauth2/v3/token"
     var FS_OAUTH2_PATH:String
 	
-	private let FS_APP_KEY = "a02j0000009AXffAAG"
+	fileprivate let FS_APP_KEY = "a02j0000009AXffAAG"
 
     var sessionId: NSString?
     var personCache = [String: Person]()
     
-    private init() {
+    fileprivate init() {
         FS_PLATFORM_PATH = FS_PLATFORM_PATH_PROD
         FS_OAUTH2_PATH = FS_OAUTH2_PATH_PROD
     }
 	
 	static let sharedInstance = FamilySearchService()
     
-    func setEnvironment(env:String) {
+    func setEnvironment(_ env:String) {
         if (env=="sandbox") {
             FS_PLATFORM_PATH = FS_PLATFORM_PATH_SAND
             FS_OAUTH2_PATH = FS_OAUTH2_PATH_SAND
@@ -39,8 +39,7 @@ class FamilySearchService : RemoteService {
         }
     }
 	
-	
-	func authenticate(username: String, password: String, onCompletion: StringResponse) {
+    internal func authenticate(_ username: String, password: String, onCompletion: @escaping (NSString?, NSError?) -> Void) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
@@ -55,12 +54,12 @@ class FamilySearchService : RemoteService {
 		let headers = [String: String]()
 		
 		makeHTTPPostRequest(FS_OAUTH2_PATH, body: params, headers: headers, onCompletion: {json, err in
-			self.sessionId = json["access_token"].description
+			self.sessionId = json["access_token"].description as NSString?
             if self.sessionId!.length == 0 || self.sessionId! == "null" {
                 self.sessionId = nil
                 if err == nil {
                     let jerror = json["error_description"]
-                    if jerror != nil {
+                    if jerror != JSON.null {
                         let error = NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":jerror.description])
                         onCompletion(self.sessionId, error)
                         return
@@ -71,7 +70,7 @@ class FamilySearchService : RemoteService {
 		})
 	}
 	
-    func getCurrentPerson(onCompletion: PersonResponse) {
+    func getCurrentPerson(_ onCompletion: @escaping PersonResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -90,7 +89,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPerson(personId: NSString, ignoreCache: Bool, onCompletion: PersonResponse) {
+	func getPerson(_ personId: NSString, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
 		if (sessionId != nil) {
             
             if !ignoreCache {
@@ -118,13 +117,13 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getLastChangeForPerson(personId: NSString, onCompletion: LongResponse) {
+	func getLastChangeForPerson(_ personId: NSString, onCompletion: @escaping LongResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-gedcomx-atom+json"
 			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/changes", headers: headers, onCompletion: {json, err in
-				if json["entries"] != nil {
+				if json["entries"] != JSON.null {
 					let ae = json["entries"].array!
 					if ae.count > 0 {
 						let entry = ae[0]
@@ -140,7 +139,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPersonPortrait(personId: NSString, onCompletion: LinkResponse) {
+	func getPersonPortrait(_ personId: NSString, onCompletion: @escaping LinkResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -168,7 +167,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getCloseRelatives(personId: NSString, onCompletion: RelationshipsResponse) {
+	func getCloseRelatives(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -182,7 +181,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getParents(personId: NSString, onCompletion: RelationshipsResponse) {
+	func getParents(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -196,7 +195,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getChildren(personId: NSString, onCompletion: RelationshipsResponse) {
+	func getChildren(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -210,7 +209,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getSpouses(personId: NSString, onCompletion: RelationshipsResponse) {
+	func getSpouses(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -224,7 +223,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPersonMemories(personId: NSString, onCompletion: SourceDescriptionsResponse) {
+	func getPersonMemories(_ personId: NSString, onCompletion: @escaping SourceDescriptionsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -238,10 +237,10 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse) {
-		let request = NSMutableURLRequest(URL: NSURL(string: uri as String)!)
+	func downloadImage(_ uri: NSString, folderName: NSString, fileName: NSString, onCompletion: @escaping StringResponse) {
+		let request = NSMutableURLRequest(url: URL(string: uri as String)!)
  
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
 		var headers = [String: String]()
 		headers["Authorization"] = "Bearer \(sessionId!)"
 		headers["Accept"] = "application/x-fs-v1+json"
@@ -251,22 +250,22 @@ class FamilySearchService : RemoteService {
 			request.setValue(value, forHTTPHeaderField: field);
 		}
  
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
-			let fileManager = NSFileManager.defaultManager()
-            let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {(data: Data?,  response: URLResponse?, error: Error?) -> Void in
+			let fileManager = FileManager.default
+            let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
 			if data != nil && UIImage(data: data!) != nil {
                 do {
-                    let folderUrl = url.URLByAppendingPathComponent(folderName as String)
-                    if !fileManager.fileExistsAtPath(folderUrl!.path!) {
-                        try fileManager.createDirectoryAtURL(folderUrl!, withIntermediateDirectories: true, attributes: nil)
+                    let folderUrl = url.appendingPathComponent(folderName as String)
+                    if !fileManager.fileExists(atPath: folderUrl.path) {
+                        try fileManager.createDirectory(at: folderUrl, withIntermediateDirectories: true, attributes: nil)
                     }
 				
-                    let imagePath = folderUrl!.URLByAppendingPathComponent(fileName as String)
-                    if data!.writeToURL(imagePath!, atomically: true) {
+                    let imagePath = folderUrl.appendingPathComponent(fileName as String)
+                    if (try? data!.write(to: imagePath, options: [.atomic])) != nil {
                         let returnPath = "\(folderName)/\(fileName)"
-                        onCompletion(returnPath, error)
+                        onCompletion(returnPath as NSString?, error as NSError?)
                     } else {
-                        onCompletion(nil, error)
+                        onCompletion(nil, error as NSError?)
                     }
                     return;
                 } catch {
@@ -280,17 +279,17 @@ class FamilySearchService : RemoteService {
         task.resume()
 	}
 	
-	func getPersonUrl(personId: NSString) -> NSString {
-		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)";
+	func getPersonUrl(_ personId: NSString) -> NSString {
+		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)" as NSString;
 	}
     
-    func makeHTTPGetRequest(path: String, headers: [String: String], onCompletion: ServiceResponse) {
+    func makeHTTPGetRequest(_ path: String, headers: [String: String], onCompletion: @escaping ServiceResponse) {
         self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
     }
 	
-    var lastRequestTime:NSDate = NSDate()
-    var requestDelay:NSTimeInterval = -0.3
-    func makeHTTPGetRequest(path: String, headers: [String: String], count: Int, onCompletion: ServiceResponse) {
+    var lastRequestTime:Foundation.Date = Foundation.Date()
+    var requestDelay:TimeInterval = -0.3
+    func makeHTTPGetRequest(_ path: String, headers: [String: String], count: Int, onCompletion: @escaping ServiceResponse) {
         let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
         if timeSinceLastRequest > requestDelay {
             self.throttled(0 - requestDelay, closure: {
@@ -298,12 +297,12 @@ class FamilySearchService : RemoteService {
             })
             return
         }
-        lastRequestTime = NSDate()
-        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+        lastRequestTime = Foundation.Date()
+        let request = NSMutableURLRequest(url: URL(string: path)!)
         let myDelegate = RedirectSessionDelegate(headers: headers)
         // too many requests coming where are they coming from?
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: myDelegate, delegateQueue: nil)
-        session.configuration.HTTPMaximumConnectionsPerHost = 2
+        let session = URLSession(configuration: URLSessionConfiguration.default, delegate: myDelegate, delegateQueue: nil)
+        session.configuration.httpMaximumConnectionsPerHost = 2
 		
 		// Set the headers
 		for(field, value) in headers {
@@ -312,16 +311,16 @@ class FamilySearchService : RemoteService {
 		}
  
         print("makeHTTPGetRequest: \(request)")
-        print(request.valueForHTTPHeaderField("Authorization"))
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        print(request.value(forHTTPHeaderField: "Authorization"))
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
             if error != nil {
-                print(error!.description)
+                print(error)
             }
             if response == nil {
-                onCompletion(nil, error)
+                onCompletion(JSON.null, error as NSError?)
                 return
             }
-            let httpResponse = response as! NSHTTPURLResponse
+            let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode != 200 && httpResponse.statusCode != 204 {
                 print(response)
             }
@@ -336,87 +335,83 @@ class FamilySearchService : RemoteService {
                 } else {
                     let error = NSError(domain: "FamilySearchService", code: 204, userInfo: ["message":"Connection throttled"])
                     print("Failed connection throttled 3 times... giving up")
-                    onCompletion(nil, error)
+                    onCompletion(JSON.null, error)
                 }
                 return
             }
             if data != nil {
                 if httpResponse.statusCode != 200 {
-                    print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
                 }
                 let json:JSON = JSON(data: data!)
-                onCompletion(json, error)
+                onCompletion(json, error as NSError?)
             }
             else {
-                onCompletion(nil, error)
+                onCompletion(JSON.null, error as NSError?)
             }
         })
         task.resume()
     }
 	
-    func makeHTTPPostJSONRequest(path: String, body: [String: AnyObject], headers: [String: String], onCompletion: ServiceResponse) {
-		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+    func makeHTTPPostJSONRequest(_ path: String, body: [String: AnyObject], headers: [String: String], onCompletion: @escaping ServiceResponse) {
+		let request = NSMutableURLRequest(url: URL(string: path)!)
 	 
 		// Set the method to POST
-		request.HTTPMethod = "POST"
+		request.httpMethod = "POST"
 		
 		// Set the headers
 		for(field, value) in headers {
 			request.setValue(value, forHTTPHeaderField: field);
             //print("Header \(field):\(value)")
 		}
-        
-        do {
 	 
-            // Set the POST body for the request
-            let options = NSJSONWritingOptions()
-            print("makeHTTPPostJSONRequest: \(request)")
-            request.HTTPBody = try? NSJSONSerialization.dataWithJSONObject(body, options: options)
-            let session = NSURLSession.sharedSession()
-            session.configuration.HTTPMaximumConnectionsPerHost = 5
-	 
-            let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-                if error != nil {
-                    print(error!.description)
-                }
-                if response == nil {
-                    onCompletion(nil, error)
-                    return
-                }
-                let httpResponse = response as! NSHTTPURLResponse
+        // Set the POST body for the request
+        let options = JSONSerialization.WritingOptions()
+        print("makeHTTPPostJSONRequest: \(request)")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: options)
+        let session = URLSession.shared
+        session.configuration.httpMaximumConnectionsPerHost = 5
+ 
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error)
+            }
+            if response == nil {
+                onCompletion(JSON.null, error as NSError?)
+                return
+            }
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode != 200 {
+                print(response)
+            }
+            if httpResponse.statusCode == 204 {
+                //-- connection was throttled, try again after 10 seconds
+                SyncQ.getInstance().pauseForTime(60)
+                self.throttled(20, closure: {
+                    self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
+                })
+                return
+            }
+            if data != nil {
                 if httpResponse.statusCode != 200 {
-                    print(response)
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
                 }
-                if httpResponse.statusCode == 204 {
-                    //-- connection was throttled, try again after 10 seconds
-                    SyncQ.getInstance().pauseForTime(60)
-                    self.throttled(20, closure: {
-                        self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
-                    })
-                    return
-                }
-                if data != nil {
-                    if httpResponse.statusCode != 200 {
-                        print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-                    }
-                    let json:JSON = JSON(data: data!)
-                    onCompletion(json, error)
-                }
-                else {
-                    onCompletion(nil, error)
-                }
-            })
-            task.resume()
-        } catch let aError as NSError {
-            print(aError)
-        }
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error as NSError?)
+            }
+            else {
+                onCompletion(JSON.null, error as NSError?)
+            }
+        })
+        task.resume()
+
 	}
 	
-    func makeHTTPPostRequest(path: String, body: [String: String], headers: [String: String], onCompletion: ServiceResponse) {
-		let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+    func makeHTTPPostRequest(_ path: String, body: [String: String], headers: [String: String], onCompletion: @escaping ServiceResponse) {
+		let request = NSMutableURLRequest(url: URL(string: path)!)
 	 
 		// Set the method to POST
-		request.HTTPMethod = "POST"
+		request.httpMethod = "POST"
         
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -439,47 +434,43 @@ class FamilySearchService : RemoteService {
 		}
 
         //print(postString)
-		request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
-		let session = NSURLSession.sharedSession()
-        session.configuration.HTTPMaximumConnectionsPerHost = 5
+		request.httpBody = postString.data(using: String.Encoding.utf8)
+		let session = URLSession.shared
+        session.configuration.httpMaximumConnectionsPerHost = 5
 	 
         print("makeHTTPPostRequest: \(request)?\(postString)")
-		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+		let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
             if error != nil {
-                print(error!.description)
+                print(error)
             }
             if response == nil {
-                onCompletion(nil, error)
+                onCompletion(JSON.null, error as NSError?)
                 return
             }
-            let httpResponse = response as! NSHTTPURLResponse
+            let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode != 200 {
                 print(response)
             }
             if data != nil {
                 if httpResponse.statusCode != 200 {
-                    print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
                 }
                 let json:JSON = JSON(data: data!)
-                onCompletion(json, error)
+                onCompletion(json, error as NSError?)
             }
             else {
-                onCompletion(nil, error)
+                onCompletion(JSON.null, error as NSError?)
             }
 		})
 		task.resume()
 	}
     
-    func throttled(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+    func throttled(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
     
-    class RedirectSessionDelegate : NSObject, NSURLSessionDelegate {
+    class RedirectSessionDelegate : NSObject, URLSessionDelegate {
         var headers:[String: String]
         
         init(headers:[String: String]) {
@@ -487,14 +478,14 @@ class FamilySearchService : RemoteService {
             super.init()
         }
         
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest!) -> Void)
+        func URLSession(_ session: Foundation.URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: (URLRequest!) -> Void)
         {
-            let newRequest = NSMutableURLRequest(URL: request.URL!)
+            let newRequest = NSMutableURLRequest(url: request.url!)
             // Set the headers
             for(field, value) in headers {
                 newRequest.setValue(value, forHTTPHeaderField: field)
             }
-            completionHandler(newRequest)
+            completionHandler(newRequest as URLRequest!)
         }
     }
 }

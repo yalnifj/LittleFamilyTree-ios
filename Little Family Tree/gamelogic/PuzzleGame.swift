@@ -32,8 +32,8 @@ class PuzzleGame {
             let y = CGFloat(r) * ph
             for c in 0..<self.cols {
                 let x = CGFloat(c) * pw
-                let rect = CGRectMake(x, y, pw, ph)
-                let tp = SKTexture(rect: rect , inTexture: self.texture)
+                let rect = CGRect(x: x, y: y, width: pw, height: ph)
+                let tp = SKTexture(rect: rect , in: self.texture)
                 let piece = PuzzleSprite(texture: tp)
                 piece.correctCol = c
                 piece.correctRow = r

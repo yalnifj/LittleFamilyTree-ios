@@ -17,7 +17,7 @@ class PersonLeafSprite: SKSpriteNode {
             }
             let photo = TextureHelper.getPortraitTexture(self.person!)
             photoSprite = SKSpriteNode(texture: photo)
-            photoSprite?.position = CGPointMake(0, 0)
+            photoSprite?.position = CGPoint(x: 0, y: 0)
             let ratio = (photo?.size().width)! / (photo?.size().height)!
             photoSprite?.size.width = self.size.width * 0.5
             photoSprite?.size.height = (self.size.width * 0.5) / ratio

@@ -7,6 +7,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class TreeWalker {
     var dataService:DataService
@@ -26,10 +46,10 @@ class TreeWalker {
     }
     
     func loadFamilyMembers() {
-		let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-        let group = dispatch_group_create()
+		let dqueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background)
+        let group = DispatchGroup()
 		//-- parents
-		dispatch_group_enter(group)
+		group.enter()
         dataService.getParents(selectedPerson, onCompletion: { parents, err in
             if parents != nil && parents!.count > 0 {
 				for parent in parents! {
@@ -38,7 +58,7 @@ class TreeWalker {
 						self.loadQueue.append(parent)
 						
 						//-- siblings
-						dispatch_group_enter(group)
+						group.enter()
 						self.dataService.getChildren(parent, onCompletion: {children, err in
 							if children != nil && children!.count > 0 {
 								for child in children! {
@@ -50,7 +70,7 @@ class TreeWalker {
 							}
 							
 							//-- grandparents
-							dispatch_group_enter(group)
+							group.enter()
 							self.dataService.getParents(parent, onCompletion: { parents2, err in
 								if parents2 != nil && parents2!.count > 0 {
 									for parent in parents2! {
@@ -60,19 +80,19 @@ class TreeWalker {
 										}
 									}
 								}
-								dispatch_group_leave(group)
+								group.leave()
 							})
-							dispatch_group_leave(group)
+							group.leave()
 						})
 					}
 				}
                 self.parents = parents!
 			}
-			dispatch_group_leave(group)
+			group.leave()
         })
 		
 		//-- children
-		dispatch_group_enter(group)
+		group.enter()
 		dataService.getChildren(selectedPerson, onCompletion: {children, err in
 			if children != nil && children!.count > 0 {
 				for child in children! {
@@ -82,10 +102,10 @@ class TreeWalker {
 					}
 				}
 			}
-			dispatch_group_leave(group)
+			group.leave()
 		})
 		
-		dispatch_group_notify(group, dqueue) {
+		group.notify(queue: dqueue) {
 			if self.people.count > 4 {
 				self.listener.onComplete(self.people)
 			} else {
@@ -97,13 +117,13 @@ class TreeWalker {
     
     func loadMorePeople() {
         if loadQueue.count > 0 {
-			let dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
-            let group = dispatch_group_create()
+			let dqueue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background)
+            let group = DispatchGroup()
 						
 			let person = loadQueue.removeFirst()
 			if person.treeLevel != nil && person.treeLevel! <= 2 {
 				//-- children
-				dispatch_group_enter(group)
+				group.enter()
 				dataService.getChildren(person, onCompletion: {children, err in
 					if children != nil && children!.count > 0 {
 						for child in children! {
@@ -113,11 +133,11 @@ class TreeWalker {
 							}
 						}
 					}
-					dispatch_group_leave(group)
+					group.leave()
 				})
 			}
 			//-- grandparents
-			dispatch_group_enter(group)
+			group.enter()
 			dataService.getParents(person, onCompletion: { parents2, err in
 				if parents2 != nil && parents2!.count > 0 {
 					for parent in parents2! {
@@ -127,16 +147,16 @@ class TreeWalker {
 						}
 					}
 				}
-				dispatch_group_leave(group)
+				group.leave()
 			})
 			
 			if self.resusePeople && person.treeLevel != nil && person.treeLevel > 5 {
 				if !self.loadQueue.contains(self.selectedPerson) {
-					loadQueue.insert(self.selectedPerson, atIndex: 0)
+					loadQueue.insert(self.selectedPerson, at: 0)
 				}
 			}
 			
-			dispatch_group_notify(group, dqueue) {
+			group.notify(queue: dqueue) {
 				self.listener.onComplete(self.people)
 			}
 		} else {
@@ -145,13 +165,13 @@ class TreeWalker {
 		}
     }
     
-    func usePerson(person:LittlePerson) {
+    func usePerson(_ person:LittlePerson) {
         self.usedPeople[person.id!] = person
         self.people.removeObject(person)
     }
 }
 
 protocol TreeWalkerListener {
-    func onComplete(family:[LittlePerson])
+    func onComplete(_ family:[LittlePerson])
 }
 

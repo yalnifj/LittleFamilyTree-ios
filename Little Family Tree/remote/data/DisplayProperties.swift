@@ -11,31 +11,31 @@ class DisplayProperties {
   var ascendancyNumber:NSString?
   var descendancyNumber:NSString?
   
-  static func convertJsonToDisplayProperties(json:JSON) -> DisplayProperties {
+  static func convertJsonToDisplayProperties(_ json:JSON) -> DisplayProperties {
 	let dp = DisplayProperties()
-	if json["name"] != nil {
-		dp.name = json["name"].description
+	if json["name"] != JSON.null {
+		dp.name = json["name"].description as NSString?
 	}
-	if json["lifespan"] != nil {
-		dp.lifespan = json["lifespan"].description
+	if json["lifespan"] != JSON.null {
+		dp.lifespan = json["lifespan"].description as NSString?
 	}
-	if json["birthDate"] != nil {
-		dp.birthDate = json["birthDate"].description
+	if json["birthDate"] != JSON.null {
+		dp.birthDate = json["birthDate"].description as NSString?
 	}
-	if json["birthPlace"] != nil {
-		dp.birthPlace = json["birthPlace"].description
+	if json["birthPlace"] != JSON.null {
+		dp.birthPlace = json["birthPlace"].description as NSString?
 	}
-	if json["deathDate"] != nil {
-		dp.deathDate = json["deathDate"].description
+	if json["deathDate"] != JSON.null {
+		dp.deathDate = json["deathDate"].description as NSString?
 	}
-	if json["deathPlace"] != nil {
-		dp.deathPlace = json["deathPlace"].description
+	if json["deathPlace"] != JSON.null {
+		dp.deathPlace = json["deathPlace"].description as NSString?
 	}
-	if json["ascendancyNumber"] != nil {
-		dp.ascendancyNumber = json["ascendancyNumber"].description
+	if json["ascendancyNumber"] != JSON.null {
+		dp.ascendancyNumber = json["ascendancyNumber"].description as NSString?
 	}
-	if json["descendancyNumber"] != nil {
-		dp.descendancyNumber = json["descendancyNumber"].description
+	if json["descendancyNumber"] != JSON.null {
+		dp.descendancyNumber = json["descendancyNumber"].description as NSString?
 	}
 	return dp
   }

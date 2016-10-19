@@ -4,7 +4,7 @@ class ResourceReference {
 	var resource:NSString?
 	var resourceId:NSString?
 	
-	static func convertJsonToResourceReference(json:JSON) -> ResourceReference {
+	static func convertJsonToResourceReference(_ json:JSON) -> ResourceReference {
 		let ref = ResourceReference()
 		ref.resource = json["resource"].description
 		ref.resourceId = json["resourceId"].description

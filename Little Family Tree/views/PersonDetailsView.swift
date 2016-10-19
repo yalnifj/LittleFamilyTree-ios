@@ -49,20 +49,20 @@ class PersonDetailsView: UIView {
     func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = UIViewAutoresizing.flexibleWidth
         addSubview(view)
 
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass:self.dynamicType)
+        let bundle = Bundle(for:type(of: self))
         let nib = UINib(nibName: "PersonDetailsView", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
 
-    func showPerson(person:LittlePerson) {
+    func showPerson(_ person:LittlePerson) {
         self.person = person
         
         let dataService = DataService.getInstance()
@@ -74,10 +74,10 @@ class PersonDetailsView: UIView {
         self.nameLabel.text = person.name as String?
         self.remoteIdLbl.text = person.familySearchId as String?
         
-        self.visibleSwitch.on = person.active
-        if person.gender == GenderType.FEMALE {
+        self.visibleSwitch.isOn = person.active
+        if person.gender == GenderType.female {
             self.genderLbl.text = "Female"
-        } else if person.gender == GenderType.MALE {
+        } else if person.gender == GenderType.male {
             self.genderLbl.text = "Male"
         } else {
             self.genderLbl.text = "Unknown"
@@ -87,7 +87,7 @@ class PersonDetailsView: UIView {
         self.relationshipLbl.text = relationship
         
         if person.birthDate != nil {
-            let components = NSCalendar.currentCalendar().components(.Year, fromDate: person.birthDate!)
+            let components = (Calendar.current as NSCalendar).components(.year, from: person.birthDate!)
             self.birthYearLbl.text = "\(components.year)"
         } else {
             self.birthYearLbl.text = ""
@@ -164,22 +164,22 @@ class PersonDetailsView: UIView {
         self.lastSyncLbl.text = person.lastSync!.description
     }
     
-    @IBAction func backButtonAction(sender: AnyObject) {
+    @IBAction func backButtonAction(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         if listener != nil {
             listener!.onPersonDetailsClose()
         }
     }
     
-    @IBAction func refreshAction(sender: AnyObject) {
-        spinner.hidden = false
-        syncButton.hidden = true
+    @IBAction func refreshAction(_ sender: AnyObject) {
+        spinner.isHidden = false
+        syncButton.isHidden = true
         
         SyncQ.getInstance().syncPerson(self.person!, onCompletion: {updatedPerson, err in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //-- update person's lastsync date
                 if updatedPerson != nil {
-                    updatedPerson!.lastSync = NSDate()
+                    updatedPerson!.lastSync = Foundation.Date()
                     do {
                         try DataService.getInstance().dbHelper.persistLittlePerson(updatedPerson!)
                     } catch {
@@ -195,19 +195,19 @@ class PersonDetailsView: UIView {
                     subview.setMessage("Error synchronizing person", message: err!.description)
                     self.view?.addSubview(subview)
                 }
-                self.spinner.hidden = true
-                self.syncButton.hidden = false
+                self.spinner.isHidden = true
+                self.syncButton.isHidden = false
             })
         })
     }
    
-    @IBAction func websiteAction(sender: AnyObject) {
+    @IBAction func websiteAction(_ sender: AnyObject) {
         let remoteService = DataService.getInstance().remoteService
-        UIApplication.sharedApplication().openURL(NSURL(string: remoteService!.getPersonUrl(person!.familySearchId!) as String )!)
+        UIApplication.shared.openURL(URL(string: remoteService!.getPersonUrl(person!.familySearchId!) as String )!)
     }
     
-    @IBAction func visibleSwitchAction(sender: UISwitch) {
-        self.person?.active = visibleSwitch.on
+    @IBAction func visibleSwitchAction(_ sender: UISwitch) {
+        self.person?.active = visibleSwitch.isOn
         do {
             try DataService.getInstance().dbHelper.persistLittlePerson(self.person!)
         } catch {
@@ -215,7 +215,7 @@ class PersonDetailsView: UIView {
         }
     }
     
-    @IBAction func recordButtonClicked(sender: AnyObject) {
+    @IBAction func recordButtonClicked(_ sender: AnyObject) {
         self.view?.removeFromSuperview()
         
         openingScene?.showRecordAudioDialog(person!, listener: listener!)

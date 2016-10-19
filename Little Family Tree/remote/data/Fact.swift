@@ -9,7 +9,7 @@ class Fact : Conclusion {
 	var fields = [Field]()
 	var primary:Bool?
 	
-	static func convertJsonToFact(json:JSON) -> Fact {
+	static func convertJsonToFact(_ json:JSON) -> Fact {
 		let fact = Fact()
 		fact.id = json["id"].description
 		fact.addLinksFromJson(json)

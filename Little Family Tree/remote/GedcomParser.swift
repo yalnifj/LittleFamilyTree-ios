@@ -45,18 +45,18 @@ class GedcomParser {
 		factMap["RESI"] = "http://gedcomx.org/Residence"
 	}
 	
-	func parsePerson(gedcom:String) -> Person? {
+	func parsePerson(_ gedcom:String) -> Person? {
 		var person:Person? = nil
 		
 		let lines = gedcom.split("(\r?\n)+")
-		if lines[0].rangeOfString("0 @\\w+@ INDI", options: .RegularExpressionSearch) == nil {
+		if lines[0].range(of: "0 @\\w+@ INDI", options: .regularExpression) == nil {
 			return person
 		}
 		
 		person = Person()
 		let xparts = lines[0].split("@")
 		let xref = xparts[1]
-		person!.id = xref
+		person!.id = xref as NSString?
 		
 		var level2s = [[String]]()
 		var assertion = [String]()
@@ -87,11 +87,11 @@ class GedcomParser {
 				person!.names.append(name)
 			} else if parts[1] == "SEX" {
 				if parts[2].hasPrefix("M") {
-					person!.gender = GenderType.MALE
+					person!.gender = GenderType.male
 				} else if parts[2].hasPrefix("F") {
-					person!.gender = GenderType.FEMALE
+					person!.gender = GenderType.female
 				} else {
-					person!.gender = GenderType.UNKNOWN
+					person!.gender = GenderType.unknown
 				}
 			} else if parts[1] == "SOUR" {
                 // TODO
@@ -130,11 +130,11 @@ class GedcomParser {
 		return person
 	}
 	
-	func parseFamily(gedcom:String) -> FamilyHolder? {
+	func parseFamily(_ gedcom:String) -> FamilyHolder? {
 		var family:FamilyHolder? = nil
 		
 		let lines = gedcom.split("(\r?\n)+")
-		if lines[0].rangeOfString("0 @\\w+@ FAM", options: .RegularExpressionSearch) == nil {
+		if lines[0].range(of: "0 @\\w+@ FAM", options: .regularExpression) == nil {
 			return family
 		}
 		
@@ -175,14 +175,14 @@ class GedcomParser {
 			}
 			else if parts[1] == "HUSB" || parts[1] == "WIFE"{
 				let link = Link()
-				link.rel = parts[1]
-				link.href = parts[2]
+				link.rel = parts[1] as NSString?
+				link.href = parts[2] as NSString?
 				family!.parents.append(link)
 			}
 			else if parts[1] == "CHIL" {
 				let link = Link()
-				link.rel = parts[1]
-				link.href = parts[2]
+				link.rel = parts[1] as NSString?
+				link.href = parts[2] as NSString?
 				family!.children.append(link)
 			}
 			else if self.factMap[parts[1]] != nil {
@@ -194,18 +194,18 @@ class GedcomParser {
 		return family
 	}
 	
-	func parseObje(gedcom:String, baseUrl:String) -> SourceDescription? {
+	func parseObje(_ gedcom:String, baseUrl:String) -> SourceDescription? {
 		var sd:SourceDescription? = nil
 		
 		let lines = gedcom.split("(\r?\n)+")
-		if lines[0].rangeOfString("0 @\\w+@ OBJE", options: .RegularExpressionSearch) == nil {
+		if lines[0].range(of: "0 @\\w+@ OBJE", options: .regularExpression) == nil {
 			return sd
 		}
 		
 		sd = SourceDescription()
 		let xparts = lines[0].split("@")
 		let xref = xparts[1]
-		sd!.id = xref
+		sd!.id = xref as NSString?
 		
 		for s in 1..<lines.count {
 			let line = lines[s]
@@ -217,7 +217,7 @@ class GedcomParser {
 					mediaPath = mediaPath + "%20" + ps[p]
 				}
 				let paths = mediaPath.split("\\.")
-				let ext = paths[paths.count - 1].lowercaseString
+				let ext = paths[paths.count - 1].lowercased()
 				if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png") {
 					link.rel = "image"
 				} else if ext == "pdf" {
@@ -228,7 +228,7 @@ class GedcomParser {
 				if mediaPath.hasPrefix("http") == false && mediaPath.hasPrefix("ftp:") == false {
 					mediaPath = baseUrl + mediaPath
 				}
-				link.href = mediaPath
+				link.href = mediaPath as NSString?
 				sd!.links.append(link)
 			}
 			if ps[1] == "_PRIM" && ps[2] != "N" {
@@ -239,36 +239,36 @@ class GedcomParser {
         return sd
 	}
 	
-	func parseName(lines:[String]) -> Name {
+	func parseName(_ lines:[String]) -> Name {
         let name = Name()
-        let wholeName = lines[0].substringFromIndex(lines[0].startIndex.advancedBy(7))
+        let wholeName = lines[0].substring(from: lines[0].characters.index(lines[0].startIndex, offsetBy: 7))
 		let form = NameForm()
-        form.fulltext = wholeName.replaceAll("/", replace: "")
+        form.fulltext = wholeName.replaceAll("/", replace: "") as NSString?
         for s in 1..<lines.count {
             let line = lines[s]
             let parts = line.split(" ");
             if "GIVN" == parts[1] {
                 let part = NamePart()
                 part.type = "http://gedcomx.org/Given"
-                part.value = line.substringFromIndex(line.startIndex.advancedBy(7))
+                part.value = line.substring(from: line.characters.index(line.startIndex, offsetBy: 7)) as NSString?
                 form.parts.append(part)
             }
             if "SURN" == parts[1] {
                 let part = NamePart()
                 part.type = "http://gedcomx.org/Surname"
-                part.value = line.substringFromIndex(line.startIndex.advancedBy(7))
+                part.value = line.substring(from: line.characters.index(line.startIndex, offsetBy: 7)) as NSString?
                 form.parts.append(part)
             }
             if "NPFX" == parts[1] {
                 let part = NamePart()
                 part.type = "http://gedcomx.org/Prefix"
-                part.value = line.substringFromIndex(line.startIndex.advancedBy(7))
+                part.value = line.substring(from: line.characters.index(line.startIndex, offsetBy: 7)) as NSString?
                 form.parts.append(part)
             }
             if "NSFX" == parts[1] {
                 let part = NamePart()
                 part.type = "http://gedcomx.org/Suffix"
-                part.value = line.substringFromIndex(line.startIndex.advancedBy(7))
+                part.value = line.substring(from: line.characters.index(line.startIndex, offsetBy: 7)) as NSString?
                 form.parts.append(part)
             }
             //-- TODO parse SOUR, NOTE, etc.
@@ -277,29 +277,29 @@ class GedcomParser {
         if form.parts.count == 0 {
 			let parts = wholeName.split("/")
 			if parts.count > 0 {
-                let chars = NSCharacterSet(charactersInString: " ")
-				let givn = parts[0].stringByTrimmingCharactersInSet(chars)
+                let chars = CharacterSet(charactersIn: " ")
+				let givn = parts[0].trimmingCharacters(in: chars)
 				let part = NamePart()
 				part.type = "http://gedcomx.org/Given"
-				part.value = givn
+				part.value = givn as NSString?
 				form.parts.append(part)
 			}
 			
 			if parts.count > 1 {
-                let chars = NSCharacterSet(charactersInString: " ")
-				let surn = parts[1].stringByTrimmingCharactersInSet(chars)
+                let chars = CharacterSet(charactersIn: " ")
+				let surn = parts[1].trimmingCharacters(in: chars)
 				let part = NamePart()
 				part.type = "http://gedcomx.org/Surname"
-				part.value = surn
+				part.value = surn as NSString?
 				form.parts.append(part)
 			}
 			
 			if parts.count > 2 {
-                let chars = NSCharacterSet(charactersInString: " ")
-				let sufx = parts[2].stringByTrimmingCharactersInSet(chars)
+                let chars = CharacterSet(charactersIn: " ")
+				let sufx = parts[2].trimmingCharacters(in: chars)
 				let part = NamePart()
 				part.type = "http://gedcomx.org/Suffix"
-				part.value = sufx
+				part.value = sufx as NSString?
 				form.parts.append(part)
 			}
         }
@@ -307,13 +307,13 @@ class GedcomParser {
         return name
     }
 	
-	func parseMedia(lines:[String]) -> SourceReference {
+	func parseMedia(_ lines:[String]) -> SourceReference {
 		let sd = SourceReference()
 		let parts = lines[0].split(" ")
 		if (parts.count > 2) {
 			let link = Link()
 			link.rel = "image"
-			link.href = parts[2]
+			link.href = parts[2] as NSString?
 			sd.links.append(link)
 		}
 		for line in lines {
@@ -321,23 +321,23 @@ class GedcomParser {
             if "FILE" == ps[1] {
                 let link = Link()
                 link.rel = "image"
-                link.href = ps[2]
+                link.href = ps[2] as NSString?
                 sd.links.append(link)
             }
         }
 		return sd
 	}
 	
-	func parseFact(lines:[String]) -> Fact {
+	func parseFact(_ lines:[String]) -> Fact {
         let fact = Fact()
         let parts = lines[0].split(" ")
         var type = factMap[parts[1]]
         if (type == nil) {
             type = "Other"
         }
-        fact.type = type
+        fact.type = type as NSString?
         if (parts.count > 2) {
-            fact.value = parts[2]
+            fact.value = parts[2] as NSString?
         }
         for s in 1..<lines.count {
             let line = lines[s]
@@ -345,23 +345,23 @@ class GedcomParser {
             if ps[0] == "2" {
                 if ps[1] == "DATE" && fact.date == nil {
                     let date = Date()
-                    date.original = ps[2]
+                    date.original = ps[2] as NSString?
                     fact.date = date
                 }
                 if ps[1] == "PLAC" && fact.place == nil {
                     let place = PlaceReference()
-                    place.original = ps[2]
+                    place.original = ps[2] as NSString?
                     fact.place = place
                 }
                 if ps[1] == "TYPE" && fact.type == nil {
-                    fact.type = ps[2]
+                    fact.type = ps[2] as NSString?
                 }
             }
         }
         return fact
     }
 	
-	func parseDateTime(lines:[String]) -> NSDate? {
+	func parseDateTime(_ lines:[String]) -> Foundation.Date? {
         var hasDate = false
 		var hasTime = false
 		var dateString = ""
@@ -379,13 +379,13 @@ class GedcomParser {
             }
         }
         if hasDate {
-			let dateFormatter = NSDateFormatter()
+			let dateFormatter = DateFormatter()
 			if hasTime {
 				dateFormatter.dateFormat = "dd MMM yyyy HH:mm:ss"
 			} else {
 				dateFormatter.dateFormat = "dd MMM yyyy"
 			}
-			let date = dateFormatter.dateFromString(dateString)
+			let date = dateFormatter.date(from: dateString)
 			return date
         }
         return nil

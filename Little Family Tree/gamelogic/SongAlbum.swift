@@ -31,7 +31,7 @@ class SongAlbum {
     }
 
     
-    private func addFamilyTreeSong() {
+    fileprivate func addFamilyTreeSong() {
         let song = Song()
         song.drumTrack = "drums_allinourfamilytree.mp3"
         song.fluteTrack = "flute_allinourfamilytree.mp3"
@@ -99,7 +99,7 @@ class SongAlbum {
 
     }
     
-    private func addMyHistorySong() {
+    fileprivate func addMyHistorySong() {
         let song = Song()
         song.drumTrack = "drums_myhistory.mp3"
         song.fluteTrack = "flute_myhistory.mp3"
@@ -172,7 +172,7 @@ class SongAlbum {
         songs.append(song)
     }
 	
-	private func addThisIsMyHistorySong() {
+	fileprivate func addThisIsMyHistorySong() {
         let song = Song()
         song.drumTrack = "drums_thisismyfamily.mp3"
         song.fluteTrack = "flute_thisismyfamily.mp3"

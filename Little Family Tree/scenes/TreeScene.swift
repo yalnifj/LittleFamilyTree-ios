@@ -8,6 +8,26 @@
 
 import Foundation
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class TreeScene: LittleFamilyScene {
 	static var TOPIC_NAVIGATE_UP_TREE = "navigateUpTree"
@@ -18,8 +38,8 @@ class TreeScene: LittleFamilyScene {
 	var lastPoint : CGPoint!
 	var treeContainer : SKSpriteNode?
 	var root : TreeNode?
-    var queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-    var treeGroup = dispatch_group_create()
+    var queue = DispatchQueue.global()
+    var treeGroup = DispatchGroup()
     
     var x = CGFloat(0)
     var y = CGFloat(0)
@@ -64,8 +84,8 @@ class TreeScene: LittleFamilyScene {
     
     var arrows = [TreeUpArrow]()
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -73,7 +93,7 @@ class TreeScene: LittleFamilyScene {
         self.minY = -2 * self.size.height
         
         let background = SKSpriteNode(imageNamed: "wood_back")
-        background.position = CGPointMake(self.size.width/2, self.size.height/2)
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         background.size.width = self.size.width
         background.size.height = self.size.height
         background.zPosition = 0
@@ -95,57 +115,57 @@ class TreeScene: LittleFamilyScene {
         
         matchButton = SKSpriteNode(imageNamed: "house_familyroom_frame1")
         var br = matchButton!.size.width / matchButton!.size.height
-        matchButton!.size = CGSizeMake(50 * br, 50)
-        matchButton!.anchorPoint = CGPointZero
+        matchButton!.size = CGSize(width: 50 * br, height: 50)
+        matchButton!.anchorPoint = CGPoint.zero
         buttons.append(matchButton!)
         
         scratchButton = SKSpriteNode(imageNamed: "pencils")
         br = scratchButton!.size.width / scratchButton!.size.height
-        scratchButton!.size = CGSizeMake(50 * br, 50)
-        scratchButton!.anchorPoint = CGPointZero
+        scratchButton!.size = CGSize(width: 50 * br, height: 50)
+        scratchButton!.anchorPoint = CGPoint.zero
         buttons.append(scratchButton!)
         
         coloringButton = SKSpriteNode(imageNamed: "painting")
         br = coloringButton!.size.width / coloringButton!.size.height
-        coloringButton!.size = CGSizeMake(50 * br, 50)
-        coloringButton!.anchorPoint = CGPointZero
+        coloringButton!.size = CGSize(width: 50 * br, height: 50)
+        coloringButton!.anchorPoint = CGPoint.zero
         buttons.append(coloringButton!)
         
         bubbleButton = SKSpriteNode(imageNamed: "bubble")
         br = bubbleButton!.size.width / bubbleButton!.size.height
-        bubbleButton!.size = CGSizeMake(50 * br, 50)
-        bubbleButton!.anchorPoint = CGPointZero
+        bubbleButton!.size = CGSize(width: 50 * br, height: 50)
+        bubbleButton!.anchorPoint = CGPoint.zero
         buttons.append(bubbleButton!)
         
         dressupButton = SKSpriteNode(imageNamed: "dolls/usa/boy_thumb.png")
         br = dressupButton!.size.width / dressupButton!.size.height
-        dressupButton!.size = CGSizeMake(50 * br, 50)
-        dressupButton!.anchorPoint = CGPointZero
+        dressupButton!.size = CGSize(width: 50 * br, height: 50)
+        dressupButton!.anchorPoint = CGPoint.zero
         buttons.append(dressupButton!)
         
         puzzleButton = SKSpriteNode(imageNamed: "house_toys_blocks")
         br = puzzleButton!.size.width / puzzleButton!.size.height
-        puzzleButton!.size = CGSizeMake(50 * br, 50)
-        puzzleButton!.anchorPoint = CGPointZero
+        puzzleButton!.size = CGSize(width: 50 * br, height: 50)
+        puzzleButton!.anchorPoint = CGPoint.zero
         buttons.append(puzzleButton!)
         
         songButton = SKSpriteNode(imageNamed: "house_music_piano")
         br = songButton!.size.width / songButton!.size.height
-        songButton!.size = CGSizeMake(50 * br, 50)
-        songButton!.anchorPoint = CGPointZero
+        songButton!.size = CGSize(width: 50 * br, height: 50)
+        songButton!.anchorPoint = CGPoint.zero
         buttons.append(songButton!)
 		
 		cardButton = SKSpriteNode(imageNamed: "birthday_card_button")
         br = cardButton!.size.width / cardButton!.size.height
-        cardButton!.size = CGSizeMake(50 * br, 50)
-        cardButton!.anchorPoint = CGPointZero
+        cardButton!.size = CGSize(width: 50 * br, height: 50)
+        cardButton!.anchorPoint = CGPoint.zero
         buttons.append(cardButton!)
         
-        dispatch_group_enter(treeGroup)
+        treeGroup.enter()
 		let dataService = DataService.getInstance()
 		dataService.getChildren(selectedPerson!, onCompletion: { children, err in 
 			if children == nil || children!.count == 0 {
-                dispatch_group_enter(self.treeGroup)
+                self.treeGroup.enter()
                 dataService.getParentCouple(self.selectedPerson!, inParent: nil, onCompletion: { parents, err in
 					if parents != nil && parents!.count > 0 {
 						self.root = TreeNode()
@@ -153,20 +173,20 @@ class TreeScene: LittleFamilyScene {
 						self.buildTreeNode(self.root!, couple:parents!, depth:0, maxDepth: 2, isInLaw:false)
 						
                         if parents!.count > 1 {
-                            dispatch_group_enter(self.treeGroup)
+                            self.treeGroup.enter()
                             dataService.getChildrenForCouple(parents![0], person2: parents![1], onCompletion: { children2, err in
                                 if children2 != nil {
                                     self.addChildNodes(self.root!, children: children2!)
                                 }
-                                dispatch_group_leave(self.treeGroup)
+                                self.treeGroup.leave()
                             })
                         } else {
-                            dispatch_group_enter(self.treeGroup)
+                            self.treeGroup.enter()
                             dataService.getChildren(parents![0], onCompletion: { children2, err in
                                 if children2 != nil {
                                     self.addChildNodes(self.root!, children: children2!)
                                 }
-                                dispatch_group_leave(self.treeGroup)
+                                self.treeGroup.leave()
                             })
                         }
 						
@@ -175,10 +195,10 @@ class TreeScene: LittleFamilyScene {
 						self.root!.isRoot = true
 						self.buildTreeNode(self.root!, couple:[ self.selectedPerson! ], depth:0, maxDepth: 3, isInLaw:false)
 					}
-                    dispatch_group_leave(self.treeGroup)
+                    self.treeGroup.leave()
 				})
 			} else {
-                dispatch_group_enter(self.treeGroup)
+                self.treeGroup.enter()
 				dataService.getSpouses(self.selectedPerson!, onCompletion: { spouses, err in
 					var couple = [LittlePerson]()
 					couple.append(self.selectedPerson!)
@@ -194,26 +214,26 @@ class TreeScene: LittleFamilyScene {
                             if children2 != nil && children2!.count > 0 {
                                 self.addChildNodes(self.root!, children: children2!)
                             }
-                            dispatch_group_leave(self.treeGroup)
+                            self.treeGroup.leave()
                         })
                     } else {
                         self.addChildNodes(self.root!, children: children!)
-                        dispatch_group_leave(self.treeGroup)
+                        self.treeGroup.leave()
                     }
 				})
 			}
-            dispatch_group_leave(self.treeGroup)
+            self.treeGroup.leave()
 		})
         
-        dispatch_group_notify(treeGroup, queue) {
+        treeGroup.notify(queue: queue) {
             //-- build sprites
             
             if self.root?.children != nil {
                 for childNode in (self.root?.children!)! {
                     let cs = TreePersonSprite()
                     cs.size = self.leaf.size()
-                    cs.position = CGPointMake(self.x, self.y)
-                    cs.zPosition = self.z++
+                    cs.position = CGPoint(x: self.x, y: self.y)
+                    cs.zPosition = self.z.advanced(by: 1)
                     if childNode.leftPerson != nil {
                         cs.left = true
                         cs.person = childNode.leftPerson
@@ -236,7 +256,7 @@ class TreeScene: LittleFamilyScene {
                     vy = self.y + 92
                 }
                 let vine = SKSpriteNode(texture: bv)
-                vine.position = CGPointMake(vx, vy)
+                vine.position = CGPoint(x: vx, y: vy)
                 vine.zPosition = 2
                 self.treeContainer!.addChild(vine);
                 vx = vx + vine.size.width + 2.5
@@ -246,7 +266,7 @@ class TreeScene: LittleFamilyScene {
             self.x = (self.x / 2) - (self.leaf.size().width + 10)
             
             let vine = SKSpriteNode(texture: self.vine2)
-            vine.position = CGPointMake(self.x + self.leaf.size().width + 10, self.y + self.vine2.size().height + 5)
+            vine.position = CGPoint(x: self.x + self.leaf.size().width + 10, y: self.y + self.vine2.size().height + 5)
             vine.zPosition = 2
             self.treeContainer?.addChild(vine)
             
@@ -258,7 +278,7 @@ class TreeScene: LittleFamilyScene {
         }
         
         self.treeContainer = SKSpriteNode()
-        self.treeContainer?.position = CGPointMake(50, 50)
+        self.treeContainer?.position = CGPoint(x: 50, y: 50)
         self.treeContainer?.zPosition = 1
         self.treeContainer?.setScale(self.tscale)
         self.addChild(self.treeContainer!)
@@ -266,8 +286,8 @@ class TreeScene: LittleFamilyScene {
 		treeSearchButton = AnimatedStateSprite(imageNamed: "tree_search")
 		treeSearchButton?.zPosition = 15
         let r = (treeSearchButton?.size.height)! / (treeSearchButton?.size.width)!
-        treeSearchButton?.size = CGSizeMake(md / 5, (md * r) / 5)
-		treeSearchButton?.position = CGPointMake(self.size.width - (treeSearchButton?.size.width)! / 2, (treeSearchButton?.size.height)! / 1.5)
+        treeSearchButton?.size = CGSize(width: md / 5, height: (md * r) / 5)
+		treeSearchButton?.position = CGPoint(x: self.size.width - (treeSearchButton?.size.width)! / 2, y: (treeSearchButton?.size.height)! / 1.5)
 		let searching:[SKTexture] = [
             SKTexture(imageNamed: "tree_search1"),
             SKTexture(imageNamed: "tree_search2"),
@@ -278,24 +298,24 @@ class TreeScene: LittleFamilyScene {
 			SKTexture(imageNamed: "tree_search7"),
             SKTexture(imageNamed: "tree_search8")
         ]
-        let searchAction = SKAction.animateWithTextures(searching, timePerFrame: 0.07, resize: false, restore: false)
+        let searchAction = SKAction.animate(with: searching, timePerFrame: 0.07, resize: false, restore: false)
         treeSearchButton?.addAction(1, action: searchAction)
         treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
     }
 	
-	func addChildNodes(node:TreeNode, children:[LittlePerson]) {
+	func addChildNodes(_ node:TreeNode, children:[LittlePerson]) {
 		var childNodes = [TreeNode]()
 		//-- sort the children by age
-		let sortedChildren = children.sort({ $0.age < $1.age })
+		let sortedChildren = children.sorted(by: { $0.age < $1.age })
 		for child in sortedChildren {
 			let node = TreeNode()
 			node.level = node.level - 1
-			if child.gender == GenderType.FEMALE {
+			if child.gender == GenderType.female {
 				node.rightPerson = child
 			} else {
 				node.leftPerson = child
@@ -305,9 +325,9 @@ class TreeScene: LittleFamilyScene {
 		node.children = childNodes
 	}
 	
-    func buildTreeNode(node:TreeNode, couple:[LittlePerson], depth:Int, maxDepth:Int, isInLaw:Bool) {
+    func buildTreeNode(_ node:TreeNode, couple:[LittlePerson], depth:Int, maxDepth:Int, isInLaw:Bool) {
         if couple.count > 0 {
-            if couple[0].gender == GenderType.FEMALE {
+            if couple[0].gender == GenderType.female {
                 node.rightPerson = couple[0]
             } else {
                 node.leftPerson = couple[0]
@@ -326,7 +346,7 @@ class TreeScene: LittleFamilyScene {
 		
 		let dataService = DataService.getInstance()
 		if node.leftPerson != nil {
-            dispatch_group_enter(self.treeGroup)
+            self.treeGroup.enter()
             dataService.getParentCouple(node.leftPerson!, inParent: nil, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
@@ -344,7 +364,7 @@ class TreeScene: LittleFamilyScene {
                     self.buildTreeNode(next, couple: [], depth: depth+1, maxDepth: maxDepth, isInLaw: isInLaw)
                     node.leftNode = next
                 }
-                dispatch_group_leave(self.treeGroup)
+                self.treeGroup.leave()
 			})
         } else if depth < maxDepth {
             let next = TreeNode()
@@ -353,7 +373,7 @@ class TreeScene: LittleFamilyScene {
         }
         
 		if node.rightPerson != nil {
-            dispatch_group_enter(self.treeGroup)
+            self.treeGroup.enter()
             dataService.getParentCouple(node.rightPerson!, inParent: nil, onCompletion: { parents, err in
 				if parents != nil && parents!.count > 0 {
 					node.hasParents = true
@@ -371,7 +391,7 @@ class TreeScene: LittleFamilyScene {
                     self.buildTreeNode(next, couple: [], depth: depth+1, maxDepth: maxDepth, isInLaw: isInLaw)
                     node.rightNode = next
                 }
-                dispatch_group_leave(self.treeGroup)
+                self.treeGroup.leave()
 			})
         } else if depth < maxDepth {
             let next = TreeNode()
@@ -380,11 +400,11 @@ class TreeScene: LittleFamilyScene {
         }
 	}
 	
-    func addCoupleSprite(node: TreeNode, container: SKNode, px: CGFloat, py: CGFloat) -> TreeCoupleSprite {
+    func addCoupleSprite(_ node: TreeNode, container: SKNode, px: CGFloat, py: CGFloat) -> TreeCoupleSprite {
         let sprite = TreeCoupleSprite()
-        sprite.size = CGSizeMake(self.leaf.size().width * 2, self.leaf.size().height)
-        sprite.position = CGPointMake(px, py)
-        sprite.zPosition = self.z++
+        sprite.size = CGSize(width: self.leaf.size().width * 2, height: self.leaf.size().height)
+        sprite.position = CGPoint(x: px, y: py)
+        sprite.zPosition = self.z.advanced(by: 1)
         sprite.treeNode = node
         container.addChild(sprite)
         
@@ -410,7 +430,7 @@ class TreeScene: LittleFamilyScene {
             }
             
             let vine = SKSpriteNode(texture: self.vine)
-            vine.position = CGPointMake(x + self.leaf.size().width - 5, sprite.position.y + offsetY + self.leaf.size().height + 30)
+            vine.position = CGPoint(x: x + self.leaf.size().width - 5, y: sprite.position.y + offsetY + self.leaf.size().height + 30)
             vine.zPosition = 2
             container.addChild(vine)
             
@@ -424,7 +444,7 @@ class TreeScene: LittleFamilyScene {
                     vy = vine.position.y - 58
                 }
                 let vine2 = SKSpriteNode(texture: bv)
-                vine2.position = CGPointMake(vx, vy)
+                vine2.position = CGPoint(x: vx, y: vy)
                 vine2.zPosition = 2
                 container.addChild(vine2);
                 vx = vx + vine2.size.width
@@ -432,7 +452,7 @@ class TreeScene: LittleFamilyScene {
             }
             
             let vine2 = SKSpriteNode(texture: self.vine2)
-            vine2.position = CGPointMake(vx - vine.size.width - 30, sprite.position.y + 80)
+            vine2.position = CGPoint(x: vx - vine.size.width - 30, y: sprite.position.y + 80)
             vine2.zPosition = 2
             container.addChild(vine2)
             
@@ -447,7 +467,7 @@ class TreeScene: LittleFamilyScene {
             }
             
             let vine = SKSpriteNode(texture: self.vine3)
-            vine.position = CGPointMake(x + self.leaf.size().width - 6, sprite.position.y + offsetY + self.leaf.size().height + 30)
+            vine.position = CGPoint(x: x + self.leaf.size().width - 6, y: sprite.position.y + offsetY + self.leaf.size().height + 30)
             vine.zPosition = 2
             container.addChild(vine)
             
@@ -464,7 +484,7 @@ class TreeScene: LittleFamilyScene {
                     vy = vine.position.y - 58
                 }
                 let vine2 = SKSpriteNode(texture: bv)
-                vine2.position = CGPointMake(vx, vy)
+                vine2.position = CGPoint(x: vx, y: vy)
                 vine2.zPosition = 2
                 container.addChild(vine2);
                 vx = vx - vine2.size.width
@@ -477,7 +497,7 @@ class TreeScene: LittleFamilyScene {
         
         if node.leftNode == nil && node.rightNode == nil && node.hasParents == true {
             let upArrow = TreeUpArrow(imageNamed: "vine_arrow")
-            upArrow.position = CGPointMake(sprite.position.x + sprite.size.width/2, sprite.position.y + sprite.size.height + upArrow.size.height)
+            upArrow.position = CGPoint(x: sprite.position.x + sprite.size.width/2, y: sprite.position.y + sprite.size.height + upArrow.size.height)
             upArrow.zPosition = 5
             upArrow.treeNode = node
             container.addChild(upArrow)
@@ -487,16 +507,16 @@ class TreeScene: LittleFamilyScene {
         return sprite
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
     }
     
-    func pinched(sender:UIPinchGestureRecognizer){
+    func pinched(_ sender:UIPinchGestureRecognizer){
         print("pinched \(tscale)")
-        if sender.state == UIGestureRecognizerState.Ended || sender.state == UIGestureRecognizerState.Cancelled {
+        if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
             previousScale = nil
         }
-        else if sender.state == UIGestureRecognizerState.Began {
+        else if sender.state == UIGestureRecognizerState.began {
             previousScale = sender.scale
         }
         else if previousScale != nil {
@@ -512,23 +532,23 @@ class TreeScene: LittleFamilyScene {
                 if tscale > maxScale {
                     tscale = maxScale
                 }
-                let zoomIn = SKAction.scaleTo(tscale, duration:0)
-                treeContainer?.runAction(zoomIn)
+                let zoomIn = SKAction.scale(to: tscale, duration:0)
+                treeContainer?.run(zoomIn)
             }
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        var nextPoint = CGPointMake(0,0)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var nextPoint = CGPoint(x: 0,y: 0)
         for touch in touches {
-            nextPoint = touch.locationInNode(self)
+            nextPoint = touch.location(in: self)
         }
         
         clipX = nextPoint.x - lastPoint.x;
@@ -556,12 +576,12 @@ class TreeScene: LittleFamilyScene {
         lastPoint = nextPoint
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch in touches {
-            lastPoint = touch.locationInNode(self)
+            lastPoint = touch.location(in: self)
             if moved == false {
-                let touchedNode = nodeAtPoint(lastPoint)
+                let touchedNode = atPoint(lastPoint)
                 if touchedNode == bubbleButton {
                     if panelPerson != nil {
                         self.showBubbleGame(panelPerson!, previousTopic: GameScene.TOPIC_START_TREE)
@@ -637,17 +657,17 @@ class TreeScene: LittleFamilyScene {
     func hideButtonPanel() {
         if buttonPanel != nil {
             buttonPanel?.removeAllChildren()
-            let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 0.3), SKAction.removeFromParent() ])
-            buttonPanel?.runAction(act) {
+            let act = SKAction.sequence( [ SKAction.resize(toWidth: 5, height: 5, duration: 0.3), SKAction.removeFromParent() ])
+            buttonPanel?.run(act, completion: {
                 self.buttonPanel = nil
-            }
+            }) 
         }
     }
     
-    func showButtonPanel(node:TreePersonSprite, relationship: String) {
-        self.buttonPanel = SKSpriteNode(color: UIColor(hexString: "#00A400FF"), size: CGSizeMake(5, 5))
+    func showButtonPanel(_ node:TreePersonSprite, relationship: String) {
+        self.buttonPanel = SKSpriteNode(color: UIColor(hexString: "#00A400FF"), size: CGSize(width: 5, height: 5))
         self.buttonPanel?.zPosition = 100
-        self.buttonPanel?.position = CGPointMake(node.position.x + node.size.width + 100, node.position.y + 50)
+        self.buttonPanel?.position = CGPoint(x: node.position.x + node.size.width + 100, y: node.position.y + 50)
         node.parent!.addChild(self.buttonPanel!)
 		panelPerson  = node.person!
 		let place = PlaceHelper.getPersonCountry(panelPerson!)
@@ -656,7 +676,7 @@ class TreeScene: LittleFamilyScene {
         let ratio = texture.size().width / texture.size().height
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
-        self.buttonPanel?.runAction(SKAction.resizeToWidth(310, height: 220, duration: 0.6)) {
+        self.buttonPanel?.run(SKAction.resize(toWidth: 310, height: 220, duration: 0.6), completion: {
 			let startX = CGFloat(-125)
             var x = startX
 			var y = CGFloat(-73)
@@ -667,7 +687,7 @@ class TreeScene: LittleFamilyScene {
                     y = y + button.size.height + 8
                     counter = 0
                 }
-				button.position = CGPointMake(x, y)
+				button.position = CGPoint(x: x, y: y)
 				self.buttonPanel?.addChild(button)
                 x = x + 8 + button.size.width
                 counter += 1
@@ -675,8 +695,8 @@ class TreeScene: LittleFamilyScene {
             y = y + self.buttons[0].size.height + 7
             let relLabel = SKLabelNode(text: relationship)
             relLabel.fontSize = self.buttonPanel!.size.width / 9
-            relLabel.fontColor = UIColor.whiteColor()
-            relLabel.position = CGPointMake(0, y)
+            relLabel.fontColor = UIColor.white
+            relLabel.position = CGPoint(x: 0, y: y)
             relLabel.zPosition = 3
             self.adjustLabelFontSizeToFitRect(relLabel, node: self.buttonPanel!, adjustUp: false)
             self.buttonPanel?.addChild(relLabel)
@@ -684,35 +704,35 @@ class TreeScene: LittleFamilyScene {
             y = y + relLabel.fontSize + 5
             let nameLabel = SKLabelNode(text: node.person?.name as String?)
             nameLabel.fontSize = self.buttonPanel!.size.width / 9
-            nameLabel.fontColor = UIColor.whiteColor()
-            nameLabel.position = CGPointMake(0, y)
+            nameLabel.fontColor = UIColor.white
+            nameLabel.position = CGPoint(x: 0, y: y)
             nameLabel.zPosition = 3
             self.adjustLabelFontSizeToFitRect(nameLabel, node: self.buttonPanel!, adjustUp: false)
             self.buttonPanel?.addChild(nameLabel)
-		}
+		}) 
     }
     
-    func personTouched(node:TreePersonSprite) {
+    func personTouched(_ node:TreePersonSprite) {
         if self.treeSearchGame?.complete == true {
             if node.person != nil {
                 let relationship = RelationshipCalculator.getRelationship(selectedPerson!, p: node.person!)
                 var msg = "\(node.person!.name!) is your \(relationship). "
                 var heshe = "He was "
-                if node.person!.gender == GenderType.FEMALE {
+                if node.person!.gender == GenderType.female {
                     heshe = "She was "
                 }
                 if relationship == "You" {
                     msg = "Hi, \(node.person!.givenName!). "
                     heshe = "You were "
                 }
-                let formatter = NSDateFormatter()
+                let formatter = DateFormatter()
                 formatter.dateFormat = "MMMM d, yyyy"
                 if node.person?.birthPlace != nil && node.person!.birthDate != nil {
-                    let dateString = formatter.stringFromDate(node.person!.birthDate!)
+                    let dateString = formatter.string(from: node.person!.birthDate!)
                     msg += "\(heshe) born on \(dateString) in \(node.person!.birthPlace!)"
                 }
                 else if node.person?.birthDate != nil {
-                    let dateString = formatter.stringFromDate(node.person!.birthDate!)
+                    let dateString = formatter.string(from: node.person!.birthDate!)
                     msg += "\(heshe) born on \(dateString)"
                 } else if node.person?.birthPlace != nil {
                     msg += "\(heshe) born in \(node.person!.birthPlace!)"
@@ -720,10 +740,10 @@ class TreeScene: LittleFamilyScene {
                 self.speak(msg)
                 if buttonPanel != nil && buttonPanel!.size.width > 5 {
                     buttonPanel?.removeAllActions()
-                    let act = SKAction.sequence( [ SKAction.resizeToWidth(5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
-                    buttonPanel?.runAction(act) {
+                    let act = SKAction.sequence( [ SKAction.resize(toWidth: 5, height: 5, duration: 1.0), SKAction.removeFromParent() ])
+                    buttonPanel?.run(act, completion: {
                         self.showButtonPanel(node, relationship: relationship)
-                    }
+                    }) 
                 } else {
                     self.showButtonPanel(node, relationship: relationship)
                 }
@@ -745,7 +765,7 @@ class TreeScene: LittleFamilyScene {
         }
     }
     
-    func arrowTouched(upArrow:TreeUpArrow) {
+    func arrowTouched(_ upArrow:TreeUpArrow) {
         var highArrows = [TreeUpArrow]()
         for arrow in arrows {
             if arrow.treeNode?.level > upArrow.treeNode?.level {

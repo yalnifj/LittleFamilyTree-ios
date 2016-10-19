@@ -53,8 +53,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var loginForParentsGuide = false
     var pgListener:ParentsGuideCloseListener?
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         stopAllSpeaking()
         
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
@@ -71,8 +71,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_FIRST_RUN, value: "true")
     }
     
-    override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_HOME, listener: self)
         EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_CHOOSE, listener: self)
 		EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_START_SETTINGS, listener: self)
@@ -87,7 +87,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if (starCount > 0) {
             if (starDelayCount <= 0) {
                 starDelayCount = starDelay
@@ -125,10 +125,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     star.position.y = y
                     star.zPosition = 100
                     star.setScale(0.1)
-                    let growAction = SKAction.scaleTo(1.0, duration: 1.5)
-                    let shrinkAction = SKAction.scaleTo(0.0, duration: 1.5)
+                    let growAction = SKAction.scale(to: 1.0, duration: 1.5)
+                    let shrinkAction = SKAction.scale(to: 0.0, duration: 1.5)
                     let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
-                    star.runAction(doubleAction)
+                    star.run(doubleAction)
                     if self.starContainer == nil {
                         self.addChild(star)
                     } else {
@@ -182,10 +182,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                         star.position.y = y
                         star.zPosition = 100
                         star.setScale(0.1)
-                        let growAction = SKAction.scaleTo(1.0, duration: 1.5)
-                        let shrinkAction = SKAction.scaleTo(0.0, duration: 1.5)
+                        let growAction = SKAction.scale(to: 1.0, duration: 1.5)
+                        let shrinkAction = SKAction.scale(to: 0.0, duration: 1.5)
                         let doubleAction = SKAction.sequence([growAction, shrinkAction, SKAction.removeFromParent()])
-                        star.runAction(doubleAction)
+                        star.run(doubleAction)
                         if self.redStarContainer == nil {
                             self.addChild(star)
                         } else {
@@ -201,21 +201,21 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func setupTopBar() {
-        let tsie = CGSizeMake(self.size.width, self.size.height*0.05)
+        let tsie = CGSize(width: self.size.width, height: self.size.height*0.05)
         topBar = TopBar(color: UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.7), size: tsie)
-        topBar!.position = CGPointMake(self.size.width/2, self.size.height-(topBar!.size.height / 2))
+        topBar!.position = CGPoint(x: self.size.width/2, y: self.size.height-(topBar!.size.height / 2))
         topBar!.person = selectedPerson
         topBar!.homeTexture = SKTexture(imageNamed: "home")
-        topBar!.userInteractionEnabled = true
+        topBar!.isUserInteractionEnabled = true
         topBar!.zPosition = 100
         self.addChild(topBar!)
     }
     
     var listenerIndex:Int?
-    func setListenerIndex(index: Int) {
+    func setListenerIndex(_ index: Int) {
         self.listenerIndex = index
     }
-    func onEvent(topic: String, data: NSObject?) {
+    func onEvent(_ topic: String, data: NSObject?) {
         if topic == LittleFamilyScene.TOPIC_START_HOME {
             if previousTopic == nil || previousTopic == LittleFamilyScene.TOPIC_START_HOME {
                 showHomeScreen()
@@ -270,9 +270,9 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showHomeScreen() {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+        let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = GameScene(size: scene!.size)
-        nextScene.scaleMode = .AspectFill
+        nextScene.scaleMode = .aspectFill
         if self.chosenPlayer != nil {
             nextScene.selectedPerson = self.chosenPlayer
         } else {
@@ -282,18 +282,18 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showChoosePlayerScreen() {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+        let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = ChoosePlayerScene(size: scene!.size)
-        nextScene.scaleMode = .AspectFill
+        nextScene.scaleMode = .aspectFill
         scene?.view?.presentScene(nextScene, transition: transition)
     }
 	
-    func showMatchGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+    func showMatchGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = MatchGameScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -302,12 +302,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showHeritageCalculatorGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showHeritageCalculatorGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = ChooseCultureScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -316,12 +316,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showDressupGame(dollConfig:DollConfig, person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showDressupGame(_ dollConfig:DollConfig, person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = DressUpScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -331,12 +331,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showPuzzleGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showPuzzleGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = PuzzleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -345,13 +345,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showScratchGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showScratchGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
         
 		let nextScene = ScratchScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -360,12 +360,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-    func showColoringGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+    func showColoringGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = ColoringScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -374,12 +374,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showTree(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showTree(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = TreeScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -392,12 +392,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
 	
-	func showBubbleGame(person:LittlePerson?, previousTopic:String?) {
-		let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+	func showBubbleGame(_ person:LittlePerson?, previousTopic:String?) {
+		let transition = SKTransition.reveal(with: .down, duration: 0.7)
 		let nextScene = BubbleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-		nextScene.scaleMode = .AspectFill
+		nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -406,12 +406,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		scene?.view?.presentScene(nextScene, transition: transition)
 	}
     
-    func showSongGame(person:LittlePerson?, previousTopic:String?) {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+    func showSongGame(_ person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = SongScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-        nextScene.scaleMode = .AspectFill
+        nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -420,12 +420,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
-    func showCardGame(person:LittlePerson?, previousTopic:String?) {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+    func showCardGame(_ person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = BirthdayPeopleScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-        nextScene.scaleMode = .AspectFill
+        nextScene.scaleMode = .aspectFill
         if person != nil && person != selectedPerson {
             nextScene.birthdayPerson = person
         }
@@ -434,12 +434,12 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         scene?.view?.presentScene(nextScene, transition: transition)
     }
     
-    func showBirdGame(person:LittlePerson?, previousTopic:String?) {
-        let transition = SKTransition.revealWithDirection(.Down, duration: 0.7)
+    func showBirdGame(_ person:LittlePerson?, previousTopic:String?) {
+        let transition = SKTransition.reveal(with: .down, duration: 0.7)
         let nextScene = BirdScene(size: scene!.size)
         nextScene.previousTopic = previousTopic
         nextScene.chosenPlayer = self.chosenPlayer
-        nextScene.scaleMode = .AspectFill
+        nextScene.scaleMode = .aspectFill
         if person != nil {
             nextScene.selectedPerson = person
         } else {
@@ -453,7 +453,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 		let remember = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_REMEMBER_ME)
 		if remember != nil {
 			let time = Double(remember!)
-			let date = NSDate(timeIntervalSince1970: time!)
+			let date = Foundation.Date(timeIntervalSince1970: time!)
 			if date.timeIntervalSinceNow > -60 * 20 {
 				showSettings()
 				return
@@ -499,7 +499,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         let subview = SettingsView(frame: (self.view?.bounds)!)
         subview.selectedPerson = self.selectedPerson
         subview.openingScene = self
-        self.paused = true
+        self.isPaused = true
         self.view?.addSubview(subview)
         return subview
     }
@@ -512,7 +512,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return subview
     }
     
-    func showPersonDetails(person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
+    func showPersonDetails(_ person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
         let personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
         personDetailsView.listener = listener
         personDetailsView.openingScene = self
@@ -522,7 +522,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return personDetailsView
     }
     
-    func showRecordAudioDialog(person:LittlePerson, listener:PersonDetailsCloseListener) -> RecordAudioView {
+    func showRecordAudioDialog(_ person:LittlePerson, listener:PersonDetailsCloseListener) -> RecordAudioView {
         let recordAudioView = RecordAudioView(frame: (self.view?.bounds)!)
         recordAudioView.openingScene = self
         recordAudioView.listener = listener
@@ -538,7 +538,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return subview
     }
     
-    func showParentsGuide(listener:ParentsGuideCloseListener, skipGate:Bool) {
+    func showParentsGuide(_ listener:ParentsGuideCloseListener, skipGate:Bool) {
         if skipGate {
             clearDialogRect()
             let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(450))
@@ -556,7 +556,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         self.clearDialogRect()
     }
     
-    func showSimpleDialog(title:String, message:String) {
+    func showSimpleDialog(_ title:String, message:String) {
         let rect = self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
         let subview = SimpleDialogView(frame: rect)
         subview.listener = self
@@ -571,31 +571,31 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func playSuccessSound(wait:Double, onCompletion: () -> Void) {
-        let levelUpAction = SKAction.waitForDuration(wait)
-        runAction(levelUpAction) {
+    func playSuccessSound(_ wait:Double, onCompletion: @escaping () -> Void) {
+        let levelUpAction = SKAction.wait(forDuration: wait)
+        run(levelUpAction, completion: {
             let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
             if quietMode == nil || quietMode == "false" {
                 let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: true);
-                self.runAction(soundAction)
+                self.run(soundAction)
             }
             onCompletion()
-        }
+        }) 
     }
     
-    func playFailSound(wait:Double, onCompletion: () -> Void) {
-        let levelUpAction = SKAction.waitForDuration(wait)
-        runAction(levelUpAction) {
+    func playFailSound(_ wait:Double, onCompletion: @escaping () -> Void) {
+        let levelUpAction = SKAction.wait(forDuration: wait)
+        run(levelUpAction, completion: {
             let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
             if quietMode == nil || quietMode == "false" {
                 let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: true);
-                self.runAction(soundAction)
+                self.run(soundAction)
             }
             onCompletion()
-        }
+        }) 
     }
     
-    func speak(message:String) {
+    func speak(_ message:String) {
         let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
         if quietMode == nil || quietMode == "false" {
             SpeechHelper.getInstance().speak(message)
@@ -604,16 +604,16 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
 	
-	func sayGivenName(person:LittlePerson) {
+	func sayGivenName(_ person:LittlePerson) {
 		if person.givenNameAudioPath != nil {
 			let quietMode = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
 			if quietMode == nil || quietMode == "false" {
-				let fileManager = NSFileManager.defaultManager()
-				let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
-				let soundFileUrl = url.URLByAppendingPathComponent(person.givenNameAudioPath! as String)
+				let fileManager = FileManager.default
+				let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+				let soundFileUrl = url.appendingPathComponent(person.givenNameAudioPath! as String)
                 do {
-                    let fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(soundFileUrl!.path!)
-                    let fileSize = fileAttributes[NSFileSize]
+                    let fileAttributes = try FileManager.default.attributesOfItem(atPath: soundFileUrl.path)
+                    let fileSize = fileAttributes[FileAttributeKey.size]
                     print("fileSize=\(fileSize)")
                 } catch {
                     print("Error setting audio session category \(error)")
@@ -622,7 +622,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     let audioSession = AVAudioSession.sharedInstance()
                     try audioSession.setCategory(AVAudioSessionCategoryPlayback)
                     try audioSession.setActive(true)
-                    audioPlayer = try AVAudioPlayer(contentsOfURL: soundFileUrl!)
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundFileUrl)
                     audioPlayer.volume = 1.5
                     audioPlayer.prepareToPlay()
                     audioPlayer.play()
@@ -648,7 +648,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func showFakeToasts(messages:[String]) {
+    func showFakeToasts(_ messages:[String]) {
         for s in self.toasts {
             s.removeFromParent()
         }
@@ -681,15 +681,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 splitMessages.append(mes)
             }
         }
-        for m in (0..<splitMessages.count).reverse() {
+        for m in (0..<splitMessages.count).reversed() {
             let message = splitMessages[m]
-            let lc = SKSpriteNode(color: UIColor(hexString: "#BBBBBBCC"), size: CGSizeMake(w, h))
-            lc.position = CGPointMake(self.size.width / 2, y)
+            let lc = SKSpriteNode(color: UIColor(hexString: "#BBBBBBCC"), size: CGSize(width: w, height: h))
+            lc.position = CGPoint(x: self.size.width / 2, y: y)
             lc.zPosition = 1000
             let speakLabel = SKLabelNode(text: message)
-            speakLabel.fontColor = UIColor.blackColor()
+            speakLabel.fontColor = UIColor.black
             speakLabel.fontSize = h / 2
-            speakLabel.position = CGPointMake(0, -h/4)
+            speakLabel.position = CGPoint(x: 0, y: -h/4)
             speakLabel.zPosition = 1
             lc.addChild(speakLabel)
             self.addChild(lc)
@@ -698,8 +698,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 maxWidth = lc.size.width
             }
             
-            let action = SKAction.sequence([SKAction.moveByX(0, y: h/3, duration: 4.0), SKAction.removeFromParent()])
-            lc.runAction(action)
+            let action = SKAction.sequence([SKAction.moveBy(x: 0, y: h/3, duration: 4.0), SKAction.removeFromParent()])
+            lc.run(action)
             
             y = y + lc.size.height + 5
             toasts.append(lc)
@@ -710,7 +710,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, node:SKSpriteNode, adjustUp:Bool) {
+    func adjustLabelFontSizeToFitRect(_ labelNode:SKLabelNode, node:SKSpriteNode, adjustUp:Bool) {
         // Determine the font scaling factor that should let the label text fit in the given rectangle.
         let scalingFactor = min(node.size.width / labelNode.frame.width, (node.size.height / labelNode.frame.height)/2)
         // Change the fontSize.
@@ -720,7 +720,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func showStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
+    func showStars(_ rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
         self.starRect = rect
         self.starsInRect = starsInRect
         self.starCount = count
@@ -728,7 +728,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         self.starDelayCount = 0
     }
     
-    func showRedStars(rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
+    func showRedStars(_ rect:CGRect, starsInRect: Bool, count: Int, container:SKNode?) {
         self.redStarRect = rect
         self.redStarsInRect = starsInRect
         self.redStarCount = count
@@ -738,22 +738,22 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     
     func showLoadingDialog() {
         if loadingDialog == nil {
-            loadingDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(270, 350))
-            loadingDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
+            loadingDialog = SKSpriteNode(color: UIColor.white, size: CGSize(width: 270, height: 350))
+            loadingDialog?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             loadingDialog?.zPosition = 1000
             
             let logo = SKSpriteNode(imageNamed: "loading")
             let ratio2 = logo.size.height / logo.size.width
             logo.size.width = (loadingDialog?.size.width)! - 20
             logo.size.height = ((loadingDialog?.size.width)! - 20) * ratio2
-            logo.position = CGPointMake(10, ((loadingDialog?.size.height)! / -2) + logo.size.height)
+            logo.position = CGPoint(x: 10, y: ((loadingDialog?.size.height)! / -2) + logo.size.height)
             loadingDialog?.addChild(logo)
         
             let tree = SKSpriteNode(imageNamed: "growing_plant1")
             let ratio = tree.size.width / tree.size.height
             tree.size.height = (loadingDialog?.size.height)! / 1.8
             tree.size.width = tree.size.height * ratio
-            tree.position = CGPointMake(0, logo.position.y + logo.size.height + tree.size.height / 2)
+            tree.position = CGPoint(x: 0, y: logo.position.y + logo.size.height + tree.size.height / 2)
             
             let growing:[SKTexture] = [
                 SKTexture(imageNamed: "growing_plant2"),
@@ -765,22 +765,22 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 SKTexture(imageNamed: "growing_plant1")
             ]
             loadingDialog?.addChild(tree)
-            let action = SKAction.repeatActionForever(SKAction.animateWithTextures(growing, timePerFrame: 0.25, resize: false, restore: false))
-            tree.runAction(action)
+            let action = SKAction.repeatForever(SKAction.animate(with: growing, timePerFrame: 0.25, resize: false, restore: false))
+            tree.run(action)
             
             self.addChild(loadingDialog!)
         } else {
-            loadingDialog?.hidden = false
+            loadingDialog?.isHidden = false
         }
     }
     
     func hideLoadingDialog() {
         if loadingDialog != nil {
-            loadingDialog?.hidden = true
+            loadingDialog?.isHidden = true
         }
     }
     
-    func getTryCount(tryProperty:String) -> Int {
+    func getTryCount(_ tryProperty:String) -> Int {
         let tryCountStr = DataService.getInstance().dbHelper.getProperty(tryProperty)
         var tryCount = 1
         if tryCountStr != nil {
@@ -789,45 +789,45 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         return tryCount
     }
     
-    func showLockDialog(tryAvailable:Bool, tries:Int) {
+    func showLockDialog(_ tryAvailable:Bool, tries:Int) {
         self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
         
-        lockDialog = SKSpriteNode(color: UIColor.whiteColor(), size: CGSizeMake(350, 420))
-        lockDialog?.position = CGPointMake(self.size.width/2, self.size.height/2)
+        lockDialog = SKSpriteNode(color: UIColor.white, size: CGSize(width: 350, height: 420))
+        lockDialog?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         lockDialog?.zPosition = 1500
-        lockDialog?.userInteractionEnabled = true
+        lockDialog?.isUserInteractionEnabled = true
         
         let lock = SKSpriteNode(imageNamed: "lock")
         let ratio2 = lock.size.height / lock.size.width
         lock.size.width = lockDialog!.size.width * 0.65
         lock.size.height = lock.size.width * ratio2
-        lock.position = CGPointMake(0, lockDialog!.size.height - lock.size.height * 1.6)
+        lock.position = CGPoint(x: 0, y: lockDialog!.size.height - lock.size.height * 1.6)
         lockDialog?.addChild(lock)
         
         let backButton = LabelEventSprite(text: "< Back")
         backButton.topic = LittleFamilyScene.TOPIC_START_HOME
-        backButton.userInteractionEnabled = true
-        backButton.fontColor = UIColor.blueColor()
+        backButton.isUserInteractionEnabled = true
+        backButton.fontColor = UIColor.blue
         backButton.fontSize = lockDialog!.size.width / 14
-        backButton.position = CGPointMake(5 + backButton.frame.width / 2 - lockDialog!.size.width / 2, lockDialog!.size.height / 2 - backButton.frame.height - 5)
+        backButton.position = CGPoint(x: 5 + backButton.frame.width / 2 - lockDialog!.size.width / 2, y: lockDialog!.size.height / 2 - backButton.frame.height - 5)
         lockDialog?.addChild(backButton)
         
         let label = SKLabelNode(text: "This is a premium game.")
-        label.fontColor = UIColor.blackColor()
+        label.fontColor = UIColor.black
         label.fontSize = lockDialog!.size.width / 12
-        label.position = CGPointMake(0, lock.position.y - (lock.size.height/2 + label.fontSize))
+        label.position = CGPoint(x: 0, y: lock.position.y - (lock.size.height/2 + label.fontSize))
         lockDialog?.addChild(label)
         if (!tryAvailable) {
             let label2 = SKLabelNode(text: "Upgrade to play again.")
             label2.fontSize = lockDialog!.size.width / 12
-            label2.fontColor = UIColor.blackColor()
-            label2.position = CGPointMake(0, label.position.y - label2.fontSize)
+            label2.fontColor = UIColor.black
+            label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
             lockDialog?.addChild(label2)
             
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-            buyButton.userInteractionEnabled = true
-            buyButton.position = CGPointMake(0, label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
+            buyButton.isUserInteractionEnabled = true
+            buyButton.position = CGPoint(x: 0, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         } else {
             let label2 = SKLabelNode(text: "You have \(tries) tries left.")
@@ -835,20 +835,20 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 label2.text = "You have 1 try left."
             }
             label2.fontSize = lockDialog!.size.width / 12
-            label2.fontColor = UIColor.blackColor()
-            label2.position = CGPointMake(0, label.position.y - label2.fontSize)
+            label2.fontColor = UIColor.black
+            label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
             lockDialog?.addChild(label2)
             
             let tryButton = EventSprite(imageNamed: "tryButton")
             tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
-            tryButton.userInteractionEnabled = true
-            tryButton.position = CGPointMake(-tryButton.size.width / 2, label2.position.y - label2.frame.height / 2 - tryButton.size.height / 2)
+            tryButton.isUserInteractionEnabled = true
+            tryButton.position = CGPoint(x: -tryButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - tryButton.size.height / 2)
             lockDialog?.addChild(tryButton)
             
             let buyButton = EventSprite(imageNamed: "buyButton")
             buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-            buyButton.userInteractionEnabled = true
-            buyButton.position = CGPointMake(buyButton.size.width / 2, label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
+            buyButton.isUserInteractionEnabled = true
+            buyButton.position = CGPoint(x: buyButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
             lockDialog?.addChild(buyButton)
         }
 
@@ -873,11 +873,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func prepareDialogRect(width:CGFloat, height:CGFloat) -> CGRect {
+    func prepareDialogRect(_ width:CGFloat, height:CGFloat) -> CGRect {
         graybox = SKSpriteNode(color: UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.7), size: self.size)
-        graybox!.userInteractionEnabled = true
+        graybox!.isUserInteractionEnabled = true
         graybox!.zPosition = 100
-        graybox!.position = CGPointMake(self.size.width/2, self.size.height/2)
+        graybox!.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(graybox!)
         
         var w = width
@@ -912,7 +912,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         }
     }
     
-    func userHasPremium(onCompletion: (Bool) -> Void) {
+    func userHasPremium(_ onCompletion: @escaping (Bool) -> Void) {
         let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
         if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
@@ -920,7 +920,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             if username != nil {
                 if connectedToNetwork() {
                     let ref = FIRDatabase.database().reference()
-                    ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    ref.child("users").child(serviceType!).child(username!).observeSingleEvent(of: .value, with: { (snap) in
                         print(snap)
                         // Get user value
                         if snap.exists() && snap.hasChild("iosPremium") {
@@ -954,7 +954,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     var iapHelper:IAPHelper?
-    func onProductsReady(productsArray: [SKProduct]) {
+    func onProductsReady(_ productsArray: [SKProduct]) {
         iapHelper!.buyProduct(0)
         buyError = false
     }
@@ -963,7 +963,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
         hideLoadingDialog()
     }
-    func onError(error:String) {
+    func onError(_ error:String) {
         print(error)
         hideLoadingDialog()
         buyError = true
@@ -981,11 +981,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     func connectedToNetwork() -> Bool {
         
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
         
-        guard let defaultRouteReachability = withUnsafePointer(&zeroAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
         }) else {
             return false
         }
@@ -995,8 +997,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             return false
         }
         
-        let isReachable = flags.contains(.Reachable)
-        let needsConnection = flags.contains(.ConnectionRequired)
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
         
         return (isReachable && !needsConnection)
     }

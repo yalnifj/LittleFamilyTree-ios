@@ -25,12 +25,12 @@ class PlaceHelper {
 	static var synonyms = ["holland":"Netherlands", "prussia":"Germany", "eng":"England", "great britain":"England", "gb":"England", 
 					"northern ireland":"Ireland" ]
     
-	static func countPlaceLevels(place:String) -> Int {
+	static func countPlaceLevels(_ place:String) -> Int {
 		let parts = place.split("[ ,]+")
 		return parts.count
 	}
     
-    static func getTopPlace(place:String?) -> String? {
+    static func getTopPlace(_ place:String?) -> String? {
         if place == nil {
             return nil
         }
@@ -38,7 +38,7 @@ class PlaceHelper {
         return parts[parts.count-1].trim().replaceAll("[<>\\[\\]\\(\\)\\.\"]+", replace: "")
     }
     
-    static func getTopPlace(place:String?, level:Int) -> String? {
+    static func getTopPlace(_ place:String?, level:Int) -> String? {
         if place == nil {
             return nil
         }
@@ -49,8 +49,8 @@ class PlaceHelper {
         return parts[parts.count - 1].trim().replaceAll("[<>\\[\\]\\(\\)\\.\"]+", replace: "");
     }
     
-    static func isInUS(place:String) -> Bool {
-        var tempPlace = place.lowercaseString
+    static func isInUS(_ place:String) -> Bool {
+        var tempPlace = place.lowercased()
         tempPlace = tempPlace.replaceAll("territory", replace: "").replaceAll("nation", replace: "").trim()
         if (tempPlace == "united states") {
             return true;
@@ -60,52 +60,52 @@ class PlaceHelper {
         if (tempPlace == "usa") { return true; }
 		if (tempPlace == "new england") { return true }
         if (tempPlace == "american colonies") { return true }
-        var i = usStates.indexOf(tempPlace)
+        var i = usStates.index(of: tempPlace)
         if (i != nil) { return true; }
-        i = abbvStates.indexOf(tempPlace);
+        i = abbvStates.index(of: tempPlace);
         if (i != nil) { return true; }
         let parts = tempPlace.split(" ");
         if (parts.count == 1) { return false; }
         for p in parts {
-            i = usStates.indexOf(p);
+            i = usStates.index(of: p);
             if (i != nil) { return true; }
-            i = abbvStates.indexOf(p);
+            i = abbvStates.index(of: p);
             if (i != nil) { return true; }
         }
         return false;
     }
 	
-    static func getPlaceCountry(p:String?) -> String {
+    static func getPlaceCountry(_ p:String?) -> String {
         var place = PlaceHelper.getTopPlace(p);
         if (place == nil) {
             return UNKNOWN
         }
 		
-		if (place!.caseInsensitiveCompare("United States") != NSComparisonResult.OrderedSame
+		if (place!.caseInsensitiveCompare("United States") != ComparisonResult.orderedSame
             && PlaceHelper.isInUS(place!)) {
                 return "United States"
         }
 		
-        if (place!.caseInsensitiveCompare("United Kingdom") == NSComparisonResult.OrderedSame) {
+        if (place!.caseInsensitiveCompare("United Kingdom") == ComparisonResult.orderedSame) {
             place = getTopPlace(p, level: 2);
         }
         
-        if (canadaStates.indexOf(place!.lowercaseString) != nil) {
+        if (canadaStates.index(of: place!.lowercased()) != nil) {
             return "Canada"
         }
 		
-		if (place!.lowercaseString.hasSuffix("england")) {
+		if (place!.lowercased().hasSuffix("england")) {
             return "England"
         }
 		
-		if synonyms[place!.lowercaseString] != nil {
-			place = synonyms[place!.lowercaseString]
+		if synonyms[place!.lowercased()] != nil {
+			place = synonyms[place!.lowercased()]
 		}
 		
         return place!
     }
 	
-	static func getPersonCountry(person:LittlePerson) -> String {
+	static func getPersonCountry(_ person:LittlePerson) -> String {
 		var place = PlaceHelper.getPlaceCountry(person.birthPlace as String?);
         //-- sometimes people use nationality as a note, try to ignore those
         if (person.nationality != nil && person.nationality!.length < 80) {

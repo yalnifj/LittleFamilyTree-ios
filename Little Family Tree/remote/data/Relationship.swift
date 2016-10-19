@@ -7,15 +7,15 @@ class Relationship : Subject {
 	var facts = [Fact]()
 	var fields = [Field]()
 	
-	static func convertJsonToRelationships(json:JSON) -> [Relationship] {
+	static func convertJsonToRelationships(_ json:JSON) -> [Relationship] {
 		var relationships = [Relationship]()
 		
-        if json["relationships"] != nil {
+        if json["relationships"] != JSON.null {
             for rson:JSON in json["relationships"].array! {
                 let rel = Relationship()
-                rel.id = rson["id"].description
+                rel.id = rson["id"].description as NSString?
                 rel.addLinksFromJson(rson)
-                rel.type = rson["type"].description
+                rel.type = rson["type"].description as NSString?
                 rel.person1 = ResourceReference.convertJsonToResourceReference(rson["person1"])
                 rel.person2 = ResourceReference.convertJsonToResourceReference(rson["person2"])
                 rel.addIdentifiersFromJson(rson)
