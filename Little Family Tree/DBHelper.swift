@@ -197,8 +197,9 @@ class DBHelper {
         let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 		let serviceType = self.getProperty(DataService.SERVICE_TYPE)
         if username != nil {
+            let encodedUsername = username!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             let ref = FIRDatabase.database().reference()
-            ref.child("users").child(serviceType!).child(username!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            ref.child("users").child(serviceType!).child(encodedUsername!).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 print(snap)
                 // Get user value
                 if snap.exists() {
@@ -206,15 +207,15 @@ class DBHelper {
                     let platforms = vals["platforms"] as! NSArray
                     if !platforms.containsObject("ios") {
                         let plats = platforms.arrayByAddingObject("ios")
-                        ref.child("users/\(serviceType!)/\(username!)/platforms").setValue(plats)
+                        ref.child("users/\(serviceType!)/\(encodedUsername!)/platforms").setValue(plats)
                     }
                     if hasPremium {
-                        ref.child("users/\(serviceType!)/\(username!)/iosPremium").setValue(hasPremium)
+                        ref.child("users/\(serviceType!)/\(encodedUsername!)/iosPremium").setValue(hasPremium)
                     }
                     
                 } else {
                     let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium ]
-                    ref.child("users").child(serviceType!).child(username!).setValue(user as AnyObject)
+                    ref.child("users").child(serviceType!).child(encodedUsername!).setValue(user as AnyObject)
                 }
             })
             

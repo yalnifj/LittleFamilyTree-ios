@@ -428,20 +428,56 @@ class MyHeritageService: RemoteService {
     
     func downloadImage(uri: NSString, folderName: NSString, fileName: NSString, onCompletion: StringResponse) {
         if sessionId != nil {
+            let request = NSMutableURLRequest(URL: NSURL(string: uri as String)!)
+            
+            let session = NSURLSession.sharedSession()
+            var headers = [String: String]()
+            headers["Authorization"] = "Bearer \(familyGraph!.accessToken!)"
+            
+            // Set the headers
+            for(field, value) in headers {
+                request.setValue(value, forHTTPHeaderField: field);
+            }
+            
+            let task = session.dataTaskWithRequest(request, completionHandler: {(data: NSData?,  response: NSURLResponse?, error: NSError?) -> Void in
+                let fileManager = NSFileManager.defaultManager()
+                let url = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+                if data != nil && UIImage(data: data!) != nil {
+                    do {
+                        let folderUrl = url.URLByAppendingPathComponent(folderName as String)
+                        if !fileManager.fileExistsAtPath(folderUrl!.path!) {
+                            try fileManager.createDirectoryAtURL(folderUrl!, withIntermediateDirectories: true, attributes: nil)
+                        }
+                        
+                        let imagePath = folderUrl!.URLByAppendingPathComponent(fileName as String)
+                        if data!.writeToURL(imagePath!, atomically: true) {
+                            let returnPath = "\(folderName)/\(fileName)"
+                            onCompletion(returnPath, error)
+                        } else {
+                            onCompletion(nil, error)
+                        }
+                        return;
+                    } catch {
+                        onCompletion(nil, NSError(domain: "MyHeritageService", code: 500, userInfo: ["message":"Unable to download and save image"]))
+                        return;
+                    }
+                } else {
+                    onCompletion(nil, NSError(domain: "MyHeritageService", code: 500, userInfo: ["message":"Unable to download and save image"]))
+                }
+            })
+            task.resume()
+
 		} else {
 			onCompletion(nil, NSError(domain: "MyHeritageService", code: 401, userInfo: ["message":"Not authenticated"]))
 		}
     }
     
     func getPersonUrl(personId: NSString) -> NSString {
-        var url = "http://www.myheritage.com"
-        self.getPerson(personId, ignoreCache: false, onCompletion: {person, err in
-        })
+        let url = "http://www.myheritage.com/\(personId)"
         return url
     }
     
     func getData(path:String, onCompletion:(AnyObject?, NSError?) -> Void) {
-        
         
         familyGraph.requestWithGraphPath(path, andDelegate: GetDataDelegate(onCompletion: onCompletion))
     }
