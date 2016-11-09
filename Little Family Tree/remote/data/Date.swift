@@ -1,8 +1,8 @@
 import Foundation
 
 class Date {
-  var original:NSString?
-  var formal:NSString?
+  var original:String?
+  var formal:String?
   var normalized = [TextValue]()
   var fields = [Field]()
   

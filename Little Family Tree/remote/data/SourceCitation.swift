@@ -1,8 +1,8 @@
 import Foundation
 
 class SourceCitation : HypermediaEnabledData {
-	var lang:NSString?
-	var value:NSString?
+	var lang:String?
+	var value:String?
 	var citationTemplate:ResourceReference?
 	var fields = [CitationField]()
 }

@@ -1,6 +1,6 @@
 import Foundation 
 
 class ExtensibleData {
-	var id:NSString?
+	var id:String?
 	var extensionElements = [NSObject]()
 }

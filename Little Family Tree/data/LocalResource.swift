@@ -3,8 +3,8 @@ import Foundation
 class LocalResource : NSObject {
 	var id : Int64!
 	var personId: Int64!
-	var localPath : NSString?
-	var type : NSString?
+	var localPath : String?
+	var type : String?
     
     override func isEqual(_ object: Any?) -> Bool {
         if let media = object as? LocalResource {

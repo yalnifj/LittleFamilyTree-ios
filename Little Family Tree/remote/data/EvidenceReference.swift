@@ -1,7 +1,7 @@
 import Foundation
 
 class EvidenceReference {
-	var resource:NSString?
-	var resourceId:NSString?
+	var resource:String?
+	var resourceId:String?
 	var attribution:Attribution?
 }

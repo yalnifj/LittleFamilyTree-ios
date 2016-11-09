@@ -36,7 +36,7 @@ class MyHeritageLogin: UIView, StatusListener {
         
         
         service = MyHeritageService()
-        dataService.serviceType = DataService.SERVICE_TYPE_MYHERITAGE as NSString?
+        dataService.serviceType = DataService.SERVICE_TYPE_MYHERITAGE
         dataService.remoteService = service
     }
     

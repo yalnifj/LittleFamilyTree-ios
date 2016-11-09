@@ -1,14 +1,14 @@
 import Foundation
 
 class Field {
-	var label:NSString?
-	var type:NSString?
+	var label:String?
+	var type:String?
 	var values = [FieldValue]()
 	
 	static func convertJsonToField(_ json:JSON) -> Field {
 		let field = Field()
-		field.label = json["label"].description as NSString?
-		field.type = json["type"].description as NSString?
+		field.label = json["label"].description
+		field.type = json["type"].description
 		if json["values"] != JSON.null {
 			for val in json["values"].array! {
 				field.values.append(FieldValue.convertJsonToFieldValue(val))

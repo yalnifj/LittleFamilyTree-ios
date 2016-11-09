@@ -1,8 +1,8 @@
 import Foundation
 
 class Note {
-	var lang:NSString?
-	var subject:NSString?
-	var text:NSString?
+	var lang:String?
+	var subject:String?
+	var text:String?
 	var attribution:Attribution?
 }

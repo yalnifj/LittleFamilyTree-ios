@@ -5,15 +5,15 @@ class HypermediaEnabledData : ExtensibleData {
 	
 	func addLink(_ rel:String, href:String) {
 		let link = Link()
-		link.rel = rel as NSString?
-		link.href = href as NSString?
+		link.rel = rel
+		link.href = href
 		links.append(link)
 	}
 	
 	func addLinksFromJson(_ json:JSON) {
 		if json["links"] != JSON.null && json["links"].count > 0 {
 			for (rel, lson) in json["links"] {
-				let link = Link.convertJsonToLink(rel as NSString, lson: lson);
+				let link = Link.convertJsonToLink(rel, lson: lson);
 				self.links.append(link)
 			}
 		}

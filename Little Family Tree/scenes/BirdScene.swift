@@ -203,21 +203,21 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		if family.count > 0 {
 			var leaves = [[Float]]()
             if portrait {
-                leaves.append([0.86, 1.37, 45*0.0174])
-                leaves.append([1.05, 1.37, -55*0.01745])
-                leaves.append([0.86, 1.27, 40*0.0174])
-                leaves.append([1.06, 1.26, -35*0.0174])
-                leaves.append([0.86, 1.12, 75*0.0174])
-                leaves.append([1.085, 1.11, -60*0.0174])
-                leaves.append([1.085, 0.95, -90*0.0174])
+                leaves.append([0.86, 1.37, Float(45.0 * 0.0174)])
+                leaves.append([1.05, 1.37, Float(-55.0 * 0.01745)])
+                leaves.append([0.86, 1.27, Float(40.0 * 0.0174)])
+                leaves.append([1.06, 1.26, Float(-35.0 * 0.0174)])
+                leaves.append([0.86, 1.12, Float(75.0 * 0.0174)])
+                leaves.append([1.085, 1.11, Float(-60.0 * 0.0174)])
+                leaves.append([1.085, 0.95, Float(-90.0 * 0.0174)])
             } else {
-                leaves.append([0.94, 1.47, 45*0.0174])
-                leaves.append([1.05, 1.47, -55*0.01745])
-                leaves.append([0.94, 1.37, 40*0.0174])
-                leaves.append([1.05, 1.36, -35*0.0174])
-                leaves.append([0.93, 1.22, 75*0.0174])
-                leaves.append([1.05, 1.21, -60*0.0174])
-                leaves.append([1.065, 0.95, -90*0.0174])
+                leaves.append([0.94, 1.47, Float(45.0 * 0.0174)])
+                leaves.append([1.05, 1.47, Float(-55.0 * 0.01745)])
+                leaves.append([0.94, 1.37, Float(40.0 * 0.0174)])
+                leaves.append([1.05, 1.36, Float(-35.0 * 0.0174)])
+                leaves.append([0.93, 1.22, Float(75.0 * 0.0174)])
+                leaves.append([1.05, 1.21, Float(-60.0 * 0.0174)])
+                leaves.append([1.065, 0.95, Float(-90.0 * 0.0174)])
             }
 			
 			var p = 0
@@ -247,15 +247,15 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 			
 			var smallleaves = [[Float]]()
             if portrait {
-				smallleaves.append([0.44, 1.108, 45*0.0174])
-				smallleaves.append([0.55, 1.102, -55*0.0174])
-				smallleaves.append([0.34, 1.0, 15*0.0174])
-				smallleaves.append([0.45, 0.99, -15*0.0174])
+				smallleaves.append([0.44, 1.108, Float(45.0 * 0.0174)])
+				smallleaves.append([0.55, 1.102, Float(-55.0 * 0.0174)])
+				smallleaves.append([0.34, 1.0, Float(15.0 * 0.0174)])
+				smallleaves.append([0.45, 0.99, Float(-15.0 * 0.0174)])
             } else {
-                smallleaves.append([0.65, 1.108, 45*0.0174])
-                smallleaves.append([0.71, 1.102, -55*0.0174])
-                smallleaves.append([0.57, 1.0, 15*0.0174])
-                smallleaves.append([0.65, 0.98, -15*0.0174])
+                smallleaves.append([0.65, 1.108, Float(45.0 * 0.0174)])
+                smallleaves.append([0.71, 1.102, Float(-55.0 * 0.0174)])
+                smallleaves.append([0.57, 1.0, Float(15.0 * 0.0174)])
+                smallleaves.append([0.65, 0.98, Float(-15.0 * 0.0174)])
             }
 			
 			for f in 0..<smallleaves.count {

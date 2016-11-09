@@ -1,19 +1,19 @@
 import Foundation
 
 class Link {
-	var rel : NSString?
-	var href : NSString?
-	var template : NSString?
-	var type :NSString?
-	var accept : NSString?
-	var allow : NSString?
-	var hreflang : NSString?
-	var title : NSString?
+	var rel : String?
+	var href : String?
+	var template : String?
+	var type :String?
+	var accept : String?
+	var allow : String?
+	var hreflang : String?
+	var title : String?
 	
-	static func convertJsonToLink(_ rel : NSString, lson : JSON) -> Link {
+	static func convertJsonToLink(_ rel : String, lson : JSON) -> Link {
 		let link = Link()
 		link.rel = rel
-		link.href = lson["href"].description as NSString?
+		link.href = lson["href"].description
 		return link
 	}
 }

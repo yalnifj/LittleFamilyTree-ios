@@ -2,19 +2,19 @@ import Foundation
 
 class LittlePerson : NSObject {
 	var id : Int64?
-	var name : NSString?
-	var givenName : NSString?
+	var name : String?
+	var givenName : String?
 	var gender : GenderType?
-	var relationship : NSString?
-	var familySearchId : NSString?
-	var photoPath : NSString?
+	var relationship : String?
+	var familySearchId : String?
+	var photoPath : String?
 	var birthDate : Foundation.Date?
-	var birthPlace : NSString?
+	var birthPlace : String?
 	var age : Int?
 	var alive : Bool?
 	var lastSync : Foundation.Date?
 	var active : Bool = true;
-	var nationality : NSString?
+	var nationality : String?
 	
 	var hasParents : Bool?
 	var hasChildren : Bool?
@@ -22,9 +22,9 @@ class LittlePerson : NSObject {
 	var hasMedia : Bool?
 	var treeLevel : Int?
 	
-	var occupation: NSString?
+	var occupation: String?
     
-    var givenNameAudioPath: NSString?
+    var givenNameAudioPath: String?
 	
 	func updateAge() {
 		if (birthDate != nil) {

@@ -1,7 +1,7 @@
 import Foundation
 
 class SourceReference : HypermediaEnabledData {
-	var descriptionRef:NSString?
+	var descriptionRef:String?
 	var attribution:Attribution?
 	var qualifiers = [Qualifier]()
 	
@@ -13,7 +13,7 @@ class SourceReference : HypermediaEnabledData {
 	
 	static func convertJsonToSourceReference(_ json:JSON) -> SourceReference {
 		let source = SourceReference()
-		source.id = json["id"].description as NSString?
+		source.id = json["id"].description
 		source.addLinksFromJson(json)
 		source.addAttributionFromJson(json)
 		if json["qualifiers"] != JSON.null {

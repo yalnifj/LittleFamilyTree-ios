@@ -273,7 +273,7 @@ class DBHelper {
 	
 	func persistLittlePerson(_ person:LittlePerson) throws {
 		if person.id == nil || person.id == 0 {
-			let existing = self.getPersonByFamilySearchId(person.familySearchId as! String)
+			let existing = self.getPersonByFamilySearchId(person.familySearchId!)
 			if existing != nil {
 				person.id = existing!.id
 			}
@@ -295,12 +295,12 @@ class DBHelper {
 				COL_PHOTO_PATH <- (person.photoPath as String?),
 				COL_AGE <- person.age,
 				COL_BIRTH_DATE <- person.birthDate,
-				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
+				COL_FAMILY_SEARCH_ID <- person.familySearchId!,
 				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- (person.birthPlace as String?),
-				COL_NATIONALITY <- (person.nationality as String?),
+				COL_BIRTH_PLACE <- (person.birthPlace),
+				COL_NATIONALITY <- (person.nationality),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
@@ -318,18 +318,18 @@ class DBHelper {
 				COL_PHOTO_PATH <- (person.photoPath as String?),
 				COL_AGE <- person.age,
 				COL_BIRTH_DATE <- person.birthDate,
-				COL_FAMILY_SEARCH_ID <- (person.familySearchId as! String),
+				COL_FAMILY_SEARCH_ID <- (person.familySearchId!),
 				COL_LAST_SYNC <- person.lastSync,
 				COL_ALIVE <- person.alive,
 				COL_ACTIVE <- person.active,
-				COL_BIRTH_PLACE <- (person.birthPlace as String?),
-				COL_NATIONALITY <- (person.nationality as String?),
+				COL_BIRTH_PLACE <- (person.birthPlace),
+				COL_NATIONALITY <- (person.nationality),
 				COL_HAS_PARENTS <- person.hasParents,
 				COL_HAS_CHILDREN <- person.hasChildren,
 				COL_HAS_SPOUSES <- person.hasSpouses,
 				COL_HAS_MEDIA <- person.hasMedia,
 				COL_TREE_LEVEL <- person.treeLevel,
-				COL_OCCUPATION <- (person.occupation as String?)
+				COL_OCCUPATION <- (person.occupation)
 			))
 			person.id = rowid
             print("Inserted new little person \(person.id!) \(person.name)")
@@ -450,9 +450,9 @@ class DBHelper {
                 let birthDate = formatter.date(from: parts[0])
                 person!.birthDate = birthDate
             }
-            if c[2] != nil { person!.birthPlace = (c[2] as! NSString) }
-            if c[3] != nil { person!.nationality = (c[3] as! NSString?) }
-            if c[4] != nil { person!.familySearchId = (c[4] as! NSString) }
+            if c[2] != nil { person!.birthPlace = (c[2] as! String?) }
+            if c[3] != nil { person!.nationality = (c[3] as! String?) }
+            if c[4] != nil { person!.familySearchId = (c[4] as! String?) }
             let gender = (c[5] as? String?)
             
             if gender != nil {
@@ -467,9 +467,9 @@ class DBHelper {
                 }
             }
             person!.age = Int(c[6] as! Int64)
-            if c[7] != nil { person!.givenName = (c[7] as! NSString?) }
-            if c[8] != nil { person!.name = (c[8] as! NSString?) }
-            if c[9] != nil { person!.photoPath = (c[9] as! NSString?) }
+            if c[7] != nil { person!.givenName = (c[7] as! String?) }
+            if c[8] != nil { person!.name = (c[8] as! String?) }
+            if c[9] != nil { person!.photoPath = (c[9] as! String?) }
             if c[10] != nil {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
@@ -485,8 +485,8 @@ class DBHelper {
             if c[15] != nil { person!.hasSpouses = (c[15] as! Int64 == 1) }
             if c[16] != nil { person!.hasMedia = (c[16] as! Int64 == 1) }
             if c[17] != nil { person!.treeLevel = Int(c[17] as! Int64) }
-			if c[18] != nil { person!.occupation = (c[18] as! NSString?) }
-			if c[19] != nil { person!.givenNameAudioPath = (c[19] as! NSString?) }
+			if c[18] != nil { person!.occupation = (c[18] as! String?) }
+			if c[19] != nil { person!.givenNameAudioPath = (c[19] as! String?) }
             person!.updateAge()
 
 		}
@@ -514,9 +514,9 @@ class DBHelper {
                 let birthDate = formatter.date(from: parts[0])
                 person.birthDate = birthDate
             }
-            if c[2] != nil { person.birthPlace = (c[2] as! NSString) }
-            if c[3] != nil { person.nationality = (c[3] as! NSString?) }
-            if c[4] != nil { person.familySearchId = (c[4] as! NSString) }
+            if c[2] != nil { person.birthPlace = (c[2] as! String) }
+            if c[3] != nil { person.nationality = (c[3] as! String?) }
+            if c[4] != nil { person.familySearchId = (c[4] as! String) }
             let gender = (c[5] as? String?)
             
             if gender != nil {
@@ -531,14 +531,14 @@ class DBHelper {
                 }
             }
             person.age = Int(c[6] as! Int64)
-            if c[7] != nil { person.givenName = (c[7] as! NSString?) }
-            if c[8] != nil { person.name = (c[8] as! NSString?) }
-            if c[9] != nil { person.photoPath = (c[9] as! NSString?) }
+            if c[7] != nil { person.givenName = (c[7] as! String?) }
+            if c[8] != nil { person.name = (c[8] as! String?) }
+            if c[9] != nil { person.photoPath = (c[9] as! String?) }
             if c[10] != nil {
-                let formatter = NSDateFormatter()
+                let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy-MM-ddTHH:mm:ss"
                 let parts = (c[10] as! String).split(".")
-                let syncDate = formatter.dateFromString(parts[0])
+                let syncDate = formatter.date(from: parts[0])
                 person.lastSync = syncDate
             }
             
@@ -549,8 +549,8 @@ class DBHelper {
             if c[15] != nil { person.hasSpouses = (c[15] as! Int64 == 1) }
             if c[16] != nil { person.hasMedia = (c[16] as! Int64 == 1) }
             if c[17] != nil { person.treeLevel = Int(c[17] as! Int64) }
-			if c[18] != nil { person.occupation = (c[18] as! NSString?) }
-			if c[19] != nil { person.givenNameAudioPath = (c[19] as! NSString?) }
+			if c[18] != nil { person.occupation = (c[18] as! String?) }
+			if c[19] != nil { person.givenNameAudioPath = (c[19] as! String?) }
             person.updateAge()
 			people.append(person)
 		}
@@ -585,7 +585,7 @@ class DBHelper {
 	func getParentsForPerson(_ id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(.leftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1])
-			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.filter(TABLE_RELATIONSHIP[COL_ID2] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.parentchild.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
         do {
@@ -604,7 +604,7 @@ class DBHelper {
 	func getChildrenForPerson(_ id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(.leftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.PARENTCHILD.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.filter(TABLE_RELATIONSHIP[COL_ID1] == id && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.parentchild.hashValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
         do {
@@ -623,7 +623,7 @@ class DBHelper {
 	func getSpousesForPerson(_ id:Int64) -> [LittlePerson]? {
 		let query = TABLE_LITTLE_PERSON.join(.leftOuter, TABLE_LOCAL_RESOURCES, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_LOCAL_RESOURCES[COL_PERSON_ID])
 			.join(TABLE_RELATIONSHIP, on: TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID1] || TABLE_LITTLE_PERSON[COL_ID] == TABLE_RELATIONSHIP[COL_ID2])
-			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.SPOUSE.rawValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
+			.filter((TABLE_RELATIONSHIP[COL_ID1] == id || TABLE_RELATIONSHIP[COL_ID2] == id) && TABLE_RELATIONSHIP[COL_TYPE] == RelationshipType.spouse.rawValue && TABLE_LITTLE_PERSON[COL_ACTIVE])
 
 		var persons = [LittlePerson]()
         do {
@@ -647,12 +647,12 @@ class DBHelper {
             person.birthDate = c[COL_BIRTH_DATE]
         }
         if c[COL_BIRTH_PLACE] != nil {
-            person.birthPlace = NSString(utf8String: c[COL_BIRTH_PLACE]!)
+            person.birthPlace = c[COL_BIRTH_PLACE] as String?
         }
         if c[COL_NATIONALITY] != nil {
-            person.nationality = NSString(utf8String: c[COL_NATIONALITY]!)
+            person.nationality = c[COL_NATIONALITY] as String?
         }
-        person.familySearchId = NSString(utf8String: c[COL_FAMILY_SEARCH_ID])
+        person.familySearchId = c[COL_FAMILY_SEARCH_ID] as String
         if c[COL_GENDER] != nil {
             if c[COL_GENDER] == "M" {
                 person.gender = GenderType.male
@@ -665,10 +665,10 @@ class DBHelper {
             }
         }
         if c[COL_AGE] != nil { person.age = c[COL_AGE]! }
-        if c[COL_GIVEN_NAME] != nil { person.givenName = NSString(utf8String: c[COL_GIVEN_NAME]!) }
-        if c[COL_NAME] != nil { person.name = NSString(utf8String: c[COL_NAME]!) }
+        if c[COL_GIVEN_NAME] != nil { person.givenName = c[COL_GIVEN_NAME]! as String }
+        if c[COL_NAME] != nil { person.name = c[COL_NAME]! as String }
         if c[COL_PHOTO_PATH] != nil {
-            person.photoPath = NSString(utf8String: c[COL_PHOTO_PATH]!)
+            person.photoPath = c[COL_PHOTO_PATH]! as String
         }
         if c[COL_LAST_SYNC] != nil {
             person.lastSync = c[COL_LAST_SYNC]
@@ -682,8 +682,8 @@ class DBHelper {
         person.hasSpouses = c[COL_HAS_SPOUSES]
         person.hasMedia = c[COL_HAS_MEDIA]
         person.treeLevel = c[COL_TREE_LEVEL]
-		person.occupation = c[COL_OCCUPATION] as NSString?
-		person.givenNameAudioPath = c[TABLE_LOCAL_RESOURCES[COL_LOCAL_PATH]] as NSString?
+		person.occupation = c[COL_OCCUPATION] as String?
+		person.givenNameAudioPath = c[TABLE_LOCAL_RESOURCES[COL_LOCAL_PATH]] as String?
         person.updateAge()
 
         return person
@@ -765,13 +765,13 @@ class DBHelper {
 	
 	func persistMedia(_ media:Media) {
 		if media.id == nil || media.id == 0 {
-			let existing = getMediaByFamilySearchId(media.familySearchId as! String)
+			let existing = getMediaByFamilySearchId(media.familySearchId!)
 			if existing != nil {
 				media.id = existing!.id
 			} else {
                 do {
 				let rowid = try lftdb?.run(self.TABLE_MEDIA.insert(
-					self.COL_FAMILY_SEARCH_ID <- (media.familySearchId as! String),
+					self.COL_FAMILY_SEARCH_ID <- (media.familySearchId!),
 					self.COL_MEDIA_TYPE <- (media.type as String?),
 					self.COL_LOCAL_PATH <- (media.localPath as String?)
 				))
@@ -785,7 +785,7 @@ class DBHelper {
             let mediaRow = TABLE_MEDIA.filter(COL_ID == media.id)
             do {
             try lftdb?.run(mediaRow.update(
-                COL_FAMILY_SEARCH_ID <- (media.familySearchId as! String),
+                COL_FAMILY_SEARCH_ID <- (media.familySearchId!),
                 COL_MEDIA_TYPE <- (media.type as String?),
                 COL_LOCAL_PATH <- (media.localPath as String?)
             ))
@@ -803,9 +803,9 @@ class DBHelper {
             for m in stmt! {
                 media = Media()
                 media?.id = m[COL_ID]
-                media?.familySearchId = m[COL_FAMILY_SEARCH_ID] as NSString?
-                media?.type = m[COL_MEDIA_TYPE] as NSString?
-                media?.localPath = m[COL_LOCAL_PATH] as NSString?
+                media?.familySearchId = m[COL_FAMILY_SEARCH_ID]
+                media?.type = m[COL_MEDIA_TYPE]
+                media?.localPath = m[COL_LOCAL_PATH]
             }
         } catch {
             print("Error getting media by fsid \(fsid)")
@@ -822,9 +822,9 @@ class DBHelper {
             for m in stmt! {
                 let med = Media()
                 med.id = m[TABLE_MEDIA[COL_ID]]
-                med.familySearchId = m[COL_FAMILY_SEARCH_ID] as NSString?
-                med.type = m[COL_MEDIA_TYPE] as NSString?
-                med.localPath = m[COL_LOCAL_PATH] as NSString?
+                med.familySearchId = m[COL_FAMILY_SEARCH_ID]
+                med.type = m[COL_MEDIA_TYPE]
+                med.localPath = m[COL_LOCAL_PATH]
                 media.append(med)
             }
         } catch {
@@ -946,8 +946,8 @@ class DBHelper {
                 lr = LocalResource()
                 lr!.id = t[COL_ID]
                 lr!.personId = t[COL_PERSON_ID]!
-                lr!.type = t[COL_MEDIA_TYPE] as NSString?
-                lr!.localPath = t[COL_LOCAL_PATH] as NSString?
+                lr!.type = t[COL_MEDIA_TYPE]
+                lr!.localPath = t[COL_LOCAL_PATH]
             }
         } catch {
             print("Error getting local resource for person \(personId) \(type)")
@@ -963,8 +963,8 @@ class DBHelper {
             for m in stmt! {
                 let med = LocalResource()
                 med.id = m[COL_ID]
-                med.type = m[COL_MEDIA_TYPE] as NSString?
-                med.localPath = m[COL_LOCAL_PATH] as NSString?
+                med.type = m[COL_MEDIA_TYPE]
+                med.localPath = m[COL_LOCAL_PATH]
                 media.append(med)
             }
         } catch {

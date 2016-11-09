@@ -108,7 +108,7 @@ class PlaceHelper {
 	static func getPersonCountry(_ person:LittlePerson) -> String {
 		var place = PlaceHelper.getPlaceCountry(person.birthPlace as String?);
         //-- sometimes people use nationality as a note, try to ignore those
-        if (person.nationality != nil && person.nationality!.length < 80) {
+        if (person.nationality != nil && person.nationality!.lengthOfBytes(using: String.Encoding.utf8) < 80) {
 			place = person.nationality! as String
 		}
 		return place

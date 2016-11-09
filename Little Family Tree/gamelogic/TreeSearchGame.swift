@@ -164,7 +164,7 @@ class NameTreeClue : TreeClue {
         if (person == targetPerson) {
             return true
         }
-        if person.givenName?.lowercased == targetPerson.givenName?.lowercased {
+        if person.givenName?.lowercased() == targetPerson.givenName?.lowercased() {
             return true
         }
 		return false
@@ -182,7 +182,7 @@ class FullNameTreeClue : TreeClue {
         if (person == targetPerson) {
             return true
         }
-        if person.name?.lowercased == targetPerson.name?.lowercased {
+        if person.name?.lowercased() == targetPerson.name?.lowercased() {
             return true
         }
 		return false

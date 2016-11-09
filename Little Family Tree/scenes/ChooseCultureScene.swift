@@ -236,7 +236,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     func speakDetails(_ relative:LittlePerson) {
         let relationship = RelationshipCalculator.getAncestralRelationship(selectedPath!.treePath.count, p: relative, me: selectedPerson!, isRoot: false, isChild: false, isInLaw: false);
         
-        relative.relationship = relationship as NSString?
+        relative.relationship = relationship
         let percString = String(format: "%.1f", selectedPath!.percent*100)
         var text = "You are \(percString) percent from \(selectedPath!.place) from your \(relationship). "
         if (relative.birthDate != nil) {

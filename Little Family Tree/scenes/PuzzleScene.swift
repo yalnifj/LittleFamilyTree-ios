@@ -264,7 +264,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             self.showStars((self.hintSprite?.frame)!, starsInRect: false, count: Int(self.size.width / CGFloat(40)), container: self)
             self.playSuccessSound(1.0, onCompletion: {
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
-                self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
+                self.showFakeToasts([self.randomMediaChooser.selectedPerson!.name!, relationship])
                 
                 self.sayGivenName(self.randomMediaChooser.selectedPerson!)
                 let waitAction = SKAction.wait(forDuration: 2.5)

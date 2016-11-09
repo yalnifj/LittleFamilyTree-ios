@@ -9,8 +9,8 @@
 import Foundation
 
 class MyHeritageService: RemoteService {
-    
-    var sessionId: NSString?
+
+    var sessionId: String?
     
     var familyGraph:FamilyGraph!
     var clientId = "0d9d29c39d0ded7bd6a9e334e5f673a7"
@@ -29,7 +29,7 @@ class MyHeritageService: RemoteService {
     }
     
     internal func authenticate(_ username: String, password: String, onCompletion: @escaping StringResponse) {
-        sessionId = familyGraph.accessToken as NSString?
+        sessionId = familyGraph.accessToken as String?
         onCompletion(sessionId, nil)
     }
     
@@ -57,7 +57,7 @@ class MyHeritageService: RemoteService {
 				if userData != nil {
 					let indi = userData!["default_individual"] as! NSDictionary
 					let indiId = indi["id"] as! String
-					self.getPerson(indiId as NSString, ignoreCache: false, onCompletion: onCompletion)
+					self.getPerson(indiId, ignoreCache: false, onCompletion: onCompletion)
 				} else {
 					onCompletion(nil, err)
 				}
@@ -67,7 +67,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getPerson(_ personId: NSString, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
+    func getPerson(_ personId: String, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
         if sessionId != nil {
 			if !ignoreCache {
                 if personCache[personId as String] != nil {
@@ -100,7 +100,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getLastChangeForPerson(_ personId: NSString, onCompletion: LongResponse) {
+    internal func getLastChangeForPerson(_ personId: String, onCompletion: @escaping LongResponse) {
         if sessionId != nil {
             // TODO
             onCompletion(nil, nil)
@@ -109,7 +109,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getPersonPortrait(_ personId: NSString, onCompletion: @escaping LinkResponse) {
+    func getPersonPortrait(_ personId: String, onCompletion: @escaping LinkResponse) {
         if sessionId != nil {
             var portrait:Link? = nil
             var err:NSError? = nil
@@ -127,7 +127,7 @@ class MyHeritageService: RemoteService {
                                 let objeId = link1.href
                                 if objeId != nil {
                                     group.enter()
-                                    self.getData(objeId as! String, onCompletion: {data, err2 in
+                                    self.getData(objeId!, onCompletion: {data, err2 in
                                         err = err2
                                         if data != nil {
                                             let sd = self.jsonConverter.convertMedia(data as! NSDictionary)
@@ -157,7 +157,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getCloseRelatives(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+    func getCloseRelatives(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
         if sessionId != nil {
             getData("\(personId)/immediate_family", onCompletion: { data, err in
                 if data != nil {
@@ -173,7 +173,7 @@ class MyHeritageService: RemoteService {
                                 relationship.type = "http://gedcomx.org/Couple"
                                 let rr = ResourceReference()
                                 let indi = relDict["individual"] as! NSDictionary
-                                rr.resourceId = indi["id"] as? NSString
+                                rr.resourceId = indi["id"] as? String
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
                                 rr2.resourceId = personId
@@ -186,7 +186,7 @@ class MyHeritageService: RemoteService {
                                 relationship.type = "http://gedcomx.org/ParentChild"
                                 let rr = ResourceReference()
                                 let indi = relDict["individual"] as! NSDictionary
-                                rr.resourceId = indi["id"] as? NSString
+                                rr.resourceId = indi["id"] as? String
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
                                 rr2.resourceId = personId
@@ -202,7 +202,7 @@ class MyHeritageService: RemoteService {
                                 rr.resourceId = personId
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
-                                rr2.resourceId = indi["id"] as? NSString
+                                rr2.resourceId = indi["id"] as? String
                                 relationship.person2 = rr2
                                 family.append(relationship)
                             }
@@ -219,7 +219,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getParents(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+    func getParents(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
         if sessionId != nil {
             getData("\(personId)/child_in_families_connection", onCompletion: {data, err in
                 if data != nil {
@@ -272,7 +272,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getChildren(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+    func getChildren(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
         if sessionId != nil {
             getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
                 if data != nil {
@@ -324,7 +324,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getSpouses(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+    func getSpouses(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
         if sessionId != nil {
             getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
                 if data != nil {
@@ -413,7 +413,7 @@ class MyHeritageService: RemoteService {
 
     }
     
-    func getPersonMemories(_ personId: NSString, onCompletion: @escaping SourceDescriptionsResponse) {
+    func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse) {
         if sessionId != nil {
             var media = [SourceDescription]()
             
@@ -430,7 +430,7 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func downloadImage(_ uri: NSString, folderName: NSString, fileName: NSString, onCompletion: @escaping StringResponse) {
+    func downloadImage(_ uri: String, folderName: String, fileName: String, onCompletion: @escaping StringResponse) {
         if sessionId != nil {
             let request = NSMutableURLRequest(url: URL(string: uri as String)!)
             
@@ -456,7 +456,7 @@ class MyHeritageService: RemoteService {
                         let imagePath = folderUrl.appendingPathComponent(fileName as String)
                         if (try? data!.write(to: imagePath, options: [.atomic])) != nil {
                             let returnPath = "\(folderName)/\(fileName)"
-                            onCompletion(returnPath as NSString?, error as NSError?)
+                            onCompletion(returnPath, error as NSError?)
                         } else {
                             onCompletion(nil, error as NSError?)
                         }
@@ -476,9 +476,9 @@ class MyHeritageService: RemoteService {
 		}
     }
     
-    func getPersonUrl(_ personId: NSString) -> NSString {
-        let url = "http://www.myheritage.com/\(personId)"
-        return url as NSString
+    func getPersonUrl(_ personId: String) -> String {
+        let url = "https://www.myheritage.com/\(personId)"
+        return url
     }
     
     func getData(_ path:String, onCompletion:@escaping (AnyObject?, NSError?) -> Void) {
@@ -494,13 +494,13 @@ class GetDataDelegate : NSObject, FGRequestDelegate {
         self.handler = onCompletion
     }
     
-    @objc func request(_ request: FGRequest!, didLoad result: AnyObject!) {
-        handler(result, nil)
+    @objc func request(_ request: FGRequest!, didLoad result: Any!) {
+        handler(result as AnyObject?, nil)
     }
     
-    @objc func request(_ request: FGRequest!, didFailWithError error: NSError!) {
+    @objc func request(_ request: FGRequest!, didFailWithError error: Error!) {
         print(error)
-        handler(nil, error)
+        handler(nil, error as NSError?)
     }
     
     @objc func request(_ request: FGRequest!, didLoadRawResponse data: Data!) {

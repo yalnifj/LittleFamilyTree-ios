@@ -9,8 +9,9 @@ class Person : Subject {
   var facts = [Fact]()
   var display:DisplayProperties?
   var lastChange:Foundation.Date?
+  var relationships = [Relationship]()
   
-  func getFullName() -> NSString? {
+  func getFullName() -> String? {
     if (display != nil && display!.name != nil) {
       return display!.name!
     }
@@ -29,7 +30,7 @@ class Person : Subject {
 		
 		for pson in json["persons"].array! {
 			let person = Person()
-			person.id = pson["id"].description as NSString?
+			person.id = pson["id"].description
 			person.addLinksFromJson(pson)
 			person.addAttributionFromJson(pson)
 			person.addIdentifiersFromJson(pson)
@@ -66,6 +67,8 @@ class Person : Subject {
 			if pson["display"] != JSON.null {
 				person.display = DisplayProperties.convertJsonToDisplayProperties(pson["display"])
 			}
+            
+            person.relationships = Relationship.convertJsonToRelationships(pson["relationships"])
 			
 			persons.append(person)
 		}

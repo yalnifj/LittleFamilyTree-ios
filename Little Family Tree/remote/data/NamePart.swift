@@ -1,15 +1,15 @@
 import Foundation
 
 class NamePart {
-	var type:NSString?
-	var value:NSString?
+	var type:String?
+	var value:String?
 	var qualifiers = [Qualifier]()
 	var fields = [Field]()
 	
 	static func convertJsonToNamePart(_ json:JSON) -> NamePart {
 		let part = NamePart()
-		part.type = json["type"].description as NSString?
-		part.value = json["value"].description as NSString?
+		part.type = json["type"].description
+		part.value = json["value"].description
 		if json["qualifiers"] != JSON.null {
 			for q in json["qualifiers"].array! {
 				part.qualifiers.append(Qualifier.convertJsonToQualifier(q))

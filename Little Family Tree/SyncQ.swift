@@ -162,7 +162,7 @@ class SyncQ : NSObject {
                                         type = RelationshipType.spouse
                                     }
                                     group2.enter()
-                                    self.syncRelationship(r.person1!.resourceId as! String, fsid2: r.person2!.resourceId as! String, type: type, onCompletion: { rels, err in
+                                    self.syncRelationship(r.person1!.resourceId!, fsid2: r.person2!.resourceId!, type: type, onCompletion: { rels, err in
                                         if (rels != nil && rels!.count > 0) {
                                             for rel in rels! {
                                                 newRelations.append(rel)
@@ -209,7 +209,7 @@ class SyncQ : NSObject {
                                 let dqueue2 = DispatchQueue.global()
                                 let group2 = DispatchGroup()
                                 for sd in sds! {
-                                    var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
+                                    var med = self.dbHelper.getMediaByFamilySearchId(sd.id!)
                                     if med == nil {
                                         let links = sd.links
                                         if links.count > 0 {
@@ -288,8 +288,8 @@ class SyncQ : NSObject {
     }
 	
 	func syncRelationship(_ fsid1:String, fsid2:String, type:RelationshipType, onCompletion: @escaping LocalRelationshipResponse) {
-		dataService.getPersonByRemoteId(fsid1 as NSString, onCompletion: { person, err in 
-			self.dataService.getPersonByRemoteId(fsid2 as NSString, onCompletion: { relative, err in 
+		dataService.getPersonByRemoteId(fsid1, onCompletion: { person, err in 
+			self.dataService.getPersonByRemoteId(fsid2, onCompletion: { relative, err in
 				if (person != nil && relative != nil) {
 					var personChanged = false;
 					var relativeChanged = false;

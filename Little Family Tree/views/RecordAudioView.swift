@@ -91,7 +91,7 @@ class RecordAudioView: UIView, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 			localResource = LocalResource()
 			localResource!.personId = person.id!
             localResource!.type = "givenName"
-            localResource!.localPath = "\(person.familySearchId!)/givenName.caf" as NSString?
+            localResource!.localPath = "\(person.familySearchId!)/givenName.caf"
 		}
 		
         updateButtonStates()

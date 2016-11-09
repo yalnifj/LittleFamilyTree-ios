@@ -41,7 +41,7 @@ class SearchPersonTableCell: UITableViewCell {
         if person.birthDate != nil {
             let formatter = DateFormatter()
             formatter.dateFormat = "MMM d, yyyy"
-            let dateString = formatter.string(from: person.birthDate! as Date)
+            let dateString = formatter.string(from: person.birthDate!)
             birthDateLbl.text = dateString
         } else {
             birthDateLbl.text = "Unknown"

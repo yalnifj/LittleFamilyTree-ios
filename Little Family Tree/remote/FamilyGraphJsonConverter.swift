@@ -14,9 +14,9 @@ class FamilyGraphJsonConverter {
     func createJsonPerson(_ json:NSDictionary) -> Person {
         let person = Person()
         
-        person.id = json["id"] as? NSString
+        person.id = json["id"] as? String
         
-        let gen = json["gender"] as? NSString
+        let gen = json["gender"] as? String
         
         var gender = GenderType.unknown
         if gen != nil {
@@ -32,36 +32,36 @@ class FamilyGraphJsonConverter {
         person.living = isAlive
         
         let link = Link()
-        link.href = json["link"] as? NSString
+        link.href = json["link"] as? String
         link.rel = "link"
         
         let name = Name()
         let form = NameForm()
         let ft = json["name"] as? String
-        form.fulltext = ft?.replaceAll(" \\([\\w\\s]*\\)", replace: "") as NSString?
+        form.fulltext = ft?.replaceAll(" \\([\\w\\s]*\\)", replace: "")
         
         if json["first_name"] != nil {
             let part = NamePart()
             part.type = "http://gedcomx.org/Given"
-            part.value = json["first_name"] as? String as NSString?
+            part.value = json["first_name"] as? String
             form.parts.append(part)
         }
         if json["last_name"] != nil {
             let part = NamePart()
             part.type = "http://gedcomx.org/Surname"
-            part.value = json["last_name"] as? String as NSString?
+            part.value = json["last_name"] as? String
             form.parts.append(part)
         }
         if json["name_prefix"] != nil {
             let part = NamePart()
             part.type = "http://gedcomx.org/Prefix"
-            part.value = json["name_prefix"] as? String as NSString?
+            part.value = json["name_prefix"] as? String
             form.parts.append(part)
         }
         if json["name_suffix"] != nil {
             let part = NamePart()
             part.type = "http://gedcomx.org/Suffix"
-            part.value = json["name_suffix"] as? String as NSString?
+            part.value = json["name_suffix"] as? String
             form.parts.append(part)
         }
         
@@ -73,7 +73,7 @@ class FamilyGraphJsonConverter {
             let nickform = NameForm()
             let part = NamePart()
             part.type = "http://gedcomx.org/Given"
-            part.value = json["nickname"] as? String as NSString?
+            part.value = json["nickname"] as? String
             form.parts.append(part)
             nickname.nameForms.append(nickform)
             person.names.append(nickname)
@@ -85,7 +85,7 @@ class FamilyGraphJsonConverter {
             let sr = SourceReference()
             let link = Link()
             link.rel = "image"
-            link.href = photo_id as NSString?
+            link.href = photo_id
             sr.links.append(link)
             person.media.append(sr)
         }
@@ -130,7 +130,7 @@ class FamilyGraphJsonConverter {
     
     func convertMedia(_ media:NSDictionary) -> SourceDescription {
         let sd = SourceDescription()
-        sd.id = media["id"] as? String as NSString?
+        sd.id = media["id"] as? String
         if media["is_personal_photo"] != nil {
             sd.sortKey = "1"
         }
@@ -139,9 +139,9 @@ class FamilyGraphJsonConverter {
         if media["type"] != nil && media["type"] as? String == "photo" {
             link.rel = "image"
         } else {
-            link.rel = media["type"] as? String as NSString?
+            link.rel = media["type"] as? String
         }
-        link.href = media["url"] as? String as NSString?
+        link.href = media["url"] as? String
         sd.links.append(link)
         
         return sd
@@ -154,14 +154,14 @@ class FamilyGraphJsonConverter {
             let link = Link()
             let husband = json["husband"] as! NSDictionary
             link.rel = "HUSB"
-            link.href = husband["id"] as? String as NSString?
+            link.href = husband["id"] as? String
             family.parents.append(link)
         }
         if json["wife"] != nil {
             let link = Link()
             let wife = json["wife"] as! NSDictionary
             link.rel = "WIFE"
-            link.href = wife["id"] as? String as NSString?
+            link.href = wife["id"] as? String
             family.parents.append(link)
         }
         if json["children"] != nil {

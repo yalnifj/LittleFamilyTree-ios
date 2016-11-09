@@ -1,11 +1,11 @@
 import Foundation
 
 class FieldValue {
-	var type:NSString?
-	var text:NSString?
-	var datatype:NSString?
-	var resource:NSString?
-	var labelId:NSString?
+	var type:String?
+	var text:String?
+	var datatype:String?
+	var resource:String?
+	var labelId:String?
 	
 	static func convertJsonToFieldValue(_ json:JSON) -> FieldValue {
 		let value = FieldValue()

@@ -1,8 +1,8 @@
 import Foundation
 
 class ResourceReference {
-	var resource:NSString?
-	var resourceId:NSString?
+	var resource:String?
+	var resourceId:String?
 	
 	static func convertJsonToResourceReference(_ json:JSON) -> ResourceReference {
 		let ref = ResourceReference()

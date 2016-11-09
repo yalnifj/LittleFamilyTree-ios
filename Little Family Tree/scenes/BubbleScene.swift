@@ -109,7 +109,9 @@ class BubbleScene: LittleFamilyScene {
         let soapTexture = SKTexture(imageNamed: "soap1")
         soap = AnimatedStateSprite(texture: soapTexture)
         soap?.size = CGSize(width: soapTexture.size().width * ratio/1.5, height: soapTexture.size().height * ratio/1.5)
-        soap?.position = CGPoint(x: (self.size.width / 2) + (faucet?.size.width)!/2 + (soap?.size.width)!/1.2, y: sink.size.height/2 + (soap?.size.height)!/1.8)
+        let sx = (self.size.width / 2) + (faucet?.size.width)!/2 + (soap?.size.width)!/1.2
+        let sy = sink.size.height/2 + (soap?.size.height)!/1.8
+        soap?.position = CGPoint(x: sx, y: sy)
         soap?.zPosition = 6
         let squirting:[SKTexture] = [
             SKTexture(imageNamed: "soap2"),

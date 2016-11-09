@@ -2,9 +2,9 @@ import Foundation
 
 class Media : NSObject {
 	var id : Int64!
-	var familySearchId : NSString?
-	var localPath : NSString?
-	var type : NSString?
+	var familySearchId : String?
+	var localPath : String?
+	var type : String?
     
     override func isEqual(_ object: Any?) -> Bool {
         if let media = object as? Media {

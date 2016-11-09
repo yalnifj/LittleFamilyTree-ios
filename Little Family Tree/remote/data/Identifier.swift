@@ -2,14 +2,13 @@ import Foundation
 
 class Identifier {
 	var hasUniqueKey:Bool = false
-	var value:NSString?
-	var type:NSString?
+	var value:String?
+	var type:String?
 	
-	static func convertJsonToIdentifier(_ type:NSString, json:JSON) -> [Identifier] {
+	static func convertJsonToIdentifier(_ type:String, json:JSON) -> [Identifier] {
 		var ids = [Identifier]()
-        let stype = type as String
-        if json[stype] != nil {
-            for val in json[stype].array! {
+        if json[type] != JSON.null {
+            for val in json[type].array! {
                 let id = Identifier()
                 id.type = type
                 id.value = val.description

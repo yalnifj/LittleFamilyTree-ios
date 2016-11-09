@@ -520,7 +520,7 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
                     let word = words[wordIndex]
                     print("songTime=\(songTime) wordIndex=\(wordIndex) word=\(word)")
                     if word.hasPrefix("_") {
-						if danceIndex > 0 && danceIndex - 1 < onStage.count && wordSprites[w].text!.hasPrefix(onStage[danceIndex-1].person!.givenName as! String) {
+						if danceIndex > 0 && danceIndex - 1 < onStage.count && wordSprites[w].text!.hasPrefix(onStage[danceIndex-1].person!.givenName!) {
 							sayGivenName(onStage[danceIndex-1].person!)
 						} else {
 							speak(wordSprites[w].text!)

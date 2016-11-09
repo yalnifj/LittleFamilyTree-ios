@@ -1,15 +1,15 @@
 import Foundation
 
 class PlaceReference {
-	var original:NSString?
-	var descriptionRef:NSString?
+	var original:String?
+	var descriptionRef:String?
 	var fields = [Field]()
 	var normalized = [TextValue]()
 	
 	static func convertJsonToPlaceReference(_ json:JSON) -> PlaceReference {
 		let place = PlaceReference()
-		place.original = json["original"].description as NSString?
-		place.descriptionRef = json["descriptionRef"].description as NSString?
+		place.original = json["original"].description
+		place.descriptionRef = json["descriptionRef"].description
 		if json["fields"] != JSON.null {
 			for field in json["fields"].array! {
 				place.fields.append(Field.convertJsonToField(field))

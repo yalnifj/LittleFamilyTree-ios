@@ -72,7 +72,7 @@ class CupcakeSprite: SKSpriteNode {
         if nameLabel != nil {
             nameLabel?.removeFromParent()
         }
-        var name = person!.name as! String
+        var name = person!.name!
         let parts = name.split(" ")
         if parts.count > 3 {
             name = "\(parts[0])"
@@ -95,7 +95,7 @@ class CupcakeSprite: SKSpriteNode {
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d, yyyy"
-        let dateString = formatter.string(from: person!.birthDate! as Date)
+        let dateString = formatter.string(from: person!.birthDate!)
 
         birthDateLabel = SKLabelNode(text: dateString)
         birthDateLabel?.fontSize = nameLabel!.fontSize
@@ -109,7 +109,7 @@ class CupcakeSprite: SKSpriteNode {
         }
         
         let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
-                                                                     from: person!.birthDate! as Date)
+                                                                     from: person!.birthDate!)
         let month = ageComponents.month
         let day = ageComponents.day
         

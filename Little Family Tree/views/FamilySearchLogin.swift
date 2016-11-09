@@ -94,7 +94,7 @@ class FamilySearchLogin: UIView, StatusListener {
         
         let dataService = DataService.getInstance()
         let remoteService = FamilySearchService.sharedInstance
-        dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH as NSString?
+        dataService.serviceType = DataService.SERVICE_TYPE_FAMILYSEARCH
         dataService.remoteService = remoteService
         
         remoteService.authenticate(username!, password: password!, onCompletion: { sessionId, err in

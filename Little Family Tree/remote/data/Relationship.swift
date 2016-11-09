@@ -1,7 +1,7 @@
 import Foundation
 
 class Relationship : Subject {
-	var type:NSString?
+	var type:String?
 	var person1:ResourceReference?
 	var person2:ResourceReference?
 	var facts = [Fact]()
@@ -13,9 +13,9 @@ class Relationship : Subject {
         if json["relationships"] != JSON.null {
             for rson:JSON in json["relationships"].array! {
                 let rel = Relationship()
-                rel.id = rson["id"].description as NSString?
+                rel.id = rson["id"].description
                 rel.addLinksFromJson(rson)
-                rel.type = rson["type"].description as NSString?
+                rel.type = rson["type"].description
                 rel.person1 = ResourceReference.convertJsonToResourceReference(rson["person1"])
                 rel.person2 = ResourceReference.convertJsonToResourceReference(rson["person2"])
                 rel.addIdentifiersFromJson(rson)

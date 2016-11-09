@@ -102,16 +102,16 @@ class BirthdayPeopleScene: LittleFamilyScene {
         //-- sort the people by birth date
         birthdayPeople.sort(by: {
             let ageComponents1 = (Calendar.current as NSCalendar).components([.month, .day],
-                from: $0.birthDate! as Date)
-            var month1 = ageComponents1.month
+                from: $0.birthDate!)
+            var month1 = ageComponents1.month!
             if month1 < month {
                 month1 = month1 + 12
             }
             let day1 = ageComponents1.day
             
             let ageComponents2 = (Calendar.current as NSCalendar).components([.month, .day],
-                from: $1.birthDate! as Date)
-            var month2 = ageComponents2.month
+                from: $1.birthDate!)
+            var month2 = ageComponents2.month!
             if month2 < month {
                 month2 = month2 + 12
             }
@@ -445,22 +445,22 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		self.addChild(cardBottomLogo!)
         
         let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
-                                                                    from: birthdayPerson!.birthDate! as Date)
-        let month = ageComponents.month
-        let day = ageComponents.day
+                                                                    from: birthdayPerson!.birthDate!)
+        let month = ageComponents.month!
+        let day = ageComponents.day!
         
         let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
                                                                        from: Foundation.Date())
         var age = birthdayPerson!.age!
-        let monthN = ageComponentsNow.month
-        let dayN = ageComponentsNow.day
+        let monthN = ageComponentsNow.month!
+        let dayN = ageComponentsNow.day!
         if month > monthN || (month==monthN && day > dayN) {
             age += 1
         }
 
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d"
-        let dateString = formatter.string(from: birthdayPerson!.birthDate! as Date)
+        let dateString = formatter.string(from: birthdayPerson!.birthDate!)
 		
 		let message = "Happy \(age) Birthday to \(birthdayPerson!.name!) on \(dateString)"
 		cardBottomText = SKLabelNode(text: message)

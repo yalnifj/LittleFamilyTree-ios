@@ -252,7 +252,7 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             self.showStars((self.photoSprite?.frame)!, starsInRect: false, count: 5, container: self)
             self.playSuccessSound(1.0, onCompletion: {
                 let relationship = RelationshipCalculator.getRelationship(self.selectedPerson, p: self.randomMediaChooser.selectedPerson)
-                self.showFakeToasts([self.randomMediaChooser.selectedPerson?.name as! String, relationship])
+                self.showFakeToasts([self.randomMediaChooser.selectedPerson!.name!, relationship])
                 
                 self.sayGivenName(self.randomMediaChooser.selectedPerson!)
                 let waitAction = SKAction.wait(forDuration: 2.5)

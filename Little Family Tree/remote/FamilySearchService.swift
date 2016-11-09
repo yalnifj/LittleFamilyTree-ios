@@ -2,6 +2,7 @@ import Foundation
 import SpriteKit
 
 class FamilySearchService : RemoteService {
+
 	let FS_PLATFORM_PATH_SAND = "https://sandbox.familysearch.org/platform/"
     let FS_PLATFORM_PATH_BETA = "https://beta.familysearch.org/platform/"
 	let FS_PLATFORM_PATH_PROD = "https://familysearch.org/platform/"
@@ -14,7 +15,7 @@ class FamilySearchService : RemoteService {
 	
 	fileprivate let FS_APP_KEY = "a02j0000009AXffAAG"
 
-    var sessionId: NSString?
+    var sessionId: String?
     var personCache = [String: Person]()
     
     fileprivate init() {
@@ -39,7 +40,7 @@ class FamilySearchService : RemoteService {
         }
     }
 	
-    internal func authenticate(_ username: String, password: String, onCompletion: @escaping (NSString?, NSError?) -> Void) {
+    internal func authenticate(_ username: String, password: String, onCompletion: @escaping StringResponse) {
 		var params = [String: String]()
 		params["grant_type"] = "password";
         params["client_id"] = FS_APP_KEY;
@@ -54,8 +55,8 @@ class FamilySearchService : RemoteService {
 		let headers = [String: String]()
 		
 		makeHTTPPostRequest(FS_OAUTH2_PATH, body: params, headers: headers, onCompletion: {json, err in
-			self.sessionId = json["access_token"].description as NSString?
-            if self.sessionId!.length == 0 || self.sessionId! == "null" {
+			self.sessionId = json["access_token"].description
+            if self.sessionId!.isEmpty || self.sessionId! == "null" {
                 self.sessionId = nil
                 if err == nil {
                     let jerror = json["error_description"]
@@ -70,7 +71,7 @@ class FamilySearchService : RemoteService {
 		})
 	}
 	
-    func getCurrentPerson(_ onCompletion: @escaping PersonResponse) {
+    internal func getCurrentPerson(_ onCompletion: @escaping PersonResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -89,7 +90,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPerson(_ personId: NSString, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
+	func getPerson(_ personId: String, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
 		if (sessionId != nil) {
             
             if !ignoreCache {
@@ -117,7 +118,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getLastChangeForPerson(_ personId: NSString, onCompletion: @escaping LongResponse) {
+	func getLastChangeForPerson(_ personId: String, onCompletion: @escaping LongResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -139,7 +140,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPersonPortrait(_ personId: NSString, onCompletion: @escaping LinkResponse) {
+	func getPersonPortrait(_ personId: String, onCompletion: @escaping LinkResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -167,7 +168,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getCloseRelatives(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getCloseRelatives(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -181,7 +182,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getParents(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getParents(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -195,7 +196,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getChildren(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getChildren(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -209,7 +210,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getSpouses(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getSpouses(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -223,7 +224,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func getPersonMemories(_ personId: NSString, onCompletion: @escaping SourceDescriptionsResponse) {
+	func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse) {
 		if (sessionId != nil) {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
@@ -237,7 +238,7 @@ class FamilySearchService : RemoteService {
 		}
 	}
 	
-	func downloadImage(_ uri: NSString, folderName: NSString, fileName: NSString, onCompletion: @escaping StringResponse) {
+	func downloadImage(_ uri: String, folderName: String, fileName: String, onCompletion: @escaping StringResponse) {
 		let request = NSMutableURLRequest(url: URL(string: uri as String)!)
  
         let session = URLSession.shared
@@ -263,7 +264,7 @@ class FamilySearchService : RemoteService {
                     let imagePath = folderUrl.appendingPathComponent(fileName as String)
                     if (try? data!.write(to: imagePath, options: [.atomic])) != nil {
                         let returnPath = "\(folderName)/\(fileName)"
-                        onCompletion(returnPath as NSString?, error as NSError?)
+                        onCompletion(returnPath, error as NSError?)
                     } else {
                         onCompletion(nil, error as NSError?)
                     }
@@ -279,8 +280,8 @@ class FamilySearchService : RemoteService {
         task.resume()
 	}
 	
-	func getPersonUrl(_ personId: NSString) -> NSString {
-		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)" as NSString;
+	func getPersonUrl(_ personId: String) -> String {
+		return "https://familysearch.org/tree/#view=ancestor&person=\(personId)"
 	}
     
     func makeHTTPGetRequest(_ path: String, headers: [String: String], onCompletion: @escaping ServiceResponse) {
@@ -314,7 +315,7 @@ class FamilySearchService : RemoteService {
         print(request.value(forHTTPHeaderField: "Authorization"))
         let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
             if error != nil {
-                print(error)
+                print(error!)
             }
             if response == nil {
                 onCompletion(JSON.null, error as NSError?)
@@ -322,7 +323,7 @@ class FamilySearchService : RemoteService {
             }
             let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode != 200 && httpResponse.statusCode != 204 {
-                print(response)
+                print(response!)
             }
             if httpResponse.statusCode == 429 {
                 //-- connection was throttled, try again after 10 seconds
@@ -394,7 +395,7 @@ class FamilySearchService : RemoteService {
             }
             if data != nil {
                 if httpResponse.statusCode != 200 {
-                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
                 }
                 let json:JSON = JSON(data: data!)
                 onCompletion(json, error as NSError?)

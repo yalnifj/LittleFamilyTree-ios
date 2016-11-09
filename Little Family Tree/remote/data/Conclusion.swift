@@ -1,8 +1,8 @@
 import Foundation
 
 class Conclusion : HypermediaEnabledData {
-	var lang:NSString?
-	var confidence:NSString?
+	var lang:String?
+	var confidence:String?
 	var sources = [SourceReference]()
 	var notes = [Note]()
 	var attribution:Attribution?

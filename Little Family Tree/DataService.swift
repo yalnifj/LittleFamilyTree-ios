@@ -43,7 +43,7 @@ class DataService {
 	static let PROPERTY_REMEMBER_ME = "rememberMe"
 
 	var remoteService:RemoteService? = nil
-	var serviceType:NSString? = nil
+	var serviceType:String? = nil
 	var dbHelper:DBHelper
 	var authenticating:Bool = false
     var listeners = [StatusListener]()
@@ -59,7 +59,7 @@ class DataService {
 	
 	fileprivate init() {
 		dbHelper = DBHelper.getInstance()
-		self.serviceType = dbHelper.getProperty(DataService.SERVICE_TYPE)
+		self.serviceType = dbHelper.getProperty(DataService.SERVICE_TYPE) as String?
 		if serviceType != nil {
 			if serviceType == DataService.SERVICE_TYPE_FAMILYSEARCH {
 				self.remoteService = FamilySearchService.sharedInstance
@@ -79,14 +79,14 @@ class DataService {
 		}
 	}
 	
-	func setRemoteService(_ type:NSString, service:RemoteService) {
+	func setRemoteService(_ type:String, service:RemoteService) {
 		self.serviceType = type
 		self.remoteService = service
 	}
 	
 	func autoLogin() {
 		let username = getEncryptedProperty(DataService.SERVICE_USERNAME)
-		let token = getEncryptedProperty(serviceType as! String + DataService.SERVICE_TOKEN)
+		let token = getEncryptedProperty(serviceType! + DataService.SERVICE_TOKEN)
 		if token != nil {
 			if remoteService?.sessionId == nil && !authenticating {
 				authenticating = true
@@ -166,7 +166,7 @@ class DataService {
 		return person
 	}
 	
-	func getPersonByRemoteId(_ fsid:NSString, onCompletion:@escaping LittlePersonResponse) {
+	func getPersonByRemoteId(_ fsid:String, onCompletion:@escaping LittlePersonResponse) {
 		let person = dbHelper.getPersonByFamilySearchId(fsid as String)
 		if (person != nil) {
 			addToSyncQ(person!)
@@ -612,7 +612,7 @@ class DataService {
             self.remoteService!.getPersonMemories(person.familySearchId!, onCompletion: { sds, err in
                 if sds != nil {
                     for sd in sds! {
-                        var med = self.dbHelper.getMediaByFamilySearchId(sd.id as! String)
+                        var med = self.dbHelper.getMediaByFamilySearchId(sd.id!)
                         if med == nil {
                             let links = sd.links
                             if links.count > 0 {
@@ -625,7 +625,7 @@ class DataService {
                                         group.enter()
                                         let oname = self.lastPath(link.href! as String)
                                         let fileName = "\(sd.id!)-\(oname)"
-                                        self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: fileName, onCompletion: { localPath, err2 in
+                                        self.remoteService!.downloadImage(link.href!, folderName: person.familySearchId!, fileName: fileName as String, onCompletion: { localPath, err2 in
                                             print("downloaded image to \(localPath)")
                                             if localPath != nil {
                                                 med?.localPath = localPath
@@ -761,9 +761,9 @@ class DataService {
             for p in parts {
                 if p.type == "http://gedcomx.org/Given" {
                     person.givenName = p.value
-                    let gparts = (person.givenName as! String).characters.split{$0 == " "}.map(String.init)
+                    let gparts = (person.givenName!).characters.split{$0 == " "}.map(String.init)
                     if gparts.count > 1 {
-                        person.givenName = gparts[0] as NSString?
+                        person.givenName = gparts[0] as String?
                     }
                     break
                 }
@@ -771,8 +771,8 @@ class DataService {
 		}
 		
 		if person.givenName == nil && person.name != nil {
-			let parts = (person.name as! String).characters.split{$0 == " "}.map(String.init)
-			person.givenName = parts[0] as NSString?
+			let parts = person.name!.characters.split{$0 == " "}.map(String.init)
+			person.givenName = parts[0] as String?
 		}
 		
 		let facts = fsPerson.facts
@@ -814,14 +814,14 @@ class DataService {
 				if birthDateStr != nil {
 					let dateFormatter = DateFormatter()
 					dateFormatter.dateFormat = "dd MMM yyyy"
-					person.birthDate = dateFormatter.date(from: birthDateStr as String)
+					person.birthDate = dateFormatter.date(from: birthDateStr!)
 					if person.birthDate == nil {
 						let df2 = DateFormatter()
 						df2.dateFormat = "+yyyy-MM-dd"
-						person.birthDate = df2.date(from: birthDateStr as String)
+						person.birthDate = df2.date(from: birthDateStr!)
 						if person.birthDate == nil {
 							let regex = try? NSRegularExpression(pattern: "[0-9]{4}", options: [])
-							let results = regex!.firstMatch(in: birthDateStr as! String, options:[], range: NSMakeRange(0, birthDateStr!.length))
+							let results = regex!.firstMatch(in: birthDateStr!, options:[], range: NSMakeRange(0, birthDateStr!.length))
                             if results != nil {
                                 let yearStr = birthDateStr!.substring(with: results!.range)
                                 let year = Int(yearStr)
@@ -868,32 +868,33 @@ class DataService {
 		})
 	}
 	
-	func lastPath(_ href:String) -> NSString {
+	func lastPath(_ href:String) -> String {
 		let parts = href.characters.split{$0 == "/"}.map(String.init)
 		var i = parts.count - 1
 		repeat {
-            let part = NSString(string: parts[i])
-            if part.length > 0 {
+            let part = parts[i]
+            if !parts.isEmpty {
                 var filePath = parts[i]
 				if let idx = filePath.characters.index(of: "?") {
                     filePath = filePath.substring(to: idx);
                 }
-                return NSString(string: filePath);
+                return filePath
             }
 			i -= 1
         } while i >= 0
-        return href as NSString;
+        return href as String;
     }
     
     func AES128Encryption(_ message:String) -> String?
     {
         let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
         let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
-        let keyData: Data! = (keyString! as NSString).data(using: String.Encoding.utf8) as Data!
+        let keyData: Data! = (keyString! as String).data(using: String.Encoding.utf8) as Data!
+        
         let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
         print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
-        let data: Data! = (message as NSString).data(using: String.Encoding.utf8.rawValue) as Data!
+        let data: Data! = (message as String).data(using: String.Encoding.utf8.rawValue) as Data!
         let dataLength    = size_t(data.count)
         let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
         print("dataLength  = \(dataLength), data      = \(data)")
@@ -938,12 +939,12 @@ class DataService {
     {
         let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
         let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
-        let keyData: Data! = (keyString! as NSString).data(using: String.Encoding.utf8) as Data!
+        let keyData: Data! = (keyString! as String).data(using: String.Encoding.utf8) as Data!
         let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
         print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
         let data: Data! = Data(base64Encoded: enc, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)
-        //let data: NSData! = (enc as NSString).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
+        //let data: NSData! = (enc as String).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
         let dataLength    = size_t(data.count)
         let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
         print("dataLength  = \(dataLength), data      = \(data)")
@@ -976,7 +977,7 @@ class DataService {
             // Not all data is a UTF-8 string so Base64 is used
             let base64cryptString = cryptData!.base64EncodedString(options: .lineLength64Characters)
             print("base64DecryptString = \(base64cryptString)")
-            let value = NSString(data: cryptData! as Data, encoding: String.Encoding.utf8.rawValue)
+            let value = String(data: cryptData! as Data, encoding: String.Encoding.utf8.rawValue)
             //print( "utf8 actual string = \(value)");
             return value as String?
         } else {

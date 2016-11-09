@@ -37,13 +37,13 @@ class TextureHelper {
         let fileManager = FileManager.default
         let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
-        if person.photoPath === nil || person.photoPath!.length == 0 {
+        if person.photoPath == nil || person.photoPath!.isEmpty {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
             }
             return getDefaultPortrait(person)
         }
-        let photoUrl = url.appendingPathComponent(person.photoPath as! String)
+        let photoUrl = url.appendingPathComponent(person.photoPath!)
         if !fileManager.fileExists(atPath: photoUrl.path) {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
@@ -96,13 +96,13 @@ class TextureHelper {
         let fileManager = FileManager.default
         let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
-        if person.photoPath === nil || person.photoPath!.length == 0 {
+        if person.photoPath == nil || person.photoPath!.isEmpty {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
             }
             return getDefaultPortraitImage(person)
         }
-        let photoUrl = url.appendingPathComponent(person.photoPath as! String)
+        let photoUrl = url.appendingPathComponent(person.photoPath!)
         if !fileManager.fileExists(atPath: photoUrl.path) {
             if person.name != nil {
                 print("no portrait found for \(person.name!)")
@@ -153,7 +153,7 @@ class TextureHelper {
     static func getTextureForMedia(_ media:Media, size:CGSize) -> SKTexture? {
         let fileManager = FileManager.default
         let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let photoUrl = url.appendingPathComponent(media.localPath as! String)
+        let photoUrl = url.appendingPathComponent(media.localPath!)
         if fileManager.fileExists(atPath: photoUrl.path) {
             print("reading file \(photoUrl)")
             let data = try? Data(contentsOf: photoUrl)

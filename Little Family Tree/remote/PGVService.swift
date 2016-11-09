@@ -1,13 +1,13 @@
 import Foundation
 import SpriteKit
 
-class PGVService : RemoteService {	
+class PGVService : RemoteService {
 	static var SUCCESS = "SUCCESS"
 	fileprivate var baseUrl:String?
 	var defaultPersonId:String?
 
-    var sessionId: NSString?
-	var sessionName: NSString?
+    var sessionId: String?
+	var sessionName: String?
     var personCache = [String: Person]()
 	var gedcomParser:GedcomParser
     
@@ -34,13 +34,13 @@ class PGVService : RemoteService {
 		makeHTTPPostRequest(self.baseUrl! + "client.php", body: params, headers: headers, onCompletion: {data, err in
             var version:String? = nil
 			if data != nil {
-                let dataStr:String = (data as! String)
+                let dataStr:String = data!
 				let parts = dataStr.split("\\s+")
 				if parts.count > 1 && parts[0] == PGVService.SUCCESS {
 					version = parts[1]
 				}
 			}
-			onCompletion(version as NSString?, err)
+			onCompletion(version, err)
 		})
     }
 	
@@ -56,11 +56,11 @@ class PGVService : RemoteService {
 		
 		makeHTTPPostRequest(self.baseUrl! + "client.php", body: params, headers: headers, onCompletion: {data, err in
 			if data != nil {
-                let dataStr:String = (data as! String)
+                let dataStr:String = data!
                 let parts = dataStr.split("\\s+")
 				if parts.count > 2 && parts[0] == PGVService.SUCCESS {
-					self.sessionName = parts[1] as NSString?
-					self.sessionId = parts[2] as NSString?
+					self.sessionName = parts[1]
+					self.sessionId = parts[2]
 				}
 			}
 			onCompletion(self.sessionId, err)
@@ -80,8 +80,8 @@ class PGVService : RemoteService {
 			if data != nil {
 				if data!.hasPrefix(PGVService.SUCCESS) {
 					let zeroRange = data!.range(of: "0")
-					let record = data!.substring(from: zeroRange.toRange()!.lowerBound)
-					onCompletion(record as NSString?, err)
+					let record = data!.substring(with: zeroRange!)
+					onCompletion(record, err)
 					return
                 } else if err == nil{
                     onCompletion(nil, NSError(domain: "PGVService", code: 500, userInfo: ["message":data!]))
@@ -107,9 +107,9 @@ class PGVService : RemoteService {
 		})
 	}
 	
-    func getCurrentPerson(_ onCompletion: @escaping PersonResponse) {
+    internal func getCurrentPerson(_ onCompletion: @escaping (Person?, NSError?) -> Void) {
 		if (sessionId != nil) {
-			getPerson(defaultPersonId! as NSString, ignoreCache: true, onCompletion: { person, err in
+			getPerson(defaultPersonId!, ignoreCache: true, onCompletion: { person, err in
 				onCompletion(person, err)
 			})
 		} else {
@@ -117,7 +117,7 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getPerson(_ personId: NSString, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
+	func getPerson(_ personId: String, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
 		if (sessionId != nil) {
             
             if !ignoreCache {
@@ -143,9 +143,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getLastChangeForPerson(_ personId: NSString, onCompletion: @escaping LongResponse) {
+	func getLastChangeForPerson(_ personId: String, onCompletion: @escaping LongResponse) {
 		if (sessionId != nil) {
-            getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+            getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
                     let date = person!.lastChange
 					if (date != nil) {
@@ -160,9 +160,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getPersonPortrait(_ personId: NSString, onCompletion: @escaping LinkResponse) {
+	func getPersonPortrait(_ personId: String, onCompletion: @escaping LinkResponse) {
 		if (sessionId != nil) {
-			getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+			getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				var portrait:Link? = nil
 				if person != nil {
 					let media = person!.media
@@ -211,9 +211,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getCloseRelatives(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getCloseRelatives(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
-            getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+            getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
 					let queue = DispatchQueue.global()
 					let group = DispatchGroup()
@@ -222,7 +222,7 @@ class PGVService : RemoteService {
 					let fams = person!.links
 					if fams.count > 0 {
 						for fam in fams {
-                            let href = fam.href as! String
+                            let href = fam.href!
 							let famid = href.replaceAll("@", replace: "")
 							group.enter()
 							self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
@@ -231,13 +231,13 @@ class PGVService : RemoteService {
                                     if fh != nil {
                                         if fam.rel == "FAMC" {
                                             for p in fh!.parents {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
-                                                if relid != personId as String {
+                                                if relid != personId {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
                                                     let rr = ResourceReference()
-                                                    rr.resourceId = relid as NSString?
+                                                    rr.resourceId = relid
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
                                                     rr2.resourceId = personId
@@ -248,13 +248,13 @@ class PGVService : RemoteService {
                                         }
                                         if fam.rel == "FAMS" {
                                             for p in fh!.parents {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/Couple"
                                                     let rr = ResourceReference()
-                                                    rr.resourceId = relid as NSString?
+                                                    rr.resourceId = relid
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
                                                     rr2.resourceId = personId
@@ -263,7 +263,7 @@ class PGVService : RemoteService {
                                                 }
                                             }
                                             for p in fh!.children {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
@@ -272,7 +272,7 @@ class PGVService : RemoteService {
                                                     rr.resourceId = personId
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
-                                                    rr2.resourceId = relid as NSString?
+                                                    rr2.resourceId = relid
                                                     rel.person2 = rr2
                                                     family.append(rel)
                                                 }
@@ -296,9 +296,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getParents(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getParents(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
-            getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+            getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
 					let queue = DispatchQueue.global()
 					let group = DispatchGroup()
@@ -308,7 +308,7 @@ class PGVService : RemoteService {
 					if fams.count > 0 {
 						for fam in fams {
 							if fam.rel == "FAMC" {
-                                let href = fam.href as! String
+                                let href = fam.href!
 								let famid = href.replaceAll("@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
@@ -316,13 +316,13 @@ class PGVService : RemoteService {
 										let fh = self.gedcomParser.parseFamily(gedcom! as String)
                                         if fh != nil {
                                             for p in fh!.parents {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/ParentChild"
                                                     let rr = ResourceReference()
-                                                    rr.resourceId = relid as NSString?
+                                                    rr.resourceId = relid
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
                                                     rr2.resourceId = personId
@@ -349,9 +349,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getChildren(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getChildren(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
-			getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+			getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
 					let queue = DispatchQueue.global()
 					let group = DispatchGroup()
@@ -361,7 +361,7 @@ class PGVService : RemoteService {
 					if fams.count > 0 {
 						for fam in fams {
 							if fam.rel == "FAMS" {
-                                let href = fam.href as! String
+                                let href = fam.href!
 								let famid = href.replaceAll("@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
@@ -369,7 +369,7 @@ class PGVService : RemoteService {
 										let fh = self.gedcomParser.parseFamily(gedcom! as String)
                                         if fh != nil {
                                             for p in fh!.children {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
@@ -378,7 +378,7 @@ class PGVService : RemoteService {
                                                     rr.resourceId = personId
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
-                                                    rr2.resourceId = relid as NSString?
+                                                    rr2.resourceId = relid
                                                     rel.person2 = rr2
                                                     family.append(rel)
                                                 }
@@ -402,9 +402,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getSpouses(_ personId: NSString, onCompletion: @escaping RelationshipsResponse) {
+	func getSpouses(_ personId: String, onCompletion: @escaping RelationshipsResponse) {
 		if (sessionId != nil) {
-			getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+			getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
 					let queue = DispatchQueue.global()
 					let group = DispatchGroup()
@@ -414,7 +414,7 @@ class PGVService : RemoteService {
 					if fams.count > 0  {
 						for fam in fams {
 							if fam.rel == "FAMS" {
-                                let href = fam.href as! String
+                                let href = fam.href!
 								let famid = href.replaceAll("@", replace: "")
 								group.enter()
 								self.getGedcomRecord(famid, onCompletion: { gedcom, err in 
@@ -422,13 +422,13 @@ class PGVService : RemoteService {
 										let fh = self.gedcomParser.parseFamily(gedcom! as String)
                                         if fh != nil {
                                             for p in fh!.parents {
-                                                let href = p.href as! String
+                                                let href = p.href!
                                                 let relid = href.replaceAll("@" , replace: "")
                                                 if relid != personId as String {
                                                     let rel = Relationship()
                                                     rel.type = "http://gedcomx.org/Couple"
                                                     let rr = ResourceReference()
-                                                    rr.resourceId = relid as NSString?
+                                                    rr.resourceId = relid
                                                     rel.person1 = rr
                                                     let rr2 = ResourceReference()
                                                     rr2.resourceId = personId
@@ -455,9 +455,9 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func getPersonMemories(_ personId: NSString, onCompletion: @escaping SourceDescriptionsResponse) {
+	func getPersonMemories(_ personId: String, onCompletion: @escaping SourceDescriptionsResponse) {
 		if (sessionId != nil) {
-			getPerson(personId as String as String as NSString, ignoreCache: false, onCompletion: { person, err in
+			getPerson(personId, ignoreCache: false, onCompletion: { person, err in
 				if person != nil {
 					let queue = DispatchQueue.global()
 					let group = DispatchGroup()
@@ -465,7 +465,7 @@ class PGVService : RemoteService {
 					var sdlist = [SourceDescription]()
 					for sr in person!.media {
 						for link in sr.links {
-                            let href = link.href as! String
+                            let href = link.href!
 							if link.href != nil && href.hasPrefix("@") {
 								let objeid = href.replaceAll("@", replace: "")
 								group.enter()
@@ -496,7 +496,7 @@ class PGVService : RemoteService {
 		}
 	}
 	
-	func downloadImage(_ uri: NSString, folderName: NSString, fileName: NSString, onCompletion: @escaping StringResponse) {
+	func downloadImage(_ uri: String, folderName: String, fileName: String, onCompletion: @escaping StringResponse) {
 		let request = NSMutableURLRequest(url: URL(string: uri as String)!)
  
         let session = URLSession.shared
@@ -522,7 +522,7 @@ class PGVService : RemoteService {
                     let imagePath = folderUrl.appendingPathComponent(fileName as String)
                     if (try? data!.write(to: imagePath, options: [.atomic])) != nil {
                         let returnPath = "\(folderName)/\(fileName)"
-                        onCompletion(returnPath as NSString?, error as NSError?)
+                        onCompletion(returnPath, error as NSError?)
                     } else {
                         onCompletion(nil, error as NSError?)
                     }
@@ -538,8 +538,8 @@ class PGVService : RemoteService {
         task.resume()
 	}
 	
-	func getPersonUrl(_ personId: NSString) -> NSString {
-		return "\(baseUrl!)individual.php?pid=\(personId)" as NSString
+	func getPersonUrl(_ personId: String) -> String {
+		return "\(baseUrl!)individual.php?pid=\(personId)"
 	}
 	
     var lastRequestTime:Foundation.Date = Foundation.Date()
@@ -580,7 +580,7 @@ class PGVService : RemoteService {
                 print(response)
             }
             if data != nil {
-                let stringData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                let stringData:String = NSString(data: data!, encoding: String.Encoding.utf8.rawValue) as! String
                 if httpResponse.statusCode != 200 {
                     print(stringData)
                 }
@@ -638,7 +638,7 @@ class PGVService : RemoteService {
                 print(response)
             }
             if data != nil {
-				let stringData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+				let stringData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue) as? String
                 if httpResponse.statusCode != 200 {
                     print(stringData)
                 }

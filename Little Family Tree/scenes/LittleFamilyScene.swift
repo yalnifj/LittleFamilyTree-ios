@@ -628,13 +628,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     audioPlayer.play()
                 } catch {
 					print("audioPlayer error:  \(error)")
-					speak(person.givenName as! String)
+					speak(person.givenName!)
 				}
 			} else {
-				showFakeToasts([person.givenName as! String])
+				showFakeToasts([person.givenName!])
 			}
 		} else {
-			speak(person.givenName as! String)
+			speak(person.givenName!)
 		}
 	}
     

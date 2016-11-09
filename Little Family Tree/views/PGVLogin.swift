@@ -126,7 +126,7 @@ class PGVLogin: UIView, StatusListener, UITextFieldDelegate {
         
         let dataService = DataService.getInstance()
         let remoteService = PGVService(base: url!, defaultPersonId: defaultPersonId!)
-        dataService.serviceType = DataService.SERVICE_TYPE_PHPGEDVIEW as NSString?
+        dataService.serviceType = DataService.SERVICE_TYPE_PHPGEDVIEW
         dataService.remoteService = remoteService
         
         remoteService.getVersion({ version, err in

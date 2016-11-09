@@ -9,7 +9,7 @@ class Subject : Conclusion {
     func addIdentifiersFromJson(_ pson:JSON) {
 		if pson["identifiers"] != JSON.null {
 			for (type, ids) in pson["identifiers"] {
-				let typeIds = Identifier.convertJsonToIdentifier(type as NSString, json: ids)
+				let typeIds = Identifier.convertJsonToIdentifier(type, json: ids)
 				for id in typeIds {
 					self.identifiers.append(id)
 				}
