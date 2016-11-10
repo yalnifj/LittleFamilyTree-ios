@@ -821,9 +821,11 @@ class DataService {
 						person.birthDate = df2.date(from: birthDateStr!)
 						if person.birthDate == nil {
 							let regex = try? NSRegularExpression(pattern: "[0-9]{4}", options: [])
-							let results = regex!.firstMatch(in: birthDateStr!, options:[], range: NSMakeRange(0, birthDateStr!.length))
+                            let range = NSRangeFromString(birthDateStr!)
+							let results = regex!.firstMatch(in: birthDateStr!, options:[], range: range)
                             if results != nil {
-                                let yearStr = birthDateStr!.substring(with: results!.range)
+                                let nsB = birthDateStr! as NSString
+                                let yearStr = nsB.substring(with: results!.range)
                                 let year = Int(yearStr)
                                 let todayDate = Foundation.Date()
                                 let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
@@ -891,12 +893,19 @@ class DataService {
         let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
         let keyData: Data! = (keyString! as String).data(using: String.Encoding.utf8) as Data!
         
-        let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
+        var keyMemory = [UInt8](repeating:0, count:keyData!.count)
+        keyData.copyBytes(to: &keyMemory, count: keyData!.count)
+        
+        let keyBytes         = UnsafeMutableRawPointer(mutating: keyMemory)
         print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
-        let data: Data! = (message as String).data(using: String.Encoding.utf8.rawValue) as Data!
+        let data: Data! = (message as String).data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)) as Data!
         let dataLength    = size_t(data.count)
-        let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
+        
+        var dataMemory = [UInt8](repeating:0, count:data!.count)
+        data.copyBytes(to: &dataMemory, count: data!.count)
+        
+        let dataBytes     = UnsafeMutableRawPointer(mutating: dataMemory)
         print("dataLength  = \(dataLength), data      = \(data)")
         
         let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
@@ -940,13 +949,20 @@ class DataService {
         let uuid = dbHelper.getProperty(DBHelper.UUID_PROPERTY)
         let keyString        = uuid?.substring(to: uuid!.characters.index(uuid!.startIndex, offsetBy: 32))
         let keyData: Data! = (keyString! as String).data(using: String.Encoding.utf8) as Data!
-        let keyBytes         = UnsafeMutableRawPointer(mutating: keyData.bytes.bindMemory(to: Void.self, capacity: keyData.count))
+        
+        var keyMemory = [UInt8](repeating:0, count:keyData!.count)
+        keyData.copyBytes(to: &keyMemory, count: keyData!.count)
+        let keyBytes         = UnsafeMutableRawPointer(mutating: keyMemory)
         print("keyLength   = \(keyData.count), keyData   = \(keyData)")
         
         let data: Data! = Data(base64Encoded: enc, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)
         //let data: NSData! = (enc as String).dataUsingEncoding(NSUTF8StringEncoding) as NSData!
         let dataLength    = size_t(data.count)
-        let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes.bindMemory(to: Void.self, capacity: data.count))
+        
+        var dataMemory = [UInt8](repeating:0, count:data!.count)
+        data.copyBytes(to: &dataMemory, count: data!.count)
+        
+        let dataBytes     = UnsafeMutableRawPointer(mutating: dataMemory)
         print("dataLength  = \(dataLength), data      = \(data)")
         
         let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSizeAES128)
@@ -977,7 +993,7 @@ class DataService {
             // Not all data is a UTF-8 string so Base64 is used
             let base64cryptString = cryptData!.base64EncodedString(options: .lineLength64Characters)
             print("base64DecryptString = \(base64cryptString)")
-            let value = String(data: cryptData! as Data, encoding: String.Encoding.utf8.rawValue)
+            let value = String(data: cryptData! as Data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
             //print( "utf8 actual string = \(value)");
             return value as String?
         } else {
