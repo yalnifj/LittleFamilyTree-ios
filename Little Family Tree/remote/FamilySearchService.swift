@@ -107,7 +107,7 @@ class FamilySearchService : RemoteService {
 				var persons = Person.convertJsonToPersons(json)
 				if persons.count > 0 {
 					let person = persons[0]
-                    self.personCache[personId as String] = person
+                    self.personCache[personId] = person
 					onCompletion(person, err)
 				} else {
 					onCompletion(nil, NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personId.description]))
@@ -117,6 +117,30 @@ class FamilySearchService : RemoteService {
 			onCompletion(nil, NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
 		}
 	}
+    
+    func getMultiplePersons(_ personIds: String, onCompletion: @escaping ([Person], NSError?) -> Void) {
+        if (sessionId != nil) {
+            
+            var headers = [String: String]()
+            headers["Authorization"] = "Bearer \(sessionId!)"
+            headers["Accept"] = "application/x-gedcomx-v1+json"
+            makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personIds)", headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 {
+                    var people = [Person]()
+                    for person in persons {
+                        self.personCache[person.id!] = person
+                        people.append(person)
+                    }
+                    onCompletion(people, err)
+                } else {
+                    onCompletion([Person](), NSError(domain: "FamilySearchService", code: 404, userInfo: ["message":"Unable to find person with id " + personIds]))
+                }
+            })
+        } else {
+            onCompletion([Person](), NSError(domain: "FamilySearchService", code: 401, userInfo: ["message":"Not authenticated with FamilySearch"]))
+        }
+    }
 	
 	func getLastChangeForPerson(_ personId: String, onCompletion: @escaping LongResponse) {
 		if (sessionId != nil) {
@@ -173,7 +197,22 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons-with-relationships?person=\(personId)", headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/families", headers: headers, onCompletion: {json, err in
+                var pids = ""
+                var count = 0;
+                if json["persons"] != JSON.null {
+                    for pson in json["persons"].array! {
+                        let pid = pson["id"].description
+                        if count > 0 {
+                            pids = pids + ","
+                        }
+                        pids = pids + pid
+                        count += 1
+                    }
+                }
+                if count > 0 {
+                    self.getMultiplePersons(pids, onCompletion: {people, err in })
+                }
 				let relationships = Relationship.convertJsonToRelationships(json)
 				onCompletion(relationships, err)
 			})
@@ -187,7 +226,13 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/parent-relationships", headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/parents", headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 {
+                    for person in persons {
+                        self.personCache[personId] = person
+                    }
+                }
 				let relationships = Relationship.convertJsonToRelationships(json)
 				onCompletion(relationships, err)
 			})
@@ -201,7 +246,13 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/child-relationships", headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/children", headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 {
+                    for person in persons {
+                        self.personCache[personId] = person
+                    }
+                }
 				let relationships = Relationship.convertJsonToRelationships(json)
 				onCompletion(relationships, err)
 			})
@@ -215,7 +266,13 @@ class FamilySearchService : RemoteService {
 			var headers = [String: String]()
 			headers["Authorization"] = "Bearer \(sessionId!)"
 			headers["Accept"] = "application/x-fs-v1+json"
-			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/spouse-relationships", headers: headers, onCompletion: {json, err in
+			makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personId)/spouses", headers: headers, onCompletion: {json, err in
+                let persons = Person.convertJsonToPersons(json)
+                if persons.count > 0 {
+                    for person in persons {
+                        self.personCache[personId] = person
+                    }
+                }
 				let relationships = Relationship.convertJsonToRelationships(json)
 				onCompletion(relationships, err)
 			})
