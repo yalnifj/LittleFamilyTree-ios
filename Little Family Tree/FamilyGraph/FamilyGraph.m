@@ -27,7 +27,8 @@ static NSString* kGraphBaseURL = @"https://familygraph.myheritage.com/";
 
 static NSString* kFGAppAuthURLScheme = @"fgauth";
 static NSString* kFGAppAuthURLPath = @"authorize";
-static NSString* kRedirectURL = @"fgconnect://success";
+//static NSString* kRedirectURL = @"fgconnect://success";
+static NSString* kRedirectURL = @"urn:ietf:wg:oauth:2.0:oob";
 
 static NSString* kLogin = @"authorize";
 static NSString* kSDK = @"ios";
@@ -233,6 +234,7 @@ static void *finishedContext = @"finishedContext";
   // her credentials in order to authorize the application.
   BOOL didOpenOtherApp = NO;
   UIDevice *device = [UIDevice currentDevice];
+    /* -- only use login dialog
   if ([device respondsToSelector:@selector(isMultitaskingSupported)] && [device isMultitaskingSupported]) {
     if (tryFGAppAuth) {
       NSString *scheme = kFGAppAuthURLScheme;
@@ -245,14 +247,14 @@ static void *finishedContext = @"finishedContext";
     }
 
     if (trySafariAuth && !didOpenOtherApp) {
-      NSString *nextUrl = [self getOwnBaseUrl];
-      [params setValue:nextUrl forKey:@"redirect_uri"];
+      //NSString *nextUrl = [self getOwnBaseUrl];
+      //[params setValue:nextUrl forKey:@"redirect_uri"];
 
       NSString *fgAppUrl = [FGRequest serializeURL:loginDialogURL params:params];
       didOpenOtherApp = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:fgAppUrl]];
     }
   }
-
+*/
   // If single sign-on failed, open an inline login dialog. This will require the user to
   // enter his or her credentials.
   if (!didOpenOtherApp) {

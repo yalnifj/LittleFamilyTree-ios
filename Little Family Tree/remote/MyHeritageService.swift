@@ -17,6 +17,8 @@ class MyHeritageService: RemoteService {
     var clientSecret = "9021b2dcdb4834bd12a491349f61cb27"
     var sessionDelegate:SessionDelegate!
     var jsonConverter:FamilyGraphJsonConverter!
+    
+    var sessionListener:MyHeritageSessionListener?
 	
 	var userId:String?
 	
@@ -24,6 +26,7 @@ class MyHeritageService: RemoteService {
     
     init() {
         sessionDelegate = SessionDelegate()
+        sessionDelegate.service = self
         familyGraph = FamilyGraph(clientId: self.clientId, andDelegate: sessionDelegate)
         jsonConverter = FamilyGraphJsonConverter()
     }
@@ -515,15 +518,30 @@ class GetDataDelegate : NSObject, FGRequestDelegate {
 }
 
 class SessionDelegate : NSObject, FGSessionDelegate {
+    var service:MyHeritageService?
     func fgDidLogin() {
         print("User logged into MyHeritage")
+        if service != nil {
+            service!.sessionId = service!.familyGraph.accessToken as String?
+            if service!.sessionListener != nil {
+                service!.sessionListener!.userLoggedIn();
+            }
+        }
     }
     
     func fgDidNotLogin(_ cancelled:Bool) {
         print("User did not finish logging into MyHeritage")
+        if service != nil && service!.sessionListener != nil {
+            service!.sessionListener!.userDidNotLogIn();
+        }
     }
     
     func fgSessionInvalidated() {
         print("FG Sessions invalidated")
     }
+}
+
+protocol MyHeritageSessionListener {
+    func userLoggedIn();
+    func userDidNotLogIn();
 }

@@ -34,7 +34,7 @@ import UIKit
         addSubview(view)
         PGVButton.isHidden = false
         //-- hide myheritage until it is ready
-        MyHeritageButton.isHidden = true
+        MyHeritageButton.isHidden = false
     }
     
     func loadViewFromNib() -> UIView {

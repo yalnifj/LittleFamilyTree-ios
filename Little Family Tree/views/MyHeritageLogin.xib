@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A254g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C32f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyHeritageLogin" customModule="Little_Family_Tree" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyHeritageLogin" customModule="Little_Family_Tree" customModuleProvider="target">
+            <connections>
+                <outlet property="infoLabel" destination="hKn-0s-PhZ" id="IGa-01-m13"/>
+                <outlet property="spinner" destination="3Ao-aO-a6S" id="7IQ-RM-d3s"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NHo-Eu-tZG">
+                <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NHo-Eu-tZG">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <items>
                         <navigationItem id="TZL-Ja-0i1">
-                            <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="hQV-9t-khr"/>
+                            <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="hQV-9t-khr">
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="-1" id="yTQ-fc-LkA"/>
+                                </connections>
+                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myheritage_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="DDj-GJ-nZg">
+                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="myheritage_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="DDj-GJ-nZg">
                     <rect key="frame" x="40" y="44" width="240" height="49"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="49" id="3gq-dn-q4d"/>
                     </constraints>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKn-0s-PhZ">
+                    <rect key="frame" x="40" y="101" width="319" height="49"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3Ao-aO-a6S">
+                    <rect key="frame" x="40" y="158" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="DDj-GJ-nZg" firstAttribute="centerX" secondItem="NHo-Eu-tZG" secondAttribute="centerX" id="6hQ-y9-W2Z"/>
                 <constraint firstItem="DDj-GJ-nZg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="GRP-wD-G6g"/>
@@ -34,7 +58,7 @@
                 <constraint firstItem="DDj-GJ-nZg" firstAttribute="top" secondItem="NHo-Eu-tZG" secondAttribute="bottom" id="kMW-qx-r6I"/>
                 <constraint firstItem="NHo-Eu-tZG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lLk-ce-S6a"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
     </objects>
     <resources>

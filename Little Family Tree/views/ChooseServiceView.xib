@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A304a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C32f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseServiceView" customModule="Little_Family_Tree" customModuleProvider="target">
@@ -20,35 +24,32 @@
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3h-8l-pW1">
                     <rect key="frame" x="0.0" y="0.0" width="397" height="44"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="44" id="jGt-UX-8o3"/>
+                        <constraint firstAttribute="height" constant="44" id="Ilg-qg-rTv"/>
                     </constraints>
                     <items>
                         <navigationItem title="Choose your online Family Tree Service:" id="cCy-ob-cs9"/>
                     </items>
                 </navigationBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="1Yz-tQ-oBw">
-                    <rect key="frame" x="8" y="44" width="381" height="83"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="83" id="Uc3-Mp-hRW"/>
-                    </constraints>
+                    <rect key="frame" x="8" y="44" width="381" height="57.5"/>
                     <string key="text">LittleFamily connects to an online FamilyTree service to get its data.  You will be asked to login to your online FamilyTree through one of the provided services.  LittleFamily will then allow you to play and interact with your FamilyTree in a new and unique way.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose from one of the supported online Family Tree services below:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="vmA-72-eRl">
-                    <rect key="frame" x="8" y="130" width="381" height="35"/>
+                    <rect key="frame" x="8" y="104.5" width="381" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="35" id="aQM-dm-biS"/>
+                        <constraint firstAttribute="height" constant="35" id="afb-6Y-7oI"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQi-R1-Ai7">
-                    <rect key="frame" x="8" y="191" width="381" height="79"/>
+                    <rect key="frame" x="8" y="165.5" width="381" height="79"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="79" id="Dt8-8R-gq2"/>
+                        <constraint firstAttribute="height" constant="79" id="JYs-q7-BNY"/>
                     </constraints>
                     <state key="normal" title="Button" image="tree_logotype_1x.png"/>
                     <connections>
@@ -56,9 +57,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUx-Bt-dNx">
-                    <rect key="frame" x="8" y="278" width="381" height="79"/>
+                    <rect key="frame" x="8" y="252.5" width="381" height="79"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="79" id="3M0-Rv-EQO"/>
+                        <constraint firstAttribute="height" constant="79" id="UIt-7a-WbM"/>
                     </constraints>
                     <state key="normal" title="Button" image="myheritage_logo.png"/>
                     <connections>
@@ -67,9 +68,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="II9-DR-pEt">
-                    <rect key="frame" x="8" y="365" width="381" height="79"/>
+                    <rect key="frame" x="8" y="339.5" width="381" height="79"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="79" id="uob-U0-RUM"/>
+                        <constraint firstAttribute="height" constant="79" id="oTT-nt-rR9"/>
                     </constraints>
                     <state key="normal" title="Button" image="pgv_logo.png"/>
                     <connections>
@@ -77,27 +78,27 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="GQi-R1-Ai7" firstAttribute="leading" secondItem="vmA-72-eRl" secondAttribute="leading" id="1JK-ZF-yR2"/>
-                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="top" secondItem="S3h-8l-pW1" secondAttribute="bottom" id="4PR-Z1-seW"/>
-                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="69E-bg-VV1"/>
-                <constraint firstItem="vmA-72-eRl" firstAttribute="trailing" secondItem="1Yz-tQ-oBw" secondAttribute="trailing" id="6JK-KS-Qk0"/>
-                <constraint firstItem="kUx-Bt-dNx" firstAttribute="leading" secondItem="II9-DR-pEt" secondAttribute="leading" id="8mY-Fe-TWU"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="trailing" secondItem="vmA-72-eRl" secondAttribute="trailing" id="Axt-K0-p97"/>
-                <constraint firstItem="GQi-R1-Ai7" firstAttribute="top" secondItem="vmA-72-eRl" secondAttribute="bottom" constant="26" id="CLq-hv-AFU"/>
-                <constraint firstItem="vmA-72-eRl" firstAttribute="top" secondItem="1Yz-tQ-oBw" secondAttribute="bottom" constant="3" id="LTd-qK-weN"/>
-                <constraint firstItem="GQi-R1-Ai7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Wbl-b1-Fur"/>
-                <constraint firstItem="kUx-Bt-dNx" firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" id="XgJ-GS-EaN"/>
-                <constraint firstItem="kUx-Bt-dNx" firstAttribute="top" secondItem="GQi-R1-Ai7" secondAttribute="bottom" constant="8" symbolic="YES" id="cha-ni-Gig"/>
-                <constraint firstItem="vmA-72-eRl" firstAttribute="leading" secondItem="1Yz-tQ-oBw" secondAttribute="leading" id="dwf-2l-1RF"/>
-                <constraint firstItem="S3h-8l-pW1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="h3B-xN-bEN"/>
-                <constraint firstAttribute="trailing" secondItem="S3h-8l-pW1" secondAttribute="trailing" id="mp4-5Q-EcI"/>
-                <constraint firstItem="S3h-8l-pW1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pWx-9l-DX0"/>
-                <constraint firstItem="kUx-Bt-dNx" firstAttribute="trailing" secondItem="II9-DR-pEt" secondAttribute="trailing" id="qvc-x6-wW8"/>
-                <constraint firstItem="II9-DR-pEt" firstAttribute="top" secondItem="kUx-Bt-dNx" secondAttribute="bottom" constant="8" id="xBB-hw-arH"/>
-                <constraint firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" constant="8" id="xnT-UW-Poo"/>
-                <constraint firstItem="kUx-Bt-dNx" firstAttribute="leading" secondItem="GQi-R1-Ai7" secondAttribute="leading" id="ylV-I8-Ia7"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="top" secondItem="1Yz-tQ-oBw" secondAttribute="bottom" constant="3" id="3Tr-hC-Qlq"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="trailing" secondItem="II9-DR-pEt" secondAttribute="trailing" id="5as-lG-S0P"/>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="leading" secondItem="kUx-Bt-dNx" secondAttribute="leading" id="7fo-iy-blv"/>
+                <constraint firstItem="S3h-8l-pW1" firstAttribute="centerX" secondItem="1Yz-tQ-oBw" secondAttribute="centerX" id="9B1-mM-WMH"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="trailing" secondItem="GQi-R1-Ai7" secondAttribute="trailing" id="C74-92-2cp"/>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="top" secondItem="vmA-72-eRl" secondAttribute="bottom" constant="26" id="FHn-qG-Yz3"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="II9-DR-pEt" secondAttribute="bottom" constant="87" id="GaQ-Ln-0u7"/>
+                <constraint firstItem="II9-DR-pEt" firstAttribute="top" secondItem="kUx-Bt-dNx" secondAttribute="bottom" constant="8" symbolic="YES" id="IAJ-ma-OjC"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="leading" secondItem="II9-DR-pEt" secondAttribute="leading" id="Nlw-8k-c6i"/>
+                <constraint firstItem="S3h-8l-pW1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TTq-BQ-rC9"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="leading" secondItem="vmA-72-eRl" secondAttribute="leading" id="WOr-an-QbM"/>
+                <constraint firstItem="kUx-Bt-dNx" firstAttribute="top" secondItem="GQi-R1-Ai7" secondAttribute="bottom" constant="8" symbolic="YES" id="XoB-TS-3Nu"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="etI-Zl-kaC"/>
+                <constraint firstItem="vmA-72-eRl" firstAttribute="leading" secondItem="GQi-R1-Ai7" secondAttribute="leading" id="hZK-Nf-biD"/>
+                <constraint firstAttribute="trailing" secondItem="S3h-8l-pW1" secondAttribute="trailing" id="ji7-Ip-L5W"/>
+                <constraint firstItem="S3h-8l-pW1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mKM-5L-BON"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="top" secondItem="S3h-8l-pW1" secondAttribute="bottom" id="oOa-pR-J9S"/>
+                <constraint firstItem="GQi-R1-Ai7" firstAttribute="trailing" secondItem="kUx-Bt-dNx" secondAttribute="trailing" id="pLx-07-i9T"/>
+                <constraint firstItem="1Yz-tQ-oBw" firstAttribute="trailing" secondItem="vmA-72-eRl" secondAttribute="trailing" id="sVU-YO-Unw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

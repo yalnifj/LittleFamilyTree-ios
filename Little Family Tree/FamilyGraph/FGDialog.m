@@ -411,6 +411,9 @@ params   = _params;
     [_spinner stopAnimating];
     _spinner.hidden = YES;
     
+    NSString* location = [_webView stringByEvaluatingJavaScriptFromString:
+     @"return document.body.text"];
+    
     [self updateWebOrientation];
 }
 

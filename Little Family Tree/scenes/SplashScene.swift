@@ -118,7 +118,11 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         launched = false
     }
     func LoginCanceled() {
-        
+        let rect = self.prepareDialogRect(CGFloat(600), height: CGFloat(600))
+        let subview = ChooseServiceView(frame: rect)
+        subview.loginListener = self
+        launched = true
+        self.view?.addSubview(subview)
     }
     
     var listenerIndex:Int?
