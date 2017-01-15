@@ -7,26 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0CD47383A4C72A9095449C24 /* Pods_Little_Family_Tree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */; };
+		1F365627AD7AD413B20B34C5 /* Pods_Little_Family_Tree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */; };
 		9303034D1D8796C000ED7FDC /* device1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034A1D8796C000ED7FDC /* device1.png */; };
 		9303034E1D8796C000ED7FDC /* device2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034B1D8796C000ED7FDC /* device2.png */; };
 		9303034F1D8796C000ED7FDC /* device3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9303034C1D8796C000ED7FDC /* device3.png */; };
 		930574B21D537A4100A99066 /* myheritage_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 930574B11D537A4100A99066 /* myheritage_logo.png */; };
 		930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */; };
 		930574BF1D537E2500A99066 /* MyHeritageLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930574BE1D537E2500A99066 /* MyHeritageLogin.swift */; };
+		9378D9D91E2AE9AE001FA796 /* lock_25.png in Resources */ = {isa = PBXBuildFile; fileRef = 9378D9D71E2AE9AE001FA796 /* lock_25.png */; };
+		9378D9DA1E2AE9AE001FA796 /* lock_50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9378D9D81E2AE9AE001FA796 /* lock_50.png */; };
+		9378D9E51E2AE9BD001FA796 /* buy_button_199.png in Resources */ = {isa = PBXBuildFile; fileRef = 9378D9E31E2AE9BD001FA796 /* buy_button_199.png */; };
+		9378D9E61E2AE9BD001FA796 /* buy_button_299.png in Resources */ = {isa = PBXBuildFile; fileRef = 9378D9E41E2AE9BD001FA796 /* buy_button_299.png */; };
+		9378D9E81E2AF05A001FA796 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9378D9E71E2AF05A001FA796 /* Sale.swift */; };
 		938A9E521D6D26190013BFA7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E501D6D26190013BFA7 /* Podfile */; };
 		938A9E531D6D26190013BFA7 /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E511D6D26190013BFA7 /* Podfile.lock */; };
 		938A9E5D1D6D3A580013BFA7 /* drums.png in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E5C1D6D3A580013BFA7 /* drums.png */; };
-		938A9E5F1D77AE590013BFA7 /* RedeemCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */; };
-		938A9E611D77AE6C0013BFA7 /* RedeemCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */; };
 		93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AAD1D653A8B000AD078 /* redstar1.png */; };
 		93A82AB81D653D3C000AD078 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB71D653D3C000AD078 /* lock.png */; };
 		93A82ABA1D655573000AD078 /* buyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82AB91D655573000AD078 /* buyButton.png */; };
 		93A82ABC1D65557E000AD078 /* tryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A82ABB1D65557E000AD078 /* tryButton.png */; };
 		93BE10B31D65F3E60014B4FE /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BE10B21D65F3E60014B4FE /* IAPHelper.swift */; };
 		93D6E0721D9235AE001AFA34 /* FamilyGraphJsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */; };
-		93E8A9BF1DC5607100C25D4E /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; };
-		93E8A9C01DC5607100C25D4E /* ReferenceProxy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93E8A9BF1DC5607100C25D4E /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; };
+		93E8A9C01DC5607100C25D4E /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
@@ -135,8 +138,8 @@
 		A158DB5E1D0CC7B50002F0A8 /* PersonLeafSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158DB5D1D0CC7B50002F0A8 /* PersonLeafSprite.swift */; };
 		A15A0F071CD4500B00471221 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F061CD4500A00471221 /* delete.png */; };
 		A15A0F091CD4525D00471221 /* mic_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A15A0F081CD4525D00471221 /* mic_icon.png */; };
-		A15B0ADC1C59BFC4000B6B33 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
-		A15B0ADE1C59BFD7000B6B33 /* ReferenceProxy in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; };
+		A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A15B0AD81C59BF66000B6B33 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A172F0231C926C55007346FD /* grandma_outline.png in Resources */ = {isa = PBXBuildFile; fileRef = A172F0221C926C55007346FD /* grandma_outline.png */; };
 		A172F02C1C927E07007346FD /* SimpleDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A172F02B1C927E07007346FD /* SimpleDialogView.xib */; };
 		A172F02E1C927E57007346FD /* SimpleDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A172F02D1C927E56007346FD /* SimpleDialogView.swift */; };
@@ -612,7 +615,7 @@
 		A1F7D39D1C8FBC12006053A2 /* intro.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D14D1C8FBC12006053A2 /* intro.wav */; };
 		A1F7D39E1C8FBC12006053A2 /* kettle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D14E1C8FBC12006053A2 /* kettle.mp3 */; };
 		A1F7D39F1C8FBC12006053A2 /* nopop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D14F1C8FBC12006053A2 /* nopop.mp3 */; };
-		A1F7D3A01C8FBC12006053A2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		A1F7D3A01C8FBC12006053A2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		A1F7D3A41C8FBC12006053A2 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D1541C8FBC12006053A2 /* pop.mp3 */; };
 		A1F7D3A51C8FBC12006053A2 /* powerup_success.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D1551C8FBC12006053A2 /* powerup_success.wav */; };
 		A1F7D3A61C8FBC12006053A2 /* pullchainslowon.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D1561C8FBC12006053A2 /* pullchainslowon.wav */; };
@@ -750,8 +753,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93E8A9C01DC5607100C25D4E /* ReferenceProxy in CopyFiles */,
-				A15B0ADE1C59BFD7000B6B33 /* ReferenceProxy in CopyFiles */,
+				93E8A9C01DC5607100C25D4E /* SQLite.framework in CopyFiles */,
+				A15B0ADE1C59BFD7000B6B33 /* GPUImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,11 +773,14 @@
 		930574B11D537A4100A99066 /* myheritage_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myheritage_logo.png; sourceTree = "<group>"; };
 		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
 		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
+		9378D9D71E2AE9AE001FA796 /* lock_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_25.png; sourceTree = "<group>"; };
+		9378D9D81E2AE9AE001FA796 /* lock_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_50.png; sourceTree = "<group>"; };
+		9378D9E31E2AE9BD001FA796 /* buy_button_199.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buy_button_199.png; sourceTree = "<group>"; };
+		9378D9E41E2AE9BD001FA796 /* buy_button_299.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buy_button_299.png; sourceTree = "<group>"; };
+		9378D9E71E2AF05A001FA796 /* Sale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
 		938A9E501D6D26190013BFA7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		938A9E511D6D26190013BFA7 /* Podfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		938A9E5C1D6D3A580013BFA7 /* drums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drums.png; sourceTree = "<group>"; };
-		938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedeemCode.xib; sourceTree = "<group>"; };
-		938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemCode.swift; sourceTree = "<group>"; };
 		939079371DB703E50010E0A0 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../SQLite/SQLite.xcodeproj; sourceTree = "<group>"; };
 		93A82AAD1D653A8B000AD078 /* redstar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redstar1.png; sourceTree = "<group>"; };
 		93A82AB71D653D3C000AD078 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
@@ -1430,11 +1436,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A15B0ADC1C59BFC4000B6B33 /* ReferenceProxy in Frameworks */,
+				A15B0ADC1C59BFC4000B6B33 /* GPUImage.framework in Frameworks */,
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
-				93E8A9BF1DC5607100C25D4E /* ReferenceProxy in Frameworks */,
+				93E8A9BF1DC5607100C25D4E /* SQLite.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
-				0CD47383A4C72A9095449C24 /* Pods_Little_Family_Tree.framework in Frameworks */,
+				1F365627AD7AD413B20B34C5 /* Pods_Little_Family_Tree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1675,6 +1681,7 @@
 				A1F7CE321C8FBBD6006053A2 /* Tag.swift */,
 				A1F7CE331C8FBBD6006053A2 /* TextureHelper.swift */,
 				A1F7CE341C8FBBD6006053A2 /* TreeNode.swift */,
+				9378D9E71E2AF05A001FA796 /* Sale.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -1819,8 +1826,6 @@
 				A1F7CE971C8FBBD6006053A2 /* PersonDetailsView.xib */,
 				A1F7CE981C8FBBD6006053A2 /* PGVLogin.swift */,
 				A1F7CE991C8FBBD6006053A2 /* PGVLogin.xib */,
-				938A9E601D77AE6C0013BFA7 /* RedeemCode.swift */,
-				938A9E5E1D77AE590013BFA7 /* RedeemCode.xib */,
 				A1F7CE9A1C8FBBD6006053A2 /* SearchPeople.swift */,
 				A1F7CE9B1C8FBBD6006053A2 /* SearchPeople.xib */,
 				A1F7CE9C1C8FBBD6006053A2 /* SettingsView.swift */,
@@ -1842,7 +1847,11 @@
 			children = (
 				93A82ABB1D65557E000AD078 /* tryButton.png */,
 				93A82AB91D655573000AD078 /* buyButton.png */,
+				9378D9E31E2AE9BD001FA796 /* buy_button_199.png */,
+				9378D9E41E2AE9BD001FA796 /* buy_button_299.png */,
 				93A82AB71D653D3C000AD078 /* lock.png */,
+				9378D9D71E2AE9AE001FA796 /* lock_25.png */,
+				9378D9D81E2AE9AE001FA796 /* lock_50.png */,
 				A1F7CF161C8FBC0F006053A2 /* baby.png */,
 				A1F7CF171C8FBC0F006053A2 /* backgrounds */,
 				A1743DAD1CE7BF0D0066E964 /* bird */,
@@ -2639,6 +2648,7 @@
 				A1F7D3AF1C8FBC12006053A2 /* toaster2.wav in Resources */,
 				A158DB411D0CA7E60002F0A8 /* cloud3.png in Resources */,
 				A10CC8C21C8FC807005B3233 /* violin.png in Resources */,
+				9378D9DA1E2AE9AE001FA796 /* lock_50.png in Resources */,
 				A1F7D32D1C8FBC12006053A2 /* house_toys_bat6.png in Resources */,
 				A111A10A1C914E0200552AE6 /* media_reset.png in Resources */,
 				A1743DCA1CE7BF0E0066E964 /* bird_tile4.png in Resources */,
@@ -2674,6 +2684,7 @@
 				A1F7D2751C8FBC12006053A2 /* house_adult_wardrobe8.png in Resources */,
 				A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */,
 				A1743DC71CE7BF0E0066E964 /* bird_tile1.png in Resources */,
+				9378D9D91E2AE9AE001FA796 /* lock_25.png in Resources */,
 				A1F7D1861C8FBC12006053A2 /* wood_back.png in Resources */,
 				A1F7D3A91C8FBC12006053A2 /* slide_whistle_down01.wav in Resources */,
 				A1F7D3551C8FBC12006053A2 /* house_rooms_2_2.png in Resources */,
@@ -2739,7 +2750,6 @@
 				A12AA8091CD1A6BF0001A1D5 /* RecordAudioView.xib in Resources */,
 				A1F7D3BB1C8FBC12006053A2 /* leaves_overlay4.png in Resources */,
 				A10CC8B51C8FC807005B3233 /* guitar.png in Resources */,
-				938A9E5F1D77AE590013BFA7 /* RedeemCode.xib in Resources */,
 				A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */,
 				A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */,
 				A1F7D28D1C8FBC12006053A2 /* house_chilldroom_paint1.png in Resources */,
@@ -2749,10 +2759,11 @@
 				A1F7D2AF1C8FBC12006053A2 /* house_familyroom_frame.png in Resources */,
 				A1F7D2701C8FBC12006053A2 /* house_adult_wardrobe3.png in Resources */,
 				A1F7D2FC1C8FBC12006053A2 /* house_music_guitar.png in Resources */,
-				A1F7D3A01C8FBC12006053A2 /* BuildFile in Resources */,
+				A1F7D3A01C8FBC12006053A2 /* (null) in Resources */,
 				A1F7D2EC1C8FBC12006053A2 /* house_kitchen_kettle7.png in Resources */,
 				A1F7D2D61C8FBC12006053A2 /* house_kitchen_freezer.png in Resources */,
 				A1F7CF101C8FBBD6006053A2 /* SettingsView.xib in Resources */,
+				9378D9E51E2AE9BD001FA796 /* buy_button_199.png in Resources */,
 				A1F7D1821C8FBC12006053A2 /* match_back.png in Resources */,
 				A158DB481D0CA7E60002F0A8 /* cloud10.png in Resources */,
 				A1F7D36A1C8FBC12006053A2 /* pgv_logo.png in Resources */,
@@ -2853,6 +2864,7 @@
 				A1F7D3381C8FBC12006053A2 /* house_toys_blocks7.png in Resources */,
 				A12444F71CA6ED21000380A5 /* house_adult_vanity11.png in Resources */,
 				A1F7D1851C8FBC12006053A2 /* tree_background.png in Resources */,
+				9378D9E61E2AE9BD001FA796 /* buy_button_299.png in Resources */,
 				A10CC8AD1C8FC807005B3233 /* drums_off.png in Resources */,
 				A1F7D30D1C8FBC12006053A2 /* house_toaster17.png in Resources */,
 				A10CC8B91C8FC807005B3233 /* piano_thisismyfamily.mp3 in Resources */,
@@ -3192,6 +3204,7 @@
 				A1F7CEC41C8FBBD6006053A2 /* DisplayProperties.swift in Sources */,
 				A1F7CED21C8FBBD6006053A2 /* Person.swift in Sources */,
 				A1F7CEB01C8FBBD6006053A2 /* EventHandler.swift in Sources */,
+				9378D9E81E2AF05A001FA796 /* Sale.swift in Sources */,
 				A1F7CEAC1C8FBBD6006053A2 /* TextureHelper.swift in Sources */,
 				A1743DA41CE4BEBB0066E964 /* BirdScene.swift in Sources */,
 				A1F7CF071C8FBBD6006053A2 /* ParentsGuide.swift in Sources */,
@@ -3220,7 +3233,6 @@
 				A1F7CE9E1C8FBBD6006053A2 /* AppDelegate.swift in Sources */,
 				A1F7CED81C8FBBD6006053A2 /* SourceDescription.swift in Sources */,
 				A1F7CECF1C8FBBD6006053A2 /* NameForm.swift in Sources */,
-				938A9E611D77AE6C0013BFA7 /* RedeemCode.swift in Sources */,
 				A1F7CEDB1C8FBBD6006053A2 /* TextValue.swift in Sources */,
 				A1F7CEE71C8FBBD6006053A2 /* LittleFamilyScene.swift in Sources */,
 				A1F7CED01C8FBBD6006053A2 /* NamePart.swift in Sources */,

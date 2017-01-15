@@ -112,7 +112,7 @@ class FamilyGraphJsonConverter {
 
             if factj["date"] != nil {
                 let datej = factj["date"] as? NSDictionary
-                let date = Date()
+                let date = GedcomDate()
                 date.formal = "+\(datej!["date"]!)"
                 date.original = datej!["gedcom"] as? String
                 fact.date = date

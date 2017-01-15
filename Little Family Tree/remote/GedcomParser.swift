@@ -344,7 +344,7 @@ class GedcomParser {
             let ps = line.split(" ")
             if ps[0] == "2" {
                 if ps[1] == "DATE" && fact.date == nil {
-                    let date = Date()
+                    let date = GedcomDate()
                     date.original = ps[2]
                     fact.date = date
                 }

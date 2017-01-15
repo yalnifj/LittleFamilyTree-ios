@@ -229,12 +229,17 @@ class DBHelper {
                         let plats = platforms.adding("ios")
                         ref.child("users/\(serviceType!)/\(encodedUsername!)/platforms").setValue(plats)
                     }
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "EEE MMM dd hh:mm:ss T yyyy"
+                    let date = NSDate()
+                    ref.child("users/\(serviceType!)/\(encodedUsername!)/lastLogin").setValue(dateFormatter.string(from: date as Date))
                     if hasPremium {
                         ref.child("users/\(serviceType!)/\(encodedUsername!)/iosPremium").setValue(hasPremium)
                     }
                     
                 } else {
-                    let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium ] as [String : Any]
+                    let date = NSDate()
+                    let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium, "lastLogin": dateFormatter.string(from: date as Date) ] as [String : Any]
                     ref.child("users").child(serviceType!).child(encodedUsername!).setValue(user as AnyObject)
                 }
             })
@@ -244,30 +249,30 @@ class DBHelper {
         }
     }
 	
-	func validateCode(_ code:String, onCompletion: @escaping (Bool) -> Void) {
+	func checkSale(onCompletion: @escaping (Sale?) -> Void) {
 		let ref = FIRDatabase.database().reference()
-		ref.child("codes").child(code).observeSingleEvent(of: .value, with: { (snap) in
-			print(snap)
+		ref.child("sales").observeSingleEvent(of: .value, with: { (snap) in
 			// Get user value
 			if snap.exists() {
 				let vals = snap.value as! NSDictionary
-				let redeemed = vals["redeemed"] as! Bool
-				let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
-				if redeemed {
-					let redeemUser = vals["user"] as! String?
-					if redeemUser != nil && redeemUser! == username! {
-						onCompletion(true)
-						return
-					}
-				}
-				else {
-					ref.child("codes/\(code)/redeemed").setValue(true)
-					ref.child("codes/\(code)/user").setValue(username!)
-					onCompletion(true)
-					return
-				}
+                let now = NSDate()
+                for sale in vals.allValues {
+                    let saleSnap = sale as! FIRDataSnapshot
+                    let saleDict = saleSnap.value as! NSDictionary
+                    let startLong = saleDict["start"] as! Double
+                    let endLong = saleDict["end"] as! Double
+                    if now.timeIntervalSince1970 >= startLong && now.timeIntervalSince1970 <= endLong {
+                        let saleNow = Sale()
+                        saleNow.end = NSDate(timeIntervalSince1970: endLong)
+                        saleNow.start = NSDate(timeIntervalSince1970: startLong)
+                        saleNow.price = saleDict["price"] as? Float
+                        saleNow.salesText = saleDict["salesText"] as? String
+                        onCompletion(saleNow)
+                        return;
+                    }
+                }
 			}
-			onCompletion(false)
+			onCompletion(nil)
 		})
 	}
 	

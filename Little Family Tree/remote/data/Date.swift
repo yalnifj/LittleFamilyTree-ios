@@ -1,13 +1,13 @@
 import Foundation
 
-class Date {
+class GedcomDate {
   var original:String?
   var formal:String?
   var normalized = [TextValue]()
   var fields = [Field]()
   
-  static func convertJsonToDate(_ json:JSON) -> Date {
-	let date = Date()
+  static func convertJsonToDate(_ json:JSON) -> GedcomDate {
+	let date = GedcomDate()
 	date.original = json["original"].description
 	date.formal = json["formal"].description
 	if json["normalized"] != nil {

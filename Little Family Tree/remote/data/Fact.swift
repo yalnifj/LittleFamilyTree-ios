@@ -2,7 +2,7 @@ import Foundation
 
 class Fact : Conclusion {
 	var type:String?
-	var date:Date?
+	var date:GedcomDate?
 	var place:PlaceReference?
 	var value:String?
 	var qualifiers = [Qualifier]()
@@ -16,7 +16,7 @@ class Fact : Conclusion {
 		fact.addAttributionFromJson(json)
 		fact.type = json["type"].description
 		if json["date"] != JSON.null {
-			fact.date = Date.convertJsonToDate(json["date"])
+			fact.date = GedcomDate.convertJsonToDate(json["date"])
 		}
 		if json["place"] != JSON.null {
 			fact.place = PlaceReference.convertJsonToPlaceReference(json["place"])

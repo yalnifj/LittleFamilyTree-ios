@@ -91,6 +91,15 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
             if (!launched && (currentTime - startTime! > 10)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
                     if dataService?.dbHelper.getFirstPerson() != nil {
+                        
+                        var premium = false;
+                        let premiumStr = dataService?.dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
+                        if premiumStr != nil && premiumStr == "true" {
+                            premium = true
+                        }
+                        
+                        dataService?.dbHelper.fireCreateOrUpdateUser(premium);
+                        
                         if self.view?.subviews != nil {
                             for v in (self.view?.subviews)! {
                                 v.removeFromSuperview()
