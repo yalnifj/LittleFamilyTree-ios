@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D25a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseSkinToneView" customModule="Little_Family_Tree">
+            <connections>
+                <outlet property="darkBtn" destination="lM9-53-8bZ" id="ZYg-7M-AhQ"/>
+                <outlet property="lightBtn" destination="vkg-4N-KnM" id="a8R-zw-B14"/>
+                <outlet property="midBtn" destination="KUb-v8-9Rt" id="hTi-Nq-umB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="317" height="394"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TBA-VK-kqc">
+                    <rect key="frame" x="0.0" y="0.0" width="317" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="XFw-Tl-mpA"/>
+                    </constraints>
+                    <items>
+                        <navigationItem title="Choose Skin Color" id="paK-5c-tZL">
+                            <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="DnY-CR-GmO">
+                                <connections>
+                                    <action selector="onBackButtonClick:" destination="-1" id="6Vl-eh-0f0"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkg-4N-KnM">
+                    <rect key="frame" x="111" y="49" width="94" height="103"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="94" id="Idd-sv-B9Q"/>
+                        <constraint firstAttribute="height" constant="103" id="PHu-y8-Im4"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="boy.png"/>
+                    <connections>
+                        <action selector="lightButtonClicked:" destination="-1" eventType="touchUpInside" id="W89-G5-zlq"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUb-v8-9Rt">
+                    <rect key="frame" x="111" y="160" width="94" height="103"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="103" id="ViH-M7-frF"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="boy_mid.png"/>
+                    <connections>
+                        <action selector="midButtonClicked:" destination="-1" eventType="touchUpInside" id="vmI-ji-rbo"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lM9-53-8bZ">
+                    <rect key="frame" x="111" y="271" width="94" height="103"/>
+                    <state key="normal" title="Button" image="boy_dark.png"/>
+                    <connections>
+                        <action selector="darkButtonClicked:" destination="-1" eventType="touchUpInside" id="2GV-1w-9h6"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="TBA-VK-kqc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2c6-87-DzF"/>
+                <constraint firstAttribute="bottom" secondItem="lM9-53-8bZ" secondAttribute="bottom" constant="20" id="30K-k9-9ES"/>
+                <constraint firstItem="KUb-v8-9Rt" firstAttribute="top" secondItem="vkg-4N-KnM" secondAttribute="bottom" constant="8" symbolic="YES" id="9h0-iS-tkM"/>
+                <constraint firstItem="vkg-4N-KnM" firstAttribute="trailing" secondItem="KUb-v8-9Rt" secondAttribute="trailing" id="QXB-7L-VHg"/>
+                <constraint firstItem="KUb-v8-9Rt" firstAttribute="trailing" secondItem="lM9-53-8bZ" secondAttribute="trailing" id="S2Z-L0-nzi"/>
+                <constraint firstItem="TBA-VK-kqc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TSd-fB-LoV"/>
+                <constraint firstItem="KUb-v8-9Rt" firstAttribute="leading" secondItem="lM9-53-8bZ" secondAttribute="leading" id="Uof-cC-eK4"/>
+                <constraint firstItem="vkg-4N-KnM" firstAttribute="top" secondItem="TBA-VK-kqc" secondAttribute="bottom" constant="5" id="a4C-pf-y6E"/>
+                <constraint firstItem="lM9-53-8bZ" firstAttribute="top" secondItem="KUb-v8-9Rt" secondAttribute="bottom" constant="8" symbolic="YES" id="c7O-GU-s7f"/>
+                <constraint firstItem="vkg-4N-KnM" firstAttribute="leading" secondItem="KUb-v8-9Rt" secondAttribute="leading" id="fvo-6v-zHv"/>
+                <constraint firstItem="TBA-VK-kqc" firstAttribute="centerX" secondItem="vkg-4N-KnM" secondAttribute="centerX" id="qem-Uu-2YS"/>
+                <constraint firstAttribute="trailing" secondItem="TBA-VK-kqc" secondAttribute="trailing" id="vph-3d-852"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="133.5" y="39"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="boy.png" width="131" height="150"/>
+        <image name="boy_dark.png" width="131" height="149"/>
+        <image name="boy_mid.png" width="131" height="149"/>
+    </resources>
+</document>

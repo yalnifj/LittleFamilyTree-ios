@@ -33,7 +33,6 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     @IBOutlet var KidHeritageView: UIView!
     @IBOutlet weak var moreText: UILabel!
     @IBOutlet weak var moreText3: UILabel!
-    @IBOutlet weak var kidHeritageButton: UIButton!
     
     @IBOutlet weak var welcomeImage: UIImageView!
     @IBOutlet weak var photosImage: UIImageView!
@@ -66,14 +65,14 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         closeButton.isEnabled      = false
         closeButton.tintColor    = UIColor.clear
         
-        welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)  Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
+        welcomeText.text = "Little Family Tree engages young children with their personal family history through games and activities designed for their level. (Most of the games are fun for the kid in all of us.)"
         welcomeText.numberOfLines = 0
         welcomeText.sizeThatFits(CGSize(width: view.frame.width/2, height: view.frame.height * 0.66))
         welcomeImage.frame.size.width = view.frame.width / 2.5
         if welcomeImage.frame.size.width < 100 {
             welcomeImage.frame.size.width = 100
         }
-        photoText.text = "The more information--especially photos--that you add to your online family tree, the more fun Little Family Tree will be for your child!"
+        photoText.text = "The family history data used in the games comes from an adult's online family tree. The more information--especially photos--that you add to your online tree, the more fun Little Family Tree will be for your child. This app can read the data from the online tree, but DOES NOT change the online tree."
         photoText.numberOfLines = 0
         photosImage.frame.size.width = view.frame.width / 2.5
         photoText.sizeToFit()
@@ -87,20 +86,20 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
             playImage.frame.size.width = 100
         }
         
-        choosePlayerText.text = "The games and activities in Little Family Tree are centered around the person who is playing.  You may choose a different person by using the back button or tapping the profile picture on the activity screens."
+        choosePlayerText.text = "The games and activities in Little Family Tree are centered around the person who is playing and their relationships to family members. You may choose a different player by tapping the player's picture on any screen."
         choosePlayerText.numberOfLines = 0
         chooseImage.frame.size.width = view.frame.width / 2.5
         choosePlayerText.sizeToFit()
         
-        homeActivityText.text = "The home is the hub of the game.  Tap around and explore to find interactive elements.  You may need to help the youngest to get started.  Return anytime by using the home button at the top of every screen."
+        homeActivityText.text = "There is very little text used in the app, making it easy for even the youngest child to play.  The home screen is the hub of the game.  Return home anytime by using the home button at the top of every screen."
         homeActivityText.numberOfLines = 0
         homeActivityText.sizeToFit()
         
-        starsText.text = "Portals to special games and activities are highlighted by stars on the home screen. Tap the items behind the stars to start those activities. Yellow stars highlight free activities, and red stars highlight premium activities.  You may try a premium activity up to 3 times after which a premium upgrade will be required to continue playing that activity. A one-time premium upgrade may be purchased at anytime."
+        starsText.text = "Game portals are highlighted by twinkling stars on the home screen. Tap where the stars appear to enter a game. Yellow stars highlight free activities. Red stars highlight premium activities. You may try a premium activity three times; upgrade to continue playing premium games."
         starsText.numberOfLines = 0
         starsText.sizeToFit()
         
-        settingsText.text = "Parents may alter app settings through the manage settings button found on any screen.  You must enter the password for your online tree account in order to access the settings."
+        settingsText.text = "Parents may alter app settings through the manage settings button found on any screen. You must enter the password for your online tree account in order to access the settings."
         settingsText.numberOfLines = 0
         settingsText.sizeToFit()
         
@@ -108,9 +107,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         moreText3.numberOfLines = 0
         moreText3.sizeToFit()
         
-        kidHeritageButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
-        
-        moreText.text = "Teach your children more about their heritage with their own personal heritage book. Use coupon code LTFAMTR316 for free shipping!"
+        moreText.text = "Visit our website for more details, videos, and tutorials about the games in Little Family Tree."
         moreText.numberOfLines = 0
         moreText.sizeToFit()
         
@@ -134,14 +131,14 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         //}
         
         x = x + w + 20
-        MorePhotosView.frame = CGRect(x: x, y: y, width: w, height: h)
-        pagedScrollView.addSubview(MorePhotosView)
-        scrolledViews.append(MorePhotosView)
-        
-        x = x + w + 20
         PlayTogetherView.frame = CGRect(x: x, y: y, width: w, height: h)
         pagedScrollView.addSubview(PlayTogetherView)
         scrolledViews.append(PlayTogetherView)
+        
+        x = x + w + 20
+        MorePhotosView.frame = CGRect(x: x, y: y, width: w, height: h)
+        pagedScrollView.addSubview(MorePhotosView)
+        scrolledViews.append(MorePhotosView)
         
         x = x + w + 20
         ChoosePlayerView.frame = CGRect(x: x, y: y, width: w, height: h)

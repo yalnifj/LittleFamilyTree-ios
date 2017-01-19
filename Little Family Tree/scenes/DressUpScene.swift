@@ -48,7 +48,8 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class DressUpScene: LittleFamilyScene {
+class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
+    static var TOPIC_CHANGE_SKIN = "topic_change_skin"
     var dolls = DressUpDolls()
     var dollConfig:DollConfig?
     var clothing:[DollClothing]?
@@ -66,6 +67,9 @@ class DressUpScene: LittleFamilyScene {
     var thumbSpriteMap = [SKNode : String]()
     var snapTolerance = CGFloat(10)
     var outlines = [SKSpriteNode : SKSpriteNode]()
+    var skinButton : EventSprite?
+    var skinTone : String = "light"
+    var boygirl : String = "boy"
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -83,13 +87,26 @@ class DressUpScene: LittleFamilyScene {
         self.addChild(background)
         
         setupTopBar()
-        var boygirl = "boy"
+        
+        skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        skinButton = EventSprite(imageNamed: "boy")
+        skinButton?.zPosition = 10
+        skinButton?.topic = DressUpScene.TOPIC_CHANGE_SKIN
+        topBar!.addCustomSprite(skinButton!)
+        self.updateSkinColor(skinTone)
+        
+        boygirl = "boy"
         if (selectedPerson!.gender == GenderType.female) {
             boygirl = "girl"
         }
 
         scale = CGFloat(1.0)
-        doll = SKSpriteNode(imageNamed: "dolls/\(boygirl)doll")
+        if skinTone == "light" {
+            doll = SKSpriteNode(imageNamed: "dolls/\(boygirl)doll")
+        }
+        else {
+            doll = SKSpriteNode(imageNamed: "dolls/\(boygirl)doll_\(skinTone)")
+        }
         doll?.zPosition = 2
         scale = (self.size.height * 0.6) / (doll?.size.height)!
         doll?.setScale(scale)
@@ -129,6 +146,17 @@ class DressUpScene: LittleFamilyScene {
             dx = dx + thumb.size.height + 10
         }
         
+        EventHandler.getInstance().subscribe(DressUpScene.TOPIC_CHANGE_SKIN, listener: self)
+    }
+    
+    override func willMove(from view: SKView) {
+        super.willMove(from: view)
+        EventHandler.getInstance().unSubscribe(DressUpScene.TOPIC_CHANGE_SKIN, listener: self)
+    }
+    
+    func updateSkinColor(_ skinTone:String) {
+        let texture = TextureHelper.getDefaultPortraitTexture(selectedPerson!, skinTone: skinTone)
+        skinButton?.texture = texture
     }
     
     func setupSprites() {
@@ -330,6 +358,33 @@ class DressUpScene: LittleFamilyScene {
         super.update(currentTime)
     }
     
+    override func onEvent(_ topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
+        if topic == DressUpScene.TOPIC_CHANGE_SKIN {
+            let frame = prepareDialogRect(300, height: 400)
+            let subview = ChooseSkinToneView(frame: frame)
+            subview.skinTone = self.skinTone
+            subview.selectedPerson = selectedPerson
+            subview.listener = self
+            self.view?.addSubview(subview)
+
+        }
+    }
+    
+    func onSelected(skinTone:String) {
+        clearDialogRect()
+        self.skinTone = skinTone
+        if skinTone == "light" {
+            doll?.texture = SKTexture(imageNamed: "dolls/\(boygirl)doll")
+        }
+        else {
+            doll = SKTexture(imageNamed: "dolls/\(boygirl)doll_\(skinTone)")
+        }
+    }
+    
+    func cancelled() {
+        clearDialogRect()
+    }
 }
 
 class GPUImageAlphaSobelEdgeDetectionFilter : GPUImageSobelEdgeDetectionFilter {

@@ -64,31 +64,108 @@ class TextureHelper {
     }
     
     static func getDefaultPortrait(_ person:LittlePerson) -> SKTexture {
+        let skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        return TextureHelper.getDefaultPortraitTexture(person, skinTone:skinTone)
+    }
+    
+    static func getDefaultPortraitTexture(_ person:LittlePerson, skinTone:String) -> SKTexture {
         if (person.age != nil) {
             if (person.age < 2) {
-                return SKTexture(imageNamed: "baby")
+                if skinTone == "light" {
+                    return SKTexture(imageNamed: "baby")
+                }
+                if skinTone == "mid" {
+                    return SKTexture(imageNamed: "baby_mid")
+                }
+                if skinTone == "dark" {
+                    return SKTexture(imageNamed: "baby_dark")
+                }
             }
             if (person.age < 18) {
                 if (person.gender == GenderType.female) {
-                    return SKTexture(imageNamed: "girl")
+                    if skinTone == "light" {
+                        return SKTexture(imageNamed: "girl")
+                    }
+                    if skinTone == "mid" {
+                        return SKTexture(imageNamed: "girl_mid")
+                    }
+                    if skinTone == "dark" {
+                        return SKTexture(imageNamed: "girl_dark")
+                    }
                 }
-                return SKTexture(imageNamed: "boy")
+                if skinTone == "light" {
+                    return SKTexture(imageNamed: "boy")
+                }
+                if skinTone == "mid" {
+                    return SKTexture(imageNamed: "boy_mid")
+                }
+                if skinTone == "dark" {
+                    return SKTexture(imageNamed: "boy_dark")
+                }
             }
             if (person.age < 50) {
                 if (person.gender == GenderType.female) {
-                    return SKTexture(imageNamed: "mom")
+                    if skinTone == "light" {
+                        return SKTexture(imageNamed: "mom")
+                    }
+                    if skinTone == "mid" {
+                        return SKTexture(imageNamed: "mom_mid")
+                    }
+                    if skinTone == "dark" {
+                        return SKTexture(imageNamed: "mom_dark")
+                    }
                 }
-                return SKTexture(imageNamed: "dad")
+                if skinTone == "light" {
+                    return SKTexture(imageNamed: "dad")
+                }
+                if skinTone == "mid" {
+                    return SKTexture(imageNamed: "dad_mid")
+                }
+                if skinTone == "dark" {
+                    return SKTexture(imageNamed: "dad_dark")
+                }
             }
             if (person.gender == GenderType.female) {
-                return SKTexture(imageNamed: "grandma")
+                if skinTone == "light" {
+                    return SKTexture(imageNamed: "grandma")
+                }
+                if skinTone == "mid" {
+                    return SKTexture(imageNamed: "grandma_mid")
+                }
+                if skinTone == "dark" {
+                    return SKTexture(imageNamed: "grandma_dark")
+                }
             }
-            return SKTexture(imageNamed: "grandpa")
+            if skinTone == "light" {
+                return SKTexture(imageNamed: "grandpa")
+            }
+            if skinTone == "mid" {
+                return SKTexture(imageNamed: "grandpa_mid")
+            }
+            if skinTone == "dark" {
+                return SKTexture(imageNamed: "grandpa_dark")
+            }
         } else {
             if (person.gender == GenderType.female) {
-                return SKTexture(imageNamed: "mom")
+                if skinTone == "light" {
+                    return SKTexture(imageNamed: "mom")
+                }
+                if skinTone == "mid" {
+                    return SKTexture(imageNamed: "mom_mid")
+                }
+                if skinTone == "dark" {
+                    return SKTexture(imageNamed: "mom_dark")
+                }
             }
-            return SKTexture(imageNamed: "dad")
+            if skinTone == "light" {
+                return SKTexture(imageNamed: "dad")
+            }
+            if skinTone == "mid" {
+                return SKTexture(imageNamed: "dad_mid")
+            }
+            if skinTone == "dark" {
+                return SKTexture(imageNamed: "dad_dark")
+            }
         }
     }
     
@@ -122,31 +199,63 @@ class TextureHelper {
     }
     
     static func getDefaultPortraitImage(_ person:LittlePerson) -> UIImage? {
+        let skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        return TextureHelper.getDefaultPortraitImageBySkin(person, skinTone:skinTone)
+    }
+    
+    static func getDefaultPortraitImageBySkin(_ person:LittlePerson, skinTone:String) -> UIImage? {
         if (person.age != nil) {
             if (person.age < 2) {
-                return UIImage(named: "baby")
+                if skinTone == "light" {
+                    return UIImage(named: "baby")
+                }
+                return UIImage(named: "baby_\(skinTone)")
             }
             if (person.age < 18) {
                 if (person.gender == GenderType.female) {
-                    return UIImage(named: "girl")
+                    if skinTone == "light" {
+                        return UIImage(named: "girl")
+                    }
+                    return UIImage(named: "girl_\(skinTone)")
                 }
-                return UIImage(named: "boy")
+                if skinTone == "light" {
+                    return UIImage(named: "boy")
+                }
+                return UIImage(named: "boy_\(skinTone)")
             }
             if (person.age < 50) {
                 if (person.gender == GenderType.female) {
-                    return UIImage(named: "mom")
+                    if skinTone == "light" {
+                        return UIImage(named: "mom")
+                    }
+                    return UIImage(named: "mom_\(skinTone)")
                 }
-                return UIImage(named: "dad")
+                if skinTone == "light" {
+                    return UIImage(named: "dad")
+                }
+                return UIImage(named: "dad_\(skinTone)")
             }
             if (person.gender == GenderType.female) {
-                return UIImage(named: "grandma")
+                if skinTone == "light" {
+                    return UIImage(named: "grandma")
+                }
+                return UIImage(named: "grandma_\(skinTone)")
             }
-            return UIImage(named: "grandpa")
+            if skinTone == "light" {
+                return UIImage(named: "grandpa")
+            }
+            return UIImage(named: "grandpa_\(skinTone)")
         } else {
             if (person.gender == GenderType.female) {
-                return UIImage(named: "mom")
+                if skinTone == "light" {
+                    return UIImage(named: "mom")
+                }
+                return UIImage(named: "mom_\(skinTone)")
             }
-            return UIImage(named: "dad")
+            if skinTone == "light" {
+                return UIImage(named: "dad")
+            }
+            return UIImage(named: "dad_\(skinTone)")
         }
     }
     

@@ -30,6 +30,22 @@
 		93D6E0721D9235AE001AFA34 /* FamilyGraphJsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */; };
 		93E8A9BF1DC5607100C25D4E /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; };
 		93E8A9C01DC5607100C25D4E /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93F0C2EE1E2F253B00C8C674 /* grandma_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E01E2F253A00C8C674 /* grandma_mid.png */; };
+		93F0C2EF1E2F253B00C8C674 /* grandma_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E11E2F253A00C8C674 /* grandma_dark.png */; };
+		93F0C2F01E2F253B00C8C674 /* grandpa_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E21E2F253A00C8C674 /* grandpa_mid.png */; };
+		93F0C2F11E2F253B00C8C674 /* grandpa_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E31E2F253A00C8C674 /* grandpa_dark.png */; };
+		93F0C2F21E2F253B00C8C674 /* mom_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E41E2F253A00C8C674 /* mom_mid.png */; };
+		93F0C2F31E2F253B00C8C674 /* mom_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E51E2F253A00C8C674 /* mom_dark.png */; };
+		93F0C2F41E2F253B00C8C674 /* girl_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E61E2F253A00C8C674 /* girl_mid.png */; };
+		93F0C2F51E2F253B00C8C674 /* girl_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E71E2F253A00C8C674 /* girl_dark.png */; };
+		93F0C2F61E2F253B00C8C674 /* dad_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E81E2F253A00C8C674 /* dad_mid.png */; };
+		93F0C2F71E2F253B00C8C674 /* dad_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E91E2F253A00C8C674 /* dad_dark.png */; };
+		93F0C2F81E2F253B00C8C674 /* boy_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2EA1E2F253A00C8C674 /* boy_mid.png */; };
+		93F0C2F91E2F253B00C8C674 /* boy_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2EB1E2F253A00C8C674 /* boy_dark.png */; };
+		93F0C2FA1E2F253B00C8C674 /* baby_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2EC1E2F253A00C8C674 /* baby_mid.png */; };
+		93F0C2FB1E2F253B00C8C674 /* baby_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2ED1E2F253A00C8C674 /* baby_dark.png */; };
+		93F0C3071E306BDD00C8C674 /* ChooseSkinToneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F0C3061E306BDD00C8C674 /* ChooseSkinToneView.swift */; };
+		93F0C3091E306D8200C8C674 /* ChooseSkinToneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C3081E306D8200C8C674 /* ChooseSkinToneView.xib */; };
 		93F9BB791D598D3800ED6FC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */; };
 		A10CC8A71C8FC807005B3233 /* bass_off.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8881C8FC806005B3233 /* bass_off.png */; };
 		A10CC8A81C8FC807005B3233 /* bass.png in Resources */ = {isa = PBXBuildFile; fileRef = A10CC8891C8FC806005B3233 /* bass.png */; };
@@ -788,6 +804,22 @@
 		93A82ABB1D65557E000AD078 /* tryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryButton.png; sourceTree = "<group>"; };
 		93BE10B21D65F3E60014B4FE /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyGraphJsonConverter.swift; sourceTree = "<group>"; };
+		93F0C2E01E2F253A00C8C674 /* grandma_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_mid.png; sourceTree = "<group>"; };
+		93F0C2E11E2F253A00C8C674 /* grandma_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_dark.png; sourceTree = "<group>"; };
+		93F0C2E21E2F253A00C8C674 /* grandpa_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa_mid.png; sourceTree = "<group>"; };
+		93F0C2E31E2F253A00C8C674 /* grandpa_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa_dark.png; sourceTree = "<group>"; };
+		93F0C2E41E2F253A00C8C674 /* mom_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom_mid.png; sourceTree = "<group>"; };
+		93F0C2E51E2F253A00C8C674 /* mom_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mom_dark.png; sourceTree = "<group>"; };
+		93F0C2E61E2F253A00C8C674 /* girl_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl_mid.png; sourceTree = "<group>"; };
+		93F0C2E71E2F253A00C8C674 /* girl_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl_dark.png; sourceTree = "<group>"; };
+		93F0C2E81E2F253A00C8C674 /* dad_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dad_mid.png; sourceTree = "<group>"; };
+		93F0C2E91E2F253A00C8C674 /* dad_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dad_dark.png; sourceTree = "<group>"; };
+		93F0C2EA1E2F253A00C8C674 /* boy_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boy_mid.png; sourceTree = "<group>"; };
+		93F0C2EB1E2F253A00C8C674 /* boy_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boy_dark.png; sourceTree = "<group>"; };
+		93F0C2EC1E2F253A00C8C674 /* baby_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baby_mid.png; sourceTree = "<group>"; };
+		93F0C2ED1E2F253A00C8C674 /* baby_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baby_dark.png; sourceTree = "<group>"; };
+		93F0C3061E306BDD00C8C674 /* ChooseSkinToneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseSkinToneView.swift; sourceTree = "<group>"; };
+		93F0C3081E306D8200C8C674 /* ChooseSkinToneView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseSkinToneView.xib; sourceTree = "<group>"; };
 		93F9BB781D598D3800ED6FC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A10CC8881C8FC806005B3233 /* bass_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass_off.png; sourceTree = "<group>"; };
 		A10CC8891C8FC806005B3233 /* bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bass.png; sourceTree = "<group>"; };
@@ -1838,6 +1870,8 @@
 				A12AA8081CD1A6BE0001A1D5 /* RecordAudioView.xib */,
 				930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */,
 				930574BE1D537E2500A99066 /* MyHeritageLogin.swift */,
+				93F0C3061E306BDD00C8C674 /* ChooseSkinToneView.swift */,
+				93F0C3081E306D8200C8C674 /* ChooseSkinToneView.xib */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -1845,6 +1879,20 @@
 		A1F7CF151C8FBC0F006053A2 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				93F0C2E01E2F253A00C8C674 /* grandma_mid.png */,
+				93F0C2E11E2F253A00C8C674 /* grandma_dark.png */,
+				93F0C2E21E2F253A00C8C674 /* grandpa_mid.png */,
+				93F0C2E31E2F253A00C8C674 /* grandpa_dark.png */,
+				93F0C2E41E2F253A00C8C674 /* mom_mid.png */,
+				93F0C2E51E2F253A00C8C674 /* mom_dark.png */,
+				93F0C2E61E2F253A00C8C674 /* girl_mid.png */,
+				93F0C2E71E2F253A00C8C674 /* girl_dark.png */,
+				93F0C2E81E2F253A00C8C674 /* dad_mid.png */,
+				93F0C2E91E2F253A00C8C674 /* dad_dark.png */,
+				93F0C2EA1E2F253A00C8C674 /* boy_mid.png */,
+				93F0C2EB1E2F253A00C8C674 /* boy_dark.png */,
+				93F0C2EC1E2F253A00C8C674 /* baby_mid.png */,
+				93F0C2ED1E2F253A00C8C674 /* baby_dark.png */,
 				93A82ABB1D65557E000AD078 /* tryButton.png */,
 				93A82AB91D655573000AD078 /* buyButton.png */,
 				9378D9E31E2AE9BD001FA796 /* buy_button_199.png */,
@@ -2559,6 +2607,7 @@
 				A1F7D2781C8FBC12006053A2 /* house_chilldroom_desk.png in Resources */,
 				A150A5BF1CB02AC300B63D81 /* logo.png in Resources */,
 				A1743DDA1CE7BF0E0066E964 /* flying_bird1.png in Resources */,
+				93F0C2FB1E2F253B00C8C674 /* baby_dark.png in Resources */,
 				A1F7D2EE1C8FBC12006053A2 /* house_kitchen_kettle9.png in Resources */,
 				A1F7D3BE1C8FBC12006053A2 /* tree_search.png in Resources */,
 				A1F7D3601C8FBC12006053A2 /* house_rooms_4_4.png in Resources */,
@@ -2752,6 +2801,7 @@
 				A10CC8B51C8FC807005B3233 /* guitar.png in Resources */,
 				A1743DDE1CE7BF0E0066E964 /* leaf2.png in Resources */,
 				A150A5BA1CB02AA100B63D81 /* cupcake1.png in Resources */,
+				93F0C2F91E2F253B00C8C674 /* boy_dark.png in Resources */,
 				A1F7D28D1C8FBC12006053A2 /* house_chilldroom_paint1.png in Resources */,
 				93A82AAE1D653A8B000AD078 /* redstar1.png in Resources */,
 				A10CC8B41C8FC807005B3233 /* guitar_thisismyfamily.mp3 in Resources */,
@@ -2759,12 +2809,14 @@
 				A1F7D2AF1C8FBC12006053A2 /* house_familyroom_frame.png in Resources */,
 				A1F7D2701C8FBC12006053A2 /* house_adult_wardrobe3.png in Resources */,
 				A1F7D2FC1C8FBC12006053A2 /* house_music_guitar.png in Resources */,
+				93F0C2EE1E2F253B00C8C674 /* grandma_mid.png in Resources */,
 				A1F7D3A01C8FBC12006053A2 /* (null) in Resources */,
 				A1F7D2EC1C8FBC12006053A2 /* house_kitchen_kettle7.png in Resources */,
 				A1F7D2D61C8FBC12006053A2 /* house_kitchen_freezer.png in Resources */,
 				A1F7CF101C8FBBD6006053A2 /* SettingsView.xib in Resources */,
 				9378D9E51E2AE9BD001FA796 /* buy_button_199.png in Resources */,
 				A1F7D1821C8FBC12006053A2 /* match_back.png in Resources */,
+				93F0C2F41E2F253B00C8C674 /* girl_mid.png in Resources */,
 				A158DB481D0CA7E60002F0A8 /* cloud10.png in Resources */,
 				A1F7D36A1C8FBC12006053A2 /* pgv_logo.png in Resources */,
 				A1F7D34F1C8FBC12006053A2 /* house_rooms_1_1.png in Resources */,
@@ -2788,11 +2840,13 @@
 				A1F7D2A11C8FBC12006053A2 /* house_chilldroom_teddy6.png in Resources */,
 				A1F7D33E1C8FBC12006053A2 /* house_toys_horse4.png in Resources */,
 				A10CC8C41C8FC807005B3233 /* voice_myhistory.mp3 in Resources */,
+				93F0C3091E306D8200C8C674 /* ChooseSkinToneView.xib in Resources */,
 				A1F7D2C21C8FBC12006053A2 /* house_familyroom_frame3.png in Resources */,
 				A1F7D19A1C8FBC12006053A2 /* bubbles8.png in Resources */,
 				A12444ED1CA6ED21000380A5 /* house_adult_vanity1.png in Resources */,
 				A10CC8B11C8FC807005B3233 /* flute_myhistory.mp3 in Resources */,
 				A1743DC81CE7BF0E0066E964 /* bird_tile2.png in Resources */,
+				93F0C2EF1E2F253B00C8C674 /* grandma_dark.png in Resources */,
 				A1F7D3A41C8FBC12006053A2 /* pop.mp3 in Resources */,
 				A1F7D3621C8FBC12006053A2 /* info.png in Resources */,
 				A1F7D2641C8FBC12006053A2 /* frame5.png in Resources */,
@@ -2820,6 +2874,7 @@
 				A10CC8B31C8FC807005B3233 /* guitar_off.png in Resources */,
 				A1F7D32C1C8FBC12006053A2 /* house_toys_bat5.png in Resources */,
 				A1F7D2BD1C8FBC12006053A2 /* house_familyroom_frame21.png in Resources */,
+				93F0C2F21E2F253B00C8C674 /* mom_mid.png in Resources */,
 				A1F7D2FD1C8FBC12006053A2 /* house_music_guitar1.png in Resources */,
 				A10CC8BA1C8FC807005B3233 /* piano.png in Resources */,
 				A1F7D3271C8FBC12006053A2 /* house_toys_bat20.png in Resources */,
@@ -2845,6 +2900,7 @@
 				A1F7D3331C8FBC12006053A2 /* house_toys_blocks2.png in Resources */,
 				A1F7D3131C8FBC12006053A2 /* house_toaster3.png in Resources */,
 				A1F7D2671C8FBC12006053A2 /* girl.png in Resources */,
+				93F0C2F71E2F253B00C8C674 /* dad_dark.png in Resources */,
 				A1F7D3C01C8FBC12006053A2 /* tree_search2.png in Resources */,
 				A1F7D30E1C8FBC12006053A2 /* house_toaster18.png in Resources */,
 				A12444F21CA6ED21000380A5 /* house_adult_vanity6.png in Resources */,
@@ -2861,6 +2917,7 @@
 				A1F7D29F1C8FBC12006053A2 /* house_chilldroom_teddy4.png in Resources */,
 				A1F7D3CB1C8FBC12006053A2 /* vineh.png in Resources */,
 				A1F7D3161C8FBC12006053A2 /* house_toaster6.png in Resources */,
+				93F0C2F11E2F253B00C8C674 /* grandpa_dark.png in Resources */,
 				A1F7D3381C8FBC12006053A2 /* house_toys_blocks7.png in Resources */,
 				A12444F71CA6ED21000380A5 /* house_adult_vanity11.png in Resources */,
 				A1F7D1851C8FBC12006053A2 /* tree_background.png in Resources */,
@@ -2889,6 +2946,7 @@
 				9303034E1D8796C000ED7FDC /* device2.png in Resources */,
 				A1F7D2B91C8FBC12006053A2 /* house_familyroom_frame18.png in Resources */,
 				A1F7D2951C8FBC12006053A2 /* house_chilldroom_paint3.png in Resources */,
+				93F0C2F31E2F253B00C8C674 /* mom_dark.png in Resources */,
 				A1F7D34E1C8FBC12006053A2 /* house_rooms_1_0.png in Resources */,
 				A1F7D3061C8FBC12006053A2 /* house_toaster10.png in Resources */,
 				A1F7D3091C8FBC12006053A2 /* house_toaster13.png in Resources */,
@@ -2904,6 +2962,7 @@
 				A158DB4C1D0CA7E60002F0A8 /* cloud14.png in Resources */,
 				A1F7D2A71C8FBC12006053A2 /* house_cloud1e.png in Resources */,
 				A1F7D2C51C8FBC12006053A2 /* house_familyroom_frame6.png in Resources */,
+				93F0C2FA1E2F253B00C8C674 /* baby_mid.png in Resources */,
 				938A9E531D6D26190013BFA7 /* Podfile.lock in Resources */,
 				A1F7D26B1C8FBC12006053A2 /* house_adult_bed.png in Resources */,
 				A15A0F091CD4525D00471221 /* mic_icon.png in Resources */,
@@ -2965,11 +3024,13 @@
 				A1F7D2661C8FBC12006053A2 /* frame7.png in Resources */,
 				A1F7D2D31C8FBC12006053A2 /* house_kitchen_c.png in Resources */,
 				A1F7D2C01C8FBC12006053A2 /* house_familyroom_frame24.png in Resources */,
+				93F0C2F01E2F253B00C8C674 /* grandpa_mid.png in Resources */,
 				A158DB531D0CAA100002F0A8 /* branch1.png in Resources */,
 				A1F7D3471C8FBC12006053A2 /* house_tree_bird5.png in Resources */,
 				A1F7D34C1C8FBC12006053A2 /* house_rooms_0_3.png in Resources */,
 				A10CC8BF1C8FC807005B3233 /* violin_allinourfamilytree.mp3 in Resources */,
 				A1F7D3361C8FBC12006053A2 /* house_toys_blocks5.png in Resources */,
+				93F0C2F51E2F253B00C8C674 /* girl_dark.png in Resources */,
 				A1F7D3C71C8FBC12006053A2 /* vine.png in Resources */,
 				A1F7D3401C8FBC12006053A2 /* house_toys_horse6.png in Resources */,
 				A1F7D2871C8FBC12006053A2 /* house_chilldroom_desk5.png in Resources */,
@@ -3026,6 +3087,7 @@
 				A1A04DC41CFA5B2C00750FC2 /* grumble.mp3 in Resources */,
 				A1F7D3011C8FBC12006053A2 /* house_music_trumpet.png in Resources */,
 				93A82ABC1D65557E000AD078 /* tryButton.png in Resources */,
+				93F0C2F81E2F253B00C8C674 /* boy_mid.png in Resources */,
 				A1F7D34A1C8FBC12006053A2 /* house_rooms_0_1.png in Resources */,
 				A10CC8C31C8FC807005B3233 /* voice_allinourfamilytree.mp3 in Resources */,
 				A143139D1CB846F900409DD3 /* flame2.png in Resources */,
@@ -3043,6 +3105,7 @@
 				A1A04DC61CFA5B2C00750FC2 /* leafb1.png in Resources */,
 				A1F7D32B1C8FBC12006053A2 /* house_toys_bat4.png in Resources */,
 				A1F7D2A01C8FBC12006053A2 /* house_chilldroom_teddy5.png in Resources */,
+				93F0C2F61E2F253B00C8C674 /* dad_mid.png in Resources */,
 				A1F7D2E11C8FBC12006053A2 /* house_kitchen_fridge4.png in Resources */,
 				A1F7D39A1C8FBC12006053A2 /* guitar.mp3 in Resources */,
 				A1F7D3501C8FBC12006053A2 /* house_rooms_1_2.png in Resources */,
@@ -3302,6 +3365,7 @@
 				A1F7CEFB1C8FBBD6006053A2 /* PersonNameSprite.swift in Sources */,
 				A1F7CEC51C8FBBD6006053A2 /* EvidenceReference.swift in Sources */,
 				A1F7CECC1C8FBBD6006053A2 /* Identifier.swift in Sources */,
+				93F0C3071E306BDD00C8C674 /* ChooseSkinToneView.swift in Sources */,
 				A1F7CEB51C8FBBD6006053A2 /* PuzzleGame.swift in Sources */,
 				A158DB5E1D0CC7B50002F0A8 /* PersonLeafSprite.swift in Sources */,
 				A155858F1D4D28E100AD7E9E /* NSString+SBJSON.m in Sources */,

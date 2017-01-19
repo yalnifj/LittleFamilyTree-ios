@@ -9,7 +9,7 @@
 import UIKit
 import StoreKit
 
-class SettingsView: UIView {
+class SettingsView: UIView, UIPickerViewDelegate {
 
    
     @IBOutlet weak var btnBack: UIBarButtonItem!
@@ -32,8 +32,11 @@ class SettingsView: UIView {
     @IBOutlet weak var quietModeSwitch: UISwitch!
 	@IBOutlet weak var showStepChildrenSwitch: UISwitch!
     @IBOutlet weak var restoreButton: UIButton!
+    @IBOutlet weak var defaultSkinTon: UIButton!
+    @IBOutlet weak var view12: UIView!
     
     @IBOutlet weak var versionLabel: UILabel!
+    @IBOutlet weak var skinPicker: UIPickerView!
     
     let delays = [1,2,3,5,8,12,18,24,36,48]
     
@@ -82,6 +85,8 @@ class SettingsView: UIView {
         view10.layer.borderWidth = 0.5
         view11.layer.borderColor = color.cgColor
         view11.layer.borderWidth = 0.5
+        view12.layer.borderColor = color.cgColor
+        view12.layer.borderWidth = 0.5
         
         let dataService = DataService.getInstance()
         let treeType = dataService.dbHelper.getProperty(DataService.SERVICE_TYPE)
@@ -129,6 +134,22 @@ class SettingsView: UIView {
             delayIndex = 0
         }
         syncDelaySlider.setValue(Float(delayIndex!), animated: false)
+        
+        var skinTone = dataService.dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        if skinTone==nil {
+            skinTone = "light"
+        }
+        var row = 0
+        if skinTone=="mid" {
+            row = 1
+        }
+        else if skinTone=="dark" {
+            row = 2
+        }
+        skinPicker.selectRow(row, inComponent: row, animated: false)
+        
+        skinPicker.delegate = self
+        
         
         //First get the nsObject by defining as an optional anyObject
         let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
@@ -214,6 +235,7 @@ class SettingsView: UIView {
         }
     }
     
+    
     var iapHelper:IAPHelper?
     @IBAction func restorePurchases(_ sender: AnyObject) {
         iapHelper = IAPHelper(listener: restoreListener(view: self))
@@ -247,6 +269,56 @@ class SettingsView: UIView {
             print(error)
             view.showError(error)
         }
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    // MARK: UIPickerViewDelegate
+    
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+        
+        var myImageView = UIImageView()
+        
+        switch row {
+        case 0:
+            myImageView = UIImageView(image: UIImage(named:"boy"))
+        case 1:
+            myImageView = UIImageView(image: UIImage(named:"boy_mid"))
+        case 2:
+            myImageView = UIImageView(image: UIImage(named:"boy_dark"))
+        default:
+            myImageView.image = nil
+            
+            return myImageView
+        }
+        return myImageView
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        var skinTone = "light"
+        switch row {
+        case 0:
+            skinTone = "light"
+            break
+        case 1:
+            skinTone = "mid"
+            break
+        case 2:
+            skinTone = "dark"
+            break
+        default:
+            skinTone = "light"
+            break
+        }
+        DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SKIN_TONE, value: skinTone)
+        
     }
 }
 

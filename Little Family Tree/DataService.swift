@@ -41,6 +41,7 @@ class DataService {
     static let PROPERTY_SHOW_PARENTS_GUIDE = "showParentsGuide"
 	static let PROPERTY_SHOW_STEP_CHILDREN = "showStepChildren"
 	static let PROPERTY_REMEMBER_ME = "rememberMe"
+    static let PROPERTY_SKIN_TONE = "skin_tone"
 
 	var remoteService:RemoteService? = nil
 	var serviceType:String? = nil
@@ -820,19 +821,28 @@ class DataService {
 						df2.dateFormat = "+yyyy-MM-dd"
 						person.birthDate = df2.date(from: birthDateStr!)
 						if person.birthDate == nil {
-							let regex = try? NSRegularExpression(pattern: "[0-9]{4}", options: [])
-                            let range = NSRangeFromString(birthDateStr!)
-							let results = regex!.firstMatch(in: birthDateStr!, options:[], range: range)
-                            if results != nil {
-                                let nsB = birthDateStr! as NSString
-                                let yearStr = nsB.substring(with: results!.range)
-                                let year = Int(yearStr)
-                                let todayDate = Foundation.Date()
-                                let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
-                                person.age = currYear - year!
-                                let df3 = DateFormatter()
-                                df3.dateFormat = "yyyy"
-                                person.birthDate = df3.date(from: yearStr)
+                            do {
+                                print("Look for year in \(birthDateStr)")
+                                let regex = try NSRegularExpression(pattern: "[0-9]{4}", options: [])
+                                let range = NSRangeFromString(birthDateStr!)
+                                if range != nil {
+                                    let results = regex.firstMatch(in: birthDateStr!, options:[], range: range)
+                                    if results != nil {
+                                        let nsB = birthDateStr! as NSString
+                                        let yearStr = nsB.substring(with: results!.range)
+                                        let year = Int(yearStr)
+                                        let todayDate = Foundation.Date()
+                                        let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
+                                        person.age = currYear - year!
+                                        let df3 = DateFormatter()
+                                        df3.dateFormat = "yyyy"
+                                        person.birthDate = df3.date(from: yearStr)
+                                    }
+                                }
+                            } catch let error as NSException {
+                                print("Unable to create birthdate from \(birthDateStr) \(error)")
+                            } catch {
+                                print("Unable to create birthdate from \(birthDateStr)")
                             }
 						} else {
 							person.updateAge()
