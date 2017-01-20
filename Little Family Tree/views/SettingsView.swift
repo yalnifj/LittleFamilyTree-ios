@@ -9,7 +9,7 @@
 import UIKit
 import StoreKit
 
-class SettingsView: UIView, UIPickerViewDelegate {
+class SettingsView: UIView, ChooseSkinToneListener {
 
    
     @IBOutlet weak var btnBack: UIBarButtonItem!
@@ -34,9 +34,9 @@ class SettingsView: UIView, UIPickerViewDelegate {
     @IBOutlet weak var restoreButton: UIButton!
     @IBOutlet weak var defaultSkinTon: UIButton!
     @IBOutlet weak var view12: UIView!
+    @IBOutlet weak var skinImageButton: UIButton!
     
     @IBOutlet weak var versionLabel: UILabel!
-    @IBOutlet weak var skinPicker: UIPickerView!
     
     let delays = [1,2,3,5,8,12,18,24,36,48]
     
@@ -139,16 +139,8 @@ class SettingsView: UIView, UIPickerViewDelegate {
         if skinTone==nil {
             skinTone = "light"
         }
-        var row = 0
-        if skinTone=="mid" {
-            row = 1
-        }
-        else if skinTone=="dark" {
-            row = 2
-        }
-        skinPicker.selectRow(row, inComponent: row, animated: false)
-        
-        skinPicker.delegate = self
+        let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone!)
+        skinImageButton.imageView?.image = skinImage
         
         
         //First get the nsObject by defining as an optional anyObject
@@ -235,6 +227,25 @@ class SettingsView: UIView, UIPickerViewDelegate {
         }
     }
     
+    @IBAction func skinToneButtonClicked(_ sender: Any) {
+        let x = Int((self.frame.width - 300) / 2)
+        let y = 50
+        let rect = CGRect(x: x, y: y, width: 300, height: 300)
+        let subview = ChooseSkinToneView(frame: rect)
+        subview.selectedPerson = selectedPerson
+        subview.listener = self
+        self.view?.addSubview(subview)
+    }
+    
+    @IBAction func skinImageButtonClicked(_ sender: Any) {
+        let x = Int((self.frame.width - 300) / 2)
+        let y = 50
+        let rect = CGRect(x: x, y: y, width: 300, height: 300)
+        let subview = ChooseSkinToneView(frame: rect)
+        subview.selectedPerson = selectedPerson
+        subview.listener = self
+        self.view?.addSubview(subview)
+    }
     
     var iapHelper:IAPHelper?
     @IBAction func restorePurchases(_ sender: AnyObject) {
@@ -271,55 +282,16 @@ class SettingsView: UIView, UIPickerViewDelegate {
         }
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
-    }
-    
-    // MARK: UIPickerViewDelegate
-    
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
-        
-        var myImageView = UIImageView()
-        
-        switch row {
-        case 0:
-            myImageView = UIImageView(image: UIImage(named:"boy"))
-        case 1:
-            myImageView = UIImageView(image: UIImage(named:"boy_mid"))
-        case 2:
-            myImageView = UIImageView(image: UIImage(named:"boy_dark"))
-        default:
-            myImageView.image = nil
-            
-            return myImageView
-        }
-        return myImageView
-    }
-    
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        var skinTone = "light"
-        switch row {
-        case 0:
-            skinTone = "light"
-            break
-        case 1:
-            skinTone = "mid"
-            break
-        case 2:
-            skinTone = "dark"
-            break
-        default:
-            skinTone = "light"
-            break
-        }
+    func onSelected(skinTone:String) {
         DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SKIN_TONE, value: skinTone)
+        let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone)
+        skinImageButton.imageView?.image = skinImage
+    }
+    
+    func cancelled(){
         
     }
+    
 }
 
 class SettingsPGCloseListener: ParentsGuideCloseListener {

@@ -88,7 +88,10 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         
         setupTopBar()
         
-        skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        let defaultSkinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        if defaultSkinTone != nil {
+            skinTone = defaultSkinTone!
+        }
         skinButton = EventSprite(imageNamed: "boy")
         skinButton?.zPosition = 10
         skinButton?.topic = DressUpScene.TOPIC_CHANGE_SKIN
@@ -363,7 +366,6 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         if topic == DressUpScene.TOPIC_CHANGE_SKIN {
             let frame = prepareDialogRect(300, height: 400)
             let subview = ChooseSkinToneView(frame: frame)
-            subview.skinTone = self.skinTone
             subview.selectedPerson = selectedPerson
             subview.listener = self
             self.view?.addSubview(subview)
@@ -378,7 +380,7 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
             doll?.texture = SKTexture(imageNamed: "dolls/\(boygirl)doll")
         }
         else {
-            doll = SKTexture(imageNamed: "dolls/\(boygirl)doll_\(skinTone)")
+            doll?.texture = SKTexture(imageNamed: "dolls/\(boygirl)doll_\(skinTone)")
         }
     }
     

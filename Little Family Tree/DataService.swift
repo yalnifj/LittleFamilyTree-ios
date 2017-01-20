@@ -826,17 +826,27 @@ class DataService {
                                 let regex = try NSRegularExpression(pattern: "[0-9]{4}", options: [])
                                 let range = NSRangeFromString(birthDateStr!)
                                 if range != nil {
-                                    let results = regex.firstMatch(in: birthDateStr!, options:[], range: range)
-                                    if results != nil {
-                                        let nsB = birthDateStr! as NSString
-                                        let yearStr = nsB.substring(with: results!.range)
-                                        let year = Int(yearStr)
+                                    if range.location > 1000 {
+                                        let year = range.location
                                         let todayDate = Foundation.Date()
                                         let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
-                                        person.age = currYear - year!
+                                        person.age = currYear - year
                                         let df3 = DateFormatter()
                                         df3.dateFormat = "yyyy"
-                                        person.birthDate = df3.date(from: yearStr)
+                                        person.birthDate = df3.date(from: "\(year)")
+                                    } else {
+                                        let results = regex.firstMatch(in: birthDateStr!, options:[], range: range)
+                                        if results != nil {
+                                            let nsB = birthDateStr! as NSString
+                                            let yearStr = nsB.substring(with: results!.range)
+                                            let year = Int(yearStr)
+                                            let todayDate = Foundation.Date()
+                                            let currYear = (Calendar.current as NSCalendar).component(.year, from: todayDate)
+                                            person.age = currYear - year!
+                                            let df3 = DateFormatter()
+                                            df3.dateFormat = "yyyy"
+                                            person.birthDate = df3.date(from: yearStr)
+                                        }
                                     }
                                 }
                             } catch let error as NSException {

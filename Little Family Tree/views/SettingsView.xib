@@ -18,7 +18,7 @@
                 <outlet property="remoteTreeType" destination="1GI-LH-c7Q" id="N24-Qw-RzL"/>
                 <outlet property="restoreButton" destination="FgS-Kh-Q1J" id="FQW-mu-W3D"/>
                 <outlet property="showStepChildrenSwitch" destination="WOi-rl-azm" id="zTg-gq-HSk"/>
-                <outlet property="skinPicker" destination="tWy-e5-M5o" id="jGe-hy-pYu"/>
+                <outlet property="skinImageButton" destination="H1O-Hm-5sY" id="MwL-I3-jnS"/>
                 <outlet property="syncDelayLabel" destination="nhH-fF-29K" id="4Tt-Fi-d1x"/>
                 <outlet property="syncDelaySlider" destination="dJv-E9-yQm" id="2K1-SV-3mz"/>
                 <outlet property="syncInBackgroundSwitch" destination="TaM-oa-Ya5" id="64u-WR-Je2"/>
@@ -253,22 +253,27 @@
                                     <state key="normal" title="Default Skin Tone">
                                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="skinToneButtonClicked:" destination="-1" eventType="touchUpInside" id="bGY-Ke-byH"/>
+                                    </connections>
                                 </button>
-                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tWy-e5-M5o">
-                                    <rect key="frame" x="209" y="0.0" width="158" height="43"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="158" id="cNn-hV-G8R"/>
-                                    </constraints>
-                                </pickerView>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H1O-Hm-5sY">
+                                    <rect key="frame" x="324" y="0.0" width="43" height="43"/>
+                                    <state key="normal" title="Button" image="boy.png"/>
+                                    <connections>
+                                        <action selector="skinImageButtonClicked:" destination="-1" eventType="touchUpInside" id="z7W-b6-sOK"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="tWy-e5-M5o" firstAttribute="trailing" secondItem="Zdz-0k-1sL" secondAttribute="trailingMargin" id="091-3j-yD3"/>
                                 <constraint firstItem="Cjl-P2-9ds" firstAttribute="leading" secondItem="Zdz-0k-1sL" secondAttribute="leading" constant="5" id="5xb-q4-VHg"/>
+                                <constraint firstItem="H1O-Hm-5sY" firstAttribute="top" secondItem="Zdz-0k-1sL" secondAttribute="top" id="6Qh-og-75D"/>
+                                <constraint firstItem="H1O-Hm-5sY" firstAttribute="trailing" secondItem="Zdz-0k-1sL" secondAttribute="trailingMargin" id="6eT-T6-qKi"/>
+                                <constraint firstItem="H1O-Hm-5sY" firstAttribute="centerY" secondItem="Cjl-P2-9ds" secondAttribute="centerY" id="CEr-fg-BRZ"/>
                                 <constraint firstAttribute="height" constant="43" id="GJ8-42-mSt"/>
-                                <constraint firstItem="tWy-e5-M5o" firstAttribute="top" secondItem="Zdz-0k-1sL" secondAttribute="top" id="dkW-Xl-3CD"/>
-                                <constraint firstAttribute="bottom" secondItem="tWy-e5-M5o" secondAttribute="bottom" id="egS-MR-yft"/>
-                                <constraint firstItem="Cjl-P2-9ds" firstAttribute="centerY" secondItem="tWy-e5-M5o" secondAttribute="centerY" id="fgt-Wn-8cF"/>
+                                <constraint firstAttribute="bottom" secondItem="H1O-Hm-5sY" secondAttribute="bottom" id="HQT-XX-387"/>
+                                <constraint firstItem="H1O-Hm-5sY" firstAttribute="leading" secondItem="Cjl-P2-9ds" secondAttribute="trailing" constant="75" id="efC-Yg-iN1"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AqT-u4-2xW">
@@ -448,4 +453,7 @@
             <point key="canvasLocation" x="302.5" y="171.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="boy.png" width="131" height="150"/>
+    </resources>
 </document>

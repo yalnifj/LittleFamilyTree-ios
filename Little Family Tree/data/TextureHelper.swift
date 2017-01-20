@@ -64,8 +64,11 @@ class TextureHelper {
     }
     
     static func getDefaultPortrait(_ person:LittlePerson) -> SKTexture {
-        let skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
-        return TextureHelper.getDefaultPortraitTexture(person, skinTone:skinTone)
+        var skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        if skinTone == nil {
+            skinTone = "light"
+        }
+        return TextureHelper.getDefaultPortraitTexture(person, skinTone:skinTone!)
     }
     
     static func getDefaultPortraitTexture(_ person:LittlePerson, skinTone:String) -> SKTexture {
@@ -167,6 +170,7 @@ class TextureHelper {
                 return SKTexture(imageNamed: "dad_dark")
             }
         }
+        return SKTexture(imageNamed: "dad")
     }
     
     static func getPortraitImage(_ person:LittlePerson) -> UIImage? {
@@ -199,8 +203,11 @@ class TextureHelper {
     }
     
     static func getDefaultPortraitImage(_ person:LittlePerson) -> UIImage? {
-        let skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
-        return TextureHelper.getDefaultPortraitImageBySkin(person, skinTone:skinTone)
+        var skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+        if skinTone == nil {
+            skinTone = "light"
+        }
+        return TextureHelper.getDefaultPortraitImageBySkin(person, skinTone:skinTone!)
     }
     
     static func getDefaultPortraitImageBySkin(_ person:LittlePerson, skinTone:String) -> UIImage? {

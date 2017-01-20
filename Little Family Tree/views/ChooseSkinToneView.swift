@@ -16,7 +16,6 @@ class ChooseSkinToneView: UIView {
     @IBOutlet weak var darkBtn: UIButton!
     
     var selectedPerson:LittlePerson?
-    var skinTone:String?
     var listener:ChooseSkinToneListener?
     
     override init(frame: CGRect) {
@@ -36,7 +35,14 @@ class ChooseSkinToneView: UIView {
         addSubview(view)
         
         if selectedPerson != nil {
-            let image = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson, skinTone: skinTone)
+            let lImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: "light")
+            lightBtn.imageView?.image = lImage
+            
+            let mImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: "mid")
+             midBtn.imageView?.image = mImage
+            
+            let dImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: "dark")
+            darkBtn.imageView?.image = dImage
         }
     }
     
