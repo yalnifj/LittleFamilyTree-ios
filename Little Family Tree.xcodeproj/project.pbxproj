@@ -30,6 +30,7 @@
 		93D6E0721D9235AE001AFA34 /* FamilyGraphJsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */; };
 		93E8A9BF1DC5607100C25D4E /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; };
 		93E8A9C01DC5607100C25D4E /* SQLite.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 939079421DB703E60010E0A0 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93E8F0291E31C315009AB00D /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E8F0281E31C315009AB00D /* SKMultilineLabel.swift */; };
 		93F0C2EE1E2F253B00C8C674 /* grandma_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E01E2F253A00C8C674 /* grandma_mid.png */; };
 		93F0C2EF1E2F253B00C8C674 /* grandma_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E11E2F253A00C8C674 /* grandma_dark.png */; };
 		93F0C2F01E2F253B00C8C674 /* grandpa_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F0C2E21E2F253A00C8C674 /* grandpa_mid.png */; };
@@ -804,6 +805,7 @@
 		93A82ABB1D65557E000AD078 /* tryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryButton.png; sourceTree = "<group>"; };
 		93BE10B21D65F3E60014B4FE /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		93D6E0711D9235AE001AFA34 /* FamilyGraphJsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyGraphJsonConverter.swift; sourceTree = "<group>"; };
+		93E8F0281E31C315009AB00D /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
 		93F0C2E01E2F253A00C8C674 /* grandma_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_mid.png; sourceTree = "<group>"; };
 		93F0C2E11E2F253A00C8C674 /* grandma_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandma_dark.png; sourceTree = "<group>"; };
 		93F0C2E21E2F253A00C8C674 /* grandpa_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grandpa_mid.png; sourceTree = "<group>"; };
@@ -1815,6 +1817,7 @@
 		A1F7CE7B1C8FBBD6006053A2 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				93E8F0281E31C315009AB00D /* SKMultilineLabel.swift */,
 				A1F7CE7C1C8FBBD6006053A2 /* alphaMaskShader.fsh */,
 				A1F7CE7D1C8FBBD6006053A2 /* AnimatedStateSprite.swift */,
 				A1F7CE7E1C8FBBD6006053A2 /* BrushSizeSprite.swift */,
@@ -3306,6 +3309,7 @@
 				A1F7CEA41C8FBBD6006053A2 /* LittlePerson.swift in Sources */,
 				A1F7CF001C8FBBD6006053A2 /* SyncQ.swift in Sources */,
 				A1F7CEE51C8FBBD6006053A2 /* DressUpScene.swift in Sources */,
+				93E8F0291E31C315009AB00D /* SKMultilineLabel.swift in Sources */,
 				A1F7CEC91C8FBBD6006053A2 /* Field.swift in Sources */,
 				A1F7CEE41C8FBBD6006053A2 /* ColoringScene.swift in Sources */,
 				A1F7CEC61C8FBBD6006053A2 /* ExtensibleData.swift in Sources */,

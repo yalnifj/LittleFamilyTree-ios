@@ -14,6 +14,7 @@ class ChooseSkinToneView: UIView {
     @IBOutlet weak var lightBtn: UIButton!
     @IBOutlet weak var midBtn: UIButton!
     @IBOutlet weak var darkBtn: UIButton!
+    @IBOutlet weak var btnBack: UIBarButtonItem!
     
     var selectedPerson:LittlePerson?
     var listener:ChooseSkinToneListener?
@@ -54,7 +55,7 @@ class ChooseSkinToneView: UIView {
         return view
     }
 
-    @IBAction func onBackButtonClick(_ sender: Any) {
+    @IBAction func backButtonClicked(_ sender: UIBarButtonItem) {
         print("Back Button clicked")
         self.view.removeFromSuperview()
         listener?.cancelled()

@@ -42,7 +42,16 @@ class SettingsView: UIView, ChooseSkinToneListener {
     
     var view:UIView!
     
-    var selectedPerson:LittlePerson?
+    var selectedPerson:LittlePerson? {
+        didSet {
+            var skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
+            if skinTone==nil {
+            skinTone = "light"
+            }
+            let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone!)
+            skinImageButton.imageView?.image = skinImage
+        }
+    }
     var openingScene:LittleFamilyScene?
     
     override init(frame: CGRect) {
@@ -134,13 +143,6 @@ class SettingsView: UIView, ChooseSkinToneListener {
             delayIndex = 0
         }
         syncDelaySlider.setValue(Float(delayIndex!), animated: false)
-        
-        var skinTone = dataService.dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
-        if skinTone==nil {
-            skinTone = "light"
-        }
-        let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone!)
-        skinImageButton.imageView?.image = skinImage
         
         
         //First get the nsObject by defining as an optional anyObject

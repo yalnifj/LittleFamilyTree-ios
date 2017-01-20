@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseSkinToneView" customModule="Little_Family_Tree">
             <connections>
+                <outlet property="btnBack" destination="DnY-CR-GmO" id="ydz-1g-Vt8"/>
                 <outlet property="darkBtn" destination="lM9-53-8bZ" id="ZYg-7M-AhQ"/>
                 <outlet property="lightBtn" destination="vkg-4N-KnM" id="a8R-zw-B14"/>
                 <outlet property="midBtn" destination="KUb-v8-9Rt" id="hTi-Nq-umB"/>
@@ -29,7 +30,7 @@
                         <navigationItem title="Choose Skin Color" id="paK-5c-tZL">
                             <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="DnY-CR-GmO">
                                 <connections>
-                                    <action selector="onBackButtonClick:" destination="-1" id="6Vl-eh-0f0"/>
+                                    <action selector="backButtonClicked:" destination="-1" id="MYj-bu-ddx"/>
                                 </connections>
                             </barButtonItem>
                         </navigationItem>

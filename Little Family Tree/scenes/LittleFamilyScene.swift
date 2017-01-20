@@ -793,22 +793,25 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             
             var lockImg = "lock"
             var buyImg = "buyButton"
+            var lockWidth = CGFloat(0.65)
             if sale != nil {
                 if sale?.price == 1.99 {
                     lockImg = "lock_50"
                     buyImg = "buy_button_199"
+                    lockWidth = CGFloat(0.85)
                 }
                 if sale?.price == 2.99 {
                     lockImg = "lock_25"
                     buyImg = "buy_button_299"
+                    lockWidth = CGFloat(0.85)
                 }
             }
             
             let lock = SKSpriteNode(imageNamed: lockImg)
             let ratio2 = lock.size.height / lock.size.width
-            lock.size.width = self.lockDialog!.size.width * 0.65
+            lock.size.width = self.lockDialog!.size.width * lockWidth
             lock.size.height = lock.size.width * ratio2
-            lock.position = CGPoint(x: 0, y: self.lockDialog!.size.height - lock.size.height * 1.6)
+            lock.position = CGPoint(x: 0, y: (self.lockDialog!.size.height / 2) - (lock.size.height / 2) - 25)
             self.lockDialog?.addChild(lock)
             
             let backButton = LabelEventSprite(text: "< Back")
@@ -821,24 +824,25 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             
             var labelY = lock.position.y - (lock.size.height/2)
             if sale != nil {
-                let salesText = SKLabelNode(text: sale!.salesText!)
+                let pos = CGPoint(x: 0, y: lock.position.y - (lock.size.height/2 + self.lockDialog!.size.width / 14))
+                let salesText = SKMultilineLabel(text: sale!.salesText!, labelWidth: Int(self.lockDialog!.size.width), pos: pos, fontSize: self.lockDialog!.size.width / 12)
                 salesText.fontColor = UIColor.black
-                salesText.fontSize = self.lockDialog!.size.width / 12
-                salesText.position = CGPoint(x: 0, y: lock.position.y - (lock.size.height/2 + salesText.fontSize))
                 self.lockDialog?.addChild(salesText)
                 
-                labelY = salesText.position.y - salesText.fontSize * 2
+                labelY = salesText.position.y - (salesText.fontSize * 1.5)
             }
             
             let label = SKLabelNode(text: "This is a premium game.")
             label.fontColor = UIColor.black
             label.fontSize = self.lockDialog!.size.width / 12
+            label.fontName = "ChalkboardSE-Regular"
             label.position = CGPoint(x: 0, y: labelY - label.fontSize)
             self.lockDialog?.addChild(label)
             if (!tryAvailable) {
                 let label2 = SKLabelNode(text: "Upgrade to play again.")
                 label2.fontSize = self.lockDialog!.size.width / 12
                 label2.fontColor = UIColor.black
+                label2.fontName = "ChalkboardSE-Regular"
                 label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
                 self.lockDialog?.addChild(label2)
                 
@@ -854,6 +858,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 }
                 label2.fontSize = self.lockDialog!.size.width / 12
                 label2.fontColor = UIColor.black
+                label2.fontName = "ChalkboardSE-Regular"
                 label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
                 self.lockDialog?.addChild(label2)
                 

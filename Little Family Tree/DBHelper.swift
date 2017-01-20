@@ -257,10 +257,9 @@ class DBHelper {
 				let vals = snap.value as! NSDictionary
                 let now = NSDate()
                 for sale in vals.allValues {
-                    let saleSnap = sale as! FIRDataSnapshot
-                    let saleDict = saleSnap.value as! NSDictionary
-                    let startLong = saleDict["start"] as! Double
-                    let endLong = saleDict["end"] as! Double
+                    let saleDict = sale as! NSDictionary
+                    let startLong = (saleDict["start"] as! Double) / 1000
+                    let endLong = (saleDict["end"] as! Double) / 1000
                     if now.timeIntervalSince1970 >= startLong && now.timeIntervalSince1970 <= endLong {
                         let saleNow = Sale()
                         saleNow.end = NSDate(timeIntervalSince1970: endLong)
