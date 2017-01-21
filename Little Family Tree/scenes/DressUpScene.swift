@@ -196,10 +196,11 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         if clothing != nil {
             var x = CGFloat(0)
             var y = CGFloat(10)
-            var z = CGFloat(3)
+            var z = doll!.zPosition + 1
             for cloth in clothing! {
                 let clothSprite = SKSpriteNode(imageNamed: cloth.filename)
-                clothSprite.zPosition = z.advanced(by: 1)
+                clothSprite.zPosition = z
+                z = z + 1
                 clothSprite.setScale(scale)
                 if x > self.size.width - clothSprite.size.width/2 {
                     x = CGFloat(0)
@@ -382,6 +383,7 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         else {
             doll?.texture = SKTexture(imageNamed: "dolls/\(boygirl)doll_\(skinTone)")
         }
+        self.updateSkinColor(skinTone)
     }
     
     func cancelled() {

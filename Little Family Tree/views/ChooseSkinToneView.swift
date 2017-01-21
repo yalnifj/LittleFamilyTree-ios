@@ -49,7 +49,7 @@ class ChooseSkinToneView: UIView {
     
     func loadViewFromNib() -> UIView {
         let bundle = Bundle(for:type(of: self))
-        let nib = UINib(nibName: "ParentLogin", bundle: bundle)
+        let nib = UINib(nibName: "ChooseSkinToneView", bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view

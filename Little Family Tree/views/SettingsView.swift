@@ -49,7 +49,7 @@ class SettingsView: UIView, ChooseSkinToneListener {
             skinTone = "light"
             }
             let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone!)
-            skinImageButton.imageView?.image = skinImage
+            skinImageButton.setImage(skinImage, for: .normal)
         }
     }
     var openingScene:LittleFamilyScene?
@@ -232,7 +232,7 @@ class SettingsView: UIView, ChooseSkinToneListener {
     @IBAction func skinToneButtonClicked(_ sender: Any) {
         let x = Int((self.frame.width - 300) / 2)
         let y = 50
-        let rect = CGRect(x: x, y: y, width: 300, height: 300)
+        let rect = CGRect(x: x, y: y, width: 300, height: 400)
         let subview = ChooseSkinToneView(frame: rect)
         subview.selectedPerson = selectedPerson
         subview.listener = self
@@ -242,7 +242,7 @@ class SettingsView: UIView, ChooseSkinToneListener {
     @IBAction func skinImageButtonClicked(_ sender: Any) {
         let x = Int((self.frame.width - 300) / 2)
         let y = 50
-        let rect = CGRect(x: x, y: y, width: 300, height: 300)
+        let rect = CGRect(x: x, y: y, width: 300, height: 400)
         let subview = ChooseSkinToneView(frame: rect)
         subview.selectedPerson = selectedPerson
         subview.listener = self
@@ -287,7 +287,7 @@ class SettingsView: UIView, ChooseSkinToneListener {
     func onSelected(skinTone:String) {
         DataService.getInstance().dbHelper.saveProperty(DataService.PROPERTY_SKIN_TONE, value: skinTone)
         let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone)
-        skinImageButton.imageView?.image = skinImage
+        skinImageButton.setImage(skinImage, for: .normal)
     }
     
     func cancelled(){

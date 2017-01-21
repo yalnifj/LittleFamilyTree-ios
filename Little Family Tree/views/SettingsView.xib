@@ -259,6 +259,10 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H1O-Hm-5sY">
                                     <rect key="frame" x="324" y="0.0" width="43" height="43"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="43" id="LQ2-Od-EJN"/>
+                                        <constraint firstAttribute="width" constant="43" id="LfR-Z8-Zai"/>
+                                    </constraints>
                                     <state key="normal" title="Button" image="boy.png"/>
                                     <connections>
                                         <action selector="skinImageButtonClicked:" destination="-1" eventType="touchUpInside" id="z7W-b6-sOK"/>
