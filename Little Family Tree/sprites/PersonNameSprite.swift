@@ -19,8 +19,13 @@ class PersonNameSprite: SKSpriteNode {
             photoSprite = SKSpriteNode(texture: photo)
             photoSprite?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             let ratio = (photo?.size().width)! / (photo?.size().height)!
-            photoSprite?.size.width = self.size.width * 0.6
-            photoSprite?.size.height = (self.size.width * 0.6) / ratio
+            if ratio < 1.0 {
+                photoSprite?.size.height = self.size.height * 0.6
+                photoSprite?.size.width = (self.size.height * 0.6) * ratio
+            } else {
+                photoSprite?.size.width = self.size.width * 0.6
+                photoSprite?.size.height = (self.size.width * 0.6) / ratio
+            }
             photoSprite?.zPosition = 1
             self.addChild(photoSprite!)
             

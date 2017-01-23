@@ -73,7 +73,9 @@ class DataService {
                         self.remoteService = PGVService(base: url!, defaultPersonId: defaultId!)
                     }
                 }
-			}
+            } else if serviceType == DataService.SERVICE_TYPE_MYHERITAGE {
+                self.remoteService = MyHeritageService()
+            }
 			if remoteService != nil && remoteService?.sessionId == nil {
 				autoLogin()
 			}
@@ -88,7 +90,7 @@ class DataService {
 	func autoLogin() {
 		let username = getEncryptedProperty(DataService.SERVICE_USERNAME)
 		let token = getEncryptedProperty(serviceType! + DataService.SERVICE_TOKEN)
-		if token != nil {
+		if username != nil && token != nil {
 			if remoteService?.sessionId == nil && !authenticating {
 				authenticating = true
 				remoteService?.authenticate(username! as String, password: token! as String, onCompletion: { data, err in

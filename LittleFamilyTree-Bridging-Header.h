@@ -11,7 +11,4 @@
 
 #import <CommonCrypto/CommonCryptor.h>
 
-#import "FamilyGraph.h"
-
-
 #endif /* LittleFamilyTree_Bridging_Header_h */

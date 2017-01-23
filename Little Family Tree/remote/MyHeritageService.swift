@@ -7,16 +7,16 @@
 //
 
 import Foundation
+import UIKit
 
 class MyHeritageService: RemoteService {
 
     var sessionId: String?
     
-    var familyGraph:FamilyGraph!
     var clientId = "0d9d29c39d0ded7bd6a9e334e5f673a7"
     var clientSecret = "9021b2dcdb4834bd12a491349f61cb27"
-    var sessionDelegate:SessionDelegate!
     var jsonConverter:FamilyGraphJsonConverter!
+    var baseUrl = "https://familygraph.myheritage.com/"
     
     var sessionListener:MyHeritageSessionListener?
 	
@@ -25,28 +25,20 @@ class MyHeritageService: RemoteService {
 	var personCache = [String: Person]()
     
     init() {
-        sessionDelegate = SessionDelegate()
-        sessionDelegate.service = self
-        familyGraph = FamilyGraph(clientId: self.clientId, andDelegate: sessionDelegate)
         jsonConverter = FamilyGraphJsonConverter()
     }
     
     internal func authenticate(_ username: String, password: String, onCompletion: @escaping StringResponse) {
-        sessionId = familyGraph.accessToken as String?
+        sessionId = password
         onCompletion(sessionId, nil)
     }
     
-    func authWithDialog() {
-        let perms:[AnyObject] = ["offline_access" as AnyObject]
-        familyGraph.authorize(perms)
-    }
-    
-    func getCurrentUser(_ onCompletion: @escaping (NSDictionary?, NSError?) -> Void) {
+    func getCurrentUser(_ onCompletion: @escaping (JSON?, NSError?) -> Void) {
         getData("me", onCompletion: { data, err in
 			if data != nil {
-				let userData = data as! NSDictionary
-				self.userId = userData["id"] as! String?
-                onCompletion(userData, err)
+                let json = data as! JSON
+				self.userId = json["id"].string
+                onCompletion(json, err)
 			}
             else {
                 onCompletion(nil, err)
@@ -58,9 +50,9 @@ class MyHeritageService: RemoteService {
         if sessionId != nil {
 			getCurrentUser({ userData, err in
 				if userData != nil {
-					let indi = userData!["default_individual"] as! NSDictionary
-					let indiId = indi["id"] as! String
-					self.getPerson(indiId, ignoreCache: false, onCompletion: onCompletion)
+					let indi = userData!["default_individual"]
+					let indiId = indi["id"].string
+					self.getPerson(indiId!, ignoreCache: false, onCompletion: onCompletion)
 				} else {
 					onCompletion(nil, err)
 				}
@@ -73,22 +65,22 @@ class MyHeritageService: RemoteService {
     func getPerson(_ personId: String, ignoreCache: Bool, onCompletion: @escaping PersonResponse) {
         if sessionId != nil {
 			if !ignoreCache {
-                if personCache[personId as String] != nil {
-                    onCompletion(personCache[personId as String], nil)
+                if personCache[personId] != nil {
+                    onCompletion(personCache[personId], nil)
                     return
                 }
             }
 			
-            getData(personId as String, onCompletion: {data, err in
+            getData(personId, onCompletion: {data, err in
                 if data != nil {
-                    let person = self.jsonConverter.createJsonPerson(data as! NSDictionary)
+                    let person = self.jsonConverter.createJsonPerson(data as! JSON)
                     
                     self.getData("\(personId)/events", onCompletion: {eventData, err in
                         if eventData != nil {
-                            self.jsonConverter.processEvents(eventData as! NSDictionary, person: person)
+                            self.jsonConverter.processEvents(eventData as! JSON, person: person)
                         }
                         
-                        self.personCache[personId as String] = person
+                        self.personCache[personId] = person
                         onCompletion(person, err)
                     })
                 }
@@ -132,8 +124,8 @@ class MyHeritageService: RemoteService {
                                     group.enter()
                                     self.getData(objeId!, onCompletion: {data, err2 in
                                         err = err2
-                                        if data != nil {
-                                            let sd = self.jsonConverter.convertMedia(data as! NSDictionary)
+                                        if data != JSON.null {
+                                            let sd = self.jsonConverter.convertMedia(data as! JSON)
                                             for link2 in sd.links {
                                                 if link2.rel != nil && link2.rel! == "image" {
                                                     if portrait == nil || (sd.sortKey != nil && sd.sortKey! == "1") {
@@ -165,18 +157,18 @@ class MyHeritageService: RemoteService {
             getData("\(personId)/immediate_family", onCompletion: { data, err in
                 if data != nil {
                     var family = [Relationship]()
-                    let json = data as! NSDictionary
-                    let peopleArray = json["data"] as? NSArray
+                    let json = data as! JSON
+                    let peopleArray = json["data"].array
                     if peopleArray != nil {
                         for rel in peopleArray! {
-                            let relDict = rel as! NSDictionary
-                            let type = relDict["relationship_type"] as! String
+                            let relDict = rel
+                            let type = relDict["relationship_type"].string
                             if type == "wife" || type == "husband" {
                                 let relationship = Relationship()
                                 relationship.type = "http://gedcomx.org/Couple"
                                 let rr = ResourceReference()
-                                let indi = relDict["individual"] as! NSDictionary
-                                rr.resourceId = indi["id"] as? String
+                                let indi = relDict["individual"]
+                                rr.resourceId = indi["id"].string
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
                                 rr2.resourceId = personId
@@ -188,8 +180,8 @@ class MyHeritageService: RemoteService {
                                 let relationship = Relationship()
                                 relationship.type = "http://gedcomx.org/ParentChild"
                                 let rr = ResourceReference()
-                                let indi = relDict["individual"] as! NSDictionary
-                                rr.resourceId = indi["id"] as? String
+                                let indi = relDict["individual"]
+                                rr.resourceId = indi["id"].string
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
                                 rr2.resourceId = personId
@@ -201,11 +193,11 @@ class MyHeritageService: RemoteService {
                                 let relationship = Relationship()
                                 relationship.type = "http://gedcomx.org/ParentChild"
                                 let rr = ResourceReference()
-                                let indi = relDict["individual"] as! NSDictionary
+                                let indi = relDict["individual"]
                                 rr.resourceId = personId
                                 relationship.person1 = rr
                                 let rr2 = ResourceReference()
-                                rr2.resourceId = indi["id"] as? String
+                                rr2.resourceId = indi["id"].string
                                 relationship.person2 = rr2
                                 family.append(relationship)
                             }
@@ -227,20 +219,22 @@ class MyHeritageService: RemoteService {
             getData("\(personId)/child_in_families_connection", onCompletion: {data, err in
                 if data != nil {
                     var family = [Relationship]()
-                    let json = data as! NSDictionary
-                    let fams = json["data"] as? NSArray
+                    let json = data as! JSON
+                    let fams = json["data"].array
                     let queue = DispatchQueue.global()
                     let group = DispatchGroup()
                     
                     if fams != nil {
                         for fam in fams! {
                             group.enter()
-                            let famDict = fam as! NSDictionary
-                            let famjson = famDict["family"] as! NSDictionary
-                            let famid = famjson["id"] as! String
-                            self.getData(famid, onCompletion: {famData, err in
-                                if famData != nil {
-                                    let famj = famData as! NSDictionary
+                            var famjson = fam
+                            if fam["family"] != JSON.null {
+                                famjson = fam["family"]
+                            }
+                            let famid = famjson["id"].string
+                            self.getData(famid!, onCompletion: {famData, err in
+                                if famData != JSON.null {
+                                    let famj = famData
                                     let fh = self.jsonConverter.convertFamily(famj)
                                     for link in fh.parents {
                                         let relId = link.href
@@ -280,20 +274,22 @@ class MyHeritageService: RemoteService {
             getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
                 if data != nil {
                     var family = [Relationship]()
-                    let json = data as! NSDictionary
-                    let fams = json["data"] as? NSArray
+                    let json = data as! JSON
+                    let fams = json["data"].array
                     let queue = DispatchQueue.global()
                     let group = DispatchGroup()
                     
                     if fams != nil {
                         for fam in fams! {
-                            let famDict = fam as! NSDictionary
                             group.enter()
-                            let famjson = famDict["family"] as! NSDictionary
-                            let famid = famjson["id"] as! String
-                            self.getData(famid, onCompletion: {famData, err in
+                            var famjson = fam
+                            if fam["family"] != JSON.null {
+                                famjson = fam["family"]
+                            }
+                            let famid = famjson["id"].string
+                            self.getData(famid!, onCompletion: {famData, err in
                                 if famData != nil {
-                                    let famj = famData as! NSDictionary
+                                    let famj = famData
                                     let fh = self.jsonConverter.convertFamily(famj)
                                     for link in fh.children {
                                         let relId = link.href
@@ -332,20 +328,22 @@ class MyHeritageService: RemoteService {
             getData("\(personId)/spouse_in_families_connection", onCompletion: {data, err in
                 if data != nil {
                     var family = [Relationship]()
-                    let json = data as! NSDictionary
-                    let fams = json["data"] as? NSArray
+                    let json = data as! JSON
+                    let fams = json["data"].array
                     let queue = DispatchQueue.global()
                     let group = DispatchGroup()
                     
                     if fams != nil {
                         for fam in fams! {
                             group.enter()
-                            let famDict = fam as! NSDictionary
-                            let famjson = famDict["family"] as! NSDictionary
-                            let famid = famjson["id"] as! String
-                            self.getData(famid, onCompletion: {famData, err in
+                            var famjson = fam
+                            if fam["family"] != JSON.null {
+                                famjson = fam["family"]
+                            }
+                            let famid = famjson["id"].string
+                            self.getData(famid!, onCompletion: {famData, err in
                                 if famData != nil {
-                                    let famj = famData as! NSDictionary
+                                    let famj = famData
                                     let fh = self.jsonConverter.convertFamily(famj)
                                     for link in fh.parents {
                                         let relId = link.href
@@ -383,18 +381,18 @@ class MyHeritageService: RemoteService {
         var media = [SourceDescription]()
         getData(path, onCompletion: {data, err in
             if data != nil {
-                let json = data as! NSDictionary
-                let allMed = json["data"] as? NSArray
+                let json = data as! JSON
+                let allMed = json["data"].array
                 if allMed != nil {
                     for med in allMed! {
-                        let sd = self.jsonConverter.convertMedia(med as! NSDictionary)
+                        let sd = self.jsonConverter.convertMedia(med)
                         media.append(sd)
                     }
                 }
                 
-                let paging = json["paging"] as? NSDictionary
+                let paging = json["paging"]
                 if paging != nil {
-                    let next = paging!["next"] as? String
+                    let next = paging["next"].string
                     if next != nil {
                         self.getPagedMemories(next!, onCompletion: {page, err2 in
                             if page != nil {
@@ -439,7 +437,7 @@ class MyHeritageService: RemoteService {
             
             let session = URLSession.shared
             var headers = [String: String]()
-            headers["Authorization"] = "Bearer \(familyGraph!.accessToken!)"
+            headers["Authorization"] = "Bearer \(sessionId!)"
             
             // Set the headers
             for(field, value) in headers {
@@ -484,61 +482,221 @@ class MyHeritageService: RemoteService {
         return url
     }
     
-    func getData(_ path:String, onCompletion:@escaping (AnyObject?, NSError?) -> Void) {
+    func getData(_ path:String, onCompletion:@escaping (JSON, NSError?) -> Void) {
         
-        familyGraph.request(withGraphPath: path, andDelegate: GetDataDelegate(onCompletion: onCompletion))
+        //familyGraph.request(withGraphPath: path, andDelegate: GetDataDelegate(onCompletion: onCompletion))
+        var headers = [String: String]()
+        headers["Authorization"] = "Bearer \(sessionId!)"
+        var url = "\(baseUrl)\(path)"
+        makeHTTPGetRequest(url, headers: headers, onCompletion: onCompletion)
     }
     
-}
-
-class GetDataDelegate : NSObject, FGRequestDelegate {
-    var handler:(AnyObject?, NSError?) -> Void
-    init(onCompletion:@escaping (AnyObject?, NSError?) -> Void) {
-        self.handler = onCompletion
+    func makeHTTPGetRequest(_ path: String, headers: [String: String], onCompletion: @escaping ServiceResponse) {
+        self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
     }
     
-    @objc func request(_ request: FGRequest!, didLoad result: Any!) {
-        handler(result as AnyObject?, nil)
-    }
-    
-    @objc func request(_ request: FGRequest!, didFailWithError error: Error!) {
-        print(error)
-        handler(nil, error as NSError?)
-    }
-    
-    @objc func request(_ request: FGRequest!, didLoadRawResponse data: Data!) {
+    var lastRequestTime:Foundation.Date = Foundation.Date()
+    var requestDelay:TimeInterval = -0.3
+    func makeHTTPGetRequest(_ path: String, headers: [String: String], count: Int, onCompletion: @escaping ServiceResponse) {
+        let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
+        if timeSinceLastRequest > requestDelay {
+            self.throttled(0 - requestDelay, closure: {
+                self.makeHTTPGetRequest(path, headers: headers, count: 1, onCompletion: onCompletion)
+            })
+            return
+        }
+        lastRequestTime = Foundation.Date()
+        let request = NSMutableURLRequest(url: URL(string: path)!)
+        let myDelegate = RedirectSessionDelegate(headers: headers)
+        // too many requests coming where are they coming from?
+        let session = URLSession(configuration: URLSessionConfiguration.default, delegate: myDelegate, delegateQueue: nil)
+        session.configuration.httpMaximumConnectionsPerHost = 2
         
-    }
-    
-    @objc func request(_ request: FGRequest!, didReceive response: URLResponse!) {
-    }
-    
-    @objc func requestLoading(_ request: FGRequest!) {
-    }
-}
-
-class SessionDelegate : NSObject, FGSessionDelegate {
-    var service:MyHeritageService?
-    func fgDidLogin() {
-        print("User logged into MyHeritage")
-        if service != nil {
-            service!.sessionId = service!.familyGraph.accessToken as String?
-            if service!.sessionListener != nil {
-                service!.sessionListener!.userLoggedIn();
+        // Set the headers
+        for(field, value) in headers {
+            request.setValue(value, forHTTPHeaderField: field);
+            //print("Header \(field):\(value)")
+        }
+        
+        print("makeHTTPGetRequest: \(request)")
+        print(request.value(forHTTPHeaderField: "Authorization"))
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error!)
             }
-        }
+            if response == nil {
+                onCompletion(JSON.null, error as NSError?)
+                return
+            }
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode != 200 && httpResponse.statusCode != 204 {
+                print(response!)
+            }
+            if httpResponse.statusCode == 429 {
+                //-- connection was throttled, try again after 10 seconds
+                if count < 4 {
+                    SyncQ.getInstance().pauseForTime(60)
+                    print("Connection throttled... delaying 20 seconds")
+                    self.throttled(20, closure: {
+                        self.makeHTTPGetRequest(path, headers: headers, count: count+1, onCompletion: onCompletion)
+                    })
+                } else {
+                    let error = NSError(domain: "FamilySearchService", code: 204, userInfo: ["message":"Connection throttled"])
+                    print("Failed connection throttled 3 times... giving up")
+                    onCompletion(JSON.null, error)
+                }
+                return
+            }
+            if data != nil {
+                if httpResponse.statusCode != 200 {
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+                }
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error as NSError?)
+            }
+            else {
+                onCompletion(JSON.null, error as NSError?)
+            }
+        })
+        task.resume()
     }
     
-    func fgDidNotLogin(_ cancelled:Bool) {
-        print("User did not finish logging into MyHeritage")
-        if service != nil && service!.sessionListener != nil {
-            service!.sessionListener!.userDidNotLogIn();
+    func makeHTTPPostJSONRequest(_ path: String, body: [String: AnyObject], headers: [String: String], onCompletion: @escaping ServiceResponse) {
+        let request = NSMutableURLRequest(url: URL(string: path)!)
+        
+        // Set the method to POST
+        request.httpMethod = "POST"
+        
+        // Set the headers
+        for(field, value) in headers {
+            request.setValue(value, forHTTPHeaderField: field);
+            //print("Header \(field):\(value)")
         }
+        
+        // Set the POST body for the request
+        let options = JSONSerialization.WritingOptions()
+        print("makeHTTPPostJSONRequest: \(request)")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: options)
+        let session = URLSession.shared
+        session.configuration.httpMaximumConnectionsPerHost = 5
+        
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error)
+            }
+            if response == nil {
+                onCompletion(JSON.null, error as NSError?)
+                return
+            }
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode != 200 {
+                print(response)
+            }
+            if httpResponse.statusCode == 204 {
+                //-- connection was throttled, try again after 10 seconds
+                SyncQ.getInstance().pauseForTime(60)
+                self.throttled(20, closure: {
+                    self.makeHTTPPostJSONRequest(path, body: body, headers: headers, onCompletion: onCompletion)
+                })
+                return
+            }
+            if data != nil {
+                if httpResponse.statusCode != 200 {
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+                }
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error as NSError?)
+            }
+            else {
+                onCompletion(JSON.null, error as NSError?)
+            }
+        })
+        task.resume()
+        
     }
     
-    func fgSessionInvalidated() {
-        print("FG Sessions invalidated")
+    func makeHTTPPostRequest(_ path: String, body: [String: String], headers: [String: String], onCompletion: @escaping ServiceResponse) {
+        let request = NSMutableURLRequest(url: URL(string: path)!)
+        
+        // Set the method to POST
+        request.httpMethod = "POST"
+        
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        // Set the headers
+        for(field, value) in headers {
+            request.setValue(value, forHTTPHeaderField: field);
+            //print("Header \(field):\(value)")
+        }
+        
+        // Set the POST body for the request
+        var postString = ""
+        var p = 0
+        for(param, value) in body {
+            if p > 0 {
+                postString += "&"
+            }
+            postString += "\(param)=\(value)";
+            p += 1
+        }
+        
+        //print(postString)
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let session = URLSession.shared
+        session.configuration.httpMaximumConnectionsPerHost = 5
+        
+        print("makeHTTPPostRequest: \(request)?\(postString)")
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error)
+            }
+            if response == nil {
+                onCompletion(JSON.null, error as NSError?)
+                return
+            }
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode != 200 {
+                print(response)
+            }
+            if data != nil {
+                if httpResponse.statusCode != 200 {
+                    print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
+                }
+                let json:JSON = JSON(data: data!)
+                onCompletion(json, error as NSError?)
+            }
+            else {
+                onCompletion(JSON.null, error as NSError?)
+            }
+        })
+        task.resume()
     }
+    
+    func throttled(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+    }
+    
+    class RedirectSessionDelegate : NSObject, URLSessionDelegate {
+        var headers:[String: String]
+        
+        init(headers:[String: String]) {
+            self.headers = headers
+            super.init()
+        }
+        
+        func URLSession(_ session: Foundation.URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: (URLRequest!) -> Void)
+        {
+            let newRequest = NSMutableURLRequest(url: request.url!)
+            // Set the headers
+            for(field, value) in headers {
+                newRequest.setValue(value, forHTTPHeaderField: field)
+            }
+            completionHandler(newRequest as URLRequest!)
+        }
+    }
+
 }
 
 protocol MyHeritageSessionListener {
