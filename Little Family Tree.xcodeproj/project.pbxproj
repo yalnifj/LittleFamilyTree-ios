@@ -779,6 +779,7 @@
 		930574B11D537A4100A99066 /* myheritage_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myheritage_logo.png; sourceTree = "<group>"; };
 		930574BC1D537D8A00A99066 /* MyHeritageLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeritageLogin.xib; sourceTree = "<group>"; };
 		930574BE1D537E2500A99066 /* MyHeritageLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHeritageLogin.swift; sourceTree = "<group>"; };
+		935C00661E3851F5005BF7D5 /* Little Family Tree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Little Family Tree.entitlements"; sourceTree = "<group>"; };
 		9378D9D71E2AE9AE001FA796 /* lock_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_25.png; sourceTree = "<group>"; };
 		9378D9D81E2AE9AE001FA796 /* lock_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_50.png; sourceTree = "<group>"; };
 		9378D9E31E2AE9BD001FA796 /* buy_button_199.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buy_button_199.png; sourceTree = "<group>"; };
@@ -1510,6 +1511,7 @@
 		A117C72B1BA4AD0000964D50 /* Little Family Tree */ = {
 			isa = PBXGroup;
 			children = (
+				935C00661E3851F5005BF7D5 /* Little Family Tree.entitlements */,
 				A1F7CE221C8FBBA4006053A2 /* Images.xcassets */,
 				A1F7CE241C8FBBD6006053A2 /* AppDelegate.swift */,
 				A1F7CF151C8FBC0F006053A2 /* assets */,
@@ -3415,6 +3417,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Little Family Tree/Little Family Tree.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";
@@ -3435,6 +3438,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Little Family Tree/Little Family Tree.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Little Family Tree/Info.plist";

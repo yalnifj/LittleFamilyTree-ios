@@ -200,7 +200,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                     }
                                                 }
                                             }
-                                            self.addSprites()
+                                            //self.addSprites()
                                             group.leave()
                                         })
                                     } else if parents!.count > 0 {
@@ -213,11 +213,11 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                                     }
                                                 }
                                             }
-                                            self.addSprites()
+                                            //self.addSprites()
                                             group.leave()
                                         })
                                     } else {
-                                        self.addSprites()
+                                        //self.addSprites()
                                     }
                                 } else {
                                     // add grandchildren
@@ -236,7 +236,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
                                     }
                                 }
                             } else {
-                                self.addSprites()
+                                //self.addSprites()
                             }
                             group.leave()
                         })
