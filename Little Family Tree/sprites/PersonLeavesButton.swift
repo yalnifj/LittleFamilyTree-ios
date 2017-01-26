@@ -101,9 +101,14 @@ class PersonLeavesButton: SKSpriteNode {
 		}
 		let nphoto = TextureHelper.getPortraitTexture(self.people![index])
 		self.photoSprite?.texture = nphoto
-		let ratio = (nphoto?.size().width)! / (nphoto?.size().height)!
-		photoSprite?.size.width = self.size.width * 0.8
-		photoSprite?.size.height = (self.size.width * 0.8) / ratio
+        let ratio = (nphoto?.size().width)! / (nphoto?.size().height)!
+        if ratio < 1.0 {
+            photoSprite?.size.height = self.size.height * 0.8
+            photoSprite?.size.width = (self.size.height * 0.8) * ratio
+        } else {
+            photoSprite?.size.width = self.size.width * 0.8
+            photoSprite?.size.height = (self.size.width * 0.8) / ratio
+        }
 		
 		let waitAction3 = SKAction.wait(forDuration: 5.3)
 		photoSprite?.run(waitAction3, completion: {

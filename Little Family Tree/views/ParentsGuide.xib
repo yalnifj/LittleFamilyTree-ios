@@ -495,8 +495,8 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-JR-Zyc">
-                    <rect key="frame" x="0.0" y="131" width="184" height="47"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfV-JR-Zyc">
+                    <rect key="frame" x="0.0" y="96" width="184" height="47"/>
                     <state key="normal" title="www.littlefamilytree.com"/>
                     <connections>
                         <action selector="websiteButtonClicked:" destination="-1" eventType="touchUpInside" id="dpM-WU-w9e"/>
@@ -506,13 +506,15 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="qTK-AU-Fzx" secondAttribute="trailing" constant="8" id="2sW-8C-eXe"/>
+                <constraint firstItem="rfV-JR-Zyc" firstAttribute="top" secondItem="Np0-SW-1Ra" secondAttribute="bottom" constant="8" id="9cp-67-7f0"/>
                 <constraint firstItem="Np0-SW-1Ra" firstAttribute="leading" secondItem="qTK-AU-Fzx" secondAttribute="leading" id="OOh-XD-eB5"/>
-                <constraint firstItem="rfV-JR-Zyc" firstAttribute="top" secondItem="Np0-SW-1Ra" secondAttribute="bottom" constant="43" id="RwK-qf-uaU"/>
+                <constraint firstItem="rfV-JR-Zyc" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" id="fbW-5p-ubZ"/>
                 <constraint firstItem="qTK-AU-Fzx" firstAttribute="top" secondItem="KBD-If-AC0" secondAttribute="topMargin" id="gYe-jw-TRD"/>
                 <constraint firstItem="Np0-SW-1Ra" firstAttribute="trailing" secondItem="qTK-AU-Fzx" secondAttribute="trailing" id="kJW-K1-FUC"/>
                 <constraint firstItem="Np0-SW-1Ra" firstAttribute="top" secondItem="qTK-AU-Fzx" secondAttribute="bottom" constant="8" symbolic="YES" id="nsU-zp-gwO"/>
                 <constraint firstItem="qTK-AU-Fzx" firstAttribute="leading" secondItem="KBD-If-AC0" secondAttribute="leading" constant="8" id="x00-eZ-Nz7"/>
                 <constraint firstItem="Np0-SW-1Ra" firstAttribute="top" secondItem="KBD-If-AC0" secondAttribute="top" constant="38" id="xMm-Z9-c1t"/>
+                <constraint firstAttribute="trailing" secondItem="rfV-JR-Zyc" secondAttribute="trailing" constant="216" id="xnt-w6-8BT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="337" y="3292"/>

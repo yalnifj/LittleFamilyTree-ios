@@ -349,7 +349,7 @@ class MyHeritageService: RemoteService {
                                         let relId = link.href
                                         if relId != personId {
                                             let relationship = Relationship()
-                                            relationship.type = "http://gedcomx.org/ParentChild"
+                                            relationship.type = "http://gedcomx.org/Couple"
                                             let rr = ResourceReference()
                                             rr.resourceId = relId
                                             relationship.person1 = rr

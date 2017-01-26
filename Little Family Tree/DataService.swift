@@ -197,7 +197,7 @@ class DataService {
 	}
 	
 	func getFamilyMembers(_ person:LittlePerson, loadSpouse: Bool, onCompletion: @escaping PeopleResponse) {
-		let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+		let queue = DispatchQueue.global()
 		let group = DispatchGroup()
 		
 		var family = dbHelper.getRelativesForPerson(person.id!)
@@ -508,7 +508,7 @@ class DataService {
     
     func processRelatives(_ closeRelatives:[Relationship], person:LittlePerson, onCompletion:@escaping PeopleResponse) {
         var family = [LittlePerson]()
-        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
+        let queue = DispatchQueue.global()
         let group = DispatchGroup()
         for r in closeRelatives {
             group.enter()

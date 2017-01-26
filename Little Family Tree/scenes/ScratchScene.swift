@@ -84,8 +84,16 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
             var h = self.size.height - (topBar?.size.height)! * 3
             if ratio < 1.0 || w > h{
                 w = h * ratio
+                if w > self.size.width - 10 {
+                    w = self.size.width - 10
+                    h = w / ratio
+                }
             } else {
                 h = w / ratio
+                if h > self.size.height - (topBar?.size.height)! * 3 {
+                    h = self.size.height - (topBar?.size.height)! * 3
+                    w = h * ratio
+                }
             }
             
             let ypos = 30 + (self.size.height / 2) - (topBar?.size.height)!
