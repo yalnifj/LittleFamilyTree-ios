@@ -52,7 +52,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var buyError = false
     var loginForParentsGuide = false
     var pgListener:ParentsGuideCloseListener?
-    var dialogOpen = false;
+    var dialogOpen = false
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)

@@ -24,6 +24,7 @@ class ParentLogin: UIView {
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var passwordLbl: UILabel!
     @IBOutlet weak var usernameLbl: UILabel!
+    @IBOutlet weak var userBithDateLbl: UILabel!
     
     var person:LittlePerson?
 
@@ -64,10 +65,12 @@ class ParentLogin: UIView {
             logoImage.image = UIImage(named: "myheritage_logo")
             passwordLbl.text = "Birth Year:"
             txtUsername.isHidden = true
+            self.usernameLbl.isHidden = true
             dataService.getDefaultPerson(false, onCompletion: {person, err in
                 self.person = person
-                self.usernameLbl.numberOfLines = 2
-                self.usernameLbl.text = "Enter the year that \(person!.name!) was born."
+                self.userBithDateLbl.isHidden = false
+                self.userBithDateLbl.numberOfLines = 3
+                self.userBithDateLbl.text = "Enter the year that \(person!.name!) was born."
             })
         }
     }

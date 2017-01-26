@@ -369,11 +369,13 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
     override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if topic == DressUpScene.TOPIC_CHANGE_SKIN {
-            let frame = prepareDialogRect(300, height: 400)
-            let subview = ChooseSkinToneView(frame: frame)
-            subview.selectedPerson = selectedPerson
-            subview.listener = self
-            self.view?.addSubview(subview)
+            if !self.dialogOpen {
+                let frame = prepareDialogRect(300, height: 400)
+                let subview = ChooseSkinToneView(frame: frame)
+                subview.selectedPerson = selectedPerson
+                subview.listener = self
+                self.view?.addSubview(subview)
+            }
 
         }
     }
