@@ -160,6 +160,10 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
     func updateSkinColor(_ skinTone:String) {
         let texture = TextureHelper.getDefaultPortraitTexture(selectedPerson!, skinTone: skinTone)
         skinButton?.texture = texture
+        let ratio = skinButton!.size.height / skinButton!.size.width
+        skinButton!.size.height = topBar!.size.height - 5
+        skinButton!.size.width = skinButton!.size.height / ratio
+
     }
     
     func setupSprites() {

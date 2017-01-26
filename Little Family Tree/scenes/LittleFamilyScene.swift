@@ -52,6 +52,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     var buyError = false
     var loginForParentsGuide = false
     var pgListener:ParentsGuideCloseListener?
+    var dialogOpen = false;
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -463,11 +464,13 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showParentLoginDialog() {
-        let frame = prepareDialogRect(300, height: 400)
-        let subview = ParentLogin(frame: frame)
-        subview.loginListener = self
-        self.view?.addSubview(subview)
-        self.speak("Ask an adult for help.")
+        if !self.dialogOpen {
+            let frame = prepareDialogRect(300, height: 400)
+            let subview = ParentLogin(frame: frame)
+            subview.loginListener = self
+            self.view?.addSubview(subview)
+            self.speak("Ask an adult for help.")
+        }
     }
     
     func LoginComplete() {
@@ -550,11 +553,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showSimpleDialog(_ title:String, message:String) {
-        let rect = self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
-        let subview = SimpleDialogView(frame: rect)
-        subview.listener = self
-        subview.setMessage(title, message: message)
-        self.view?.addSubview(subview)
+        if !self.dialogOpen {
+            DispatchQueue.main.async(execute: {
+                let rect = self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
+                let subview = SimpleDialogView(frame: rect)
+                subview.listener = self
+                subview.setMessage(title, message: message)
+                self.view?.addSubview(subview)
+            })
+        }
     }
     
     func onDialogClose() {
@@ -783,101 +790,103 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showLockDialog(_ tryAvailable:Bool, tries:Int) {
-        DataService.getInstance().dbHelper.checkSale(onCompletion: { sale in
-            self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
-            
-            self.lockDialog = SKSpriteNode(color: UIColor.white, size: CGSize(width: 350, height: 420))
-            self.lockDialog?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
-            self.lockDialog?.zPosition = 1500
-            self.lockDialog?.isUserInteractionEnabled = true
-            
-            var lockImg = "lock"
-            var buyImg = "buyButton"
-            var lockWidth = CGFloat(0.65)
-            if sale != nil {
-                if sale?.price == 1.99 {
-                    lockImg = "lock_50"
-                    buyImg = "buy_button_199"
-                    lockWidth = CGFloat(0.85)
+        if !self.dialogOpen {
+            DataService.getInstance().dbHelper.checkSale(onCompletion: { sale in
+                self.prepareDialogRect(CGFloat(300), height: CGFloat(300))
+                
+                self.lockDialog = SKSpriteNode(color: UIColor.white, size: CGSize(width: 350, height: 420))
+                self.lockDialog?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+                self.lockDialog?.zPosition = 1500
+                self.lockDialog?.isUserInteractionEnabled = true
+                
+                var lockImg = "lock"
+                var buyImg = "buyButton"
+                var lockWidth = CGFloat(0.65)
+                if sale != nil {
+                    if sale?.price == 1.99 {
+                        lockImg = "lock_50"
+                        buyImg = "buy_button_199"
+                        lockWidth = CGFloat(0.85)
+                    }
+                    if sale?.price == 2.99 {
+                        lockImg = "lock_25"
+                        buyImg = "buy_button_299"
+                        lockWidth = CGFloat(0.85)
+                    }
                 }
-                if sale?.price == 2.99 {
-                    lockImg = "lock_25"
-                    buyImg = "buy_button_299"
-                    lockWidth = CGFloat(0.85)
+                
+                let lock = SKSpriteNode(imageNamed: lockImg)
+                let ratio2 = lock.size.height / lock.size.width
+                lock.size.width = self.lockDialog!.size.width * lockWidth
+                lock.size.height = lock.size.width * ratio2
+                lock.position = CGPoint(x: 0, y: (self.lockDialog!.size.height / 2) - (lock.size.height / 2) - 25)
+                self.lockDialog?.addChild(lock)
+                
+                let backButton = LabelEventSprite(text: "< Back")
+                backButton.topic = LittleFamilyScene.TOPIC_START_HOME
+                backButton.isUserInteractionEnabled = true
+                backButton.fontColor = UIColor.blue
+                backButton.fontSize = self.lockDialog!.size.width / 14
+                backButton.position = CGPoint(x: 5 + backButton.frame.width / 2 - self.lockDialog!.size.width / 2, y: self.lockDialog!.size.height / 2 - backButton.frame.height - 5)
+                self.lockDialog?.addChild(backButton)
+                
+                var labelY = lock.position.y - (lock.size.height/2)
+                if sale != nil {
+                    let pos = CGPoint(x: 0, y: lock.position.y - (lock.size.height/2 + self.lockDialog!.size.width / 14))
+                    let salesText = SKMultilineLabel(text: sale!.salesText!, labelWidth: Int(self.lockDialog!.size.width), pos: pos, fontSize: self.lockDialog!.size.width / 12)
+                    salesText.fontColor = UIColor.black
+                    self.lockDialog?.addChild(salesText)
+                    
+                    labelY = salesText.position.y - (salesText.fontSize * 1.5)
                 }
-            }
-            
-            let lock = SKSpriteNode(imageNamed: lockImg)
-            let ratio2 = lock.size.height / lock.size.width
-            lock.size.width = self.lockDialog!.size.width * lockWidth
-            lock.size.height = lock.size.width * ratio2
-            lock.position = CGPoint(x: 0, y: (self.lockDialog!.size.height / 2) - (lock.size.height / 2) - 25)
-            self.lockDialog?.addChild(lock)
-            
-            let backButton = LabelEventSprite(text: "< Back")
-            backButton.topic = LittleFamilyScene.TOPIC_START_HOME
-            backButton.isUserInteractionEnabled = true
-            backButton.fontColor = UIColor.blue
-            backButton.fontSize = self.lockDialog!.size.width / 14
-            backButton.position = CGPoint(x: 5 + backButton.frame.width / 2 - self.lockDialog!.size.width / 2, y: self.lockDialog!.size.height / 2 - backButton.frame.height - 5)
-            self.lockDialog?.addChild(backButton)
-            
-            var labelY = lock.position.y - (lock.size.height/2)
-            if sale != nil {
-                let pos = CGPoint(x: 0, y: lock.position.y - (lock.size.height/2 + self.lockDialog!.size.width / 14))
-                let salesText = SKMultilineLabel(text: sale!.salesText!, labelWidth: Int(self.lockDialog!.size.width), pos: pos, fontSize: self.lockDialog!.size.width / 12)
-                salesText.fontColor = UIColor.black
-                self.lockDialog?.addChild(salesText)
                 
-                labelY = salesText.position.y - (salesText.fontSize * 1.5)
-            }
-            
-            let label = SKLabelNode(text: "This is a premium game.")
-            label.fontColor = UIColor.black
-            label.fontSize = self.lockDialog!.size.width / 12
-            label.fontName = "ChalkboardSE-Regular"
-            label.position = CGPoint(x: 0, y: labelY - label.fontSize)
-            self.lockDialog?.addChild(label)
-            if (!tryAvailable) {
-                let label2 = SKLabelNode(text: "Upgrade to play again.")
-                label2.fontSize = self.lockDialog!.size.width / 12
-                label2.fontColor = UIColor.black
-                label2.fontName = "ChalkboardSE-Regular"
-                label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
-                self.lockDialog?.addChild(label2)
-                
-                let buyButton = EventSprite(imageNamed: buyImg)
-                buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-                buyButton.isUserInteractionEnabled = true
-                buyButton.position = CGPoint(x: 0, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
-                self.lockDialog?.addChild(buyButton)
-            } else {
-                let label2 = SKLabelNode(text: "You have \(tries) tries left.")
-                if tries == 1 {
-                    label2.text = "You have 1 try left."
+                let label = SKLabelNode(text: "This is a premium game.")
+                label.fontColor = UIColor.black
+                label.fontSize = self.lockDialog!.size.width / 12
+                label.fontName = "ChalkboardSE-Regular"
+                label.position = CGPoint(x: 0, y: labelY - label.fontSize)
+                self.lockDialog?.addChild(label)
+                if (!tryAvailable) {
+                    let label2 = SKLabelNode(text: "Upgrade to play again.")
+                    label2.fontSize = self.lockDialog!.size.width / 12
+                    label2.fontColor = UIColor.black
+                    label2.fontName = "ChalkboardSE-Regular"
+                    label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
+                    self.lockDialog?.addChild(label2)
+                    
+                    let buyButton = EventSprite(imageNamed: buyImg)
+                    buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
+                    buyButton.isUserInteractionEnabled = true
+                    buyButton.position = CGPoint(x: 0, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
+                    self.lockDialog?.addChild(buyButton)
+                } else {
+                    let label2 = SKLabelNode(text: "You have \(tries) tries left.")
+                    if tries == 1 {
+                        label2.text = "You have 1 try left."
+                    }
+                    label2.fontSize = self.lockDialog!.size.width / 12
+                    label2.fontColor = UIColor.black
+                    label2.fontName = "ChalkboardSE-Regular"
+                    label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
+                    self.lockDialog?.addChild(label2)
+                    
+                    let tryButton = EventSprite(imageNamed: "tryButton")
+                    tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
+                    tryButton.isUserInteractionEnabled = true
+                    tryButton.position = CGPoint(x: -tryButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - tryButton.size.height / 2)
+                    self.lockDialog?.addChild(tryButton)
+                    
+                    let buyButton = EventSprite(imageNamed: buyImg)
+                    buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
+                    buyButton.isUserInteractionEnabled = true
+                    buyButton.position = CGPoint(x: buyButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
+                    self.lockDialog?.addChild(buyButton)
                 }
-                label2.fontSize = self.lockDialog!.size.width / 12
-                label2.fontColor = UIColor.black
-                label2.fontName = "ChalkboardSE-Regular"
-                label2.position = CGPoint(x: 0, y: label.position.y - label2.fontSize)
-                self.lockDialog?.addChild(label2)
                 
-                let tryButton = EventSprite(imageNamed: "tryButton")
-                tryButton.topic = LittleFamilyScene.TOPIC_TRY_PRESSED
-                tryButton.isUserInteractionEnabled = true
-                tryButton.position = CGPoint(x: -tryButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - tryButton.size.height / 2)
-                self.lockDialog?.addChild(tryButton)
-                
-                let buyButton = EventSprite(imageNamed: buyImg)
-                buyButton.topic = LittleFamilyScene.TOPIC_BUY_PRESSED
-                buyButton.isUserInteractionEnabled = true
-                buyButton.position = CGPoint(x: buyButton.size.width / 2, y: label2.position.y - label2.frame.height / 2 - buyButton.size.height / 2)
-                self.lockDialog?.addChild(buyButton)
-            }
-            
-            self.addChild(self.lockDialog!)
+                self.addChild(self.lockDialog!)
 
-        })
+            })
+        }
     }
     
     func hideLockDialog() {
@@ -903,6 +912,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         graybox!.zPosition = 100
         graybox!.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(graybox!)
+        self.dialogOpen = true
         
         var w = width
         var h = height
@@ -931,6 +941,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func clearDialogRect() {
+        self.dialogOpen = false
         if graybox != nil {
             graybox!.removeFromParent()
         }

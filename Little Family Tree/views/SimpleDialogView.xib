@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D25a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleDialogView" customModule="Little_Family_Tree" customModuleProvider="target">
@@ -23,8 +27,29 @@
                         <navigationItem title="Title" id="UUT-hU-kKD"/>
                     </items>
                 </navigationBar>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PD2-Ji-Z4y">
-                    <rect key="frame" x="0.0" y="268" width="320" height="44"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CtU-cq-kpv">
+                    <rect key="frame" x="0.0" y="44" width="300" height="210"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Rf3-bG-HNo">
+                            <rect key="frame" x="8" y="8" width="284" height="202"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="202" id="s0K-GI-OI1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailingMargin" id="1gv-3m-jUb"/>
+                        <constraint firstAttribute="bottom" secondItem="Rf3-bG-HNo" secondAttribute="bottom" id="25V-45-RTE"/>
+                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="top" secondItem="CtU-cq-kpv" secondAttribute="topMargin" id="IFr-XS-9hq"/>
+                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="leading" secondItem="CtU-cq-kpv" secondAttribute="leadingMargin" id="YGJ-SM-GwT"/>
+                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="centerX" secondItem="CtU-cq-kpv" secondAttribute="centerX" id="nJp-dg-KcS"/>
+                    </constraints>
+                </scrollView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PD2-Ji-Z4y">
+                    <rect key="frame" x="0.0" y="256" width="300" height="44"/>
                     <items>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="bsb-Y0-OUy"/>
                         <barButtonItem title="Close" id="1fA-d1-KCG">
@@ -35,41 +60,19 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Jtu-Jp-zNz"/>
                     </items>
                 </toolbar>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CtU-cq-kpv">
-                    <rect key="frame" x="0.0" y="44" width="300" height="224"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Rf3-bG-HNo">
-                            <rect key="frame" x="8" y="8" width="284" height="216"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="216" id="M36-Hp-nDK"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Rf3-bG-HNo" secondAttribute="bottom" id="SRM-Jk-brG"/>
-                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailingMargin" id="YDk-ta-DQk"/>
-                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="leading" secondItem="CtU-cq-kpv" secondAttribute="leadingMargin" id="fxP-a3-kgW"/>
-                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="top" secondItem="CtU-cq-kpv" secondAttribute="topMargin" id="lcy-fc-0hB"/>
-                        <constraint firstItem="Rf3-bG-HNo" firstAttribute="centerX" secondItem="CtU-cq-kpv" secondAttribute="centerX" id="sjc-uB-ziS"/>
-                    </constraints>
-                </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="PD2-Ji-Z4y" secondAttribute="leading" id="0m3-9C-pme"/>
-                <constraint firstItem="CtU-cq-kpv" firstAttribute="bottom" secondItem="PD2-Ji-Z4y" secondAttribute="top" id="4du-nE-Jww"/>
-                <constraint firstAttribute="bottom" secondItem="CtU-cq-kpv" secondAttribute="bottom" constant="32" id="7x9-Tu-M1d"/>
-                <constraint firstItem="5vc-ya-qaa" firstAttribute="bottom" secondItem="CtU-cq-kpv" secondAttribute="top" id="AOC-Lh-LnK"/>
-                <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ezr-Pn-Ixl"/>
-                <constraint firstItem="5vc-ya-qaa" firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailing" id="FHY-OF-inn"/>
-                <constraint firstItem="5vc-ya-qaa" firstAttribute="leading" secondItem="CtU-cq-kpv" secondAttribute="leading" id="JsA-l9-JWf"/>
-                <constraint firstAttribute="bottom" secondItem="PD2-Ji-Z4y" secondAttribute="bottom" id="TYl-Cm-cUj"/>
-                <constraint firstAttribute="trailing" secondItem="PD2-Ji-Z4y" secondAttribute="trailing" id="TzD-TQ-7ds"/>
-                <constraint firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailing" id="pIp-GH-z1p"/>
-                <constraint firstItem="5vc-ya-qaa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="yJT-Ct-xrI"/>
+                <constraint firstItem="CtU-cq-kpv" firstAttribute="trailing" secondItem="PD2-Ji-Z4y" secondAttribute="trailing" id="G3v-9u-Gqu"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RWn-n3-tuP"/>
+                <constraint firstItem="CtU-cq-kpv" firstAttribute="top" secondItem="5vc-ya-qaa" secondAttribute="bottom" id="UIF-md-2gM"/>
+                <constraint firstAttribute="bottom" secondItem="PD2-Ji-Z4y" secondAttribute="bottom" id="UR0-hq-KLP"/>
+                <constraint firstItem="CtU-cq-kpv" firstAttribute="leading" secondItem="PD2-Ji-Z4y" secondAttribute="leading" id="Uov-eJ-gSf"/>
+                <constraint firstItem="PD2-Ji-Z4y" firstAttribute="top" secondItem="CtU-cq-kpv" secondAttribute="bottom" constant="2" id="ZR0-Zr-ZGs"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="trailing" secondItem="CtU-cq-kpv" secondAttribute="trailing" id="ch9-8O-aHN"/>
+                <constraint firstAttribute="trailing" secondItem="5vc-ya-qaa" secondAttribute="trailing" id="k3h-dV-TUB"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="odu-2z-MHE"/>
+                <constraint firstItem="5vc-ya-qaa" firstAttribute="leading" secondItem="CtU-cq-kpv" secondAttribute="leading" id="s1j-9b-MhK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="258" y="112"/>

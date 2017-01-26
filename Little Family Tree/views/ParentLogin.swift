@@ -21,6 +21,11 @@ class ParentLogin: UIView {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var txtError: UILabel!
 	@IBOutlet weak var chkRemember: UISwitch!
+    @IBOutlet weak var logoImage: UIImageView!
+    @IBOutlet weak var passwordLbl: UILabel!
+    @IBOutlet weak var usernameLbl: UILabel!
+    
+    var person:LittlePerson?
 
     var view:UIView!
     
@@ -53,6 +58,18 @@ class ParentLogin: UIView {
         spinner.isHidden = true
         spinner.stopAnimating()
 		
+        if dataService.serviceType == DataService.SERVICE_TYPE_PHPGEDVIEW {
+            logoImage.image = UIImage(named: "pgv_logo")
+        } else if dataService.serviceType == DataService.SERVICE_TYPE_MYHERITAGE {
+            logoImage.image = UIImage(named: "myheritage_logo")
+            passwordLbl.text = "Birth Year:"
+            txtUsername.isHidden = true
+            dataService.getDefaultPerson(false, onCompletion: {person, err in
+                self.person = person
+                self.usernameLbl.numberOfLines = 2
+                self.usernameLbl.text = "Enter the year that \(person!.name!) was born."
+            })
+        }
     }
     
     func loadViewFromNib() -> UIView {
@@ -98,23 +115,41 @@ class ParentLogin: UIView {
         }
         
         let dataService = DataService.getInstance()
-        let storedUsername = dataService.getEncryptedProperty(DataService.SERVICE_USERNAME)
-        let storedPass = dataService.getEncryptedProperty(DataService.SERVICE_TYPE_FAMILYSEARCH + DataService.SERVICE_TOKEN)
-        if username == storedUsername && password == storedPass {
-            txtUsername.text = ""
-            txtPassword.text = ""
-            if self.loginListener != nil {
-				if chkRemember.isOn {
-					let now = Foundation.Date()
-					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: now.timeIntervalSince1970.description)
-				} else {
-					dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: "0")
-				}
-                self.view.removeFromSuperview()
-                self.loginListener?.LoginComplete()
+        if dataService.serviceType == DataService.SERVICE_TYPE_MYHERITAGE {
+            let birthYear = (Calendar.current as NSCalendar).component(.year, from: self.person!.birthDate!)
+            if password == birthYear.description {
+                if self.loginListener != nil {
+                    if self.chkRemember.isOn {
+                        let now = Foundation.Date()
+                        dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: now.timeIntervalSince1970.description)
+                    } else {
+                        dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: "0")
+                    }
+                    self.view.removeFromSuperview()
+                    self.loginListener?.LoginComplete()
+                }
+            } else {
+                showAlert("Please enter the correct birth year.")
             }
         } else {
-            showAlert("Unable to authorize credentials.")
+            let storedUsername = dataService.getEncryptedProperty(DataService.SERVICE_USERNAME)
+            let storedPass = dataService.getEncryptedProperty(DataService.SERVICE_TYPE_FAMILYSEARCH + DataService.SERVICE_TOKEN)
+            if username == storedUsername && password == storedPass {
+                txtUsername.text = ""
+                txtPassword.text = ""
+                if self.loginListener != nil {
+                    if chkRemember.isOn {
+                        let now = Foundation.Date()
+                        dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: now.timeIntervalSince1970.description)
+                    } else {
+                        dataService.dbHelper.saveProperty(DataService.PROPERTY_REMEMBER_ME, value: "0")
+                    }
+                    self.view.removeFromSuperview()
+                    self.loginListener?.LoginComplete()
+                }
+            } else {
+                showAlert("Unable to authorize credentials.")
+            }
         }
     }
     
