@@ -456,7 +456,15 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 			let time = Double(remember!)
 			let date = Foundation.Date(timeIntervalSince1970: time!)
 			if date.timeIntervalSinceNow > -60 * 20 {
-				showSettings()
+                if loginForParentsGuide {
+                    clearDialogRect()
+                    let rect = self.prepareDialogRect(CGFloat(500), height: CGFloat(450))
+                    let subview = ParentsGuide(frame: rect)
+                    subview.listener = self.pgListener
+                    self.view?.addSubview(subview)
+                } else {
+                    showSettings()
+                }
 				return
 			}
 		}

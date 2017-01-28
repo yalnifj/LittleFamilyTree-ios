@@ -45,8 +45,8 @@ class SettingsView: UIView, ChooseSkinToneListener {
     var selectedPerson:LittlePerson? {
         didSet {
             var skinTone = DataService.getInstance().dbHelper.getProperty(DataService.PROPERTY_SKIN_TONE)
-            if skinTone==nil {
-            skinTone = "light"
+            if skinTone == nil {
+                skinTone = "light"
             }
             let skinImage = TextureHelper.getDefaultPortraitImageBySkin(selectedPerson!, skinTone: skinTone!)
             skinImageButton.setImage(skinImage, for: .normal)

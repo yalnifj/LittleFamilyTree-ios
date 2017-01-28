@@ -241,7 +241,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
     }
     
     @IBAction func websiteButtonClicked(_ sender: AnyObject) {
-		UIApplication.shared.openURL(URL(string:"http://www.littlefamilytree.com")!)
+		UIApplication.shared.openURL(URL(string:"http://littlefamilytree.com/parentsguide.html")!)
     }
     @IBAction func kidHeritageClicked(_ sender: AnyObject) {
         UIApplication.shared.openURL(URL(string:"http://www.myheritagebook.com")!)

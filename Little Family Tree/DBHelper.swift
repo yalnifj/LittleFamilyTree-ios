@@ -470,7 +470,10 @@ class DBHelper {
                     person!.gender = GenderType.unknown
                 }
             }
-            person!.age = Int(c[6] as! Int64)
+            let age = c[6]
+            if age != nil {
+                person!.age = Int(c[6] as! Int64)
+            }
             if c[7] != nil { person!.givenName = (c[7] as! String?) }
             if c[8] != nil { person!.name = (c[8] as! String?) }
             if c[9] != nil { person!.photoPath = (c[9] as! String?) }
