@@ -9,6 +9,8 @@
 import Foundation
 import SpriteKit
 import GPUImage
+import Firebase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -134,6 +136,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_CARD_SELECTED, listener: self)
 		EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_SHARE_IMAGE, listener: self)
 		EventHandler.getInstance().subscribe(BirthdayPeopleScene.TOPIC_SHOW_CUPCAKES, listener: self)
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: BirthdayPeopleScene.self) as NSObject
+        ])
     }
 	
 	override func willMove(from view: SKView) {

@@ -8,6 +8,8 @@
 
 import Foundation
 import SpriteKit
+import Firebase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -50,6 +52,10 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         randomMediaChooser.listener = self
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: ScratchScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

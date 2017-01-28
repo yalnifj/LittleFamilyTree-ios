@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import Firebase
 
 class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
     static var TOPIC_PERSON_TOUCHED = "personTouched"
@@ -137,6 +138,7 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
         self.speak("Calculating your heritage. Please wait...")
         
         EventHandler.getInstance().subscribe(ChooseCultureScene.TOPIC_PERSON_TOUCHED, listener: self)
+        
     }
     
     override func willMove(from view: SKView) {
@@ -230,6 +232,11 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
             if count > 0 {
                self.setSelectedPath(self.calculator!.uniquePaths[0]) 
             }
+            
+            FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+                kFIRParameterItemName: String(describing: ChooseCultureScene.self) as NSObject,
+                "NumberOfCultures": count as NSObject
+            ])
         }
     }
     

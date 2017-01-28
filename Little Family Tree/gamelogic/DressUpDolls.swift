@@ -30,7 +30,7 @@ class DressUpDolls {
         countryMappings["spain"] = "spain"
 		countryMappings["portugal"] = "portugal"
         countryMappings["italy"] = "italy"
-        countryMappings["columbia"] = "columbia"
+        countryMappings["colombia"] = "columbia"
         countryMappings["chile"] = "chile"
         countryMappings["india"] = "india"
         countryMappings["philippines"] = "philippines"

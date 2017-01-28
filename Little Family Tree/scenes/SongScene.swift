@@ -9,6 +9,8 @@
 import Foundation
 import SpriteKit
 import AVFoundation
+import Firebase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -367,6 +369,10 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         treeWalker = TreeWalker(person: selectedPerson!, listener:self, reusePeople: true)
         treeWalker!.loadFamilyMembers()
         speak("Choose a song.")
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: SongScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import Firebase
 
 class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var randomMediaChooser = RandomMediaChooser.getInstance()
@@ -44,6 +45,10 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         randomMediaChooser.listener = self
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: PuzzleScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

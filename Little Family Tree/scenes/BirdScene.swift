@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 import CoreMotion
 import AudioToolbox
+import Firebase
 
 class BirdScene: LittleFamilyScene, TreeWalkerListener {
 	static var TOPIC_SKIP_CUTSCENE = "topicSkipCutScene"
@@ -91,6 +92,10 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
         
 		motionManager = CMMotionManager()
 		motionManager.startAccelerometerUpdates()
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: BirdScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

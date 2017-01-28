@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import Firebase
 
 class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListener, BrushSizeListener {
     static var TOPIC_NEXT_IMAGE = "nextImage"
@@ -118,6 +119,10 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         
         EventHandler.getInstance().subscribe(ColoringScene.TOPIC_NEXT_IMAGE, listener: self)
         EventHandler.getInstance().subscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: ColoringScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

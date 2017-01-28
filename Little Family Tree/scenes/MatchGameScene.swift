@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import Firebase
 
 class MatchGameScene: LittleFamilyScene {
     var dataService:DataService?
@@ -39,6 +40,10 @@ class MatchGameScene: LittleFamilyScene {
         if selectedPerson != nil {
             loadMorePeople()
         }
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: MatchGameScene.self) as NSObject
+        ])
     }
     
     func loadMorePeople() {

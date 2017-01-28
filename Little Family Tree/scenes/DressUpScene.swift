@@ -9,6 +9,8 @@
 import Foundation
 import SpriteKit
 import GPUImage
+import Firebase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -150,6 +152,12 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         }
         
         EventHandler.getInstance().subscribe(DressUpScene.TOPIC_CHANGE_SKIN, listener: self)
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: DressUpScene.self) as NSObject,
+            "Place": self.dollConfig!.originalPlace! as NSObject,
+            "DollFolder": self.dollConfig!.folderName! as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {

@@ -8,17 +8,7 @@
 
 import Foundation
 import SpriteKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
+import Firebase
 
 class BubbleScene: LittleFamilyScene {
     static var TOPIC_WATER = "topic_water"
@@ -175,6 +165,10 @@ class BubbleScene: LittleFamilyScene {
         loadPeople()
         
         EventHandler.getInstance().subscribe(BubbleScene.TOPIC_WATER, listener: self)
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: BubbleScene.self) as NSObject
+        ])
     }
 
     func loadPeople() {
@@ -213,7 +207,7 @@ class BubbleScene: LittleFamilyScene {
         })
         
         dataService.getParents(person, onCompletion: { parents, err in
-            if parents == nil || parents?.count < 2 {
+            if parents == nil || parents!.count < 2 {
                 self.loadPeople()
             }
             else {

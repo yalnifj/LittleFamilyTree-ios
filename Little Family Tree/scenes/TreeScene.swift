@@ -8,6 +8,8 @@
 
 import Foundation
 import SpriteKit
+import Firebase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -302,6 +304,10 @@ class TreeScene: LittleFamilyScene {
         treeSearchButton?.addAction(1, action: searchAction)
         treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
+        
+        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+            kFIRParameterItemName: String(describing: TreeScene.self) as NSObject
+        ])
     }
     
     override func willMove(from view: SKView) {
