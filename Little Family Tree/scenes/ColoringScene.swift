@@ -155,56 +155,52 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         
         let texture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width * 0.66, height: self.size.height * 0.66))
         if texture != nil {
-            if photoSprite != nil {
-                photoSprite?.removeFromParent()
-            }
-            if coverSprite != nil {
-                coverSprite?.removeFromParent()
-            }
-            if outlineSprite != nil {
-                outlineSprite?.removeFromParent()
+            DispatchQueue.main.async(execute: {
+            if self.fullImageHolder != nil {
+                self.fullImageHolder?.removeAllChildren()
+                self.fullImageHolder?.removeFromParent()
             }
             
             let ratio = (texture?.size().width)! / (texture?.size().height)!
             var w = self.size.width
-            var h = self.size.height - ((palette?.size.height)! + (topBar?.size.height)! * 3)
+            var h = self.size.height - ((self.palette?.size.height)! + (self.topBar?.size.height)! * 3)
             if ratio < 1.0 || w > h {
                 w = h * ratio
             } else {
                 h = w / ratio
             }
             
-            let ypos = (self.size.height / 2) + (palette?.size.height)! / 2 - (topBar?.size.height)! / 2
+            let ypos = (self.size.height / 2) + (self.palette?.size.height)! / 2 - (self.topBar?.size.height)! / 2
 			
-			fullImageHolder = SKSpriteNode()
-			fullImageHolder?.zPosition = 2
-			fullImageHolder?.position = CGPoint(x: self.size.width / 2, y: ypos)
-			fullImageHolder?.size.width = w
-			fullImageHolder?.size.height = h
-			self.addChild(fullImageHolder!)
+			self.fullImageHolder = SKSpriteNode()
+			self.fullImageHolder?.zPosition = 2
+			self.fullImageHolder?.position = CGPoint(x: self.size.width / 2, y: ypos)
+			self.fullImageHolder?.size.width = w
+			self.fullImageHolder?.size.height = h
+			self.addChild(self.fullImageHolder!)
             
-            photoSprite = SKSpriteNode(texture: texture, size: CGSize(width: w, height: h))
-            photoSprite?.zPosition = 2
-            photoSprite?.position = CGPoint(x: 0, y: 0)
-            photoSprite?.size.width = w
-            photoSprite?.size.height = h
-            fullImageHolder!.addChild(photoSprite!)
+            self.photoSprite = SKSpriteNode(texture: texture, size: CGSize(width: w, height: h))
+            self.photoSprite?.zPosition = 2
+            self.photoSprite?.position = CGPoint(x: 0, y: 0)
+            self.photoSprite?.size.width = w
+            self.photoSprite?.size.height = h
+            self.fullImageHolder!.addChild(self.photoSprite!)
             
-            let rect = CGRect(x: 0, y: 0, width: (photoSprite?.size.width)!, height: (photoSprite?.size.height)!)
-            UIGraphicsBeginImageContextWithOptions((photoSprite?.size)!, false, 0)
+            let rect = CGRect(x: 0, y: 0, width: (self.photoSprite?.size.width)!, height: (self.photoSprite?.size.height)!)
+            UIGraphicsBeginImageContextWithOptions((self.photoSprite?.size)!, false, 0)
             let color = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             color.setFill()
             UIRectFill(rect)
-            image = UIGraphicsGetImageFromCurrentImageContext()
+            self.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            let coverTexture = SKTexture(image: image!)
-            coverSprite = SKSpriteNode(texture: coverTexture)
-            coverSprite?.zPosition = 3
-            coverSprite?.position = CGPoint(x: 0, y: 0)
-            coverSprite?.size.width = w
-            coverSprite?.size.height = h
-            fullImageHolder!.addChild(coverSprite!)
+            let coverTexture = SKTexture(image: self.image!)
+            self.coverSprite = SKSpriteNode(texture: coverTexture)
+            self.coverSprite?.zPosition = 3
+            self.coverSprite?.position = CGPoint(x: 0, y: 0)
+            self.coverSprite?.size.width = w
+            self.coverSprite?.size.height = h
+            self.fullImageHolder!.addChild(self.coverSprite!)
 
             let filter:CIFilter? = CIFilter(name: "CILineOverlay")!
             let os = SKEffectNode()
@@ -214,29 +210,29 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
             
             let smalltexture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width/2, height: self.size.height/2))
             if smalltexture != nil {
-                photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSize(width: w, height: h))
-                photoCopySprite?.zPosition = 2
-                photoCopySprite?.position = CGPoint(x: 0, y: 0)
-                photoCopySprite?.size.width = w
-                photoCopySprite?.size.height = h
-                os.addChild(photoCopySprite!)
+                self.photoCopySprite = SKSpriteNode(texture: smalltexture, size: CGSize(width: w, height: h))
+                self.photoCopySprite?.zPosition = 2
+                self.photoCopySprite?.position = CGPoint(x: 0, y: 0)
+                self.photoCopySprite?.size.width = w
+                self.photoCopySprite?.size.height = h
+                os.addChild(self.photoCopySprite!)
             
                 let imageTexture = self.scene!.view!.texture(from: os)
                 if imageTexture != nil {
-                    outlineSprite = SKSpriteNode(texture: imageTexture)
-                    outlineSprite!.zPosition = 4
-                    outlineSprite!.position = CGPoint(x: 0, y: 0)
-                    outlineSprite?.isHidden = !showOutline
-                    fullImageHolder!.addChild(outlineSprite!)
+                    self.outlineSprite = SKSpriteNode(texture: imageTexture)
+                    self.outlineSprite!.zPosition = 4
+                    self.outlineSprite!.position = CGPoint(x: 0, y: 0)
+                    self.outlineSprite?.isHidden = !self.showOutline
+                    self.fullImageHolder!.addChild(self.outlineSprite!)
                 }
             }
             
-            hideLoadingDialog()
+            self.hideLoadingDialog()
             
             self.userHasPremium({ premium in
                 if !premium {
-                    let tryCount = self.getTryCount("try_coloring_count")
-                    
+                    var tryCount = self.getTryCount("try_coloring_count")
+                    tryCount = 0
                     var tryAvailable = true
                     if tryCount > 3 {
                         tryAvailable = false
@@ -244,6 +240,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
                     
                     self.showLockDialog(tryAvailable,  tries: LittleFamilyScene.FREE_TRIES - (tryCount - 1))
                 }
+            })
             })
             
         } else {

@@ -120,6 +120,9 @@ class SyncQ : NSObject {
         } else {
             print("SyncQ is paused for \(pauseDelay)")
             pauseDelay -= 10
+            if pauseDelay < 0 {
+                paused = false
+            }
         }
 	}
 	
