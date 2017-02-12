@@ -496,7 +496,7 @@ class MyHeritageService: RemoteService {
     }
     
     var lastRequestTime:Foundation.Date = Foundation.Date()
-    var requestDelay:TimeInterval = -0.3
+    var requestDelay:TimeInterval = -0.5
     func makeHTTPGetRequest(_ path: String, headers: [String: String], count: Int, onCompletion: @escaping ServiceResponse) {
         let timeSinceLastRequest = lastRequestTime.timeIntervalSinceNow
         if timeSinceLastRequest > requestDelay {
@@ -535,9 +535,9 @@ class MyHeritageService: RemoteService {
             if httpResponse.statusCode == 429 {
                 //-- connection was throttled, try again after 10 seconds
                 if count < 4 {
-                    SyncQ.getInstance().pauseForTime(60)
+                    SyncQ.getInstance().pauseForTime(90)
                     print("Connection throttled... delaying 20 seconds")
-                    self.throttled(20, closure: {
+                    self.throttled(20.0 * Double(count), closure: {
                         self.makeHTTPGetRequest(path, headers: headers, count: count+1, onCompletion: onCompletion)
                     })
                 } else {
