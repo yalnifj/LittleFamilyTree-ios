@@ -248,7 +248,14 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             group.leave()
         })
         group.notify(queue: queue) {
-            self.addSprites()
+            if self.people.count > 0 {
+                self.addSprites()
+            } else {
+                let rect = self.prepareDialogRect(CGFloat(600), height: CGFloat(600))
+                let subview = ChooseServiceView(frame: rect)
+                subview.loginListener = self
+                self.view?.addSubview(subview)
+            }
         }
     }
     

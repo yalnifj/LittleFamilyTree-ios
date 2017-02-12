@@ -99,33 +99,36 @@ class MyHeritageLogin: UIView, StatusListener, UIWebViewDelegate {
                     dataService.addStatusListener(self)
                     
                     service?.getCurrentUser({data, err in
-                        
-                        let indi = data!["default_individual"] as! JSON
-                        let indiId = indi["id"].string
-                        self.dataService.dbHelper.saveProperty(DataService.SERVICE_TYPE, value: DataService.SERVICE_TYPE_MYHERITAGE)
-                        self.dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_MYHERITAGE + DataService.SERVICE_TOKEN, value: accessToken)
-                        self.dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: indiId!);
-        
-                        self.dataService.dbHelper.fireCreateOrUpdateUser(false)
-                        
-                        self.dataService.getDefaultPerson(true, onCompletion: { person, err in
-                            if person != nil {
-                                print("person \(person?.id) \(person?.name)")
-                                let task = InitialDataLoader(person: person!, listener: self)
-                                task.execute({people, err in
-                                    self.showInfoMsg("Finished loading")
-                                    self.dataService.removeStatusListener(self)
-                                    DispatchQueue.main.async {
-                                        self.removeFromSuperview()
-                                    }
-                                    if self.loginListener != nil {
-                                        self.loginListener?.LoginComplete()
-                                    }
-                                })
-                            } else {
-                                self.showAlert("Unable to get default person")
-                            }
-                        })
+                        if data != nil {
+                            let indi = data!["default_individual"] as! JSON
+                            let indiId = indi["id"].string
+                            self.dataService.dbHelper.saveProperty(DataService.SERVICE_TYPE, value: DataService.SERVICE_TYPE_MYHERITAGE)
+                            self.dataService.saveEncryptedProperty(DataService.SERVICE_TYPE_MYHERITAGE + DataService.SERVICE_TOKEN, value: accessToken)
+                            self.dataService.saveEncryptedProperty(DataService.SERVICE_USERNAME, value: indiId!);
+            
+                            self.dataService.dbHelper.fireCreateOrUpdateUser(false)
+                            
+                            self.dataService.getDefaultPerson(true, onCompletion: { person, err in
+                                if person != nil {
+                                    print("person \(person?.id) \(person?.name)")
+                                    let task = InitialDataLoader(person: person!, listener: self)
+                                    task.execute({people, err in
+                                        self.showInfoMsg("Finished loading")
+                                        self.dataService.removeStatusListener(self)
+                                        DispatchQueue.main.async {
+                                            self.removeFromSuperview()
+                                        }
+                                        if self.loginListener != nil {
+                                            self.loginListener?.LoginComplete()
+                                        }
+                                    })
+                                } else {
+                                    self.showAlert("Unable to get default person")
+                                }
+                            })
+                        } else {
+                            self.showAlert("Unable to get current user \(err)")
+                        }
                     })
                 } else {
                     self.showAlert("Error logging into MyHeritage")

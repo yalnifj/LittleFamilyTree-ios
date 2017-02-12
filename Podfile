@@ -9,7 +9,7 @@ target 'Little Family Tree' do
   pod 'Firebase'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
-  # pod 'Firebase/Crash'
+  pod 'Firebase/Crash'
 
   target 'Little Family TreeTests' do
     inherit! :search_paths

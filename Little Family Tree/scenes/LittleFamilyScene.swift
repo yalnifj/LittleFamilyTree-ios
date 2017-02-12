@@ -507,7 +507,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showSettings() -> SettingsView {
-        let subview = SettingsView(frame: (self.view?.bounds)!)
+        let subview = SettingsView(frame: self.view!.bounds)
         subview.selectedPerson = self.selectedPerson
         subview.openingScene = self
         self.isPaused = true
@@ -516,7 +516,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showManagePeople() -> SearchPeople {
-        let subview = SearchPeople(frame: (self.view?.bounds)!)
+        let subview = SearchPeople(frame: self.view!.bounds)
         subview.selectedPerson = self.selectedPerson
         subview.openingScene = self
         self.view?.addSubview(subview)
@@ -524,7 +524,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showPersonDetails(_ person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
-        let personDetailsView = PersonDetailsView(frame: (self.view?.bounds)!)
+        let personDetailsView = PersonDetailsView(frame: self.view!.bounds)
         personDetailsView.listener = listener
         personDetailsView.openingScene = self
         personDetailsView.selectedPerson = self.selectedPerson

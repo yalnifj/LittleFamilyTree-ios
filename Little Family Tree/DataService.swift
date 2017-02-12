@@ -511,92 +511,94 @@ class DataService {
         let queue = DispatchQueue.global()
         let group = DispatchGroup()
         for r in closeRelatives {
-            group.enter()
-            getPersonByRemoteId(r.person1!.resourceId!, onCompletion: { person1, err in
-                if person1 != nil {
-                    self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: { person2, err in
-                        if person2 != nil {
-                            let lr = LocalRelationship()
-                            lr.id1 = person1?.id
-                            lr.id2 = person2?.id
-                            var person1changed = false
-                            var person2changed = false
-                            if r.type == "http://gedcomx.org/Couple" {
-                                lr.type = RelationshipType.spouse
-                                if person2?.treeLevel == nil && person1?.treeLevel != nil {
-                                    person2?.treeLevel = person1?.treeLevel
-                                    person2changed = true
-                                }
-                                if person2?.age == nil && person1?.age != nil  {
-                                    person2?.age = (person1?.age)!
-                                    person2changed = true
-                                }
-                                if person1?.treeLevel == nil && person2?.treeLevel != nil {
-                                    person1?.treeLevel = person2?.treeLevel
-                                    person1changed = true
-                                }
-                                if person1?.age == nil && person2?.age != nil  {
-                                    person1?.age = (person2?.age)!
-                                    person1changed = true
-                                }
+            if r.person1 != nil && r.person1?.resourceId != nil {
+                group.enter()
+                getPersonByRemoteId(r.person1!.resourceId!, onCompletion: { person1, err in
+                    if person1 != nil && r.person2 != nil && r.person2!.resourceId != nil {
+                        self.getPersonByRemoteId(r.person2!.resourceId!, onCompletion: { person2, err in
+                            if person2 != nil {
+                                let lr = LocalRelationship()
+                                lr.id1 = person1?.id
+                                lr.id2 = person2?.id
+                                var person1changed = false
+                                var person2changed = false
+                                if r.type == "http://gedcomx.org/Couple" {
+                                    lr.type = RelationshipType.spouse
+                                    if person2?.treeLevel == nil && person1?.treeLevel != nil {
+                                        person2?.treeLevel = person1?.treeLevel
+                                        person2changed = true
+                                    }
+                                    if person2?.age == nil && person1?.age != nil  {
+                                        person2?.age = (person1?.age)!
+                                        person2changed = true
+                                    }
+                                    if person1?.treeLevel == nil && person2?.treeLevel != nil {
+                                        person1?.treeLevel = person2?.treeLevel
+                                        person1changed = true
+                                    }
+                                    if person1?.age == nil && person2?.age != nil  {
+                                        person1?.age = (person2?.age)!
+                                        person1changed = true
+                                    }
 
-                            } else {
-                                lr.type = RelationshipType.parentchild
-                                if person2?.treeLevel == nil && person1?.treeLevel != nil {
-                                    person2?.treeLevel = (person1?.treeLevel)! - 1
-                                    person2changed = true
-                                }
-                                if person2?.age == nil && person1?.age != nil  {
-                                    person2?.age = (person1?.age)! - 25
-                                    person2changed = true
-                                }
-                                if person1?.treeLevel == nil && person2?.treeLevel != nil {
-                                    person1?.treeLevel = (person2?.treeLevel)! + 1
-                                    person1changed = true
-                                }
-                                if person1?.age == nil && person2?.age != nil  {
-                                    person1?.age = (person2?.age)! + 25
-                                    person1changed = true
-                                }
-                            }
-                            self.dbHelper.persistRelationship(lr)
-                            
-                            if person1changed {
-                                do {
-                                    try self.dbHelper.persistLittlePerson(person1!)
-                                    if person == person1! {
-                                        person.age = person1!.age
-                                        person.treeLevel = person1!.treeLevel
+                                } else {
+                                    lr.type = RelationshipType.parentchild
+                                    if person2?.treeLevel == nil && person1?.treeLevel != nil {
+                                        person2?.treeLevel = (person1?.treeLevel)! - 1
+                                        person2changed = true
                                     }
-                                } catch let e as NSError {
-                                    print(e)
-                                }
-                            }
-                            if person2changed {
-                                do {
-                                    try self.dbHelper.persistLittlePerson(person2!)
-                                    if person == person2! {
-                                        person.age = person2!.age
-                                        person.treeLevel = person2!.treeLevel
+                                    if person2?.age == nil && person1?.age != nil  {
+                                        person2?.age = (person1?.age)! - 25
+                                        person2changed = true
                                     }
-                                } catch let e as NSError {
-                                    print(e)
+                                    if person1?.treeLevel == nil && person2?.treeLevel != nil {
+                                        person1?.treeLevel = (person2?.treeLevel)! + 1
+                                        person1changed = true
+                                    }
+                                    if person1?.age == nil && person2?.age != nil  {
+                                        person1?.age = (person2?.age)! + 25
+                                        person1changed = true
+                                    }
+                                }
+                                self.dbHelper.persistRelationship(lr)
+                                
+                                if person1changed {
+                                    do {
+                                        try self.dbHelper.persistLittlePerson(person1!)
+                                        if person == person1! {
+                                            person.age = person1!.age
+                                            person.treeLevel = person1!.treeLevel
+                                        }
+                                    } catch let e as NSError {
+                                        print(e)
+                                    }
+                                }
+                                if person2changed {
+                                    do {
+                                        try self.dbHelper.persistLittlePerson(person2!)
+                                        if person == person2! {
+                                            person.age = person2!.age
+                                            person.treeLevel = person2!.treeLevel
+                                        }
+                                    } catch let e as NSError {
+                                        print(e)
+                                    }
+                                }
+                                
+                                if person != person1 && !family.contains(person1!) {
+                                    family.append(person1!)
+                                }
+                                if person != person2 && !family.contains(person2!) {
+                                    family.append(person2!)
                                 }
                             }
-                            
-                            if person != person1 && !family.contains(person1!) {
-                                family.append(person1!)
-                            }
-                            if person != person2 && !family.contains(person2!) {
-                                family.append(person2!)
-                            }
-                        }
+                            group.leave()
+                        })
+                    } else {
                         group.leave()
-                    })
-                } else {
-                    group.leave()
-                }
-            })
+                    }
+                })
+            }
         }
         
         group.notify(queue: queue) {
@@ -836,7 +838,7 @@ class DataService {
                                         let df3 = DateFormatter()
                                         df3.dateFormat = "yyyy"
                                         person.birthDate = df3.date(from: "\(year)")
-                                    } else {
+                                    } else if range.location + range.length < birthDateStr?.characters.count {
                                         let results = regex.firstMatch(in: birthDateStr!, options:[], range: range)
                                         if results != nil {
                                             let nsB = birthDateStr! as NSString
@@ -881,7 +883,7 @@ class DataService {
 		person.lastSync = Foundation.Date()
 		
 		remoteService!.getPersonPortrait(person.familySearchId!, onCompletion: {link, err1 in
-			if link != nil && link!.href != nil {
+			if self.remoteService!.sessionId != nil && link != nil && link!.href != nil {
 				self.remoteService!.downloadImage(link!.href!, folderName: person.familySearchId!, fileName: self.lastPath(link!.href! as String), onCompletion: { path, err2 in
 					person.photoPath = path
 					onCompletion( person, err2)

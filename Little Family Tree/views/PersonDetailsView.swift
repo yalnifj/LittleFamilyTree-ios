@@ -88,7 +88,9 @@ class PersonDetailsView: UIView {
         
         if person.birthDate != nil {
             let components = (Calendar.current as NSCalendar).components(.year, from: person.birthDate!)
-            self.birthYearLbl.text = "\(components.year)"
+            if components.year != nil {
+                self.birthYearLbl.text = "\(components.year!)"
+            }
         } else {
             self.birthYearLbl.text = ""
         }
