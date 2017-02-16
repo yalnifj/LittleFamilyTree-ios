@@ -254,7 +254,6 @@
 		A1F7CEE91C8FBBD6006053A2 /* PuzzleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE741C8FBBD6006053A2 /* PuzzleScene.swift */; };
 		A1F7CEEA1C8FBBD6006053A2 /* ScratchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE751C8FBBD6006053A2 /* ScratchScene.swift */; };
 		A1F7CEEB1C8FBBD6006053A2 /* SongScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE761C8FBBD6006053A2 /* SongScene.swift */; };
-		A1F7CEEC1C8FBBD6006053A2 /* SplashScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A1F7CE771C8FBBD6006053A2 /* SplashScene.sks */; };
 		A1F7CEED1C8FBBD6006053A2 /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE781C8FBBD6006053A2 /* SplashScene.swift */; };
 		A1F7CEEE1C8FBBD6006053A2 /* TreeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE791C8FBBD6006053A2 /* TreeScene.swift */; };
 		A1F7CEEF1C8FBBD6006053A2 /* SpeechHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F7CE7A1C8FBBD6006053A2 /* SpeechHelper.swift */; };
@@ -1023,7 +1022,6 @@
 		A1F7CE741C8FBBD6006053A2 /* PuzzleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleScene.swift; sourceTree = "<group>"; };
 		A1F7CE751C8FBBD6006053A2 /* ScratchScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScratchScene.swift; sourceTree = "<group>"; };
 		A1F7CE761C8FBBD6006053A2 /* SongScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongScene.swift; sourceTree = "<group>"; };
-		A1F7CE771C8FBBD6006053A2 /* SplashScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SplashScene.sks; sourceTree = "<group>"; };
 		A1F7CE781C8FBBD6006053A2 /* SplashScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScene.swift; sourceTree = "<group>"; };
 		A1F7CE791C8FBBD6006053A2 /* TreeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeScene.swift; sourceTree = "<group>"; };
 		A1F7CE7A1C8FBBD6006053A2 /* SpeechHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechHelper.swift; sourceTree = "<group>"; };
@@ -1733,7 +1731,6 @@
 				A1F7CE741C8FBBD6006053A2 /* PuzzleScene.swift */,
 				A1F7CE751C8FBBD6006053A2 /* ScratchScene.swift */,
 				A1F7CE761C8FBBD6006053A2 /* SongScene.swift */,
-				A1F7CE771C8FBBD6006053A2 /* SplashScene.sks */,
 				A1F7CE781C8FBBD6006053A2 /* SplashScene.swift */,
 				A1F7CE791C8FBBD6006053A2 /* TreeScene.swift */,
 				A1743DA31CE4BEBB0066E964 /* BirdScene.swift */,
@@ -2362,6 +2359,7 @@
 				A1C0A9951C081CCA006804BB /* CopyFiles */,
 				10A1C9159A6767467ABA0617 /* [CP] Embed Pods Frameworks */,
 				DF4BC19FD5942610792923DA /* [CP] Copy Pods Resources */,
+				93667C131E549298008CBEBD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2934,7 +2932,6 @@
 				A1F7D1961C8FBC12006053A2 /* bubbles4.png in Resources */,
 				A1F7D3AD1C8FBC12006053A2 /* switch_on.m4a in Resources */,
 				930574BD1D537D8A00A99066 /* MyHeritageLogin.xib in Resources */,
-				A1F7CEEC1C8FBBD6006053A2 /* SplashScene.sks in Resources */,
 				A1F7D2EA1C8FBC12006053A2 /* house_kitchen_kettle5.png in Resources */,
 				A1F7D3451C8FBC12006053A2 /* house_tree_bird3.png in Resources */,
 				A1F7D3191C8FBC12006053A2 /* house_toaster9.png in Resources */,
@@ -3100,6 +3097,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		93667C131E549298008CBEBD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:872882263194:ios:31c71bc02ee152e2\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"little-family-tree-firebase-crashreporting-mikk0-500afea0a9.json\"";
 		};
 		C21A704F7AAB5F0BBCE8B26A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

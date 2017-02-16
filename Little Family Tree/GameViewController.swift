@@ -40,26 +40,6 @@ extension String {
     }
 }
 
-extension SKNode {
-    class func unarchiveFromFile(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            do {
-                let sceneData = try Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe)
-                //var sceneData = NSData(contentsOfFile: path, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: nil)!
-                let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-                archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-                let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! SplashScene
-                archiver.finishDecoding()
-                return scene
-            } catch _ as NSError {
-            }
-        }
-        return nil
-        
-    }
-}
-
 extension UIColor {
     public convenience init(hexString: String) {
         let r, g, b, a: CGFloat
@@ -93,7 +73,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         //if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-        if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
+        //if let scene = SplashScene.unarchiveFromFile("SplashScene") as? SplashScene {
+        let scene = SplashScene(size: self.view.bounds.size)
             // Configure the view.
             let skView = self.view as! SKView
             //skView.showsFPS = true
@@ -106,7 +87,7 @@ class GameViewController: UIViewController {
             scene.scaleMode = .aspectFill
             
             skView.presentScene(scene)
-        }
+        //}
     }
 
     override var shouldAutorotate : Bool {

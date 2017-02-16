@@ -20,6 +20,8 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         self.size.width = view.bounds.width
         self.size.height = view.bounds.height
         
+        self.backgroundColor = UIColor.white
+        
         tree = SKSpriteNode(imageNamed: "growing_plant1")
         let tr = tree!.size.width / tree!.size.height
         var scale = CGFloat(1.0)
@@ -68,7 +70,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
         
         let quietMode = dataService?.dbHelper.getProperty(LittleFamilyScene.TOPIC_TOGGLE_QUIET)
         if quietMode == nil || quietMode == "false" {
-            introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: true)
+            introTune = SKAction.playSoundFileNamed("intro", waitForCompletion: false)
             run(introTune!)
         } else {
             quietToggle.nextState()
@@ -91,6 +93,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
             if (!launched && (currentTime - startTime! > 10)) {
                 if dataService?.authenticating != nil && dataService?.authenticating == false {
                     if dataService?.dbHelper.getFirstPerson() != nil {
+                        self.removeAllActions()
                         
                         var premium = false;
                         let premiumStr = dataService?.dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
@@ -112,6 +115,7 @@ class SplashScene: SKScene, LoginCompleteListener, EventListener {
                         launched = true
                         scene?.view?.presentScene(nextScene, transition: transition)
                     } else {
+                        self.removeAllActions()
                         let rect = self.prepareDialogRect(CGFloat(600), height: CGFloat(600))
                         let subview = ChooseServiceView(frame: rect)
                         subview.loginListener = self
