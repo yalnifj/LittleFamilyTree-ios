@@ -632,15 +632,18 @@ class BirthdayPeopleScene: LittleFamilyScene {
             
             lastPoint = nextPoint
 			if !moved && birthdayPerson == nil {
-				let touchedNode = atPoint(lastPoint!)
+                let apoint = CGPoint(x: lastPoint.x, y: lastPoint.y)
+				let touchedNode = atPoint(apoint)
 				if touchedNode is CupcakeSprite {
 					let cupcake = touchedNode as! CupcakeSprite
 					self.birthdayPerson = cupcake.person
+                    print("selecting cupcake \(cupcake.person!.name!) at \(apoint)")
                     self.setupVanity()
 				}
                 else if touchedNode.parent is CupcakeSprite {
                     let cupcake = touchedNode.parent as! CupcakeSprite
                     self.birthdayPerson = cupcake.person
+                    print("selecting cupcake \(cupcake.person!.name!) at \(apoint)")
                     self.setupVanity()
                 }
 			}

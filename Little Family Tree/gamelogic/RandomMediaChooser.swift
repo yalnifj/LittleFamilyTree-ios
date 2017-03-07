@@ -153,6 +153,11 @@ class RandomMediaChooser {
             self.selectedPerson = self.dataService.dbHelper.getRandomPersonWithMedia()
             if self.selectedPerson != nil {
                 let media = self.dataService.dbHelper.getMediaForPerson(self.selectedPerson!.id!)
+                if media.count == 0 {
+                    self.usedPhotos.removeAll()
+                    self.counter = 0
+                    self.listener.onMediaLoaded(nil)
+                }
                 var index = Int(arc4random_uniform(UInt32(media.count)))
                 let origIndex = index;
                 self.photo = media[index]

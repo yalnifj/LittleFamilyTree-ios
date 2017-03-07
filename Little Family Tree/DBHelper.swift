@@ -213,13 +213,20 @@ class DBHelper {
         }
 	}
     
+    func removeSpecialCharsFromString(text: String) -> String {
+        let okayChars : Set<Character> =
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890_-".characters)
+        return String(text.characters.filter {okayChars.contains($0) })
+    }
+    
     func fireCreateOrUpdateUser(_ hasPremium:Bool) {
         let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 		let serviceType = self.getProperty(DataService.SERVICE_TYPE)
         if username != nil {
-            let encodedUsername = username!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+            let encodedUsername = removeSpecialCharsFromString(text: username!)
+            //username!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             let ref = FIRDatabase.database().reference()
-            ref.child("users").child(serviceType!).child(encodedUsername!).observeSingleEvent(of: .value, with: { (snap) in
+            ref.child("users").child(serviceType!).child(encodedUsername).observeSingleEvent(of: .value, with: { (snap) in
                 print(snap)
                 // Get user value
                 if snap.exists() {
@@ -227,20 +234,20 @@ class DBHelper {
                     let platforms = vals["platforms"] as! NSArray
                     if !platforms.contains("ios") {
                         let plats = platforms.adding("ios")
-                        ref.child("users/\(serviceType!)/\(encodedUsername!)/platforms").setValue(plats)
+                        ref.child("users/\(serviceType!)/\(encodedUsername)/platforms").setValue(plats)
                     }
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "EEE MMM dd hh:mm:ss T yyyy"
                     let date = NSDate()
-                    ref.child("users/\(serviceType!)/\(encodedUsername!)/lastLogin").setValue(dateFormatter.string(from: date as Date))
+                    ref.child("users/\(serviceType!)/\(encodedUsername)/lastLogin").setValue(dateFormatter.string(from: date as Date))
                     if hasPremium {
-                        ref.child("users/\(serviceType!)/\(encodedUsername!)/iosPremium").setValue(hasPremium)
+                        ref.child("users/\(serviceType!)/\(encodedUsername)/iosPremium").setValue(hasPremium)
                     }
                     
                 } else {
                     let date = NSDate()
                     let user = ["username": username!, "platforms": ["ios"], "iosPremium": hasPremium, "lastLogin": dateFormatter.string(from: date as Date) ] as [String : Any]
-                    ref.child("users").child(serviceType!).child(encodedUsername!).setValue(user as AnyObject)
+                    ref.child("users").child(serviceType!).child(encodedUsername).setValue(user as AnyObject)
                 }
             })
             

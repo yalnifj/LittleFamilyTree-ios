@@ -661,16 +661,19 @@ class TreeScene: LittleFamilyScene {
     }
     
     func hideButtonPanel() {
-        if buttonPanel != nil {
+        if buttonPanel != nil && buttonPanel?.isHidden == false {
             buttonPanel?.removeAllChildren()
             let act = SKAction.sequence( [ SKAction.resize(toWidth: 5, height: 5, duration: 0.3), SKAction.removeFromParent() ])
             buttonPanel?.run(act, completion: {
-                self.buttonPanel = nil
+                self.buttonPanel?.isHidden = true
             }) 
         }
     }
     
     func showButtonPanel(_ node:TreePersonSprite, relationship: String) {
+        if self.buttonPanel != nil && self.buttonPanel?.isHidden == true {
+            self.buttonPanel?.removeFromParent()
+        }
         self.buttonPanel = SKSpriteNode(color: UIColor(hexString: "#00A400FF"), size: CGSize(width: 5, height: 5))
         self.buttonPanel?.zPosition = 100
         self.buttonPanel?.position = CGPoint(x: node.position.x + node.size.width + 100, y: node.position.y + 50)

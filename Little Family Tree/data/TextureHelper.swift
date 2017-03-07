@@ -284,8 +284,10 @@ class TextureHelper {
                         
                         let imageSource = CGImageSourceCreateWithURL(photoUrl as CFURL, nil)
                         let scaledImage = CGImageSourceCreateThumbnailAtIndex(imageSource!, 0, options as CFDictionary?)
-                        let texture = SKTexture(cgImage: scaledImage!)
-                        return texture
+                        if scaledImage != nil {
+                            let texture = SKTexture(cgImage: scaledImage!)
+                            return texture
+                        }
                     }
                     else {
                         let texture = SKTexture(image: uiImage!)

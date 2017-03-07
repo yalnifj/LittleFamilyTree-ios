@@ -155,7 +155,7 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         }
         
         let texture = TextureHelper.getTextureForMedia(media!, size: CGSize(width: self.size.width * 0.66, height: self.size.height * 0.66))
-        if texture != nil {
+        if texture != nil && self.scene != nil && self.scene?.view != nil {
             DispatchQueue.main.async(execute: {
                 if self.fullImageHolder != nil {
                     self.fullImageHolder?.removeAllChildren()

@@ -95,7 +95,10 @@ class CupcakeSprite: SKSpriteNode {
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d, yyyy"
-        let dateString = formatter.string(from: person!.birthDate!)
+        var dateString = ""
+        if person!.birthDate != nil {
+            dateString = formatter.string(from: person!.birthDate!)
+        }
 
         birthDateLabel = SKLabelNode(text: dateString)
         birthDateLabel?.fontSize = nameLabel!.fontSize
