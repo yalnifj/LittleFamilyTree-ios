@@ -16,6 +16,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var pieces = [PuzzleSprite]()
     var hintSprite:SKSpriteNode?
     var hintButton:SKSpriteNode?
+    var helpButton:HelpButtonSprite?
     var lastPoint : CGPoint!
     var game : PuzzleGame?
     var rows = 2
@@ -46,6 +47,8 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
         
+        EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_HELP_BUTTON, listener: self)
+        
         FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
             kFIRParameterItemName: String(describing: PuzzleScene.self) as NSObject
         ])
@@ -53,6 +56,14 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     
     override func willMove(from view: SKView) {
         super.willMove(from: view)
+        EventHandler.getInstance().unSubscribe(LittleFamilyScene.TOPIC_HELP_BUTTON, listener: self)
+    }
+    
+    override func onEvent(_ topic: String, data: NSObject?) {
+        super.onEvent(topic, data: data)
+        if topic == LittleFamilyScene.TOPIC_HELP_BUTTON {
+            
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -87,6 +98,9 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             if hintSprite != nil {
                 hintSprite?.removeFromParent()
             }
+            if helpButton != nil {
+                helpButton?.removeFromParent()
+            }
             
             if cols < rows {
                 cols += 1
@@ -114,6 +128,14 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             hintButton = SKSpriteNode(texture: texture, size: CGSize(width: topBar!.size.height * ratio, height: topBar!.size.height))
             hintButton?.zPosition = 10
             hintButton!.position = CGPoint(x: 10 + hintButton!.size.width/2, y: 10 + hintButton!.size.height/2)
+            self.addChild(hintButton!)
+            
+            helpButton = HelpButtonSprite(imageNamed: "lightbulb_on")
+            let r2 = helpButton!.size.width / helpButton!.size.height
+            helpButton?.size = CGSize(width: topBar!.size.height * r2, height: topBar!.size.height)
+            helpButton?.zPosition = 11
+            helpButton!.position = CGPoint(x: 10 + hintButton!.position.x, y: 10 + helpButton!.size.height/2)
+            helpButton!.topic = "HelpButton"
             self.addChild(hintButton!)
             
             game = PuzzleGame(texture: texture!, rows: rows, cols: cols)

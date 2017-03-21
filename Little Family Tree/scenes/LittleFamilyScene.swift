@@ -23,6 +23,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     static var TOPIC_BUY_PRESSED = "buy_button_pressed"
     static var TOPIC_TRY_PRESSED = "try_button_pressed"
     static var PROP_FIRST_RUN = "firstRunPassed"
+    static var TOPIC_HELP_BUTTON = "help_button_pressed"
     static var FREE_TRIES = 3
 
     var topBar:TopBar?
