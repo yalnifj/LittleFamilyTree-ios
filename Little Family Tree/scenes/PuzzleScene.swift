@@ -62,7 +62,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     override func onEvent(_ topic: String, data: NSObject?) {
         super.onEvent(topic, data: data)
         if topic == LittleFamilyScene.TOPIC_HELP_BUTTON {
-            
+            startHintAnimation()
         }
     }
     
@@ -159,6 +159,44 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             
         } else {
             randomMediaChooser.loadMoreFamilyMembers()
+        }
+    }
+    
+    func startHintAnimation() {
+        if pieces.count > 0 && !complete && movingSprite == nil {
+            var r = Int(arc4random_uniform(UInt32(pieces.count)))
+            var count = 0
+            while pieces[r].isPlaced() && count < pieces.count {
+                count += 1
+                r += 1
+                if r >= pieces.count {
+                    r = 0
+                }
+            }
+            
+            let piece = pieces[r]
+            if !piece.isPlaced() {
+                let pointer = SKSpriteNode(imageNamed: "pointing_hand")
+                let ratio = pointer.size.width / pointer.size.height
+                pointer.size.width = min(piece.size.width, piece.size.height)
+                pointer.size.height = pointer.size.width / ratio
+                pointer.position = piece.position
+                pointer.zPosition = piece.zPosition + 10
+                self.addChild(pointer)
+                
+                let pw = piece.size.width + 1
+                let ph = piece.size.height + 1
+                let oy = (hintSprite?.position.y)! - (hintSprite?.size.height)! / 2
+                let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
+                let corPos = CGPoint(x: (CGFloat(piece.correctCol) * pw) + pw/2 + ox, y: (CGFloat(piece.correctRow) * ph) + ph/2 + oy)
+                let moveAct = SKAction.move(to: corPos, duration: 1)
+                let moveBackAct = SKAction.move(to: pointer.position, duration: 0.3)
+                let group = SKAction.group([moveAct, moveBackAct])
+                let repeatAct = SKAction.repeat(group, count: 3)
+                pointer.run(repeatAct, completion: {
+                    pointer.removeFromParent()
+                })
+            }
         }
     }
     
