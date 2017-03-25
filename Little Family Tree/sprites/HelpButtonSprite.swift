@@ -17,6 +17,9 @@ class HelpButtonSprite : EventSprite {
             super.touchesEnded(touches, with: event)
             self.texture = SKTexture(imageNamed: "lightbulb_off")
             
+            let soundAction = SKAction.playSoundFileNamed("powerup_success", waitForCompletion: false)
+            self.run(soundAction)
+            
             on = false
             let fadeInNode = SKSpriteNode(imageNamed: "lightbulb_on")
             fadeInNode.size = self.size
@@ -31,6 +34,9 @@ class HelpButtonSprite : EventSprite {
                 self.texture = SKTexture(imageNamed: "lightbulb_on")
                 self.on = true
             })
+        } else {
+            let soundAction = SKAction.playSoundFileNamed("beepboop", waitForCompletion: false)
+            self.run(soundAction)
         }
     }
 }
