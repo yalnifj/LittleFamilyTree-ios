@@ -25,7 +25,7 @@ class HelpButtonSprite : EventSprite {
             
             self.addChild(fadeInNode)
             
-            let fadeInAct = SKAction.fadeIn(withDuration: 60)
+            let fadeInAct = SKAction.fadeIn(withDuration: 20)
             fadeInNode.run(fadeInAct, completion: {
                 fadeInNode.removeFromParent()
                 self.texture = SKTexture(imageNamed: "lightbulb_on")

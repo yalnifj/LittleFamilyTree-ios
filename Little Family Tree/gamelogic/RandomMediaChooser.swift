@@ -88,8 +88,9 @@ class RandomMediaChooser {
                         self.usedPhotos.dropFirst()
                     }
                     self.usedPhotos[self.photo!.id] = self.photo!
-
-                    self.listener.onMediaLoaded(self.photo!)
+                    DispatchQueue.main.async(execute: {
+                        self.listener.onMediaLoaded(self.photo!)
+                    })
                 }
 
             })
