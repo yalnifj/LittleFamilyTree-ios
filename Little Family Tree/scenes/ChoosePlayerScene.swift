@@ -265,22 +265,21 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             s.removeFromParent()
         }
         self.peopleSprites.removeAll()
-        var width = min(self.view!.bounds.width, self.view!.bounds.height)
+        var width = min(self.size.width, self.size.height)
         var cols = CGFloat(3)
-        width = (self.view!.bounds.width / cols)
-        if self.people.count > 12 || (CGFloat(self.people.count) / cols) * width > self.view!.bounds.height {
+        width = (self.size.width / cols)
+        if self.people.count > 12 || (CGFloat(self.people.count) / cols) * width > self.size.height {
             cols = CGFloat(4)
         }
-        width = (self.view!.bounds.width / cols)
-        if self.people.count > 16 || (CGFloat(self.people.count) / cols) * width > self.view!.bounds.height  {
+        width = (self.size.width / cols)
+        if self.people.count > 16 || (CGFloat(self.people.count) / cols) * width > self.size.height  {
             cols = CGFloat(5)
         }
-        width = (self.view!.bounds.width / cols)
+        width = (self.size.width / cols)
         
         //-- sort the people
         self.people.sort(by: { $0.age < $1.age })
         
-        //print("w:\(view.bounds.width) h:\(view.bounds.height) width:\(width)")
         var x = CGFloat(0.0)
         var y = CGFloat(self.size.height - (width + self.titleBar!.size.height - 10))
         for p in self.people {
@@ -296,7 +295,7 @@ class ChoosePlayerScene: LittleFamilyScene, ParentsGuideCloseListener {
             self.peopleSprites.append(sprite)
             
             x += width - 10
-            if x > self.view!.bounds.width - width {
+            if x > self.size.width - width {
                 x = CGFloat(5)
                 y -= width - 20
             }

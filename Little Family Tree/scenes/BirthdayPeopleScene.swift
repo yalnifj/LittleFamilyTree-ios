@@ -450,32 +450,34 @@ class BirthdayPeopleScene: LittleFamilyScene {
 		cardBottomLogo!.isHidden = true
 		self.addChild(cardBottomLogo!)
         
-        let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
-                                                                    from: birthdayPerson!.birthDate!)
-        let month = ageComponents.month!
-        let day = ageComponents.day!
-        
-        let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
-                                                                       from: Foundation.Date())
-        var age = birthdayPerson!.age!
-        let monthN = ageComponentsNow.month!
-        let dayN = ageComponentsNow.day!
-        if month > monthN || (month==monthN && day > dayN) {
-            age += 1
-        }
+        if birthdayPerson != nil && birthdayPerson?.birthDate != nil {
+            let ageComponents = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                        from: birthdayPerson!.birthDate!)
+            let month = ageComponents.month!
+            let day = ageComponents.day!
+            
+            let ageComponentsNow = (Calendar.current as NSCalendar).components([.month, .day],
+                                                                           from: Foundation.Date())
+            var age = birthdayPerson!.age!
+            let monthN = ageComponentsNow.month!
+            let dayN = ageComponentsNow.day!
+            if month > monthN || (month==monthN && day > dayN) {
+                age += 1
+            }
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d"
-        let dateString = formatter.string(from: birthdayPerson!.birthDate!)
-		
-		let message = "Happy \(age) Birthday to \(birthdayPerson!.name!) on \(dateString)"
-		cardBottomText = SKLabelNode(text: message)
-		cardBottomText!.fontSize = cardBottomSprite!.size.height / 3
-        cardBottomText!.fontColor = UIColor.black
-		cardBottomText!.position = CGPoint(x: cardBottomLogo!.frame.maxX + CGFloat(10) + cardBottomText!.frame.width / 2, y: cardBottomSprite!.position.y)
-		cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
-		cardBottomText!.isHidden = true
-		self.addChild(cardBottomText!)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM d"
+            let dateString = formatter.string(from: birthdayPerson!.birthDate!)
+            
+            let message = "Happy \(age) Birthday to \(birthdayPerson!.name!) on \(dateString)"
+            cardBottomText = SKLabelNode(text: message)
+            cardBottomText!.fontSize = cardBottomSprite!.size.height / 3
+            cardBottomText!.fontColor = UIColor.black
+            cardBottomText!.position = CGPoint(x: cardBottomLogo!.frame.maxX + CGFloat(10) + cardBottomText!.frame.width / 2, y: cardBottomSprite!.position.y)
+            cardBottomText!.zPosition = cardBottomSprite!.zPosition + 1
+            cardBottomText!.isHidden = true
+            self.addChild(cardBottomText!)
+        }
     }
     
     func showStickers(_ r:Int, rect:CGRect) {

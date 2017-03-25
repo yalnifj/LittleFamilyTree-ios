@@ -251,9 +251,12 @@ class SettingsView: UIView, ChooseSkinToneListener {
     
     var iapHelper:IAPHelper?
     @IBAction func restorePurchases(_ sender: AnyObject) {
-        iapHelper = IAPHelper(listener: restoreListener(view: self))
-        iapHelper?.restorePurchases()
-
+        if (iapHelper == nil) {
+            iapHelper = IAPHelper(listener: restoreListener(view: self))
+            iapHelper?.restorePurchases()
+        } else {
+            self.showError("Restore transaction already in progress. Please wait...")
+        }
     }
     
     func showError(_ error:String) {
@@ -277,10 +280,12 @@ class SettingsView: UIView, ChooseSkinToneListener {
         func onTransactionComplete() {
             DataService.getInstance().dbHelper.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
             DataService.getInstance().dbHelper.fireCreateOrUpdateUser(true)
+            self.view.iapHelper = nil
         }
         func onError(_ error:String) {
             print(error)
             view.showError(error)
+            self.view.iapHelper = nil
         }
     }
     
