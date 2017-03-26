@@ -21,16 +21,9 @@ class HelpButtonSprite : EventSprite {
             self.run(soundAction)
             
             on = false
-            let fadeInNode = SKSpriteNode(imageNamed: "lightbulb_on")
-            fadeInNode.size = self.size
-            fadeInNode.position = CGPoint(x: 0, y: 0)
-            fadeInNode.alpha = 0
             
-            self.addChild(fadeInNode)
-            
-            let fadeInAct = SKAction.fadeIn(withDuration: 20)
-            fadeInNode.run(fadeInAct, completion: {
-                fadeInNode.removeFromParent()
+            let fadeInAct = SKAction.wait(forDuration: 10)
+            self.run(fadeInAct, completion: {
                 self.texture = SKTexture(imageNamed: "lightbulb_on")
                 self.on = true
             })

@@ -25,6 +25,7 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     var texture:SKTexture?
     var complete = false
     var animCount = 0
+    var pointer:SKSpriteNode?
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -177,16 +178,16 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
             
             let piece = pieces[r]
             if !piece.isPlaced() {
-                let pointer = SKSpriteNode(imageNamed: "pointing_hand")
-                let ratio = pointer.size.width / pointer.size.height
-                pointer.size.width = min(piece.size.width / 2, piece.size.height / 2)
-                if pointer.size.width < 50 {
-                    pointer.size.width = 50
+                pointer = SKSpriteNode(imageNamed: "pointing_hand")
+                let ratio = pointer!.size.width / pointer!.size.height
+                pointer!.size.width = min(piece.size.width / 2, piece.size.height / 2)
+                if pointer!.size.width < 50 {
+                    pointer!.size.width = 50
                 }
-                pointer.size.height = pointer.size.width / ratio
-                pointer.position = piece.position
-                pointer.zPosition = piece.zPosition + 10
-                self.addChild(pointer)
+                pointer!.size.height = pointer!.size.width / ratio
+                pointer!.position = piece.position
+                pointer!.zPosition = piece.zPosition + 10
+                self.addChild(pointer!)
                 
                 let pw = piece.size.width + 1
                 let ph = piece.size.height + 1
@@ -194,11 +195,12 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
                 let ox = (hintSprite?.position.x)! - (hintSprite?.size.width)! / 2
                 let corPos = CGPoint(x: (CGFloat(piece.correctCol) * pw) + pw/2 + ox, y: (CGFloat(piece.correctRow) * ph) + ph/2 + oy)
                 let moveAct = SKAction.move(to: corPos, duration: 1.5)
-                let moveBackAct = SKAction.move(to: pointer.position, duration: 0.5)
-                let group = SKAction.group([moveAct, moveBackAct])
+                let moveBackAct = SKAction.move(to: pointer!.position, duration: 0.5)
+                let group = SKAction.sequence([moveAct, moveBackAct])
                 let repeatAct = SKAction.repeat(group, count: 3)
-                pointer.run(repeatAct, completion: {
-                    pointer.removeFromParent()
+                pointer!.run(repeatAct, completion: {
+                    self.pointer!.removeFromParent()
+                    self.pointer = nil
                 })
             }
         }
@@ -326,6 +328,11 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
     }
     
     func checkComplete() {
+        if pointer != nil {
+            pointer!.removeAllActions()
+            pointer!.removeFromParent()
+            pointer = nil
+        }
         if !complete && self.game!.allPlaced() {
             complete = true
             self.hintSprite?.isHidden = false
