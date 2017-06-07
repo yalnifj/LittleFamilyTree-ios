@@ -84,51 +84,53 @@ class MatchGameScene: LittleFamilyScene {
     }
     
     func setupGame() {
-        let ratio = self.size.width / self.size.height
-        var cols = 2
-        var rows = game!.board!.count / cols
-        while CGFloat(cols) / CGFloat(rows) < ratio {
-            cols += 1
-            rows = game!.board!.count / cols
-        }
-        if game!.board!.count % cols > 0 {
-            cols -= 1
-            rows = game!.board!.count / cols
-        }
-        var width = (self.size.width / CGFloat(cols)) - 20
-        
-		if  CGFloat(rows) * (width + 20) > self.size.height {
-			width = CGFloat(round(self.size.height / CGFloat(rows)) - 20)
-		}
-        
-        for s in matchSprites {
-            s.removeFromParent()
-        }
-        flip1 = nil
-        flip2 = nil
-        
-        self.matchSprites.removeAll()
-        var c = 0
-        var r = 0
-        for mp in game!.board! {
-            let sprite = PersonMatchSprite()
-            sprite.size.width = width
-            sprite.size.height = width
-            sprite.isUserInteractionEnabled = true
-            var x = 10 + ((10 + width) * CGFloat(c))
-			if x + width > self.size.width {
-				r += 1
-                x = CGFloat(10)
-				c = 0
-			}
-            let y = (self.size.height - topBar!.size.height) - ((10 + width) * CGFloat(r+1))
-            sprite.position = CGPoint(x: x, y: y)
-            sprite.gameScene = self
-            sprite.person = mp
-            self.addChild(sprite)
-            matchSprites.append(sprite)
-            c += 1
-        }
+        DispatchQueue.main.async(execute: {
+            let ratio = self.size.width / self.size.height
+            var cols = 2
+            var rows = self.game!.board!.count / cols
+            while CGFloat(cols) / CGFloat(rows) < ratio {
+                cols += 1
+                rows = self.game!.board!.count / cols
+            }
+            if self.game!.board!.count % cols > 0 {
+                cols -= 1
+                rows = self.game!.board!.count / cols
+            }
+            var width = (self.size.width / CGFloat(cols)) - 20
+            
+            if  CGFloat(rows) * (width + 20) > self.size.height {
+                width = CGFloat(round(self.size.height / CGFloat(rows)) - 20)
+            }
+            
+            for s in self.matchSprites {
+                s.removeFromParent()
+            }
+            self.flip1 = nil
+            self.flip2 = nil
+            
+            self.matchSprites.removeAll()
+            var c = 0
+            var r = 0
+            for mp in self.game!.board! {
+                let sprite = PersonMatchSprite()
+                sprite.size.width = width
+                sprite.size.height = width
+                sprite.isUserInteractionEnabled = true
+                var x = 10 + ((10 + width) * CGFloat(c))
+                if x + width > self.size.width {
+                    r += 1
+                    x = CGFloat(10)
+                    c = 0
+                }
+                let y = (self.size.height - self.topBar!.size.height) - ((10 + width) * CGFloat(r+1))
+                sprite.position = CGPoint(x: x, y: y)
+                sprite.gameScene = self
+                sprite.person = mp
+                self.addChild(sprite)
+                self.matchSprites.append(sprite)
+                c += 1
+            }
+        })
     }
     
     override func willMove(from view: SKView) {

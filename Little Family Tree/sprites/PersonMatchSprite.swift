@@ -26,6 +26,8 @@ class PersonMatchSprite: SKSpriteNode {
             self.addChild(back)
             
             let photo = TextureHelper.getPortraitTexture(self.person!.person)
+            //print(person!.person.name)
+            //print(photo?.size())
             photoSprite = SKSpriteNode(texture: photo)
             photoSprite?.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             let ratio = (photo?.size().width)! / (photo?.size().height)!

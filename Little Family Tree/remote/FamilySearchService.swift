@@ -124,7 +124,7 @@ class FamilySearchService : RemoteService {
             var headers = [String: String]()
             headers["Authorization"] = "Bearer \(sessionId!)"
             headers["Accept"] = "application/x-gedcomx-v1+json"
-            makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons/\(personIds)", headers: headers, onCompletion: {json, err in
+            makeHTTPGetRequest(FS_PLATFORM_PATH + "tree/persons?pids=\(personIds)", headers: headers, onCompletion: {json, err in
                 let persons = Person.convertJsonToPersons(json)
                 if persons.count > 0 {
                     var people = [Person]()
