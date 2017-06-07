@@ -615,7 +615,8 @@ class PGVService : RemoteService {
             if p > 0 {
                 postString += "&"
             }
-			postString += "\(param)=\(value)";
+            let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+			postString += "\(param)=\(encodedValue)";
             p += 1
 		}
 

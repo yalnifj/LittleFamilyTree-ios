@@ -1,44 +1,38 @@
 PODS:
-  - Firebase (3.11.0):
-    - Firebase/Core (= 3.11.0)
-  - Firebase/Auth (3.11.0):
+  - Firebase (4.0.1):
+    - Firebase/Core (= 4.0.1)
+  - Firebase/Auth (4.0.1):
     - Firebase/Core
-    - FirebaseAuth (= 3.1.0)
-  - Firebase/Core (3.11.0):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.6)
-  - Firebase/Crash (3.11.0):
+    - FirebaseAuth (= 4.0.0)
+  - Firebase/Core (4.0.1):
+    - FirebaseAnalytics (= 4.0.0)
+    - FirebaseCore (= 4.0.1)
+  - Firebase/Crash (4.0.1):
     - Firebase/Core
-    - FirebaseCrash (= 1.1.4)
-  - Firebase/Database (3.11.0):
+    - FirebaseCrash (= 2.0.0)
+  - Firebase/Database (4.0.1):
     - Firebase/Core
-    - FirebaseDatabase (= 3.1.1)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+    - FirebaseDatabase (= 4.0.0)
+  - FirebaseAnalytics (4.0.0):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseAuth (3.1.0):
-    - FirebaseAnalytics (~> 3.6)
+  - FirebaseAuth (4.0.0):
+    - FirebaseAnalytics (~> 4.0)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.4.6):
-    - GoogleInterchangeUtilities (~> 1.2)
+  - FirebaseCore (4.0.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCrash (1.1.4):
-    - FirebaseAnalytics (~> 3.5)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+  - FirebaseCrash (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (3.1.1):
-    - FirebaseAnalytics (~> 3.5)
-  - FirebaseInstanceID (1.0.8)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
+    - Protobuf (~> 3.1)
+  - FirebaseDatabase (4.0.0):
+    - FirebaseAnalytics (~> 4.0)
+  - FirebaseInstanceID (2.0.0):
+    - FirebaseCore (~> 4.0)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/Defines (2.1.1)
@@ -51,27 +45,32 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GTMSessionFetcher/Core (1.1.8)
+  - GTMSessionFetcher/Core (1.1.10)
+  - Protobuf (3.3.0)
+  - SQLite.swift (0.11.3):
+    - SQLite.swift/standard (= 0.11.3)
+  - SQLite.swift/standard (0.11.3)
 
 DEPENDENCIES:
   - Firebase
   - Firebase/Auth
   - Firebase/Crash
   - Firebase/Database
+  - SQLite.swift (~> 0.11.3)
 
 SPEC CHECKSUMS:
-  Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseAuth: b436e4ecebe068bf8e8c6e4e29de5756ffe7ee24
-  FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
-  FirebaseCrash: 34f0349908ec87945a5ae96c402e7201a3f3aede
-  FirebaseDatabase: 6de92187481ff0e8e124064f21742e95ee883b02
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  Firebase: f984cd44a160be77ad0590f432e574562bfd4083
+  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
+  FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
+  FirebaseCore: 06172c5a0744ab3dd14f778fd666c22855e20098
+  FirebaseCrash: 600ec2cbd8e10c3064a42de2c6ee7687bd02a076
+  FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
+  FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
+  GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
+  SQLite.swift: 99b36c22084427f0abbeb957556ce1528cf10bb3
 
-PODFILE CHECKSUM: 99cb2b9c805d132b4fabe3c60628cc7e31a16ed9
+PODFILE CHECKSUM: 22ae25bc1398fcc7a67f3698cc07a9193e791455
 
 COCOAPODS: 1.2.0

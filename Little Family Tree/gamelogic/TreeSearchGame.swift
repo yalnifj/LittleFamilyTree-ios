@@ -136,6 +136,9 @@ class TreeSearchGame {
     }
 
     func isMatch(_ person:LittlePerson) -> Bool {
+        if (targetPerson == nil) {
+            return false
+        }
         let clue = clues[clueNumber]
         let ret = clue.isMatch(person, targetPerson: targetPerson!)
         if (ret) {

@@ -42,10 +42,10 @@ class FamilySearchService : RemoteService {
 	
     internal func authenticate(_ username: String, password: String, onCompletion: @escaping StringResponse) {
 		var params = [String: String]()
-		params["grant_type"] = "password";
-        params["client_id"] = FS_APP_KEY;
-        params["username"] = username;
-        params["password"] = password;
+		params["grant_type"] = "password"
+        params["client_id"] = FS_APP_KEY
+        params["username"] = username
+        params["password"] = password
         
         if username=="tum000205905" || username=="tum000142047" {
             setEnvironment("sandbox")
@@ -487,7 +487,8 @@ class FamilySearchService : RemoteService {
             if p > 0 {
                 postString += "&"
             }
-			postString += "\(param)=\(value)";
+            let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+			postString += "\(param)=\(encodedValue)";
             p += 1
 		}
 

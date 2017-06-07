@@ -10,6 +10,7 @@ target 'Little Family Tree' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Firebase/Crash'
+  pod 'SQLite.swift', '~> 0.11.3'
 
   target 'Little Family TreeTests' do
     inherit! :search_paths
