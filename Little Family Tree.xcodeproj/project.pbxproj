@@ -666,6 +666,7 @@
 		A1F7D3CD1C8FBC12006053A2 /* tree_logotype_1x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */; };
 		A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D3CE1C8FBC2B006053A2 /* dolls */; };
 		A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */; };
+		B99893311EE864B8005E4B1D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B99893301EE864B8005E4B1D /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1436,6 +1437,7 @@
 		A1F7D17D1C8FBC12006053A2 /* vineh2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vineh2.png; sourceTree = "<group>"; };
 		A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_logotype_1x.png; sourceTree = "<group>"; };
 		A1F7D3CE1C8FBC2B006053A2 /* dolls */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dolls; sourceTree = "<group>"; };
+		B99893301EE864B8005E4B1D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1490,6 +1492,7 @@
 		A117C7201BA4AD0000964D50 = {
 			isa = PBXGroup;
 			children = (
+				B99893301EE864B8005E4B1D /* .gitignore */,
 				A1C57BA61D48EABC00BB1AED /* StoreKit.framework */,
 				A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */,
 				A149A9601C49A3CF00367342 /* Security.framework */,
@@ -2869,6 +2872,7 @@
 				A10CC8B91C8FC807005B3233 /* piano_thisismyfamily.mp3 in Resources */,
 				A1F7D3171C8FBC12006053A2 /* house_toaster7.png in Resources */,
 				A1F7D26F1C8FBC12006053A2 /* house_adult_wardrobe2.png in Resources */,
+				B99893311EE864B8005E4B1D /* .gitignore in Resources */,
 				A1F7D2611C8FBC12006053A2 /* frame2.png in Resources */,
 				A1F7D2CA1C8FBC12006053A2 /* house_familyroom_lamp2.png in Resources */,
 				A1F7D3101C8FBC12006053A2 /* house_toaster2.png in Resources */,
