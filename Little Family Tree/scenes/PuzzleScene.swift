@@ -50,8 +50,8 @@ class PuzzleScene: LittleFamilyScene, RandomMediaListener {
         
         EventHandler.getInstance().subscribe(LittleFamilyScene.TOPIC_HELP_BUTTON, listener: self)
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: PuzzleScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: PuzzleScene.self) as NSObject
         ])
     }
     

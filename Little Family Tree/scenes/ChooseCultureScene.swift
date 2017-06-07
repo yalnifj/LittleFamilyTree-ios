@@ -233,8 +233,8 @@ class ChooseCultureScene: LittleFamilyScene, CalculatorCompleteListener {
                self.setSelectedPath(self.calculator!.uniquePaths[0]) 
             }
             
-            FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-                kFIRParameterItemName: String(describing: ChooseCultureScene.self) as NSObject,
+            Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+                AnalyticsParameterItemName: String(describing: ChooseCultureScene.self) as NSObject,
                 "NumberOfCultures": count as NSObject
             ])
         }

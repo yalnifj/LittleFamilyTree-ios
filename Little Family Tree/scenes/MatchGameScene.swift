@@ -41,8 +41,8 @@ class MatchGameScene: LittleFamilyScene {
             loadMorePeople()
         }
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: MatchGameScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: MatchGameScene.self) as NSObject
         ])
     }
     

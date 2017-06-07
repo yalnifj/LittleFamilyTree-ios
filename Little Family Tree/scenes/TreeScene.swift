@@ -305,8 +305,8 @@ class TreeScene: LittleFamilyScene {
         treeSearchButton?.addTexture(2, texture: SKTexture(imageNamed: "tree_search8"))
 		self.addChild(treeSearchButton!)
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: TreeScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: TreeScene.self) as NSObject
         ])
     }
     

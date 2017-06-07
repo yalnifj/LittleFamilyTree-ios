@@ -53,8 +53,8 @@ class ScratchScene: LittleFamilyScene, RandomMediaListener {
         randomMediaChooser.addPeople([selectedPerson!])
         randomMediaChooser.loadMoreFamilyMembers()
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: ScratchScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: ScratchScene.self) as NSObject
         ])
     }
     

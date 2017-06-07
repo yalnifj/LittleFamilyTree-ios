@@ -93,8 +93,8 @@ class BirdScene: LittleFamilyScene, TreeWalkerListener {
 		motionManager = CMMotionManager()
 		motionManager.startAccelerometerUpdates()
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: BirdScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: BirdScene.self) as NSObject
         ])
     }
     

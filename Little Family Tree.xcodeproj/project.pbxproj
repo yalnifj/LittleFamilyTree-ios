@@ -662,6 +662,8 @@
 		A1F7D3CD1C8FBC12006053A2 /* tree_logotype_1x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */; };
 		A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D3CE1C8FBC2B006053A2 /* dolls */; };
 		A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */; };
+		B990C7931EE876C90093F5CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B990C7901EE8765E0093F5CF /* GPUImage.framework */; };
+		B990C7951EE876D10093F5CF /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B990C7901EE8765E0093F5CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B99893311EE864B8005E4B1D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B99893301EE864B8005E4B1D /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -701,6 +703,13 @@
 			remoteGlobalIDString = BC9E34F11E524A2200B8604F;
 			remoteInfo = GPUImageTests_iOS;
 		};
+		B990C7961EE876D10093F5CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B990C7841EE8765E0093F5CF /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC9E34E81E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -710,6 +719,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B990C7951EE876D10093F5CF /* GPUImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,6 +1399,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B990C7931EE876C90093F5CF /* GPUImage.framework in Frameworks */,
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
 				1F365627AD7AD413B20B34C5 /* Pods_Little_Family_Tree.framework in Frameworks */,
@@ -2308,6 +2319,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B990C7971EE876D10093F5CF /* PBXTargetDependency */,
 			);
 			name = "Little Family Tree";
 			productName = "Little Family Tree";
@@ -3016,7 +3028,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:872882263194:ios:31c71bc02ee152e2\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"little-family-tree-firebase-crashreporting-mikk0-500afea0a9.json\"";
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:872882263194:ios:31c71bc02ee152e2\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"little-family-tree-firebase-crashreporting-mikk0-203b2ca794.json\"";
 		};
 		C21A704F7AAB5F0BBCE8B26A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3225,6 +3237,11 @@
 			isa = PBXTargetDependency;
 			target = A117C7281BA4AD0000964D50 /* Little Family Tree */;
 			targetProxy = A117C7431BA4AD0100964D50 /* PBXContainerItemProxy */;
+		};
+		B990C7971EE876D10093F5CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage_iOS;
+			targetProxy = B990C7961EE876D10093F5CF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -488,7 +488,7 @@ class FamilySearchService : RemoteService {
                 postString += "&"
             }
             let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-			postString += "\(param)=\(encodedValue)";
+			postString += "\(param)=\(encodedValue!)";
             p += 1
 		}
 

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "little-family-tree",
+  "private_key_id": "203b2ca79428a3d34114b388675913e87a98944e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDXFPjOWQ5r1iHl\nu04E4Str27P/1UeafVd9Cb16G2oIHg6uRErIO8uLnIi9swZWZbYOaLjdIHvzL+wD\n2h1KjFmsAO30T8UcsYuJ6G2azRHSf8AkK36xIMmbH0Ul49VL4tRMNvDw94bBQAOx\n7p+Yh0PkqAdk2RE0IIL6WlGE54gCmO87PFHqsqEApd2sAdF91GT0mcM53x6+Gygu\nmJFm4miyDZA9VvimHUafU8So0Zuz7VD1LhDEMQ8nPcJTsoUTnKQ7AiMHbaQuTXwb\nFHoQpT6Y/TbHTonurTeAEh4oCk7r5MrLsnvlznZ4Y4t7Lgg2gn69CisJsVJpra3G\nh1Ft4XRPAgMBAAECggEAQDX5H7WTqhsIDKtSG//TNESnpMmaMmOYMnKteB5mFd1P\nWbR2tPexCVGmuyeOzU1ZQE0AX7faeVxFtFKyKvbisIiogacs/Cd/NqFG04/EcdkE\n1meLz7qvpZl8zdaKb7jc05IVdYMYXmpLkBvi1qkPWlzVtERfr/XC1JYRP0HWJ5vP\nlCwBA7ZjrT+dE+F7IUPa5ImC/QTGvz6gEFzjIwJ5MvD6qTzQ4JeQQuca4nLEfo6P\nReUtqld90zk6O+cyzGvFk1e+g9gJrYUNyuTFGJjxpcb5Y8JQcE913OtPH6HT7Eh5\nVy7tqsU9wJoHeiJ8Mq1ec68DyOnG8KUzn0YN2ezw7QKBgQD1cebWNxMb36nlSx7m\nzY72QIjkDE2UtHhHkaCAPNvzlxhlt5/m/CLNhWyYARnMRS9Wj8xD+HUZaLFLAYFs\n0sCy19XGzIePzwg/Cb/HYQ/bSs1do9TY+Rs4bSa9fWvrtEexE1AuWn63SYoGgmHB\nEdBLRt9s37MhwpMpGBS5XrnGBQKBgQDgVM3w41EFwiOk2u3UMYmNtTtNvwDKiUSu\nB5LY5Ywd7ryzHNGl7e6o7l3uDzMLi0CCRSLy76laGQaP+FfT+mfzd18GPTvNANn4\nQHJJxYF1Fy+Gg9aWPVUMMvDfV6v0iTwPOYCgrCJy5bYofyrOqv31CTH3O2GPcv5i\nNhb9TjDtQwKBgQDwVikQB3vZpmhpUuaeYBgl/0lL7NQm0ZSZl/qOt4k0+/Xy3Bxi\nhO/bSVPtf95wDCrvWv1MbUTUrZQ1evLtyWzRctEsyefQJIzRlU1KATwSoit4Ds2D\n7GEAHrl5gQ+lDLHKrbusuAYumX7jItZvxG6u12Y96MoyO6H38lGQtjW4tQKBgDz7\n0OBja2s9U6NFQNImhVZYpj6EZhqpJlqJBIqiHG0msXWfp/6LqA2Uf0RwLVg+CtNf\nKBkSvd8YXohU4stlj0zIbrSrgM5CJP8vxeH4JzFFlE3lGTjOg4hFcOXGV6CqjgE1\niJolMVg6ykJID8MPCOrMDSFAq0zr3euk+KrzzqkxAoGBAL2RshBVqR2NL2s1mZv2\n6r36FJ6ROq1y3jILH6FVbH5s9mImFnp7/t9HS0UZeEcwdBx+Gz921Ss+RAWnVj2w\nwffolOqocrYjXoyXiVy8llk1ZUj/mIbwk2BoazSJe2NPjga+jUBNtdeA1JFGyYcB\nmqkY1okYqxzZvWaU5Q9jqHZS\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-crashreporting-mikk0@little-family-tree.iam.gserviceaccount.com",
+  "client_id": "115768621188965824170",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-crashreporting-mikk0%40little-family-tree.iam.gserviceaccount.com"
+}

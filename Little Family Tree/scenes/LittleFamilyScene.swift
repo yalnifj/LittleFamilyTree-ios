@@ -963,7 +963,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
 			let serviceType = DataService.getInstance().dbHelper.getProperty(DataService.SERVICE_TYPE)
             if username != nil {
                 if connectedToNetwork() {
-                    let ref = FIRDatabase.database().reference()
+                    let ref = Database.database().reference()
                     ref.child("users").child(serviceType!).child(username!).observeSingleEvent(of: .value, with: { (snap) in
                         print(snap)
                         // Get user value

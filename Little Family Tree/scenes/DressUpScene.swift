@@ -153,8 +153,8 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         
         EventHandler.getInstance().subscribe(DressUpScene.TOPIC_CHANGE_SKIN, listener: self)
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: DressUpScene.self) as NSObject,
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: DressUpScene.self) as NSObject,
             "Place": self.dollConfig!.originalPlace! as NSObject,
             "DollFolder": self.dollConfig!.folderName! as NSObject
         ])
@@ -194,15 +194,19 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
         }
         outlines.removeAll()
         
-        let alphaMaskFilter = GPUImageFilter(fragmentShaderFromFile: "alphaMaskShader")
+        
+        let alphaMaskFilter = BasicOperation(fragmentShader: "alphaMaskShader")
         //let sobelFilter = GPUImageSobelEdgeDetectionFilter()
-        let sobelFilter = GPUImageAlphaSobelEdgeDetectionFilter(fragmentShaderFromFile: "sobelAlphaShader")
-        let groupFilter = GPUImageFilterGroup()
-        groupFilter.addFilter(alphaMaskFilter)
-        groupFilter.addFilter(sobelFilter)
-        alphaMaskFilter?.addTarget(sobelFilter)
-        groupFilter.initialFilters = [ alphaMaskFilter ]
-        groupFilter.terminalFilter = sobelFilter
+        let sobelFilter = GPUImageAlphaSobelEdgeDetectionFilter()
+        let groupFilter = OperationGroup()
+        groupFilter.configureGroup{input, output in
+                input --> alphaMaskFilter --> sobelFilter --> output
+        }
+        //groupFilter.addFilter(alphaMaskFilter)
+        //groupFilter.addFilter(sobelFilter)
+        alphaMaskFilter.addTarget(sobelFilter)
+        //groupFilter.initialFilters = [ alphaMaskFilter ]
+        //groupFilter.terminalFilter = sobelFilter
         
         clothing = dollConfig?.getClothing()
         if clothing != nil {
@@ -229,9 +233,10 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
                 
                 let outlineImage = UIImage(named: cloth.filename)
                 print("outlineImage size: \(outlineImage!.size)")
-                let outputImage = groupFilter.image(byFilteringImage: outlineImage!)
+                //let outputImage = groupFilter.image(byFilteringImage: outlineImage!)
+                let outputImage = outlineImage!.filterWithOperation(groupFilter);
                 //let outputImage = alphaMaskFilter.imageByFilteringImage(outlineImage!)
-                let outlineTexture = SKTexture(image: outputImage!)
+                let outlineTexture = SKTexture(image: outputImage)
                 
                 let outlineSprite = SKSpriteNode(texture: outlineTexture)
                 outlineSprite.zPosition = (doll?.zPosition)! + 1
@@ -405,11 +410,15 @@ class DressUpScene: LittleFamilyScene, ChooseSkinToneListener {
     }
 }
 
-class GPUImageAlphaSobelEdgeDetectionFilter : GPUImageSobelEdgeDetectionFilter {
-    override init!(fragmentShaderFromFile fragmentShaderFilename: String!) {
-        let fragmentShaderPathname = Bundle.main.path(forResource: fragmentShaderFilename, ofType: "fsh")
+public class GPUImageAlphaSobelEdgeDetectionFilter : TextureSamplingOperation {
+    public var edgeStrength:Float = 1.0 { didSet { uniformSettings["edgeStrength"] = edgeStrength } }
+    
+    public init() {
+        let fragmentShaderPathname = Bundle.main.path(forResource: "sobelAlphaShader", ofType: "fsh")
         //let fragmentShaderPathname = [[NSBundle mainBundle] pathForResource:fragmentShaderFilename ofType:@"fsh"];
-        let shaderString = try! NSString(contentsOfFile: fragmentShaderPathname!, encoding: String.Encoding.utf8.rawValue)
-        super.init(fragmentShaderFrom: shaderString as String)
+        let shaderString = try! String(contentsOfFile: fragmentShaderPathname!, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+        super.init(fragmentShader: shaderString as String)
+        
+        ({edgeStrength = 1.0})()
     }
 }

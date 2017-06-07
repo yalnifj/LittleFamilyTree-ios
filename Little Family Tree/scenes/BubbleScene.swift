@@ -166,8 +166,8 @@ class BubbleScene: LittleFamilyScene {
         
         EventHandler.getInstance().subscribe(BubbleScene.TOPIC_WATER, listener: self)
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: BubbleScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: BubbleScene.self) as NSObject
         ])
     }
 

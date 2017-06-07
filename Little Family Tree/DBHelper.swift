@@ -92,7 +92,7 @@ class DBHelper {
                     try instance!.createTables()
                     if instance?.dbversion != nil {
                         instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
-						FIRAuth.auth()?.signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+						Auth.auth().signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
 							instance?.fireCreateOrUpdateUser(true)
 						}
                     }
@@ -106,7 +106,7 @@ class DBHelper {
                     try instance!.createTables()
                     instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
 					instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-					FIRAuth.auth()?.signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+					Auth.auth().signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
 						instance?.fireCreateOrUpdateUser(true)
 					}
                 } catch let error as NSError {
@@ -115,7 +115,7 @@ class DBHelper {
             } else if instance!.dbversion < 6 {
                 instance?.saveProperty(LittleFamilyScene.PROP_HAS_PREMIUM, value: "true")
                 instance?.saveProperty("VERSION", value: (DBHelper.VERSION?.description)!)
-				FIRAuth.auth()?.signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+				Auth.auth().signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
 					instance?.fireCreateOrUpdateUser(true)
 				}
             }
@@ -225,7 +225,7 @@ class DBHelper {
         if username != nil {
             let encodedUsername = removeSpecialCharsFromString(text: username!)
             //username!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-            let ref = FIRDatabase.database().reference()
+            let ref = Database.database().reference()
             ref.child("users").child(serviceType!).child(encodedUsername).observeSingleEvent(of: .value, with: { (snap) in
                 print(snap)
                 // Get user value
@@ -257,7 +257,7 @@ class DBHelper {
     }
 	
 	func checkSale(onCompletion: @escaping (Sale?) -> Void) {
-		let ref = FIRDatabase.database().reference()
+		let ref = Database.database().reference()
 		ref.child("sales").observeSingleEvent(of: .value, with: { (snap) in
 			// Get user value
 			if snap.exists() {

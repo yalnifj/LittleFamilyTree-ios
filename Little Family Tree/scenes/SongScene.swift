@@ -370,8 +370,8 @@ class SongScene: LittleFamilyScene, TreeWalkerListener {
         treeWalker!.loadFamilyMembers()
         speak("Choose a song.")
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: SongScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: SongScene.self) as NSObject
         ])
     }
     

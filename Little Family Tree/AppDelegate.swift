@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIRApp.configure()
-        FIRAuth.auth()?.signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
+        FirebaseApp.configure()
+        Auth.auth().signIn(withEmail: "service@yellowforktech.com", password: "I <3 Little Family Tree") { (user, error) in
             // nohting to do
             print(user)
             print(error)

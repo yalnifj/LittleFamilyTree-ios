@@ -121,8 +121,8 @@ class ColoringScene: LittleFamilyScene, RandomMediaListener, ColorPaletteListene
         EventHandler.getInstance().subscribe(ColoringScene.TOPIC_NEXT_IMAGE, listener: self)
         EventHandler.getInstance().subscribe(ColoringScene.TOPIC_SHARE_IMAGE, listener: self)
         
-        FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-            kFIRParameterItemName: String(describing: ColoringScene.self) as NSObject
+        Analytics.logEvent(AnalyticsEventViewItem, parameters: [
+            AnalyticsParameterItemName: String(describing: ColoringScene.self) as NSObject
         ])
     }
     
