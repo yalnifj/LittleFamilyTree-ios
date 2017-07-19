@@ -508,7 +508,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showSettings() -> SettingsView {
-        let subview = SettingsView(frame: self.view!.bounds)
+        var frame:CGRect? = self.view?.bounds
+        if frame == nil {
+            frame = self.frame
+        }
+        let subview = SettingsView(frame: frame!)
         subview.selectedPerson = self.selectedPerson
         subview.openingScene = self
         self.isPaused = true
@@ -517,7 +521,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showManagePeople() -> SearchPeople {
-        let subview = SearchPeople(frame: self.view!.bounds)
+        var frame:CGRect? = self.view?.bounds
+        if frame == nil {
+            frame = self.frame
+        }
+        let subview = SearchPeople(frame: frame!)
         subview.selectedPerson = self.selectedPerson
         subview.openingScene = self
         self.view?.addSubview(subview)
@@ -525,7 +533,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showPersonDetails(_ person:LittlePerson, listener:PersonDetailsCloseListener) -> PersonDetailsView {
-        let personDetailsView = PersonDetailsView(frame: self.view!.bounds)
+        var frame:CGRect? = self.view?.bounds
+        if frame == nil {
+            frame = self.frame
+        }
+        let personDetailsView = PersonDetailsView(frame: frame!)
         personDetailsView.listener = listener
         personDetailsView.openingScene = self
         personDetailsView.selectedPerson = self.selectedPerson
@@ -535,7 +547,11 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func showRecordAudioDialog(_ person:LittlePerson, listener:PersonDetailsCloseListener) -> RecordAudioView {
-        let recordAudioView = RecordAudioView(frame: (self.view?.bounds)!)
+        var frame:CGRect? = self.view?.bounds
+        if frame == nil {
+            frame = self.frame
+        }
+        let recordAudioView = RecordAudioView(frame: frame!)
         recordAudioView.openingScene = self
         recordAudioView.listener = listener
         recordAudioView.showPerson(person)
@@ -961,7 +977,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
         if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 			let serviceType = DataService.getInstance().dbHelper.getProperty(DataService.SERVICE_TYPE)
-            if username != nil {
+            if username != nil && serviceType != nil {
                 if connectedToNetwork() {
                     let ref = Database.database().reference()
                     ref.child("users").child(serviceType!).child(username!).observeSingleEvent(of: .value, with: { (snap) in
@@ -987,6 +1003,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                     print("No internet connection")
                     onCompletion(false)
                 }
+            } else {
+                onCompletion(false)
             }
         } else {
             if premiumStr == "true" {

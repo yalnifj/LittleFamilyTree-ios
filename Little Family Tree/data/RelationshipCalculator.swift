@@ -32,8 +32,23 @@ class RelationshipCalculator {
     static func getRelationship(_ me:LittlePerson?, p:LittlePerson?) -> String {
         if (me == nil || p == nil) { return "" }
         if (me == p) { return "You" }
+        let dataService = DataService.getInstance()
+        if (p!.treeLevel == nil) {
+            let children = dataService.dbHelper.getChildrenForPerson(p!.id!)
+            if children != nil {
+                for c in children! {
+                    if c.treeLevel != nil {
+                        p!.treeLevel = c.treeLevel! + 1
+                        do {
+                            try dataService.dbHelper.persistLittlePerson(p!)
+                        } catch {
+                        }
+                        break
+                    }
+                }
+            }
+        }
         if (p!.treeLevel != nil && me!.treeLevel != nil) {
-            let dataService = DataService.getInstance()
             if (p!.treeLevel == me!.treeLevel) {
                 let spouses = dataService.dbHelper.getSpousesForPerson(me!.id!)
                 if (spouses != nil && spouses!.contains(p!)) {

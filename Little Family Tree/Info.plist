@@ -45,6 +45,8 @@
 	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Some content such as water coloring and birthday cards may be saved to your devices photo library</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

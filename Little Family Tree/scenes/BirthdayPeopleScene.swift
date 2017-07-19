@@ -334,7 +334,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
         DataService.getInstance().getFamilyMembers(birthdayPerson!, loadSpouse: false, onCompletion: { family, err in
             if family != nil {
                 for p in family! {
-                    if p != self.birthdayPerson! && p != self.selectedPerson! && self.rectStickers[3]?.count<10 {
+                    if self.birthdayPerson != nil && p != self.birthdayPerson! && self.selectedPerson != nil && p != self.selectedPerson! && self.rectStickers[3]?.count<10 {
                         self.rectStickers[3]!.append(TextureHelper.getPortraitTexture(p)!)
                     }
                 }
@@ -395,8 +395,10 @@ class BirthdayPeopleScene: LittleFamilyScene {
         speak("Choose a birthday card to decorate for")
         let delayAction = SKAction.wait(forDuration: 1.4)
         run(delayAction, completion: {
-            self.sayGivenName(self.birthdayPerson!)
-        }) 
+            if (self.birthdayPerson != nil ) {
+                self.sayGivenName(self.birthdayPerson!)
+            }
+        })
 		
 		self.userHasPremium({ premium in
 			if !premium {
@@ -430,8 +432,8 @@ class BirthdayPeopleScene: LittleFamilyScene {
         }) 
     }
     func setupCardBottom() {
-		let cardNum = cardSprite!.userData!["cardNum"]
-		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\((cardNum! as AnyObject).description)bottom.png")
+		let cardNum = cardSprite!.userData!["cardNum"] as! Int
+		cardBottomSprite = SKSpriteNode(imageNamed: "stickers/cards/card\(cardNum)bottom.png")
 		let cbr = cardBottomSprite!.size.height / cardBottomSprite!.size.width
 		cardBottomSprite!.size.width = vanityBottom!.size.width
 		cardBottomSprite!.size.height = vanityBottom!.size.width * cbr
@@ -733,7 +735,7 @@ class BirthdayPeopleScene: LittleFamilyScene {
             
             DispatchQueue.main.async(execute: {
             
-                let height = self.cardSprite!.frame.height + self.cardBottomSprite!.frame.height + CGFloat(5)
+                let height = self.cardSprite!.frame.height + self.cardBottomSprite!.frame.height
                 
                 let imageTexture = self.scene!.view!.texture(from: self)
                 if imageTexture != nil {

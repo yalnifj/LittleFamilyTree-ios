@@ -664,6 +664,7 @@
 		A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */; };
 		B90A02571EF9D8B600DBA79D /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90A02561EF9D8A400DBA79D /* GPUImage.framework */; };
 		B90A02581EF9D8B600DBA79D /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B90A02561EF9D8A400DBA79D /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B97B4C881F1F0D4D00A8CEC4 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B97B4C871F1F0D4D00A8CEC4 /* SQLite.framework */; };
 		B99893311EE864B8005E4B1D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B99893301EE864B8005E4B1D /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -1377,6 +1378,8 @@
 		A1F7D17E1C8FBC12006053A2 /* tree_logotype_1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_logotype_1x.png; sourceTree = "<group>"; };
 		A1F7D3CE1C8FBC2B006053A2 /* dolls */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dolls; sourceTree = "<group>"; };
 		B90A024D1EF9D8A400DBA79D /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		B97B4C821F1F0D3300A8CEC4 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B97B4C871F1F0D4D00A8CEC4 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "../../Library/Developer/Xcode/DerivedData/Little_Family_Tree-gflophdlobmdihcgknnogxzcprsi/Build/Products/Debug-iphoneos/SQLite.swift/SQLite.framework"; sourceTree = "<group>"; };
 		B99893301EE864B8005E4B1D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1385,6 +1388,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B97B4C881F1F0D4D00A8CEC4 /* SQLite.framework in Frameworks */,
 				A1C57BA71D48EABC00BB1AED /* StoreKit.framework in Frameworks */,
 				B90A02571EF9D8B600DBA79D /* GPUImage.framework in Frameworks */,
 				A149A9611C49A3CF00367342 /* Security.framework in Frameworks */,
@@ -1417,6 +1421,7 @@
 		A117C7201BA4AD0000964D50 = {
 			isa = PBXGroup;
 			children = (
+				B97B4C821F1F0D3300A8CEC4 /* SQLite.framework */,
 				B99893301EE864B8005E4B1D /* .gitignore */,
 				A1C57BA61D48EABC00BB1AED /* StoreKit.framework */,
 				A149A9651C49ACE200367342 /* LittleFamilyTree-Bridging-Header.h */,
@@ -2278,6 +2283,7 @@
 		C678DF7154F80A1F8F697189 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B97B4C871F1F0D4D00A8CEC4 /* SQLite.framework */,
 				21E221FCC5658AF12B84373D /* Pods_Little_Family_Tree.framework */,
 				6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */,
 			);
@@ -3310,7 +3316,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 40870E555A25583F1B787B50 /* Pods-Little Family Tree.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Little Family Tree/Little Family Tree.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3331,7 +3336,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55B95D9AEAD4E569B0B2A1AB /* Pods-Little Family Tree.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Little Family Tree/Little Family Tree.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";

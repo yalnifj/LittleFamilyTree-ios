@@ -686,6 +686,9 @@ class TreeScene: LittleFamilyScene {
         self.dressupButton?.size.width = (self.dressupButton?.size.height)! * ratio
         self.dressupButton?.texture = texture
         self.buttonPanel?.run(SKAction.resize(toWidth: 310, height: 220, duration: 0.6), completion: {
+            if self.buttonPanel == nil {
+                return
+            }
 			let startX = CGFloat(-125)
             var x = startX
 			var y = CGFloat(-73)
@@ -730,7 +733,11 @@ class TreeScene: LittleFamilyScene {
                 if node.person!.gender == GenderType.female {
                     heshe = "She was "
                 }
-                if relationship == "You" {
+                if relationship == "" {
+                    msg = "\(node.person!.name!) "
+                    heshe = "was "
+                }
+                else if relationship == "You" {
                     msg = "Hi, \(node.person!.givenName!). "
                     heshe = "You were "
                 }
