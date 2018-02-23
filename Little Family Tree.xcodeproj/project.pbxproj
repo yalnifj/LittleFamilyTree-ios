@@ -663,7 +663,7 @@
 		A1F7D3CF1C8FBC2B006053A2 /* dolls in Resources */ = {isa = PBXBuildFile; fileRef = A1F7D3CE1C8FBC2B006053A2 /* dolls */; };
 		A2D82DFA0C5128D4690851CC /* Pods_Little_Family_TreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656C03F63171451A3BAA0FF /* Pods_Little_Family_TreeTests.framework */; };
 		B90A02571EF9D8B600DBA79D /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90A02561EF9D8A400DBA79D /* GPUImage.framework */; };
-		B90A02581EF9D8B600DBA79D /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B90A02561EF9D8A400DBA79D /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B90A02581EF9D8B600DBA79D /* GPUImage.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = B90A02561EF9D8A400DBA79D /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B97B4C881F1F0D4D00A8CEC4 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B97B4C871F1F0D4D00A8CEC4 /* SQLite.framework */; };
 		B99893311EE864B8005E4B1D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B99893301EE864B8005E4B1D /* .gitignore */; };
 /* End PBXBuildFile section */
@@ -700,14 +700,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A1C0A9951C081CCA006804BB /* CopyFiles */ = {
+		A1C0A9951C081CCA006804BB /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B90A02581EF9D8B600DBA79D /* GPUImage.framework in CopyFiles */,
+				B90A02581EF9D8B600DBA79D /* GPUImage.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -2301,10 +2302,9 @@
 				A117C7251BA4AD0000964D50 /* Sources */,
 				A117C7261BA4AD0000964D50 /* Frameworks */,
 				A117C7271BA4AD0000964D50 /* Resources */,
-				A1C0A9951C081CCA006804BB /* CopyFiles */,
+				A1C0A9951C081CCA006804BB /* Copy Files */,
 				10A1C9159A6767467ABA0617 /* [CP] Embed Pods Frameworks */,
 				DF4BC19FD5942610792923DA /* [CP] Copy Pods Resources */,
-				93667C131E549298008CBEBD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2992,19 +2992,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Little Family TreeTests/Pods-Little Family TreeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		93667C131E549298008CBEBD /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:872882263194:ios:31c71bc02ee152e2\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"little-family-tree-firebase-crashreporting-mikk0-203b2ca794.json\"";
 		};
 		C21A704F7AAB5F0BBCE8B26A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
