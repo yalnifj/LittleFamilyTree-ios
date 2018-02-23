@@ -700,10 +700,15 @@ class TreeScene: LittleFamilyScene {
                     counter = 0
                 }
 				button.position = CGPoint(x: x, y: y)
-				self.buttonPanel?.addChild(button)
+                if self.buttonPanel != nil {
+                    self.buttonPanel?.addChild(button)
+                }
                 x = x + 8 + button.size.width
                 counter += 1
 			}
+            if self.buttonPanel == nil {
+                return
+            }
             y = y + self.buttons[0].size.height + 7
             let relLabel = SKLabelNode(text: relationship)
             relLabel.fontSize = self.buttonPanel!.size.width / 9
@@ -720,6 +725,9 @@ class TreeScene: LittleFamilyScene {
             nameLabel.position = CGPoint(x: 0, y: y)
             nameLabel.zPosition = 3
             self.adjustLabelFontSizeToFitRect(nameLabel, node: self.buttonPanel!, adjustUp: false)
+            if self.buttonPanel == nil {
+                return
+            }
             self.buttonPanel?.addChild(nameLabel)
 		}) 
     }

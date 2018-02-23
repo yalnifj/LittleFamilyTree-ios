@@ -5,7 +5,7 @@ class FamilySearchService : RemoteService {
 
 	let FS_PLATFORM_PATH_SAND = "https://sandbox.familysearch.org/platform/"
     let FS_PLATFORM_PATH_BETA = "https://beta.familysearch.org/platform/"
-	let FS_PLATFORM_PATH_PROD = "https://familysearch.org/platform/"
+	let FS_PLATFORM_PATH_PROD = "https://api.familysearch.org/platform/"
     var FS_PLATFORM_PATH:String
 	
 	let FS_OAUTH2_PATH_SAND = "https://sandbox.familysearch.org/cis-web/oauth2/v3/token"
