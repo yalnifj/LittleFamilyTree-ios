@@ -978,9 +978,10 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
 			let serviceType = DataService.getInstance().dbHelper.getProperty(DataService.SERVICE_TYPE)
             if username != nil && serviceType != nil {
+                let encodedUsername = DataService.getInstance().dbHelper.removeSpecialCharsFromString(text: username!)
                 if connectedToNetwork() {
                     let ref = Database.database().reference()
-                    ref.child("users").child(serviceType!).child(username!).observeSingleEvent(of: .value, with: { (snap) in
+                    ref.child("users").child(serviceType!).child(encodedUsername).observeSingleEvent(of: .value, with: { (snap) in
                         print(snap)
                         // Get user value
                         if snap.exists() && snap.hasChild("iosPremium") {
