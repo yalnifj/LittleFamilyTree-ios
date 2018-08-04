@@ -45,7 +45,7 @@ class MyHeritageLogin: UIView, StatusListener, UIWebViewDelegate {
         webView.isUserInteractionEnabled = true
         webView.scrollView.isScrollEnabled = true
         
-        let url = URL(string: "https://accounts.myheritage.com/oauth2/authorize?client_id=\(service!.clientId)&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=basic,offline_access&response_type=token")
+        let url = URL(string: "https://accounts.myheritage.com/oauth2/authorize?client_id=\(service!.clientId)&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=basic,offline_access&response_type=token&grant_type=")
         let request = URLRequest(url: url!)
         webView.loadRequest(request)
     }
@@ -82,9 +82,17 @@ class MyHeritageLogin: UIView, StatusListener, UIWebViewDelegate {
         
         print("finished loading")
         print(webView.request!)//Sent after a web view finishes loading a frame.
+        /*
+        if (webView.request!.httpBody != nil) {
+            let body = String(data: webView.request!.httpBody!, encoding: .utf8)!
+            print("body: \(body)")
+        }
+         */
+        //print(webView.stringByEvaluatingJavaScript(from: "document.documentElement.outerHTML")!)
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         if webView.request?.url?.absoluteString == "https://accounts.myheritage.com/oauth2/authorize" {
             let title = webView.stringByEvaluatingJavaScript(from: "document.title")
+            print("title: \(title)")
             if title != nil && title!.contains("Success") {
                 let parts = title!.split("=")
                 if parts.count > 1 {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16C32f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,14 +32,14 @@
                     </items>
                 </navigationBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="1Yz-tQ-oBw">
-                    <rect key="frame" x="8" y="44" width="381" height="57.5"/>
+                    <rect key="frame" x="20" y="44" width="357" height="57.5"/>
                     <string key="text">LittleFamily connects to an online FamilyTree service to get its data.  You will be asked to login to your online FamilyTree through one of the provided services.  LittleFamily will then allow you to play and interact with your FamilyTree in a new and unique way.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose from one of the supported online Family Tree services below:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="400" translatesAutoresizingMaskIntoConstraints="NO" id="vmA-72-eRl">
-                    <rect key="frame" x="8" y="104.5" width="381" height="35"/>
+                    <rect key="frame" x="20" y="104.5" width="357" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="afb-6Y-7oI"/>
                     </constraints>
@@ -47,7 +48,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQi-R1-Ai7">
-                    <rect key="frame" x="8" y="165.5" width="381" height="79"/>
+                    <rect key="frame" x="20" y="165.5" width="357" height="79"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="79" id="JYs-q7-BNY"/>
                     </constraints>
@@ -56,8 +57,8 @@
                         <action selector="FSButtonClicked:" destination="-1" eventType="touchUpInside" id="Lb9-t8-zp0"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUx-Bt-dNx">
-                    <rect key="frame" x="8" y="252.5" width="381" height="79"/>
+                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUx-Bt-dNx">
+                    <rect key="frame" x="20" y="252.5" width="357" height="79"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="79" id="UIt-7a-WbM"/>
                     </constraints>
@@ -68,7 +69,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="II9-DR-pEt">
-                    <rect key="frame" x="8" y="339.5" width="381" height="79"/>
+                    <rect key="frame" x="20" y="339.5" width="357" height="79"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="79" id="oTT-nt-rR9"/>
                     </constraints>

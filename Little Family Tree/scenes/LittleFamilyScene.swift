@@ -973,6 +973,8 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
     }
     
     func userHasPremium(_ onCompletion: @escaping (Bool) -> Void) {
+        onCompletion(true)
+        /*
         let premiumStr = DataService.getInstance().dbHelper.getProperty(LittleFamilyScene.PROP_HAS_PREMIUM)
         if premiumStr == nil || premiumStr != "true" {
             let username = DataService.getInstance().getEncryptedProperty(DataService.SERVICE_USERNAME)
@@ -1014,6 +1016,7 @@ class LittleFamilyScene: SKScene, EventListener, LoginCompleteListener, SimpleDi
                 onCompletion(false)
             }
         }
+         */
     }
     
     var iapHelper:IAPHelper?
