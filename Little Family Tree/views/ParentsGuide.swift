@@ -95,7 +95,7 @@ class ParentsGuide: UIView, UIScrollViewDelegate {
         homeActivityText.numberOfLines = 0
         homeActivityText.sizeToFit()
         
-        starsText.text = "Game portals are highlighted by twinkling stars on the home screen. Tap where the stars appear to enter a game. Yellow stars highlight free activities. Red stars highlight premium activities. You may try a premium activity three times; upgrade to continue playing premium games."
+        starsText.text = "Game portals are highlighted by twinkling stars on the home screen. Tap where the stars appear to enter a game."
         starsText.numberOfLines = 0
         starsText.sizeToFit()
         
